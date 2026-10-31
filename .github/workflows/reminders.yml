@@ -1,0 +1,46 @@
+name: Kanha Bot reminders
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: write
+concurrency:
+  group: kanha-bot
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 62
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install
+        run: npm install --no-save --no-audit --no-fund firebase-admin@12
+      - name: Send reminders
+        id: bot
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: node reminder-bot.js
+      - name: Keep schedule alive (GitHub pauses idle projects after 60 days)
+        run: |
+          last=$(git log -1 --format=%ct)
+          now=$(date +%s)
+          if [ $((now - last)) -gt 2160000 ]; then
+            git config user.name "kanha-bot"
+            git config user.email "kanha-bot@users.noreply.github.com"
+            git commit --allow-empty -m "keep reminders schedule alive"
+            git push
+          fi
+      - name: Start the next run (so the bot never depends on GitHub's unreliable schedule)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ "${{ steps.bot.outcome }}" != "success" ]; then sleep 120; fi
+          gh workflow run reminders.yml --ref "${{ github.ref_name }}" || true
