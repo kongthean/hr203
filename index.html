@@ -1361,7 +1361,14 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          </div>
      </div>
 
-     <h4 style="margin-bottom: 8px; color: #334155;" data-i18n="quickActions">Main Menu</h4>
+     <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; position:relative;">
+         <h4 style="margin:0; color: #334155;" data-i18n="quickActions">Main Menu</h4>
+         <button type="button" id="moFilterBtn" aria-label="Menu options" style="display:none; width:36px; height:36px; border:1px solid #cbd5e1; border-radius:10px; background:#fff; color:#334155; cursor:pointer; align-items:center; justify-content:center; padding:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><circle cx="9" cy="6" r="2.4" fill="#fff"/><line x1="3" y1="12" x2="21" y2="12"/><circle cx="16" cy="12" r="2.4" fill="#fff"/><line x1="3" y1="18" x2="21" y2="18"/><circle cx="11" cy="18" r="2.4" fill="#fff"/></svg></button>
+         <div id="moPop" style="display:none; position:absolute; right:0; top:42px; z-index:60; min-width:230px; background:#fff; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 10px 28px rgba(0,0,0,.2); padding:10px;">
+             <div id="moHint" style="font-size:12px; color:#64748b; padding:2px 4px 8px;">Hold a button, then drag to move it.</div>
+             <button type="button" id="moReset" style="width:100%; height:40px; border:0; border-radius:10px; background:#fee2e2; color:#991b1b; font-weight:800; font-size:14px; cursor:pointer;">Reset menu order</button>
+         </div>
+     </div>
      <div class="quick-actions" id="menuPage1">
          <button class="quick-btn" onclick="triggerNav('tab-master', 'nav-master')">
              <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/><line x1="15" y1="3" x2="15" y2="21"/></svg></span><span class="quick-btn-label" data-i18n="navMaster">Master Sheet</span>
@@ -1508,7 +1515,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          <button type="button" class="menu-dot on" id="menuDot1" onclick="menuPage(1)" aria-label="Page 1">1</button>
          <button type="button" class="menu-dot" id="menuDot2" onclick="menuPage(2)" aria-label="Page 2">2</button>
      </div>
-     <div id="moTools" style="display:none; text-align:center; margin:-6px 0 12px; font-size:12px; color:#64748b;"><span id="moHint">Hold a button, then drag to move it.</span> <button type="button" id="moReset" style="border:0; background:none; color:#2563eb; font-weight:700; font-size:12px; cursor:pointer; text-decoration:underline;">Reset menu order</button></div>
+
  
      <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:16px;">
          <div class="dash-card" style="flex:1; min-width:260px; margin-bottom:0;">
@@ -3491,6 +3498,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          </form>
 
          <h4 style="margin-bottom:8px;" data-i18n="accountsSectionTitle">HR &amp; Administration Accounts</h4>
+         <div id="ownerSetupBox"></div>
          <div id="saSummary"></div>
          <div class="table-responsive" style="margin-bottom:16px;">
              <table class="master-tbl" id="accountsTable">
@@ -4441,6 +4449,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
  }
 
  async function resetAccountTotp(firebaseKey) {
+     if (acctBlocked(firebaseKey)) return;
      if (!await showConfirm(t('confirmResetTotpMsg'))) return;
      db.ref('accounts/' + firebaseKey).update({ totpSecret: null, backupCodes: null }).then(() => {
          showToast(true, t('toastTotpReset'));
@@ -4448,6 +4457,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
  }
 
  async function regenerateBackupCodes(firebaseKey) {
+     if (acctBlocked(firebaseKey)) return;
      if (!await showConfirm(t('confirmRegenerateBackupCodesMsg'))) return;
      const backupCodes = generateBackupCodes(8);
      db.ref('accounts/' + firebaseKey + '/backupCodes').set(backupCodes).then(() => {
@@ -6187,6 +6197,9 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         ckEnded: "This AL year ended on {e}. Renew the AL dates (or turn on automatic renewal in Settings).",
         ckFuture: "AL Start Date ({s}) is in the future.",
         ckEntitled: "Entitled Hours is {y}, but your table gives {x} hours for {n} years of work (counted at the AL Start Date).",
+                ownerBadge: "Owner", ownerLocked: "This is an Owner account. Only the Owner can change it.", ownerHidden: "Hidden",
+        ownerSetupTitle: "Owner accounts (one-time setup)", ownerSetupHelp: "Choose the 2 Owner accounts. After this, only the Owners can change, disable, delete or reset them, and their usernames are hidden from everyone else. This can be done only once.",
+        ownerSetupBtn: "Set as Owner accounts", ownerSetupConfirm: "Set these 2 accounts as Owner accounts? This is one time and cannot be undone from this screen.", ownerSetupNeedLogin: "Each Owner account must have logged in once on this version first.", ownerSetupSame: "Please choose 2 different accounts.", ownerSetupDone: "Owner accounts are set.", ownerCannotDo: "Owner accounts cannot be disabled or deleted.",
         acctDelete: "Delete",
         acctDeleteConfirm: "Delete the account \"{name}\" ({user})? This person will no longer be able to log in. Employee records are not affected.",
         acctDeleteSelf: "You cannot delete the account you are logged in with.",
@@ -8527,6 +8540,9 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         ckEnded: "ឆ្នាំ AL នេះបានបញ្ចប់នៅ {e}។ សូមបន្តកាលបរិច្ឆេទ AL (ឬបើកការបន្តស្វ័យប្រវត្តិក្នុងការកំណត់)។",
         ckFuture: "ថ្ងៃចាប់ផ្ដើម AL ({s}) នៅអនាគត។",
         ckEntitled: "ម៉ោងសិទ្ធិគឺ {y} ប៉ុន្តែតារាងរបស់អ្នកផ្ដល់ {x} ម៉ោងសម្រាប់ {n} ឆ្នាំធ្វើការ (រាប់នៅថ្ងៃចាប់ផ្ដើម AL)។",
+                ownerBadge: "ម្ចាស់", ownerLocked: "នេះជាគណនីម្ចាស់។ មានតែម្ចាស់ប៉ុណ្ណោះដែលអាចកែបាន។", ownerHidden: "លាក់",
+        ownerSetupTitle: "គណនីម្ចាស់ (រៀបចំម្តងគត់)", ownerSetupHelp: "ជ្រើសរើសគណនីម្ចាស់ ២។ បន្ទាប់ពីនេះ មានតែម្ចាស់ប៉ុណ្ណោះដែលអាចកែ បិទ លុប ឬកំណត់ពាក្យសម្ងាត់ឡើងវិញ ហើយឈ្មោះអ្នកប្រើត្រូវបានលាក់ពីអ្នកដទៃ។ អាចធ្វើបានតែម្តងគត់។",
+        ownerSetupBtn: "កំណត់ជាគណនីម្ចាស់", ownerSetupConfirm: "កំណត់គណនីទាំង ២ នេះជាគណនីម្ចាស់ឬ? ធ្វើតែម្តង ហើយមិនអាចត្រឡប់វិញពីអេក្រង់នេះបានទេ។", ownerSetupNeedLogin: "គណនីម្ចាស់នីមួយៗត្រូវតែចូលប្រើម្តងជាមុនលើកំណែនេះ។", ownerSetupSame: "សូមជ្រើសរើសគណនីខុសគ្នា ២។", ownerSetupDone: "បានកំណត់គណនីម្ចាស់។", ownerCannotDo: "គណនីម្ចាស់មិនអាចបិទ ឬលុបបានទេ។",
         acctDelete: "លុប",
         acctDeleteConfirm: "លុបគណនី \"{name}\" ({user})? អ្នកនេះនឹងមិនអាចចូលប្រព័ន្ធបានទៀតទេ។ កំណត់ត្រានិយោជិតមិនប៉ះពាល់ទេ។",
         acctDeleteSelf: "អ្នកមិនអាចលុបគណនីដែលអ្នកកំពុងប្រើចូលបានទេ។",
@@ -10829,6 +10845,9 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         ckEnded: "此年假年度已于 {e} 结束。请续期年假日期（或在设置中开启自动续期）。",
         ckFuture: "年假开始日期（{s}）在将来。",
         ckEntitled: "应享小时为 {y}，但您的表格对 {n} 年工作年限给出 {x} 小时（按年假开始日期计算）。",
+                ownerBadge: "所有者", ownerLocked: "这是所有者账户，只有所有者可以修改。", ownerHidden: "已隐藏",
+        ownerSetupTitle: "所有者账户（一次性设置）", ownerSetupHelp: "选择 2 个所有者账户。此后只有所有者可以修改、停用、删除或重置它们，且其用户名对其他人隐藏。只能设置一次。",
+        ownerSetupBtn: "设为所有者账户", ownerSetupConfirm: "将这 2 个账户设为所有者账户？此操作只有一次，且无法在此界面撤销。", ownerSetupNeedLogin: "每个所有者账户必须先在此版本上登录一次。", ownerSetupSame: "请选择 2 个不同的账户。", ownerSetupDone: "所有者账户已设置。", ownerCannotDo: "所有者账户不能被停用或删除。",
         acctDelete: "删除",
         acctDeleteConfirm: "删除账户“{name}”（{user}）？此人将无法再登录。员工记录不受影响。",
         acctDeleteSelf: "不能删除您当前登录的账户。",
@@ -13506,37 +13525,96 @@ function filterMakeupTable() {
          <span style="font-size:11px; color:#64748b;">${t('backupCodesRemainingLabel')}: ${remaining}/${total}</span><br>
          <button class="btn-edit" style="font-size:10px; padding:3px 8px; margin-top:3px;" onclick="resetAccountTotp('${a.firebaseKey}')">${t('btnResetAuthenticator')}</button>
          <button class="btn-edit" style="font-size:10px; padding:3px 8px; margin-top:3px;" onclick="regenerateBackupCodes('${a.firebaseKey}')">${t('btnRegenerateBackupCodes')}</button>
-         <button class="btn-edit" style="font-size:10px; padding:3px 8px; margin-top:3px;" onclick="toggleAccountTotpEnabled('${a.firebaseKey}', false)">${t('btnDisableAuth')}</button>`;
+         ${a.owner === true ? '' : `<button class="btn-edit" style="font-size:10px; padding:3px 8px; margin-top:3px;" onclick="toggleAccountTotpEnabled('${a.firebaseKey}', false)">${t('btnDisableAuth')}</button>`}`;
  }
 
- function renderAccountsTable() {
-     const tbody = document.querySelector('#accountsTable tbody');
-     if (!tbody) return;
-     tbody.innerHTML = accounts.map(a => `
-         <tr>
-             <td>
-                 <button class="btn-edit" style="font-size:10px; padding:3px 8px;" onclick="toggleAccountDisabled('${a.firebaseKey}', ${!a.disabled})">${a.disabled ? t('btnEnable') : t('btnDisable')}</button>
-                 <button class="btn-delete" style="font-size:10px; padding:3px 8px; margin-top:4px;" onclick="deleteAccount('${a.firebaseKey}', this)" title="${t('acctDelete')}">${t('acctDelete')}</button>
-             </td>
-             <td><input type="text" value="${a.name || ''}" style="width:110px;" onchange="updateAccountField('${a.firebaseKey}', 'name', this.value)"></td>
-             <td><input type="text" value="${a.username || ''}" style="width:100px;" onchange="updateAccountField('${a.firebaseKey}', 'username', this.value)"></td>
+ /* ===== Owner accounts: locked, always on top, username hidden from everyone but the Owners ===== */
+ function viewerIsOwner() {
+     try { const u = sessionStorage.getItem('loggedInAccountUsername'); return accounts.some(function (a) { return a.owner === true && a.username === u; }); } catch (e) { return false; }
+ }
+ function acctByKey(k) { return accounts.find(function (a) { return a.firebaseKey === k; }); }
+ function acctIsOwner(k) { const a = acctByKey(k); return !!(a && a.owner === true); }
+ /* true = this change must be refused (an Owner account touched by someone who is not an Owner) */
+ function acctBlocked(k) { if (acctIsOwner(k) && !viewerIsOwner()) { showToast(false, t('ownerLocked')); return true; } return false; }
+ function acctRowHtml(a, vo) {
+     const own = a.owner === true;
+     if (own && !vo) {
+         return `<tr style="background:#f8fafc;">
+             <td><span style="display:inline-block; padding:2px 10px; border-radius:999px; background:#0b1d3a; color:#fff; font-size:11px; font-weight:700;">&#128274; ${t('ownerBadge')}</span></td>
+             <td><b>${escapeHtmlText(a.name || '')}</b></td>
+             <td><span style="letter-spacing:2px; color:#94a3b8;">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</span></td>
+             <td><span style="letter-spacing:2px; color:#94a3b8;">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</span></td>
+             <td>${a.role === 'admin' ? t('roleLabelAdmin') : t('roleLabelHR')}</td>
+             <td style="color:#15803d; font-weight:600;">${t('acctActive')}</td>
+             <td><span style="color:#15803d; font-weight:600;">${t('totpSetupStatusEnabled')}</span></td>
+         </tr>`;
+     }
+     const actions = own
+         ? `<span style="display:inline-block; padding:2px 10px; border-radius:999px; background:#0b1d3a; color:#fff; font-size:11px; font-weight:700;">&#128274; ${t('ownerBadge')}</span>`
+         : `<button class="btn-edit" style="font-size:10px; padding:3px 8px;" onclick="toggleAccountDisabled('${a.firebaseKey}', ${!a.disabled})">${a.disabled ? t('btnEnable') : t('btnDisable')}</button>
+            <button class="btn-delete" style="font-size:10px; padding:3px 8px; margin-top:4px;" onclick="deleteAccount('${a.firebaseKey}', this)" title="${t('acctDelete')}">${t('acctDelete')}</button>`;
+     return `
+         <tr${own ? ' style="background:#f0f9ff;"' : ''}>
+             <td>${actions}</td>
+             <td><input type="text" value="${escapeHtmlText(a.name || '')}" style="width:110px;" onchange="updateAccountField('${a.firebaseKey}', 'name', this.value)"></td>
+             <td><input type="text" value="${escapeHtmlText(a.username || '')}" style="width:100px;" onchange="updateAccountField('${a.firebaseKey}', 'username', this.value)"></td>
              <td><span style="letter-spacing:2px;">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</span><br><button class="btn-edit" style="font-size:10px; padding:3px 8px; margin-top:3px;" onclick="pwOpenReset('${a.firebaseKey}')">${t('pwResetBtn')}</button></td>
              <td>
-                 <select onchange="updateAccountField('${a.firebaseKey}', 'role', this.value)">
+                 ${own ? (a.role === 'admin' ? t('roleLabelAdmin') : t('roleLabelHR')) : `<select onchange="updateAccountField('${a.firebaseKey}', 'role', this.value)">
                      <option value="hr" ${a.role === 'hr' ? 'selected' : ''}>${t('roleLabelHR')}</option>
                      <option value="admin" ${a.role === 'admin' ? 'selected' : ''}>${t('roleLabelAdmin')}</option>
-                 </select>
+                 </select>`}
              </td>
              <td style="color:${a.disabled ? '#dc2626' : '#15803d'}; font-weight:600;">${a.disabled ? t('acctDisabled') : t('acctActive')}<br><span style="font-size:10px; font-weight:400;">${saStatusLine(a)}</span></td>
              <td>${renderAcctTotpCell(a)}</td>
-         </tr>
-     `).join('');
+         </tr>`;
+ }
+ function renderAccountsTable() {
+     const tbody = document.querySelector('#accountsTable tbody');
+     if (!tbody) return;
+     const vo = viewerIsOwner();
+     const list = accounts.slice().sort(function (x, y) { return (y.owner === true ? 1 : 0) - (x.owner === true ? 1 : 0); });
+     tbody.innerHTML = list.map(function (a) { return acctRowHtml(a, vo); }).join('');
      if (accounts.length === 0) {
          tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#94a3b8;">-</td></tr>`;
      }
+     try { ownerSetupRender(); } catch (e) {}
+ }
+ /* one-time setup: choose the Owner accounts */
+ window.__ownersSet = null;
+ function ownerSetupRender() {
+     const box = document.getElementById('ownerSetupBox'); if (!box) return;
+     const isAdminNow = (sessionStorage.getItem('loggedInRole') || '') === 'admin';
+     if (!isAdminNow || window.__ownersSet !== false) { box.innerHTML = ''; return; }
+     const adm = accounts.filter(function (a) { return a.role === 'admin' && !a.disabled; });
+     const pick = function (want) { const w = String(want).toLowerCase(); const f = adm.find(function (a) { return String(a.name || '').trim().toLowerCase() === w; }); return f ? f.firebaseKey : ''; };
+     const p1 = (document.getElementById('ownSel1') || {}).value || pick('Kong Thean'), p2 = (document.getElementById('ownSel2') || {}).value || pick('Administration');
+     const opt = function (cur) { return '<option value="">-</option>' + adm.map(function (a) { return '<option value="' + a.firebaseKey + '"' + (a.firebaseKey === cur ? ' selected' : '') + '>' + escapeHtmlText(a.name || a.username) + '</option>'; }).join(''); };
+     box.innerHTML = '<div style="border:2px solid #0b1d3a; border-radius:12px; padding:12px; margin-bottom:14px; background:#f8fafc;"><b>&#128274; ' + escapeHtmlText(t('ownerSetupTitle')) + '</b><div style="font-size:12px; color:#475569; margin:6px 0 10px;">' + escapeHtmlText(t('ownerSetupHelp')) + '</div>' +
+         '<div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;"><select id="ownSel1">' + opt(p1) + '</select><select id="ownSel2">' + opt(p2) + '</select><button type="button" class="btn-submit" style="width:auto; padding:8px 16px; margin:0;" onclick="ownerSetupSave(this)">' + escapeHtmlText(t('ownerSetupBtn')) + '</button></div></div>';
+ }
+ async function ownerSetupSave(btn) {
+     const k1 = document.getElementById('ownSel1').value, k2 = document.getElementById('ownSel2').value;
+     if (!k1 || !k2 || k1 === k2) { showToast(false, t('ownerSetupSame')); return; }
+     const a1 = acctByKey(k1), a2 = acctByKey(k2);
+     if (!a1 || !a2 || !a1.uid || !a1.authId || !a2.uid || !a2.authId) { showToast(false, t('ownerSetupNeedLogin')); return; }
+     if (!(await showConfirm(t('ownerSetupConfirm')))) return;
+     const up = {};
+     [a1, a2].forEach(function (a) {
+         up['accounts/' + a.firebaseKey + '/owner'] = true;
+         up['accounts/' + a.firebaseKey + '/totpEnabled'] = true;
+         up['staff/' + a.uid + '/owner'] = true;
+         up['ownerAuth/' + a.authId] = true;
+     });
+     up['ownersSet'] = true;
+     withBusyButton(btn, () => db.ref().update(up).then(function () {
+         logActivity('owner_setup', 'account', '', '', 'Owner accounts set');
+         showToast(true, t('ownerSetupDone'));
+     }).catch(function () { showToast(false); }));
  }
 
  function updateAccountField(firebaseKey, field, value) {
+     if (acctBlocked(firebaseKey)) { renderAccountsTable(); return; }
      db.ref('accounts/' + firebaseKey).update({ [field]: value }).then(() => showToast(true)).catch(() => showToast(false));
  }
 
@@ -13544,6 +13622,7 @@ function filterMakeupTable() {
     Never the account you are logged in with, and never the last active Administration account,
     so nobody can lock the system. Employee records and employee logins are not touched. */
  async function deleteAccount(firebaseKey, btnEl) {
+     if (acctIsOwner(firebaseKey)) { showToast(false, t('ownerCannotDo')); return; }
      if ((sessionStorage.getItem('loggedInRole') || '') !== 'admin') { showToast(false, t('hrNotAllowedMsg')); return; }
      const acc = accounts.find(a => a.firebaseKey === firebaseKey);
      if (!acc) return;
@@ -13558,6 +13637,7 @@ function filterMakeupTable() {
  }
 
  function toggleAccountDisabled(firebaseKey, disabled) {
+     if (acctIsOwner(firebaseKey)) { showToast(false, t('ownerCannotDo')); return; }
      db.ref('accounts/' + firebaseKey).update({ disabled }).then(() => showToast(true)).catch(() => showToast(false));
  }
 
@@ -13566,6 +13646,8 @@ function filterMakeupTable() {
     only. Turning it off does not delete an existing secret or backup codes - turning
     it back on later picks up right where it left off. */
  function toggleAccountTotpEnabled(firebaseKey, enabled) {
+     if (acctBlocked(firebaseKey)) return;
+     if (acctIsOwner(firebaseKey) && !enabled) { showToast(false, t('ownerCannotDo')); return; }
      db.ref('accounts/' + firebaseKey).update({ totpEnabled: enabled }).then(() => showToast(true)).catch(() => showToast(false));
  }
 
@@ -20395,6 +20477,7 @@ function pwShowOnce(username, password) {
 }
 
 function pwOpenReset(firebaseKey) {
+    if (acctBlocked(firebaseKey)) return;
     const acc = accounts.find(function (a) { return a.firebaseKey === firebaseKey; });
     if (!acc) return;
     let d = document.getElementById('acctPwModal');
@@ -20407,6 +20490,7 @@ function pwOpenReset(firebaseKey) {
     d.style.display = 'flex';
 }
 function pwDoReset(firebaseKey, btn) {
+    if (acctBlocked(firebaseKey)) return;
     const v = (document.getElementById('acctPwNew').value || '').trim();
     if (v.length < 6) { showToast(false, t('pwTooShort')); return; }
     const acc = accounts.find(function (a) { return a.firebaseKey === firebaseKey; });
@@ -20426,7 +20510,7 @@ function v721ExtraBackupSheets(wb) {
     rows.push({ Setting: 'autoEntitled', Value: mlSettings.autoEntitled ? 'ON' : 'OFF', From: '', To: '', Hours: '' });
     (mlSettings.rules || []).forEach(function (r) { rows.push({ Setting: 'rule (years of work)', Value: '', From: r.from, To: r.to === null ? '' : r.to, Hours: r.hours }); });
     XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(rows), 'MasterSettings');
-    if (accounts.length) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(accounts.map(function (a) { return { Name: a.name || '', Username: a.username || '', Role: a.role || '', Disabled: a.disabled ? 'yes' : 'no', Authenticator: (a.totpEnabled || a.totpSecret) ? 'on' : 'off' }; })), 'Accounts');
+    if (accounts.length) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(accounts.map(function (a) { return { Name: a.name || '', Username: (a.owner === true && !viewerIsOwner()) ? '' : (a.username || ''), Role: a.role || '', Disabled: a.disabled ? 'yes' : 'no', Authenticator: (a.totpEnabled || a.totpSecret) ? 'on' : 'off' }; })), 'Accounts');
     if (auditLog.length) XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(auditLog.slice().sort(function (a, b) { return (b.timestamp || 0) - (a.timestamp || 0); }).map(function (a) { return { Time: a.timestamp ? new Date(a.timestamp).toLocaleString() : '', Actor: a.actorName || a.actorRole || '', Action: a.action || '', Target: (a.targetLabel || a.targetId || ''), Details: a.details || '' }; })), 'ActivityLog');
 }
 function v721RecordBackup() {
@@ -20506,7 +20590,8 @@ async function saRegister(acc, id, uid) {
     const up = {};
     if (acc.authId && acc.authId !== id) up['staffLookup/' + saLookupKey(acc.role, acc.username) + '/' + acc.authId] = null;
     if (acc.uid && acc.uid !== uid) up['staff/' + acc.uid] = null;
-    up['staff/' + uid] = { role: acc.role, name: acc.name || '', key: acc.firebaseKey };
+    up['staff/' + uid] = { role: acc.role, name: acc.name || '', key: acc.firebaseKey, owner: acc.owner === true ? true : null };
+    if (acc.owner === true) { up['ownerAuth/' + id] = true; if (acc.authId && acc.authId !== id) up['ownerAuth/' + acc.authId] = null; }
     up['staffLookup/' + saLookupKey(acc.role, acc.username) + '/' + id] = true;
     up['accounts/' + acc.firebaseKey + '/authId'] = id;
     up['accounts/' + acc.firebaseKey + '/uid'] = uid;
@@ -20554,12 +20639,14 @@ async function saForget(acc) {
 (function () {
     const od = toggleAccountDisabled;
     toggleAccountDisabled = function (k, d) {
+        if (acctIsOwner(k)) { showToast(false, t('ownerCannotDo')); return; }
         od(k, d);
         const a = accounts.find(function (x) { return x.firebaseKey === k; });
         if (a && a.uid) { if (d) db.ref('staff/' + a.uid).remove(); else db.ref('staff/' + a.uid).set({ role: a.role, name: a.name || '', key: k }); }
     };
     const ou = updateAccountField;
     updateAccountField = function (k, f, v) {
+        if (acctBlocked(k)) { renderAccountsTable(); return; }
         const a = accounts.find(function (x) { return x.firebaseKey === k; });
         const b = a ? { role: a.role, username: a.username, authId: a.authId, uid: a.uid, name: a.name } : null;
         ou(k, f, v);
@@ -20568,7 +20655,7 @@ async function saForget(acc) {
             const up = {};
             up['staffLookup/' + saLookupKey(b.role, b.username) + '/' + b.authId] = null;
             up['staffLookup/' + saLookupKey(n.role, n.username) + '/' + b.authId] = true;
-            up['staff/' + b.uid] = { role: n.role, name: n.name || '', key: k };
+            up['staff/' + b.uid] = { role: n.role, name: n.name || '', key: k, owner: (a && a.owner === true) ? true : null };
             db.ref().update(up);
         }
     };
@@ -27570,7 +27657,7 @@ body.mo-dragging{-webkit-user-select:none;user-select:none;cursor:grabbing}
   var P1 = 'menuPage1', P2 = 'menuPage2', MAX = 30, HOLD = 450;
   var drag = null, timer = null, st = null, saved = null, listening = false, supClick = false, lastSwitch = 0, fullWarn = 0;
   function $(i) { return document.getElementById(i); }
-  function isAdmin() { try { return sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInRole') === 'admin'; } catch (e) { return false; } }
+  function isAdmin() { try { return sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInRole') === 'admin' && typeof viewerIsOwner === 'function' && viewerIsOwner(); } catch (e) { return false; } }
   function pg() { return [$(P1), $(P2)]; }
   function btns(p) { return Array.prototype.filter.call(p.children, function (c) { return c.classList && c.classList.contains('quick-btn'); }); }
   function keyOf(b) { if (b.id) return 'id:' + b.id; return 'fn:' + (b.getAttribute('onclick') || '').replace(/\s+/g, ' ').trim(); }
@@ -27598,13 +27685,17 @@ body.mo-dragging{-webkit-user-select:none;user-select:none;cursor:grabbing}
       firebase.auth().onAuthStateChanged(function (u) {
         if (!u || listening) return; listening = true;
         db.ref('menuOrder').on('value', function (sn) { saved = sn.val(); if (!drag) apply(saved); }, function () { listening = false; });
+        db.ref('ownersSet').on('value', function (sn) { window.__ownersSet = sn.val() === true; try { renderAccountsTable(); } catch (e) {} });
       });
     } catch (e) {}
   }
   listen();
-  function tools() { var t = $('moTools'), on = isAdmin(); if (t) { t.style.display = on ? '' : 'none'; $('moHint').textContent = L().hint; $('moReset').textContent = L().reset; } document.body.classList.toggle('mo-on', on); }
+  function tools() { var on = isAdmin(), f = $('moFilterBtn'); if (f) f.style.display = on ? 'inline-flex' : 'none'; if (!on && $('moPop')) $('moPop').style.display = 'none'; if ($('moHint')) { $('moHint').textContent = L().hint; $('moReset').textContent = L().reset; } document.body.classList.toggle('mo-on', on); }
   setInterval(tools, 1200); tools();
+  $('moFilterBtn').addEventListener('click', function (e) { e.stopPropagation(); var p = $('moPop'); p.style.display = p.style.display === 'none' ? 'block' : 'none'; });
+  document.addEventListener('click', function (e) { var p = $('moPop'); if (p && p.style.display !== 'none' && !p.contains(e.target)) p.style.display = 'none'; });
   $('moReset').addEventListener('click', async function () {
+    $('moPop').style.display = 'none';
     var ok = true; try { ok = await showConfirm(L().conf); } catch (e) { ok = confirm(L().conf); } if (!ok) return;
     db.ref('menuOrder').remove().then(function () { apply(orig); toast(true, L().saved); }).catch(function () { toast(false, L().fail); });
   });
