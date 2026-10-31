@@ -1120,6 +1120,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     var D = { en: ['Under maintenance', 'This page is temporarily unavailable. Please try again later.'], km: ['កំពុងថែទាំ', 'ទំព័រនេះមិនអាចប្រើបានបណ្តោះអាសន្ន។ សូមព្យាយាមម្តងទៀតពេលក្រោយ។'], zh: ['维护中', '此页面暂时不可用，请稍后再试。'] };
     function lang() { var l = ''; try { l = localStorage.getItem('tdLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} l = String(l).toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; if (!D[l]) { l = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; } return D[l] ? l : 'en'; }
     function applies(m) {
+      if (sessionStorage.getItem('mtgOwner') === '1') return false;
       if (window.__xpOwner) return false;
       if (!m || !m.on) return false;
       if (!(m.services && m.services[SVC] === 'closed')) return false;
@@ -1132,7 +1133,8 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
       var l = lang(), msg = (m.message && String(m.message[l] || '').trim()) || D[l][1];
       if (!el) { el = document.createElement('div'); el.id = 'mtGuard'; el.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#f1f5f9;display:flex;align-items:center;justify-content:center;padding:20px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Khmer","Noto Sans SC",Arial,sans-serif;'; document.body.appendChild(el); }
       el.innerHTML = '<div style="background:#fff;border-radius:18px;max-width:380px;width:100%;padding:28px 22px;text-align:center;box-shadow:0 10px 40px rgba(15,23,42,.18);"><div style="font-size:44px;">&#128295;</div><h2 style="margin:8px 0 8px;font-size:20px;color:#0f172a;"></h2><p style="margin:0;font-size:15px;line-height:1.5;color:#475569;white-space:pre-wrap;"></p></div>';
-      el.querySelector('h2').textContent = D[l][0]; el.querySelector('p').textContent = msg; document.documentElement.style.overflow = 'hidden';
+      el.querySelector('h2').textContent = D[l][0]; el.querySelector('p').textContent = msg;
+      try { if (!el.querySelector('.mtgOwn')) { var ol = document.createElement('button'); ol.className = 'mtgOwn'; ol.type = 'button'; ol.style.cssText = 'margin-top:16px;border:0;background:none;color:#94a3b8;font-size:12px;text-decoration:underline;cursor:pointer'; ol.textContent = ({ km: 'ចូលជាម្ចាស់', zh: '所有者入口' })[l] || 'Owner access'; ol.onclick = function () { if (!window.OwnerLogin) return; OwnerLogin.open(function (acc) { try { sessionStorage.setItem('mtgOwner', '1'); } catch (e) {} OwnerLogin.audit('owner_enter', SVC, '', 'Maintenance bypass', 'Owner passed Maintenance on ' + SVC, acc.name || acc.username); OwnerLogin.signOutHR().then(function () { render(null); }); }); }; el.firstChild.appendChild(ol); } } catch (e) {} document.documentElement.style.overflow = 'hidden';
     }
     var last = null; try { last = JSON.parse(localStorage.getItem('mtgCache') || 'null'); } catch (e) {}
     function start() {
@@ -1149,7 +1151,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
 
 <!-- OWNER-LIB-BEGIN -->
 <style>
-#olOv{position:fixed;inset:0;z-index:100010;background:rgba(15,23,42,.72);display:none;align-items:center;justify-content:center;padding:16px}
+#olOv{position:fixed;inset:0;z-index:2147483647;background:rgba(15,23,42,.72);display:none;align-items:center;justify-content:center;padding:16px}
 #olOv .olc{width:100%;max-width:360px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3);font-family:inherit}
 #olOv h3{margin:0 0 4px;font-size:18px;color:#0f172a}
 #olOv .ols{font-size:12px;color:#64748b;margin-bottom:12px}
