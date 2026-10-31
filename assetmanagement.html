@@ -86,13 +86,18 @@ body.warn { background:#c2410c; }
 .pill.active{background:#dcfce7;color:#166534}.pill.broken{background:#fee2e2;color:#991b1b}.pill.missing{background:#ffedd5;color:#9a3412}.pill.retired{background:#e2e8f0;color:#475569}
 .result.bad .card { background:#fff; border-color:#fecaca; }
 .result.bad .banner, .result.warn .banner { color:#fff; }
-.recent { margin-top:14px; }
-.recent h3 { font-size:13px; color:var(--mute); margin:0 0 6px; }
-.rrow { display:flex; align-items:center; gap:8px; padding:9px 12px; background:var(--card); border:1px solid var(--line); border-radius:12px; margin-bottom:6px; font-size:14px; cursor:pointer; }
-.rrow .t { margin-left:auto; color:var(--mute); font-size:12px; }
-.dot { width:10px; height:10px; border-radius:50%; flex:none; }
-.dot.active{background:#16a34a}.dot.broken{background:#dc2626}.dot.missing{background:#d97706}.dot.retired{background:#94a3b8}.dot.nf{background:#d97706}
-body.bad .recent h3, body.warn .recent h3 { color:#fee2e2; }
+.rcard { padding:12px; border:1px solid var(--line); border-radius:14px; background:var(--card); margin-top:8px; }
+.rcard .rn { font-weight:800; font-size:15px; overflow-wrap:anywhere; }
+.rcard .rs { color:var(--mute); font-size:12px; margin-top:2px; }
+.rbar { height:8px; background:var(--line); border-radius:6px; overflow:hidden; margin-top:8px; }
+.rbar div { height:100%; background:#16a34a; }
+.rcard .btn { margin-top:10px; height:42px; }
+.rcard.on { border-color:#16a34a; box-shadow:0 0 0 2px rgba(22,163,74,.25); }
+.rnote { margin-top:10px; padding:10px 12px; border-radius:12px; font-weight:700; font-size:14px; text-align:center; background:#dcfce7; color:#166534; }
+.rnote.warn { background:#ffedd5; color:#9a3412; }
+.lrow { display:flex; gap:10px; align-items:center; padding:8px 4px; border-bottom:1px solid var(--line); }
+.lrow .ph { width:44px; height:44px; border-radius:8px; background:var(--soft); overflow:hidden; flex:none; display:flex; align-items:center; justify-content:center; color:var(--mute); font-size:10px; }
+.lrow .ph img { width:100%; height:100%; object-fit:cover; }
 @media (max-width:520px){ .top .who { display:none; } }
 </style>
 <style id="hrLogoCss">
@@ -166,9 +171,11 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
     <div class="row"><button class="btn alt" id="btnTorch" onclick="torchToggle()" style="display:none" data-i="torch">Light</button><button class="btn alt" id="btnStop" onclick="camStop()" data-i="camStop">Stop camera</button></div>
     <div class="mlabel" data-i="manual">Or type the Asset ID</div>
     <div class="manual"><input id="inId" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="12" onkeydown="if(event.key==='Enter')manualFind()"><button class="btn" onclick="manualFind()" data-i="find">Find</button></div>
+    <div class="card" id="roundBox" style="margin-top:12px"></div>
+    <div id="leftBox"></div>
+    <div id="roundNote"></div>
     <div id="result" class="result"><div class="card hint" data-i="infoHint">Scan an item to see its information.</div></div>
     <div class="row" id="againRow" style="display:none"><button class="btn" onclick="scanAgain()" data-i="again">Scan next item</button></div>
-    <div class="recent" id="recent"></div>
   </div>
 </div>
 <div id="toast" class="toast hidden"></div>
@@ -186,7 +193,7 @@ var db = firebase.database();
 
 
 /* ================= language ================= */
-var I18N = {"en": {"loginSub": "Sign in with the same account as the main system.", "roleAdmin": "Administration", "roleHr": "HR", "lblUser": "Username", "lblPass": "Password", "btnSignIn": "Sign in", "totpTitle": "Authenticator code", "backupLbl": "Backup code", "btnVerify": "Verify", "useBackup": "Use a backup code instead", "btnBack": "Back", "btnSignOut": "Sign out", "loading": "Loading...", "loginFail": "Wrong username or password.", "totpNotSetup": "Set up the authenticator in the main website first, then sign in here.", "totpBad": "Wrong code. Try again.", "loginTitle": "Asset Manager", "appTitle": "Asset Manager", "camHint": "Point the camera at a QR code", "camStart": "Start camera", "camStop": "Stop camera", "camDenied": "The camera is blocked. Allow the camera for this website in your browser settings, then tap Start camera.", "camNone": "No camera found on this device. Type the ID below.", "torch": "Light", "manual": "Or type the Asset ID", "find": "Find", "again": "Scan next item", "infoHint": "Scan an item to see its information.", "recent": "Recent scans", "notFound": "Item not found", "notFoundSub": "This code is not in the Asset Manager list.", "bBroken": "BROKEN", "bMissing": "MISSING", "bRetired": "RETIRED", "bActive": "In use", "brokenMsg": "This item is broken.", "missingMsg": "This item is marked as missing.", "retiredMsg": "This item is no longer in use.", "fId": "Asset ID", "fName": "Item name", "fCat": "Category", "fDept": "Department", "fGroup": "Group", "fStatus": "Status", "fType": "Scan type", "fNote": "Note", "tInfo": "Information only", "tTrack": "Tracked: every {m} month(s)", "noDept": "None", "loadErr": "Could not read the item. Check the internet and try again.", "typeIdErr": "Please type a number ID.", "lastScan": "Last scan", "never": "Never", "sActive": "Active", "sBroken": "Broken", "sMissing": "Missing", "sRetired": "Retired"}, "km": {"loginSub": "ចូលដោយប្រើគណនីដូចប្រព័ន្ធមេ។", "roleAdmin": "រដ្ឋបាល", "roleHr": "ធនធានមនុស្ស", "lblUser": "ឈ្មោះអ្នកប្រើ", "lblPass": "ពាក្យសម្ងាត់", "btnSignIn": "ចូល", "totpTitle": "កូដ Authenticator", "backupLbl": "កូដបម្រុង", "btnVerify": "ផ្ទៀងផ្ទាត់", "useBackup": "ប្រើកូដបម្រុងជំនួស", "btnBack": "ត្រឡប់", "btnSignOut": "ចាកចេញ", "loading": "កំពុងផ្ទុក...", "loginFail": "ឈ្មោះអ្នកប្រើ ឬពាក្យសម្ងាត់ខុស។", "totpNotSetup": "សូមដំឡើង Authenticator នៅគេហទំព័រមេជាមុន។", "totpBad": "កូដខុស។ សូមព្យាយាមម្តងទៀត។", "loginTitle": "គ្រប់គ្រងទ្រព្យសម្បត្តិ", "appTitle": "គ្រប់គ្រងទ្រព្យសម្បត្តិ", "camHint": "ដាក់កាមេរ៉ាទៅលើ QR កូដ", "camStart": "បើកកាមេរ៉ា", "camStop": "បិទកាមេរ៉ា", "camDenied": "កាមេរ៉ាត្រូវបានរារាំង។ សូមអនុញ្ញាតកាមេរ៉ាក្នុងការកំណត់កម្មវិធីរុករក រួចចុចបើកកាមេរ៉ា។", "camNone": "រកមិនឃើញកាមេរ៉ាលើឧបករណ៍នេះទេ។ សូមវាយលេខសម្គាល់ខាងក្រោម។", "torch": "ភ្លើង", "manual": "ឬវាយលេខសម្គាល់ទ្រព្យសម្បត្តិ", "find": "ស្វែងរក", "again": "ស្កេនវត្ថុបន្ទាប់", "infoHint": "ស្កេនវត្ថុដើម្បីមើលព័ត៌មាន។", "recent": "ការស្កេនថ្មីៗ", "notFound": "រកមិនឃើញវត្ថុ", "notFoundSub": "កូដនេះមិនមាននៅក្នុងបញ្ជីគ្រប់គ្រងទ្រព្យសម្បត្តិទេ។", "bBroken": "ខូច", "bMissing": "បាត់", "bRetired": "ឈប់ប្រើ", "bActive": "កំពុងប្រើ", "brokenMsg": "វត្ថុនេះខូច។", "missingMsg": "វត្ថុនេះត្រូវបានកត់ត្រាថាបាត់។", "retiredMsg": "វត្ថុនេះឈប់ប្រើហើយ។", "fId": "លេខសម្គាល់", "fName": "ឈ្មោះវត្ថុ", "fCat": "ប្រភេទ", "fDept": "ដេប៉ាតឺម៉ង់", "fGroup": "ក្រុម", "fStatus": "ស្ថានភាព", "fType": "ប្រភេទស្កេន", "fNote": "កំណត់ចំណាំ", "tInfo": "ព័ត៌មានប៉ុណ្ណោះ", "tTrack": "តាមដាន៖ រៀងរាល់ {m} ខែ", "noDept": "គ្មាន", "loadErr": "មិនអាចអានវត្ថុបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត រួចព្យាយាមម្តងទៀត។", "typeIdErr": "សូមវាយលេខសម្គាល់ជាលេខ។", "lastScan": "ស្កេនចុងក្រោយ", "never": "មិនទាន់ធ្លាប់", "sActive": "កំពុងប្រើ", "sBroken": "ខូច", "sMissing": "បាត់", "sRetired": "ឈប់ប្រើ"}, "zh": {"loginSub": "使用与主系统相同的账号登录。", "roleAdmin": "行政", "roleHr": "人事", "lblUser": "用户名", "lblPass": "密码", "btnSignIn": "登录", "totpTitle": "验证器代码", "backupLbl": "备用代码", "btnVerify": "验证", "useBackup": "改用备用代码", "btnBack": "返回", "btnSignOut": "退出", "loading": "加载中...", "loginFail": "用户名或密码错误。", "totpNotSetup": "请先在主网站设置验证器，再来登录。", "totpBad": "代码错误，请重试。", "loginTitle": "资产管理", "appTitle": "资产管理", "camHint": "将摄像头对准二维码", "camStart": "开启摄像头", "camStop": "关闭摄像头", "camDenied": "摄像头被阻止。请在浏览器设置中允许本网站使用摄像头，然后点击开启摄像头。", "camNone": "此设备没有摄像头。请在下方输入编号。", "torch": "灯光", "manual": "或输入资产编号", "find": "查找", "again": "扫描下一件", "infoHint": "扫描物品以查看信息。", "recent": "最近扫描", "notFound": "未找到物品", "notFoundSub": "此二维码不在资产管理列表中。", "bBroken": "损坏", "bMissing": "丢失", "bRetired": "停用", "bActive": "使用中", "brokenMsg": "此物品已损坏。", "missingMsg": "此物品已标记为丢失。", "retiredMsg": "此物品已停用。", "fId": "资产编号", "fName": "物品名称", "fCat": "类别", "fDept": "部门", "fGroup": "小组", "fStatus": "状态", "fType": "扫描类型", "fNote": "备注", "tInfo": "仅信息", "tTrack": "追踪：每 {m} 个月", "noDept": "无", "loadErr": "无法读取物品，请检查网络后重试。", "typeIdErr": "请输入数字编号。", "lastScan": "上次扫描", "never": "从未", "sActive": "正常", "sBroken": "损坏", "sMissing": "丢失", "sRetired": "停用"}};
+var I18N = {"en": {"loginSub": "Sign in with the same account as the main system.", "roleAdmin": "Administration", "roleHr": "HR", "lblUser": "Username", "lblPass": "Password", "btnSignIn": "Sign in", "totpTitle": "Authenticator code", "backupLbl": "Backup code", "btnVerify": "Verify", "useBackup": "Use a backup code instead", "btnBack": "Back", "btnSignOut": "Sign out", "loading": "Loading...", "loginFail": "Wrong username or password.", "totpNotSetup": "Set up the authenticator in the main website first, then sign in here.", "totpBad": "Wrong code. Try again.", "loginTitle": "Asset Manager", "appTitle": "Asset Manager", "camHint": "Point the camera at a QR code", "camStart": "Start camera", "camStop": "Stop camera", "camDenied": "The camera is blocked. Allow the camera for this website in your browser settings, then tap Start camera.", "camNone": "No camera found on this device. Type the ID below.", "torch": "Light", "manual": "Or type the Asset ID", "find": "Find", "again": "Scan next item", "infoHint": "Scan an item to see its information.", "recent": "Recent scans", "notFound": "Item not found", "notFoundSub": "This code is not in the Asset Manager list.", "bBroken": "BROKEN", "bMissing": "MISSING", "bRetired": "RETIRED", "bActive": "In use", "brokenMsg": "This item is broken.", "missingMsg": "This item is marked as missing.", "retiredMsg": "This item is no longer in use.", "fId": "Asset ID", "fName": "Item name", "fCat": "Category", "fDept": "Department", "fGroup": "Group", "fStatus": "Status", "fType": "Scan type", "fNote": "Note", "tInfo": "Information only", "tTrack": "Tracked: every {m} month(s)", "noDept": "None", "loadErr": "Could not read the item. Check the internet and try again.", "typeIdErr": "Please type a number ID.", "lastScan": "Last scan", "never": "Never", "sActive": "Active", "sBroken": "Broken", "sMissing": "Missing", "sRetired": "Retired", "rTitle": "Scan rounds", "rNone": "No scan round is open. Open one in Asset Manager (main website).", "rStart": "Start scan", "rActiveBtn": "Scanning", "rStop": "Stop round", "rProg": "{a} of {b} scanned", "rLeft": "Not scanned yet", "rLeftTitle": "Not scanned yet", "rAllDone": "All items scanned. The report is ready.", "rAdded": "Added to the report. {a} of {b} scanned.", "rAlready": "Already scanned in this round.", "rNotIn": "This item is not in this round.", "rInfoOnly": "Information only", "rClose": "Close", "rSaveErr": "Could not save the scan. Check the internet.", "rMode": "Mode"}, "km": {"loginSub": "ចូលដោយប្រើគណនីដូចប្រព័ន្ធមេ។", "roleAdmin": "រដ្ឋបាល", "roleHr": "ធនធានមនុស្ស", "lblUser": "ឈ្មោះអ្នកប្រើ", "lblPass": "ពាក្យសម្ងាត់", "btnSignIn": "ចូល", "totpTitle": "កូដ Authenticator", "backupLbl": "កូដបម្រុង", "btnVerify": "ផ្ទៀងផ្ទាត់", "useBackup": "ប្រើកូដបម្រុងជំនួស", "btnBack": "ត្រឡប់", "btnSignOut": "ចាកចេញ", "loading": "កំពុងផ្ទុក...", "loginFail": "ឈ្មោះអ្នកប្រើ ឬពាក្យសម្ងាត់ខុស។", "totpNotSetup": "សូមដំឡើង Authenticator នៅគេហទំព័រមេជាមុន។", "totpBad": "កូដខុស។ សូមព្យាយាមម្តងទៀត។", "loginTitle": "គ្រប់គ្រងទ្រព្យសម្បត្តិ", "appTitle": "គ្រប់គ្រងទ្រព្យសម្បត្តិ", "camHint": "ដាក់កាមេរ៉ាទៅលើ QR កូដ", "camStart": "បើកកាមេរ៉ា", "camStop": "បិទកាមេរ៉ា", "camDenied": "កាមេរ៉ាត្រូវបានរារាំង។ សូមអនុញ្ញាតកាមេរ៉ាក្នុងការកំណត់កម្មវិធីរុករក រួចចុចបើកកាមេរ៉ា។", "camNone": "រកមិនឃើញកាមេរ៉ាលើឧបករណ៍នេះទេ។ សូមវាយលេខសម្គាល់ខាងក្រោម។", "torch": "ភ្លើង", "manual": "ឬវាយលេខសម្គាល់ទ្រព្យសម្បត្តិ", "find": "ស្វែងរក", "again": "ស្កេនវត្ថុបន្ទាប់", "infoHint": "ស្កេនវត្ថុដើម្បីមើលព័ត៌មាន។", "recent": "ការស្កេនថ្មីៗ", "notFound": "រកមិនឃើញវត្ថុ", "notFoundSub": "កូដនេះមិនមាននៅក្នុងបញ្ជីគ្រប់គ្រងទ្រព្យសម្បត្តិទេ។", "bBroken": "ខូច", "bMissing": "បាត់", "bRetired": "ឈប់ប្រើ", "bActive": "កំពុងប្រើ", "brokenMsg": "វត្ថុនេះខូច។", "missingMsg": "វត្ថុនេះត្រូវបានកត់ត្រាថាបាត់។", "retiredMsg": "វត្ថុនេះឈប់ប្រើហើយ។", "fId": "លេខសម្គាល់", "fName": "ឈ្មោះវត្ថុ", "fCat": "ប្រភេទ", "fDept": "ដេប៉ាតឺម៉ង់", "fGroup": "ក្រុម", "fStatus": "ស្ថានភាព", "fType": "ប្រភេទស្កេន", "fNote": "កំណត់ចំណាំ", "tInfo": "ព័ត៌មានប៉ុណ្ណោះ", "tTrack": "តាមដាន៖ រៀងរាល់ {m} ខែ", "noDept": "គ្មាន", "loadErr": "មិនអាចអានវត្ថុបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត រួចព្យាយាមម្តងទៀត។", "typeIdErr": "សូមវាយលេខសម្គាល់ជាលេខ។", "lastScan": "ស្កេនចុងក្រោយ", "never": "មិនទាន់ធ្លាប់", "sActive": "កំពុងប្រើ", "sBroken": "ខូច", "sMissing": "បាត់", "sRetired": "ឈប់ប្រើ", "rTitle": "ជុំស្កេន", "rNone": "មិនមានជុំស្កេនបើកទេ។ សូមបើកមួយនៅក្នុងការគ្រប់គ្រងទ្រព្យសម្បត្តិ (គេហទំព័រមេ)។", "rStart": "ចាប់ផ្តើមស្កេន", "rActiveBtn": "កំពុងស្កេន", "rStop": "បញ្ឈប់ជុំ", "rProg": "បានស្កេន {a} ក្នុងចំណោម {b}", "rLeft": "មិនទាន់ស្កេន", "rLeftTitle": "មិនទាន់ស្កេន", "rAllDone": "បានស្កេនវត្ថុទាំងអស់។ របាយការណ៍រួចរាល់។", "rAdded": "បានបន្ថែមទៅរបាយការណ៍។ បានស្កេន {a} ក្នុងចំណោម {b}។", "rAlready": "បានស្កេនរួចហើយក្នុងជុំនេះ។", "rNotIn": "វត្ថុនេះមិនស្ថិតក្នុងជុំនេះទេ។", "rInfoOnly": "ព័ត៌មានប៉ុណ្ណោះ", "rClose": "បិទ", "rSaveErr": "មិនអាចរក្សាទុកការស្កេនបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត។", "rMode": "របៀប"}, "zh": {"loginSub": "使用与主系统相同的账号登录。", "roleAdmin": "行政", "roleHr": "人事", "lblUser": "用户名", "lblPass": "密码", "btnSignIn": "登录", "totpTitle": "验证器代码", "backupLbl": "备用代码", "btnVerify": "验证", "useBackup": "改用备用代码", "btnBack": "返回", "btnSignOut": "退出", "loading": "加载中...", "loginFail": "用户名或密码错误。", "totpNotSetup": "请先在主网站设置验证器，再来登录。", "totpBad": "代码错误，请重试。", "loginTitle": "资产管理", "appTitle": "资产管理", "camHint": "将摄像头对准二维码", "camStart": "开启摄像头", "camStop": "关闭摄像头", "camDenied": "摄像头被阻止。请在浏览器设置中允许本网站使用摄像头，然后点击开启摄像头。", "camNone": "此设备没有摄像头。请在下方输入编号。", "torch": "灯光", "manual": "或输入资产编号", "find": "查找", "again": "扫描下一件", "infoHint": "扫描物品以查看信息。", "recent": "最近扫描", "notFound": "未找到物品", "notFoundSub": "此二维码不在资产管理列表中。", "bBroken": "损坏", "bMissing": "丢失", "bRetired": "停用", "bActive": "使用中", "brokenMsg": "此物品已损坏。", "missingMsg": "此物品已标记为丢失。", "retiredMsg": "此物品已停用。", "fId": "资产编号", "fName": "物品名称", "fCat": "类别", "fDept": "部门", "fGroup": "小组", "fStatus": "状态", "fType": "扫描类型", "fNote": "备注", "tInfo": "仅信息", "tTrack": "追踪：每 {m} 个月", "noDept": "无", "loadErr": "无法读取物品，请检查网络后重试。", "typeIdErr": "请输入数字编号。", "lastScan": "上次扫描", "never": "从未", "sActive": "正常", "sBroken": "损坏", "sMissing": "丢失", "sRetired": "停用", "rTitle": "扫描轮次", "rNone": "没有开启的扫描轮次。请在资产管理（主网站）中开启一轮。", "rStart": "开始扫描", "rActiveBtn": "扫描中", "rStop": "停止本轮", "rProg": "已扫描 {a} / {b}", "rLeft": "未扫描", "rLeftTitle": "未扫描", "rAllDone": "所有物品已扫描，报告已就绪。", "rAdded": "已加入报告。已扫描 {a} / {b}。", "rAlready": "本轮已扫描过。", "rNotIn": "此物品不在本轮中。", "rInfoOnly": "仅信息", "rClose": "关闭", "rSaveErr": "无法保存扫描，请检查网络。", "rMode": "模式"}};
 var lang = 'en';
 try { lang = localStorage.getItem('tdLang') || 'en'; } catch (e) {}
 if (!I18N[lang]) lang = 'en';
@@ -200,7 +207,7 @@ function applyLang() {
   var b = document.getElementById('langBtn'); if (b) b.textContent = { en: 'EN', km: 'ខ្មែរ', zh: '中文' }[lang];
   var r = document.getElementById('langRowLogin');
   if (r) r.innerHTML = ['en', 'km', 'zh'].map(function (l) { return '<button type="button" class="' + (l === lang ? 'on' : '') + '" onclick="setLang(\'' + l + '\')">' + { en: 'English', km: 'ខ្មែរ', zh: '中文' }[l] + '</button>'; }).join('');
-  if (me) { camMsgSet(); renderResult(); renderRecent(); }
+  if (me) { camMsgSet(); renderResult(); renderRounds(); renderNote(); }
 }
 function setLang(l) { lang = l; try { localStorage.setItem('tdLang', l); } catch (e) {} applyLang(); }
 function cycleLang() { setLang({ en: 'km', km: 'zh', zh: 'en' }[lang]); }
@@ -336,7 +343,7 @@ firebase.auth().onAuthStateChanged(async function (u) {
 
 
 /* ================= scanner ================= */
-var stream = null, scanTimer = null, detector = null, jsqrReady = false, torchOn = false, lastCode = '', lastAt = 0, current = null, recent = [];
+var stream = null, scanTimer = null, detector = null, jsqrReady = false, torchOn = false, lastCode = '', lastAt = 0, current = null;
 var cv = document.createElement('canvas'), cx = cv.getContext('2d', { willReadFrequently: true });
 function camMsgSet() { var m = $('camMsg'); if (m) m.textContent = stream ? T('camHint') : ''; }
 function loadJsQR() {
@@ -410,8 +417,7 @@ async function lookup(id) {
   current = rec ? Object.assign({ id: id }, rec) : { id: id, notFound: true };
   var st = current.notFound ? 'nf' : (current.status || 'active');
   beep(st === 'broken' || st === 'nf' || st === 'missing' ? 'bad' : 'ok');
-  recent = recent.filter(function (r) { return r.id !== id; }); recent.unshift({ id: id, name: current.notFound ? '' : (current.name || ''), st: st, at: Date.now() }); recent = recent.slice(0, 8);
-  renderResult(); renderRecent();
+  lastNote = null; if (activeRid) handleRound(id, current.notFound ? null : rec); renderResult(); renderNote();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function sLabel(s) { return T({ active: 'sActive', broken: 'sBroken', missing: 'sMissing', retired: 'sRetired' }[s] || 'sActive'); }
@@ -434,20 +440,73 @@ function renderResult() {
     '<div class="kv"><b>' + esc(T('fCat')) + '</b><span>' + esc(a.category || '-') + '</span><b>' + esc(T('fDept')) + '</b><span>' + esc(a.dept || T('noDept')) + '</span><b>' + esc(T('fGroup')) + '</b><span>' + esc(a.group || '-') + '</span><b>' + esc(T('fType')) + '</b><span>' + esc(tr) + '</span>' +
     (a.scanType === 'track' ? '<b>' + esc(T('lastScan')) + '</b><span>' + esc(ls) + '</span>' : '') + (a.note ? '<b>' + esc(T('fNote')) + '</b><span>' + esc(a.note) + '</span>' : '') + '</div></div>';
 }
-function renderRecent() {
-  var r = $('recent'); if (!recent.length) { r.innerHTML = ''; return; }
-  r.innerHTML = '<h3>' + esc(T('recent')) + '</h3>' + recent.map(function (x) {
-    return '<div class="rrow" onclick="lookup(\'' + esc(x.id) + '\')"><span class="dot ' + esc(x.st) + '"></span><b>' + esc(x.id) + '</b><span>' + esc(x.name) + '</span><span class="t">' + new Date(x.at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</span></div>';
-  }).join('');
+function scanAgain() { current = null; lastCode = ''; lastNote = null; renderNote(); $('inId').value = ''; renderResult(); if (!stream) camStart(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+
+/* ================= scan rounds ================= */
+var rounds = [], activeRid = '', roundsOn = false, scanName = '', lastNote = null;
+function rTotal(r) { return Object.keys(r.items || {}).length; }
+function rDone(r) { return Object.keys(r.scans || {}).filter(function (k) { return (r.items || {})[k]; }).length; }
+function getRound(rid) { for (var i = 0; i < rounds.length; i++) if (rounds[i].rid === rid) return rounds[i]; return null; }
+function listenRounds() {
+  if (roundsOn) return; roundsOn = true;
+  db.ref('assetRounds').on('value', function (sn) {
+    var v = sn.val() || {};
+    rounds = Object.keys(v).map(function (k) { return Object.assign({ rid: k }, v[k]); }).sort(function (a, b) { return (b.createdAt || 0) - (a.createdAt || 0); });
+    rounds.forEach(function (r) {
+      var t = rTotal(r); if (r.status === 'open' && t > 0 && rDone(r) >= t) { var now = Date.now(); db.ref('assetRounds/' + r.rid).update({ status: 'complete', completedAt: now, expireAt: now + 7 * 86400000 }); }
+    });
+    renderRounds();
+  }, function () { roundsOn = false; });
 }
-function scanAgain() { current = null; lastCode = ''; $('inId').value = ''; renderResult(); if (!stream) camStart(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function renderRounds() {
+  var box = $('roundBox'); if (!box) return;
+  var open = rounds.filter(function (r) { return r.status === 'open'; });
+  var act = activeRid ? getRound(activeRid) : null;
+  if (activeRid && (!act || act.status !== 'open')) { if (act && act.status === 'complete') { lastNote = { t: T('rAllDone'), warn: false }; renderNote(); } activeRid = ''; act = null; $('leftBox').innerHTML = ''; }
+  var h = '<div style="font-weight:800;font-size:15px">' + esc(T('rTitle')) + '</div>';
+  if (!open.length) h += '<div class="hint" style="padding:12px 4px">' + esc(T('rNone')) + '</div>';
+  open.forEach(function (r) {
+    var t = rTotal(r), a = rDone(r), pc = t ? Math.round(a * 100 / t) : 0, on = r.rid === activeRid;
+    h += '<div class="rcard' + (on ? ' on' : '') + '"><div class="rn">' + esc(r.name || '') + '</div><div class="rs">' + esc([r.dept, r.group].filter(Boolean).join(' › ')) + '</div>' +
+      '<div class="rs"><b>' + esc(T('rProg', { a: a, b: t })) + '</b></div><div class="rbar"><div style="width:' + pc + '%"></div></div>' +
+      (on ? '<div class="row"><button class="btn alt" onclick="leftToggle()">' + esc(T('rLeft')) + '</button><button class="btn alt" onclick="roundStop()">' + esc(T('rStop')) + '</button></div>'
+          : '<button class="btn" style="width:100%" onclick="roundStart(\'' + esc(r.rid) + '\')">' + esc(T('rStart')) + '</button>') + '</div>';
+  });
+  box.innerHTML = h;
+  if ($('leftBox').innerHTML) leftRender();
+}
+function roundStart(rid) { activeRid = rid; lastNote = null; renderNote(); $('leftBox').innerHTML = ''; renderRounds(); if (!stream) camStart(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function roundStop() { activeRid = ''; lastNote = null; renderNote(); $('leftBox').innerHTML = ''; renderRounds(); }
+function renderNote() { var n = $('roundNote'); if (!n) return; n.innerHTML = lastNote ? '<div class="rnote' + (lastNote.warn ? ' warn' : '') + '">' + esc(lastNote.t) + '</div>' : ''; }
+async function leftRender() {
+  var r = getRound(activeRid); if (!r) { $('leftBox').innerHTML = ''; return; }
+  var ids = Object.keys(r.items || {}).filter(function (k) { return !(r.scans || {})[k]; }).sort(function (a, b) { return a.localeCompare(b, undefined, { numeric: true }); });
+  var recs = await Promise.all(ids.map(function (id) { return db.ref('assets/' + id).once('value').then(function (s) { return s.val() || {}; }).catch(function () { return {}; }); }));
+  var h = '<div class="card"><div style="display:flex;align-items:center"><b style="flex:1">' + esc(T('rLeftTitle')) + ' (' + ids.length + ')</b><button class="btn alt" style="flex:none;height:36px;padding:0 14px" onclick="leftToggle()">' + esc(T('rClose')) + '</button></div>';
+  h += ids.map(function (id, i) { var a = recs[i]; return '<div class="lrow"><div class="ph">' + (a.photo ? '<img src="' + esc(a.photo) + '" alt="">' : '') + '</div><div style="min-width:0"><div class="idv" style="font-size:13px">' + esc(id) + '</div><div style="font-weight:700;overflow-wrap:anywhere">' + esc(a.name || '') + '</div></div></div>'; }).join('');
+  $('leftBox').innerHTML = h + '</div>';
+}
+function leftToggle() { if ($('leftBox').innerHTML) $('leftBox').innerHTML = ''; else leftRender(); }
+function handleRound(id, rec) {
+  var r = activeRid ? getRound(activeRid) : null; if (!r || r.status !== 'open' || !rec) return;
+  if (!(r.items || {})[id]) { lastNote = { t: T('rNotIn'), warn: true }; return; }
+  if ((r.scans || {})[id]) { lastNote = { t: T('rAlready'), warn: true }; return; }
+  var now = Date.now(); r.scans = r.scans || {}; r.scans[id] = { at: now, by: scanName };
+  lastNote = { t: T('rAdded', { a: rDone(r), b: rTotal(r) }), warn: false };
+  var rid = r.rid;
+  db.ref('assetRounds/' + rid + '/scans/' + id).set({ at: now, by: scanName }).catch(function () { delete r.scans[id]; lastNote = { t: T('rSaveErr'), warn: true }; renderNote(); });
+  db.ref('assets/' + id + '/lastScan').set(now).catch(function () {});
+  if (rDone(r) >= rTotal(r)) lastNote = { t: T('rAllDone'), warn: false };
+  setTimeout(renderRounds, 50);
+}
 
 /* ================= start / stop ================= */
-function stopData() { camStop(); current = null; recent = []; document.body.classList.remove('bad', 'warn'); }
+function stopData() { camStop(); activeRid = ''; lastNote = null; current = null; document.body.classList.remove('bad', 'warn'); }
 function startApp(key, name, role) {
-  me = key; $('whoName').textContent = name || '';
+  me = key; scanName = name || ''; $('whoName').textContent = name || '';
   $('loginView').classList.add('hidden'); $('appView').classList.remove('hidden');
-  applyLang(); renderResult(); camStart();
+  applyLang(); renderResult(); renderRounds(); listenRounds(); camStart();
   var q = ''; try { q = new URLSearchParams(location.search).get('id') || ''; } catch (e) {}
   if (/^\d{4,12}$/.test(q)) lookup(q);
 }
