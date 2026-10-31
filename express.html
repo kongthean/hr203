@@ -452,8 +452,10 @@ function boot() {
       var r = s.val(), bad = function (m) { auth.signOut(); $('lerr').textContent = m; };
       if (!r) return bad(t('errNoAccess'));
       if (r.active !== true) return bad(t('errOff'));
-      if ((PAGE === 'express') !== (r.role === 'admin')) return bad(t('errNoAccess'));
-      me = { uid: u.uid, name: r.name, role: r.role, branch: r.branch, username: r.username, email: u.email };
+      if (r.owner === true) { window.__xpOwner = true; try { var g0 = document.getElementById('mtGuard'); if (g0) { g0.remove(); document.documentElement.style.overflow = ''; } } catch (e0) {} }
+      else if ((PAGE === 'express') !== (r.role === 'admin')) return bad(t('errNoAccess'));
+      me = { uid: u.uid, name: r.name, role: r.role, branch: r.branch, username: r.username, email: u.email, owner: r.owner === true };
+      if (me.owner && PAGE === 'agent') { me.role = 'agent'; if (window.xpOwnerEnter && window.xpOwnerEnter()) return; }
       $('login').classList.add('hide'); $('app').classList.remove('hide'); tab = 'dash'; startData(); applyLang();
     }).catch(function () { auth.signOut(); $('lerr').textContent = t('errNoAccess'); });
   });
@@ -1120,6 +1122,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     var D = { en: ['Under maintenance', 'This page is temporarily unavailable. Please try again later.'], km: ['កំពុងថែទាំ', 'ទំព័រនេះមិនអាចប្រើបានបណ្តោះអាសន្ន។ សូមព្យាយាមម្តងទៀតពេលក្រោយ។'], zh: ['维护中', '此页面暂时不可用，请稍后再试。'] };
     function lang() { var l = ''; try { l = localStorage.getItem('tdLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} l = String(l).toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; if (!D[l]) { l = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; } return D[l] ? l : 'en'; }
     function applies(m) {
+      if (window.__xpOwner) return false;
       if (!m || !m.on) return false;
       if (!(m.services && m.services[SVC] === 'closed')) return false;
       var sc = m.scope; if (!sc || SC === 'any') return true;
@@ -1145,6 +1148,233 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
 })();
 </script>
 <!-- MTG-END -->
+
+<!-- OWNER-LIB-BEGIN -->
+<style>
+#olOv{position:fixed;inset:0;z-index:100010;background:rgba(15,23,42,.72);display:none;align-items:center;justify-content:center;padding:16px}
+#olOv .olc{width:100%;max-width:360px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3);font-family:inherit}
+#olOv h3{margin:0 0 4px;font-size:18px;color:#0f172a}
+#olOv .ols{font-size:12px;color:#64748b;margin-bottom:12px}
+#olOv label{display:block;font-size:12px;font-weight:700;color:#334155;margin:8px 0 4px}
+#olOv input{width:100%;height:44px;border:1px solid #cbd5e1;border-radius:10px;padding:0 12px;box-sizing:border-box;font-size:16px}
+#olOv .olb{width:100%;height:46px;margin-top:14px;border:0;border-radius:10px;background:#0b1d3a;color:#fff;font-weight:700;font-size:15px;cursor:pointer}
+#olOv .olb:disabled{opacity:.6}
+#olOv .oll{display:block;width:100%;margin-top:8px;border:0;background:none;color:#475569;text-decoration:underline;font-size:13px;cursor:pointer;padding:6px}
+#olOv .ole{color:#b91c1c;font-size:13px;min-height:18px;margin-top:8px}
+</style>
+<script>
+window.OwnerLogin = (function () {
+  var TX = {
+    en: { t: 'Owner access', s: 'Owner accounts only.', u: 'Username', p: 'Password', go: 'Log in', code: 'Authenticator code', bk: 'Backup code', verify: 'Verify', useBk: 'Use a backup code instead', cancel: 'Cancel', bad: 'Wrong username or password.', only: 'Only Owner accounts can use Owner access.', badc: 'Wrong code. Try again.', nosetup: 'Set up the 2-step code first in the main website.' },
+    km: { t: 'ចូលជាម្ចាស់', s: 'សម្រាប់តែគណនីម្ចាស់ប៉ុណ្ណោះ។', u: 'ឈ្មោះអ្នកប្រើ', p: 'ពាក្យសម្ងាត់', go: 'ចូល', code: 'កូដ Authenticator', bk: 'កូដបម្រុង', verify: 'ផ្ទៀងផ្ទាត់', useBk: 'ប្រើកូដបម្រុងជំនួស', cancel: 'បោះបង់', bad: 'ឈ្មោះអ្នកប្រើ ឬពាក្យសម្ងាត់ខុស។', only: 'មានតែគណនីម្ចាស់ប៉ុណ្ណោះដែលអាចប្រើបាន។', badc: 'កូដខុស។ សូមព្យាយាមម្តងទៀត។', nosetup: 'សូមដំឡើងកូដ 2 ជំហានជាមុននៅគេហទំព័រមេ។' },
+    zh: { t: '所有者入口', s: '仅限所有者账户。', u: '用户名', p: '密码', go: '登录', code: '验证器代码', bk: '备用代码', verify: '验证', useBk: '改用备用代码', cancel: '取消', bad: '用户名或密码错误。', only: '只有所有者账户可以使用所有者入口。', badc: '代码错误，请重试。', nosetup: '请先在主网站设置两步验证码。' }
+  };
+  function $(i) { return document.getElementById(i); }
+  function L() { var l = 'en'; try { l = LANG; } catch (e) {} return TX[l] || TX.en; }
+  function hexs(s) { return Array.from(new TextEncoder().encode(String(s))).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
+  function hx(buf) { return Array.from(new Uint8Array(buf)).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
+  async function derive(password, salt) {
+    var key = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+    var bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: new TextEncoder().encode(salt), iterations: 100000 }, key, 256);
+    return hx(bits).slice(0, 48);
+  }
+  function b32(s) {
+    var al = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', c = String(s || '').replace(/=+$/, '').toUpperCase().replace(/[^A-Z2-7]/g, ''), bits = '';
+    for (var i = 0; i < c.length; i++) { var v = al.indexOf(c[i]); if (v !== -1) bits += v.toString(2).padStart(5, '0'); }
+    var by = []; for (var j = 0; j + 8 <= bits.length; j += 8) by.push(parseInt(bits.substr(j, 8), 2)); return new Uint8Array(by);
+  }
+  async function gen(secret, tm) {
+    var counter = Math.floor(tm / 1000 / 30), cb = new ArrayBuffer(8), vw = new DataView(cb);
+    vw.setUint32(0, Math.floor(counter / 0x100000000)); vw.setUint32(4, counter >>> 0);
+    var key = await crypto.subtle.importKey('raw', b32(secret), { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']);
+    var h = new Uint8Array(await crypto.subtle.sign('HMAC', key, new Uint8Array(cb))), o = h[h.length - 1] & 15;
+    var bin = ((h[o] & 127) << 24) | (h[o + 1] << 16) | (h[o + 2] << 8) | h[o + 3];
+    return String(bin % 1000000).padStart(6, '0');
+  }
+  async function verify(secret, tok) {
+    tok = String(tok || '').trim(); if (!/^\d{6}$/.test(tok)) return false;
+    for (var s = -1; s <= 1; s++) { if ((await gen(secret, Date.now() + s * 30000)) === tok) return true; }
+    return false;
+  }
+  async function readRetry(path) {
+    var last = null;
+    for (var i = 0; i < 40; i++) { try { return (await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().database().ref(path).once('value')).val(); } catch (e) { last = e; await new Promise(function (r) { setTimeout(r, 250); }); } }
+    throw last;
+  }
+  async function toAnon() { try { await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().auth().signOut(); } catch (e) {} try { await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().auth().signInAnonymously(); } catch (e) {} }
+  var ov = null, pending = null, cbOK = null, cbEnd = null, bkMode = false;
+  function build() {
+    if (ov) return; ov = document.createElement('div'); ov.id = 'olOv'; document.body.appendChild(ov);
+  }
+  function paint(step, err) {
+    var x = L();
+    var h = '<div class="olc"><h3>' + x.t + '</h3><div class="ols">' + x.s + '</div>';
+    if (step === 'login') {
+      h += '<label>' + x.u + '</label><input id="olU" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"><label>' + x.p + '</label><input id="olP" type="password" autocomplete="off"><button class="olb" id="olGo">' + x.go + '</button>';
+    } else {
+      h += '<label>' + (bkMode ? x.bk : x.code) + '</label><input id="olC" ' + (bkMode ? 'autocapitalize="characters"' : 'inputmode="numeric" maxlength="6"') + ' autocomplete="off" style="text-align:center;letter-spacing:4px;font-size:20px"><button class="olb" id="olVf">' + x.verify + '</button>' + (bkMode ? '' : '<button class="oll" id="olBk">' + x.useBk + '</button>');
+    }
+    h += '<div class="ole" id="olE">' + (err || '') + '</div><button class="oll" id="olX">' + x.cancel + '</button></div>';
+    ov.innerHTML = h; ov.style.display = 'flex';
+    var f = $('olU') || $('olC'); if (f) setTimeout(function () { try { f.focus(); } catch (e) {} }, 80);
+    if ($('olGo')) { $('olGo').onclick = doLogin; $('olP').onkeydown = function (e) { if (e.key === 'Enter') doLogin(); }; }
+    if ($('olVf')) { $('olVf').onclick = doVerify; $('olC').onkeydown = function (e) { if (e.key === 'Enter') doVerify(); }; }
+    if ($('olBk')) $('olBk').onclick = function () { bkMode = true; paint('totp'); };
+    $('olX').onclick = cancel;
+  }
+  async function cancel() { pending = null; ov.style.display = 'none'; await toAnon(); if (cbEnd) cbEnd(false); }
+  async function doLogin() {
+    var u = $('olU').value.trim(), p = $('olP').value, b = $('olGo'); if (!u || !p) return; b.disabled = true;
+    var x = L(), found = null, refused = false;
+    try {
+      var ids = Object.keys((await readRetry('staffLookup/' + hexs('admin|' + u))) || {});
+      for (var i = 0; i < ids.length && !found; i++) {
+        var id = ids[i];
+        try {
+          var cred = await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().auth().signInWithEmailAndPassword(id + '@staff.hr203.com', await derive(p, 'staff-auth:' + id));
+          var uid = (cred && cred.user ? cred.user : (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().auth().currentUser).uid;
+          var st = await readRetry('staff/' + uid);
+          var acc = (st && st.role === 'admin' && st.key) ? await readRetry('accounts/' + st.key) : null;
+          if (acc && acc.authId === id && acc.role === 'admin' && !acc.disabled) {
+            if (acc.owner === true && st.owner === true) { found = Object.assign({ firebaseKey: st.key, uid: uid }, acc); break; }
+            refused = true;
+          }
+          await toAnon();
+        } catch (e2) { try { var cu = (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().auth().currentUser; if (cu && !cu.isAnonymous) await toAnon(); } catch (e3) {} }
+      }
+    } catch (e1) { console.error(e1); }
+    if (!found) { paint('login', refused ? x.only : x.bad); return; }
+    if (!(found.totpEnabled || found.totpSecret) || !found.totpSecret) { await toAnon(); paint('login', x.nosetup); return; }
+    found.__pw = p; pending = found; bkMode = false; paint('totp');
+  }
+  async function doVerify() {
+    if (!pending) return; var x = L(), v = $('olC').value, ok = false;
+    if (bkMode) {
+      var code = v.trim().toUpperCase(); if (!code) return;
+      try {
+        var sn = await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().database().ref('accounts/' + pending.firebaseKey + '/backupCodes/' + code).once('value');
+        if (sn.exists() && sn.val() !== true) { await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().database().ref('accounts/' + pending.firebaseKey + '/backupCodes/' + code).set(true); ok = true; }
+      } catch (e) {}
+    } else { ok = await verify(pending.totpSecret, v); }
+    if (!ok) { paint('totp', x.badc); return; }
+    var acc = pending; pending = null; ov.style.display = 'none';
+    if (cbOK) cbOK(acc);
+  }
+  return {
+    open: function (onOK, onEnd) { build(); cbOK = onOK; cbEnd = onEnd || null; pending = null; bkMode = false; paint('login'); },
+    derive: derive,
+    signOutHR: toAnon,
+    isOwnerUser: async function (uid) { try { var st = await readRetry('staff/' + uid); return !!(st && st.role === 'admin' && st.owner === true); } catch (e) { return false; } },
+    audit: function (action, tType, tId, tLabel, details, name) {
+      try { (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().database().ref('auditLog').push({ timestamp: Date.now(), actorRole: 'admin', actorName: name || 'Owner', action: action, targetType: tType, targetId: tId || '', targetLabel: tLabel || '', details: details || '' }).catch(function () {}); } catch (e) {}
+    }
+  };
+})();
+</script>
+<!-- OWNER-LIB-END -->
+
+<!-- OWNER-XP-BEGIN -->
+<style>
+#xpOwnPick{position:fixed;inset:0;z-index:9500;background:#f1f5f9;display:none;overflow:auto;padding:16px}
+#xpOwnPick .wrap{max-width:560px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px}
+#xpOwnPick h3{margin:0 0 4px;font-size:18px;color:#0f172a}
+#xpOwnPick .sub{font-size:12px;color:#64748b;margin-bottom:10px}
+#xpOwnPick .list{border:1px solid #e2e8f0;border-radius:10px;max-height:60vh;overflow:auto}
+#xpOwnPick .row{padding:12px;border-bottom:1px solid #f1f5f9;cursor:pointer;font-weight:600;color:#0f172a}
+#xpOwnPick .row:last-child{border-bottom:0}
+#xpOwnPick .out{margin-top:10px;border:1px solid #cbd5e1;background:#fff;color:#334155;border-radius:10px;height:38px;padding:0 16px;font-weight:700;cursor:pointer}
+#xpOwnBar{position:fixed;top:0;left:0;right:0;height:36px;z-index:9400;display:none;align-items:center;gap:10px;background:#0b1d3a;color:#fff;padding:0 12px;font-size:13px}
+#xpOwnBar span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#xpOwnBar button{flex:none;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:8px;height:26px;padding:0 12px;font-weight:700;cursor:pointer}
+body.xpOwnMode{padding-top:38px}
+body.xpOwnMode #xpOwnBar{display:flex}
+body.xpOwnMode .sticky{top:36px}
+.xpOwnLink{display:block;width:100%;text-align:center;margin-top:12px;font-size:12px;color:#64748b;text-decoration:underline;cursor:pointer;background:none;border:0}
+</style>
+<div id="xpOwnPick"></div><div id="xpOwnBar"></div>
+<script>
+(function () {
+  var TX = {
+    en: { link: 'Owner access', title: 'Owner mode', sub: 'Choose a branch to enter.', acting: 'Owner mode: branch', exit: 'Exit', out: 'Sign out', none: 'No branches found.', notset: 'Owner access is not set up on this site yet. An Express admin must open the menu and tap "Owner access setup" first.', setup: 'Owner access setup', setupDone: 'Owner access is ready for this Owner account.', setupHave: 'Owner access was already set up for this Owner account.', setupFail: 'Could not set up Owner access.' },
+    km: { link: 'ចូលជាម្ចាស់', title: 'របៀបម្ចាស់', sub: 'ជ្រើសរើសសាខាដើម្បីចូល។', acting: 'របៀបម្ចាស់៖ សាខា', exit: 'ចាកចេញ', out: 'ចាកចេញពីគណនី', none: 'រកមិនឃើញសាខាទេ។', notset: 'ការចូលជាម្ចាស់មិនទាន់ត្រូវបានដំឡើងនៅគេហទំព័រនេះទេ។ អ្នកគ្រប់គ្រង Express ត្រូវបើកម៉ឺនុយ ហើយចុច "ដំឡើងការចូលជាម្ចាស់" ជាមុន។', setup: 'ដំឡើងការចូលជាម្ចាស់', setupDone: 'ការចូលជាម្ចាស់រួចរាល់សម្រាប់គណនីម្ចាស់នេះ។', setupHave: 'ការចូលជាម្ចាស់ត្រូវបានដំឡើងរួចហើយ។', setupFail: 'មិនអាចដំឡើងការចូលជាម្ចាស់បានទេ។' },
+    zh: { link: '所有者入口', title: '所有者模式', sub: '选择要进入的网点。', acting: '所有者模式：网点', exit: '退出', out: '退出登录', none: '没有找到网点。', notset: '本站尚未设置所有者入口。请先由 Express 管理员打开菜单并点击“设置所有者入口”。', setup: '设置所有者入口', setupDone: '该所有者账户的入口已就绪。', setupHave: '该所有者账户已设置过入口。', setupFail: '无法设置所有者入口。' }
+  };
+  function L() { return TX[LANG] || TX.en; }
+  function $$(i) { return document.getElementById(i); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var pick = $$('xpOwnPick'), bar = $$('xpOwnBar');
+  async function keys(acc) {
+    var id = (await OwnerLogin.derive(acc.__pw, 'express-owner-id:' + acc.authId)).slice(0, 16);
+    var pw = await OwnerLogin.derive(acc.__pw, 'express-owner-pw:' + acc.authId);
+    return { email: 'o.' + id + '@' + MAILD, pw: pw };
+  }
+  /* 1) Owner access link on the login box */
+  var box = document.querySelector('#login .box'); var lk = document.createElement('button'); lk.type = 'button'; lk.className = 'xpOwnLink'; box.appendChild(lk);
+  function lab() { lk.textContent = L().link; } lab(); setInterval(lab, 1500);
+  lk.onclick = function () {
+    OwnerLogin.open(function (acc) {
+      OwnerLogin.audit('owner_enter', PAGE, '', 'Express ' + PAGE, 'Owner entered the ' + PAGE + ' site', acc.name || acc.username);
+      keys(acc).then(function (k) { return OwnerLogin.signOutHR().then(function () { return auth.signInWithEmailAndPassword(k.email, k.pw); }); })
+        .catch(function (e) { $('lerr').textContent = L().notset; });
+    });
+  };
+  /* 2) one-time setup, started by a normal Express admin from the menu */
+  var _om = openMenu;
+  openMenu = function () {
+    _om.apply(this, arguments);
+    try {
+      if (!isAdmin() || (me && me.owner)) return;
+      var acts = document.querySelector('#dlgHost .acts'); if (!acts) return;
+      var b = document.createElement('button'); b.className = 'btn gray'; b.textContent = L().setup;
+      b.onclick = function () {
+        closeDlg();
+        OwnerLogin.open(function (acc) {
+          keys(acc).then(function (k) {
+            return mkAuthUser(k.email, k.pw).then(function (uid) {
+              return db.ref('staff/' + uid).set({ name: acc.name || 'Owner', username: 'owner', role: 'admin', branch: 'HO', active: true, owner: true, at: Date.now() });
+            }).then(function () { OwnerLogin.audit('owner_setup', PAGE, '', 'Express ' + PAGE, 'Owner access set up', acc.name || acc.username); toast(L().setupDone); });
+          }).catch(function (e) { toast(e && e.code === 'auth/email-already-in-use' ? L().setupHave : L().setupFail); })
+            .then(function () { return OwnerLogin.signOutHR(); });
+        });
+      };
+      acts.insertBefore(b, acts.firstChild);
+    } catch (e) {}
+  };
+  /* 3) owners never show in the staff list of other admins */
+  var _sh = staffHtml;
+  staffHtml = function () {
+    try { Object.keys(staffCache || {}).forEach(function (k) { if (staffCache[k] && staffCache[k].owner === true) delete staffCache[k]; }); } catch (e) {}
+    return _sh.apply(this, arguments);
+  };
+  /* 4) Agent site: the Owner chooses a branch */
+  function barOn(name) {
+    bar.innerHTML = '<span><b>' + esc(L().acting) + '</b> ' + esc(name) + '</span><button type="button" id="xpOwnExit">' + esc(L().exit) + '</button>';
+    $$('xpOwnExit').onclick = function () { sessionStorage.removeItem('xpOwnBranch'); location.reload(); };
+    document.body.classList.add('xpOwnMode');
+  }
+  window.xpOwnerEnter = function () {
+    if (PAGE !== 'agent') return false;
+    var b = sessionStorage.getItem('xpOwnBranch');
+    if (b) { me.branch = b; showIn(b); return true; }
+    showPicker(); return true;
+  };
+  function showIn(code) {
+    me.branch = code; pick.style.display = 'none';
+    $('login').classList.add('hide'); $('app').classList.remove('hide'); tab = 'dash'; startData(); applyLang();
+    db.ref('branches/' + code).once('value').then(function (s) { barOn((s.val() && s.val().name) || code); }).catch(function () { barOn(code); });
+  }
+  function showPicker() {
+    $('login').classList.add('hide'); $('app').classList.add('hide'); pick.style.display = 'block';
+    db.ref('branches').once('value').then(function (s) {
+      var v = s.val() || {}, l = Object.keys(v).filter(function (c) { return v[c] && v[c].active !== false; }).sort().map(function (c) { return { c: c, n: v[c].name || c }; }), x = L();
+      pick.innerHTML = '<div class="wrap"><h3>' + esc(x.title) + '</h3><div class="sub">' + esc(x.sub) + '</div><div class="list">' + (l.length ? l.map(function (b) { return '<div class="row" data-c="' + esc(b.c) + '">' + esc(b.n) + '</div>'; }).join('') : '<div class="sub" style="padding:12px">' + esc(x.none) + '</div>') + '</div><button type="button" class="out" id="xpOwnOut">' + esc(x.out) + '</button></div>';
+      Array.prototype.forEach.call(pick.querySelectorAll('.row'), function (r) { r.onclick = function () { var c = r.getAttribute('data-c'); sessionStorage.setItem('xpOwnBranch', c); showIn(c); }; });
+      $$('xpOwnOut').onclick = function () { sessionStorage.removeItem('xpOwnBranch'); pick.style.display = 'none'; logout(); };
+    });
+  }
+})();
+</script>
+<!-- OWNER-XP-END -->
 <!-- HRFT-BEGIN --><div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Express</div><div class="v">Version 8.00</div></div><!-- HRFT-END -->
 </body>
 </html>
