@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Asset Manager</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Asset Manager">
+<meta name="theme-color" content="#0b1d3a">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADYUlEQVR4nO3csW0UQRiG4TMig5wIFwIFENACHVAPHdACAQW4ETJyCiAY6WQEn32LsP/PzPPEJ3k0+3r+tfbWVy9evznBnzybXgC9xEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImD6Pn0Av7gx7eb6SXMeHn9dnoJv7jq+RcM2zbxu5JKWsaKMm4r2Y35k6NkIzrNHiHDJ4cy7ja7P5NxKOMSg7vUcs9BobE4HBuXm9qrmTiUcdTIjhkrROIgGojDTPk7j79vTg4icRCJg0gcROIgEgeROIjEQdT4HdLfvfr8/u4PfP/w5XFWspX2OO7N4vbHJPJvGStE1XFceGz89ee5W/tYeQifPn+dXsLpdDp9/PBuegn32CuOkiyWtZjmRKrHCrM2iqPq2DjrXNWyURwcJQ6ijeLovPXrXNWyURwctdefsuvXtOQesPnMWPaKY+m/KiWqx8rRB2kevP1b1XEwq32srMPA9zlGtMexuPYjjBUicRCJg0gcROIgEgeROIjEQSQOInEQiYNIHERP48Gbp7Ij2uPwlv0gY4WoOg5v2c9qHysPwbfPL7RXHCVZLN6y5wnbKI6qY+Osc1XLRnFwlDiINoqj89avc1XLRnFw1F5/ynrL/pC94lj6r0qJ6rHiLftZ1XEwq32seMt+UHsci2s/wlghEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEH0NB68eSo7oj0Ob9kPMlaIquPwlv2s9rHyEHz7/EJ7xVGSxeIte56wjeKoOjbOOle1bBQHR4mDaKM4Om/9Ole1bBQHR+31p6y37A/ZK46l/6qUqB4r3rKfVR0Hs9rHirfsB7XHsbj2I4wVInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxEA3G8vH77+D/0P/D4++bkIBIH0UwcJstRIzs2dnLo43JTe2WsEE3G4fC4xOAuDZ8c+rjb7P5cvXj9ZvDHn/34djO9hC4NvzYt9xwNe9GjZDdaTo7btj1FSpo4a4yDEi1jhULiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIfgJILKv57xaSzgAAAABJRU5ErkJggg==">
+<link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADYUlEQVR4nO3csW0UQRiG4TMig5wIFwIFENACHVAPHdACAQW4ETJyCiAY6WQEn32LsP/PzPPEJ3k0+3r+tfbWVy9evznBnzybXgC9xEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImD6Pn0Av7gx7eb6SXMeHn9dnoJv7jq+RcM2zbxu5JKWsaKMm4r2Y35k6NkIzrNHiHDJ4cy7ja7P5NxKOMSg7vUcs9BobE4HBuXm9qrmTiUcdTIjhkrROIgGojDTPk7j79vTg4icRCJg0gcROIgEgeROIjEQdT4HdLfvfr8/u4PfP/w5XFWspX2OO7N4vbHJPJvGStE1XFceGz89ee5W/tYeQifPn+dXsLpdDp9/PBuegn32CuOkiyWtZjmRKrHCrM2iqPq2DjrXNWyURwcJQ6ijeLovPXrXNWyURwctdefsuvXtOQesPnMWPaKY+m/KiWqx8rRB2kevP1b1XEwq32srMPA9zlGtMexuPYjjBUicRCJg0gcROIgEgeROIjEQSQOInEQiYNIHERP48Gbp7Ij2uPwlv0gY4WoOg5v2c9qHysPwbfPL7RXHCVZLN6y5wnbKI6qY+Osc1XLRnFwlDiINoqj89avc1XLRnFw1F5/ynrL/pC94lj6r0qJ6rHiLftZ1XEwq32seMt+UHsci2s/wlghEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEH0NB68eSo7oj0Ob9kPMlaIquPwlv2s9rHyEHz7/EJ7xVGSxeIte56wjeKoOjbOOle1bBQHR4mDaKM4Om/9Ole1bBQHR+31p6y37A/ZK46l/6qUqB4r3rKfVR0Hs9rHirfsB7XHsbj2I4wVInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxEA3G8vH77+D/0P/D4++bkIBIH0UwcJstRIzs2dnLo43JTe2WsEE3G4fC4xOAuDZ8c+rjb7P5cvXj9ZvDHn/34djO9hC4NvzYt9xwNe9GjZDdaTo7btj1FSpo4a4yDEi1jhULiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIfgJILKv57xaSzgAAAABJRU5ErkJggg==">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIkFzc2V0IE1hbmFnZXIiLCAic2hvcnRfbmFtZSI6ICJBc3NldHMiLCAic3RhcnRfdXJsIjogImh0dHBzOi8vaHIyMDMuY29tL2Fzc2V0bWFuYWdlbWVudCIsICJzY29wZSI6ICJodHRwczovL2hyMjAzLmNvbS9hc3NldG1hbmFnZW1lbnQiLCAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwgImJhY2tncm91bmRfY29sb3IiOiAiIzBiMWQzYSIsICJ0aGVtZV9jb2xvciI6ICIjMGIxZDNhIn0=">
+<style>
+:root { --bg:#f1f5f9; --card:#ffffff; --ink:#0f172a; --mute:#64748b; --line:#e2e8f0; --navy:#0b1d3a; --red:#dc2626; --amber:#d97706; --blue:#2563eb; --green:#16a34a; --grey:#64748b; --soft:#f8fafc; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0b1220; --card:#111b2e; --ink:#e5edf8; --mute:#94a3b8; --line:#22314a; --soft:#0e1727; } }
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Khmer","Noto Sans SC",Arial,sans-serif; font-size:15px; }
+body { min-height:100vh; padding-bottom:calc(30px + env(safe-area-inset-bottom)); }
+.hidden { display:none !important; }
+button, input { font-family:inherit; font-size:16px; }
+/* ---------- header ---------- */
+.top { position:sticky; top:0; z-index:20; background:var(--navy); color:#fff; padding:calc(10px + env(safe-area-inset-top)) 14px 10px; display:flex; align-items:center; gap:10px; }
+.top h1 { font-size:18px; margin:0; flex:1; font-weight:800; letter-spacing:.2px; }
+.top .who { font-size:14px; font-weight:700; opacity:1; max-width:34vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.iconBtn { height:36px; min-width:36px; border-radius:10px; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.08); color:#fff; font-size:14px; padding:0 10px; cursor:pointer; }
+.wrap { max-width:720px; margin:0 auto; padding:12px 12px 0; }
+/* ---------- login ---------- */
+#loginBox { max-width:380px; margin:0 auto; padding:calc(40px + env(safe-area-inset-top)) 18px 24px; }
+#loginBox .logo { width:72px; height:72px; border-radius:18px; display:block; margin:0 auto 12px; }
+#loginBox h2 { text-align:center; margin:0 0 4px; font-size:22px; }
+#loginBox p.sub { text-align:center; color:var(--mute); margin:0 0 18px; font-size:13px; }
+.seg { display:flex; background:var(--line); border-radius:12px; padding:3px; gap:3px; margin-bottom:12px; }
+.seg button { flex:1; height:38px; border:0; background:transparent; color:var(--mute); border-radius:10px; font-weight:700; font-size:14px; cursor:pointer; }
+.seg button.on { background:var(--card); color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12); }
+.field { margin-bottom:12px; }
+.field label { display:block; font-size:12px; font-weight:700; color:var(--mute); margin-bottom:4px; }
+.field input { width:100%; height:46px; border:1px solid var(--line); border-radius:12px; padding:0 14px; background:var(--card); color:var(--ink); }
+.field input:focus { outline:2px solid var(--blue); border-color:transparent; }
+.bigBtn { width:100%; height:48px; border:0; border-radius:12px; background:var(--navy); color:#fff; font-weight:800; font-size:16px; cursor:pointer; }
+.bigBtn:disabled { opacity:.6; }
+.err { color:var(--red); font-size:13px; text-align:center; margin:8px 0; min-height:18px; }
+.linkBtn { background:none; border:0; color:var(--blue); font-size:13px; padding:8px; cursor:pointer; display:block; margin:6px auto 0; }
+.langRow { display:flex; justify-content:center; gap:6px; margin-top:16px; }
+.langRow button { border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:10px; padding:6px 12px; font-size:13px; cursor:pointer; }
+.langRow button.on { background:var(--navy); color:#fff; border-color:var(--navy); }
+.toast { position:fixed; left:50%; bottom:calc(24px + env(safe-area-inset-bottom)); transform:translateX(-50%); background:#111827; color:#fff; padding:10px 16px; border-radius:12px; font-size:14px; z-index:50; max-width:90vw; text-align:center; }
+
+body.bad { background:#b91c1c; }
+body.warn { background:#c2410c; }
+.top h1 { font-size:12px; text-transform:uppercase; letter-spacing:.5px; margin:0 auto 0 10px; padding-left:10px; border-left:1px solid rgba(255,255,255,.4); font-weight:700; }
+.top .hrLogo { font-size:24px; }
+.cam { position:relative; max-height:34vh; width:100%; border-radius:18px; overflow:hidden; background:#000; aspect-ratio:4/3; box-shadow:0 2px 10px rgba(0,0,0,.18); }
+.cam video { width:100%; height:100%; object-fit:cover; display:block; }
+.cam .frame { position:absolute; left:50%; top:50%; width:58%; aspect-ratio:1; transform:translate(-50%,-50%); border-radius:16px; box-shadow:0 0 0 999px rgba(0,0,0,.35); pointer-events:none; }
+.cam .frame i { position:absolute; width:26px; height:26px; border:4px solid #fff; }
+.cam .frame i:nth-child(1){left:-2px;top:-2px;border-right:0;border-bottom:0;border-top-left-radius:14px}
+.cam .frame i:nth-child(2){right:-2px;top:-2px;border-left:0;border-bottom:0;border-top-right-radius:14px}
+.cam .frame i:nth-child(3){left:-2px;bottom:-2px;border-right:0;border-top:0;border-bottom-left-radius:14px}
+.cam .frame i:nth-child(4){right:-2px;bottom:-2px;border-left:0;border-top:0;border-bottom-right-radius:14px}
+.cam .line { position:absolute; left:8%; right:8%; height:3px; background:#ff3030; box-shadow:0 0 10px #ff3030; animation:scanl 2.2s ease-in-out infinite; }
+@keyframes scanl { 0%,100%{top:8%} 50%{top:90%} }
+.cam .msg { position:absolute; left:0; right:0; bottom:0; padding:8px 12px; color:#fff; font-size:13px; text-align:center; background:linear-gradient(transparent,rgba(0,0,0,.65)); }
+.cam .off { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:#cbd5e1; text-align:center; padding:20px; font-size:14px; background:#0f172a; }
+.row { display:flex; gap:8px; margin-top:10px; }
+.btn { flex:1; height:46px; border:0; border-radius:12px; background:var(--navy); color:#fff; font-weight:800; font-size:15px; cursor:pointer; }
+.btn.alt { background:var(--card); color:var(--ink); border:1px solid var(--line); }
+.manual { display:flex; gap:8px; margin-top:12px; }
+.manual input { flex:1; min-width:0; height:46px; border:1px solid var(--line); border-radius:12px; padding:0 14px; background:var(--card); color:var(--ink); letter-spacing:1px; }
+.manual .btn { flex:0 0 96px; }
+.mlabel { font-size:12px; font-weight:700; color:var(--mute); margin:14px 0 0; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:16px; margin-top:12px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
+.hint { text-align:center; color:var(--mute); padding:22px 8px; font-size:14px; }
+.banner { text-align:center; font-size:30px; font-weight:900; letter-spacing:2px; padding:10px 0 4px; }
+.banner small { display:block; font-size:14px; font-weight:600; letter-spacing:0; opacity:.9; }
+.res { display:flex; gap:14px; align-items:flex-start; }
+.res .ph { width:96px; height:96px; border-radius:14px; background:var(--soft); flex:none; overflow:hidden; display:flex; align-items:center; justify-content:center; color:var(--mute); font-size:12px; }
+.res .ph img { width:100%; height:100%; object-fit:cover; }
+.res .nm { font-size:20px; font-weight:800; overflow-wrap:anywhere; }
+.res .idv { font-size:14px; font-weight:800; color:var(--blue); letter-spacing:1px; }
+.kv { margin-top:12px; display:grid; grid-template-columns:auto 1fr; gap:6px 12px; font-size:14px; }
+.kv b { color:var(--mute); font-weight:700; }
+.kv span { overflow-wrap:anywhere; }
+.pill { display:inline-block; padding:3px 12px; border-radius:999px; font-weight:800; font-size:13px; }
+.pill.active{background:#dcfce7;color:#166534}.pill.broken{background:#fee2e2;color:#991b1b}.pill.missing{background:#ffedd5;color:#9a3412}.pill.retired{background:#e2e8f0;color:#475569}
+.result.bad .card { background:#fff; border-color:#fecaca; }
+.result.bad .banner, .result.warn .banner { color:#fff; }
+.recent { margin-top:14px; }
+.recent h3 { font-size:13px; color:var(--mute); margin:0 0 6px; }
+.rrow { display:flex; align-items:center; gap:8px; padding:9px 12px; background:var(--card); border:1px solid var(--line); border-radius:12px; margin-bottom:6px; font-size:14px; cursor:pointer; }
+.rrow .t { margin-left:auto; color:var(--mute); font-size:12px; }
+.dot { width:10px; height:10px; border-radius:50%; flex:none; }
+.dot.active{background:#16a34a}.dot.broken{background:#dc2626}.dot.missing{background:#d97706}.dot.retired{background:#94a3b8}.dot.nf{background:#d97706}
+body.bad .recent h3, body.warn .recent h3 { color:#fee2e2; }
+@media (max-width:520px){ .top .who { display:none; } }
+</style>
+<style id="hrLogoCss">
+.hrLogo{display:inline-flex;align-items:flex-end;flex:none;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:30px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrLogo i{font-style:normal}
+.hrLogo s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+@media (max-width:600px){.hrLogo{font-size:24px}}
+.top .hrLogo + h1{margin:0 auto 0 12px;padding-left:12px;border-left:1px solid rgba(255,255,255,.4);font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;line-height:1.2}</style>
+</head>
+<body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
+#kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
+#kbSplash.out{opacity:0;pointer-events:none}
+@keyframes kbsFail{to{opacity:0;visibility:hidden;pointer-events:none}}
+#kbSplash .lg{display:flex;align-items:flex-end;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:min(17vw,84px);line-height:1;letter-spacing:-.01em;animation:kbsOut .5s ease 2.15s forwards}
+#kbSplash .lg i{font-style:normal;display:inline-block;opacity:0;will-change:transform,opacity}
+#kbSplash .h{animation:kbsL .7s cubic-bezier(.2,.9,.25,1) .1s forwards}
+#kbSplash .r{animation:kbsL .7s cubic-bezier(.2,.9,.25,1) .24s forwards}
+#kbSplash .bar{width:.15em;height:.36em;margin:.072em .2em 0 .04em;align-self:flex-start;background:#ff3030;border-radius:0;opacity:0;transform-origin:50% 0;animation:kbsBar .7s cubic-bezier(.3,1.5,.4,1) 1.05s forwards}
+#kbSplash .n1{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .55s forwards}
+#kbSplash .n2{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .7s forwards}
+#kbSplash .n3{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .85s forwards}
+@keyframes kbsL{from{opacity:0;transform:translateX(-.6em)}to{opacity:1;transform:none}}
+@keyframes kbsR{from{opacity:0;transform:translateX(.6em)}to{opacity:1;transform:none}}
+@keyframes kbsBar{0%{opacity:0;transform:translateY(-1.1em) scaleY(.4)}60%{opacity:1;transform:translateY(.08em) scaleY(1.08)}100%{opacity:1;transform:none}}
+@keyframes kbsOut{to{opacity:0;transform:scale(1.06)}}
+@media (prefers-reduced-motion:reduce){#kbSplash .lg i{animation:none;opacity:1}#kbSplash .lg{animation:none}}
+</style><div id="kbSplash" aria-hidden="true"><div class="lg"><i class="h">H</i><i class="r">R</i><i class="bar"></i><i class="n1">2</i><i class="n2">0</i><i class="n3">3</i></div></div><script>(function(){var s=document.getElementById('kbSplash');if(!s)return;var done=false;function hide(){if(done)return;done=true;s.classList.add('out');setTimeout(function(){try{s.remove();var c=document.getElementById('kbSplashCss');if(c)c.remove();}catch(e){}},520);}
+var rm=false;try{rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
+setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener('touchstart',hide,{passive:true});})();</script><!-- SPLASH-END -->
+
+<!-- ============ LOGIN ============ -->
+<div id="loginView" class="hidden">
+  <div id="loginBox">
+    <img class="logo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAADYUlEQVR4nO3csW0UQRiG4TMig5wIFwIFENACHVAPHdACAQW4ETJyCiAY6WQEn32LsP/PzPPEJ3k0+3r+tfbWVy9evznBnzybXgC9xEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEEkDiJxEImD6Pn0Av7gx7eb6SXMeHn9dnoJv7jq+RcM2zbxu5JKWsaKMm4r2Y35k6NkIzrNHiHDJ4cy7ja7P5NxKOMSg7vUcs9BobE4HBuXm9qrmTiUcdTIjhkrROIgGojDTPk7j79vTg4icRCJg0gcROIgEgeROIjEQdT4HdLfvfr8/u4PfP/w5XFWspX2OO7N4vbHJPJvGStE1XFceGz89ee5W/tYeQifPn+dXsLpdDp9/PBuegn32CuOkiyWtZjmRKrHCrM2iqPq2DjrXNWyURwcJQ6ijeLovPXrXNWyURwctdefsuvXtOQesPnMWPaKY+m/KiWqx8rRB2kevP1b1XEwq32srMPA9zlGtMexuPYjjBUicRCJg0gcROIgEgeROIjEQSQOInEQiYNIHERP48Gbp7Ij2uPwlv0gY4WoOg5v2c9qHysPwbfPL7RXHCVZLN6y5wnbKI6qY+Osc1XLRnFwlDiINoqj89avc1XLRnFw1F5/ynrL/pC94lj6r0qJ6rHiLftZ1XEwq32seMt+UHsci2s/wlghEgeROIjEQSQOInEQiYNIHETiIBIHkTiIxEH0NB68eSo7oj0Ob9kPMlaIquPwlv2s9rHyEHz7/EJ7xVGSxeIte56wjeKoOjbOOle1bBQHR4mDaKM4Om/9Ole1bBQHR+31p6y37A/ZK46l/6qUqB4r3rKfVR0Hs9rHirfsB7XHsbj2I4wVInEQiYNIHETiIBIHkTiIxEEkDiJxEImDSBxEA3G8vH77+D/0P/D4++bkIBIH0UwcJstRIzs2dnLo43JTe2WsEE3G4fC4xOAuDZ8c+rjb7P5cvXj9ZvDHn/34djO9hC4NvzYt9xwNe9GjZDdaTo7btj1FSpo4a4yDEi1jhULiIBIHkTiIxEEkDiJxEImDSBxE4iASB5E4iMRBJA4icRCJg0gcROIgEgeROIjEQSQOInEQiYNIHETiIBIHkTiIfgJILKv57xaSzgAAAABJRU5ErkJggg==" alt="">
+    <h2 data-i="loginTitle">Sign in</h2>
+    <p class="sub" data-i="loginSub">Use the same account as the main system.</p>
+    <div id="stepLogin">
+      <div class="seg"><button type="button" id="roleAdmin" class="on" onclick="setRole('admin')" data-i="roleAdmin">Administration</button><button type="button" id="roleHr" onclick="setRole('hr')" data-i="roleHr">HR</button></div>
+      <div class="field"><label data-i="lblUser">Username</label><input id="inUser" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
+      <div class="field"><label data-i="lblPass">Password</label><input id="inPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="bigBtn" id="btnLogin" onclick="doLogin()" data-i="btnSignIn">Sign in</button>
+    </div>
+    <div id="stepTotp" class="hidden">
+      <div class="field"><label data-i="totpTitle">Authenticator code</label><input id="inTotp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" onkeydown="if(event.key==='Enter')doTotp()" style="text-align:center;letter-spacing:6px;font-size:22px;"></div>
+      <div class="field hidden" id="backupField"><label data-i="backupLbl">Backup code</label><input id="inBackup" autocapitalize="characters" autocomplete="off" style="text-align:center;letter-spacing:2px;"></div>
+      <button class="bigBtn" id="btnTotp" onclick="doTotp()" data-i="btnVerify">Verify</button>
+      <button class="linkBtn" id="lnkBackup" onclick="showBackup()" data-i="useBackup">Use a backup code instead</button>
+      <button class="linkBtn" onclick="cancelTotp()" data-i="btnBack">Back</button>
+    </div>
+    <div class="err" id="loginErr"></div>
+    <div class="langRow" id="langRowLogin"></div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="appView" class="hidden">
+  <div class="top">
+    <span class="hrLogo" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><h1 data-i="appTitle">Asset Manager</h1>
+    <div class="who" id="whoName"></div>
+    <button class="iconBtn" id="langBtn" onclick="cycleLang()">EN</button>
+    <button class="iconBtn" onclick="doSignOut()" data-i="btnSignOut">Sign out</button>
+  </div>
+  <div class="wrap">
+    <div class="cam" id="cam">
+      <video id="vid" playsinline muted autoplay></video>
+      <div class="frame" id="frame"><i></i><i></i><i></i><i></i></div>
+      <div class="line" id="sline"></div>
+      <div class="msg" id="camMsg"></div>
+      <div class="off" id="camOff"><div id="camOffTxt"></div><button class="btn" style="flex:none;padding:0 22px" onclick="camStart()" data-i="camStart">Start camera</button></div>
+    </div>
+    <div class="row"><button class="btn alt" id="btnTorch" onclick="torchToggle()" style="display:none" data-i="torch">Light</button><button class="btn alt" id="btnStop" onclick="camStop()" data-i="camStop">Stop camera</button></div>
+    <div class="mlabel" data-i="manual">Or type the Asset ID</div>
+    <div class="manual"><input id="inId" inputmode="numeric" pattern="[0-9]*" autocomplete="off" maxlength="12" onkeydown="if(event.key==='Enter')manualFind()"><button class="btn" onclick="manualFind()" data-i="find">Find</button></div>
+    <div id="result" class="result"><div class="card hint" data-i="infoHint">Scan an item to see its information.</div></div>
+    <div class="row" id="againRow" style="display:none"><button class="btn" onclick="scanAgain()" data-i="again">Scan next item</button></div>
+    <div class="recent" id="recent"></div>
+  </div>
+</div>
+<div id="toast" class="toast hidden"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com",
+  databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda",
+  storageBucket: "annual-leave-1feda.firebasestorage.app", messagingSenderId: "989242956584", appId: "1:989242956584:web:8ebe1333e38705600dce1d"
+});
+var db = firebase.database();
+
+
+/* ================= language ================= */
+var I18N = {"en": {"loginSub": "Sign in with the same account as the main system.", "roleAdmin": "Administration", "roleHr": "HR", "lblUser": "Username", "lblPass": "Password", "btnSignIn": "Sign in", "totpTitle": "Authenticator code", "backupLbl": "Backup code", "btnVerify": "Verify", "useBackup": "Use a backup code instead", "btnBack": "Back", "btnSignOut": "Sign out", "loading": "Loading...", "loginFail": "Wrong username or password.", "totpNotSetup": "Set up the authenticator in the main website first, then sign in here.", "totpBad": "Wrong code. Try again.", "loginTitle": "Asset Manager", "appTitle": "Asset Manager", "camHint": "Point the camera at a QR code", "camStart": "Start camera", "camStop": "Stop camera", "camDenied": "The camera is blocked. Allow the camera for this website in your browser settings, then tap Start camera.", "camNone": "No camera found on this device. Type the ID below.", "torch": "Light", "manual": "Or type the Asset ID", "find": "Find", "again": "Scan next item", "infoHint": "Scan an item to see its information.", "recent": "Recent scans", "notFound": "Item not found", "notFoundSub": "This code is not in the Asset Manager list.", "bBroken": "BROKEN", "bMissing": "MISSING", "bRetired": "RETIRED", "bActive": "In use", "brokenMsg": "This item is broken.", "missingMsg": "This item is marked as missing.", "retiredMsg": "This item is no longer in use.", "fId": "Asset ID", "fName": "Item name", "fCat": "Category", "fDept": "Department", "fGroup": "Group", "fStatus": "Status", "fType": "Scan type", "fNote": "Note", "tInfo": "Information only", "tTrack": "Tracked: every {m} month(s)", "noDept": "None", "loadErr": "Could not read the item. Check the internet and try again.", "typeIdErr": "Please type a number ID.", "lastScan": "Last scan", "never": "Never", "sActive": "Active", "sBroken": "Broken", "sMissing": "Missing", "sRetired": "Retired"}, "km": {"loginSub": "ចូលដោយប្រើគណនីដូចប្រព័ន្ធមេ។", "roleAdmin": "រដ្ឋបាល", "roleHr": "ធនធានមនុស្ស", "lblUser": "ឈ្មោះអ្នកប្រើ", "lblPass": "ពាក្យសម្ងាត់", "btnSignIn": "ចូល", "totpTitle": "កូដ Authenticator", "backupLbl": "កូដបម្រុង", "btnVerify": "ផ្ទៀងផ្ទាត់", "useBackup": "ប្រើកូដបម្រុងជំនួស", "btnBack": "ត្រឡប់", "btnSignOut": "ចាកចេញ", "loading": "កំពុងផ្ទុក...", "loginFail": "ឈ្មោះអ្នកប្រើ ឬពាក្យសម្ងាត់ខុស។", "totpNotSetup": "សូមដំឡើង Authenticator នៅគេហទំព័រមេជាមុន។", "totpBad": "កូដខុស។ សូមព្យាយាមម្តងទៀត។", "loginTitle": "គ្រប់គ្រងទ្រព្យសម្បត្តិ", "appTitle": "គ្រប់គ្រងទ្រព្យសម្បត្តិ", "camHint": "ដាក់កាមេរ៉ាទៅលើ QR កូដ", "camStart": "បើកកាមេរ៉ា", "camStop": "បិទកាមេរ៉ា", "camDenied": "កាមេរ៉ាត្រូវបានរារាំង។ សូមអនុញ្ញាតកាមេរ៉ាក្នុងការកំណត់កម្មវិធីរុករក រួចចុចបើកកាមេរ៉ា។", "camNone": "រកមិនឃើញកាមេរ៉ាលើឧបករណ៍នេះទេ។ សូមវាយលេខសម្គាល់ខាងក្រោម។", "torch": "ភ្លើង", "manual": "ឬវាយលេខសម្គាល់ទ្រព្យសម្បត្តិ", "find": "ស្វែងរក", "again": "ស្កេនវត្ថុបន្ទាប់", "infoHint": "ស្កេនវត្ថុដើម្បីមើលព័ត៌មាន។", "recent": "ការស្កេនថ្មីៗ", "notFound": "រកមិនឃើញវត្ថុ", "notFoundSub": "កូដនេះមិនមាននៅក្នុងបញ្ជីគ្រប់គ្រងទ្រព្យសម្បត្តិទេ។", "bBroken": "ខូច", "bMissing": "បាត់", "bRetired": "ឈប់ប្រើ", "bActive": "កំពុងប្រើ", "brokenMsg": "វត្ថុនេះខូច។", "missingMsg": "វត្ថុនេះត្រូវបានកត់ត្រាថាបាត់។", "retiredMsg": "វត្ថុនេះឈប់ប្រើហើយ។", "fId": "លេខសម្គាល់", "fName": "ឈ្មោះវត្ថុ", "fCat": "ប្រភេទ", "fDept": "ដេប៉ាតឺម៉ង់", "fGroup": "ក្រុម", "fStatus": "ស្ថានភាព", "fType": "ប្រភេទស្កេន", "fNote": "កំណត់ចំណាំ", "tInfo": "ព័ត៌មានប៉ុណ្ណោះ", "tTrack": "តាមដាន៖ រៀងរាល់ {m} ខែ", "noDept": "គ្មាន", "loadErr": "មិនអាចអានវត្ថុបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត រួចព្យាយាមម្តងទៀត។", "typeIdErr": "សូមវាយលេខសម្គាល់ជាលេខ។", "lastScan": "ស្កេនចុងក្រោយ", "never": "មិនទាន់ធ្លាប់", "sActive": "កំពុងប្រើ", "sBroken": "ខូច", "sMissing": "បាត់", "sRetired": "ឈប់ប្រើ"}, "zh": {"loginSub": "使用与主系统相同的账号登录。", "roleAdmin": "行政", "roleHr": "人事", "lblUser": "用户名", "lblPass": "密码", "btnSignIn": "登录", "totpTitle": "验证器代码", "backupLbl": "备用代码", "btnVerify": "验证", "useBackup": "改用备用代码", "btnBack": "返回", "btnSignOut": "退出", "loading": "加载中...", "loginFail": "用户名或密码错误。", "totpNotSetup": "请先在主网站设置验证器，再来登录。", "totpBad": "代码错误，请重试。", "loginTitle": "资产管理", "appTitle": "资产管理", "camHint": "将摄像头对准二维码", "camStart": "开启摄像头", "camStop": "关闭摄像头", "camDenied": "摄像头被阻止。请在浏览器设置中允许本网站使用摄像头，然后点击开启摄像头。", "camNone": "此设备没有摄像头。请在下方输入编号。", "torch": "灯光", "manual": "或输入资产编号", "find": "查找", "again": "扫描下一件", "infoHint": "扫描物品以查看信息。", "recent": "最近扫描", "notFound": "未找到物品", "notFoundSub": "此二维码不在资产管理列表中。", "bBroken": "损坏", "bMissing": "丢失", "bRetired": "停用", "bActive": "使用中", "brokenMsg": "此物品已损坏。", "missingMsg": "此物品已标记为丢失。", "retiredMsg": "此物品已停用。", "fId": "资产编号", "fName": "物品名称", "fCat": "类别", "fDept": "部门", "fGroup": "小组", "fStatus": "状态", "fType": "扫描类型", "fNote": "备注", "tInfo": "仅信息", "tTrack": "追踪：每 {m} 个月", "noDept": "无", "loadErr": "无法读取物品，请检查网络后重试。", "typeIdErr": "请输入数字编号。", "lastScan": "上次扫描", "never": "从未", "sActive": "正常", "sBroken": "损坏", "sMissing": "丢失", "sRetired": "停用"}};
+var lang = 'en';
+try { lang = localStorage.getItem('tdLang') || 'en'; } catch (e) {}
+if (!I18N[lang]) lang = 'en';
+function T(k, v) { var s = (I18N[lang] && I18N[lang][k]); if (s === undefined) s = I18N.en[k]; if (s === undefined) s = k; if (v) Object.keys(v).forEach(function (q) { s = s.split('{' + q + '}').join(v[q]); }); return s; }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+var me = '';
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.title = T('appTitle');
+  document.querySelectorAll('[data-i]').forEach(function (e) { e.textContent = T(e.getAttribute('data-i')); });
+  var b = document.getElementById('langBtn'); if (b) b.textContent = { en: 'EN', km: 'ខ្មែរ', zh: '中文' }[lang];
+  var r = document.getElementById('langRowLogin');
+  if (r) r.innerHTML = ['en', 'km', 'zh'].map(function (l) { return '<button type="button" class="' + (l === lang ? 'on' : '') + '" onclick="setLang(\'' + l + '\')">' + { en: 'English', km: 'ខ្មែរ', zh: '中文' }[l] + '</button>'; }).join('');
+  if (me) { camMsgSet(); renderResult(); renderRecent(); }
+}
+function setLang(l) { lang = l; try { localStorage.setItem('tdLang', l); } catch (e) {} applyLang(); }
+function cycleLang() { setLang({ en: 'km', km: 'zh', zh: 'en' }[lang]); }
+var toastTimer = null;
+function toast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.remove('hidden'); clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.add('hidden'); }, 2600); }
+function $(i) { return document.getElementById(i); }
+
+/* ================= staff login (same method as the main system) ================= */
+var PW_OK = !!(window.crypto && window.crypto.subtle && window.TextEncoder);
+function pwHex(buf) { return Array.from(new Uint8Array(buf)).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
+async function pwDerive(password, salt) {
+  var key = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+  var bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: new TextEncoder().encode(salt), iterations: 100000 }, key, 256);
+  return 'pbkdf2$' + salt + '$' + pwHex(bits);
+}
+var SA_DOMAIN = 'staff.hr203.com';
+function saHexStr(s) { return Array.from(new TextEncoder().encode(String(s))).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
+function saLookupKey(role, username) { return saHexStr(role + '|' + username); }
+function saEmail(id) { return id + '@' + SA_DOMAIN; }
+async function saPw(pass, id) { return (await pwDerive(pass, 'staff-auth:' + id)).split('$')[2].slice(0, 48); }
+async function saSignIn(id, pass) { return await firebase.auth().signInWithEmailAndPassword(saEmail(id), await saPw(pass, id)); }
+function saSleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+async function saReadRetry(path) {
+  var last = null;
+  for (var i = 0; i < 40; i++) { try { return (await db.ref(path).once('value')).val(); } catch (e) { last = e; await saSleep(250); } }
+  throw last;
+}
+async function backToAnon() { try { await firebase.auth().signOut(); } catch (e) {} try { await firebase.auth().signInAnonymously(); } catch (e) {} }
+async function saCandidates(role, username) { var v = await saReadRetry('staffLookup/' + saLookupKey(role, username)); return v ? Object.keys(v) : []; }
+async function secureLogin(role, user, pass) {
+  var ids = await saCandidates(role, user);
+  for (var n = 0; n < ids.length; n++) {
+    var id = ids[n];
+    try {
+      var cred = await saSignIn(id, pass);
+      var uid = (cred && cred.user ? cred.user : firebase.auth().currentUser).uid;
+      var st = await saReadRetry('staff/' + uid);
+      var acc = (st && st.role === role && st.key) ? await saReadRetry('accounts/' + st.key) : null;
+      if (acc && acc.authId === id && acc.role === role && !acc.disabled) return Object.assign({ firebaseKey: st.key }, acc);
+      await backToAnon();
+    } catch (e) { try { var cu = firebase.auth().currentUser; if (cu && !cu.isAnonymous) await backToAnon(); } catch (e2) {} }
+  }
+  return null;
+}
+/* authenticator (same method as the main system) */
+function base32Decode(b32) {
+  var al = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', clean = (b32 || '').replace(/=+$/, '').toUpperCase().replace(/[^A-Z2-7]/g, ''), bits = '';
+  for (var i = 0; i < clean.length; i++) { var v = al.indexOf(clean[i]); if (v !== -1) bits += v.toString(2).padStart(5, '0'); }
+  var bytes = []; for (var j = 0; j + 8 <= bits.length; j += 8) bytes.push(parseInt(bits.substr(j, 8), 2));
+  return new Uint8Array(bytes);
+}
+async function generateTOTP(secret, forTime) {
+  var keyBytes = base32Decode(secret), counter = Math.floor((forTime || Date.now()) / 1000 / 30), cb = new ArrayBuffer(8), view = new DataView(cb);
+  view.setUint32(0, Math.floor(counter / 0x100000000)); view.setUint32(4, counter >>> 0);
+  var key = await crypto.subtle.importKey('raw', keyBytes, { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']);
+  var h = new Uint8Array(await crypto.subtle.sign('HMAC', key, new Uint8Array(cb))), off = h[h.length - 1] & 0xf;
+  var bin = ((h[off] & 0x7f) << 24) | ((h[off + 1] & 0xff) << 16) | ((h[off + 2] & 0xff) << 8) | (h[off + 3] & 0xff);
+  return (bin % 1000000).toString().padStart(6, '0');
+}
+async function verifyTOTP(secret, token) {
+  var clean = (token || '').trim(); if (!/^\d{6}$/.test(clean)) return false;
+  for (var s = -1; s <= 1; s++) { if ((await generateTOTP(secret, Date.now() + s * 30000)) === clean) return true; }
+  return false;
+}
+
+var loginRole = 'admin', pending = null;
+function setRole(r) { loginRole = r; document.getElementById('roleAdmin').classList.toggle('on', r === 'admin'); document.getElementById('roleHr').classList.toggle('on', r === 'hr'); }
+function setErr(k) { document.getElementById('loginErr').textContent = k ? T(k) : ''; }
+function showLogin() {
+  stopData(); me = '';
+  document.getElementById('appView').classList.add('hidden'); document.getElementById('loginView').classList.remove('hidden');
+  document.getElementById('stepLogin').classList.remove('hidden'); document.getElementById('stepTotp').classList.add('hidden');
+  document.getElementById('inPass').value = ''; setErr(''); applyLang();
+}
+async function doLogin() {
+  var u = document.getElementById('inUser').value.trim(), p = document.getElementById('inPass').value.trim(), btn = document.getElementById('btnLogin');
+  if (!u || !p) { setErr('loginFail'); return; }
+  btn.disabled = true; setErr('');
+  try {
+    var found = await secureLogin(loginRole, u, p);
+    if (!found) { setErr('loginFail'); return; }
+    if (found.totpEnabled || found.totpSecret) {
+      if (!found.totpSecret) { await backToAnon(); setErr('totpNotSetup'); return; }
+      pending = found; document.getElementById('stepLogin').classList.add('hidden'); document.getElementById('stepTotp').classList.remove('hidden');
+      document.getElementById('inTotp').value = ''; document.getElementById('backupField').classList.add('hidden'); document.getElementById('inTotp').parentNode.classList.remove('hidden'); document.getElementById('lnkBackup').classList.remove('hidden');
+      setTimeout(function () { document.getElementById('inTotp').focus(); }, 80);
+      return;
+    }
+    finishLogin(found);
+  } catch (e) { setErr('loginFail'); }
+  finally { btn.disabled = false; }
+}
+function showBackup() { document.getElementById('backupField').classList.remove('hidden'); document.getElementById('inTotp').parentNode.classList.add('hidden'); document.getElementById('lnkBackup').classList.add('hidden'); setErr(''); setTimeout(function () { document.getElementById('inBackup').focus(); }, 80); }
+async function cancelTotp() { pending = null; await backToAnon(); showLogin(); }
+async function doTotp() {
+  if (!pending) return; setErr('');
+  var backupMode = !document.getElementById('backupField').classList.contains('hidden');
+  if (backupMode) {
+    var code = document.getElementById('inBackup').value.trim().toUpperCase(); if (!code) return;
+    try {
+      var snap = await db.ref('accounts/' + pending.firebaseKey + '/backupCodes/' + code).once('value');
+      if (!snap.exists() || snap.val() === true) { setErr('totpBad'); return; }
+      await db.ref('accounts/' + pending.firebaseKey + '/backupCodes/' + code).set(true);
+      var a = pending; pending = null; finishLogin(a);
+    } catch (e) { setErr('totpBad'); }
+    return;
+  }
+  var ok = await verifyTOTP(pending.totpSecret, document.getElementById('inTotp').value);
+  if (!ok) { setErr('totpBad'); return; }
+  var acc = pending; pending = null; finishLogin(acc);
+}
+function finishLogin(acc) {
+  try { localStorage.setItem('tdTrust', JSON.stringify({ key: acc.firebaseKey, at: Date.now() })); } catch (e) {}
+  startApp(acc.firebaseKey, acc.name || acc.username || '', acc.role);
+}
+async function doSignOut() { try { localStorage.removeItem('tdTrust'); } catch (e) {} await backToAnon(); showLogin(); }
+
+/* stay signed in for 30 days on this phone; a different login (for example the main website in the same browser) shows the login again */
+var authInit = false;
+firebase.auth().onAuthStateChanged(async function (u) {
+  if (!u) { try { await firebase.auth().signInAnonymously(); } catch (e) {} if (!authInit) { authInit = true; showLogin(); } return; }
+  if (u.isAnonymous) { if (!authInit || me) { authInit = true; showLogin(); } return; }
+  if (authInit && me) return;      /* already running */
+  authInit = true;
+  try {
+    var st = await saReadRetry('staff/' + u.uid), tr = null;
+    try { tr = JSON.parse(localStorage.getItem('tdTrust') || 'null'); } catch (e) {}
+    if (st && st.key && tr && tr.key === st.key && Date.now() - tr.at < 30 * 86400000) { startApp(st.key, st.name || '', st.role); return; }
+  } catch (e) {}
+  await backToAnon(); showLogin();
+});
+
+
+
+/* ================= scanner ================= */
+var stream = null, scanTimer = null, detector = null, jsqrReady = false, torchOn = false, lastCode = '', lastAt = 0, current = null, recent = [];
+var cv = document.createElement('canvas'), cx = cv.getContext('2d', { willReadFrequently: true });
+function camMsgSet() { var m = $('camMsg'); if (m) m.textContent = stream ? T('camHint') : ''; }
+function loadJsQR() {
+  return new Promise(function (res) {
+    if (window.jsQR) { jsqrReady = true; return res(true); }
+    var urls = ['https://cdnjs.cloudflare.com/ajax/libs/jsQR/1.4.0/jsQR.min.js', 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js'], i = 0;
+    (function next() {
+      if (i >= urls.length) return res(false);
+      var s = document.createElement('script'); s.src = urls[i++];
+      s.onload = function () { jsqrReady = !!window.jsQR; if (jsqrReady) res(true); else next(); };
+      s.onerror = next; document.head.appendChild(s);
+    })();
+  });
+}
+async function camStart() {
+  if (stream) return;
+  $('camOff').style.display = 'none';
+  try {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) throw { name: 'NotFoundError' };
+    stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+  } catch (e) {
+    stream = null; $('camOff').style.display = 'flex';
+    $('camOffTxt').textContent = (e && (e.name === 'NotFoundError' || e.name === 'OverconstrainedError')) ? T('camNone') : T('camDenied');
+    return;
+  }
+  var v = $('vid'); v.srcObject = stream; try { await v.play(); } catch (e) {}
+  $('sline').style.display = 'block'; $('frame').style.display = 'block'; $('btnStop').style.display = '';
+  try { var tr = stream.getVideoTracks()[0], cap = tr.getCapabilities ? tr.getCapabilities() : {}; $('btnTorch').style.display = cap.torch ? '' : 'none'; } catch (e) {}
+  if ('BarcodeDetector' in window) { try { detector = new BarcodeDetector({ formats: ['qr_code'] }); } catch (e) { detector = null; } }
+  if (!detector) await loadJsQR();
+  camMsgSet(); loop();
+}
+function camStop() {
+  if (scanTimer) { clearTimeout(scanTimer); scanTimer = null; }
+  if (stream) { stream.getTracks().forEach(function (t) { t.stop(); }); stream = null; }
+  var v = $('vid'); if (v) v.srcObject = null; torchOn = false;
+  $('sline').style.display = 'none'; $('frame').style.display = 'none'; $('btnTorch').style.display = 'none'; $('btnStop').style.display = 'none';
+  $('camOff').style.display = 'flex'; $('camOffTxt').textContent = ''; camMsgSet();
+}
+async function torchToggle() { try { torchOn = !torchOn; await stream.getVideoTracks()[0].applyConstraints({ advanced: [{ torch: torchOn }] }); } catch (e) { torchOn = false; } }
+function loop() {
+  if (!stream) return;
+  var v = $('vid');
+  var next = function () { scanTimer = setTimeout(loop, 120); };
+  if (v.readyState < 2 || !v.videoWidth) return next();
+  if (detector) { detector.detect(v).then(function (r) { if (r && r.length) onCode(r[0].rawValue); next(); }).catch(next); return; }
+  if (jsqrReady) {
+    var w = 480, h = Math.round(w * v.videoHeight / v.videoWidth); cv.width = w; cv.height = h; cx.drawImage(v, 0, 0, w, h);
+    var d = cx.getImageData(0, 0, w, h), c = window.jsQR(d.data, w, h, { inversionAttempts: 'dontInvert' }); if (c && c.data) onCode(c.data);
+  }
+  next();
+}
+function parseId(txt) { var s = String(txt || '').trim(); var m = s.match(/(?:^|[?&]id=)(\d{4,12})$/); return m ? m[1] : (/^\d{4,12}$/.test(s) ? s : ''); }
+function beep(kind) {
+  try { var A = window.AudioContext || window.webkitAudioContext, a = new A(), o = a.createOscillator(), g = a.createGain(); o.connect(g); g.connect(a.destination);
+    o.type = 'sine'; o.frequency.value = kind === 'bad' ? 220 : 880; g.gain.value = 0.15; o.start(); o.stop(a.currentTime + (kind === 'bad' ? 0.5 : 0.15)); setTimeout(function () { try { a.close(); } catch (e) {} }, 700); } catch (e) {}
+  try { if (navigator.vibrate) navigator.vibrate(kind === 'bad' ? [200, 80, 200] : 60); } catch (e) {}
+}
+function onCode(txt) {
+  var id = parseId(txt); if (!id) return;
+  var now = Date.now(); if (id === lastCode && now - lastAt < 2500) return; lastCode = id; lastAt = now;
+  lookup(id);
+}
+function manualFind() {
+  var id = $('inId').value.replace(/\D/g, ''); if (id.length < 4) { toast(T('typeIdErr')); return; }
+  lookup(id);
+}
+async function lookup(id) {
+  var rec = null;
+  try { rec = (await db.ref('assets/' + id).once('value')).val(); } catch (e) { toast(T('loadErr')); return; }
+  current = rec ? Object.assign({ id: id }, rec) : { id: id, notFound: true };
+  var st = current.notFound ? 'nf' : (current.status || 'active');
+  beep(st === 'broken' || st === 'nf' || st === 'missing' ? 'bad' : 'ok');
+  recent = recent.filter(function (r) { return r.id !== id; }); recent.unshift({ id: id, name: current.notFound ? '' : (current.name || ''), st: st, at: Date.now() }); recent = recent.slice(0, 8);
+  renderResult(); renderRecent();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function sLabel(s) { return T({ active: 'sActive', broken: 'sBroken', missing: 'sMissing', retired: 'sRetired' }[s] || 'sActive'); }
+function renderResult() {
+  var box = $('result'), a = current; document.body.classList.remove('bad', 'warn'); box.className = 'result';
+  $('againRow').style.display = a ? '' : 'none';
+  if (!a) { box.innerHTML = '<div class="card hint">' + esc(T('infoHint')) + '</div>'; return; }
+  if (a.notFound) {
+    document.body.classList.add('warn'); box.className = 'result warn';
+    box.innerHTML = '<div class="banner">' + esc(T('notFound')) + '<small>' + esc(a.id) + '</small></div><div class="card hint">' + esc(T('notFoundSub')) + '</div>'; return;
+  }
+  var st = a.status || 'active', banner = '';
+  if (st === 'broken') { document.body.classList.add('bad'); box.className = 'result bad'; banner = '<div class="banner">' + esc(T('bBroken')) + '<small>' + esc(T('brokenMsg')) + '</small></div>'; }
+  else if (st === 'missing') { document.body.classList.add('warn'); box.className = 'result warn'; banner = '<div class="banner">' + esc(T('bMissing')) + '<small>' + esc(T('missingMsg')) + '</small></div>'; }
+  else if (st === 'retired') { banner = '<div class="banner" style="color:var(--mute);font-size:22px">' + esc(T('bRetired')) + '<small>' + esc(T('retiredMsg')) + '</small></div>'; }
+  var where = [a.dept, a.group].filter(Boolean);
+  var tr = a.scanType === 'track' ? T('tTrack', { m: a.interval || 3 }) : T('tInfo');
+  var ls = a.lastScan ? new Date(a.lastScan).toLocaleDateString() : T('never');
+  box.innerHTML = banner + '<div class="card"><div class="res"><div class="ph">' + (a.photo ? '<img src="' + esc(a.photo) + '" alt="">' : '') + '</div><div style="min-width:0"><div class="idv">' + esc(a.id) + '</div><div class="nm">' + esc(a.name || '') + '</div><div style="margin-top:8px"><span class="pill ' + esc(st) + '">' + esc(sLabel(st)) + '</span></div></div></div>' +
+    '<div class="kv"><b>' + esc(T('fCat')) + '</b><span>' + esc(a.category || '-') + '</span><b>' + esc(T('fDept')) + '</b><span>' + esc(a.dept || T('noDept')) + '</span><b>' + esc(T('fGroup')) + '</b><span>' + esc(a.group || '-') + '</span><b>' + esc(T('fType')) + '</b><span>' + esc(tr) + '</span>' +
+    (a.scanType === 'track' ? '<b>' + esc(T('lastScan')) + '</b><span>' + esc(ls) + '</span>' : '') + (a.note ? '<b>' + esc(T('fNote')) + '</b><span>' + esc(a.note) + '</span>' : '') + '</div></div>';
+}
+function renderRecent() {
+  var r = $('recent'); if (!recent.length) { r.innerHTML = ''; return; }
+  r.innerHTML = '<h3>' + esc(T('recent')) + '</h3>' + recent.map(function (x) {
+    return '<div class="rrow" onclick="lookup(\'' + esc(x.id) + '\')"><span class="dot ' + esc(x.st) + '"></span><b>' + esc(x.id) + '</b><span>' + esc(x.name) + '</span><span class="t">' + new Date(x.at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + '</span></div>';
+  }).join('');
+}
+function scanAgain() { current = null; lastCode = ''; $('inId').value = ''; renderResult(); if (!stream) camStart(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+
+/* ================= start / stop ================= */
+function stopData() { camStop(); current = null; recent = []; document.body.classList.remove('bad', 'warn'); }
+function startApp(key, name, role) {
+  me = key; $('whoName').textContent = name || '';
+  $('loginView').classList.add('hidden'); $('appView').classList.remove('hidden');
+  applyLang(); renderResult(); camStart();
+  var q = ''; try { q = new URLSearchParams(location.search).get('id') || ''; } catch (e) {}
+  if (/^\d{4,12}$/.test(q)) lookup(q);
+}
+document.addEventListener('visibilitychange', function () { if (document.hidden) { if (stream) camStop(); } });
+window.addEventListener('pagehide', function () { camStop(); });
+
+</script>
+</body>
+</html>
