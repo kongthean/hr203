@@ -329,7 +329,8 @@ async function doLogin() {
   try {
     var found = await secureLogin(loginRole, u, p);
     if (!found) { setErr('loginFail'); return; }
-    if (found.totpEnabled || found.totpSecret) {
+    try { if (found.owner !== true && (found.totpEnabled || found.totpSecret)) found.__trusted = await TD_ok(found); } catch (e) {}
+    if ((found.totpEnabled || found.totpSecret) && !found.__trusted) {
       if (!found.totpSecret) { await backToAnon(); setErr('totpNotSetup'); return; }
       pending = found; document.getElementById('stepLogin').classList.add('hidden'); document.getElementById('stepTotp').classList.remove('hidden');
       document.getElementById('inTotp').value = ''; document.getElementById('backupField').classList.add('hidden'); document.getElementById('inTotp').parentNode.classList.remove('hidden'); document.getElementById('lnkBackup').classList.remove('hidden');
@@ -360,6 +361,7 @@ async function doTotp() {
   var acc = pending; pending = null; finishLogin(acc);
 }
 function finishLogin(acc) {
+  if (!acc.__trusted && !acc.__tdDone && acc.owner !== true && (acc.totpEnabled || acc.totpSecret)) { acc.__tdDone = 1; TD_remember(acc).catch(function () {}).then(function () { finishLogin(acc); }); return; }
   try { localStorage.setItem('tdTrust', JSON.stringify({ key: acc.firebaseKey, at: Date.now() })); } catch (e) {}
   startApp(acc.firebaseKey, acc.name || acc.username || '', acc.role);
 }
@@ -830,5 +832,24 @@ OtpBoxes({ input: 'inTotp', submit: function () { doTotp(); }, err: 'loginErr', 
 })();
 </script>
 <!-- OTP-END -->
+<!-- TRUST-BEGIN -->
+<script>
+var TD_HOURS = 8;
+function TD_hex(buf) { return Array.from(new Uint8Array(buf)).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
+async function TD_sha(s) { return TD_hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(s)))); }
+async function TD_ok(found) {
+  var s = ''; try { s = localStorage.getItem('hrTrust_' + found.firebaseKey) || ''; } catch (e) {}
+  if (!s || !found.trusted) return false;
+  var h = await TD_sha(s); return Number(found.trusted[h] || 0) > Date.now();
+}
+async function TD_remember(found) {
+  var a = new Uint8Array(24); crypto.getRandomValues(a); var s = TD_hex(a), h = await TD_sha(s), up = {}, now = Date.now();
+  Object.keys(found.trusted || {}).forEach(function (k) { if (Number(found.trusted[k] || 0) < now) up['accounts/' + found.firebaseKey + '/trusted/' + k] = null; });
+  up['accounts/' + found.firebaseKey + '/trusted/' + h] = now + TD_HOURS * 3600000;
+  await db.ref().update(up);
+  try { localStorage.setItem('hrTrust_' + found.firebaseKey, s); } catch (e) {}
+}
+</script>
+<!-- TRUST-END -->
 </body>
 </html>

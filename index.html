@@ -28009,5 +28009,70 @@ OtpBoxes({ input: 'totpVerifyInput', submit: function () { confirmTotpVerify(); 
 })();
 </script>
 <!-- OTP-END -->
+
+<!-- TRUST-BEGIN -->
+<script>
+
+var TD_HOURS = 8;
+function TD_hex(buf) { return Array.from(new Uint8Array(buf)).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
+async function TD_sha(s) { return TD_hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(s)))); }
+async function TD_ok(found) {
+  var s = ''; try { s = localStorage.getItem('hrTrust_' + found.firebaseKey) || ''; } catch (e) {}
+  if (!s || !found.trusted) return false;
+  var h = await TD_sha(s); return Number(found.trusted[h] || 0) > Date.now();
+}
+async function TD_remember(found) {
+  var a = new Uint8Array(24); crypto.getRandomValues(a); var s = TD_hex(a), h = await TD_sha(s), up = {}, now = Date.now();
+  Object.keys(found.trusted || {}).forEach(function (k) { if (Number(found.trusted[k] || 0) < now) up['accounts/' + found.firebaseKey + '/trusted/' + k] = null; });
+  up['accounts/' + found.firebaseKey + '/trusted/' + h] = now + TD_HOURS * 3600000;
+  await db.ref().update(up);
+  try { localStorage.setItem('hrTrust_' + found.firebaseKey, s); } catch (e) {}
+}
+
+(function () {
+  /* normal accounts: a device that already entered the code skips it for 8 hours. Owner accounts always enter the code. */
+  var _ssl = saSecureLogin;
+  saSecureLogin = async function () {
+    var f = await _ssl.apply(this, arguments);
+    try { if (f && f.owner !== true && (f.totpEnabled || f.totpSecret)) f.__trusted = await TD_ok(f); } catch (e) {}
+    return f;
+  };
+  var _atr = accountTotpRequired;
+  accountTotpRequired = function (a) { if (a && a.__trusted && a.owner !== true) return false; return _atr.apply(this, arguments); };
+  var _cl = completeLogin;
+  completeLogin = function (found) {
+    if (found && !found.__trusted && !found.__tdDone && found.owner !== true && _atr(found)) {
+      found.__tdDone = 1;
+      TD_remember(found).catch(function () {}).then(function () { _cl(found); });
+      return;
+    }
+    return _cl(found);
+  };
+  var _pr = pwDoReset;
+  pwDoReset = function (k) { try { db.ref('accounts/' + k + '/trusted').remove().catch(function () {}); } catch (e) {} return _pr.apply(this, arguments); };
+  /* Management: Forget trusted devices */
+  var TX = {
+    en: { b: 'Forget trusted devices', q: 'Every device will be asked for the authenticator code again at the next login. Continue?', h: 'Devices that entered the code skip it for 8 hours. Owner accounts always enter it.' },
+    km: { b: 'បំភ្លេចឧបករណ៍ដែលទុកចិត្ត', q: 'គ្រប់ឧបករណ៍នឹងត្រូវបញ្ចូលកូដ Authenticator ម្តងទៀតពេលចូលលើកក្រោយ។ បន្តទេ?', h: 'ឧបករណ៍ដែលបានបញ្ចូលកូដមិនត្រូវបញ្ចូលម្តងទៀតក្នុងរយៈពេល 8 ម៉ោង។ គណនីម្ចាស់ត្រូវបញ្ចូលរាល់ពេល។' },
+    zh: { b: '忘记受信任的设备', q: '下次登录时所有设备都需要重新输入验证器代码。继续吗？', h: '已输入验证码的设备 8 小时内无需再次输入。所有者账户每次都需要输入。' }
+  };
+  function L() { var l = 'en'; try { if (TX[currentLang]) l = currentLang; } catch (e) {} return TX[l]; }
+  var host = document.getElementById('saSummary');
+  if (host) {
+    var w = document.createElement('div'); w.style.cssText = 'margin:8px 0 12px';
+    w.innerHTML = '<button type="button" id="tdForgetBtn" style="border:1px solid #cbd5e1;background:#fff;color:#334155;border-radius:10px;height:38px;padding:0 14px;font-weight:700;cursor:pointer"></button><div id="tdForgetHint" style="font-size:11px;color:#64748b;margin-top:4px"></div>';
+    host.parentNode.insertBefore(w, host.nextSibling);
+    var lab = function () { document.getElementById('tdForgetBtn').textContent = L().b; document.getElementById('tdForgetHint').textContent = L().h; }; lab(); setInterval(lab, 1500);
+    document.getElementById('tdForgetBtn').onclick = async function () {
+      var ok = true; try { ok = await showConfirm(L().q); } catch (e) {}
+      if (!ok) return;
+      var mineOwner = (typeof viewerIsOwner === 'function') ? viewerIsOwner() : false, up = {};
+      (accounts || []).forEach(function (a) { if (a.firebaseKey && (mineOwner || a.owner !== true)) up['accounts/' + a.firebaseKey + '/trusted'] = null; });
+      try { await db.ref().update(up); try { logActivity('trusted_devices_forget', 'account', 'all', '', ''); } catch (e) {} showToast(true); } catch (e) { showToast(false); }
+    };
+  }
+})();
+</script>
+<!-- TRUST-END -->
 </body>
 </html>
