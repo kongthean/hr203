@@ -88,7 +88,16 @@ button{padding:12px 18px;border:0;border-radius:10px;font-weight:700;font-size:1
 .hrLogo i{font-style:normal}
 .hrLogo s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
 @media (max-width:600px){.hrLogo{font-size:24px}}
-header .hrLogo{font-size:24px}</style></head>
+header .hrLogo{font-size:24px}</style><style id="hrFtCss">
+.hrft{text-align:center;padding:14px 0 18px;color:inherit;opacity:.62;line-height:1.2;font-family:Arial,Helvetica,sans-serif;width:100%}
+.hrft .hrftL{display:inline-flex;align-items:flex-end;font-weight:700;font-size:16px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrft .hrftL i{font-style:normal}
+.hrft .hrftL s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+.hrft .n{font-size:11px;font-weight:700;margin-top:5px}
+.hrft .v{font-size:10px;margin-top:2px}
+@media print{.hrft{display:none}}
+</style>
+</head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
 #kbSplash.out{opacity:0;pointer-events:none}
@@ -376,5 +385,6 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 </script>
 <!-- MTG-END -->
+<!-- HRFT-BEGIN --><div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Express</div><div class="v">Version 8.00</div></div><!-- HRFT-END -->
 </body>
 </html>

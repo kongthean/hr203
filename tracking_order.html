@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="only light">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<title>Track your parcel - Express</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Khmer","Khmer OS System","Noto Sans SC","Microsoft YaHei",sans-serif;background:#eef2f7;color:#0f172a;font-size:15px;-webkit-text-size-adjust:100%}
+header{background:linear-gradient(135deg,#0b1d3a 0%,#24406e 100%);color:#fff;padding:14px;display:flex;align-items:center;gap:10px}
+header b{flex:1;font-size:17px}
+header select{padding:5px 8px;border-radius:8px;background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);font-size:12px}
+header select option{color:#0f172a}
+main{max-width:560px;margin:0 auto;padding:14px}
+.card{background:#fff;border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(15,23,42,.07);margin-bottom:14px}
+h1{font-size:18px;margin:0 0 4px}.muted{color:#64748b;font-size:13px}
+.srch{display:flex;gap:8px;margin-top:12px}
+input{flex:1;min-width:0;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px}
+#no{text-transform:uppercase}
+button{padding:12px 18px;border:0;border-radius:10px;font-weight:700;font-size:15px;color:#fff;background:linear-gradient(135deg,#0b1d3a 0%,#24406e 100%);cursor:pointer}
+.no{font-size:20px;font-weight:900;letter-spacing:.5px}
+.route{font-size:16px;font-weight:700;margin:6px 0}
+.st{display:inline-block;padding:6px 14px;border-radius:16px;color:#fff;font-weight:800;font-size:14px}
+.tl{border-left:3px solid #cbd5e1;margin:14px 0 0 6px;padding-left:16px}
+.tl .it{position:relative;padding:0 0 16px}
+.tl .it:before{content:"";position:absolute;left:-23px;top:3px;width:12px;height:12px;border-radius:50%;background:var(--c,#64748b)}
+.tl .it.first:before{box-shadow:0 0 0 4px rgba(37,99,235,.2)}
+.tl b{font-size:15px}.tl .m{color:#64748b;font-size:13px}
+.err{color:#b91c1c;font-weight:600}
+.hide{display:none}
+.tabs{display:flex;gap:8px;max-width:560px;margin:12px auto 0;padding:0 14px}
+.tabs button{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;background:#e2e8f0;color:#334155;padding:12px 10px;font-size:15px}
+.tabs button svg{width:20px;height:20px}
+.tabs button.on{background:linear-gradient(135deg,#0b1d3a 0%,#24406e 100%);color:#fff}
+#map{height:55vh;min-height:300px;border-radius:12px;overflow:hidden;margin-top:12px;background:#dbeafe}
+.pin{width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:#ea580c;border:3px solid #0b1d3a;box-shadow:0 2px 6px rgba(0,0,0,.35)}
+.pin:after{content:"";position:absolute;left:7px;top:7px;width:10px;height:10px;border-radius:50%;background:#fff}
+.me{width:14px;height:14px;border-radius:50%;background:#2563eb;border:3px solid #fff;box-shadow:0 0 0 3px rgba(37,99,235,.35)}
+.bp-n{font-weight:800;font-size:15px}.bp-g{color:#64748b;font-size:12px;margin-bottom:4px}.bp-a{font-size:13px;margin:4px 0}
+.bp-ph a{display:inline-block;margin:2px 6px 2px 0;padding:5px 10px;border-radius:14px;background:#e0f2fe;color:#075985;text-decoration:none;font-weight:700;font-size:13px}
+.bp-nav{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.bp-nav a{flex:1;text-align:center;padding:8px 6px;border-radius:10px;color:#fff;text-decoration:none;font-weight:700;font-size:12px;background:#0b1d3a;min-width:80px}
+.bp-nav a.g{background:#16a34a}.bp-nav a.w{background:#0ea5e9}.bp-nav a.a{background:#475569}
+.mlist .grp{margin-top:12px;font-weight:800;color:#334155;font-size:13px;text-transform:uppercase;letter-spacing:.4px}
+.mlist .it{display:flex;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid #eef2f7;cursor:pointer}
+.mlist .it .ic{flex:0 0 34px;height:34px;border-radius:50%;background:#ea580c;color:#fff;display:flex;align-items:center;justify-content:center}
+.mlist .it .ic svg{width:18px;height:18px}.mlist .it b{display:block;font-size:14px}.mlist .it span{color:#64748b;font-size:12px}
+.fbtn{margin-top:10px;background:#16a34a;width:100%}
+.tabs{gap:6px}.tabs button{font-size:13px;padding:11px 4px;gap:5px}.tabs button svg{width:18px;height:18px}
+.tabs .bd{background:#dc2626;color:#fff;border-radius:10px;font-size:11px;padding:1px 6px;margin-left:2px}
+.alt{background:#e2e8f0;color:#0b1d3a;width:100%;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:8px}.alt svg{width:20px;height:20px}
+#scanOv{position:fixed;inset:0;background:rgba(15,23,42,.92);z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:14px;gap:12px}
+#scanOv.hide{display:none}#qrReader{width:100%;max-width:420px;min-height:300px;background:#000;border-radius:14px;overflow:hidden}
+#scanOv .tx{color:#fff;font-weight:700;text-align:center}#scanOv .er{color:#fecaca;font-weight:700;text-align:center}
+.fld{margin-top:10px}.fld label{display:block;font-weight:700;font-size:13px;margin-bottom:4px;color:#334155}.fld input{width:100%}
+.lnk{background:none;color:#1d4ed8;padding:10px 0;font-weight:700;font-size:14px;width:100%;text-align:center}
+.nt{padding:11px 10px;border-radius:10px;border:1px solid #e2e8f0;margin-top:8px;cursor:pointer}.nt.un{background:#eff6ff;border-color:#bfdbfe}.nt b{font-size:14px;display:block}.nt span{color:#64748b;font-size:12px}
+.pc{padding:11px 0;border-bottom:1px solid #eef2f7;cursor:pointer}.pc .l1{display:flex;justify-content:space-between;gap:8px;align-items:center}.pc b{font-size:15px}.pc .l2{color:#64748b;font-size:13px;margin-top:2px}
+.chip{display:inline-block;padding:3px 10px;border-radius:12px;color:#fff;font-weight:800;font-size:12px}
+.sec{margin-top:16px;display:flex;justify-content:space-between;align-items:center}.sec b{font-size:16px}.sec button{padding:7px 12px;font-size:12px;background:#e2e8f0;color:#0b1d3a}
+</style>
+<style id="hrFtCss">
+.hrft{text-align:center;padding:14px 0 18px;color:inherit;opacity:.62;line-height:1.2;font-family:Arial,Helvetica,sans-serif;width:100%}
+.hrft .hrftL{display:inline-flex;align-items:flex-end;font-weight:700;font-size:16px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrft .hrftL i{font-style:normal}
+.hrft .hrftL s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+.hrft .n{font-size:11px;font-weight:700;margin-top:5px}
+.hrft .v{font-size:10px;margin-top:2px}
+@media print{.hrft{display:none}}
+</style>
+</head>
+<body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
+#kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
+#kbSplash.out{opacity:0;pointer-events:none}
+@keyframes kbsFail{to{opacity:0;visibility:hidden;pointer-events:none}}
+#kbSplash .lg{display:flex;align-items:flex-end;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:min(17vw,84px);line-height:1;letter-spacing:-.01em;animation:kbsOut .5s ease 2.15s forwards}
+#kbSplash .lg i{font-style:normal;display:inline-block;opacity:0;will-change:transform,opacity}
+#kbSplash .h{animation:kbsL .7s cubic-bezier(.2,.9,.25,1) .1s forwards}
+#kbSplash .r{animation:kbsL .7s cubic-bezier(.2,.9,.25,1) .24s forwards}
+#kbSplash .bar{width:.15em;height:.36em;margin:.072em .2em 0 .04em;align-self:flex-start;background:#ff3030;border-radius:0;opacity:0;transform-origin:50% 0;animation:kbsBar .7s cubic-bezier(.3,1.5,.4,1) 1.05s forwards}
+#kbSplash .n1{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .55s forwards}
+#kbSplash .n2{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .7s forwards}
+#kbSplash .n3{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .85s forwards}
+@keyframes kbsL{from{opacity:0;transform:translateX(-.6em)}to{opacity:1;transform:none}}
+@keyframes kbsR{from{opacity:0;transform:translateX(.6em)}to{opacity:1;transform:none}}
+@keyframes kbsBar{0%{opacity:0;transform:translateY(-1.1em) scaleY(.4)}60%{opacity:1;transform:translateY(.08em) scaleY(1.08)}100%{opacity:1;transform:none}}
+@keyframes kbsOut{to{opacity:0;transform:scale(1.06)}}
+@media (prefers-reduced-motion:reduce){#kbSplash .lg i{animation:none;opacity:1}#kbSplash .lg{animation:none}}
+</style><div id="kbSplash" aria-hidden="true"><div class="lg"><i class="h">H</i><i class="r">R</i><i class="bar"></i><i class="n1">2</i><i class="n2">0</i><i class="n3">3</i></div></div><script>(function(){var s=document.getElementById('kbSplash');if(!s)return;var done=false;function hide(){if(done)return;done=true;s.classList.add('out');setTimeout(function(){try{s.remove();var c=document.getElementById('kbSplashCss');if(c)c.remove();}catch(e){}},520);}
+var rm=false;try{rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
+setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener('touchstart',hide,{passive:true});})();</script><!-- SPLASH-END -->
+<header><b>Express</b><select id="lang"><option value="en">EN</option><option value="km">ខ្មែរ</option><option value="zh">中文</option></select></header>
+<nav class="tabs"><button id="tabTrack" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg><span data-t="tabTrack">Track order</span></button><button id="tabMap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span data-t="tabMap">Find branch</span></button><button id="tabMe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span data-t="tabMe">My account</span><span id="meN" class="bd hide">0</span></button></nav>
+<main>
+ <div id="paneTrack">
+ <div class="card"><h1 data-t="title">Track your parcel</h1><div class="muted" data-t="sub">Type the tracking number on your receipt or label.</div>
+  <div class="srch"><input id="no" placeholder="PP-261021-0001" autocapitalize="characters" autocomplete="off"><button id="go" data-t="track">Track</button></div>
+  <button class="alt" id="scanBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2M7 12h10"/></svg><span data-t="scanQr">Scan QR code</span></button></div>
+ <div id="res"></div>
+ </div>
+ <div id="paneMe" class="hide"><div class="card" id="meBox"></div></div>
+ <div id="paneMap" class="hide">
+  <div class="card"><h1 data-t="tabMap">Find branch</h1><div class="muted" data-t="mapSub">Tap a pin to see the branch details and directions.</div>
+   <div class="srch"><input id="mq" data-p="mapSearch" autocomplete="off"></div>
+   <div id="map"></div><div id="mmsg" class="muted" style="margin-top:8px"></div></div>
+  <div class="card mlist" id="mlist"></div>
+ </div>
+</main>
+<div id="scanOv" class="hide"><div class="tx" data-t="scanTitle">Point the camera at the QR code on the receipt</div><div id="qrReader"></div><div class="er" id="scanMsg"></div><button id="scanX" data-t="scanClose" style="background:#fff;color:#0b1d3a">Close</button></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+var FBCFG = {"apiKey": "AIzaSyCSf1S0LwPx-u88Ck9pmXKnEZGy-GmkVwM", "authDomain": "express-cambodiainsight.firebaseapp.com", "databaseURL": "https://express-cambodiainsight-default-rtdb.asia-southeast1.firebasedatabase.app", "projectId": "express-cambodiainsight", "storageBucket": "express-cambodiainsight.firebasestorage.app", "messagingSenderId": "686232697697", "appId": "1:686232697697:web:331abc71da33c4e1b32320"};
+var D = {
+ en: { title: 'Track your parcel', sub: 'Type the tracking number on your receipt or label.', track: 'Track', notfound: 'We could not find this number. Please check it and try again.', neterr: 'Network problem. Please try again.', setup: 'Tracking is not available yet.', status: 'Current status', hist: 'Journey', upd: 'Last update', s: { posted: 'Posting at', shipping: 'Shipping from', transit: 'Transit at', arrived: 'Arrival at', out: 'Out for delivery', delivered: 'Customer received', returned: 'Returned', call_ok: 'Customer picked up the call', call_no: 'Customer did not pick up the call', dest: 'Destination changed', problem: 'Problem / Returned' }, from: 'From', to: 'To' },
+ km: { title: 'តាមដានកញ្ចប់របស់អ្នក', sub: 'សូមវាយលេខតាមដានដែលមាននៅលើបង្កាន់ដៃ ឬស្លាក។', track: 'តាមដាន', notfound: 'រកមិនឃើញលេខនេះទេ។ សូមពិនិត្យម្តងទៀត។', neterr: 'បញ្ហាបណ្តាញ។ សូមព្យាយាមម្តងទៀត។', setup: 'ការតាមដានមិនទាន់អាចប្រើបានទេ។', status: 'ស្ថានភាពបច្ចុប្បន្ន', hist: 'ដំណើរ', upd: 'ធ្វើបច្ចុប្បន្នភាពចុងក្រោយ', s: { posted: 'ទទួលផ្ញើនៅ', shipping: 'ចេញដំណើរពី', transit: 'ឆ្លងកាត់នៅ', arrived: 'មកដល់នៅ', out: 'កំពុងដឹកជូន', delivered: 'អតិថិជនបានទទួល', returned: 'ត្រឡប់ទំនិញវិញ', call_ok: 'អតិថិជនបានលើកទូរស័ព្ទ', call_no: 'អតិថិជនមិនលើកទូរស័ព្ទ', dest: 'បានប្ដូរគោលដៅ', problem: 'បញ្ហា / ត្រឡប់មកវិញ' }, from: 'ពី', to: 'ទៅ' },
+ zh: { title: '查询您的包裹', sub: '请输入收据或标签上的运单号。', track: '查询', notfound: '未找到此单号，请检查后重试。', neterr: '网络问题，请重试。', setup: '暂时无法查询。', status: '当前状态', hist: '运输记录', upd: '最近更新', s: { posted: '寄件网点收件', shipping: '从此发出', transit: '中转经过', arrived: '到达网点', out: '派送中', delivered: '客户已签收', returned: '已退回', call_ok: '客户已接听电话', call_no: '客户未接电话', dest: '已更改目的地', problem: '异常 / 退回' }, from: '发自', to: '寄往' }
+};
+var M = {
+ en: { tabTrack: 'Track order', tabMap: 'Find branch', mapSub: 'Tap a pin to see the branch details and directions.', mapSearch: 'Search branch or province...', myLoc: 'My location', noBr: 'Branch locations are not available yet.', noMatch: 'No branch found.', gmaps: 'Google Maps', waze: 'Waze', apple: 'Apple Maps', call: 'Call', mapFail: 'The map could not load. You can still use the list below.', findDest: 'Find the destination branch', noGroup: 'Other', locFail: 'Could not get your location.' },
+ km: { tabTrack: 'តាមដានទំនិញ', tabMap: 'ស្វែងរកសាខា', mapSub: 'ចុចលើម្ជុលដើម្បីមើលព័ត៌មានសាខា និងការណែនាំផ្លូវ។', mapSearch: 'ស្វែងរកសាខា ឬខេត្ត...', myLoc: 'ទីតាំងខ្ញុំ', noBr: 'ទីតាំងសាខាមិនទាន់មានទេ។', noMatch: 'រកមិនឃើញសាខាទេ។', gmaps: 'Google Maps', waze: 'Waze', apple: 'Apple Maps', call: 'ហៅ', mapFail: 'មិនអាចបើកផែនទីបានទេ។ អ្នកនៅតែអាចប្រើបញ្ជីខាងក្រោម។', findDest: 'រកសាខាគោលដៅ', noGroup: 'ផ្សេងៗ', locFail: 'មិនអាចទទួលបានទីតាំងរបស់អ្នកទេ។' },
+ zh: { tabTrack: '查询运单', tabMap: '查找网点', mapSub: '点击图钉查看网点详情和导航。', mapSearch: '搜索网点或省份...', myLoc: '我的位置', noBr: '暂无网点位置信息。', noMatch: '未找到网点。', gmaps: '谷歌地图', waze: 'Waze', apple: '苹果地图', call: '拨打', mapFail: '地图无法加载，仍可使用下方列表。', findDest: '查找目的地网点', noGroup: '其他', locFail: '无法获取你的位置。' }
+};
+var PROVTR = { 'Banteay Meanchey': ['បន្ទាយមានជ័យ', '班迭棉吉'], 'Battambang': ['បាត់ដំបង', '马德望'], 'Kampong Cham': ['កំពង់ចាម', '磅湛'], 'Kampong Chhnang': ['កំពង់ឆ្នាំង', '磅清扬'], 'Kampong Speu': ['កំពង់ស្ពឺ', '磅士卑'], 'Kampong Thom': ['កំពង់ធំ', '磅同'], 'Kampot': ['កំពត', '贡布'], 'Kandal': ['កណ្តាល', '干达'], 'Kep': ['កែប', '白马'], 'Koh Kong': ['កោះកុង', '戈公'], 'Kratie': ['ក្រចេះ', '桔井'], 'Mondulkiri': ['មណ្ឌលគិរី', '蒙多基里'], 'Oddar Meanchey': ['ឧត្តរមានជ័យ', '奥多棉吉'], 'Pailin': ['ប៉ៃលិន', '拜林'], 'Phnom Penh': ['ភ្នំពេញ', '金边'], 'Preah Sihanouk': ['ព្រះសីហនុ', '西哈努克'], 'Preah Vihear': ['ព្រះវិហារ', '柏威夏'], 'Prey Veng': ['ព្រៃវែង', '波萝勉'], 'Pursat': ['ពោធិ៍សាត់', '菩萨'], 'Ratanakiri': ['រតនគិរី', '腊塔纳基里'], 'Siem Reap': ['សៀមរាប', '暹粒'], 'Stung Treng': ['ស្ទឹងត្រែង', '上丁'], 'Svay Rieng': ['ស្វាយរៀង', '柴桢'], 'Takeo': ['តាកែវ', '茶胶'], 'Tboung Khmum': ['ត្បូងឃ្មុំ', '特本克蒙'] };
+for (var ml in M) { for (var mk in M[ml]) D[ml][mk] = M[ml][mk]; }
+var C = {
+ en: { tabMe: 'My account', scanQr: 'Scan QR code', scanTitle: 'Point the camera at the QR code on the receipt', scanClose: 'Close', scanNoCam: 'The camera is not available. Please type the number instead.', scanBad: 'This QR code is not a parcel number.',
+  meTitle: 'My account', meSub: 'Register with your phone number to see your parcels and get news. You can still track a parcel without an account.', phone: 'Phone number', pw: 'Password', pw2: 'Confirm password', login: 'Log in', register: 'Register', toReg: 'New here? Create an account', toLog: 'Already have an account? Log in',
+  badPhone: 'Please enter a valid phone number.', pwShort: 'Password must be at least 6 characters.', pwDiff: 'The two passwords are not the same.', wrongLogin: 'Wrong phone number or password.', hasAcct: 'This phone number already has an account. Please log in.', accErr: 'Something went wrong. Please try again.', accOff: 'Accounts are not available right now.',
+  logout: 'Log out', news: 'News', noNews: 'No news yet.', markAll: 'Mark all as read', myParcels: 'My parcels', noParcels: 'No parcels yet. Parcels sent from or to this phone number will appear here.', roleS: 'Sending', roleR: 'Receiving', roleSR: 'Sending & receiving',
+  nPosted: 'Your parcel {no} was posted successfully.', nNew: 'A new parcel {no} is on its way to you.', nArrived: 'Your parcel {no} has arrived at {to}.', nReceived: 'Parcel {no} was received by the customer.', unread: 'new' },
+ km: { tabMe: 'គណនីខ្ញុំ', scanQr: 'ស្កេនកូដ QR', scanTitle: 'ដាក់កាមេរ៉ាទៅលើកូដ QR នៅលើបង្កាន់ដៃ', scanClose: 'បិទ', scanNoCam: 'មិនអាចប្រើកាមេរ៉ាបានទេ។ សូមវាយលេខជំនួស។', scanBad: 'កូដ QR នេះមិនមែនជាលេខកញ្ចប់ទេ។',
+  meTitle: 'គណនីរបស់ខ្ញុំ', meSub: 'ចុះឈ្មោះជាមួយលេខទូរស័ព្ទ ដើម្បីមើលកញ្ចប់ និងទទួលដំណឹង។ អ្នកនៅតែអាចតាមដានកញ្ចប់បានដោយមិនចាំបាច់មានគណនី។', phone: 'លេខទូរស័ព្ទ', pw: 'ពាក្យសម្ងាត់', pw2: 'បញ្ជាក់ពាក្យសម្ងាត់', login: 'ចូលប្រើ', register: 'ចុះឈ្មោះ', toReg: 'ថ្មីមែនទេ? បង្កើតគណនី', toLog: 'មានគណនីហើយ? ចូលប្រើ',
+  badPhone: 'សូមបញ្ចូលលេខទូរស័ព្ទឱ្យត្រឹមត្រូវ។', pwShort: 'ពាក្យសម្ងាត់ត្រូវមានយ៉ាងតិច ៦ តួ។', pwDiff: 'ពាក្យសម្ងាត់ទាំងពីរមិនដូចគ្នាទេ។', wrongLogin: 'លេខទូរស័ព្ទ ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ។', hasAcct: 'លេខទូរស័ព្ទនេះមានគណនីរួចហើយ។ សូមចូលប្រើ។', accErr: 'មានបញ្ហា។ សូមព្យាយាមម្តងទៀត។', accOff: 'គណនីមិនអាចប្រើបានពេលនេះទេ។',
+  logout: 'ចាកចេញ', news: 'ដំណឹង', noNews: 'មិនទាន់មានដំណឹងទេ។', markAll: 'សម្គាល់ថាបានអានទាំងអស់', myParcels: 'កញ្ចប់របស់ខ្ញុំ', noParcels: 'មិនទាន់មានកញ្ចប់ទេ។ កញ្ចប់ដែលផ្ញើពី ឬមកកាន់លេខនេះនឹងបង្ហាញនៅទីនេះ។', roleS: 'អ្នកផ្ញើ', roleR: 'អ្នកទទួល', roleSR: 'ផ្ញើ និងទទួល',
+  nPosted: 'កញ្ចប់ {no} របស់អ្នកត្រូវបានទទួលផ្ញើដោយជោគជ័យ។', nNew: 'មានកញ្ចប់ថ្មី {no} កំពុងធ្វើដំណើរមករកអ្នក។', nArrived: 'កញ្ចប់ {no} របស់អ្នកបានមកដល់ {to} ហើយ។', nReceived: 'កញ្ចប់ {no} ត្រូវបានអតិថិជនទទួលហើយ។', unread: 'ថ្មី' },
+ zh: { tabMe: '我的账号', scanQr: '扫描二维码', scanTitle: '请将相机对准收据上的二维码', scanClose: '关闭', scanNoCam: '无法使用相机，请手动输入单号。', scanBad: '此二维码不是包裹单号。',
+  meTitle: '我的账号', meSub: '用手机号注册即可查看您的包裹并接收通知。不注册也可以查询包裹。', phone: '手机号', pw: '密码', pw2: '确认密码', login: '登录', register: '注册', toReg: '新用户？创建账号', toLog: '已有账号？登录',
+  badPhone: '请输入有效的手机号。', pwShort: '密码至少6位。', pwDiff: '两次密码不一致。', wrongLogin: '手机号或密码错误。', hasAcct: '该手机号已注册，请直接登录。', accErr: '出错了，请重试。', accOff: '暂时无法使用账号功能。',
+  logout: '退出', news: '通知', noNews: '暂无通知。', markAll: '全部标为已读', myParcels: '我的包裹', noParcels: '暂无包裹。以此手机号寄出或收到的包裹会显示在这里。', roleS: '寄件', roleR: '收件', roleSR: '寄件并收件',
+  nPosted: '您的包裹 {no} 已成功寄出。', nNew: '有新包裹 {no} 正在送往您处。', nArrived: '您的包裹 {no} 已到达 {to}。', nReceived: '包裹 {no} 已被客户签收。', unread: '新' }
+};
+for (var cl in C) { for (var ck in C[cl]) D[cl][ck] = C[cl][ck]; }
+
+var SC = { posted: '#2563eb', shipping: '#4f46e5', transit: '#7c3aed', arrived: '#0d9488', out: '#d97706', delivered: '#16a34a', returned: '#be185d', problem: '#dc2626' };
+var LANG = 'en'; try { LANG = localStorage.getItem('xpLang') || 'en'; } catch (e) {} if (!D[LANG]) LANG = 'en';
+function T() { return D[LANG]; }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function fmt(ts) { try { return new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Phnom_Penh', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false }).format(new Date(ts)); } catch (e) { return ''; } }
+var db = null, lastRec = null;
+var auth = null;
+try { if (FBCFG && FBCFG.apiKey) { firebase.initializeApp(FBCFG); db = firebase.database(); try { auth = firebase.auth(); } catch (e2) {} } } catch (e) {}
+function lang() {
+  document.documentElement.lang = LANG; try { localStorage.setItem('xpLang', LANG); } catch (e) {}
+  document.getElementById('lang').value = LANG;
+  document.querySelectorAll('[data-t]').forEach(function (el) { el.textContent = T()[el.getAttribute('data-t')]; });
+  document.querySelectorAll('[data-p]').forEach(function (el) { el.placeholder = T()[el.getAttribute('data-p')]; });
+  if (lastRec) show(lastRec.no, lastRec.r); else if (lastMsg) msg(lastMsg);
+  if (mapInit) { renderMapList(); }
+  if (typeof renderMe === 'function') renderMe();
+}
+var lastMsg = '';
+var mapInit = false, MB = [], MAP = null, LAYER = null, MARKERS = {}, MEM = null;
+function gName(g) { if (!g) return T().noGroup; var p = PROVTR[g]; return !p ? g : (LANG === 'km' ? p[0] : LANG === 'zh' ? p[1] : g); }
+function showTab(which) {
+  document.getElementById('paneTrack').classList.toggle('hide', which !== 'track'); document.getElementById('paneMap').classList.toggle('hide', which !== 'map');
+  document.getElementById('paneMe').classList.toggle('hide', which !== 'me');
+  document.getElementById('tabTrack').classList.toggle('on', which === 'track'); document.getElementById('tabMap').classList.toggle('on', which === 'map'); document.getElementById('tabMe').classList.toggle('on', which === 'me');
+  if (which === 'me') renderMe();
+  if (which === 'map') openMap();
+}
+function openMap() {
+  if (!mapInit) {
+    mapInit = true;
+    if (!db) { document.getElementById('mmsg').textContent = T().noBr; return; }
+    db.ref('publicBranches').once('value').then(function (s) { var o = s.val() || {}; MB = Object.keys(o).map(function (k) { var b = o[k]; b.code = k; b.phones = b.phones || []; return b; }); buildMap(); }).catch(function () { document.getElementById('mmsg').textContent = T().noBr; });
+  } else if (MAP) setTimeout(function () { MAP.invalidateSize(); }, 100);
+}
+function buildMap() {
+  var msg = document.getElementById('mmsg');
+  if (!MB.length) { msg.textContent = T().noBr; document.getElementById('map').classList.add('hide'); renderMapList(); return; }
+  if (window.L) {
+    MAP = L.map('map', { zoomControl: true }).setView([12.5657, 104.991], 7);
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap' }).addTo(MAP);
+    LAYER = L.layerGroup().addTo(MAP);
+    MB.forEach(function (b) {
+      var m = L.marker([b.lat, b.lng], { icon: L.divIcon({ className: '', html: '<div class="pin"></div>', iconSize: [30, 30], iconAnchor: [15, 30], popupAnchor: [0, -28] }) });
+      m.bindPopup(function () { return popHtml(b); }, { maxWidth: 260 }); MARKERS[b.code] = m; m.addTo(LAYER);
+    });
+    fitAll();
+    var loc = L.control({ position: 'topright' }); loc.onAdd = function () { var d = L.DomUtil.create('div', ''); d.innerHTML = '<button id="locBtn" style="padding:9px 12px;font-size:13px"></button>'; return d; }; loc.addTo(MAP);
+    var lb = document.getElementById('locBtn'); if (lb) { lb.textContent = T().myLoc; lb.onclick = myLoc; }
+    setTimeout(function () { MAP.invalidateSize(); }, 150);
+  } else { msg.textContent = T().mapFail; document.getElementById('map').classList.add('hide'); }
+  renderMapList();
+}
+function fitAll() { if (!MAP || !MB.length) return; if (MB.length === 1) MAP.setView([MB[0].lat, MB[0].lng], 14); else MAP.fitBounds(L.latLngBounds(MB.map(function (b) { return [b.lat, b.lng]; })).pad(0.2)); }
+function myLoc() {
+  if (!navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(function (p) { if (MEM) MAP.removeLayer(MEM); MEM = L.marker([p.coords.latitude, p.coords.longitude], { icon: L.divIcon({ className: '', html: '<div class="me"></div>', iconSize: [14, 14] }) }).addTo(MAP); MAP.setView([p.coords.latitude, p.coords.longitude], 13); }, function () { document.getElementById('mmsg').textContent = T().locFail; }, { enableHighAccuracy: true, timeout: 15000 });
+}
+function popHtml(b) {
+  var q = b.lat + ',' + b.lng, tel = (b.phones || []).map(function (p) { return '<a href="tel:' + esc(String(p).replace(/[^0-9+]/g, '')) + '">' + esc(p) + '</a>'; }).join('');
+  return '<div class="bp-n">' + esc(b.name) + '</div><div class="bp-g">' + esc(gName(b.group)) + '</div>' + (b.address ? '<div class="bp-a">' + esc(b.address) + '</div>' : '') + (tel ? '<div class="bp-ph">' + tel + '</div>' : '') +
+    '<div class="bp-nav"><a class="g" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' + q + '">' + esc(T().gmaps) + '</a><a class="w" target="_blank" rel="noopener" href="https://waze.com/ul?ll=' + q + '&navigate=yes">' + esc(T().waze) + '</a><a class="a" target="_blank" rel="noopener" href="https://maps.apple.com/?daddr=' + q + '">' + esc(T().apple) + '</a></div>';
+}
+function renderMapList() {
+  var el = document.getElementById('mlist'), q = (document.getElementById('mq').value || '').toLowerCase().trim(), gs = {};
+  var shown = MB.filter(function (b) { var hay = (b.name + ' ' + (b.address || '') + ' ' + (b.group || '') + ' ' + gName(b.group) + ' ' + (b.phones || []).join(' ')).toLowerCase(); return !q || hay.indexOf(q) >= 0; });
+  if (MAP && LAYER) MB.forEach(function (b) { var on = shown.indexOf(b) >= 0, m = MARKERS[b.code]; if (!m) return; if (on) LAYER.addLayer(m); else LAYER.removeLayer(m); });
+  shown.forEach(function (b) { (gs[b.group || ''] = gs[b.group || ''] || []).push(b); });
+  var keys = Object.keys(gs).sort(function (x, y) { if (!x) return 1; if (!y) return -1; return gName(x).localeCompare(gName(y)); });
+  el.innerHTML = !MB.length ? '' : (!shown.length ? '<div class="muted">' + esc(T().noMatch) + '</div>' : keys.map(function (g) { return '<div class="grp">' + esc(gName(g)) + '</div>' + gs[g].map(function (b) { return '<div class="it" onclick="focusBranch(\'' + esc(b.code) + '\')"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg></div><div><b>' + esc(b.name) + '</b><span>' + esc((b.address || '') + ((b.phones || [])[0] ? ' · ' + b.phones[0] : '')) + '</span></div></div>'; }).join(''); }).join(''));
+  if (MAP && q && shown.length === 1) { MAP.setView([shown[0].lat, shown[0].lng], 14); } else if (MAP && q && shown.length > 1) { MAP.fitBounds(L.latLngBounds(shown.map(function (b) { return [b.lat, b.lng]; })).pad(0.3)); } else if (MAP && !q) { fitAll(); }
+}
+function focusBranch(code) { var b = MB.filter(function (x) { return x.code === code; })[0], m = MARKERS[code]; if (!b) return; if (MAP) { window.scrollTo({ top: 0, behavior: 'smooth' }); MAP.setView([b.lat, b.lng], 15); if (m) m.openPopup(); } }
+function findByName(name) { return MB.filter(function (b) { return b.name === name; })[0]; }
+function msg(k) { lastMsg = k; lastRec = null; document.getElementById('res').innerHTML = '<div class="card err">' + esc(T()[k]) + '</div>'; }
+function show(no, r) {
+  lastRec = { no: no, r: r }; lastMsg = '';
+  var h = r.hist ? Object.keys(r.hist).map(function (k) { return r.hist[k]; }).sort(function (a, b) { return b.at - a.at; }) : [];
+  var s = T().s, st = r.status;
+  var html = '<div class="card"><div class="no">' + esc(no) + '</div><div class="route">' + esc(r.from) + ' &rarr; ' + esc(r.to) + '</div><div class="muted">' + esc(T().status) + '</div><div style="margin:6px 0 4px"><span class="st" style="background:' + (SC[st] || '#64748b') + '">' + esc(s[st] || st) + (h[0] && h[0].place && st !== 'out' && st !== 'delivered' && st !== 'problem' ? ' ' + esc(h[0].place) : '') + '</span></div><div class="muted">' + esc(T().upd) + ': ' + esc(fmt(r.updated || r.created)) + '</div></div>';
+  html += '<div class="card"><b>' + esc(T().hist) + '</b><div class="tl">' + h.map(function (x, i) { return '<div class="it' + (i === 0 ? ' first' : '') + '" style="--c:' + (x.ev ? '#64748b' : (SC[x.s] || '#64748b')) + '"><b>' + esc(x.ev ? (s[x.ev] || x.ev) : (s[x.s] || x.s)) + (x.place && x.s !== 'out' && !(x.ev === 'dest') ? ' ' + esc(x.place) : '') + '</b><div class="m">' + esc(fmt(x.at)) + (x.s === 'out' && x.place ? ' · ' + esc(x.place) : '') + '</div>' + (x.note ? '<div class="m">' + esc(x.note) + '</div>' : '') + '</div>'; }).join('') + '</div></div>';
+  document.getElementById('res').innerHTML = html + '<div id="findDest"></div>';
+  if (db && !mapInit) { db.ref('publicBranches').once('value').then(function (s) { var o = s.val() || {}; var hit = Object.keys(o).filter(function (k) { return o[k].name === r.to; })[0]; var el = document.getElementById('findDest'); if (hit && el) { el.innerHTML = '<button class="fbtn" id="fdBtn">' + esc(T().findDest) + '</button>'; document.getElementById('fdBtn').onclick = function () { showTab('map'); var c = hit; var wait = setInterval(function () { if (MB.length || !mapInit) { clearInterval(wait); setTimeout(function () { focusBranch(c); }, 300); } }, 200); }; } }).catch(function () {}); }
+}
+function lookup(no) {
+  no = String(no || '').trim().toUpperCase(); if (!no) return;
+  if (!db) { msg('setup'); return; }
+  if (!/^[A-Z0-9]{2,6}-\d{6}-\d{4,}$/.test(no)) { msg('notfound'); return; }
+  document.getElementById('no').value = no;
+  db.ref('track/' + no).once('value').then(function (s) { var r = s.val(); if (!r) msg('notfound'); else show(no, r); }).catch(function () { msg('neterr'); });
+}
+
+/* ---------- phone number helpers (same as the staff app) ---------- */
+function normPhone(p) { var d = String(p || '').replace(/[^0-9]/g, ''); if (d.indexOf('00855') === 0) d = d.slice(5); else if (d.indexOf('855') === 0 && d.length >= 11) d = d.slice(3); if (!d) return ''; if (d.charAt(0) !== '0') d = '0' + d; return /^0[0-9]{7,10}$/.test(d) ? d : ''; }
+function custEmail(p) { return 'c' + p + '@cust.express.hr203.com'; }
+function custSignIn(p, pw) { return auth.signInWithEmailAndPassword(custEmail(p), pw); }
+function parseNo(s) { s = String(s || '').trim(); var m = s.match(/[?&]no=([A-Za-z0-9-]+)/); if (m) s = m[1]; s = s.toUpperCase(); return /^[A-Z0-9]{2,6}-\d{6}-\d{4,}$/.test(s) ? s : ''; }
+/* ---------- QR scan ---------- */
+var qr = null;
+function scanMsg(k) { document.getElementById('scanMsg').textContent = k ? T()[k] : ''; }
+function scanOpen() {
+  document.getElementById('scanOv').classList.remove('hide'); scanMsg('');
+  if (!window.Html5Qrcode) { scanMsg('scanNoCam'); return; }
+  try {
+    qr = new Html5Qrcode('qrReader');
+    qr.start({ facingMode: 'environment' }, { fps: 10, qrbox: function (w, h) { var s = Math.floor(Math.min(w, h) * 0.8); return { width: s, height: s }; } }, function (txt) { var no = parseNo(txt); if (!no) { scanMsg('scanBad'); return; } scanClose(); showTab('track'); lookup(no); }, function () {}).catch(function () { scanMsg('scanNoCam'); });
+  } catch (e) { qr = null; scanMsg('scanNoCam'); }
+}
+function scanClose() { document.getElementById('scanOv').classList.add('hide'); if (qr) { var q = qr; qr = null; try { q.stop().then(function () { q.clear(); }).catch(function () {}); } catch (e) {} } }
+/* ---------- customer account ---------- */
+var ME = null, NOTES = {}, IDX = {}, meMode = 'login', meErr = '', meBusy = false, rN = null, rI = null;
+function detach() { if (rN) { rN.off(); rN = null; } if (rI) { rI.off(); rI = null; } NOTES = {}; IDX = {}; }
+function attach() {
+  detach(); if (!ME) return;
+  rN = db.ref('custNote/' + ME.phone); rN.on('value', function (s) { NOTES = s.val() || {}; badge(); if (!document.getElementById('paneMe').classList.contains('hide')) renderMe(); }, function () {});
+  rI = db.ref('custIdx/' + ME.phone); rI.on('value', function (s) { IDX = s.val() || {}; if (!document.getElementById('paneMe').classList.contains('hide')) renderMe(); }, function () {});
+}
+function unreadN() { return Object.keys(NOTES).filter(function (k) { return !NOTES[k].seen; }).length; }
+function badge() { var n = unreadN(), b = document.getElementById('meN'); b.textContent = n; b.classList.toggle('hide', !n); }
+function setMode(m) { meMode = m; meErr = ''; renderMe(); }
+function renderMe() {
+  var el = document.getElementById('meBox'); if (!el) return;
+  if (!auth || !db) { el.innerHTML = '<div class="muted">' + esc(T().accOff) + '</div>'; return; }
+  if (!ME) {
+    var reg = meMode === 'register';
+    el.innerHTML = '<h1>' + esc(T().meTitle) + '</h1><div class="muted">' + esc(T().meSub) + '</div>' +
+      '<div class="fld"><label>' + esc(T().phone) + '</label><input id="mePh" type="tel" inputmode="tel" autocomplete="tel"></div>' +
+      '<div class="fld"><label>' + esc(T().pw) + '</label><input id="mePw" type="password" autocomplete="' + (reg ? 'new-password' : 'current-password') + '"></div>' +
+      (reg ? '<div class="fld"><label>' + esc(T().pw2) + '</label><input id="mePw2" type="password" autocomplete="new-password"></div>' : '') +
+      '<div class="err" id="meErr" style="margin-top:8px">' + esc(meErr) + '</div>' +
+      '<button id="meGo" style="width:100%;margin-top:10px" onclick="meSubmit()">' + esc(reg ? T().register : T().login) + '</button>' +
+      '<button class="lnk" onclick="setMode(\'' + (reg ? 'login' : 'register') + '\')">' + esc(reg ? T().toLog : T().toReg) + '</button>';
+    return;
+  }
+  var nk = Object.keys(NOTES).sort(function (a, b) { return NOTES[b].at - NOTES[a].at; }), pk = Object.keys(IDX).sort(function (a, b) { return IDX[b].u - IDX[a].u; });
+  var h = '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><h1 style="margin:0">' + esc(T().meTitle) + '</h1><div class="muted">' + esc(T().phone) + ': <b id="mePhone">' + esc(ME.phone) + '</b></div></div><button onclick="meOut()" style="padding:8px 14px;font-size:13px;background:#e2e8f0;color:#0b1d3a">' + esc(T().logout) + '</button></div>';
+  h += '<div class="sec"><b>' + esc(T().news) + '</b>' + (unreadN() ? '<button onclick="allRead()">' + esc(T().markAll) + '</button>' : '') + '</div>';
+  h += nk.length ? nk.slice(0, 30).map(function (k) { var n = NOTES[k], key = { posted: 'nPosted', 'new': 'nNew', arrived: 'nArrived', received: 'nReceived' }[n.k] || 'nPosted', tx = T()[key].replace('{no}', n.no).replace('{to}', n.to || '');
+    return '<div class="nt ' + (n.seen ? '' : 'un') + '" onclick="noteOpen(\'' + esc(k) + '\')"><b>' + esc(tx) + '</b><span>' + esc((n.from || '') + ' → ' + (n.to || '')) + ' · ' + esc(fmt(n.at)) + '</span></div>'; }).join('') : '<div class="muted" style="margin-top:8px">' + esc(T().noNews) + '</div>';
+  h += '<div class="sec"><b>' + esc(T().myParcels) + '</b></div>';
+  h += pk.length ? pk.slice(0, 60).map(function (k) { var x = IDX[k], role = x.role === 'sr' ? T().roleSR : x.role === 'r' ? T().roleR : T().roleS;
+    return '<div class="pc" onclick="openNo(\'' + esc(x.no) + '\')"><div class="l1"><b>' + esc(x.no) + '</b><span class="chip" style="background:' + (SC[x.st] || '#64748b') + '">' + esc((T().s || {})[x.st] || x.st) + '</span></div><div class="l2">' + esc((x.from || '') + ' → ' + (x.to || '')) + ' · ' + esc(role) + ' · ' + esc(fmt(x.u)) + '</div></div>'; }).join('') : '<div class="muted" style="margin-top:8px">' + esc(T().noParcels) + '</div>';
+  el.innerHTML = h;
+}
+function meSubmit() {
+  if (meBusy) return; var ph = normPhone(document.getElementById('mePh').value), pw = document.getElementById('mePw').value, reg = meMode === 'register';
+  var fail = function (k) { meBusy = false; meErr = T()[k] || T().accErr; var e = document.getElementById('meErr'); if (e) e.textContent = meErr; var b = document.getElementById('meGo'); if (b) b.disabled = false; };
+  if (!ph) { fail('badPhone'); return; } if (pw.length < 6) { fail('pwShort'); return; }
+  if (reg && pw !== document.getElementById('mePw2').value) { fail('pwDiff'); return; }
+  meBusy = true; document.getElementById('meGo').disabled = true;
+  if (!reg) { custSignIn(ph, pw).then(function () { meBusy = false; }).catch(function (e) { fail(e && (e.code === 'auth/network-request-failed') ? 'accErr' : 'wrongLogin'); }); return; }
+  auth.createUserWithEmailAndPassword(custEmail(ph), pw).then(function (cr) {
+    var uid = (cr && cr.user && cr.user.uid) || (auth.currentUser && auth.currentUser.uid);
+    return db.ref('customers/' + uid).set({ phone: ph, at: Date.now() }).then(function () { ME = { uid: uid, phone: ph }; attach(); meBusy = false; meMode = 'login'; renderMe(); });
+  }).catch(function (e) { fail(e && e.code === 'auth/email-already-in-use' ? 'hasAcct' : (e && e.code === 'auth/weak-password' ? 'pwShort' : 'accErr')); });
+}
+function meOut() { detach(); ME = null; badge(); try { auth.signOut(); } catch (e) {} renderMe(); }
+function allRead() { if (!ME) return; Object.keys(NOTES).forEach(function (k) { if (!NOTES[k].seen) db.ref('custNote/' + ME.phone + '/' + k + '/seen').set(true).catch(function () {}); }); }
+function noteOpen(k) { var n = NOTES[k]; if (!n) return; if (!n.seen) db.ref('custNote/' + ME.phone + '/' + k + '/seen').set(true).catch(function () {}); openNo(n.no); }
+function openNo(no) { showTab('track'); lookup(no); window.scrollTo(0, 0); }
+if (auth) auth.onAuthStateChanged(function (u) {
+  if (meBusy) return;
+  if (!u) { if (ME) { detach(); ME = null; badge(); renderMe(); } return; }
+  db.ref('customers/' + u.uid).once('value').then(function (s) { var c = s.val(); if (c && c.phone) { ME = { uid: u.uid, phone: c.phone }; attach(); } renderMe(); }).catch(function () { renderMe(); });
+});
+document.addEventListener('DOMContentLoaded', function () {
+  document.getElementById('go').onclick = function () { lookup(document.getElementById('no').value); };
+  document.getElementById('tabTrack').onclick = function () { showTab('track'); }; document.getElementById('tabMe').onclick = function () { showTab('me'); }; document.getElementById('scanBtn').onclick = scanOpen; document.getElementById('scanX').onclick = scanClose; document.getElementById('tabMap').onclick = function () { showTab('map'); };
+  document.getElementById('mq').oninput = function () { renderMapList(); };
+  document.getElementById('no').onkeydown = function (e) { if (e.key === 'Enter') lookup(this.value); };
+  document.getElementById('lang').onchange = function () { LANG = this.value; lang(); };
+  lang();
+  var m = location.search.match(/[?&]no=([A-Za-z0-9-]+)/); if (m) lookup(m[1]);
+  if (/[?&]tab=map/.test(location.search) || location.hash === '#map') showTab('map');
+});
+</script>
+<!-- MTG-BEGIN -->
+<script>
+/* maintenance guard: when the Administration switches Maintenance on for "express" (Maintenance page), this page shows a notice instead of working */
+(function () {
+  var SVC = 'express', SC = 'any';
+  try {
+    if (!window.firebase) return;
+    var app = null; try { app = firebase.app('mtg'); } catch (e) { app = firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg'); }
+    var D = { en: ['Under maintenance', 'This page is temporarily unavailable. Please try again later.'], km: ['កំពុងថែទាំ', 'ទំព័រនេះមិនអាចប្រើបានបណ្តោះអាសន្ន។ សូមព្យាយាមម្តងទៀតពេលក្រោយ។'], zh: ['维护中', '此页面暂时不可用，请稍后再试。'] };
+    function lang() { var l = ''; try { l = localStorage.getItem('tdLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} l = String(l).toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; if (!D[l]) { l = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; } return D[l] ? l : 'en'; }
+    function applies(m) {
+      if (!m || !m.on) return false;
+      if (!(m.services && m.services[SVC] === 'closed')) return false;
+      var sc = m.scope; if (!sc || SC === 'any') return true;
+      return SC.split(',').some(function (k) { return sc[k] === true; });
+    }
+    function render(m) {
+      var el = document.getElementById('mtGuard');
+      if (!applies(m)) { if (el) el.remove(); document.documentElement.style.overflow = ''; return; }
+      var l = lang(), msg = (m.message && String(m.message[l] || '').trim()) || D[l][1];
+      if (!el) { el = document.createElement('div'); el.id = 'mtGuard'; el.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#f1f5f9;display:flex;align-items:center;justify-content:center;padding:20px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Khmer","Noto Sans SC",Arial,sans-serif;'; document.body.appendChild(el); }
+      el.innerHTML = '<div style="background:#fff;border-radius:18px;max-width:380px;width:100%;padding:28px 22px;text-align:center;box-shadow:0 10px 40px rgba(15,23,42,.18);"><div style="font-size:44px;">&#128295;</div><h2 style="margin:8px 0 8px;font-size:20px;color:#0f172a;"></h2><p style="margin:0;font-size:15px;line-height:1.5;color:#475569;white-space:pre-wrap;"></p></div>';
+      el.querySelector('h2').textContent = D[l][0]; el.querySelector('p').textContent = msg; document.documentElement.style.overflow = 'hidden';
+    }
+    var last = null; try { last = JSON.parse(localStorage.getItem('mtgCache') || 'null'); } catch (e) {}
+    function start() {
+      if (last) render(last);
+      app.auth().signInAnonymously().catch(function () {}).then(function () {
+        app.database().ref('maintenance').on('value', function (s) { last = s.val(); try { localStorage.setItem('mtgCache', JSON.stringify(last)); } catch (e) {} render(last); }, function () {});
+      });
+    }
+    if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);
+  } catch (e) {}
+})();
+</script>
+<!-- MTG-END -->
+<!-- HRFT-BEGIN --><div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Express</div><div class="v">Version 8.00</div></div><!-- HRFT-END -->
+</body>
+</html>

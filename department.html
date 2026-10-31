@@ -655,7 +655,16 @@ button.quick-btn[style*="background:#e2e8f0"] .quick-btn-label{color:#334155!imp
 .header .hrLogo + div{margin:0 auto 0 14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.4)}
 .header .hrLogo + div h2{font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;line-height:1.3}
 @media (max-width:600px){.header .hrLogo + h2,.header .hrLogo + div h2{font-size:11px}.header .hrLogo + h2,.header .hrLogo + div{margin-left:10px;padding-left:10px}}
-</style></head>
+</style><style id="hrFtCss">
+.hrft{text-align:center;padding:14px 0 18px;color:inherit;opacity:.62;line-height:1.2;font-family:Arial,Helvetica,sans-serif;width:100%}
+.hrft .hrftL{display:inline-flex;align-items:flex-end;font-weight:700;font-size:16px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrft .hrftL i{font-style:normal}
+.hrft .hrftL s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+.hrft .n{font-size:11px;font-weight:700;margin-top:5px}
+.hrft .v{font-size:10px;margin-top:2px}
+@media print{.hrft{display:none}}
+</style>
+</head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
 #kbSplash.out{opacity:0;pointer-events:none}
@@ -724,7 +733,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
      </div>
  </div>
 
- <div style="text-align:center; font-size:10px; color:#94a3b8; padding:10px;">System Version 7.71</div>
+ <!-- HRFT-BEGIN --><div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Employee System</div><div class="v">Version 8.00</div></div><!-- HRFT-END -->
 </div>
 
 <!-- EMPLOYEE SELF-SERVICE SYSTEM (default landing view) -->
@@ -924,6 +933,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         </div>
     </div>
  </div>
+<!-- HRFT-BEGIN --><div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Employee System</div><div class="v">Version 8.00</div></div><!-- HRFT-END -->
 </div>
 
 <!-- EMPLOYEE NOTIFICATIONS MODAL -->
@@ -954,7 +964,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          <button type="submit" class="login-btn">Log In</button>
          <button type="button" class="login-btn" style="background:#e2e8f0; color:#123a5c;" onclick="loginBackToChooser()" data-i18n="returnToChooserOption">Return to Choose System</button>
          <div id="loginError" class="login-error">Invalid Username or Password!</div>
-     </form>
+     </form><!-- HRFT-BEGIN --><div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Administration System</div><div class="v">Version 8.00</div></div><!-- HRFT-END -->
  </div>
 </div>
 
@@ -2920,9 +2930,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
     </div>
 </div>
 
- <div style="text-align:center; font-size:10px; color:#94a3b8; margin-top:18px; padding:6px 0;">
-     HR & Administration System Version 7.71
- </div>
+ <!-- HRFT-BEGIN --><div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Administration System</div><div class="v">Version 8.00</div></div><!-- HRFT-END -->
 </div>
 
  <!-- RECENTLY DELETED (UNDO) MODAL -->
