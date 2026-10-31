@@ -29,9 +29,16 @@
   body { background:var(--bg); color:var(--ink); min-height:100vh; }
   header { background:var(--brand); color:#fff; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
   header h1 { font-size:17px; font-weight:700; }
-  .langs { display:flex; gap:6px; }
-  .langs button { background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.3); border-radius:6px; padding:4px 10px; font-size:12px; cursor:pointer; }
-  .langs button.on { background:#fff; color:var(--brand); font-weight:700; }
+  .lang-dropdown { position:relative; display:inline-block; margin-left:auto; }
+  .lang-btn { background:#1e293b; border:1px solid #334155; padding:4px 8px; border-radius:4px; cursor:pointer; display:flex; align-items:center; gap:6px; color:#f8fafc; font-size:12px; transition:background .2s; }
+  .lang-btn:hover { background:#334155; }
+  .flag-icon { width:22px; height:14px; border-radius:2px; object-fit:cover; display:inline-block; box-shadow:0 0 1px rgba(0,0,0,.5); }
+  .lang-menu { display:none; position:absolute; right:0; top:110%; background:#fff; border:1px solid #cbd5e1; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,.15); min-width:130px; z-index:200; overflow:hidden; }
+  .lang-menu.show { display:block; }
+  .lang-option { display:flex; align-items:center; gap:8px; padding:8px 12px; color:#1e293b; font-size:12px; cursor:pointer; }
+  .lang-option:hover { background:#f1f5f9; }
+  .lang-option.active { font-weight:bold; background:#e2e8f0; }
+  header { flex-wrap:nowrap; }
   main { max-width:760px; margin:0 auto; padding:16px; }
   .card { background:var(--card); border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 1px 3px rgba(15,23,42,.08); }
   .card h2 { font-size:15px; margin-bottom:6px; }
@@ -97,7 +104,12 @@ var rm=false;try{rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: redu
 setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener('touchstart',hide,{passive:true});})();</script><!-- SPLASH-END -->
 <header>
   <span class="hrLogo" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><h1 id="hTitle" style="margin-right:auto;margin-left:12px;padding-left:12px;border-left:1px solid rgba(255,255,255,.4);font-size:13px;text-transform:uppercase;letter-spacing:.5px">Maintenance Mode</h1>
-  <div class="langs"><button data-l="en">EN</button><button data-l="km">ខ្មែរ</button><button data-l="zh">中文</button></div>
+  <div class="lang-dropdown" id="langDd"><button type="button" class="lang-btn" id="langBtnM"><img id="curFlagM" class="flag-icon" src="https://flagcdn.com/w40/us.png" alt=""> <span id="curLangM">EN</span> ▼</button>
+    <div class="lang-menu" id="langMenuM">
+      <div class="lang-option" data-l="km"><img class="flag-icon" src="https://flagcdn.com/w40/kh.png" alt=""> ភាសាខ្មែរ</div>
+      <div class="lang-option" data-l="en"><img class="flag-icon" src="https://flagcdn.com/w40/us.png" alt=""> English</div>
+      <div class="lang-option" data-l="zh"><img class="flag-icon" src="https://flagcdn.com/w40/cn.png" alt=""> 中文</div>
+    </div></div>
 </header>
 <main>
   <!-- LOGIN -->
@@ -239,10 +251,14 @@ function renderLang() {
   document.documentElement.lang = lang === 'zh' ? 'zh' : (lang === 'km' ? 'km' : 'en');
   document.title = T('title'); $('hTitle').textContent = T('title');
   document.querySelectorAll('[data-i]').forEach(e => { e.textContent = T(e.getAttribute('data-i')); });
-  document.querySelectorAll('.langs button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+  document.querySelectorAll('#langMenuM .lang-option').forEach(b => b.classList.toggle('active', b.dataset.l === lang));
+  $('curLangM').textContent = { en:'EN', km:'ខ្មែរ', zh:'中文' }[lang] || 'EN';
+  $('curFlagM').src = 'https://flagcdn.com/w40/' + ({ en:'us', km:'kh', zh:'cn' }[lang] || 'us') + '.png';
   renderPanel(); if (lockForm) renderLock();
 }
-document.querySelectorAll('.langs button').forEach(b => b.onclick = () => { lang = b.dataset.l; try { localStorage.setItem('appLang', lang); } catch (e) {} renderLang(); });
+$('langBtnM').onclick = e => { e.stopPropagation(); $('langMenuM').classList.toggle('show'); };
+document.addEventListener('click', () => $('langMenuM').classList.remove('show'));
+document.querySelectorAll('#langMenuM .lang-option').forEach(b => b.onclick = () => { lang = b.dataset.l; try { localStorage.setItem('appLang', lang); } catch (e) {} $('langMenuM').classList.remove('show'); renderLang(); });
 
 /* ---------- login (same secure login as the main system) ---------- */
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
