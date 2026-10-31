@@ -195,7 +195,12 @@ label.chk{display:flex;gap:8px;align-items:center;font-weight:700;font-size:14px
 }
 .moreg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}.moreg button{display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:#eef2f9;color:#0b1d3a;font-weight:700;font-size:14px;padding:16px 8px;border-radius:14px;cursor:pointer}.moreg button svg{width:30px;height:30px}
 </style>
-</head>
+<style id="hrLogoCss">
+.hrLogo{display:inline-flex;align-items:flex-end;flex:none;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:30px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrLogo i{font-style:normal}
+.hrLogo s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+@media (max-width:600px){.hrLogo{font-size:24px}}
+header.top .hrLogo{font-size:24px}header.top .hrLogo + .ttl{padding-left:12px;border-left:1px solid rgba(255,255,255,.4);font-size:12px;text-transform:uppercase;letter-spacing:.5px}header.top .hrLogo + .ttl small{font-size:10px}</style></head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
 #kbSplash.out{opacity:0;pointer-events:none}
@@ -230,6 +235,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 <div id="app" class="hide">
  <div class="sticky">
  <header class="top grad">
+  <span class="hrLogo" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span>
   <div class="ttl"><span id="hTitle"></span><small id="hSub"></small></div>
   <div class="hr"><select id="hlang"><option value="en">EN</option><option value="km">ខ្មែរ</option><option value="zh">中文</option></select>
   <button class="ib" id="bellBtn" title="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="badge hide" id="bellN">0</span></button>

@@ -83,7 +83,12 @@ button{padding:12px 18px;border:0;border-radius:10px;font-weight:700;font-size:1
 .chip{display:inline-block;padding:3px 10px;border-radius:12px;color:#fff;font-weight:800;font-size:12px}
 .sec{margin-top:16px;display:flex;justify-content:space-between;align-items:center}.sec b{font-size:16px}.sec button{padding:7px 12px;font-size:12px;background:#e2e8f0;color:#0b1d3a}
 </style>
-</head>
+<style id="hrLogoCss">
+.hrLogo{display:inline-flex;align-items:flex-end;flex:none;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:30px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrLogo i{font-style:normal}
+.hrLogo s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+@media (max-width:600px){.hrLogo{font-size:24px}}
+header .hrLogo{font-size:24px}</style></head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
 #kbSplash.out{opacity:0;pointer-events:none}
@@ -104,7 +109,7 @@ button{padding:12px 18px;border:0;border-radius:10px;font-weight:700;font-size:1
 </style><div id="kbSplash" aria-hidden="true"><div class="lg"><i class="h">H</i><i class="r">R</i><i class="bar"></i><i class="n1">2</i><i class="n2">0</i><i class="n3">3</i></div></div><script>(function(){var s=document.getElementById('kbSplash');if(!s)return;var done=false;function hide(){if(done)return;done=true;s.classList.add('out');setTimeout(function(){try{s.remove();var c=document.getElementById('kbSplashCss');if(c)c.remove();}catch(e){}},520);}
 var rm=false;try{rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
 setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener('touchstart',hide,{passive:true});})();</script><!-- SPLASH-END -->
-<header><b>Express</b><select id="lang"><option value="en">EN</option><option value="km">ខ្មែរ</option><option value="zh">中文</option></select></header>
+<header><span class="hrLogo" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><b style="margin-left:2px;padding-left:12px;border-left:1px solid rgba(255,255,255,.4);font-size:12px;letter-spacing:.5px;text-transform:uppercase">Express</b><select id="lang"><option value="en">EN</option><option value="km">ខ្មែរ</option><option value="zh">中文</option></select></header>
 <nav class="tabs"><button id="tabTrack" class="on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/></svg><span data-t="tabTrack">Track order</span></button><button id="tabMap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="9" r="2.5"/></svg><span data-t="tabMap">Find branch</span></button><button id="tabMe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg><span data-t="tabMe">My account</span><span id="meN" class="bd hide">0</span></button></nav>
 <main>
  <div id="paneTrack">

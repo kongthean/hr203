@@ -69,7 +69,12 @@
   .check { display:flex; gap:8px; align-items:flex-start; font-size:13px; margin-top:12px; font-weight:500; }
   .check input { margin-top:3px; }
 </style>
-</head>
+<style id="hrLogoCss">
+.hrLogo{display:inline-flex;align-items:flex-end;flex:none;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:30px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrLogo i{font-style:normal}
+.hrLogo s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+@media (max-width:600px){.hrLogo{font-size:24px}}
+header .hrLogo{font-size:24px}</style></head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
 #kbSplash.out{opacity:0;pointer-events:none}
@@ -91,7 +96,7 @@
 var rm=false;try{rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
 setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener('touchstart',hide,{passive:true});})();</script><!-- SPLASH-END -->
 <header>
-  <h1 id="hTitle">Maintenance Mode</h1>
+  <span class="hrLogo" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><h1 id="hTitle" style="margin-right:auto;margin-left:12px;padding-left:12px;border-left:1px solid rgba(255,255,255,.4);font-size:13px;text-transform:uppercase;letter-spacing:.5px">Maintenance Mode</h1>
   <div class="langs"><button data-l="en">EN</button><button data-l="km">ខ្មែរ</button><button data-l="zh">中文</button></div>
 </header>
 <main>

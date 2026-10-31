@@ -481,7 +481,18 @@ td.num-edit input { width: 80px; }
 button.quick-btn[style*="background:#e2e8f0"],button.quick-btn[style*="background: #e2e8f0"],button.quick-btn[style*="background:#f1f5f9"]{background:#e2e8f0!important;color:#334155!important;box-shadow:none!important}
 button.quick-btn[style*="background:#e2e8f0"] .quick-btn-label{color:#334155!important}
 </style>
-</head>
+<style id="hrLogoCss">
+@media (max-width:600px){.header{flex-wrap:wrap;row-gap:8px}.header .header-right{margin-left:auto;gap:8px}.header .header-brand{display:none}#adminApp .header .hrLogo + h2,#dpApp .header .hrLogo + div{display:none}}
+
+.hrLogo{display:inline-flex;align-items:flex-end;flex:none;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:30px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrLogo i{font-style:normal}
+.hrLogo s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+@media (max-width:600px){.hrLogo{font-size:24px}}
+.header .hrLogo + h2{margin:0 auto 0 14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.4);font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;line-height:1.3}
+.header .hrLogo + div{margin:0 auto 0 14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.4)}
+.header .hrLogo + div h2{font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;line-height:1.3}
+@media (max-width:600px){.header .hrLogo + h2,.header .hrLogo + div h2{font-size:11px}.header .hrLogo + h2,.header .hrLogo + div{margin-left:10px;padding-left:10px}}
+</style></head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
 #kbSplash.out{opacity:0;pointer-events:none}
@@ -538,6 +549,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 <div id="dpApp" class="container" style="display:none;">
   <div id="stickyTop">
   <div class="header dp-hero">
+    <span class="hrLogo" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span>
     <div>
       <h2 data-i18n="dpTitle">Department System</h2>
       <div style="font-size:12px; opacity:.9;"><b id="dpDeptName"></b> &middot; <span id="dpAccName"></span></div>

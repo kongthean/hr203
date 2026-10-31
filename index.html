@@ -731,7 +731,22 @@ button.ssBtn { box-sizing: border-box; height: var(--ctl-h) !important; min-heig
 /* buttons side by side in one row: no extra top margin, so none of them is stretched taller than the others */
 div[style*="display:flex"] > .btn-submit, div[style*="display: flex"] > .btn-submit { margin-top: 0 !important; }
 </style>
-</head>
+<style id="hrLogoCss">
+@media (max-width:600px){.header{flex-wrap:wrap;row-gap:8px}.header .header-right{margin-left:auto;gap:8px}.header .header-brand{display:none}#adminApp .header .hrLogo + h2,#dpApp .header .hrLogo + div{display:none}}
+
+.header .hrLogo + div[style*="baseline"]{margin:0 auto 0 14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.4);align-items:center !important}
+.header .hrLogo + div[style*="baseline"] h2{font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;line-height:1.3}
+@media (max-width:600px){.header .hrLogo + div[style*="baseline"]{margin-left:10px;padding-left:10px}.header .hrLogo + div[style*="baseline"] h2{font-size:11px}}
+
+.hrLogo{display:inline-flex;align-items:flex-end;flex:none;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:30px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrLogo i{font-style:normal}
+.hrLogo s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+@media (max-width:600px){.hrLogo{font-size:24px}}
+.header .hrLogo + h2{margin:0 auto 0 14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.4);font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;line-height:1.3}
+.header .hrLogo + div{margin:0 auto 0 14px;padding-left:14px;border-left:1px solid rgba(255,255,255,.4)}
+.header .hrLogo + div h2{font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;line-height:1.3}
+@media (max-width:600px){.header .hrLogo + h2,.header .hrLogo + div h2{font-size:11px}.header .hrLogo + h2,.header .hrLogo + div{margin-left:10px;padding-left:10px}}
+</style></head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
 #kbSplash.out{opacity:0;pointer-events:none}
@@ -807,6 +822,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 <!-- EMPLOYEE SELF-SERVICE SYSTEM (default landing view) -->
 <div id="employeeApp" class="container">
  <div class="header">
+     <span class="hrLogo" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span>
      <div style="display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;">
          <h2 data-i18n="employeeAppTitle">Employee Self-Service</h2>
          <span id="empLoggedInAsLabel" style="font-size:11px; color:#94a3b8; display:none;"></span>
@@ -1146,7 +1162,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 <div class="container" id="adminApp" style="display:none;">
  <div id="stickyTop">
  <div class="header">
-     <h2 data-i18n="appTitle">Administration System</h2>
+     <span class="hrLogo" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><h2 data-i18n="appTitle">Administration System</h2>
      <div class="header-right">
          <span class="header-brand">Admin</span>
 
