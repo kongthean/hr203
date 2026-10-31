@@ -1167,6 +1167,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:48px; height:48px; margin:0 auto 12px auto; display:block; color:#b91c1c;"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
         <h4 data-i18n="deviceBlockedTitle">This Device Has Been Blocked</h4>
         <p style="font-size:13px; color:#334155; margin-top:8px;" data-i18n="deviceBlockedSub">Administration has blocked this device from using the system. Contact Administration if you believe this is a mistake.</p>
+        <button type="button" onclick="window.__ownerTry = true; document.getElementById('deviceBlockedOverlay').style.display = 'none';" style="margin-top:14px; border:0; background:none; color:#64748b; font-size:12px; text-decoration:underline; cursor:pointer;">Owner access</button>
     </div>
 </div>
 
@@ -12273,11 +12274,13 @@ function escapeHtmlText(s) {
      }, 45000);
  }
 
+ setInterval(function () { try { applyDeviceBlockState(); } catch (e) {} }, 2500);
  function applyDeviceBlockState() {
      const mine = deviceSessions.find(d => d.firebaseKey === CURRENT_DEVICE_ID);
      const overlay = document.getElementById('deviceBlockedOverlay');
      if (!overlay) return;
-     if (mine && mine.blocked) {
+     var ownerNow = false; try { ownerNow = sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInRole') === 'admin' && viewerIsOwner(); } catch (e) {}
+     if (mine && mine.blocked && !ownerNow && !(window.__ownerTry && sessionStorage.getItem('isLoggedIn') !== 'true')) {
          overlay.style.display = 'flex';
          if (deviceHeartbeatTimer) { clearInterval(deviceHeartbeatTimer); deviceHeartbeatTimer = null; }
          sessionStorage.removeItem('isLoggedIn');
@@ -13530,7 +13533,7 @@ function filterMakeupTable() {
 
  /* ===== Owner accounts: locked, always on top, username hidden from everyone but the Owners ===== */
  function viewerIsOwner() {
-     try { const u = sessionStorage.getItem('loggedInAccountUsername'); return accounts.some(function (a) { return a.owner === true && a.username === u; }); } catch (e) { return false; }
+     try { const u = sessionStorage.getItem('loggedInAccountUsername'); const r = sessionStorage.getItem('loggedInRole'); return accounts.some(function (a) { return a.owner === true && a.username === u && a.role === r; }); } catch (e) { return false; }
  }
  function acctByKey(k) { return accounts.find(function (a) { return a.firebaseKey === k; }); }
  function acctIsOwner(k) { const a = acctByKey(k); return !!(a && a.owner === true); }
@@ -13540,7 +13543,7 @@ function filterMakeupTable() {
      const own = a.owner === true;
      if (own && !vo) {
          return `<tr style="background:#f8fafc;">
-             <td><span style="display:inline-block; padding:2px 10px; border-radius:999px; background:#0b1d3a; color:#fff; font-size:11px; font-weight:700;">&#128274; ${t('ownerBadge')}</span></td>
+             <td><span class="ownBadge">${t('ownerBadge')}</span></td>
              <td><b>${escapeHtmlText(a.name || '')}</b></td>
              <td><span style="letter-spacing:2px; color:#94a3b8;">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</span></td>
              <td><span style="letter-spacing:2px; color:#94a3b8;">&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</span></td>
@@ -13550,7 +13553,7 @@ function filterMakeupTable() {
          </tr>`;
      }
      const actions = own
-         ? `<span style="display:inline-block; padding:2px 10px; border-radius:999px; background:#0b1d3a; color:#fff; font-size:11px; font-weight:700;">&#128274; ${t('ownerBadge')}</span>`
+         ? `<span class="ownBadge">${t('ownerBadge')}</span>`
          : `<button class="btn-edit" style="font-size:10px; padding:3px 8px;" onclick="toggleAccountDisabled('${a.firebaseKey}', ${!a.disabled})">${a.disabled ? t('btnEnable') : t('btnDisable')}</button>
             <button class="btn-delete" style="font-size:10px; padding:3px 8px; margin-top:4px;" onclick="deleteAccount('${a.firebaseKey}', this)" title="${t('acctDelete')}">${t('acctDelete')}</button>`;
      return `
@@ -13590,7 +13593,7 @@ function filterMakeupTable() {
      const pick = function (want) { const w = String(want).toLowerCase(); const f = adm.find(function (a) { return String(a.name || '').trim().toLowerCase() === w; }); return f ? f.firebaseKey : ''; };
      const p1 = (document.getElementById('ownSel1') || {}).value || pick('Kong Thean'), p2 = (document.getElementById('ownSel2') || {}).value || pick('Administration');
      const opt = function (cur) { return '<option value="">-</option>' + adm.map(function (a) { return '<option value="' + a.firebaseKey + '"' + (a.firebaseKey === cur ? ' selected' : '') + '>' + escapeHtmlText(a.name || a.username) + '</option>'; }).join(''); };
-     box.innerHTML = '<div style="border:2px solid #0b1d3a; border-radius:12px; padding:12px; margin-bottom:14px; background:#f8fafc;"><b>&#128274; ' + escapeHtmlText(t('ownerSetupTitle')) + '</b><div style="font-size:12px; color:#475569; margin:6px 0 10px;">' + escapeHtmlText(t('ownerSetupHelp')) + '</div>' +
+     box.innerHTML = '<div style="border:2px solid #0b1d3a; border-radius:12px; padding:12px; margin-bottom:14px; background:#f8fafc;"><b>' + escapeHtmlText(t('ownerSetupTitle')) + '</b><div style="font-size:12px; color:#475569; margin:6px 0 10px;">' + escapeHtmlText(t('ownerSetupHelp')) + '</div>' +
          '<div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;"><select id="ownSel1">' + opt(p1) + '</select><select id="ownSel2">' + opt(p2) + '</select><button type="button" class="btn-submit" style="width:auto; padding:8px 16px; margin:0;" onclick="ownerSetupSave(this)">' + escapeHtmlText(t('ownerSetupBtn')) + '</button></div></div>';
  }
  async function ownerSetupSave(btn) {
@@ -20669,13 +20672,13 @@ async function saForget(acc) {
 
 /* Management: which accounts already have the secure login */
 function saStatusLine(a) {
-    return (a.authId && a.uid) ? '<span style="color:#15803d;">🔒 ' + escapeHtmlText(t('saSecureOn')) + '</span>' : '<span style="color:#b45309;">⏳ ' + escapeHtmlText(t('saSecurePending')) + '</span>';
+    return (a.authId && a.uid) ? '<span class="stLine"><i class="stDot g"></i>' + escapeHtmlText(t('saSecureOn')) + '</span>' : '<span class="stLine"><i class="stDot a"></i>' + escapeHtmlText(t('saSecurePending')) + '</span>';
 }
 function saRenderSummary() {
     const box = document.getElementById('saSummary');
     if (!box) return;
     const n = accounts.filter(function (a) { return a.authId && a.uid; }).length;
-    box.innerHTML = '<div style="font-size:12px; margin:4px 0 8px; ' + (n === accounts.length && n ? 'color:#15803d;' : 'color:#b45309;') + '">🔒 ' + escapeHtmlText(fillTemplate(t('saSummary'), { a: n, b: accounts.length })) + '</div>';
+    box.innerHTML = '<div class="acctStat"><div class="stRow"><i class="stDot ' + (n === accounts.length && n ? 'g' : 'a') + '"></i>' + escapeHtmlText(fillTemplate(t('saSummary'), { a: n, b: accounts.length })) + '</div></div>';
 }
 (function () { const o = renderAccountsTable; renderAccountsTable = function () { o(); saRenderSummary(); }; })();
 
@@ -20917,7 +20920,7 @@ async function ecSync() {
         if (!box || ecLinks === null) return;
         const act = employees.filter(function (e) { return e.status === 'Active'; });
         const ok = act.filter(function (e) { const l = ecLinks[e.firebaseKey]; return l && l.uid && (!ecSigCache[e.firebaseKey] || l.sig === ecSigCache[e.firebaseKey]); }).length;
-        box.innerHTML += '<div style="font-size:12px; margin:0 0 8px; ' + (ok === act.length && ok ? 'color:#15803d;' : 'color:#b45309;') + '">🔒 ' + escapeHtmlText(fillTemplate(t('ecSummary'), { a: ok, b: act.length })) + '</div>' + (window.__tl && window.__tl.emp ? '<div style="font-size:11px; color:#64748b; margin:0 0 8px;">⏱ ' + escapeHtmlText(fillTemplate(t('mtTiming'), { a: ((window.__tl.actor || 0) / 1000).toFixed(1), b: (window.__tl.emp / 1000).toFixed(1) })) + '</div>' : '');
+        box.innerHTML = box.innerHTML.replace(/<\/div><\/div>$/, '') + '<div class="stRow"><i class="stDot ' + (ok === act.length && ok ? 'g' : 'a') + '"></i>' + escapeHtmlText(fillTemplate(t('ecSummary'), { a: ok, b: act.length })) + '</div>' + (window.__tl && window.__tl.emp ? '<div class="stRow sub">' + escapeHtmlText(fillTemplate(t('mtTiming'), { a: ((window.__tl.actor || 0) / 1000).toFixed(1), b: (window.__tl.emp / 1000).toFixed(1) })) + '</div>' : '') + '</div>';
     };
 })();
 
@@ -20958,6 +20961,7 @@ function mtIsOn() { return !!(mtData && mtData.on && mtScopeOk()); }
 (function () { let k0 = null; setInterval(function () { const k = [sessionStorage.getItem('isLoggedIn'), sessionStorage.getItem('loggedInRole'), sessionStorage.getItem('empLoggedInId')].join('|'); if (k !== k0) { if (k0 !== null) { try { mtRefresh(); } catch (e) {} } k0 = k; } }, 700); })();
 /* only the Administration accounts ticked on the maintenance page keep full access (e.g. one account for testing) */
 function mtBypass() {
+    try { if (sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInRole') === 'admin' && viewerIsOwner()) return true; } catch (e) {}
     if (!(mtData && mtData.bypassKeys) || sessionStorage.getItem('isLoggedIn') !== 'true' || sessionStorage.getItem('loggedInRole') !== 'admin') return false;
     const a = window.__actorInfo;
     return !!(a && a.type === 'staff' && a.role === 'admin' && a.key && mtData.bypassKeys[a.key] === true);
@@ -23105,6 +23109,7 @@ function lockMsgText() {
     return m || l.message || '';
 }
 function lockExempt() {
+    try { if (sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInRole') === 'admin' && viewerIsOwner()) return true; } catch (e) {}
     var a = window.__actorInfo;
     return !!(a && a.type === 'staff' && a.role === 'admin' && a.key && systemLock && systemLock.exemptKeys && systemLock.exemptKeys[a.key] === true);
 }
@@ -27645,6 +27650,15 @@ function hrQRsvg(text, px) {
 <!-- ASSET-MANAGER-END -->
 
 
+<style id="acctUiCss">
+.ownBadge{display:inline-block;padding:3px 12px;border-radius:6px;background:#0b1d3a;color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.8px;text-transform:uppercase}
+.stDot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:7px;vertical-align:middle;font-style:normal}
+.stDot.g{background:#16a34a}.stDot.a{background:#d97706}
+.stLine{font-size:10.5px;font-weight:500;color:#475569}
+.acctStat{border:1px solid #e2e8f0;background:#f8fafc;border-radius:10px;padding:10px 14px;margin:2px 0 14px}
+.acctStat .stRow{font-size:12.5px;font-weight:600;color:#334155;line-height:1.9}
+.acctStat .stRow.sub{font-size:11px;font-weight:400;color:#94a3b8;margin-left:15px;line-height:1.5}
+</style>
 <!-- MENU-ORDER-BEGIN -->
 <style>
 .mo-ph{opacity:.25!important;outline:2px dashed #64748b;outline-offset:-2px}
