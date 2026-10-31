@@ -544,7 +544,7 @@
         either modal's HTML happens to sit. */
      #composeModal { z-index: 110; }
      /* v6.81: customConfirmModal replaces native confirm() everywhere in the app (the owner does
-        not want the native "cambodiainsight.net says" browser dialog). It can be triggered from
+        not want the native "<site> says" browser dialog). It can be triggered from
         INSIDE another already-open modal (e.g. a delete button inside the Document Library
         modal), so it needs a z-index higher than every other modal, including composeModal
         above, to always render on top. */
@@ -13051,7 +13051,7 @@ function filterMonthlyTable() {
         so it stays.
         v6.81: now shown as the site's own styled modal (showConfirm) instead of the native
         browser confirm() dialog - the owner specifically complained about the native
-        "cambodiainsight.net says" popup appearing for this exact action. */
+        "<site> says" popup appearing for this exact action. */
      if (await showConfirm(t('confirmDeleteMsg').replace('{name}', name))) {
          withBusyButton(btnEl, () => db.ref('employees/' + firebaseKey).once('value').then(snap => {
              const record = snap.val();
