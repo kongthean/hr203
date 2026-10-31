@@ -27766,5 +27766,137 @@ body.mo-dragging{-webkit-user-select:none;user-select:none;cursor:grabbing}
 </script>
 <!-- MENU-ORDER-END -->
 
+
+<!-- OWNER-ENTRY-BEGIN -->
+<style>
+#ownerPickBox{max-width:560px;margin:14px auto;padding:16px;border:1px solid #e2e8f0;border-radius:14px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.06);text-align:left}
+#ownerPickBox h3{margin:0 0 4px;font-size:17px;color:#0f172a}
+#ownerPickBox .op-sub{font-size:12px;color:#64748b;margin-bottom:10px}
+#ownerPickBox input[type=search]{width:100%;height:42px;border:1px solid #cbd5e1;border-radius:10px;padding:0 12px;margin-bottom:8px;box-sizing:border-box;font-size:15px}
+#ownerPickBox .op-list{max-height:52vh;overflow:auto;border:1px solid #e2e8f0;border-radius:10px}
+#ownerPickBox .op-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #f1f5f9;cursor:pointer}
+#ownerPickBox .op-row:last-child{border-bottom:0}
+#ownerPickBox .op-row:hover{background:#f8fafc}
+#ownerPickBox .op-id{font-weight:700;color:#1d4ed8;min-width:64px;font-size:13px}
+#ownerPickBox .op-nm{flex:1;font-weight:600;color:#0f172a;overflow-wrap:anywhere}
+#ownerPickBox .op-dp{font-size:11px;color:#64748b}
+#ownerPickBox .op-back{margin-top:10px;border:1px solid #cbd5e1;background:#fff;color:#334155;border-radius:10px;height:38px;padding:0 16px;font-weight:700;cursor:pointer}
+#ownerBar{position:sticky;top:0;z-index:100003;display:flex;align-items:center;gap:10px;background:#0b1d3a;color:#fff;padding:8px 14px;font-size:13px}
+#ownerBar b{font-weight:700}
+#ownerBar span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#ownerBar button{flex:none;border:1px solid rgba(255,255,255,.5);background:transparent;color:#fff;border-radius:8px;height:30px;padding:0 14px;font-weight:700;cursor:pointer}
+.ownerLinkWrap{text-align:center;margin-top:14px}
+.ownerLinkWrap a{font-size:12px;color:#64748b;text-decoration:underline;cursor:pointer}
+</style>
+<script>
+(function () {
+  var TX = {
+    en: { link: 'Owner access', title: 'Owner mode', sub: 'Choose an employee to enter as.', search: 'Search ID or name', back: 'Back to Administration', acting: 'Owner mode: acting as', exit: 'Exit', only: 'Only Owner accounts can use Owner access.', none: 'No active employees found.' },
+    km: { link: 'ចូលជាម្ចាស់', title: 'របៀបម្ចាស់', sub: 'ជ្រើសរើសបុគ្គលិកដើម្បីចូលជាអ្នកនោះ។', search: 'ស្វែងរកអត្តលេខ ឬឈ្មោះ', back: 'ត្រឡប់ទៅ Administration', acting: 'របៀបម្ចាស់៖ កំពុងធ្វើជា', exit: 'ចាកចេញ', only: 'មានតែគណនីម្ចាស់ប៉ុណ្ណោះដែលអាចប្រើបាន។', none: 'រកមិនឃើញបុគ្គលិកសកម្មទេ។' },
+    zh: { link: '所有者入口', title: '所有者模式', sub: '选择要进入的员工。', search: '搜索编号或姓名', back: '返回管理端', acting: '所有者模式：当前身份', exit: '退出', only: '只有所有者账户可以使用所有者入口。', none: '没有找到在职员工。' }
+  };
+  function L() { var l = 'en'; try { if (typeof currentLang !== 'undefined' && TX[currentLang]) l = currentLang; } catch (e) {} return TX[l]; }
+  function $(i) { return document.getElementById(i); }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function amOwner() {
+    try {
+      if (sessionStorage.getItem('isLoggedIn') !== 'true' || sessionStorage.getItem('loggedInRole') !== 'admin') return false;
+      return typeof viewerIsOwner === 'function' ? viewerIsOwner() : (sessionStorage.getItem('isOwnerAcct') === '1');
+    } catch (e) { return false; }
+  }
+  function inMode() { return sessionStorage.getItem('ownerMode') === '1' && !!sessionStorage.getItem('empLoggedInId'); }
+  var emp = $('employeeApp'), login = $('empLoginScreen');
+  if (!emp || !login) return;
+  /* picker + bar containers */
+  var box = document.createElement('div'); box.id = 'ownerPickBox'; box.style.display = 'none'; login.parentNode.insertBefore(box, login);
+  var bar = document.createElement('div'); bar.id = 'ownerBar'; bar.style.display = 'none'; emp.insertBefore(bar, emp.firstChild);
+  /* Owner access link under the employee login form */
+  var wrap = document.createElement('div'); wrap.className = 'ownerLinkWrap'; wrap.innerHTML = '<a id="ownerAccessLink"></a>'; login.appendChild(wrap);
+  $('ownerAccessLink').addEventListener('click', function () { ownerEntryStart(); });
+  function labels() { var a = $('ownerAccessLink'); if (a) a.textContent = L().link; }
+  labels(); setInterval(labels, 1500);
+  window.ownerEntryStart = function () {
+    if (amOwner()) { try { showEmployeeView(); } catch (e) {} return; }
+    sessionStorage.setItem('ownerEnter', 'employee');
+    emp.style.display = 'none';
+    try { openRoleLogin('admin'); } catch (e) {}
+  };
+  /* login finished: only Owners may continue through "Owner access" */
+  var _cl = completeLogin;
+  completeLogin = function (found) {
+    var tgt = sessionStorage.getItem('ownerEnter');
+    if (!tgt) { try { sessionStorage.setItem('isOwnerAcct', found && found.owner === true ? '1' : ''); } catch (e) {} return _cl(found); }
+    sessionStorage.removeItem('ownerEnter');
+    if (!found || found.owner !== true) {
+      try { $('loginOverlay').style.display = 'none'; } catch (e) {}
+      try { saBackToAnon(); } catch (e) {}
+      try { showToast(false, L().only); } catch (e) {}
+      try { showChooserView(); } catch (e) {}
+      return;
+    }
+    try { sessionStorage.setItem('isOwnerAcct', '1'); } catch (e) {}
+    _cl(found);
+    try { showEmployeeView(); } catch (e) {}
+  };
+  var _lb = loginBackToChooser;
+  if (typeof _lb === 'function') loginBackToChooser = function () { sessionStorage.removeItem('ownerEnter'); return _lb.apply(this, arguments); };
+  /* employee gate: owners without a chosen employee get the picker */
+  var _rg = refreshEmployeeGate;
+  refreshEmployeeGate = function () {
+    if (amOwner() && !sessionStorage.getItem('empLoggedInId')) { sessionStorage.removeItem('ownerMode'); showPicker(); return; }
+    box.style.display = 'none';
+    _rg.apply(this, arguments);
+    paintBar();
+  };
+  function paintBar() {
+    if (!inMode()) { bar.style.display = 'none'; return; }
+    var id = sessionStorage.getItem('empLoggedInId'), e = null;
+    try { e = employees.find(function (x) { return x.id === id; }); } catch (er) {}
+    bar.innerHTML = '<span><b>' + esc(L().acting) + '</b> ' + esc((e && e.name) || '') + ' (' + esc(id) + ')</span><button type="button" id="ownerBarExit">' + esc(L().exit) + '</button>';
+    bar.style.display = 'flex';
+    $('ownerBarExit').onclick = ownerExit;
+  }
+  function showPicker() {
+    login.style.display = 'none'; try { $('empContentArea').style.display = 'none'; } catch (e) {}
+    try { $('empNotifBellWrapper').style.display = 'none'; var ll = $('empLoggedInAsLabel'); if (ll) ll.style.display = 'none'; } catch (e) {}
+    bar.style.display = 'none'; box.style.display = 'block';
+    var q = ($('ownerPickQ') || {}).value || '';
+    var list = [];
+    try { list = employees.filter(function (e) { return e.status === 'Active'; }); } catch (e) {}
+    var ql = q.trim().toLowerCase();
+    if (ql) list = list.filter(function (e) { return (String(e.id) + ' ' + (e.name || '') + ' ' + (e.department || '')).toLowerCase().indexOf(ql) >= 0; });
+    list.sort(function (a, b) { return String(a.id).localeCompare(String(b.id), undefined, { numeric: true }); });
+    box.innerHTML = '<h3>' + esc(L().title) + '</h3><div class="op-sub">' + esc(L().sub) + '</div><input type="search" id="ownerPickQ" placeholder="' + esc(L().search) + '" value="' + esc(q) + '" autocomplete="off"><div class="op-list">' +
+      (list.length ? list.map(function (e) { return '<div class="op-row" data-id="' + esc(e.id) + '"><span class="op-id">' + esc(e.id) + '</span><span class="op-nm">' + esc(e.name || '') + '</span><span class="op-dp">' + esc(e.department || '') + '</span></div>'; }).join('') : '<div class="op-sub" style="padding:12px">' + esc(L().none) + '</div>') +
+      '</div><button type="button" class="op-back" id="ownerPickBack">' + esc(L().back) + '</button>';
+    var qi = $('ownerPickQ'); qi.oninput = function () { var pos = qi.selectionStart; showPicker(); var n = $('ownerPickQ'); n.focus(); try { n.setSelectionRange(pos, pos); } catch (e) {} };
+    Array.prototype.forEach.call(box.querySelectorAll('.op-row'), function (r) { r.onclick = function () { ownerEnterEmp(r.getAttribute('data-id')); }; });
+    $('ownerPickBack').onclick = function () { try { showAdminView(); } catch (e) {} };
+  }
+  window.ownerEnterEmp = function (id) {
+    var e = null; try { e = employees.find(function (x) { return x.id === id; }); } catch (er) {}
+    sessionStorage.setItem('empLoggedInId', id); sessionStorage.setItem('ownerMode', '1');
+    try { if (typeof logActivity === 'function') logActivity('owner_enter', 'employee', id, (e && e.name) || '', 'Owner entered the Employee site'); } catch (er) {}
+    refreshEmployeeGate();
+  };
+  function ownerExit() { sessionStorage.removeItem('empLoggedInId'); sessionStorage.removeItem('ownerMode'); refreshEmployeeGate(); }
+  window.ownerExitEmployee = ownerExit;
+  var _el = empLogout;
+  empLogout = function () { if (inMode()) { ownerExit(); return; } return _el.apply(this, arguments); };
+  /* Owners are never stopped by the system lock on the employee side */
+  var _asl = applySystemLockState;
+  applySystemLockState = function () { _asl.apply(this, arguments); try { if (amOwner()) { var o = $('systemLockOverlayEmp'); if (o) o.style.display = 'none'; } } catch (e) {} };
+  /* keep the picker/bar right when data arrives late */
+  setInterval(function () {
+    try {
+      if (emp.style.display === 'none') return;
+      if (amOwner() && !sessionStorage.getItem('empLoggedInId') && box.style.display === 'none') refreshEmployeeGate();
+      if (inMode()) paintBar();
+      if (!amOwner() && box.style.display !== 'none') { box.style.display = 'none'; }
+    } catch (e) {}
+  }, 1500);
+})();
+</script>
+<!-- OWNER-ENTRY-END -->
 </body>
 </html>
