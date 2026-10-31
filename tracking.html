@@ -256,7 +256,8 @@ function lookup(no) {
 
 /* ---------- phone number helpers (same as the staff app) ---------- */
 function normPhone(p) { var d = String(p || '').replace(/[^0-9]/g, ''); if (d.indexOf('00855') === 0) d = d.slice(5); else if (d.indexOf('855') === 0 && d.length >= 11) d = d.slice(3); if (!d) return ''; if (d.charAt(0) !== '0') d = '0' + d; return /^0[0-9]{7,10}$/.test(d) ? d : ''; }
-function custEmail(p) { return 'c' + p + '@cust.express.cambodiainsight.net'; }
+function custEmail(p) { return 'c' + p + '@cust.express.hr203.com'; }
+function custSignIn(p, pw) { return auth.signInWithEmailAndPassword(custEmail(p), pw).catch(function () { return auth.signInWithEmailAndPassword('c' + p + '@cust.express.cambodiainsight.net', pw); }); }   /* until every customer has been renamed */
 function parseNo(s) { s = String(s || '').trim(); var m = s.match(/[?&]no=([A-Za-z0-9-]+)/); if (m) s = m[1]; s = s.toUpperCase(); return /^[A-Z0-9]{2,6}-\d{6}-\d{4,}$/.test(s) ? s : ''; }
 /* ---------- QR scan ---------- */
 var qr = null;
@@ -311,7 +312,7 @@ function meSubmit() {
   if (!ph) { fail('badPhone'); return; } if (pw.length < 6) { fail('pwShort'); return; }
   if (reg && pw !== document.getElementById('mePw2').value) { fail('pwDiff'); return; }
   meBusy = true; document.getElementById('meGo').disabled = true;
-  if (!reg) { auth.signInWithEmailAndPassword(custEmail(ph), pw).then(function () { meBusy = false; }).catch(function (e) { fail(e && (e.code === 'auth/network-request-failed') ? 'accErr' : 'wrongLogin'); }); return; }
+  if (!reg) { custSignIn(ph, pw).then(function () { meBusy = false; }).catch(function (e) { fail(e && (e.code === 'auth/network-request-failed') ? 'accErr' : 'wrongLogin'); }); return; }
   auth.createUserWithEmailAndPassword(custEmail(ph), pw).then(function (cr) {
     var uid = (cr && cr.user && cr.user.uid) || (auth.currentUser && auth.currentUser.uid);
     return db.ref('customers/' + uid).set({ phone: ph, at: Date.now() }).then(function () { ME = { uid: uid, phone: ph }; attach(); meBusy = false; meMode = 'login'; renderMe(); });
