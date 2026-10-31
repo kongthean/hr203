@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- PWA-BEGIN -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Maintenance">
+<meta name="theme-color" content="#475569">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAARsElEQVR4nO2de3iU1ZnAz+X75n7JDQLIRRaEKIKIPF6qIlWrqCxKW12KVkR3Wd3HQhEBbVcIWlzASyjVorRba7f0WVq6uo8PdqGiK5UquEgxgSAXBZGLJGTu9znn7B8nmUxCvmQm830zycz7+8NHw8zkC/l53ve877ngW+9+BAFAV5BCPwDQdwE5AE1ADkATkAPQBOQANAE5AE1ADkATkAPQBOQANAE5AE1ADkATkAPQBOQANAE5AE1ADkATkAPQBOQANAE5AE1ADkATkAPQBOQANAE5AE1ADkATkAPQBOQANAE5AE2UQj9AaYEx7vQVIURBniQTQA5jwRgTjBFGggvGOWOMMZ76U0WhGBNKCcZICCSE6FOugByGgDEmBAuBYvF4PJbgQphUxWaz2Kx2l9MhXyMQ8nh80Vg8FAonGSOEmE0mVaV9Rw+QQ2ekFvFEMhKMUkqHDqm+eMzIcWNHjRx+waDqSpvV6nTY5CsFQj5fIBiKnDpz9uixrw58dvTzY181t3gppUIIGYAKO5BgOIJBRyilsVgsEo1VD6i87urLr7vq8vGXXGS1mDN8+5IVdbs/2W+zmoVAiUQSIWQ2mxhjRj5yd8DIoQ+EEMa4x+sfMXTQXXfcePOUqyoryuQfcc6FQBi3ZqPpOanMMRhjikJf+uV/7tz1tzKXU6YmQ4dUx+LxL46frCh3yXQk/z8UyKEDlNJQKGy1Wh743ozvfXua02FHCDHOcWuU0awXYIwZY6qqbHpj68bNb1dWuGW6Sgjx+Pz33zP99NfNm97cajapZrMpPZPNDxBWcgLLX6Q/cNm4MYv+5f7RI4chhBjjhODzZ63nwxijlG5778NnXtjgdNg5b/31Y4wTiQSldE3tQoxx7er1Tec8bqcjmd8QA0Ww3oMxRhj7AsG7Z3xr3bNLR48cxhgTQlBKMjKDc0rpnn2Nz738us1qSQ8cQgiTycS5+METqxKJ5G9+/pPJl13S4vVTSo38gToDcvQSjLEQIhKJLn50zsKH71NVhXNOKc1EC4QQ55wScuLkmdo16wXncobS6QWqQq0W82NPPf/p/sN1Kxd/d8bNHq+f0vz9ykCO3iDNCEeiSxfMvfO2bzLGhRDd5Bad4EIQQry+wOLaulA4YjKZUgGl08soJRaz6Ucrf7bjwz2PPfL9WTNvzacfIEevwCgSiT35w4duu+m6JGMZxhGJEAIjHIlGf7zyZ6fPNFst5i7NkHAuKCFmk7p89fr3d/7f/HmzZ82c5vUF8xNfQI6soZT6fcG59955203XMsaUbH5PQgguhBB89bpf763/zOmw9TgHkcOMSVVrn3tlx1/3zJ83+/qrL/cH8uEHyJEdlBJ/IHjDtZMfmDVDzjWyejtjnBLy0r9v+p93d1aUuzKcfcgk16Sqy1ev/+CjvSt//OiQQQMi0RghmQ5XvQPkyAKMcSyeGDSwavEP5mSVZEgY44pCN25+e9MbWyvL3clkFvNSzgWlxGRS//XZlz759OBztQs5Y0YXxkCOLCAYRyOxR/9xVrnbxdvaHxkis8t3duza8Ppml9Pei4pWa/5hNj2+/EWvPzhvznfPebyGBheQI1MIIcFw5KrJ46dcM0lORDN/L+ecYLz7k4Znnt9gs1l7/QzSMJNJXfTUCxXl7gmXjIlEolk5mhUgR+YISsiDs+/q3S9DCJFMJp0OeyKRzDYepcO5UBXKBX/ltd+7XQ5D0w6QIyMIIcFQZNKEmnE1ozjPOtuQr//GlRNfXv1kmdsZCIaymuN0gnNhUtVwJLpv/yFVVY3ryYEcmYGREOLvp01FvV1jgTFmnI8YNvinzy6puWik1x/IxQ8hBKVUSVv5YQQgR89gjOPxxJDqAVdOGocQ6vVITgnhnF8weOALTy+aeGmN1x9QlJz8kFoYt+AD5OgZgnE0Grti4iVWi4Vznsv/qYQQzrnTYatb+fi3pl7TfM7b61o4xlhOeVxp7Vx9ATl6RiCEEb568gT57zlCCBFCqIqy7PF5/zDzVp8/SEgW1XcJxhgJEQqFn1jw4IzbpgZCYSPmtCBHzzDG3G5HzegRqKu9Bb1A9u0QQgsfvm/u7Du9vkBWn4wxFgIFw5GlC+ZOvXbyRaOGq4qCDEhLQY4ewJgkEsnqgZWVFeVIv7+vtnSBP3TvzB8tfCgciTLGMslm5BtD4fDS+XNnTJvKuRg5fKjTYTdiHRDI0QOEoEQyOWxINaWEc470mxpgjCkljPHpt0x5atE/YYwTiWT3tTWMMUIiFIo8MX/u9FumJBkjBFeUuaoqypLJpO41D5CjZzgX5W4XQkaM3IhSwhi7+Yarn6tdqCpKJBrTyh6kGcFQZMn8B+64ZYpsCAuETCbV6bAzDmGlMIjBg6qM+3RKKWN8wrgx61YtHVRdFQiGzvcDY4wECoYiS+fPnX7LlFRDWM5TqgdUMMYwgpGjEJhNJkM/X8aX0SOHv/jMor8bMTQQDKWXQFrHjHBnM1KYTIbUSUGOjDCokJAOpYRxPmhg1ctrnpw04eJzLT7ph5y1BkORpfMf6NIM4x4P5MiI/CzLkyVUu836b0/Nn3bTtR6vX/oR0h4zDH082NSUER6vPz/fSJbIrBbz8sX/bLNa/mvLdlVRlmibIWe2Pl8gl06vFiBHJuCmFm/+vhnG8iyGxY/OqSx3u93ObsYMKUeL108IETrUbzsAcvSAEIhScrapBeXQcssWjLEsgz54712odY1PF2bI3lsoHPX4/AoluqekkHP0gOyDnDp9Nh6Pp8re+QFjxLngQhCNypt8lqbmlhaPX1EU3Z8N5OgBIYSqKmebW06ebkJ6NN6yghCsZQZqW1ly6PMvw+FIVssWM/3uun9i8UEpDYUj9Y2HEULC+Dlt5kht9jUcRNgQa0GODBCCUrpz9z7UtuCvbyAIIZFIdM++gxazWQj9re07P2rfhQtutZj3Nx5pOufJc9rRDYwJhFB94+FTp782mVQjHgrk6BkhkKJQj8//7l92I4S4AS2uXiAnsX/a/lfjngbkyAjOhc1qeXPLu6FQJJ+HIHTzPBijk2fOfvjxPpvNCuXzQkIJiURjVZXlXG6ELnRkEUhgjH//5rZAMKwYJisUwXpGUajXF5h4ac2qZQvsNquhuwEyQe63O/L5l1u2/cWVwT79XgMjRw+0mjF+7OrlC+w2a7ZbZI1Ajlob/uOP8UQCGzl7Ajm6o82MmtXLfmi3WTnXLFbmDXmIwx/f2r5z1z6nw2boWgKQQxOFto0Zyxa0mpGv3ooWjHNKyf7Pjv78tU2ZHPySIyBH1ygK9frTxwxecDNkquHx+p9e8yoS+SjHgRxdkBZNUmNGgf+iGOeEEJ8/uPTptV83nbOYuz5jTl9Ajs60RZOaPhRNGKeE+PzBx5e/2HjoC7vdyvLS4oGpbAe6GjMKaYYQQh5v+sXxk08/v+HosRP5PMcY5Ginr5nBOKeEUEq379i19pWNgVDYoJ1tWoAcrXSctVoKaIYQQh4PJ0PJr3735htb3jWbTXarJc/Xa4AcCHUeM3QwQ9bX5T/lmr9M3iJfTwihFMcTiT+9s/O3m7ecPtPkctqFQPnJM9IBOdqr43pFk1R9PeWEHAwQQqjjrrTWFg1GBJOUQx6vf/uOXW+/88Gho8ctZrPb5cj/ZRqSUpejzYyxa5YvsOlhBuecEBIIhn/y4i8GVpXf8I0rxoy60OW0U9rDxza3eBsaj3zw0d699QfPnG02m0xul4NzUSgzUInLIc24fHzNqmV6mSGkGUtW1P2t4TOF0re2vj+gsuLC4UNGDr9g2AXVZS5nVWU5QghjJIQ4dabJ6w8eP3Hq2Jenjn912uPxCYEsFnOZ21lYLSSlexnPeXMTnmOlq23MCC2pXVvfeKTM7RScCyQSiWQ8nkgyjpCghCpq+yaDeDwpBMcYK5SaTKqiKBgh3geWBEhKdOToqtKlixnhJSvWNjQeKXM5kslk6/dSFFVVZfrR6bY2q9mM0r6eh6JnVpSiHOnRRKcxoz2aNBw44nZ1qFN1szjI8NPLc6PkyuepaKKfGZwQ3G6GO983sRlHacmhe0ctLZrU1UszsrkLoY9TQnLo3lHrGE0Ol7mKygxUOnKkrc9YoMv6DOlWWp7hLJpokqIk5DAmmuBAMLykttjyjHSKXw4DogknhARlntF4xF100SRFkcvRGk3065ukKl2LV9TVHzhS5irOMUNSzHK0d9SW62tGeMmKtQ0HDpcVaTRJUbRytOcZ+ptRVy8z0CKNJimKUw7du/Dps9aijyYpilAOY8aM9llr0UeTFMUmh6Fzk9a+SbFHkxRFJYcxlS4SCIYXr6hraOzcUSt6ikcOY9Zn4LQMtLTMQEUjR1sXfqxBHbWy4uqoZUgxyJHKM1al9sLr2FFrLMKOWob0eznOq4Hmnmfwou+oZUj/lqN9brIc1mfoTz+WQ6Gd5ib6RJNgaecZ6fRXOc6btepiBk7NWks2z0inX8rR1dxE3zyj5GatXdL/5DBgbsIJIcGQjCaHS6oG2j39TA5jogkJBMOLa+vqDxwuK+G5yfn0Jzl0Pz/jvI4amNGBfiNHa56h95qu0uyoZUj/kKN9J5JuXfi0jhpkoBr0Azm66qjpFk3qi3fteO70UTlSJ5kYtOM5FU2gntENfWgjNcaYECwEYozJoym6Wp+h347nxsOl3DfJhD4hhxwnorFYLJaglDjsNrvdRDDxB4ITLx2r9/kZqep48a8QzpHCy0EpiURjySQbdeHQq64YP3F8zdDBA51OO0bYHwhWVZRZLGYuYH1GASiwHIQQry84auTQObNmTLlmkqp0eB6X044QEtoXq2ZIeketofFwWQnsKtCFQsqBMQ4EQzPv+OYjc++x26wIIcY5TjuEL/WyXL5L+pjR0FgS+030omByyE2Fj8y9e/Z3bkfyeG9KdL85F6JJLhRmKksp9fkD998zffZ3bk8yJoQw4la9DjueYdaaPQWQgxASCoWvuOzih+6bKe8DMOJirNSY0b4+A2atWVIAOYTgiqrMn3cvIQTjXFOKLmk/9XFFXYPswoMZ2ZNvOQghwVBkyjWTRo8clnvpokvS1mesLZEdzwaRbznkMHHj9VcadBJrx/UZEE1yIq9yYIzjieTAqorxF18ki+X6fn5bRy1UajueDSLPcqBEPDF4UJXb5UA5FzA60ekMYVifkTv5lQPhJGODBlQihPQ9yrnzGcJ5vOuqiCnMVFbfD2yPJrWwPkNP8p6QIpRoOzFeF7o6kR7M0Ie8yiGQUBTl1JkmpNP40f2J9ECO5FcOgVSTevpMc9M5D0Iox7lsEZ9I30fIsxxCVWiLx7f304MIodZrz3oF7HjOA/nOOYQQVCF//t8PUVtBrHcfUtwn0vcR8i0H58Jus+7e2/Dx3v2EkF5chymDkT+Q6pvAOlCjKEjjDSlU+emrG0PhCME4q+AihOBCCISWr17/6f5DbtijZiQFkUNYLOZjJ04///LrcgdChgWx1quaCXn113/Ytae+vMwF0cRQCrPYhzHmdtm3vffR6nWvyQSCMdbN5EUIwRjHGFNKfvnbNzZufhvWjueBgi0TZIyXuR1vbX3/5Jmzjz38/QuHD0FtY0N6oipE634WSnFTs2fdL3733gcfu5yOvnaRYlFS4HtlKSXBUNhht397+o2333z94OqqLl92rsX75/d3/eG/t51tbnE57QW/jbdEKPylwzKmhMKRMrfz0prRE8ePHTFsSLnbhRAKBEPHT5yqbzyyb/+h5nMeq8VsMqlgRt4ovByobSNkMski0RhjTFGoQhWEEGMskUwSQqwWs6oqnPeVq5pLhMLveEOt+aYgGDvsNozbr23GWMUYy/+EASP/9Ak5JAIh0THNFEJ+GSgMffQIBqAvAHIAmoAcgCYgB6AJyAFoAnIAmoAcgCYgB6AJyAFoAnIAmoAcgCYgB6AJyAFoAnIAmoAcgCYgB6AJyAFoAnIAmoAcgCYgB6AJyAFoAnIAmoAcgCYgB6AJyAFoAnIAmoAcgCYgB6AJyAFoAnIAmoAcgCYgB6AJyAFoAnIAmoAcgCYgB6DJ/wPLs4um3sLpMwAAAABJRU5ErkJggg==">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjogIk1haW50ZW5hbmNlIiwgInNob3J0X25hbWUiOiAiTWFpbnRlbmFuY2UiLCAic3RhcnRfdXJsIjogImh0dHBzOi8vaHIyMDMuY29tL21haW50ZW5hbmNlIiwgInNjb3BlIjogImh0dHBzOi8vaHIyMDMuY29tL21haW50ZW5hbmNlIiwgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsICJiYWNrZ3JvdW5kX2NvbG9yIjogIiM0NzU1NjkiLCAidGhlbWVfY29sb3IiOiAiIzQ3NTU2OSIsICJpY29ucyI6IFt7InNyYyI6ICJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQWdBQUFBSUFDQUlBQUFCN0drT3RBQUFuNVVsRVFWUjRuTzNkZVpCZDFXSG44YlBjdC9XbVZyY0VqQ3RUVTRHQVFDMEp0VVNMblZoSVJEWkwyU1FCZThheFBSN1BNQVk3cGlaT2d1d3hNb3VEUmNaTUdUS1FCSmNUbDRPWG1JbU5EWkt4UVJFSWJJZ0UybEFMTFY2bkhCdzJTZDF2N1g3M25ETi9YTkcwV2xzdjk3MTMzenZmejE4VVBLVGI3M2I5ZnZlZTVWNjU2cm9iQlFEQVA2clJCd0FBYUF3S0FBQThSUUVBZ0tjb0FBRHdGQVVBQUo2aUFBREFVeFFBQUhpS0FnQUFUMUVBQU9BcENnQUFQRVVCQUlDbktBQUE4QlFGQUFDZW9nQUF3Rk1VQUFCNGlnSUFBRTlSQUFEZ0tRb0FBRHhGQVFDQXB5Z0FBUEFVQlFBQW5xSUFBTUJURkFBQWVJb0NBQUJQVVFBQTRDa0tBQUE4UlFFQWdLY29BQUR3RkFVQUFKNmlBQURBVXhRQUFIaUtBZ0FBVDFFQUFPQXBDZ0FBUEVVQkFJQ25LQUFBOEJRRkFBQ2VvZ0FBd0ZNVUFBQjRpZ0lBQUU5UkFBRGdLUW9BQUR4RkFRQ0FweWdBQVBBVUJRQUFucUlBQU1CVEZBQUFlSW9DQUFCUFVRQUE0Q2tLQUFBOFJRRUFnS2NvQUFEd0ZBVUFBSjZpQUFEQVV4UUFBSGlLQWdBQVQxRUFBT0FwQ2dBQVBFVUJBSUNuS0FBQThCUUZBQUNlb2dBQXdGTVVBQUI0aWdJQUFFOVJBQURnS1FvQUFEeEZBUUNBcHlnQUFQQVVCUUFBbnFJQUFNQlRGQUFBZUlvQ0FBQlBVUUFBNENrS0FBQThSUUVBZ0tjb0FBRHdGQVVBQUo2aUFBREFVeFFBQUhpS0FnQUFUMUVBQU9DcG9ORUhBQ0J4cEpRbi9ZeHpyZzVIZ3BxaUFBQ3ZTU21kYzBxcEtQU2xFRTZJYXJWNm9uaVhRamlodFFvQ1BmWXhhMjMwRHhSREU2RUFBTDlFT2ErVWtsS0VvUWxESTZVc1Y4cWpvMVVoaEJCT1NuWHEzSjRUM0FRNElhUVErV0xwNEJ2RFNpdmhoSlNpdlMwWC9kSHBWQ0NGdE02TlZRSVNpd0lBdkNDbFZFb0o0YXJWMERsWExGV01NVjFkSFYyZDdaWEt5RUIvL3psbi9YWjA4WjVLcGE1Y2VYRVFCSWVUL2lqT09Tbmx5L3Qrdm4zWHZtd203WndMdzNEOWs4OVdxNkVRNHRYWER6aG4wK2wwSnAxV1NnYUJ0cFl5U0NpNTZyb2JHMzBNQUdwRlNxbVZNc2FFeGhTS1phWGtuTjdabVhUNnFpc3VEWTFaM0hmVy9IbW5oOFowZHJUUDhDOHFWMGFjZGFFeDY1N1lGSVptei81ZmJ0KzFOd3pEUTBQNWJEYVRTYWVVWXNsSjRsQUFRQXNhbC9zMlh5aDJ0TGYxOXN4YXRmeWk5cmJjdTFaY25FNm5jdG5NaFAvRkdEUDJ6NU1KYStlY2RXN3NEa0ZyUGVFRGhXSnB6LzVmN2hqYzk0dGYvWHJyemoxU0NNTjlRTUpRQUVCTDBVcFphOGR5ZjA1djkvS0xCODdybno5LzNobmpROThZNjRSVFVoNmUrNTNFc3A4VEc1djdqVVo3SnZUQmdZTkRIL25rNThybEVhMFZzOFRKd1J3QTBBcWlTMzdyN0hDaGxFbW41dlIyLytFMUs4L3Juei8vck5OenVXejBHV09zRUM2NnV0YzY1Z0dac1FvWmkzN25uTFhPR0tPMXV1L0wzeHdlTHVaeUdTWURFb1VDQUpwYk5MczdXcTBlR3Nwbk11bnpseTU0LzdYdm1qL3Y5TGEzYzk5SUthVlVzWWYrU1E5TUNKdE9wMjc3eTcvNXdaTS83dTJaZGVMMFYwcGF5ODFCWFZFQVFMTTZIUDJqMVdJcC8xdnZPTzBQcjdsaXlhS3pCL3I3b3Y4Nkx2Y25qczdYUjJoTW9QWG1yYnYrZWRQbWs2YS9jNjVZR3NsbE0xb3BwZ3JxaGdJQW1wSlNxbG9OaTZYQ08wNmIrK0gzWC9PZWQ3OHpXc25qbkhOT1NDVWJsZnNSWTB5ZzlaWnRnNS81L0gyNVhQYkU0LzdXMnZhMjNIbUwrNTdic3FNYWhwMGQ3Uzc2TVZCakZBRFFaTFJTMXJsaXFUeTNkL2I0Nkk4dSthTWRYbzFscmRWYXY3QjljUFVkOTJxdHRWWW52dnpYV2cvbEM3bHM1cjYxdDN6MVc5L2ZzblV3bFFxeTZiU3hsaHFvS1FvQWFCclJtcDFDcWV5c1czN3B3SjkrL0VOajBhOVV3NFo2SmpER2FLMEg5L3pzejIvN1VoQUVRYUJQT3ZIcm5NdG1Nby8rY0pNUTRvdTMvY2x6VzNiYzlhV3ZIRGc0M0piTHBsSUI4OGExUXdFQXpTR2E2VFdoV2RhLzRQcjMvbDQwMXArbzZCZENSSThWc3RaKzVhSHZocUhKNWJManR4ZWNnTFYyN3B6WmovN3c2WEpsNUMvKzV5ZSs4YmRmK082NmpkOS8vS2szM2p3WXJXTGlWcUFXMkFjQUpGMjB3ckpjR1puVjJiSDY1bzljT0hDdU9CeUlNMSsrSDZjb281MFRhOWJlLzlTekw4eWExVG5KOUI4VEJNR2JCdzR0djJUZ3JzLytzUkJpT0YrNDU0Ri8yUGpzbGt3NnphMUFMVkFBUUtKcHJVTmp5dVhLOGtzRy91d1RIKzVvYjRzbVNKUDJaQVYzbVBqYzNYKzlZZE8vOVBiTUNzT3BwWDhrNm9ETEwxMTIyNTkvTEpVS2hCRFB2YkJ6N1plK01wd3Z0YmRuVFdpNEVZZ1JCUUFrVjZEMVVMNllUZ2VmLy9RbkxoeFlKSVN3MWlZdCtpUFIwUDl0Zi9rM2oyLzQ4WnplMldFWVR2dVBpanBneFdYTDdsaDlreEJTS1Zrb2x2N3l2cSt1ZStLWlUrYjJTQ25ZTGhBWDVnQ0FKSkpTU2lrUER1WFBYN3J3UTlkZnRYamgyZFk2S1NmMWxKNzZHNy9rdjJmMnJKbWt2eEFpRE1QZW51NE5tellMSWU1WWZWTVkybzcydHMvZDhySGZPZjNmZi9NN2oxY3FvN2xjeGhpR2cySkFBUUNKbzVReXhwWXJsY3N2SGJoajlVMVNTbU5zbmZmeFR0NlVsdnhQMGhFZDhPbVBXMnVsRUI5NjN6Vm5uL25ibjcvbnkvbENxYTJORG9nQlEwQkFzbWl0S3BWUktlV2RuNzdwd29Gem81blBaRjc0aTdlR3BGN1lQbmpMN2ZkcXJTZXo2SFB5eG8wRmZUeDZmVTBxRlJTSzVidnYrL3NubjNxK1ozYVhaYi9ZekhBSEFDU0kxcXBVR3Vuc2FMdjFUMjhZNk85TDdJaC9aQnBML3Fma3lMR2dqd2VCRGtQVDBaNjc3WmFQU1NHZStza0x1V3hXYTU0Z05IM0ovZDBDZkJNRXdZR0R3NWRjc1BnYkQ2NU5mdnBQV1BKZm8yV2FZeDJ3WnUzOXpnbXRsYkZXU1huSHAyKzZlODNOeHBocWFKTDhMU1VjWHh5UUNHUERIYmZmY21OSGU4NGtQdjNGNFNYL0QyemV1cXV6czMycVMvNG5iMElIS0NtZGM5YmFDd2ZPL2NLdG43VEdoblRBZFBHdEFZMTM1R0MzdE5icEJDZGF0T0RmV3JkbTdRTWJObTN1N3A3eWhxK3BtdEFCVWtvaHBERm1vTDl2N1pxYmpURjB3UFR3bFFFTk5tR3FVd2loVkpJMitCNGxHcHU2ODU0SG4zejYrZDZlN3VsdCtKcXFvem9nV2l0RkI4d0kzeGZRU0VlbmY3SWU3M0NVMEJnZDM1TC9xZjNWUjNhQUVIVEFUUEZsQVEzVGRPbGZpeVgvVTBJSHhJdHZDbWdNclZSenBmLzRwL3dycFJ2MWV2ZVRkc0JvTlV6NE41a2NGQURRQUZxclVtVms1ZStlZjhmcW01b2kvYVBuVGtkTC9tUGY4RFZWSis2QVZLQkY0ci9QaEtBQWdIcFRTbFVxMVk2MjNLMmZ1a0VwNVp4TGVGclZaOG4vbEJ5ekE4SXdIT2p2KzZQcnJucnQ5UU5Ca0pSM0pDUVpCUURVVmZSZ0h5bkZyWDk2UTVTa0NSK3pydWVTL3lrNTNuM0FIMXk5NHNvckxqbDRjRGc1NzhsSnJFVC81Z0d0UjBwWkxsZnUrdXdmTDF1eUlJR1A5WitnL2t2K3ArVG8vUUZTeW13MmMvc3ROeTVic2lDZkw5SUJKNWJvWHo2Z3hRUmFEdzNsVjF5MmJObVNCZEdvZXFPUDZDUWFzdVIvU283dWdOQVlwZFJILytqYTZObEJDUjllYTZ5ay8vNEJMVU5yUFp3dm5uL2V3czkrNm9hbVNQOEdMdm1ma29uUEMxTEtHTk4zOWhscjE5eGNMbGNvZ0JOSStxOGcwQnFrbEdGb2drQi85QVBYYXEyaXdZcEdIOVNKTkh6Si81Uk1mRjZRVW1Gb2xpMVpzT0t5WlVORCtZQ0JvT09nQUlBNktaY3JhOWZjM0hmMkdjbWYrRTNJa3Y4cE9XWUhmUFpUTjV4LzNzSkR3d1VtQTQ0cDBiK0ZRR3RRU3BVckl5dCs5L3ltR1BwUDFKTC9LUm5mQVVKR3p3dVNILzNBdFIzdHVXYjVFZW9zMGIrSVFBdVFVbzZPVnJzNjJtNzU1RWVhWXRsUDBwYjhUOG5iSGZDRis1VlN4dHErczgvNDRQVlh2L0htb1NEZy9WY1RKZnAzRVdnSjBoanptVC81YjVsTU91Rjd2aEs3NUg5S3hqcmcxaS9jcjZTeTF2NysxU3N1dTJoSlBsOU1lUHZXSDE4SFVFTktxV0twTkxCa3dRVkxGN3BrRC8wbmZNbi9sQnd4SHlCRUxwdjU4UHV2RWNsdDNvWko3cThqMEFLY2M4NjZQN3J1cXVSUG9pWi95ZitVakhYQTU5WStFSWJod25QT1hOYmZOOHhzOEpFb0FLQldsRktsVXVXS2QxNndhUDZaQ1IvOWo1YjkvRXZpbC94UHliajdnQWVFRXg5NjN6VnRiVmxqMkJyMnR1VCtSZ0pOVFVwWnJZWnplcnYvL0pNZlNmalF2N1ZXQ1BuMFQxNjg5YTc3azcva2YwcWlEdGo0N0F1ZitZdS9XamovelAveW45NXo4RkEreVUxY1ozd1JRRTBvcFlxbDhyVlhYWjVKcDZ5MVNTNEFJWVMxOW9tbm5qczBsTTltMHExVUFPTHREdGl5WnUwRDc3bnk4di93NzArclZFWVNmanJxaGdJQTRoY3QvWHpIYVhQZTgrN2xVc3FFWDNKS0tiVldkNnkrYWRYbEYvNzZsVmVUdjB0NXFzSXduTk03Ky9FTlA3N3Z5OS80ZzJ0V2psYXJMZllEVGx1aWZ5K0JKaFZkL3IvM3lzczdPOXFTUCtnY0haNVM2dlpiYnJ6NXYzOUFDdEY2TDFZTXczRHVuSjVISDMvNnVTMDdUNW5UMHhxVEhEUFhVdWNZU0lMbzh2KzMzbkhxZTk2OVhBalJGRWtxcFl3bUtqNzB2cXR2dStWR2EyM3JkWUF4cHF1elk4Zmd2bnl4MUdJLzJyVHhMUUF4VTBvVmlxV1ZseTFyaXN2L01kSElUN1VhTGx1eW9GVmZzRzZ0eldYU3Frbk9TQjIwMU5rRmtzQmFsOG1rbHk3dUUwMzRadHBVS2hqL2d2V1JrVkd0V3lvbGJHdE5jYzlRUzUxYW9PRzBWb1ZDY2RtU0JVdlBQU2Y1VC8wOEpxMzFXQWUwdCtWS3BaRVc2d0NNNGJ3Q2NUTEdwVE9wRDE3ZkJGdC9UMEJyYmEwZDZPLzd4b05yTDdsZzhZR0R3enhKclNWUkFFQnNwSlJoR0o0NnQvZWNNMDl2OXNXVTBhTTBPOXB6dDk5eTQ0ckxscjE1Z0tkcHRpQUtBSWhOTlAxNzJZVkxsWkpOTlAxN1BGb3BhNTJVOG83Vkg0ODZJSlZLTmZlUGhDTlJBRUJzakxFZDdXM0xsdlFwcFpvOS9TTktTU0dFbE9LTzFUZXR1T3o4Vi83dE5kSGtkellZandJQTRoR04vNXd5cCtmY3ZubWlDZGYvSE0vWU5yRTdWdDk0OHcwdHRVMU1TaGsxbkxkYTRTd0NTWEI0L09laXBWS0tGaGovR2E4bHQ0bEpLWTJ4NWJMWHp3VnE3bE1JSkVmcmpmK00xMkxieEpSU282UFZ6bzVjLzZLekt5TWozdDRITk92NUF4SWxHditaMnp1N3hjWi9KbWlOYldKS3FUQTBvVEdmLzh3ZnIvemRDOHJsRVNtYjc2ZUloYWMvTmhDdjZPbHZWN3p6Z3RZYi81bWcyYmVKUmVsdmpQbGZ0LzJQYzg3NjdRdVdManp0bE43UlVVK2ZEOXBNWnc1SU1pbGxSM3RiODQ2S1RGN3piaE1iUy8rMWEyNWV0bVNCdGJhdExaZHB1VmNnVEY3ci83SUN0Ulk5L25QdW5ObXJWbHdrbXVUeG56UFVqTnZFeHFmL1FIK2ZNY1k1bDBtblZsMStVYkZVOXVHc0hjM0hueG1JblhNdW0wNW4wcWxHSDBqOU5OYzJzYVBUUDNvN3ZKU3lvNjNOei9FZlFRRUFNNmVVS3BVclYxNXhhU2FkYnUwSmdBbWFaWnZZOGRJL3V1cGZ0ZUlpYjZjQktBQmdwcUtKMytTLytMY1drcjlON0hqcFB5WVZCSDZtdjZBQWdKa0xRek9ycTJOUjM1bWlkUmVBbmtDU3Q0bWROUDJ0dGFrZ09IZkJXU09qb3g2ZXUwU2NKS0I1U1NuRDBIUjNkUzVlY0xid3NnQkVVcmVKblRUOW8rcEtwWUwrUmVlTWVIa1RRQUVBTXhWdEFpaFhLbzAra0FaTDFEYXhrNmIvZUljT0RUdnI0MHBRQ2dDWUVTbmx5TWpvNG9Yek11bTB0YmJSaDlOZ0Nka21Odm4wajY3Nit4ZWQzZFhaYm95cDcyRTJIZ1VBeklpVWNtUjBkUEdDZWFsVUVBMkZOL3FJR3F6aDI4U21kTzBmbmEvRkMrYk42dW93eHJ0cGZBb0FtQ2twWldWa3RORkhrU0FOM0NZMnBmUWZVeDRaOWZQdWpRSUFFTCtHYkJPYlh2b0xJWlNVZmo0TmdnSUFaa3BLbVVwNXRBZDRrdXE4VFd6YTZTK0VrRUtrVWlrUE80QUNBS1l2ZWdyUXFYTjdybHg1c2ZEaktVQlRVcmR0WXROT2Z5bWxNU2FieTE2NTh1SlN1ZUxiR2ZUcnB3VnFnVHVBRTZqRE5yR1pYUHNmUGtqdUFBQk1tNGZaTVhrMTNTWTI4L1NQK0hrR0tRQUE5VkNMYldKeHBiKzNLQUFBZFJMdk5qSFNmK1lvQUFEMUU5YzJNZEkvRmhRQWdMcWErVFl4MGo4dUZBQ0FlcHZKTmpIU1AwWVVBSUFHbU40Mk1kSS9YaFFBZ01hWTZqWXgwajkyRkFBUUErdmxLdktabS93MnNWcW52NTlua0FJQVprb3BsY3VrRzMwVXpXb3kyOFRxY08yZnk2UTkzQXRHQVFEVDU1elRXZzBORjdidjJpdDgzVTBhaXhOc0U2dHAra2YzSDlWcXVIM1gza3phdXc2Z0FJQVowVm9QNXd2YmQrMFRGTURNSEwxTlRDbFZoMnQvcGRSb3RicDkxNzZNZnpjQkZBQXdVMXFwTEVOQWNUaHltMWovb2FHOHRiWU9zNzVTeXF4LzZTK0VxT3VyMm9DVzVGMXMxTks0YldJZk04WnNldTdGZSsrNlplbTU1OVIwelkvMDlZVXdGQUF3VTFMS2FyWHFZMzdVUnJSTlRDbDE2NmR1MlAvei83ZW83MHhqYkUxWGZGYXJWVDhMZ0NFZ1lFYXN0VzI1N1BvbmYxd3VWN1RXZnVaSTdLSnRZcmxjWmxIZm1kYTZtVDgzOUhpaVZ3R3ZmL0xaVjE4L2tFNTc5MG9BN2dDQW1ZcnVBR3Izc2tOdk9lZWNjM1Y0UzFjWUdtdjlpdjRJZHdCQVBLclZhcU1Qb2RWSUtldVEvdTd3RG1RZis1c0NBR2JFT1pkT3AxNTcvY0M2SjU0UmJ3MHBvQ2s0NTdUV3BWSjUvWlBQdExYbFBEeDNGQUFRQTJPdGIrOFRieG5aVE5vWTYrUDFQd1VBekp4ekxwTko3eHpjTnpKYVZVcjVOcEhZdktJenRmV2xQZmxDc1hienpFbm00ODhNeE1zNWwwNmxkdTdlcjVWaUtyaUpSQVd3ZC84dkR3MFZnaUR3c0xrcEFDQUdXcXZSMGVyMlhYc0VENFJvRXRINm9wSFI2cDc5djJqTFpUeWNBQkFVQURCenpya2dDQTRleXUvWi8wdEJBVFFQS2FWV2FzZmd2bFRLdXgwQUVRb0FpSUcxTnBmTDdQM3BMME56b2xlYUlEbWl4Tis1ZS8vb2FOWFBDUUJCQVFDeGNNNWwwdWtYZDd5Y0x4UzlmYkJNYzNIT1dXczNiOTAxTkZ6d2RnczNCUURFd0RtWFNnVkR3NFdubm4xQnNCc2c4YUlkQU02SlRUOTVzYU85emR2elJRRUE4WERPQlZwdjJUWVlHc05hb0lTTHJ2ZDNETzU5N1kwRGZxNy9pVkFBUUR5aTNRRGJkKzNORjRyc0JraTR0OFovQmd2RmtyY1RBSUlDQU9MQ0tGQ3pZUHhuREFVQXhPYnRVYUNRVWFEa1l2eG5EQVVBeEdac0ZLaFVyakFLbEZqUmVkbXl6ZmZ4SDBFQkFERnl6Z1dCSHM0WEgvM2hVNEpSb0VTS3huL3l4ZEtHVFpzN085bzlQMGNVQUJBbjUxdzJrLzd1dW8wK3J5NVBNbXV0dGZhUmRSdC8vY3FySHI0Q2JBSUtBSWhUTkFyMHI3OTViY016bTZPbEpvMCtJcnd0dXZ5MzFqMzJvNmZiY2xuT0RnVUF4TXc1bDBxbHR1N1lMYVZrS2poUm9uZE12cnovNTI4ZU9PVDU5RytFQWdCaVpxMXRiOHMrOC95MmwxNytxVktLeTh4RWtWSSs5TzExSXlOVnJlbG1DZ0NvQWEyMU1mYnZ2L0ZJR0lhTlBoWWNacTFWU3UzY3ZmLzVGMS9xN0dnM2htS21BSUM0S2FWR1JrWnoyY3p2WDcxQ0tkM293OEVSdnY3d091ZWM0T3BmQ0NGRTBPZ0RBRnFLVWlvTWpiVjI3WnFiQi9yN25MTlNjcG5WZU5IbC8wc3YvL1Q1RjEveWZQZnZlUHhxQXJHSjB0OFlFNlcvTVliMFQ0Sm9zcmRTR2ZucU43OG5mSi8zUFFLL25VQThqazUvclJuL1NZVG84di8vUHZya004OXQ3ZXowZmZQWGVCUUFFQVBTUDdHY2MxS3BmS0g0eVBxTjNiTzZqREdOUHFJRW9RQ0FtU0w5azh4YXE2Ujg5SWViWHZuTmE2a1VhLytQUUFFQU0wTDZKNW0xVm1zOXVPZG5YL3ZXbzUxZEhReitURUFCQU5OSCtpZFp0TyszWEJuNXU2OC9VaWlWQXg3TmRCUUtBSmdtMGovaG9zdi83enkyWWRQelc3dG5kVEw2ZnpRS0FKZ08wai9ob3BVL203ZnVldWpoZGIyenU5bVNmVXdVQURCbHBIL0NPZWVVVXFQVjhNNHZQamd5TXFvVUczK1BqWjNBd05TUS9na1hQWVc3V2czdit0SlhDc1Z5VzF1R3gvNGNEM2NBd0JTUS9za1huWlIvZW16RHVoODkwOTZXSmYxUGdBSUFKb3YwVHo1cmJSQUVXN1lOUHZUd3VsUG05aGpXZlo0UUJRQk1DdW1mZk1ZWXBkVGducC9kY3Z1WHd0Q0l0NTRDaE9PaEFJQ1RJLzJUTDVyNHRkWis1YUh2aHFIaGZiK1RRUUVBSjBINkoxK1U5VTZJTldzZjJMeDFWMmRuTzZ2K0o0TUNBRTZFOUUrK3crbnZ4Sm92M0w5aDArYnVidlo4VFJZRkFCd1g2Wjk4YjZmLzJ2czNiTnJjMjlNZGpmNWpNaWdBNE5oSS8rUTdWdnF6NDNjS0tBRGdHRWovNUNQOVo0NENBQ1lpL1pNdkd1VjNndlNmRVI0RkFSeUI5RTgrWTIxMFVtNjk2LytRL2pOQkFRQnZJLzJUTHd6RElBaTJ2N1QzYTk5K2JQT0xML1hPbmtYNlR4c0ZBQnhHK2lkY05PZ2ZCTUhtcmJzK2ZlZDkxV3JZUGFzelpNWG5ERkFBZ0JDa2YrSVphN1ZTeHRxdmYzdmRONy96QTZWVVYyYzc2VDlERkFCQStpZGRkRVlLeGRMZDkzMTEvUlBQbkRLM0p3ZzA2VDl6RkFCOFIvb25XZlFhZDYzMTVxMjdQbi9QbC9PRjByODdiWTRKRFUvNWlRVUZBSytSL29ubG5EREdCSUYyem4zdEh4LzkxbmNlcjR5TXRyVmwyT2diSXdvQS9pTDlFeXM2RjBHZ3QrM2M4dzhQcjN2MithMDlzN3V6MlRSdmQ0a1hCUUJQa2Y3SkZMM01YV3VkTHhTLzk0T252djd3K255eGRPb3B2ZFZxeU10ZFlrY0J3RWVrZndKWmE2V1VTaW5uM0Q5OCs3SHZQLzcwSy8vMmVsZG4rNnl1OW1xVmxmNDFRUUhBTzZSL29qZ2huSFZTQ3FXVUVHTEx0c0Z2ZmZlSHp6ejNZdmVzcnRuZFhkWVlobjFxaHdLQVgwai81SERPV2V1MFZsSkpJY1RtcmJzZS90NFRXN1lQT3V0T21kdHJqT0d4L3JWR0FjQWovcVIvTkp3aXBXejBnUnlEYzhJNTY1elRXbXN0UytYSzdyMC8vOGZ2UHI1bCsyNXJiVWQ3VGdqSjB4M3Fnd0tBTDN4S2Z4Y05wNGkzM3BPZWhDWVluL3RTS2lGRXZsQjhaUDNHN3ovKzlLR2hmR1ZrcExPalRRaHByUldDVmY1MVFnSEFDLzZrdnpGV2E3VnJ6MC9uOU13KzdaVGVzUjh6YWdJaFJKM0x3TDFsTFBmTDVjcnV2VDkvWWNmdURaczIvL3FWVjl2YnNrRVFkS1hhRGRGZmR4UUFXcDlQNlcrMDFsdTJEWDdtODMrbHRWcXk2Snh6Kzg2Nll2a0ZQZDJ6eGplQkVLSjJaZkRXZTFxY2RTN1FlbXdrcWx5dTdONzM4eGUyN2Q3NDR5MXZ2SG1vVUN4MWRyYlA3dTZ5MWpybmpDUDZHMEN1dXU3R1JoOERVRU1lcHYvcU8rNVZTbW10eXVXS3NiYXJzMlB4Z25tTCtzNTYxK1VYWlRMcFhEWXo0Zjl5UXFnakp3d21XUXh1WEdyYnQxYnBUL2g2QzhYUzNwLythc3Uyd2FmR2NyK2pQZEJLYTIyc2RlUitRMUVBYUdWK3BuKzBoemJhVVNXbENFTlRxWXlFeHN6cG5aM05wRmRkZmxGYkxuZmx5b3VWVWgzdGJjZjcwMDc2Tng3dm15eVZLOEtKM2Z0K3RtTncveTkrOWV0dEwrME53M0JvdUVEdUp4QUZnSmJsZWZxUC8wRFVCTlZxNkp3ckZNdFN5dE5PNlIwWnJTNWVjTmI4ZVdlVXk1WCtSV2VmYzlicHpqa3BwRlJ5d2wzQzhSU0twV2dvS1F6RDlVOCtXNjJHeHRqMVR6NVRyWWJGVW1Wb09KL0xadExwbEZJcUNMUXg1SDdpVUFCb1RhVC8wYVFVUXNnb3NrZEhxMUxLa2RIUjBkR3F0YmFycTZPenZVMEk0WnhMcFZKWHJydzRDSTQ3UWVpY2sxSyt2TzhYMjNmdHpXYlMwUnp2cTY4ZmNNNUtLZHZiY2tKS3JWUVFhR3ZkOFE0R1NVQUJvQVdSL2ljbHBYVE9SU3RFbzJHaXd4dHVwUkRPRlV2bGsxNnNwOU9wVERvZFhkUkxLVktwbEJUQ3ZUVVp3TVYrVTJBVkVGb042VDhaVVVDUC8zd1F2UDB0emU2ZU5aay93Vm9icmV3VWs1czJRTkpRQUdncHBQKzBqYjltbjN5YWM2WGYxRlNqRHdDSURla1BUQWtGZ0JaQitnTlRSUUdnRlpEK3dEUlFBR2g2cEQ4d1BSUUFtaHZwRDB3YkJZQW1Sdm9ETTBFQm9GbVIvc0FNVVFCb1NxUS9NSE1VQUpvUDZRL0VnZ0pBa3lIOWdiaFFBR2dtcEQ4UUl3b0FUWVAwQitKRkFhQTVrUDVBN0NnQU5BSFNINmdGQ2dCSlIvb0ROVUlCSU5GSWY2QjJLQUFrRitrUDFCUUZnSVFpL1lGYW93Q1FSS1EvVUFjVUFCS0g5QWZxZ3dKQXNwRCtRTjFRQUVnUTBoK29Kd29BU1VINkEzVkdBU0FSU0grZy9pZ0FOQjdwRHpRRUJZQUdJLzJCUnFFQTBFaWtQOUJBRkFBYWh2UUhHb3NDUUdPUS9rRERVUUJvQU5JZlNBSUtBUFZHK2dNSlFRR2dya2gvSURrb0FOUVA2UThrQ2dXQU9pSDlnYVNoQUZBUHBEK1FRQlFBYW83MEI1S0pBa0J0a2Y1QVlsRUFxQ0hTSDBneUNnQzFRdm9EQ1VjQm9DWklmeUQ1S0FERWovUUhtZ0lGZ0ppUi9rQ3pvQUFRSjlJZmFDSVVBR0pEK2dQTmhRSkFQRWgvb09sUUFJZ0I2UTgwSXdvQU0wWDZBMDJLQXNDTWtQNUE4NklBTUgya1A5RFVLQUJNRStrUE5Ec0tBTk5CK2dNdGdBTEFsSkgrUUd1Z0FEQTFwRC9RTWlnQVRBSHBEN1FTQ2dDVFJmb0RMWVlDd0tTUS9rRHJvUUJ3Y3FRLzBKSW9BSndFNlErMEtnb0FKMEw2QXkyTUFzQnhrZjVBYTZNQWNHeWtQOUR5S0FBY0Era1ArSUFDd0VTa1ArQUpDZ0JISVAwQmYxQUFlQnZwRDNpRkFzQmhwRC9nR3dvQVFwRCtnSmNvQUpEK2dLY29BTitSL29DM0tBQ3ZrZjZBenlnQWY1SCtnT2NvQUUrUi9nQW9BQitSL2dBRUJlQWgwaDlBaEFMd0Mra1BZQXdGNEJIU0g4QjRGSUF2U0g4QUUxQUFYaUQ5QVJ5TkFtaDlwRCtBWTZJQVdoenBEK0I0S0lCV1J2b0RPQUVLb0dXUi9nQk9qQUpvVGFRL2dKT2lBRm9RNlE5Z01paUFWa1A2QTVna0NxQ2xrUDRBSm84Q2FCMmtQNEFwb1FCYUJPa1BZS3FDUmg4QUprVktlY3gvNzV3VHBEK0FhYUVBRWtwS0lZUlVTa2tobkJEVmF0VzVDWjhRd2dtdFZUcVZxb3lNa3Y0QXBvb0NTQnlsbEpTaVdnMmRjOFZTMlRrbnBUcDFicytFbXdBbmhCU2lVQ3ovNXRVM3VqcmJTWDhBVTBVQkpFV1UrMkZvaXNWU2FNeWMzdG1aZFBvRGYzaVYxaXFWQ3E1Y2VVa1FCSWRUWHdnaGhITk9TcmwzL3krZmUySEh4ZWYzbjl0M0Z1a1BZRXJrcXV0dWJQUXgrRTRwNVp3cmxjckcycTdPanNVTDVpM3FPK3RkbDErVXlhUnoyY3drL3hCcm5WTEhuaWRvZHFRL1VDUGNBVFNTVWtvSVZ5aVdwSlFYbjkrL3FPK3MzMXQrUVUvM3JMRVBHR09GY0c5OThoaWNjMUgwSCs4RHpZNzBCMnFIQW1pWUlBankrYUpVOHZ3bEM2OS83eFVEL1F2Ry9wTXhKZ3AwclU4UzYxTEtGazErSVVoL29NWW9nQWJRV2xuclhudjl6VXN2WFByK2ExY045UGVKY2RmeVVzcFdIY3FmRXRJZnFEVUtvTjRDclE4TkZ6bzcyajd4WDkvL3dldXZsbEk2NTV4elNpbXRXM01RZnhwSWY2QU9LSUQ2a1ZKS0tROE81YzlmdXZDRDExM1Z2K2hzNTV5MVZpbDF2SDFlZmlMOWdmcWdBT3BFS1dtTUsxY3FsMTg2Y01mcW02U1VZV2lDUUJQOUU1RCtRTjFRQVBXZ2xLcUdvYlB1N2pXZnZIRGdYR3V0Y3k0SUdPaWZpUFFINm9rQ3FMbm9RVDNXMkdpemJqVG0wK2lEU2lMU0g2Z3prcWkySmp5bUxYeHJmU2NtSVAyQitpT01ha2hLYVl5MTl1M0h0QVdzN3p3VzBoOW9DQXFnaHFTVTVYTGxyczkrTXJyMlozWC9NWkgrUUtOUUFMVVNhRDAwbEY5eDJiSmxTeFp3N1g4OHBEL1FRQlJBVFdpdER3MFh6ajl2NFdjL2RZTmgzUDg0U0grZ3NRaW1tckRXZHJUblB2cUJhN1ZXMGY2dlJoOVI0cEQrUU1OUkFQRUxndUNOTnc5OThQcXIrODQrZzh2L1l5TDlnU1FnbTJLbWxNcm5pNWRkdE9UM3IxNUIraDhUNlE4a0JQRlVBMUw4NS8vNG5sdzJ3K0RQMFVoL0lEa29nRGdwcFFyRjBnVkxGeTQ4NTNmWThYczAwaDlJRkJJcVRzNEpJY1FIcnJ1cTBRZVNSS1Eva0RRVVFHeVVVc1ZTNmJJTGx5eWFmeWFYL3hPUS9rQUNFVkt4aVI3OHNQVGMrZEVMWGhwOU9BbEMrZ1BKUkFIRVEwcFpyWWF6dWpyZWVjbDVVcmJzSzlxbmdmUUhFb3VjaW9lVWNtUmtkUEdDZVowZDdkWmFGdjlFU0g4Z3lTaUFlRWdwcTJFNDBOOFhhTTM0VDRUMEJ4S09Bb2lCbEhKMHRIcktuTm5MTHhrUVFqRCtJMGgvb0JrUVZmRnd6bVhTNld3MjNlZ0RTUVRTSDJnS0ZFQU1sRktsY3VYZEt5L0pwTlBHR004bkFFaC9vRmxRQVBHdzFnV0I5ano2QmVrUE5CVUtJQjVLeVNEdy9aVXZwRC9RWENpQW1ZcG1nRStkMjNQbHlrdUV4elBBcEQvUWREeE5xOWhKS1ZPcFZLT1BvbUZJZjZBWlVRQ3g4WGI1UCtrUE5Da0tBRE5DK2dQTml3TEE5SkgrUUZPakFEQk5wRC9RN0NpQTJGaWY1Z0JJZjZBRlVBRHhVRXJsTXI0OEI0TDBCMW9EQlRCVHpqbXQxZEJ3WWZ1dXZjS0R0VUNrUDlBeUtJQVlhSzJIODhWdE8vZUlWaThBMGg5b0pSUkFQS1NTM2QxZGpUNksyaUw5Z1JaREFjVEFPWmRKcDdidGZIbGt0Q3FsYk1tYkFOSWZhRDBVUUF5Y2MrbFVhdWZ1L1ZxcGxud1dFT2tQdEtRV1RLdUcwRnFOamxaMzd0NHZXbTRhZ1BRSFdoVUZFQVBubk5aNmFMaXdlZXN1YTIwckZRRHBEN1F3Q2lBZTF0cU85clpOUDNuUk9hRmI1YjN3cEQvUTJpaUFlRGpuZ2lCNDdZMERPd1piWkRjQTZRKzBQQW9nTmxxclFyRzBaZHVnYVA0Q0lQMEJIMUFBc2JIV2RuYTBiOWkwT1Y4b05mVW9FT2tQZUlJQ2lJMXpMcDFPL2ZxVlY3LzNnNDFDaUNZTlRkSWY4QWNGRUNkcmJYdGI3cEgxLzV3dkZLVlNUWGNUUVBvRFhxRUE0aFRkQkx6eW05Y2YvZUVtSldWenBTZnBEL2lHQW9pWnRiYXpxK05yMzNwMGNNL1B0RzZhRExYV2t2NkFieWlBbURubkFxMExwZkxmZmYyUmNtWEVPWmY4Z1NCcnJaUnk4OVpkbjc3elhxMFY2UTk0Z2dLSW56R21lMWJucHVlM2Z1ZXhEY20vQ1hET0thVkdxK0dkWDN6UU9Sa0VRY0lQR0VCY0tJQ2FDTU93ZDNiM1F3K3YyN3gxbDFJcXNaSHFuTFBXVmlvamYvRy92MXdvbHJQWlZHSVBGVURzS0lCYVVVcU9qSXplK2NVSHE5VXdzUjBRR3FPMS9xZkhOcXo3MFRQdGJWbGprbmlRQUdxRUFxZ1ZhMjB1bHltVXluZmU4MkEweUo2MHlRQmpUQ29JdG13YmZPamhkYWZNN1RHSnJDZ0F0VU1CMUpBeHRpMmJlZkxwZjFtejlvRW8vSlBUQWVNWGZWWkRJNUowYkFEcWd3S29MV050YjAvM2hrMmIxNnk5UDhwWFkweURqMG1JYWpVY3YrZ3puUXBJZjhCREZFRE5oV0Y0dUFPK2NMK1VVbXZkd0tIMmFGbHFLaFZzM3JxTEpmK0E1eWlBZWdqRHNIZjJyS2VlZmVGUGJyMW4rMHQ3dFZiV05tQi9nREZXU21tZCs5by9QbmJiM1grdEZFditBYTlSQUhVU0d0TTlxM1BMdHNGUGZlNmU1N2JzVkVyS09qNHJJcnJ3ang1WWZmdmRmM1B2MzM3ZENVSDZBNTZUcTY2N3NkSEg0Qkd0ZFdoTXVWeFpmc25BbjMzaXd4M3RiVkUwMSs1Vjh0RktmNjIxRU9LNUxUdlgzdnVWNFh5cHZUMXJRc09vUCtBNUNxRGVwSlJDaUhKbFpGWm54K3FiUDNMaHdMbmk4Qlc2a0VySytQNmk4ZEdmTHhTL2VQL1hOajY3SlpOT3AxTHM5UVVnQkFYUUtFcXAwV3JWaE9hOHhYM1h2ZmVLWmYwTG9uOXZqSkZTeWhsVVFaVDdTdXZvRDhnWGl0Lzd3Vk9Qck4vNHhwc0hjN21zWUxrbmdMZFFBQTBqcFpSU0ZJcGxwZFRBNHZudnUvWmQ4K2VkM3BiTFJ2L1ZHQ3ZFMjBORDh2aUZFQVc2Yzg0NkYyZzk5dThQRHVYWC9XalRJK3MzdnZKdnI3ZTM1Ymp3QnpBQkJkQmdTaWtoWEw1UXlxVFRjM3E3bDE4OGNGNy8vUG56enNobE0rTS9kcnpkQTNwYzRrY09IQnA2WXVQek93YjNiZCsxZHpoZnpHYlRtWFRhV3N1RlA0QUpLSUJFMEVwWmEwTmo4NFZpUjN0YmI4K3NWY3N2YW12THZYdmx4U2tkU0NVbjlNRjQrVUl4MEhwdzc4OTJETzcveGEvK2Rldk9sNGZ6QmExVU5wc0pBdDJROWFZQW1nSUZrQ0JTU3EyVU1TWTBwbEFzU3lsUG5kc2poRWlsZ2l0WFhoSUV3ZmdQTytla2xDL3YrOFgybC9aa3M1bDhvVGcwWE1obU01bE1PaFZvNTVyMXBjUUE2b1lDU0NJcFpUVDZQMXF0Q2lHRWM4VlMrWmpYOGVsMEtwTk9SMnY4byt0OWNoL0FKQVVuL3dqcXpqa1hEZnFQVGVyTzdwNTF2RTlhYTZWVXpya3diUHhUaGdBMEVRb2cwY2FHNzAvOENEbEcrUUZNQTQrQ0FBQlBVUUFBNENrS0FBQThSUUVBZ0tjb0FBRHdGQVVBQUo2aUFBREFVeFFBQUhpS0FnQUFUMUVBQU9BcENnQUFQRVVCQUlDbktBQUE4QlFGQUFDZW9nQUF3Rk1VQUFCNGlnSUFBRTlSQUFEZ0tRb0FBRHhGQVFDQXB5Z0FBUEFVQlFBQW5xSUFBTUJURkFBQWVJb0NBQUJQVVFBQTRDa0tBQUE4UlFFQWdLY29BQUR3RkFVQUFKNmlBQURBVXhRQUFIaUtBZ0FBVDFFQUFPQXBDZ0FBUEVVQkFJQ25LQUFBOEJRRkFBQ2VvZ0FBd0ZNVUFBQjRpZ0lBQUU5UkFBRGdLUW9BQUR4RkFRQ0FweWdBQVBBVUJRQUFucUlBQU1CVEZBQUFlSW9DQUFCUFVRQUE0Q2tLQUFBOFJRRUFnS2NvQUFEd0ZBVUFBSjZpQUFEQVV4UUFBSGlLQWdBQVQxRUFBT0FwQ2dBQVBFVUJBSUNuS0FBQThCUUZBQUNlb2dBQXdGTVVBQUI0aWdJQUFFOVJBQURnS1FvQUFEeEZBUUNBcHlnQUFQQVVCUUFBbnFJQUFNQlRGQUFBZUlvQ0FBQlBVUUFBNENrS0FBQThSUUVBZ0tjb0FBRHdGQVVBQUo2aUFBREFVeFFBQUhpS0FnQUFUMUVBQU9BcENnQUFQRVVCQUlDbktBQUE4QlFGQUFDZW9nQUF3Rk1VQUFCNGlnSUFBRTlSQUFEZ0tRb0FBRHhGQVFDQXB5Z0FBUEFVQlFBQW5xSUFBTUJURkFBQWVJb0NBQUJQVVFBQTRDa0tBQUE4UlFFQWdLY29BQUR3RkFVQUFKNmlBQURBVXhRQUFIaUtBZ0FBVDFFQUFPQXBDZ0FBUEVVQkFJQ24vajhyZmxxejFmWm9Fd0FBQUFCSlJVNUVya0pnZ2c9PSIsICJzaXplcyI6ICI1MTJ4NTEyIiwgInR5cGUiOiAiaW1hZ2UvcG5nIn1dfQ==">
+<!-- PWA-END -->
+
+
+
+
+
+
+
+
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Maintenance Mode</title>
+<style>
+  :root { --bg:#f1f5f9; --card:#fff; --ink:#0f172a; --mute:#64748b; --line:#e2e8f0; --brand:#0f172a; --green:#16a34a; --amber:#d97706; --red:#dc2626; }
+  * { box-sizing:border-box; margin:0; padding:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Khmer","Khmer OS",sans-serif; }
+  body { background:var(--bg); color:var(--ink); min-height:100vh; }
+  header { background:var(--brand); color:#fff; padding:12px 16px; display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
+  header h1 { font-size:17px; font-weight:700; }
+  .langs { display:flex; gap:6px; }
+  .langs button { background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.3); border-radius:6px; padding:4px 10px; font-size:12px; cursor:pointer; }
+  .langs button.on { background:#fff; color:var(--brand); font-weight:700; }
+  main { max-width:760px; margin:0 auto; padding:16px; }
+  .card { background:var(--card); border-radius:14px; padding:18px; margin-bottom:14px; box-shadow:0 1px 3px rgba(15,23,42,.08); }
+  .card h2 { font-size:15px; margin-bottom:6px; }
+  .sub { font-size:12.5px; color:var(--mute); line-height:1.5; margin-bottom:12px; }
+  label { display:block; font-size:12.5px; font-weight:600; margin:10px 0 4px; }
+  input[type=text], input[type=password], textarea { width:100%; padding:10px 12px; border:1px solid #cbd5e1; border-radius:8px; font-size:14px; background:#fff; }
+  textarea { resize:vertical; min-height:44px; }
+  .btn { border:0; border-radius:9px; padding:11px 18px; font-size:14px; font-weight:600; cursor:pointer; background:var(--brand); color:#fff; }
+  .btn.sec { background:#e2e8f0; color:var(--ink); }
+  .btn.green { background:var(--green); } .btn.red { background:var(--red); } .btn.amber { background:var(--amber); }
+  .btn[disabled] { opacity:.5; cursor:not-allowed; }
+  .err { color:var(--red); font-size:13px; margin-top:10px; min-height:18px; }
+  .status { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
+  .pill { display:inline-block; padding:5px 14px; border-radius:20px; font-weight:700; font-size:13px; color:#fff; }
+  .pill.on { background:var(--red); } .pill.off { background:var(--green); }
+  .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .grp { font-size:12px; font-weight:700; color:var(--mute); text-transform:uppercase; letter-spacing:.04em; margin:16px 0 6px; }
+  .svc { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 0; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  .svc:last-child { border-bottom:0; }
+  .svc .nm { font-size:14px; font-weight:500; flex:1; min-width:150px; }
+  .seg { display:inline-flex; border:1px solid #cbd5e1; border-radius:8px; overflow:hidden; }
+  .seg button { border:0; background:#fff; padding:7px 12px; font-size:12.5px; cursor:pointer; color:#475569; }
+  .seg button + button { border-left:1px solid #cbd5e1; }
+  .seg button.sel-open { background:var(--green); color:#fff; } .seg button.sel-view { background:var(--amber); color:#fff; } .seg button.sel-closed { background:var(--red); color:#fff; }
+  .exp { border:1px solid #cbd5e1; background:#f8fafc; border-radius:8px; padding:6px 10px; font-size:12.5px; cursor:pointer; color:#334155; }
+  .acts { flex-basis:100%; background:#f8fafc; border-radius:10px; padding:4px 12px 8px; margin:4px 0 6px; }
+  .acts .svc { padding:6px 0; }
+  .acts .nm { font-size:13px; }
+  .mini { border:1px solid #cbd5e1; background:#fff; border-radius:7px; padding:4px 10px; font-size:12px; cursor:pointer; margin:6px 6px 0 0; }
+  .count { font-size:13px; color:var(--mute); margin:6px 0 2px; }
+  .note { font-size:12px; color:var(--mute); margin-top:8px; line-height:1.5; }
+  .hide { display:none !important; }
+  .toast { position:fixed; left:50%; bottom:18px; transform:translateX(-50%); background:#0f172a; color:#fff; padding:9px 18px; border-radius:20px; font-size:13px; z-index:50; }
+  .toast.bad { background:var(--red); }
+  .check { display:flex; gap:8px; align-items:flex-start; font-size:13px; margin-top:12px; font-weight:500; }
+  .check input { margin-top:3px; }
+</style>
+</head>
+<body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
+#kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
+#kbSplash.out{opacity:0;pointer-events:none}
+@keyframes kbsFail{to{opacity:0;visibility:hidden;pointer-events:none}}
+#kbSplash .lg{display:flex;align-items:flex-end;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:min(17vw,84px);line-height:1;letter-spacing:-.01em;animation:kbsOut .5s ease 2.15s forwards}
+#kbSplash .lg i{font-style:normal;display:inline-block;opacity:0;will-change:transform,opacity}
+#kbSplash .h{animation:kbsL .7s cubic-bezier(.2,.9,.25,1) .1s forwards}
+#kbSplash .r{animation:kbsL .7s cubic-bezier(.2,.9,.25,1) .24s forwards}
+#kbSplash .bar{position:relative;width:.2em;height:.46em;margin:0 .13em 0 .06em;align-self:flex-start;background:#ff3030;opacity:0;transform-origin:50% 0;animation:kbsBar .7s cubic-bezier(.3,1.5,.4,1) 1.05s forwards}
+#kbSplash .n1{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .55s forwards}
+#kbSplash .n2{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .7s forwards}
+#kbSplash .n3{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .85s forwards}
+@keyframes kbsL{from{opacity:0;transform:translateX(-.6em)}to{opacity:1;transform:none}}
+@keyframes kbsR{from{opacity:0;transform:translateX(.6em)}to{opacity:1;transform:none}}
+@keyframes kbsBar{0%{opacity:0;transform:translateY(-1.1em) scaleY(.4)}60%{opacity:1;transform:translateY(.08em) scaleY(1.08)}100%{opacity:1;transform:none}}
+@keyframes kbsOut{to{opacity:0;transform:scale(1.06)}}
+@media (prefers-reduced-motion:reduce){#kbSplash .lg i{animation:none;opacity:1}#kbSplash .lg{animation:none}}
+</style><div id="kbSplash" aria-hidden="true"><div class="lg"><i class="h">H</i><i class="r">R</i><i class="bar"></i><i class="n1">2</i><i class="n2">0</i><i class="n3">3</i></div></div><script>(function(){var s=document.getElementById('kbSplash');if(!s)return;var done=false;function hide(){if(done)return;done=true;s.classList.add('out');setTimeout(function(){try{s.remove();var c=document.getElementById('kbSplashCss');if(c)c.remove();}catch(e){}},520);}
+var rm=false;try{rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
+setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener('touchstart',hide,{passive:true});})();</script><!-- SPLASH-END -->
+<header>
+  <h1 id="hTitle">Maintenance Mode</h1>
+  <div class="langs"><button data-l="en">EN</button><button data-l="km">ខ្មែរ</button><button data-l="zh">中文</button></div>
+</header>
+<main>
+  <!-- LOGIN -->
+  <section id="loginBox" class="card">
+    <h2 data-i="loginTitle"></h2>
+    <p class="sub" data-i="loginSub"></p>
+    <div id="stepPw">
+      <label data-i="user"></label><input type="text" id="u" autocomplete="username" autocapitalize="off">
+      <label data-i="pass"></label><input type="password" id="p" autocomplete="current-password">
+    </div>
+    <div id="stepCode" class="hide">
+      <label data-i="code"></label><input type="text" id="c" inputmode="numeric" autocomplete="one-time-code">
+      <p class="note" data-i="codeNote"></p>
+    </div>
+    <div class="err" id="loginErr"></div>
+    <div class="row" style="margin-top:10px;"><button class="btn" id="loginBtn" data-i="loginBtn"></button><a href="/" class="btn sec" style="text-decoration:none;" data-i="backBtn"></a></div>
+  </section>
+
+  <!-- CONTROL PANEL -->
+  <div id="panel" class="hide">
+    <div class="seg" id="mainTabs" style="margin-bottom:14px;"><button type="button" data-tab="maint" data-i="tabMaint"></button><button type="button" data-tab="lock" data-i="tabLock"></button></div>
+    <div id="maintBox">
+    <section class="card">
+      <div class="status">
+        <div><div class="sub" style="margin:0 0 4px;" data-i="statusLabel"></div><span id="pill" class="pill off">OFF</span></div>
+        <div style="flex:1;"></div>
+        <button class="btn green" id="mainBtn"></button>
+        <button class="btn sec" id="outBtn" data-i="logout"></button>
+      </div>
+      <p class="note" id="lastBy"></p>
+      <p class="note" data-i="whatItDoes"></p>
+    </section>
+
+    <section class="card">
+      <h2 data-i="msgTitle"></h2>
+      <p class="sub" data-i="msgSub"></p>
+      <label>English</label><textarea id="m_en" rows="2"></textarea>
+      <label>ខ្មែរ</label><textarea id="m_km" rows="2"></textarea>
+      <label>中文</label><textarea id="m_zh" rows="2"></textarea>
+      <label data-i="alignTitle"></label>
+      <div class="seg" id="alignSeg"><button type="button" data-a="left" data-i="alignLeft"></button><button type="button" data-a="center" data-i="alignCenter"></button></div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="scopeTitle"></h2>
+      <p class="sub" data-i="scopeSub"></p>
+      <div id="scopeList"></div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="acctTitle"></h2>
+      <p class="sub" data-i="acctSub"></p>
+      <div id="acctList"></div>
+    </section>
+
+    <section class="card">
+      <h2 data-i="svcTitle"></h2>
+      <p class="sub" data-i="svcSub"></p>
+      <div class="row">
+        <button class="btn sec" id="allOpen" data-i="allOpen"></button>
+        <button class="btn red" id="allClosed" data-i="allClosed"></button>
+      </div>
+      <div class="count" id="count"></div>
+      <div class="seg" id="grpSeg" style="flex-wrap:wrap; margin:10px 0;"></div>
+      <div id="list"></div>
+      <div class="row" style="margin-top:16px;"><button class="btn" id="saveBtn" data-i="save"></button><span class="note" id="dirtyNote"></span></div>
+    </section>
+    </div>
+    <div id="lockBox" class="hide">
+      <section class="card">
+        <h2 data-i="lkTitle"></h2>
+        <p class="sub" data-i="lkSub"></p>
+        <div class="status">
+          <div><div class="sub" style="margin:0 0 4px;" data-i="lkStatus"></div><span id="lkPill" class="pill off">-</span></div>
+        </div>
+        <p class="note" id="lkLast"></p>
+      </section>
+      <section class="card">
+        <h2 data-i="lkWhich"></h2>
+        <div id="lkScope"></div>
+      </section>
+      <section class="card">
+        <h2 data-i="lkMsgTitle"></h2>
+        <label>English</label><textarea id="lk_m_en" rows="2"></textarea>
+        <label>ខ្មែរ</label><textarea id="lk_m_km" rows="2"></textarea>
+        <label>中文</label><textarea id="lk_m_zh" rows="2"></textarea>
+      </section>
+      <section class="card">
+        <h2 data-i="lkExemptTitle"></h2>
+        <p class="sub" data-i="lkExemptSub"></p>
+        <div id="lkAcct"></div>
+        <div class="row" style="margin-top:16px;"><button class="btn red" id="lkApply" data-i="lkApply"></button><button class="btn sec" id="lkUnlock" data-i="lkUnlock"></button><span class="note" id="lkDirty"></span></div>
+      </section>
+    </div>
+  </div>
+</main>
+<div id="toast" class="toast hide"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+const SERVICES = [{"id": "master", "group": "admin", "en": "Master Sheet", "km": "បញ្ជីចម្បង", "zh": "主控表"}, {"id": "monthly", "group": "admin", "en": "Monthly Report", "km": "របាយការណ៍ប្រចាំខែ", "zh": "月度报告"}, {"id": "monthlyal", "group": "admin", "en": "Monthly Annual Leave", "km": "ច្បាប់ឈប់សម្រាកប្រចាំឆ្នាំប្រចាំខែ", "zh": "月度年假"}, {"id": "employee", "group": "admin", "en": "Employee", "km": "បុគ្គលិក", "zh": "员工列表"}, {"id": "leave", "group": "admin", "en": "Leave Records", "km": "កំណត់ត្រាច្បាប់", "zh": "请假记录"}, {"id": "att", "group": "admin", "en": "Attendance", "km": "វត្តមាន", "zh": "考勤记录"}, {"id": "query", "group": "admin", "en": "Check Record", "km": "ពិនិត្យកំណត់ត្រា", "zh": "检查记录"}, {"id": "add", "group": "admin", "en": "Add Employee", "km": "បន្ថែមបុគ្គលិក", "zh": "添加员工"}, {"id": "shift", "group": "admin", "en": "Shift Roster", "km": "កាលវិភាគវេន", "zh": "排班表"}, {"id": "makeup", "group": "admin", "en": "Makeup Attendance Record", "km": "កំណត់ត្រាចុះកាតបំពេញបន្ថែម", "zh": "补卡记录"}, {"id": "attcal", "group": "admin", "en": "Leave & Attendance Calendar", "km": "ប្រតិទិនច្បាប់ និងវត្តមាន", "zh": "请假与考勤日历"}, {"id": "dept", "group": "admin", "en": "Departments", "km": "នាយកដ្ឋាន", "zh": "部门"}, {"id": "recdeleted", "group": "admin", "en": "Recently Deleted", "km": "បានលុបថ្មីៗ", "zh": "最近删除"}, {"id": "pending", "group": "admin", "en": "Pending Approvals", "km": "ការអនុម័តកំពុងរង់ចាំ", "zh": "待审批"}, {"id": "mgmt", "group": "admin", "en": "Management", "km": "ការគ្រប់គ្រង", "zh": "账户管理"}, {"id": "devices", "group": "admin", "en": "Device Log", "km": "កំណត់ត្រាឧបករណ៍", "zh": "设备日志"}, {"id": "backup", "group": "admin", "en": "Backup Now", "km": "បម្រុងទុកទិន្នន័យ", "zh": "立即备份"}, {"id": "notif", "group": "admin", "en": "Manage Notifications", "km": "គ្រប់គ្រងការជូនដំណឹង", "zh": "管理通知"}, {"id": "audit", "group": "admin", "en": "Activity Log", "km": "កំណត់ត្រាសកម្មភាព", "zh": "活动日志"}, {"id": "cert", "group": "admin", "en": "Certificates", "km": "វិញ្ញាបនបត្រ", "zh": "证明书"}, {"id": "convert", "group": "admin", "en": "Extract", "km": "ស្រង់ចេញ", "zh": "提取"}, {"id": "faceatt", "group": "admin", "en": "Face Attendance", "km": "វត្តមានតាមការស្កេនមុខ", "zh": "人脸考勤"}, {"id": "export", "group": "admin", "en": "Export", "km": "នាំចេញ", "zh": "导出"}, {"id": "mse", "group": "admin", "en": "MSE Departments", "km": "បញ្ជីចម្បងនាយកដ្ឋាន", "zh": "部门主控表"}, {"id": "deptreq", "group": "admin", "en": "Department Requests", "km": "សំណើពីនាយកដ្ឋាន", "zh": "部门申请"}, {"id": "deptiv", "group": "admin", "en": "Investigations", "km": "ការស៊ើបអង្កេត", "zh": "核查"}, {"id": "datectl", "group": "admin", "en": "Dept Data Reset", "km": "កំណត់ទិន្នន័យនាយកដ្ឋានឡើងវិញ", "zh": "部门数据重置"}, {"id": "clr", "group": "admin", "en": "Clear Old Data", "km": "សម្អាតទិន្នន័យចាស់", "zh": "清理旧数据"}, {"id": "deptacc", "group": "admin", "en": "Department Accounts", "km": "គណនីនាយកដ្ឋាន", "zh": "部门账户"}, {"id": "lforms", "group": "admin", "en": "Leave Forms", "km": "លិខិតសុំច្បាប់", "zh": "请假单"}, {"id": "cardcenter", "group": "admin", "en": "Card Center", "km": "មជ្ឈមណ្ឌលកាត", "zh": "卡片中心"}, {"id": "search", "group": "admin", "en": "Search", "km": "ស្វែងរក", "zh": "搜索"}, {"id": "bell", "group": "admin", "en": "Employee Requests", "km": "សំណើពីបុគ្គលិក", "zh": "员工请求"}, {"id": "todo", "group": "admin", "en": "To-Do List", "km": "បញ្ជីការងារ", "zh": "待办清单"}, {"id": "payroll", "group": "admin", "en": "Payroll", "km": "ប្រាក់ខែ", "zh": "工资"}, {"id": "reminders", "group": "admin", "en": "Reminder", "km": "រំលឹក", "zh": "提醒"}, {"id": "training", "group": "admin", "en": "Training & Agreements", "km": "ហ្វឹកហ្វឺន និងកិច្ចសន្យា", "zh": "培训与合同"}, {"id": "calendar", "group": "admin", "en": "Calendar", "km": "ប្រតិទិន", "zh": "日历"}, {"id": "printing", "group": "admin", "en": "Document Library", "km": "បណ្ណាល័យឯកសារ", "zh": "文档库"}, {"id": "express", "group": "admin", "en": "Express", "km": "ដឹកជញ្ជូន Express", "zh": "快递 Express"}, {"id": "links", "group": "admin", "en": "Links", "km": "តំណភ្ជាប់", "zh": "链接"}, {"id": "kanha", "group": "admin", "en": "Kanha Bot", "km": "Kanha Bot", "zh": "Kanha Bot"}, {"id": "emp_request", "group": "emp", "en": "Request", "km": "សំណើ", "zh": "申请"}, {"id": "emp_shift", "group": "emp", "en": "Check Shift", "km": "ពិនិត្យវេន", "zh": "查看排班"}, {"id": "emp_lf", "group": "emp", "en": "Leave Form", "km": "លិខិតសុំច្បាប់", "zh": "请假单"}, {"id": "emp_card", "group": "emp", "en": "Card", "km": "កាត", "zh": "卡片"}, {"id": "dept_master", "group": "dept", "en": "Master Sheet", "km": "បញ្ជីចម្បង", "zh": "主控表"}, {"id": "dept_leave", "group": "dept", "en": "Leave Record", "km": "កំណត់ត្រាច្បាប់", "zh": "请假记录"}, {"id": "dept_att", "group": "dept", "en": "Attendance Record", "km": "កំណត់ត្រាវត្តមាន", "zh": "考勤记录"}, {"id": "dept_check", "group": "dept", "en": "Check Record", "km": "ពិនិត្យកំណត់ត្រា", "zh": "查询记录"}, {"id": "dept_shift", "group": "dept", "en": "Shift Roster", "km": "កាលវិភាគវេន", "zh": "排班表"}, {"id": "dept_makeup", "group": "dept", "en": "Makeup Attendance Record", "km": "កំណត់ត្រាចុះកាតបំពេញបន្ថែម", "zh": "补卡记录"}, {"id": "dept_attcal", "group": "dept", "en": "Leave & Attendance Calendar", "km": "ប្រតិទិនច្បាប់ និងវត្តមាន", "zh": "请假与考勤日历"}, {"id": "dept_cmp", "group": "dept", "en": "Compare with HR", "km": "ប្រៀបធៀបជាមួយ HR", "zh": "与人事对比"}, {"id": "dept_req", "group": "dept", "en": "Requests", "km": "សំណើ", "zh": "申请"}, {"id": "dept_lf", "group": "dept", "en": "Leave Form", "km": "លិខិតសុំច្បាប់", "zh": "请假单"}, {"id": "dept_card", "group": "dept", "en": "Card", "km": "កាត", "zh": "卡片"}, {"id": "dept_bell", "group": "dept", "en": "Notifications", "km": "ការជូនដំណឹង", "zh": "通知"}];
+const ACTIONS = [{"s": "master", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "master", "id": "leavereport", "en": "Export Leave Report", "km": "នាំចេញរបាយការណ៍ច្បាប់ឈប់សម្រាក", "zh": "导出休假报告"}, {"s": "master", "id": "settings", "en": "Settings", "km": "ការកំណត់", "zh": "设置"}, {"s": "master", "id": "alcheck", "en": "AL Check", "km": "ពិនិត្យច្បាប់ឆ្នាំ", "zh": "年假检查"}, {"s": "master", "id": "view", "en": "View details", "km": "មើលព័ត៌មានលម្អិត", "zh": "查看详情"}, {"s": "master", "id": "edit", "en": "Edit", "km": "កែប្រែ", "zh": "编辑"}, {"s": "master", "id": "delete", "en": "Delete", "km": "លុប", "zh": "删除"}, {"s": "monthly", "id": "applyall", "en": "Apply to All", "km": "ដាក់ពាក្យទាំងអស់", "zh": "应用全部"}, {"s": "monthly", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "monthly", "id": "view", "en": "View details", "km": "មើលព័ត៌មានលម្អិត", "zh": "查看详情"}, {"s": "monthly", "id": "edit", "en": "Edit", "km": "កែប្រែ", "zh": "编辑"}, {"s": "monthly", "id": "delete", "en": "Delete", "km": "លុប", "zh": "删除"}, {"s": "monthly", "id": "hours", "en": "Edit working days / hours", "km": "កែថ្ងៃ/ម៉ោងធ្វើការ", "zh": "修改工作日/工时"}, {"s": "monthlyal", "id": "renewal", "en": "Export AL Renewal List", "km": "នាំចេញបញ្ជីបុគ្គលិកជិតដល់ពេលបន្តច្បាប់ប្រចាំឆ្នាំ", "zh": "导出年假续期名单"}, {"s": "monthlyal", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "employee", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "employee", "id": "view", "en": "View details", "km": "មើលព័ត៌មានលម្អិត", "zh": "查看详情"}, {"s": "employee", "id": "edit", "en": "Edit", "km": "កែប្រែ", "zh": "编辑"}, {"s": "employee", "id": "delete", "en": "Delete", "km": "លុប", "zh": "删除"}, {"s": "leave", "id": "submit", "en": "Submit Leave Record", "km": "រក្សាទុកកំណត់ត្រាច្បាប់", "zh": "提交请假记录"}, {"s": "att", "id": "load", "en": "Show Employees", "km": "បង្ហាញបុគ្គលិក", "zh": "显示员工"}, {"s": "att", "id": "submit", "en": "Submit Attendance Record", "km": "រក្សាទុកវត្តមាន", "zh": "提交考勤记录"}, {"s": "query", "id": "check", "en": "Check Details", "km": "ពិនិត្យព័ត៌មានលម្អិត", "zh": "查看详情"}, {"s": "add", "id": "bulkimport", "en": "Bulk Import Employees", "km": "នាំចូលបុគ្គលិកជាបណ្តុំ", "zh": "批量导入员工"}, {"s": "add", "id": "bulkupdate", "en": "Bulk Update Employees", "km": "ធ្វើបច្ចុប្បន្នភាពបុគ្គលិកច្រើន", "zh": "批量更新员工"}, {"s": "add", "id": "save", "en": "Save Employee", "km": "រក្សាទុកបុគ្គលិក", "zh": "保存员工"}, {"s": "shift", "id": "check", "en": "Check", "km": "ពិនិត្យ", "zh": "查询"}, {"s": "shift", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "shift", "id": "editcell", "en": "Edit shift cells", "km": "កែក្រឡាវេន", "zh": "修改班次单元格"}, {"s": "makeup", "id": "submit", "en": "Save Record", "km": "រក្សាទុកកំណត់ត្រា", "zh": "保存记录"}, {"s": "attcal", "id": "pdf", "en": "Export as PDF", "km": "នាំចេញជា PDF", "zh": "导出为 PDF"}, {"s": "attcal", "id": "editday", "en": "Edit / delete a calendar day", "km": "កែ/លុបថ្ងៃក្នុងប្រតិទិន", "zh": "修改/删除日历日期"}, {"s": "dept", "id": "add", "en": "Add", "km": "បន្ថែម", "zh": "添加"}, {"s": "dept", "id": "edit", "en": "Edit", "km": "កែប្រែ", "zh": "编辑"}, {"s": "dept", "id": "delete", "en": "Delete", "km": "លុប", "zh": "删除"}, {"s": "audit", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "cert", "id": "generate", "en": "Generate Certificate", "km": "បង្កើតវិញ្ញាបនបត្រ", "zh": "生成证明书"}, {"s": "faceatt", "id": "copylink", "en": "Copy link", "km": "ចម្លងតំណ", "zh": "复制链接"}, {"s": "faceatt", "id": "camera", "en": "Start camera", "km": "បើកកាមេរ៉ា", "zh": "启动摄像头"}, {"s": "faceatt", "id": "capture", "en": "Capture angle", "km": "ថតជ្រុង", "zh": "拍摄角度"}, {"s": "faceatt", "id": "clear", "en": "Clear captures", "km": "លុបការថត", "zh": "清除已拍摄"}, {"s": "faceatt", "id": "saveenroll", "en": "Save enrollment", "km": "រក្សាទុកការចុះឈ្មោះ", "zh": "保存登记"}, {"s": "faceatt", "id": "delenroll", "en": "Delete enrollment", "km": "លុបការចុះឈ្មោះមុខ", "zh": "删除人脸登记"}, {"s": "faceatt", "id": "saverules", "en": "Save settings", "km": "រក្សាទុកការកំណត់", "zh": "保存设置"}, {"s": "faceatt", "id": "resetrules", "en": "Reset to defaults", "km": "កំណត់ឡើងវិញទៅលំនាំដើម", "zh": "恢复默认"}, {"s": "faceatt", "id": "manualsave", "en": "Save manual entry", "km": "រក្សាទុកការបញ្ចូលដោយដៃ", "zh": "保存手动录入"}, {"s": "faceatt", "id": "preview", "en": "Preview", "km": "មើលជាមុន", "zh": "预览"}, {"s": "faceatt", "id": "export", "en": "Export", "km": "នាំចេញ", "zh": "导出"}, {"s": "export", "id": "preview", "en": "Preview", "km": "មើលជាមុន", "zh": "预览"}, {"s": "export", "id": "export", "en": "Export", "km": "នាំចេញ", "zh": "导出"}, {"s": "recdeleted", "id": "restore", "en": "Restore employee", "km": "ស្តារបុគ្គលិកវិញ", "zh": "恢复员工"}, {"s": "pending", "id": "approve", "en": "Approve", "km": "អនុម័ត", "zh": "批准"}, {"s": "pending", "id": "reject", "en": "Reject", "km": "បដិសេធ", "zh": "拒绝"}, {"s": "mgmt", "id": "addaccount", "en": "Add Account", "km": "បន្ថែមគណនី", "zh": "添加账户"}, {"s": "mgmt", "id": "disable", "en": "Enable / disable account", "km": "បើក/បិទគណនី", "zh": "启用/停用账户"}, {"s": "mgmt", "id": "delete", "en": "Delete account", "km": "លុបគណនី", "zh": "删除账户"}, {"s": "mgmt", "id": "editfield", "en": "Edit account details", "km": "កែព័ត៌មានគណនី", "zh": "修改账户信息"}, {"s": "mgmt", "id": "pwreset", "en": "Reset password", "km": "កំណត់ពាក្យសម្ងាត់ឡើងវិញ", "zh": "重置密码"}, {"s": "mgmt", "id": "totp", "en": "Authenticator on / off", "km": "បើក/បិទ Authenticator", "zh": "启用/停用验证器"}, {"s": "mgmt", "id": "resettotp", "en": "Reset", "km": "កំណត់ឡើងវិញ", "zh": "重置"}, {"s": "mgmt", "id": "backupcodes", "en": "New Codes", "km": "លេខកូដថ្មី", "zh": "生成新代码"}, {"s": "devices", "id": "block", "en": "Block / unblock device", "km": "រារាំង/ដោះរារាំងឧបករណ៍", "zh": "阻止/解除阻止设备"}, {"s": "devices", "id": "rename", "en": "Rename device", "km": "ប្តូរឈ្មោះឧបករណ៍", "zh": "重命名设备"}, {"s": "backup", "id": "backupnow", "en": "Download Backup", "km": "ទាញយកឯកសារបម្រុងទុក", "zh": "下载备份文件"}, {"s": "notif", "id": "onetime", "en": "Send One-Time Notification", "km": "ផ្ញើការជូនដំណឹងតែម្តង", "zh": "发送一次性通知"}, {"s": "notif", "id": "announce", "en": "+ New Announcement", "km": "+ សេចក្តីជូនដំណឹងថ្មី", "zh": "+ 新建通知"}, {"s": "notif", "id": "shiftready", "en": "Notify: Shift Calendar Ready", "km": "ជូនដំណឹង៖ កាលវិភាគវេនរួចរាល់", "zh": "通知：排班表已可查看"}, {"s": "notif", "id": "cardready", "en": "Notify: Employee Card Ready", "km": "ជូនដំណឹង៖ កាតបុគ្គលិករួចរាល់", "zh": "通知：员工卡已可领取"}, {"s": "notif", "id": "delete", "en": "Delete sent notification", "km": "លុបការជូនដំណឹងដែលបានផ្ញើ", "zh": "删除已发送通知"}, {"s": "convert", "id": "convertphoto", "en": "Convert to Photo", "km": "បម្លែងទៅជារូបថត", "zh": "转换为图片"}, {"s": "convert", "id": "leaveextract", "en": "Attendance Extract", "km": "ស្រង់ទិន្នន័យវត្តមាន", "zh": "考勤提取"}, {"s": "convert", "id": "lxrecord", "en": "Record working & OT hours", "km": "កត់ត្រាម៉ោងធ្វើការ និង OT", "zh": "记录工作和加班时数"}, {"s": "convert", "id": "choose", "en": "Choose file to convert", "km": "ជ្រើសរើសឯកសារដើម្បីបម្លែង", "zh": "选择要转换的文件"}, {"s": "convert", "id": "lxread", "en": "Read photos", "km": "អានរូបថត", "zh": "读取照片"}, {"s": "convert", "id": "lxkey", "en": "Save key", "km": "រក្សាទុក key", "zh": "保存密钥"}, {"s": "convert", "id": "lxexport", "en": "Download Excel", "km": "ទាញយក Excel", "zh": "下载 Excel"}, {"s": "dept", "id": "addorg", "en": "New Department Name", "km": "ឈ្មោះនាយកដ្ឋានថ្មី", "zh": "新部门名称"}, {"s": "dept", "id": "renameorg", "en": "Rename department", "km": "ប្តូរឈ្មោះនាយកដ្ឋាន", "zh": "重命名部门"}, {"s": "dept", "id": "deleteorg", "en": "Delete department", "km": "លុបនាយកដ្ឋាន", "zh": "删除部门"}, {"s": "dept", "id": "assign", "en": "Assign group to department", "km": "កំណត់ក្រុមទៅនាយកដ្ឋាន", "zh": "将小组分配到部门"}, {"s": "bell", "id": "respond", "en": "Respond", "km": "ឆ្លើយតប", "zh": "回复"}, {"s": "bell", "id": "processed", "en": "Mark as Processed", "km": "កំណត់ថាបានដំណើរការ", "zh": "标记为已处理"}, {"s": "bell", "id": "delete", "en": "Delete", "km": "លុប", "zh": "删除"}, {"s": "bell", "id": "dismiss", "en": "Dismiss", "km": "បិទ", "zh": "关闭"}, {"s": "emp_request", "id": "submit", "en": "Submit Request", "km": "ដាក់ស្នើសំណើ", "zh": "提交请求"}, {"s": "emp_shift", "id": "check", "en": "Check my shift", "km": "ពិនិត្យវេនរបស់ខ្ញុំ", "zh": "查看我的班次"}, {"s": "emp_lf", "id": "new", "en": "New leave form", "km": "បង្កើតលិខិតសុំច្បាប់ថ្មី", "zh": "新建请假单"}, {"s": "emp_lf", "id": "print", "en": "Print / PDF", "km": "បោះពុម្ព / PDF", "zh": "打印 / PDF"}, {"s": "emp_card", "id": "new", "en": "New Card", "km": "កាតថ្មី", "zh": "新卡"}, {"s": "cardcenter", "id": "sign", "en": "HR sign", "km": "ផ្នែកធនធានមនុស្សចុះហត្ថលេខា", "zh": "人事签名"}, {"s": "cardcenter", "id": "sign", "en": "Administration approve", "km": "រដ្ឋបាលអនុម័ត", "zh": "行政批准"}, {"s": "cardcenter", "id": "reject", "en": "Reject", "km": "បដិសេធ", "zh": "拒绝"}, {"s": "cardcenter", "id": "issue", "en": "Issue card", "km": "ចេញកាត", "zh": "发卡"}, {"s": "cardcenter", "id": "ready", "en": "Ready to pick up", "km": "រួចរាល់ដើម្បីមកយក", "zh": "可领取"}, {"s": "lforms", "id": "edit", "en": "Edit", "km": "កែប្រែ", "zh": "修改"}, {"s": "lforms", "id": "sign", "en": "Sign", "km": "ចុះហត្ថលេខា", "zh": "签名"}, {"s": "lforms", "id": "reject", "en": "Reject", "km": "បដិសេធ", "zh": "拒绝"}, {"s": "lforms", "id": "top", "en": "Submit", "km": "ដាក់ស្នើ", "zh": "提交"}, {"s": "lforms", "id": "top", "en": "Top Management Rejected", "km": "ថ្នាក់ដឹកនាំជាន់ខ្ពស់បានបដិសេធ", "zh": "最高主管已拒绝"}, {"s": "lforms", "id": "top", "en": "Top Management must sign this form (print it for their signature)", "km": "ត្រូវការហត្ថលេខាពីថ្នាក់ដឹកនាំជាន់ខ្ពស់លើលិខិតនេះ (បោះពុម្ពសម្រាប់ចុះហត្ថលេខា)", "zh": "此请假单需要最高主管签名（请打印后送签）"}, {"s": "lforms", "id": "print", "en": "Print / PDF", "km": "បោះពុម្ព / PDF", "zh": "打印 / PDF"}, {"s": "lforms", "id": "settings", "en": "Form settings", "km": "ការកំណត់លិខិត", "zh": "表格设置"}, {"s": "notif", "id": "reminders", "en": "Dashboard reminders: add / edit / delete", "km": "ការរំលឹកលើ Dashboard៖ បន្ថែម/កែ/លុប", "zh": "仪表板提醒：添加/编辑/删除"}, {"s": "mse", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "mse", "id": "detail", "en": "View details", "km": "មើលព័ត៌មានលម្អិត", "zh": "查看详情"}, {"s": "deptreq", "id": "approve", "en": "Approve", "km": "អនុម័ត", "zh": "批准"}, {"s": "deptreq", "id": "reject", "en": "Reject", "km": "បដិសេធ", "zh": "拒绝"}, {"s": "deptreq", "id": "print", "en": "Print / Save as PDF", "km": "បោះពុម្ព / រក្សាទុកជា PDF", "zh": "打印 / 保存为PDF"}, {"s": "deptiv", "id": "hrfix", "en": "HR number is wrong", "km": "លេខ HR ខុស", "zh": "人事数字有误"}, {"s": "deptiv", "id": "deptfix", "en": "Department is wrong", "km": "នាយកដ្ឋានខុស", "zh": "部门有误"}, {"s": "deptiv", "id": "close", "en": "Numbers are fine", "km": "លេខត្រឹមត្រូវ", "zh": "数字无误"}, {"s": "datectl", "id": "run", "en": "Reset Monthly", "km": "កំណត់ប្រចាំខែឡើងវិញ", "zh": "月度重置"}, {"s": "datectl", "id": "restore", "en": "Restore", "km": "ស្តារ", "zh": "还原"}, {"s": "clr", "id": "run", "en": "Remove now", "km": "លុបឥឡូវនេះ", "zh": "立即删除"}, {"s": "clr", "id": "removereq", "en": "Remove now", "km": "លុបឥឡូវនេះ", "zh": "立即删除"}, {"s": "clr", "id": "dismiss", "en": "Dismiss", "km": "បដិសេធ", "zh": "忽略"}, {"s": "deptacc", "id": "add", "en": "Add Account", "km": "បន្ថែមគណនី", "zh": "添加账户"}, {"s": "deptacc", "id": "toggle", "en": "Enable / disable account", "km": "បើក/បិទគណនី", "zh": "启用/停用账户"}, {"s": "deptacc", "id": "resetpw", "en": "Reset password", "km": "កំណត់ពាក្យសម្ងាត់ឡើងវិញ", "zh": "重置密码"}, {"s": "deptacc", "id": "delete", "en": "Delete account", "km": "លុបគណនី", "zh": "删除账户"}, {"s": "dept_card", "id": "sign", "en": "Sign", "km": "ចុះហត្ថលេខា", "zh": "签名"}, {"s": "dept_card", "id": "reject", "en": "Reject", "km": "បដិសេធ", "zh": "拒绝"}, {"s": "dept_lf", "id": "new", "en": "New leave form", "km": "បង្កើតលិខិតសុំច្បាប់ថ្មី", "zh": "新建请假单"}, {"s": "dept_lf", "id": "edit", "en": "Edit", "km": "កែប្រែ", "zh": "修改"}, {"s": "dept_lf", "id": "sign", "en": "Sign", "km": "ចុះហត្ថលេខា", "zh": "签名"}, {"s": "dept_lf", "id": "reject", "en": "Reject", "km": "បដិសេធ", "zh": "拒绝"}, {"s": "dept_lf", "id": "print", "en": "Print / PDF", "km": "បោះពុម្ព / PDF", "zh": "打印 / PDF"}, {"s": "dept_master", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "dept_master", "id": "edit", "en": "Edit numbers", "km": "កែលេខ", "zh": "修改数字"}, {"s": "dept_leave", "id": "submit", "en": "Submit Leave Record", "km": "រក្សាទុកកំណត់ត្រាច្បាប់", "zh": "提交请假记录"}, {"s": "dept_att", "id": "load", "en": "Show Employees", "km": "បង្ហាញបុគ្គលិក", "zh": "显示员工"}, {"s": "dept_att", "id": "submit", "en": "Submit Attendance Record", "km": "រក្សាទុកវត្តមាន", "zh": "提交考勤记录"}, {"s": "dept_check", "id": "check", "en": "Check Details", "km": "ពិនិត្យព័ត៌មានលម្អិត", "zh": "查看详情"}, {"s": "dept_shift", "id": "check", "en": "Check", "km": "ពិនិត្យ", "zh": "查询"}, {"s": "dept_shift", "id": "editcell", "en": "Edit shift cells", "km": "កែក្រឡាវេន", "zh": "修改班次单元格"}, {"s": "dept_shift", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "dept_shift", "id": "clear", "en": "Clear Old Data", "km": "សម្អាតទិន្នន័យចាស់", "zh": "清理旧数据"}, {"s": "dept_makeup", "id": "submit", "en": "Save Record", "km": "រក្សាទុកកំណត់ត្រា", "zh": "保存记录"}, {"s": "dept_makeup", "id": "delete", "en": "Delete", "km": "លុប", "zh": "删除"}, {"s": "dept_makeup", "id": "clear", "en": "Clear Old Data", "km": "សម្អាតទិន្នន័យចាស់", "zh": "清理旧数据"}, {"s": "dept_attcal", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "dept_attcal", "id": "clear", "en": "Clear Old Data", "km": "សម្អាតទិន្នន័យចាស់", "zh": "清理旧数据"}, {"s": "dept_cmp", "id": "export", "en": "Export to Excel (.xlsx)", "km": "នាំចេញជា Excel (.xlsx)", "zh": "导出为 Excel (.xlsx)"}, {"s": "dept_cmp", "id": "print", "en": "Print / Save as PDF", "km": "បោះពុម្ព / រក្សាទុកជា PDF", "zh": "打印 / 保存为PDF"}, {"s": "dept_cmp", "id": "match", "en": "Match all to HR (one click)", "km": "កែទាំងអស់ឲ្យដូច HR (ចុចម្តង)", "zh": "一键全部改为与人事一致"}, {"s": "dept_req", "id": "newedit", "en": "Edit employee info", "km": "កែព័ត៌មានបុគ្គលិក", "zh": "修改员工信息"}, {"s": "dept_req", "id": "newremove", "en": "Remove employee", "km": "ដកបុគ្គលិកចេញ", "zh": "删除员工"}, {"s": "dept_req", "id": "newgroup", "en": "New group", "km": "ក្រុមថ្មី", "zh": "新建小组"}, {"s": "dept_req", "id": "newother", "en": "Other request", "km": "សំណើផ្សេងៗ", "zh": "其他申请"}, {"s": "dept_req", "id": "cancel", "en": "Cancel request", "km": "លុបចោលសំណើ", "zh": "撤销申请"}, {"s": "todo", "id": "save", "en": "Save task", "km": "រក្សាទុកការងារ", "zh": "保存任务"}, {"s": "todo", "id": "edit", "en": "Edit task", "km": "កែការងារ", "zh": "编辑任务"}, {"s": "todo", "id": "delete", "en": "Delete task", "km": "លុបការងារ", "zh": "删除任务"}, {"s": "todo", "id": "tick", "en": "Tick a step", "km": "ធីកជំហាន", "zh": "勾选步骤"}, {"s": "todo", "id": "undo", "en": "Undo last step", "km": "ត្រឡប់ជំហានចុងក្រោយ", "zh": "撤销上一步"}, {"s": "todo", "id": "types", "en": "Add task type", "km": "បន្ថែមប្រភេទការងារ", "zh": "添加任务类型"}, {"s": "todo", "id": "telegram", "en": "Link Telegram", "km": "ភ្ជាប់ Telegram", "zh": "绑定 Telegram"}, {"s": "payroll", "id": "export", "en": "Export payroll", "km": "នាំចេញប្រាក់ខែ", "zh": "导出工资"}, {"s": "payroll", "id": "slips", "en": "Pay slips", "km": "បង្កាន់ដៃប្រាក់ខែ", "zh": "工资条"}, {"s": "payroll", "id": "import", "en": "Import", "km": "នាំចូល", "zh": "导入"}, {"s": "payroll", "id": "template", "en": "Download template", "km": "ទាញយកគំរូ", "zh": "下载模板"}, {"s": "payroll", "id": "edit", "en": "Edit a row", "km": "កែជួរ", "zh": "编辑行"}, {"s": "payroll", "id": "editsave", "en": "Save row changes", "km": "រក្សាទុកការកែ", "zh": "保存修改"}, {"s": "payroll", "id": "editdel", "en": "Delete a row", "km": "លុបជួរ", "zh": "删除行"}, {"s": "payroll", "id": "settings", "en": "Payroll settings", "km": "ការកំណត់ប្រាក់ខែ", "zh": "工资设置"}, {"s": "payroll", "id": "fill", "en": "Fill base pay", "km": "បំពេញប្រាក់គោល", "zh": "填充基本工资"}, {"s": "payroll", "id": "fromatt", "en": "Take from attendance", "km": "យកពីវត្តមាន", "zh": "取自考勤"}, {"s": "payroll", "id": "lock", "en": "Lock / unlock month", "km": "ចាក់សោ / ដោះសោខែ", "zh": "锁定 / 解锁月份"}, {"s": "payroll", "id": "startmonth", "en": "Start a month", "km": "ចាប់ផ្តើមខែ", "zh": "开始月份"}, {"s": "reminders", "id": "save", "en": "Save reminder", "km": "រក្សាទុកការរំលឹក", "zh": "保存提醒"}, {"s": "reminders", "id": "edit", "en": "Edit reminder", "km": "កែការរំលឹក", "zh": "编辑提醒"}, {"s": "reminders", "id": "delete", "en": "Delete reminder", "km": "លុបការរំលឹក", "zh": "删除提醒"}, {"s": "reminders", "id": "complete", "en": "Mark as done", "km": "សម្គាល់ថាបានធ្វើ", "zh": "标记完成"}, {"s": "training", "id": "export", "en": "Export", "km": "នាំចេញ", "zh": "导出"}, {"s": "training", "id": "confirm", "en": "Confirm", "km": "បញ្ជាក់", "zh": "确认"}, {"s": "training", "id": "settings", "en": "Settings", "km": "ការកំណត់", "zh": "设置"}, {"s": "calendar", "id": "addevent", "en": "Add event", "km": "បន្ថែមព្រឹត្តិការណ៍", "zh": "添加事件"}, {"s": "calendar", "id": "delevent", "en": "Delete event", "km": "លុបព្រឹត្តិការណ៍", "zh": "删除事件"}, {"s": "calendar", "id": "festivals", "en": "Save festival days", "km": "រក្សាទុកថ្ងៃបុណ្យ", "zh": "保存节日"}, {"s": "printing", "id": "upload", "en": "Upload file", "km": "ផ្ទុកឡើងឯកសារ", "zh": "上传文件"}, {"s": "printing", "id": "replace", "en": "Replace file", "km": "ជំនួសឯកសារ", "zh": "替换文件"}, {"s": "printing", "id": "delete", "en": "Delete file / folder", "km": "លុបឯកសារ / ថត", "zh": "删除文件 / 文件夹"}, {"s": "printing", "id": "rename", "en": "Rename", "km": "ប្តូរឈ្មោះ", "zh": "重命名"}, {"s": "printing", "id": "newfolder", "en": "New folder", "km": "ថតថ្មី", "zh": "新建文件夹"}, {"s": "printing", "id": "move", "en": "Move", "km": "ផ្លាស់ទី", "zh": "移动"}, {"s": "printing", "id": "download", "en": "Download", "km": "ទាញយក", "zh": "下载"}, {"s": "printing", "id": "color", "en": "File colour", "km": "ពណ៌ឯកសារ", "zh": "文件颜色"}, {"s": "printing", "id": "notice", "en": "Notice", "km": "សេចក្តីជូនដំណឹង", "zh": "通知"}, {"s": "printing", "id": "editdoc", "en": "Edit document", "km": "កែឯកសារ", "zh": "编辑文档"}, {"s": "printing", "id": "pdf", "en": "Export to PDF", "km": "នាំចេញជា PDF", "zh": "导出 PDF"}, {"s": "printing", "id": "cfsave", "en": "Save document", "km": "រក្សាទុកឯកសារ", "zh": "保存文档"}, {"s": "printing", "id": "cfremove", "en": "Remove document", "km": "លុបឯកសារ", "zh": "移除文档"}, {"s": "printing", "id": "cfrename", "en": "Rename document", "km": "ប្តូរឈ្មោះឯកសារ", "zh": "重命名文档"}, {"s": "printing", "id": "cfreplace", "en": "Replace document", "km": "ជំនួសឯកសារ", "zh": "替换文档"}, {"s": "faceatt", "id": "autosave", "en": "Save automation switches", "km": "រក្សាទុកកុងតាក់ស្វ័យប្រវត្តិ", "zh": "保存自动化开关"}, {"s": "faceatt", "id": "spadd", "en": "Add special early check-out", "km": "បន្ថែមការចេញមុនពិសេស", "zh": "添加特殊提前下班"}, {"s": "faceatt", "id": "spdel", "en": "Delete special early check-out", "km": "លុបការចេញមុនពិសេស", "zh": "删除特殊提前下班"}, {"s": "faceatt", "id": "delscan", "en": "Delete a scan", "km": "លុបការស្កេន", "zh": "删除扫描记录"}, {"s": "faceatt", "id": "leavelist", "en": "Missing leave form list", "km": "បញ្ជីលិខិតសុំច្បាប់មិនទាន់ដាក់", "zh": "缺少请假单列表"}, {"s": "faceatt", "id": "manualpreview", "en": "Manual entry preview", "km": "មើលមុនការបញ្ចូលដោយដៃ", "zh": "手动录入预览"}, {"s": "shift", "id": "template", "en": "Download shift template", "km": "ទាញយកគំរូវេន", "zh": "下载排班模板"}, {"s": "shift", "id": "import", "en": "Import shifts", "km": "នាំចូលវេន", "zh": "导入排班"}, {"s": "shift", "id": "marks", "en": "Day marks (holiday etc.)", "km": "សម្គាល់ថ្ងៃ (បុណ្យ ។ល។)", "zh": "日期标记（假日等）"}, {"s": "add", "id": "runimport", "en": "Run bulk import", "km": "ដំណើរការនាំចូលច្រើន", "zh": "执行批量导入"}, {"s": "add", "id": "runupdate", "en": "Run bulk update", "km": "ដំណើរការធ្វើបច្ចុប្បន្នភាពច្រើន", "zh": "执行批量更新"}, {"s": "add", "id": "templates", "en": "Download templates", "km": "ទាញយកគំរូ", "zh": "下载模板"}, {"s": "convert", "id": "download", "en": "Download converted photo", "km": "ទាញយករូបភាពដែលបានបំលែង", "zh": "下载转换后的照片"}, {"s": "attcal", "id": "saveentry", "en": "Save day record", "km": "រក្សាទុកកំណត់ត្រាថ្ងៃ", "zh": "保存当日记录"}, {"s": "attcal", "id": "delentry", "en": "Delete day record", "km": "លុបកំណត់ត្រាថ្ងៃ", "zh": "删除当日记录"}, {"s": "makeup", "id": "delete", "en": "Delete makeup record", "km": "លុបកំណត់ត្រាបំពេញបន្ថែម", "zh": "删除补卡记录"}, {"s": "cardcenter", "id": "fee", "en": "Card fees", "km": "ថ្លៃកាត", "zh": "卡片费用"}, {"s": "cardcenter", "id": "style", "en": "Card styles", "km": "រចនាបថកាត", "zh": "卡片样式"}, {"s": "cardcenter", "id": "freeze", "en": "Freeze / unfreeze card", "km": "ផ្អាក / បើកកាត", "zh": "冻结 / 解冻卡"}, {"s": "cardcenter", "id": "remove", "en": "Remove card", "km": "លុបកាត", "zh": "删除卡"}, {"s": "cardcenter", "id": "activate", "en": "Activate card", "km": "បើកដំណើរការកាត", "zh": "激活卡"}, {"s": "dept", "id": "editgroup", "en": "Edit group", "km": "កែក្រុម", "zh": "编辑小组"}, {"s": "kanha", "id": "send", "en": "Send a question", "km": "ផ្ញើសំណួរ", "zh": "发送问题"}, {"s": "kanha", "id": "teach", "en": "Teach the bot", "km": "បង្រៀន Bot", "zh": "教机器人"}, {"s": "todo", "id": "phrases", "en": "Saved sentences (add / edit / delete)", "km": "ប្រយោគដែលបានរក្សាទុក (បន្ថែម / កែ / លុប)", "zh": "已保存的句子（添加 / 编辑 / 删除）"}, {"s": "todo", "id": "copy", "en": "Copy task", "km": "ចម្លងការងារ", "zh": "复制任务"}, {"s": "todo", "id": "extra", "en": "More tasks in one workflow", "km": "ការងារច្រើនក្នុងដំណើរការតែមួយ", "zh": "一个流程中的多个任务"}];   // [{s, id, en, km, zh}]
+const GROUPS = { admin: { en: 'Administration / HR menu', km: 'ម៉ឺនុយ Administration / HR', zh: '管理 / 人事菜单' }, emp: { en: 'Employee portal', km: 'ផ្ទាំងបុគ្គលិក', zh: '员工门户' }, dept: { en: 'Department portal', km: 'ផ្ទាំងនាយកដ្ឋាន', zh: '部门门户' } };
+const I18N = {
+  en: { alignCenter:'Centered', alignLeft:'Left', alignTitle:'Text position in the red bar', svcClosedNote:'The whole service is closed, so all its buttons are closed too.', openAllBtns:'Open all buttons', closeAllBtns:'Close all buttons', btnsClosedN:'{n} closed', btnsLabel:'Buttons', title:'Maintenance Mode', loginTitle:'Administration login', loginSub:'Only Administration accounts can open this page. Use the same username and password as the Administration login.', user:'Username', pass:'Password', code:'Authenticator code (6 digits) or backup code', codeNote:'This account uses the Authenticator. Enter the 6-digit code from your phone.', loginBtn:'Log in', backBtn:'Back to system', badLogin:'Wrong username or password.', notAdmin:'This page is for Administration accounts only.', needSetup:'Please set up the Authenticator in the main system first.', badCode:'That code is not correct.', wait:'Too many tries. Please wait 30 seconds.', fail:'Could not connect. Please try again.',
+    statusLabel:'Maintenance mode', logout:'Log out', turnOn:'Turn ON maintenance', turnOff:'Turn OFF - release everything', confirmOn:'Turn ON maintenance now? Everyone will see the red bar and the services you set below.', confirmOff:'Turn OFF maintenance and release everything?',
+    whatItDoes:'Everyone can still log in normally. When ON, a red bar shows under the menu tabs. Closed services and closed buttons are faded; when someone clicks them, a maintenance popup shows.',
+    msgTitle:'Message in the red bar (optional)', msgSub:'Leave empty to use the standard message. Write one for each language you want.', scopeTitle:'Which systems are in maintenance', scopeSub:'Tick the systems that go into maintenance. A system you leave unticked keeps working normally (no bar, nothing closed). The services list below only applies to the ticked systems.', scopeAdmin:'Administration system', scopeHr:'HR system', scopeEmp:'Employee portal', scopeDept:'Department portal', scopeNone:'Tick at least one system first.', acctTitle:'Administration accounts', acctSub:'Tick the accounts that keep full access during maintenance (for example one account for testing the upgrade). Accounts that are not ticked are limited like HR: only the services and buttons set to Open.', acctNone:'No Administration account is ticked, so nobody will keep full access.', acctNoList:'(no Administration accounts found)', acctFull:'Keeps full access',
+    svcTitle:'Services', svcSub:'For each service choose Open or Closed. Press "Buttons" to close single buttons (for example close Export but keep Edit open). Then press Save.', allOpen:'All open (services + buttons)', allView:'All view only', allClosed:'All services closed',
+    sOpen:'Open', sView:'View only', sClosed:'Closed', save:'Save changes', unsaved:'You have unsaved changes.', saved:'Saved.', savedOn:'Maintenance is ON.', savedOff:'Maintenance is OFF. Everything is released.', saveFail:'Could not save. Please try again.', counts:'Services: Open {a} · Closed {c} · Buttons closed {b}', last:'Last change: {by} - {at}', never:'Never changed yet.', on:'ON', off:'OFF' },
+  km: { alignCenter:'កណ្តាល', alignLeft:'ឆ្វេង', alignTitle:'ទីតាំងអក្សរក្នុងរបារក្រហម', svcClosedNote:'សេវាកម្មនេះបិទទាំងមូល ដូច្នេះប៊ូតុងទាំងអស់ក៏បិទដែរ។', openAllBtns:'បើកប៊ូតុងទាំងអស់', closeAllBtns:'បិទប៊ូតុងទាំងអស់', btnsClosedN:'បិទ {n}', btnsLabel:'ប៊ូតុង', title:'ម៉ូដថែទាំប្រព័ន្ធ', loginTitle:'ចូលជា Administration', loginSub:'មានតែគណនី Administration ប៉ុណ្ណោះដែលអាចបើកទំព័រនេះបាន។ ប្រើឈ្មោះអ្នកប្រើ និងពាក្យសម្ងាត់ដូច Administration។', user:'ឈ្មោះអ្នកប្រើ', pass:'ពាក្យសម្ងាត់', code:'កូដ Authenticator (៦ខ្ទង់) ឬកូដបម្រុង', codeNote:'គណនីនេះប្រើ Authenticator។ បញ្ចូលកូដ ៦ខ្ទង់ពីទូរស័ព្ទ។', loginBtn:'ចូល', backBtn:'ត្រឡប់ទៅប្រព័ន្ធ', badLogin:'ឈ្មោះអ្នកប្រើ ឬពាក្យសម្ងាត់ខុស។', notAdmin:'ទំព័រនេះសម្រាប់តែគណនី Administration ប៉ុណ្ណោះ។', needSetup:'សូមរៀបចំ Authenticator នៅក្នុងប្រព័ន្ធមេជាមុនសិន។', badCode:'កូដមិនត្រឹមត្រូវទេ។', wait:'ព្យាយាមច្រើនពេក។ សូមរង់ចាំ ៣០ វិនាទី។', fail:'មិនអាចភ្ជាប់បានទេ។ សូមព្យាយាមម្តងទៀត។',
+    statusLabel:'ម៉ូដថែទាំ', logout:'ចាកចេញ', turnOn:'បើកម៉ូដថែទាំ', turnOff:'បិទម៉ូដថែទាំ - ដោះលែងទាំងអស់', confirmOn:'បើកម៉ូដថែទាំឥឡូវនេះ? អ្នករាល់គ្នានឹងឃើញរបារក្រហម និងសេវាកម្មដែលអ្នកកំណត់ខាងក្រោម។', confirmOff:'បិទម៉ូដថែទាំ ហើយដោះលែងទាំងអស់?',
+    whatItDoes:'អ្នករាល់គ្នានៅតែចូលប្រព័ន្ធបានធម្មតា។ ពេលបើក នឹងមានរបារក្រហមនៅក្រោមម៉ឺនុយ។ សេវាកម្ម និងប៊ូតុងដែលបិទនឹងស្រអាប់ ហើយពេលចុច នឹងបង្ហាញ popup ថែទាំ។',
+    msgTitle:'សាររបារក្រហម (ជម្រើស)', msgSub:'ទុកទទេ ដើម្បីប្រើសារស្តង់ដារ។ សរសេរតាមភាសាដែលអ្នកចង់បាន។', scopeTitle:'ប្រព័ន្ធណាខ្លះត្រូវថែទាំ', scopeSub:'ធីកប្រព័ន្ធដែលចូលម៉ូដថែទាំ។ ប្រព័ន្ធដែលមិនធីកនៅតែប្រើបានធម្មតា (គ្មានរបារ គ្មានអ្វីបិទ)។ បញ្ជីសេវាកម្មខាងក្រោមប្រើសម្រាប់តែប្រព័ន្ធដែលបានធីកប៉ុណ្ណោះ។', scopeAdmin:'ប្រព័ន្ធរដ្ឋបាល', scopeHr:'ប្រព័ន្ធ HR', scopeEmp:'ផ្ទាំងបុគ្គលិក', scopeDept:'ផ្ទាំងនាយកដ្ឋាន', scopeNone:'សូមធីកប្រព័ន្ធយ៉ាងហោចណាស់មួយជាមុនសិន។', acctTitle:'គណនី Administration', acctSub:'ធីកគណនីដែលនៅតែប្រើបានគ្រប់យ៉ាងពេលថែទាំ (ឧទាហរណ៍មួយគណនីសម្រាប់សាកល្បង)។ គណនីដែលមិនបានធីក ត្រូវបានកំណត់ដូច HR៖ ប្រើបានតែសេវាកម្ម និងប៊ូតុងដែលបើក។', acctNone:'មិនមានគណនី Administration ណាមួយត្រូវបានធីកទេ ដូច្នេះគ្មាននរណារក្សាសិទ្ធិពេញលេញទេ។', acctNoList:'(រកមិនឃើញគណនី Administration)', acctFull:'រក្សាសិទ្ធិពេញលេញ',
+    svcTitle:'សេវាកម្ម', svcSub:'សម្រាប់សេវាកម្មនីមួយៗ ជ្រើសបើក ឬបិទ។ ចុច «ប៊ូតុង» ដើម្បីបិទប៊ូតុងមួយៗ (ឧទាហរណ៍ បិទ Export តែទុក Edit បើក)។ រួចចុចរក្សាទុក។', allOpen:'បើកទាំងអស់ (សេវាកម្ម + ប៊ូតុង)', allView:'មើលបានតែប៉ុណ្ណោះទាំងអស់', allClosed:'បិទសេវាកម្មទាំងអស់',
+    sOpen:'បើក', sView:'មើលតែប៉ុណ្ណោះ', sClosed:'បិទ', save:'រក្សាទុកការផ្លាស់ប្តូរ', unsaved:'មានការផ្លាស់ប្តូរដែលមិនទាន់រក្សាទុក។', saved:'បានរក្សាទុក។', savedOn:'ម៉ូដថែទាំកំពុងបើក។', savedOff:'ម៉ូដថែទាំបានបិទ។ ដោះលែងទាំងអស់ហើយ។', saveFail:'មិនអាចរក្សាទុកបានទេ។ សូមព្យាយាមម្តងទៀត។', counts:'សេវាកម្ម៖ បើក {a} · បិទ {c} · ប៊ូតុងបិទ {b}', last:'ការផ្លាស់ប្តូរចុងក្រោយ៖ {by} - {at}', never:'មិនទាន់មានការផ្លាស់ប្តូរទេ។', on:'បើក', off:'បិទ' },
+  zh: { alignCenter:'居中', alignLeft:'靠左', alignTitle:'红色横幅的文字位置', svcClosedNote:'整个服务已关闭，因此其所有按钮也已关闭。', openAllBtns:'开放所有按钮', closeAllBtns:'关闭所有按钮', btnsClosedN:'关闭 {n}', btnsLabel:'按钮', title:'维护模式', loginTitle:'管理员登录', loginSub:'只有管理员账户可以打开此页面。请使用与管理员登录相同的用户名和密码。', user:'用户名', pass:'密码', code:'验证器代码（6位）或备份码', codeNote:'此账户使用验证器。请输入手机上的6位代码。', loginBtn:'登录', backBtn:'返回系统', badLogin:'用户名或密码错误。', notAdmin:'此页面仅限管理员账户。', needSetup:'请先在主系统中设置验证器。', badCode:'代码不正确。', wait:'尝试次数过多，请等待30秒。', fail:'无法连接，请重试。',
+    statusLabel:'维护模式', logout:'退出', turnOn:'开启维护模式', turnOff:'关闭 - 全部恢复', confirmOn:'现在开启维护模式？所有人都会看到红色横幅以及你在下方设置的服务状态。', confirmOff:'关闭维护模式并恢复全部功能？',
+    whatItDoes:'所有人仍可正常登录。开启后，菜单标签下方会显示红色横幅。已关闭的服务和按钮会变淡，点击时会弹出维护提示。',
+    msgTitle:'红色横幅信息（可选）', msgSub:'留空则使用标准信息。可按需为每种语言填写。', scopeTitle:'哪些系统进入维护', scopeSub:'勾选要进入维护的系统。未勾选的系统保持正常使用（没有横幅，也不会关闭任何功能）。下方的服务列表只对已勾选的系统生效。', scopeAdmin:'管理系统', scopeHr:'人事系统', scopeEmp:'员工门户', scopeDept:'部门门户', scopeNone:'请先至少勾选一个系统。', acctTitle:'管理员账户', acctSub:'勾选在维护期间保留全部权限的账户（例如留一个账户用于测试升级）。未勾选的账户与人事一样受限：只能使用设为“开放”的服务和按钮。', acctNone:'没有勾选任何管理员账户，因此没有人保留全部权限。', acctNoList:'（未找到管理员账户）', acctFull:'保留全部权限',
+    svcTitle:'服务', svcSub:'每项服务选择开放或关闭。点击“按钮”可单独关闭某个按钮（例如关闭导出但保留编辑）。然后点击保存。', allOpen:'全部开放（服务+按钮）', allView:'全部仅查看', allClosed:'全部服务关闭',
+    sOpen:'开放', sView:'仅查看', sClosed:'关闭', save:'保存更改', unsaved:'有未保存的更改。', saved:'已保存。', savedOn:'维护模式已开启。', savedOff:'维护模式已关闭，全部已恢复。', saveFail:'保存失败，请重试。', counts:'服务：开放 {a} · 关闭 {c} · 已关闭按钮 {b}', last:'最近更改：{by} - {at}', never:'尚未更改过。', on:'开', off:'关' }
+};
+const CFG = { apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", storageBucket: "annual-leave-1feda.firebasestorage.app", messagingSenderId: "989242956584", appId: "1:989242956584:web:8ebe1333e38705600dce1d" };
+/* own Firebase connection (named "maint") so this page never touches the login of the main system in another tab */
+const app = firebase.initializeApp(CFG, 'maint');
+const auth = app.auth(), db = app.database();
+try { auth.setPersistence(firebase.auth.Auth.Persistence.SESSION); } catch (e) {}
+
+let lang = 'en'; try { lang = localStorage.getItem('appLang') || 'en'; } catch (e) {} if (!I18N[lang]) lang = 'en';
+const $ = (id) => document.getElementById(id);
+Object.assign(I18N.en, {tabMaint:'Maintenance mode', tabLock:'Lock System', lkTitle:'Lock System', lkSub:'Block a whole system until you unlock it. This is separate from maintenance mode.', lkStatus:'Lock status', lkOn:'LOCKED', lkOff:'UNLOCKED', lkWhich:'Systems to lock', lkAdmin:'Administration', lkHr:'HR', lkDept:'Department', lkEmp:'Employee', lkMsgTitle:'Message shown to locked users (optional)', lkExemptTitle:'Administration accounts that are never locked', lkExemptSub:'Tick the Administration accounts that can still log in while Administration is locked.', lkApply:'Apply lock', lkUnlock:'Unlock All', lkSaved:'Lock settings saved', lkUnlocked:'All systems unlocked', lkWarnNone:'Administration will be locked and no account is ticked as exempt. Nobody in Administration will be able to log in until you unlock it here. Continue?', lkLast:'Last changed by {by} on {at}', lkNever:'Nothing has been locked yet.', lkNoAcct:'No Administration accounts found.'});
+Object.assign(I18N.km, {tabMaint:'ម៉ូដថែទាំ', tabLock:'ចាក់សោប្រព័ន្ធ', lkTitle:'ចាក់សោប្រព័ន្ធ', lkSub:'ទប់ស្កាត់ប្រព័ន្ធទាំងមូលរហូតដល់អ្នកដោះសោ។ នេះដាច់ដោយឡែកពីម៉ូដថែទាំ។', lkStatus:'ស្ថានភាពចាក់សោ', lkOn:'បានចាក់សោ', lkOff:'មិនចាក់សោ', lkWhich:'ប្រព័ន្ធដែលត្រូវចាក់សោ', lkAdmin:'រដ្ឋបាល', lkHr:'HR', lkDept:'នាយកដ្ឋាន', lkEmp:'បុគ្គលិក', lkMsgTitle:'សារបង្ហាញដល់អ្នកដែលត្រូវបានចាក់សោ (ជម្រើស)', lkExemptTitle:'គណនីរដ្ឋបាលដែលមិនត្រូវបានចាក់សោ', lkExemptSub:'ធីកគណនីរដ្ឋបាលដែលនៅតែអាចចូលបាន ពេលរដ្ឋបាលត្រូវបានចាក់សោ។', lkApply:'អនុវត្តការចាក់សោ', lkUnlock:'ដោះសោទាំងអស់', lkSaved:'បានរក្សាទុកការកំណត់ចាក់សោ', lkUnlocked:'បានដោះសោប្រព័ន្ធទាំងអស់', lkWarnNone:'រដ្ឋបាលនឹងត្រូវចាក់សោ ហើយគ្មានគណនីណាត្រូវបានធីកលើកលែងទេ។ គ្មាននរណាក្នុងរដ្ឋបាលអាចចូលបានទេ រហូតដល់អ្នកដោះសោនៅទីនេះ។ បន្ត?', lkLast:'កែប្រែចុងក្រោយដោយ {by} នៅ {at}', lkNever:'មិនទាន់មានការចាក់សោនៅឡើយទេ។', lkNoAcct:'រកមិនឃើញគណនីរដ្ឋបាលទេ។'});
+Object.assign(I18N.zh, {tabMaint:'维护模式', tabLock:'锁定系统', lkTitle:'锁定系统', lkSub:'在您解锁前，整个系统将被阻止使用。此功能独立于维护模式。', lkStatus:'锁定状态', lkOn:'已锁定', lkOff:'未锁定', lkWhich:'要锁定的系统', lkAdmin:'行政', lkHr:'人事', lkDept:'部门', lkEmp:'员工', lkMsgTitle:'向被锁定用户显示的信息（可选）', lkExemptTitle:'不会被锁定的行政账户', lkExemptSub:'勾选在行政被锁定时仍可登录的行政账户。', lkApply:'应用锁定', lkUnlock:'全部解锁', lkSaved:'锁定设置已保存', lkUnlocked:'已解锁所有系统', lkWarnNone:'行政将被锁定，且没有勾选任何豁免账户。在您于此解锁前，行政人员均无法登录。继续？', lkLast:'最后修改：{by}，{at}', lkNever:'尚未锁定任何内容。', lkNoAcct:'未找到行政账户。'});
+const T = (k, o) => { let s = (I18N[lang] && I18N[lang][k]) || I18N.en[k] || k; if (o) for (const x in o) s = s.replace('{' + x + '}', o[x]); return s; };
+function renderLang() {
+  document.documentElement.lang = lang === 'zh' ? 'zh' : (lang === 'km' ? 'km' : 'en');
+  document.title = T('title'); $('hTitle').textContent = T('title');
+  document.querySelectorAll('[data-i]').forEach(e => { e.textContent = T(e.getAttribute('data-i')); });
+  document.querySelectorAll('.langs button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
+  renderPanel(); if (lockForm) renderLock();
+}
+document.querySelectorAll('.langs button').forEach(b => b.onclick = () => { lang = b.dataset.l; try { localStorage.setItem('appLang', lang); } catch (e) {} renderLang(); });
+
+/* ---------- login (same secure login as the main system) ---------- */
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+function hex(buf) { return Array.from(new Uint8Array(buf)).map(b => (b < 16 ? '0' : '') + b.toString(16)).join(''); }
+function hexStr(s) { return Array.from(new TextEncoder().encode(String(s))).map(b => (b < 16 ? '0' : '') + b.toString(16)).join(''); }
+async function derivePw(pass, id) {
+  const key = await crypto.subtle.importKey('raw', new TextEncoder().encode(pass), 'PBKDF2', false, ['deriveBits']);
+  const bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: new TextEncoder().encode('staff-auth:' + id), iterations: 100000 }, key, 256);
+  return hex(bits).slice(0, 48);
+}
+async function readRetry(path) { let last; for (let i = 0; i < 40; i++) { try { return (await db.ref(path).once('value')).val(); } catch (e) { last = e; await sleep(250); } } throw last; }
+function b32dec(s) { const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'; let bits = ''; for (const ch of String(s || '').toUpperCase().replace(/[^A-Z2-7]/g, '')) bits += A.indexOf(ch).toString(2).padStart(5, '0'); const out = []; for (let i = 0; i + 8 <= bits.length; i += 8) out.push(parseInt(bits.substr(i, 8), 2)); return new Uint8Array(out); }
+async function totpAt(secret, time) {
+  const counter = Math.floor(time / 1000 / 30); const buf = new ArrayBuffer(8); const v = new DataView(buf); v.setUint32(0, Math.floor(counter / 0x100000000)); v.setUint32(4, counter >>> 0);
+  const key = await crypto.subtle.importKey('raw', b32dec(secret), { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']);
+  const h = new Uint8Array(await crypto.subtle.sign('HMAC', key, buf)); const o = h[h.length - 1] & 15;
+  const n = ((h[o] & 0x7f) << 24) | (h[o + 1] << 16) | (h[o + 2] << 8) | h[o + 3]; return String(n % 1000000).padStart(6, '0');
+}
+async function totpOk(secret, code) { code = String(code || '').trim(); if (!/^\d{6}$/.test(code)) return false; const now = Date.now(); for (let s = -1; s <= 1; s++) if (await totpAt(secret, now + s * 30000) === code) return true; return false; }
+
+let account = null, unlocked = false, fails = 0, blockedUntil = 0;
+async function backToAnon() { try { await auth.signOut(); } catch (e) {} try { await auth.signInAnonymously(); } catch (e) {} }
+async function doLogin() {
+  const err = $('loginErr'); err.textContent = '';
+  if (Date.now() < blockedUntil) { err.textContent = T('wait'); return; }
+  $('loginBtn').disabled = true;
+  try {
+    if (account && !unlocked) {            // step 2: authenticator code
+      const code = $('c').value.trim();
+      let ok = await totpOk(account.totpSecret, code);
+      if (!ok && code) {
+        const up = code.toUpperCase(); const bc = account.backupCodes && account.backupCodes[up];
+        if (bc === false || bc === 'false' || (account.backupCodes && up in account.backupCodes && account.backupCodes[up] !== true)) { try { await db.ref('accounts/' + account.firebaseKey + '/backupCodes/' + up).set(true); ok = true; } catch (e) {} }
+      }
+      if (ok) { unlocked = true; openPanel(); } else { if (++fails >= 5) { blockedUntil = Date.now() + 30000; fails = 0; err.textContent = T('wait'); } else err.textContent = T('badCode'); }
+      return;
+    }
+    const user = $('u').value.trim(), pass = $('p').value.trim();
+    if (!user || !pass) { err.textContent = T('badLogin'); return; }
+    await backToAnon();
+    const look = await readRetry('staffLookup/' + hexStr('admin|' + user));
+    const ids = look ? Object.keys(look) : [];
+    let found = null, wrongRole = false;
+    for (const id of ids) {
+      try {
+        const cred = await auth.signInWithEmailAndPassword(id + '@staff.hr203.com', await derivePw(pass, id));
+        const uid = (cred && cred.user ? cred.user : auth.currentUser).uid;
+        const st = await readRetry('staff/' + uid);
+        if (st && st.role !== 'admin') { wrongRole = true; await backToAnon(); continue; }
+        const acc = st && st.key ? await readRetry('accounts/' + st.key) : null;
+        if (acc && acc.authId === id && acc.role === 'admin' && !acc.disabled) { found = Object.assign({ firebaseKey: st.key }, acc); break; }
+        await backToAnon();
+      } catch (e) { try { const cu = auth.currentUser; if (cu && !cu.isAnonymous) await backToAnon(); } catch (e2) {} }
+    }
+    if (!found) { if (++fails >= 5) { blockedUntil = Date.now() + 30000; fails = 0; err.textContent = T('wait'); } else err.textContent = T(wrongRole ? 'notAdmin' : 'badLogin'); return; }
+    fails = 0; account = found;
+    if (found.totpEnabled || found.totpSecret) {
+      if (!found.totpSecret) { err.textContent = T('needSetup'); account = null; await backToAnon(); return; }
+      $('stepPw').classList.add('hide'); $('stepCode').classList.remove('hide'); $('c').focus(); return;
+    }
+    unlocked = true; openPanel();
+  } catch (e) { console.error(e); err.textContent = T('fail'); }
+  finally { $('loginBtn').disabled = false; }
+}
+$('loginBtn').onclick = doLogin;
+['u', 'p', 'c'].forEach(id => $(id).addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); }));
+$('outBtn').onclick = async () => { unlocked = false; account = null; if (unsub) { unsub(); unsub = null; } if (lockUnsub) { lockUnsub(); lockUnsub = null; } lockForm = null; lockDirty = false; await backToAnon(); $('panel').classList.add('hide'); $('loginBox').classList.remove('hide'); $('stepPw').classList.remove('hide'); $('stepCode').classList.add('hide'); $('p').value = ''; $('c').value = ''; };
+
+/* ---------- control panel ---------- */
+let cur = null;       // what the database says right now
+let form = null;      // what is on screen
+let dirty = false, unsub = null;
+function emptyForm() { const s = {}; SERVICES.forEach(x => s[x.id] = 'closed'); return { on: false, message: { en: '', km: '', zh: '' }, bypassKeys: {}, services: s, actions: {}, align: 'left', scope: { admin: true, hr: true, emp: true, dept: true } }; }
+function fromData(d) {
+  const f = emptyForm(); if (!d) return f;
+  f.on = !!d.on; f.bypassKeys = Object.assign({}, d.bypassKeys || {}); if (d.message) ['en', 'km', 'zh'].forEach(l => f.message[l] = d.message[l] || '');
+  if (d.services) SERVICES.forEach(x => { const v = d.services[x.id]; if (v === 'open' || v === 'view' || v === 'closed') f.services[x.id] = (v === 'closed' ? 'closed' : 'open'); });
+  SERVICES.forEach(x => { if (!d.services || d.services[x.id] === undefined) f.services[x.id] = 'open'; }); /* v7.57: a service added later (e.g. Department portal) starts open, never silently closed */
+  if (d.scope) ['admin', 'hr', 'emp', 'dept'].forEach(k => { f.scope[k] = d.scope[k] === true; });
+  f.align = d.align === 'center' ? 'center' : 'left';
+  if (d.actions) ACTIONS.forEach(a => { if (d.actions[a.s] && d.actions[a.s][a.id] === 'closed') { f.actions[a.s] = f.actions[a.s] || {}; f.actions[a.s][a.id] = 'closed'; } });
+  return f;
+}
+let adminAccts = [];
+async function loadAccts() {
+  try { const a = (await db.ref('accounts').once('value')).val() || {}; adminAccts = Object.keys(a).map(k => Object.assign({ key: k }, a[k])).filter(x => x.role === 'admin' && !x.disabled); } catch (e) { adminAccts = []; }
+}
+function renderScope() {
+  const box = $('scopeList'); box.innerHTML = '';
+  [['admin', 'scopeAdmin'], ['hr', 'scopeHr'], ['emp', 'scopeEmp'], ['dept', 'scopeDept']].forEach(([k, lk]) => {
+    const lab = document.createElement('label'); lab.className = 'check';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!(form.scope && form.scope[k]);
+    cb.onchange = () => { readForm(); form.scope = form.scope || {}; form.scope[k] = cb.checked; dirty = true; $('saveBtn').disabled = false; $('dirtyNote').textContent = T('unsaved'); };
+    const sp = document.createElement('span'); sp.textContent = T(lk);
+    lab.appendChild(cb); lab.appendChild(sp); box.appendChild(lab);
+  });
+}
+function renderAccts() {
+  const box = $('acctList'); box.innerHTML = '';
+  if (!adminAccts.length) { const p = document.createElement('p'); p.className = 'note'; p.textContent = T('acctNoList'); box.appendChild(p); return; }
+  adminAccts.forEach(a => {
+    const lab = document.createElement('label'); lab.className = 'check';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!(form.bypassKeys && form.bypassKeys[a.key]);
+    cb.onchange = () => { readForm(); form.bypassKeys = form.bypassKeys || {}; form.bypassKeys[a.key] = cb.checked; dirty = true; $('saveBtn').disabled = false; $('dirtyNote').textContent = T('unsaved'); };
+    const sp = document.createElement('span'); sp.textContent = (a.name || a.username) + ' (' + a.username + ') - ' + T('acctFull');
+    lab.appendChild(cb); lab.appendChild(sp); box.appendChild(lab);
+  });
+}
+/* ===== Lock System (separate from maintenance mode) ===== */
+let lockCur = null, lockForm = null, lockDirty = false, lockUnsub = null;
+function lkEmpty() { return { adminLocked: false, hrLocked: false, deptLocked: false, employeeLocked: false, messages: { en: '', km: '', zh: '' }, exemptKeys: {} }; }
+function lkFrom(d) {
+  const f = lkEmpty(); if (!d) return f;
+  ['adminLocked', 'hrLocked', 'deptLocked', 'employeeLocked'].forEach(k => f[k] = !!d[k]);
+  if (d.messages && typeof d.messages === 'object') ['en', 'km', 'zh'].forEach(l => f.messages[l] = d.messages[l] || ''); else if (typeof d.message === 'string') f.messages.en = d.message;
+  f.exemptKeys = Object.assign({}, d.exemptKeys || {});
+  return f;
+}
+function lkMark() { lockDirty = true; $('lkDirty').textContent = T('unsaved'); }
+function lkRead() { ['en', 'km', 'zh'].forEach(l => lockForm.messages[l] = $('lk_m_' + l).value); }
+function renderLock() {
+  if (!lockForm || !unlocked) return;
+  const anyOn = !!(lockCur && (lockCur.adminLocked || lockCur.hrLocked || lockCur.deptLocked || lockCur.employeeLocked));
+  $('lkPill').textContent = T(anyOn ? 'lkOn' : 'lkOff'); $('lkPill').className = 'pill ' + (anyOn ? 'on' : 'off');
+  $('lkLast').textContent = lockCur && lockCur.updatedAt ? T('lkLast', { by: lockCur.by || '-', at: new Date(lockCur.updatedAt).toLocaleString('en-GB', { timeZone: 'Asia/Phnom_Penh' }) }) : T('lkNever');
+  const box = $('lkScope'); box.innerHTML = '';
+  [['adminLocked', 'lkAdmin'], ['hrLocked', 'lkHr'], ['deptLocked', 'lkDept'], ['employeeLocked', 'lkEmp']].forEach(([k, lk]) => {
+    const lab = document.createElement('label'); lab.className = 'check';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!lockForm[k];
+    cb.onchange = () => { lkRead(); lockForm[k] = cb.checked; lkMark(); };
+    const sp = document.createElement('span'); sp.textContent = T(lk);
+    lab.appendChild(cb); lab.appendChild(sp); box.appendChild(lab);
+  });
+  ['en', 'km', 'zh'].forEach(l => { if (document.activeElement !== $('lk_m_' + l)) $('lk_m_' + l).value = lockForm.messages[l] || ''; });
+  const ab = $('lkAcct'); ab.innerHTML = '';
+  if (!adminAccts.length) { const p = document.createElement('p'); p.className = 'note'; p.textContent = T('lkNoAcct'); ab.appendChild(p); }
+  adminAccts.forEach(a => {
+    const lab = document.createElement('label'); lab.className = 'check';
+    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!lockForm.exemptKeys[a.key];
+    cb.onchange = () => { lkRead(); lockForm.exemptKeys[a.key] = cb.checked; lkMark(); };
+    const sp = document.createElement('span'); sp.textContent = (a.name || a.username) + ' (' + a.username + ')';
+    lab.appendChild(cb); lab.appendChild(sp); ab.appendChild(lab);
+  });
+}
+function lkWho() { return (account && (account.name || account.username)) || 'admin'; }
+async function lkSave(unlockAll) {
+  lkRead();
+  const f = lockForm;
+  const data = {
+    adminLocked: unlockAll ? false : !!f.adminLocked, hrLocked: unlockAll ? false : !!f.hrLocked, deptLocked: unlockAll ? false : !!f.deptLocked, employeeLocked: unlockAll ? false : !!f.employeeLocked,
+    message: unlockAll ? '' : (f.messages.en || f.messages.km || f.messages.zh || ''),
+    messages: unlockAll ? { en: '', km: '', zh: '' } : { en: f.messages.en, km: f.messages.km, zh: f.messages.zh },
+    exemptKeys: Object.keys(f.exemptKeys || {}).reduce((o, k) => { if (f.exemptKeys[k]) o[k] = true; return o; }, {}),
+    updatedAt: Date.now(), by: lkWho()
+  };
+  if (!unlockAll && data.adminLocked && !Object.keys(data.exemptKeys).length) { if (!(await askYes(T('lkWarnNone')))) return; }
+  try { await db.ref('systemLock').set(data); lockDirty = false; $('lkDirty').textContent = ''; lockForm = lkFrom(data); toast(T(unlockAll ? 'lkUnlocked' : 'lkSaved')); }
+  catch (e) { console.error(e); toast(T('saveFail'), true); }
+  renderLock();
+}
+function showTab(w) {
+  $('maintBox').classList.toggle('hide', w !== 'maint'); $('lockBox').classList.toggle('hide', w !== 'lock');
+  document.querySelectorAll('#mainTabs button').forEach(b => { b.className = (b.dataset.tab === w) ? 'sel-open' : ''; });
+  if (w === 'lock') renderLock();
+}
+async function openPanel() {
+  await loadAccts();
+  $('loginBox').classList.add('hide'); $('panel').classList.remove('hide');
+  if (unsub) unsub();
+  const r = db.ref('maintenance'); const cb = (s) => { cur = s.val(); if (!dirty || !form) { form = fromData(cur); if (!cur && account && account.firebaseKey) form.bypassKeys[account.firebaseKey] = true; } renderPanel(); };
+  r.on('value', cb, () => {}); unsub = () => r.off('value', cb);
+  if (lockUnsub) lockUnsub();
+  const lr = db.ref('systemLock'); const lcb = (s) => { lockCur = s.val(); if (!lockDirty || !lockForm) lockForm = lkFrom(lockCur); renderLock(); };
+  lr.on('value', lcb, () => {}); lockUnsub = () => lr.off('value', lcb);
+  document.querySelectorAll('#mainTabs button').forEach(b => { b.onclick = () => showTab(b.dataset.tab); });
+  $('lkApply').onclick = () => lkSave(false); $('lkUnlock').onclick = () => lkSave(true);
+  ['en', 'km', 'zh'].forEach(l => { $('lk_m_' + l).oninput = () => lkMark(); });
+  showTab('maint');
+}
+function readForm() { ['en', 'km', 'zh'].forEach(l => form.message[l] = $('m_' + l).value); }
+function counts() { const c = { open: 0, closed: 0, btn: 0 }; SERVICES.forEach(x => { c[form.services[x.id] === 'closed' ? 'closed' : 'open']++; if (form.services[x.id] !== 'closed') c.btn += closedN(x.id); }); return c; }
+const expanded = {};
+let curGrp = 'admin';
+function closedN(sid) { const a = form.actions && form.actions[sid]; return a ? Object.keys(a).filter(k => a[k] === 'closed').length : 0; }
+function markDirty() { dirty = true; renderPanel(); }
+function renderPanel() {
+  if (!form || !unlocked) return;
+  const on = !!(cur && cur.on);
+  $('pill').textContent = T(on ? 'on' : 'off'); $('pill').className = 'pill ' + (on ? 'on' : 'off');
+  $('mainBtn').textContent = T(on ? 'turnOff' : 'turnOn'); $('mainBtn').className = 'btn ' + (on ? 'red' : 'green');
+  $('lastBy').textContent = cur && cur.at ? T('last', { by: cur.by || '-', at: new Date(cur.at).toLocaleString('en-GB', { timeZone: 'Asia/Phnom_Penh' }) }) : T('never');
+  ['en', 'km', 'zh'].forEach(l => { if (document.activeElement !== $('m_' + l)) $('m_' + l).value = form.message[l] || ''; });
+  renderAccts(); renderScope();
+  document.querySelectorAll('#alignSeg button').forEach(b => { b.className = (form.align === b.dataset.a) ? 'sel-open' : ''; b.onclick = () => { readForm(); form.align = b.dataset.a; markDirty(); }; });
+  const list = $('list'); list.innerHTML = '';
+  const gs = $('grpSeg'); gs.innerHTML = '';
+  ['admin', 'emp', 'dept'].forEach(g => { const b = document.createElement('button'); b.type = 'button'; b.textContent = (GROUPS[g][lang] || GROUPS[g].en) + ' (' + SERVICES.filter(x => x.group === g).length + ')'; if (g === curGrp) b.className = 'sel-open'; b.onclick = () => { readForm(); curGrp = g; renderPanel(); }; gs.appendChild(b); });
+  [curGrp].forEach(g => {
+    const items = SERVICES.filter(x => x.group === g); if (!items.length) return;
+    const h = document.createElement('div'); h.className = 'grp'; h.textContent = GROUPS[g][lang] || GROUPS[g].en; list.appendChild(h);
+    items.forEach(x => {
+      const row = document.createElement('div'); row.className = 'svc';
+      const nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = x[lang] || x.en; row.appendChild(nm);
+      const seg = document.createElement('div'); seg.className = 'seg';
+      [['open', 'sOpen'], ['closed', 'sClosed']].forEach(([m, k]) => {
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = T(k); if (form.services[x.id] === m) b.className = 'sel-' + m;
+        b.onclick = () => { readForm(); form.services[x.id] = m; markDirty(); }; seg.appendChild(b);
+      });
+      const acts = ACTIONS.filter(a => a.s === x.id);
+      if (acts.length) {
+        const ex = document.createElement('button'); ex.type = 'button'; ex.className = 'exp';
+        const n = form.services[x.id] === 'closed' ? acts.length : closedN(x.id);
+        ex.textContent = T('btnsLabel') + (n ? ' (' + T('btnsClosedN', { n: n }) + ')' : '') + (expanded[x.id] ? ' ▴' : ' ▾');
+        ex.onclick = () => { readForm(); expanded[x.id] = !expanded[x.id]; renderPanel(); };
+        row.appendChild(ex);
+      }
+      row.appendChild(seg); list.appendChild(row);
+      if (acts.length && expanded[x.id]) {
+        const box = document.createElement('div'); box.className = 'acts';
+        if (form.services[x.id] === 'closed') { const p = document.createElement('p'); p.className = 'note'; p.textContent = T('svcClosedNote'); box.appendChild(p); }
+        else {
+          const mk = (label, val) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'mini'; b.textContent = label; b.onclick = () => { readForm(); form.actions = form.actions || {}; if (val) { form.actions[x.id] = {}; acts.forEach(a => form.actions[x.id][a.id] = 'closed'); } else delete form.actions[x.id]; markDirty(); }; return b; };
+          box.appendChild(mk(T('closeAllBtns'), true)); box.appendChild(mk(T('openAllBtns'), false));
+          acts.forEach(a => {
+            const r2 = document.createElement('div'); r2.className = 'svc';
+            const n2 = document.createElement('div'); n2.className = 'nm'; n2.textContent = a[lang] || a.en; r2.appendChild(n2);
+            const sg = document.createElement('div'); sg.className = 'seg';
+            const isC = !!(form.actions && form.actions[x.id] && form.actions[x.id][a.id] === 'closed');
+            [['open', 'sOpen'], ['closed', 'sClosed']].forEach(([m, k]) => {
+              const b = document.createElement('button'); b.type = 'button'; b.textContent = T(k); if ((m === 'closed') === isC) b.className = 'sel-' + m;
+              b.onclick = () => { readForm(); form.actions = form.actions || {}; form.actions[x.id] = form.actions[x.id] || {}; if (m === 'closed') form.actions[x.id][a.id] = 'closed'; else delete form.actions[x.id][a.id]; markDirty(); };
+              sg.appendChild(b);
+            });
+            r2.appendChild(sg); box.appendChild(r2);
+          });
+        }
+        list.appendChild(box);
+      }
+    });
+  });
+  const c = counts(); $('count').textContent = T('counts', { a: c.open, b: c.btn, c: c.closed });
+  $('dirtyNote').textContent = dirty ? T('unsaved') : '';
+  $('saveBtn').disabled = !dirty;
+}
+['m_en', 'm_km', 'm_zh'].forEach(id => $(id).addEventListener('input', () => { if (!form) return; readForm(); dirty = true; $('saveBtn').disabled = false; $('dirtyNote').textContent = T('unsaved'); }));
+$('allOpen').onclick = () => { readForm(); SERVICES.filter(x => x.group === curGrp).forEach(x => { form.services[x.id] = 'open'; if (form.actions) delete form.actions[x.id]; }); dirty = true; renderPanel(); };
+$('allClosed').onclick = () => { readForm(); SERVICES.filter(x => x.group === curGrp).forEach(x => form.services[x.id] = 'closed'); dirty = true; renderPanel(); };
+function toast(msg, bad) { const t = $('toast'); t.textContent = msg; t.className = 'toast' + (bad ? ' bad' : ''); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.add('hide'), 3500); }
+function cleanActions() { const o = {}; ACTIONS.forEach(a => { if (form.actions && form.actions[a.s] && form.actions[a.s][a.id] === 'closed' && form.services[a.s] !== 'closed') { o[a.s] = o[a.s] || {}; o[a.s][a.id] = 'closed'; } }); return o; }
+async function writeState(on) {
+  readForm();
+  const msg = {}; ['en', 'km', 'zh'].forEach(l => msg[l] = String(form.message[l] || '').trim());
+  const data = { on: !!on, message: msg, bypassKeys: Object.keys(form.bypassKeys || {}).reduce((o, k) => { if (form.bypassKeys[k]) o[k] = true; return o; }, {}), services: Object.assign({}, form.services), actions: cleanActions(), scope: { admin: !!(form.scope && form.scope.admin), hr: !!(form.scope && form.scope.hr), emp: !!(form.scope && form.scope.emp), dept: !!(form.scope && form.scope.dept) }, align: form.align === 'center' ? 'center' : 'left', by: (account && (account.name || account.username)) || 'admin', at: firebase.database.ServerValue.TIMESTAMP };
+  await db.ref('maintenance').set(data);
+}
+/* in-page question (no browser pop-up) */
+function askYes(msg) {
+  return new Promise(res => {
+    const L = ({ en: ['Cancel', 'OK'], km: ['បោះបង់', 'យល់ព្រម'], zh: ['取消', '确定'] })[lang] || ['Cancel', 'OK'];
+    const o = document.createElement('div');
+    o.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+    o.innerHTML = '<div style="background:#fff;color:#0f172a;border-radius:12px;max-width:440px;width:100%;padding:20px;box-shadow:0 14px 40px rgba(0,0,0,.35);font-size:15px;line-height:1.5"><div class="aq-m" style="white-space:pre-line"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button type="button" class="aq-c" style="border:0;border-radius:8px;padding:10px 18px;font-weight:700;background:#64748b;color:#fff;cursor:pointer"></button><button type="button" class="aq-o" style="border:0;border-radius:8px;padding:10px 18px;font-weight:700;background:#16a34a;color:#fff;cursor:pointer"></button></div></div>';
+    o.querySelector('.aq-m').textContent = msg; o.querySelector('.aq-c').textContent = L[0]; o.querySelector('.aq-o').textContent = L[1];
+    const done = v => { o.remove(); res(v); };
+    o.querySelector('.aq-c').onclick = () => done(false); o.querySelector('.aq-o').onclick = () => done(true);
+    document.body.appendChild(o);
+  });
+}
+$('saveBtn').onclick = async () => {
+  try { await writeState(!!(cur && cur.on)); dirty = false; toast(T('saved')); } catch (e) { console.error(e); toast(T('saveFail'), true); }
+  renderPanel();
+};
+$('mainBtn').onclick = async () => {
+  const on = !!(cur && cur.on);
+  readForm();
+  if (!on && !(form.scope && (form.scope.admin || form.scope.hr || form.scope.emp || form.scope.dept))) { toast(T('scopeNone'), true); return; }
+  const none = !on && !Object.keys(form.bypassKeys || {}).some(k => form.bypassKeys[k]);
+  if (!(await askYes(T(on ? 'confirmOff' : 'confirmOn') + (none ? '\n\n' + T('acctNone') : '')))) return;
+  try {
+    if (on) { readForm(); await db.ref('maintenance').update({ on: false, by: (account && (account.name || account.username)) || 'admin', at: firebase.database.ServerValue.TIMESTAMP }); toast(T('savedOff')); }
+    else { await writeState(true); toast(T('savedOn')); }
+    dirty = false;
+  } catch (e) { console.error(e); toast(T('saveFail'), true); }
+  renderPanel();
+};
+/* always start logged out */
+(async () => { try { await auth.signOut(); } catch (e) {} try { await auth.signInAnonymously(); } catch (e) {} })();
+renderLang();
+</script>
+</body>
+</html>
