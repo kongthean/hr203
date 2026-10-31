@@ -559,5 +559,113 @@ $('mainBtn').onclick = async () => {
 renderLang();
 </script>
 <!-- HRFT-BEGIN --><div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Maintenance Mode</div><div class="v">Version 8.00</div></div><!-- HRFT-END -->
+
+<!-- OTP-BEGIN -->
+<style>
+.otpRow{display:flex;gap:8px;justify-content:center;margin:6px 0 4px;direction:ltr}
+.otpBox{width:46px;height:56px;box-sizing:border-box;border:1.5px solid #cbd5e1;border-radius:12px;background:#fff;color:#0f172a;font-size:24px;font-weight:700;text-align:center;padding:0;outline:none;caret-color:#2563eb;transition:border-color .15s,box-shadow .15s,transform .15s;-webkit-appearance:none;appearance:none;font-family:inherit;letter-spacing:0}
+.otpBox:focus{border-color:#2563eb;box-shadow:0 0 0 4px rgba(37,99,235,.15);transform:translateY(-1px)}
+.otpBox:not(:placeholder-shown){border-color:#1e3a8a;background:#f8fafc}
+.otpRow.busy .otpBox{border-color:#2563eb;animation:otpPulse .9s ease-in-out infinite}
+.otpRow.bad .otpBox{border-color:#dc2626;background:#fef2f2;color:#b91c1c}
+.otpRow.bad{animation:otpShake .4s}
+@keyframes otpShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes otpPulse{0%,100%{opacity:1}50%{opacity:.55}}
+.otpAlt{display:block;margin:10px auto 0;border:0;background:none;color:#475569;font-size:13px;text-decoration:underline;cursor:pointer;padding:6px}
+@media (max-width:360px){.otpBox{width:40px;height:50px;font-size:21px}.otpRow{gap:6px}}
+@media (prefers-reduced-motion:reduce){.otpRow.bad,.otpRow.busy .otpBox{animation:none}}
+</style>
+<script>
+window.OtpBoxes = window.OtpBoxes || function (cfg) {
+  var inp = typeof cfg.input === 'string' ? document.getElementById(cfg.input) : cfg.input;
+  if (!inp || inp.__otp) return null; inp.__otp = 1;
+  var row = document.createElement('div'); row.className = 'otpRow'; row.setAttribute('role', 'group');
+  var bx = [], i, pending = false, pTimer = null;
+  for (i = 0; i < 6; i++) {
+    var b = document.createElement('input'); b.type = 'text'; b.inputMode = 'numeric'; b.setAttribute('pattern', '[0-9]*'); b.maxLength = 6; b.placeholder = ' ';
+    b.autocomplete = i === 0 ? 'one-time-code' : 'off'; b.setAttribute('aria-label', (i + 1) + '/6'); b.className = 'otpBox'; bx.push(b); row.appendChild(b);
+  }
+  inp.parentNode.insertBefore(row, inp); inp.style.display = 'none';
+  function val() { return bx.map(function (x) { return x.value; }).join(''); }
+  function visible() { return row.offsetParent !== null; }
+  function clear() { bx.forEach(function (x) { x.value = ''; }); inp.value = ''; }
+  function focusFirst() { try { bx[0].focus(); } catch (e) {} }
+  function reset() { pending = false; row.classList.remove('busy', 'bad'); clear(); focusFirst(); }
+  function fail() {
+    pending = false; clearTimeout(pTimer); row.classList.remove('busy'); row.classList.remove('bad'); void row.offsetWidth; row.classList.add('bad');
+    try { if (navigator.vibrate) navigator.vibrate(120); } catch (e) {}
+    setTimeout(function () { row.classList.remove('bad'); clear(); focusFirst(); }, 520);
+  }
+  function done() {
+    var v = val(); if (v.length !== 6 || pending) return;
+    inp.value = v; pending = true; row.classList.add('busy');
+    clearTimeout(pTimer); pTimer = setTimeout(function () { pending = false; row.classList.remove('busy'); }, 6000);
+    try { cfg.submit(); } catch (e) { pending = false; row.classList.remove('busy'); }
+  }
+  function spread(from, digits) {
+    var k = from; for (var j = 0; j < digits.length && k < 6; j++, k++) bx[k].value = digits[j];
+    var next = Math.min(k, 5); bx[next].focus(); try { bx[next].select(); } catch (e) {}
+    if (val().length === 6) done();
+  }
+  bx.forEach(function (x, idx) {
+    x.addEventListener('input', function () {
+      var d = x.value.replace(/\D/g, ''); x.value = '';
+      if (!d) return;
+      row.classList.remove('bad');
+      if (d.length > 1) { spread(idx, d); return; }
+      x.value = d; if (idx < 5) bx[idx + 1].focus(); else done();
+      if (val().length === 6) done();
+    });
+    x.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace') { if (!x.value && idx > 0) { e.preventDefault(); bx[idx - 1].value = ''; bx[idx - 1].focus(); } }
+      else if (e.key === 'ArrowLeft' && idx > 0) { e.preventDefault(); bx[idx - 1].focus(); }
+      else if (e.key === 'ArrowRight' && idx < 5) { e.preventDefault(); bx[idx + 1].focus(); }
+      else if (e.key === 'Enter') { e.preventDefault(); done(); }
+    });
+    x.addEventListener('focus', function () { try { x.select(); } catch (e) {} });
+    x.addEventListener('paste', function (e) {
+      var t = ''; try { t = (e.clipboardData || window.clipboardData).getData('text'); } catch (er) {}
+      var d = String(t || '').replace(/\D/g, ''); if (!d) return; e.preventDefault(); spread(0, d.slice(0, 6));
+    });
+  });
+  /* a wrong code: the page writes a message in its error area - shake and clear */
+  var errEl = typeof cfg.err === 'string' ? document.getElementById(cfg.err) : cfg.err;
+  if (errEl && window.MutationObserver) {
+    new MutationObserver(function () {
+      if (!pending) return;
+      var shown = errEl.offsetParent !== null || getComputedStyle(errEl).display !== 'none';
+      if (shown && String(errEl.textContent || '').trim()) fail();
+    }).observe(errEl, { attributes: true, childList: true, subtree: true, characterData: true });
+  }
+  /* optional "use a backup code" switch for pages that take both kinds in one field */
+  var alt = null, altOn = false;
+  if (cfg.backupLink) {
+    var l = (function () { var s = ''; try { s = localStorage.getItem('xpLang') || localStorage.getItem('tdLang') || localStorage.getItem('appLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} s = String(s || document.documentElement.lang || 'en').toLowerCase().slice(0, 2); return s === 'kh' ? 'km' : s; })();
+    var T = { en: ['Use a backup code', 'Use authenticator code'], km: ['ប្រើកូដបម្រុង', 'ប្រើកូដ Authenticator'], zh: ['使用备用代码', '使用验证器代码'] }[l] || ['Use a backup code', 'Use authenticator code'];
+    alt = document.createElement('button'); alt.type = 'button'; alt.className = 'otpAlt'; alt.textContent = T[0]; row.parentNode.insertBefore(alt, row.nextSibling);
+    alt.onclick = function () {
+      altOn = !altOn; row.style.display = altOn ? 'none' : ''; inp.style.display = altOn ? '' : 'none'; alt.textContent = T[altOn ? 1 : 0];
+      if (altOn) { inp.value = ''; try { inp.focus(); } catch (e) {} } else reset();
+    };
+  }
+  /* keep in step with the page: hide the Verify button while the boxes are on screen, clear when the page resets the field */
+  var was = false;
+  setInterval(function () {
+    var v = visible() && (!alt || !altOn || true);
+    (cfg.btns || []).forEach(function (id) { var e = typeof id === 'string' ? document.getElementById(id) : id; if (e) e.style.display = v ? 'none' : ''; });
+    if (alt) alt.style.display = (row.parentNode && row.parentNode.offsetParent !== null) ? '' : 'none';
+    if (v && !was) { reset(); }
+    if (!v && !altOn) { /* hidden: nothing */ }
+    if (v && !pending && inp.value === '' && val() !== '') clear();
+    was = v;
+  }, 250);
+  return { reset: reset, fail: fail };
+};
+
+(function(){
+OtpBoxes({ input: 'c', submit: function () { doLogin(); }, err: 'loginErr', btns: ['loginBtn'], backupLink: true });
+})();
+</script>
+<!-- OTP-END -->
 </body>
 </html>

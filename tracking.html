@@ -360,7 +360,6 @@ document.addEventListener('DOMContentLoaded', function () {
     var D = { en: ['Under maintenance', 'This page is temporarily unavailable. Please try again later.'], km: ['កំពុងថែទាំ', 'ទំព័រនេះមិនអាចប្រើបានបណ្តោះអាសន្ន។ សូមព្យាយាមម្តងទៀតពេលក្រោយ។'], zh: ['维护中', '此页面暂时不可用，请稍后再试。'] };
     function lang() { var l = ''; try { l = localStorage.getItem('tdLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} l = String(l).toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; if (!D[l]) { l = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; } return D[l] ? l : 'en'; }
     function applies(m) {
-      if (sessionStorage.getItem('mtgOwner') === '1') return false;
       if (!m || !m.on) return false;
       if (!(m.services && m.services[SVC] === 'closed')) return false;
       var sc = m.scope; if (!sc || SC === 'any') return true;
@@ -372,8 +371,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var l = lang(), msg = (m.message && String(m.message[l] || '').trim()) || D[l][1];
       if (!el) { el = document.createElement('div'); el.id = 'mtGuard'; el.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#f1f5f9;display:flex;align-items:center;justify-content:center;padding:20px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Khmer","Noto Sans SC",Arial,sans-serif;'; document.body.appendChild(el); }
       el.innerHTML = '<div style="background:#fff;border-radius:18px;max-width:380px;width:100%;padding:28px 22px;text-align:center;box-shadow:0 10px 40px rgba(15,23,42,.18);"><div style="font-size:44px;">&#128295;</div><h2 style="margin:8px 0 8px;font-size:20px;color:#0f172a;"></h2><p style="margin:0;font-size:15px;line-height:1.5;color:#475569;white-space:pre-wrap;"></p></div>';
-      el.querySelector('h2').textContent = D[l][0]; el.querySelector('p').textContent = msg;
-      try { if (!el.querySelector('.mtgOwn')) { var ol = document.createElement('button'); ol.className = 'mtgOwn'; ol.type = 'button'; ol.style.cssText = 'margin-top:16px;border:0;background:none;color:#94a3b8;font-size:12px;text-decoration:underline;cursor:pointer'; ol.textContent = ({ km: 'ចូលជាម្ចាស់', zh: '所有者入口' })[l] || 'Owner access'; ol.onclick = function () { if (!window.OwnerLogin) return; OwnerLogin.open(function (acc) { try { sessionStorage.setItem('mtgOwner', '1'); } catch (e) {} OwnerLogin.audit('owner_enter', SVC, '', 'Maintenance bypass', 'Owner passed Maintenance on ' + SVC, acc.name || acc.username); OwnerLogin.signOutHR().then(function () { render(null); }); }); }; el.firstChild.appendChild(ol); } } catch (e) {} document.documentElement.style.overflow = 'hidden';
+      el.querySelector('h2').textContent = D[l][0]; el.querySelector('p').textContent = msg; document.documentElement.style.overflow = 'hidden';
     }
     var last = null; try { last = JSON.parse(localStorage.getItem('mtgCache') || 'null'); } catch (e) {}
     function start() {
@@ -387,131 +385,6 @@ document.addEventListener('DOMContentLoaded', function () {
 })();
 </script>
 <!-- MTG-END -->
-
-<!-- OWNER-LIB-BEGIN -->
-<style>
-#olOv{position:fixed;inset:0;z-index:2147483647;background:rgba(15,23,42,.72);display:none;align-items:center;justify-content:center;padding:16px}
-#olOv .olc{width:100%;max-width:360px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3);font-family:inherit}
-#olOv h3{margin:0 0 4px;font-size:18px;color:#0f172a}
-#olOv .ols{font-size:12px;color:#64748b;margin-bottom:12px}
-#olOv label{display:block;font-size:12px;font-weight:700;color:#334155;margin:8px 0 4px}
-#olOv input{width:100%;height:44px;border:1px solid #cbd5e1;border-radius:10px;padding:0 12px;box-sizing:border-box;font-size:16px}
-#olOv .olb{width:100%;height:46px;margin-top:14px;border:0;border-radius:10px;background:#0b1d3a;color:#fff;font-weight:700;font-size:15px;cursor:pointer}
-#olOv .olb:disabled{opacity:.6}
-#olOv .oll{display:block;width:100%;margin-top:8px;border:0;background:none;color:#475569;text-decoration:underline;font-size:13px;cursor:pointer;padding:6px}
-#olOv .ole{color:#b91c1c;font-size:13px;min-height:18px;margin-top:8px}
-</style>
-<script>
-window.OwnerLogin = (function () {
-  var TX = {
-    en: { t: 'Owner access', s: 'Owner accounts only.', u: 'Username', p: 'Password', go: 'Log in', code: 'Authenticator code', bk: 'Backup code', verify: 'Verify', useBk: 'Use a backup code instead', cancel: 'Cancel', bad: 'Wrong username or password.', only: 'Only Owner accounts can use Owner access.', badc: 'Wrong code. Try again.', nosetup: 'Set up the 2-step code first in the main website.' },
-    km: { t: 'ចូលជាម្ចាស់', s: 'សម្រាប់តែគណនីម្ចាស់ប៉ុណ្ណោះ។', u: 'ឈ្មោះអ្នកប្រើ', p: 'ពាក្យសម្ងាត់', go: 'ចូល', code: 'កូដ Authenticator', bk: 'កូដបម្រុង', verify: 'ផ្ទៀងផ្ទាត់', useBk: 'ប្រើកូដបម្រុងជំនួស', cancel: 'បោះបង់', bad: 'ឈ្មោះអ្នកប្រើ ឬពាក្យសម្ងាត់ខុស។', only: 'មានតែគណនីម្ចាស់ប៉ុណ្ណោះដែលអាចប្រើបាន។', badc: 'កូដខុស។ សូមព្យាយាមម្តងទៀត។', nosetup: 'សូមដំឡើងកូដ 2 ជំហានជាមុននៅគេហទំព័រមេ។' },
-    zh: { t: '所有者入口', s: '仅限所有者账户。', u: '用户名', p: '密码', go: '登录', code: '验证器代码', bk: '备用代码', verify: '验证', useBk: '改用备用代码', cancel: '取消', bad: '用户名或密码错误。', only: '只有所有者账户可以使用所有者入口。', badc: '代码错误，请重试。', nosetup: '请先在主网站设置两步验证码。' }
-  };
-  function $(i) { return document.getElementById(i); }
-  function L() { var l = 'en'; try { l = (function(){var l='';try{l=localStorage.getItem('xpLang')||localStorage.getItem('tdLang')||localStorage.getItem('appLang')||localStorage.getItem('lang')||localStorage.getItem('language')||'';}catch(e){}l=String(l||document.documentElement.lang||'en').toLowerCase().slice(0,2);if(l==='kh')l='km';return l;})(); } catch (e) {} return TX[l] || TX.en; }
-  function hexs(s) { return Array.from(new TextEncoder().encode(String(s))).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
-  function hx(buf) { return Array.from(new Uint8Array(buf)).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
-  async function derive(password, salt) {
-    var key = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
-    var bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: new TextEncoder().encode(salt), iterations: 100000 }, key, 256);
-    return hx(bits).slice(0, 48);
-  }
-  function b32(s) {
-    var al = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', c = String(s || '').replace(/=+$/, '').toUpperCase().replace(/[^A-Z2-7]/g, ''), bits = '';
-    for (var i = 0; i < c.length; i++) { var v = al.indexOf(c[i]); if (v !== -1) bits += v.toString(2).padStart(5, '0'); }
-    var by = []; for (var j = 0; j + 8 <= bits.length; j += 8) by.push(parseInt(bits.substr(j, 8), 2)); return new Uint8Array(by);
-  }
-  async function gen(secret, tm) {
-    var counter = Math.floor(tm / 1000 / 30), cb = new ArrayBuffer(8), vw = new DataView(cb);
-    vw.setUint32(0, Math.floor(counter / 0x100000000)); vw.setUint32(4, counter >>> 0);
-    var key = await crypto.subtle.importKey('raw', b32(secret), { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']);
-    var h = new Uint8Array(await crypto.subtle.sign('HMAC', key, new Uint8Array(cb))), o = h[h.length - 1] & 15;
-    var bin = ((h[o] & 127) << 24) | (h[o + 1] << 16) | (h[o + 2] << 8) | h[o + 3];
-    return String(bin % 1000000).padStart(6, '0');
-  }
-  async function verify(secret, tok) {
-    tok = String(tok || '').trim(); if (!/^\d{6}$/.test(tok)) return false;
-    for (var s = -1; s <= 1; s++) { if ((await gen(secret, Date.now() + s * 30000)) === tok) return true; }
-    return false;
-  }
-  async function readRetry(path) {
-    var last = null;
-    for (var i = 0; i < 40; i++) { try { return (await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().database().ref(path).once('value')).val(); } catch (e) { last = e; await new Promise(function (r) { setTimeout(r, 250); }); } }
-    throw last;
-  }
-  async function toAnon() { try { await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().auth().signOut(); } catch (e) {} try { await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().auth().signInAnonymously(); } catch (e) {} }
-  var ov = null, pending = null, cbOK = null, cbEnd = null, bkMode = false;
-  function build() {
-    if (ov) return; ov = document.createElement('div'); ov.id = 'olOv'; document.body.appendChild(ov);
-  }
-  function paint(step, err) {
-    var x = L();
-    var h = '<div class="olc"><h3>' + x.t + '</h3><div class="ols">' + x.s + '</div>';
-    if (step === 'login') {
-      h += '<label>' + x.u + '</label><input id="olU" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false"><label>' + x.p + '</label><input id="olP" type="password" autocomplete="off"><button class="olb" id="olGo">' + x.go + '</button>';
-    } else {
-      h += '<label>' + (bkMode ? x.bk : x.code) + '</label><input id="olC" ' + (bkMode ? 'autocapitalize="characters"' : 'inputmode="numeric" maxlength="6"') + ' autocomplete="off" style="text-align:center;letter-spacing:4px;font-size:20px"><button class="olb" id="olVf">' + x.verify + '</button>' + (bkMode ? '' : '<button class="oll" id="olBk">' + x.useBk + '</button>');
-    }
-    h += '<div class="ole" id="olE">' + (err || '') + '</div><button class="oll" id="olX">' + x.cancel + '</button></div>';
-    ov.innerHTML = h; ov.style.display = 'flex';
-    var f = $('olU') || $('olC'); if (f) setTimeout(function () { try { f.focus(); } catch (e) {} }, 80);
-    if ($('olGo')) { $('olGo').onclick = doLogin; $('olP').onkeydown = function (e) { if (e.key === 'Enter') doLogin(); }; }
-    if ($('olVf')) { $('olVf').onclick = doVerify; $('olC').onkeydown = function (e) { if (e.key === 'Enter') doVerify(); }; }
-    if ($('olBk')) $('olBk').onclick = function () { bkMode = true; paint('totp'); };
-    $('olX').onclick = cancel;
-  }
-  async function cancel() { pending = null; ov.style.display = 'none'; await toAnon(); if (cbEnd) cbEnd(false); }
-  async function doLogin() {
-    var u = $('olU').value.trim(), p = $('olP').value, b = $('olGo'); if (!u || !p) return; b.disabled = true;
-    var x = L(), found = null, refused = false;
-    try {
-      var ids = Object.keys((await readRetry('staffLookup/' + hexs('admin|' + u))) || {});
-      for (var i = 0; i < ids.length && !found; i++) {
-        var id = ids[i];
-        try {
-          var cred = await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().auth().signInWithEmailAndPassword(id + '@staff.hr203.com', await derive(p, 'staff-auth:' + id));
-          var uid = (cred && cred.user ? cred.user : (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().auth().currentUser).uid;
-          var st = await readRetry('staff/' + uid);
-          var acc = (st && st.role === 'admin' && st.key) ? await readRetry('accounts/' + st.key) : null;
-          if (acc && acc.authId === id && acc.role === 'admin' && !acc.disabled) {
-            if (acc.owner === true && st.owner === true) { found = Object.assign({ firebaseKey: st.key, uid: uid }, acc); break; }
-            refused = true;
-          }
-          await toAnon();
-        } catch (e2) { try { var cu = (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().auth().currentUser; if (cu && !cu.isAnonymous) await toAnon(); } catch (e3) {} }
-      }
-    } catch (e1) { console.error(e1); }
-    if (!found) { paint('login', refused ? x.only : x.bad); return; }
-    if (!(found.totpEnabled || found.totpSecret) || !found.totpSecret) { await toAnon(); paint('login', x.nosetup); return; }
-    found.__pw = p; pending = found; bkMode = false; paint('totp');
-  }
-  async function doVerify() {
-    if (!pending) return; var x = L(), v = $('olC').value, ok = false;
-    if (bkMode) {
-      var code = v.trim().toUpperCase(); if (!code) return;
-      try {
-        var sn = await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().database().ref('accounts/' + pending.firebaseKey + '/backupCodes/' + code).once('value');
-        if (sn.exists() && sn.val() !== true) { await (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().database().ref('accounts/' + pending.firebaseKey + '/backupCodes/' + code).set(true); ok = true; }
-      } catch (e) {}
-    } else { ok = await verify(pending.totpSecret, v); }
-    if (!ok) { paint('totp', x.badc); return; }
-    var acc = pending; pending = null; ov.style.display = 'none';
-    if (cbOK) cbOK(acc);
-  }
-  return {
-    open: function (onOK, onEnd) { build(); cbOK = onOK; cbEnd = onEnd || null; pending = null; bkMode = false; paint('login'); },
-    derive: derive,
-    signOutHR: toAnon,
-    isOwnerUser: async function (uid) { try { var st = await readRetry('staff/' + uid); return !!(st && st.role === 'admin' && st.owner === true); } catch (e) { return false; } },
-    audit: function (action, tType, tId, tLabel, details, name) {
-      try { (function(){try{return firebase.app('mtg');}catch(e){return firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg');}})().database().ref('auditLog').push({ timestamp: Date.now(), actorRole: 'admin', actorName: name || 'Owner', action: action, targetType: tType, targetId: tId || '', targetLabel: tLabel || '', details: details || '' }).catch(function () {}); } catch (e) {}
-    }
-  };
-})();
-</script>
-<!-- OWNER-LIB-END -->
-
 <!-- HRFT-BEGIN --><div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Express</div><div class="v">Version 8.00</div></div><!-- HRFT-END -->
 </body>
 </html>

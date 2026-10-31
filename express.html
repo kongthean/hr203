@@ -1122,7 +1122,6 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
     var D = { en: ['Under maintenance', 'This page is temporarily unavailable. Please try again later.'], km: ['កំពុងថែទាំ', 'ទំព័រនេះមិនអាចប្រើបានបណ្តោះអាសន្ន។ សូមព្យាយាមម្តងទៀតពេលក្រោយ។'], zh: ['维护中', '此页面暂时不可用，请稍后再试。'] };
     function lang() { var l = ''; try { l = localStorage.getItem('tdLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} l = String(l).toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; if (!D[l]) { l = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; } return D[l] ? l : 'en'; }
     function applies(m) {
-      if (sessionStorage.getItem('mtgOwner') === '1') return false;
       if (window.__xpOwner) return false;
       if (!m || !m.on) return false;
       if (!(m.services && m.services[SVC] === 'closed')) return false;
@@ -1135,8 +1134,7 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
       var l = lang(), msg = (m.message && String(m.message[l] || '').trim()) || D[l][1];
       if (!el) { el = document.createElement('div'); el.id = 'mtGuard'; el.style.cssText = 'position:fixed;inset:0;z-index:2147483647;background:#f1f5f9;display:flex;align-items:center;justify-content:center;padding:20px;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Khmer","Noto Sans SC",Arial,sans-serif;'; document.body.appendChild(el); }
       el.innerHTML = '<div style="background:#fff;border-radius:18px;max-width:380px;width:100%;padding:28px 22px;text-align:center;box-shadow:0 10px 40px rgba(15,23,42,.18);"><div style="font-size:44px;">&#128295;</div><h2 style="margin:8px 0 8px;font-size:20px;color:#0f172a;"></h2><p style="margin:0;font-size:15px;line-height:1.5;color:#475569;white-space:pre-wrap;"></p></div>';
-      el.querySelector('h2').textContent = D[l][0]; el.querySelector('p').textContent = msg;
-      try { if (!el.querySelector('.mtgOwn')) { var ol = document.createElement('button'); ol.className = 'mtgOwn'; ol.type = 'button'; ol.style.cssText = 'margin-top:16px;border:0;background:none;color:#94a3b8;font-size:12px;text-decoration:underline;cursor:pointer'; ol.textContent = ({ km: 'ចូលជាម្ចាស់', zh: '所有者入口' })[l] || 'Owner access'; ol.onclick = function () { if (!window.OwnerLogin) return; OwnerLogin.open(function (acc) { try { sessionStorage.setItem('mtgOwner', '1'); } catch (e) {} OwnerLogin.audit('owner_enter', SVC, '', 'Maintenance bypass', 'Owner passed Maintenance on ' + SVC, acc.name || acc.username); OwnerLogin.signOutHR().then(function () { render(null); }); }); }; el.firstChild.appendChild(ol); } } catch (e) {} document.documentElement.style.overflow = 'hidden';
+      el.querySelector('h2').textContent = D[l][0]; el.querySelector('p').textContent = msg; document.documentElement.style.overflow = 'hidden';
     }
     var last = null; try { last = JSON.parse(localStorage.getItem('mtgCache') || 'null'); } catch (e) {}
     function start() {
@@ -1153,6 +1151,19 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
 
 <!-- OWNER-LIB-BEGIN -->
 <style>
+.otpRow{display:flex;gap:8px;justify-content:center;margin:6px 0 4px;direction:ltr}
+.otpBox{width:46px;height:56px;box-sizing:border-box;border:1.5px solid #cbd5e1;border-radius:12px;background:#fff;color:#0f172a;font-size:24px;font-weight:700;text-align:center;padding:0;outline:none;caret-color:#2563eb;transition:border-color .15s,box-shadow .15s,transform .15s;-webkit-appearance:none;appearance:none;font-family:inherit;letter-spacing:0}
+.otpBox:focus{border-color:#2563eb;box-shadow:0 0 0 4px rgba(37,99,235,.15);transform:translateY(-1px)}
+.otpBox:not(:placeholder-shown){border-color:#1e3a8a;background:#f8fafc}
+.otpRow.busy .otpBox{border-color:#2563eb;animation:otpPulse .9s ease-in-out infinite}
+.otpRow.bad .otpBox{border-color:#dc2626;background:#fef2f2;color:#b91c1c}
+.otpRow.bad{animation:otpShake .4s}
+@keyframes otpShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes otpPulse{0%,100%{opacity:1}50%{opacity:.55}}
+.otpAlt{display:block;margin:10px auto 0;border:0;background:none;color:#475569;font-size:13px;text-decoration:underline;cursor:pointer;padding:6px}
+@media (max-width:360px){.otpBox{width:40px;height:50px;font-size:21px}.otpRow{gap:6px}}
+@media (prefers-reduced-motion:reduce){.otpRow.bad,.otpRow.busy .otpBox{animation:none}}
+
 #olOv{position:fixed;inset:0;z-index:2147483647;background:rgba(15,23,42,.72);display:none;align-items:center;justify-content:center;padding:16px}
 #olOv .olc{width:100%;max-width:360px;background:#fff;border-radius:16px;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3);font-family:inherit}
 #olOv h3{margin:0 0 4px;font-size:18px;color:#0f172a}
@@ -1165,6 +1176,92 @@ if (typeof document !== 'undefined') document.addEventListener('DOMContentLoaded
 #olOv .ole{color:#b91c1c;font-size:13px;min-height:18px;margin-top:8px}
 </style>
 <script>
+window.OtpBoxes = window.OtpBoxes || function (cfg) {
+  var inp = typeof cfg.input === 'string' ? document.getElementById(cfg.input) : cfg.input;
+  if (!inp || inp.__otp) return null; inp.__otp = 1;
+  var row = document.createElement('div'); row.className = 'otpRow'; row.setAttribute('role', 'group');
+  var bx = [], i, pending = false, pTimer = null;
+  for (i = 0; i < 6; i++) {
+    var b = document.createElement('input'); b.type = 'text'; b.inputMode = 'numeric'; b.setAttribute('pattern', '[0-9]*'); b.maxLength = 6; b.placeholder = ' ';
+    b.autocomplete = i === 0 ? 'one-time-code' : 'off'; b.setAttribute('aria-label', (i + 1) + '/6'); b.className = 'otpBox'; bx.push(b); row.appendChild(b);
+  }
+  inp.parentNode.insertBefore(row, inp); inp.style.display = 'none';
+  function val() { return bx.map(function (x) { return x.value; }).join(''); }
+  function visible() { return row.offsetParent !== null; }
+  function clear() { bx.forEach(function (x) { x.value = ''; }); inp.value = ''; }
+  function focusFirst() { try { bx[0].focus(); } catch (e) {} }
+  function reset() { pending = false; row.classList.remove('busy', 'bad'); clear(); focusFirst(); }
+  function fail() {
+    pending = false; clearTimeout(pTimer); row.classList.remove('busy'); row.classList.remove('bad'); void row.offsetWidth; row.classList.add('bad');
+    try { if (navigator.vibrate) navigator.vibrate(120); } catch (e) {}
+    setTimeout(function () { row.classList.remove('bad'); clear(); focusFirst(); }, 520);
+  }
+  function done() {
+    var v = val(); if (v.length !== 6 || pending) return;
+    inp.value = v; pending = true; row.classList.add('busy');
+    clearTimeout(pTimer); pTimer = setTimeout(function () { pending = false; row.classList.remove('busy'); }, 6000);
+    try { cfg.submit(); } catch (e) { pending = false; row.classList.remove('busy'); }
+  }
+  function spread(from, digits) {
+    var k = from; for (var j = 0; j < digits.length && k < 6; j++, k++) bx[k].value = digits[j];
+    var next = Math.min(k, 5); bx[next].focus(); try { bx[next].select(); } catch (e) {}
+    if (val().length === 6) done();
+  }
+  bx.forEach(function (x, idx) {
+    x.addEventListener('input', function () {
+      var d = x.value.replace(/\D/g, ''); x.value = '';
+      if (!d) return;
+      row.classList.remove('bad');
+      if (d.length > 1) { spread(idx, d); return; }
+      x.value = d; if (idx < 5) bx[idx + 1].focus(); else done();
+      if (val().length === 6) done();
+    });
+    x.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace') { if (!x.value && idx > 0) { e.preventDefault(); bx[idx - 1].value = ''; bx[idx - 1].focus(); } }
+      else if (e.key === 'ArrowLeft' && idx > 0) { e.preventDefault(); bx[idx - 1].focus(); }
+      else if (e.key === 'ArrowRight' && idx < 5) { e.preventDefault(); bx[idx + 1].focus(); }
+      else if (e.key === 'Enter') { e.preventDefault(); done(); }
+    });
+    x.addEventListener('focus', function () { try { x.select(); } catch (e) {} });
+    x.addEventListener('paste', function (e) {
+      var t = ''; try { t = (e.clipboardData || window.clipboardData).getData('text'); } catch (er) {}
+      var d = String(t || '').replace(/\D/g, ''); if (!d) return; e.preventDefault(); spread(0, d.slice(0, 6));
+    });
+  });
+  /* a wrong code: the page writes a message in its error area - shake and clear */
+  var errEl = typeof cfg.err === 'string' ? document.getElementById(cfg.err) : cfg.err;
+  if (errEl && window.MutationObserver) {
+    new MutationObserver(function () {
+      if (!pending) return;
+      var shown = errEl.offsetParent !== null || getComputedStyle(errEl).display !== 'none';
+      if (shown && String(errEl.textContent || '').trim()) fail();
+    }).observe(errEl, { attributes: true, childList: true, subtree: true, characterData: true });
+  }
+  /* optional "use a backup code" switch for pages that take both kinds in one field */
+  var alt = null, altOn = false;
+  if (cfg.backupLink) {
+    var l = (function () { var s = ''; try { s = localStorage.getItem('xpLang') || localStorage.getItem('tdLang') || localStorage.getItem('appLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} s = String(s || document.documentElement.lang || 'en').toLowerCase().slice(0, 2); return s === 'kh' ? 'km' : s; })();
+    var T = { en: ['Use a backup code', 'Use authenticator code'], km: ['ប្រើកូដបម្រុង', 'ប្រើកូដ Authenticator'], zh: ['使用备用代码', '使用验证器代码'] }[l] || ['Use a backup code', 'Use authenticator code'];
+    alt = document.createElement('button'); alt.type = 'button'; alt.className = 'otpAlt'; alt.textContent = T[0]; row.parentNode.insertBefore(alt, row.nextSibling);
+    alt.onclick = function () {
+      altOn = !altOn; row.style.display = altOn ? 'none' : ''; inp.style.display = altOn ? '' : 'none'; alt.textContent = T[altOn ? 1 : 0];
+      if (altOn) { inp.value = ''; try { inp.focus(); } catch (e) {} } else reset();
+    };
+  }
+  /* keep in step with the page: hide the Verify button while the boxes are on screen, clear when the page resets the field */
+  var was = false, tmr = setInterval(function () {
+    if (!document.body.contains(row)) { clearInterval(tmr); return; }
+    var v = visible() && (!alt || !altOn || true);
+    (cfg.btns || []).forEach(function (id) { var e = typeof id === 'string' ? document.getElementById(id) : id; if (e) e.style.display = v ? 'none' : ''; });
+    if (alt) alt.style.display = (row.parentNode && row.parentNode.offsetParent !== null) ? '' : 'none';
+    if (v && !was) { reset(); }
+    if (!v && !altOn) { /* hidden: nothing */ }
+    if (v && !pending && inp.value === '' && val() !== '') clear();
+    was = v;
+  }, 250);
+  return { reset: reset, fail: fail };
+};
+
 window.OwnerLogin = (function () {
   var TX = {
     en: { t: 'Owner access', s: 'Owner accounts only.', u: 'Username', p: 'Password', go: 'Log in', code: 'Authenticator code', bk: 'Backup code', verify: 'Verify', useBk: 'Use a backup code instead', cancel: 'Cancel', bad: 'Wrong username or password.', only: 'Only Owner accounts can use Owner access.', badc: 'Wrong code. Try again.', nosetup: 'Set up the 2-step code first in the main website.' },
@@ -1222,6 +1319,7 @@ window.OwnerLogin = (function () {
     if ($('olGo')) { $('olGo').onclick = doLogin; $('olP').onkeydown = function (e) { if (e.key === 'Enter') doLogin(); }; }
     if ($('olVf')) { $('olVf').onclick = doVerify; $('olC').onkeydown = function (e) { if (e.key === 'Enter') doVerify(); }; }
     if ($('olBk')) $('olBk').onclick = function () { bkMode = true; paint('totp'); };
+    if (step === 'totp' && !bkMode && $('olC') && window.OtpBoxes) { $('olC').style.display = 'none'; OtpBoxes({ input: 'olC', submit: doVerify, err: 'olE', btns: ['olVf'] }); var rw = ov.querySelector('.otpRow'); if (err && rw) { rw.classList.add('bad'); setTimeout(function () { rw.classList.remove('bad'); }, 500); } }
     $('olX').onclick = cancel;
   }
   async function cancel() { pending = null; ov.style.display = 'none'; await toAnon(); if (cbEnd) cbEnd(false); }
