@@ -1375,11 +1375,6 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
      </div>
 
      <div class="quick-actions" id="menuPage2" style="display:none;">
-<!-- v7.71: Express (courier) - opens the separate Express site -->
-<button class="quick-btn teal admin-only" onclick="window.open('https://hr203.com/express', '_blank')">
-    <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="6" width="14" height="11" rx="1"/><path d="M15 9h4l3 3v5h-7z"/><circle cx="6" cy="18.5" r="1.8"/><circle cx="18" cy="18.5" r="1.8"/></svg></span>
-    <span class="quick-btn-label" data-i18n="navExpress">Express</span>
-</button>
 <!-- v6.93: Convert to Photo - turns an uploaded Excel/Word/PDF file into downloadable PNG
      image(s), entirely in the browser (nothing is uploaded to Firebase or any server). Added
      because exporting Khmer-text documents as Excel/Word/PDF can render the Khmer font poorly
@@ -5526,7 +5521,6 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         navAuditLog: "Activity Log",
         navCertificates: "Certificates",
         navConvertPhoto: "Extract",
-        navExpress: "Express",
         navCalendar: "Calendar", calSoon: "Coming soon", calComing: "Calendar is coming soon",
         convertPhotoSub: "Choose an Excel, Word (.docx) or PDF file from your device. Nothing is uploaded anywhere - it stays on this device and turns into picture(s) you can download.",
         convertPhotoChooseFile: "File (.xlsx, .xls, .docx, or .pdf)",
@@ -7128,7 +7122,6 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         navAuditLog: "កំណត់ត្រាសកម្មភាព",
         navCertificates: "វិញ្ញាបនបត្រ",
         navConvertPhoto: "ស្រង់ចេញ",
-        navExpress: "ដឹកជញ្ជូន Express",
         navCalendar: "ប្រតិទិន", calSoon: "ឆាប់ៗនេះ", calComing: "ប្រតិទិននឹងមកដល់ឆាប់ៗនេះ",
         convertPhotoSub: "ជ្រើសរើសឯកសារ Excel, Word (.docx) ឬ PDF ពីឧបករណ៍របស់អ្នក។ គ្មានអ្វីត្រូវបានផ្ទុកឡើងទៅកន្លែងណាឡើយ - វានៅតែស្ថិតនៅលើឧបករណ៍នេះ ហើយប្រែក្លាយទៅជារូបភាពដែលអ្នកអាចទាញយកបាន។",
         convertPhotoChooseFile: "ឯកសារ (.xlsx, .xls, .docx, ឬ .pdf)",
@@ -8723,7 +8716,6 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         navAuditLog: "活动日志",
         navCertificates: "证明书",
         navConvertPhoto: "提取",
-        navExpress: "快递 Express",
         navCalendar: "日历", calSoon: "即将推出", calComing: "日历功能即将推出",
         convertPhotoSub: "从您的设备选择一个 Excel、Word (.docx) 或 PDF 文件。不会上传到任何地方 - 文件保留在此设备上，并转换成您可以下载的图片。",
         convertPhotoChooseFile: "文件 (.xlsx、.xls、.docx 或 .pdf)",
@@ -21551,180 +21543,5 @@ function menuPage(n) {
 })();
 </script>
 <!-- OWNER-ENTRY-END -->
-
-<!-- OTP-BEGIN -->
-<style>
-.otpRow{display:flex;gap:8px;justify-content:center;margin:6px 0 4px;direction:ltr}
-.otpRow input.otpBox{flex:0 0 46px;width:46px!important;height:56px;padding:0!important;margin:0!important;line-height:normal;box-sizing:border-box;border:1.5px solid #cbd5e1!important;border-radius:12px!important;background:#fff;color:#0f172a!important;font-size:24px!important;font-weight:700;text-align:center;padding:0;outline:none;caret-color:#2563eb;transition:border-color .15s,box-shadow .15s,transform .15s;-webkit-appearance:none;appearance:none;font-family:inherit;letter-spacing:0}
-.otpRow input.otpBox:focus{border-color:#2563eb;box-shadow:0 0 0 4px rgba(37,99,235,.15);transform:translateY(-1px)}
-.otpRow input.otpBox:not(:placeholder-shown){border-color:#1e3a8a;background:#f8fafc}
-.otpRow.busy .otpRow input.otpBox{border-color:#2563eb;animation:otpPulse .9s ease-in-out infinite}
-.otpRow.bad .otpRow input.otpBox{border-color:#dc2626;background:#fef2f2;color:#b91c1c}
-.otpRow.bad{animation:otpShake .4s}
-@keyframes otpShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-@keyframes otpPulse{0%,100%{opacity:1}50%{opacity:.55}}
-.otpAlt{display:block;margin:10px auto 0;border:0;background:none;color:#475569;font-size:13px;text-decoration:underline;cursor:pointer;padding:6px}
-@media (max-width:360px){.otpRow input.otpBox{flex-basis:40px;width:40px!important;height:50px;font-size:21px!important}.otpRow{gap:6px}}
-@media (prefers-reduced-motion:reduce){.otpRow.bad,.otpRow.busy .otpRow input.otpBox{animation:none}}
-</style>
-<script>
-window.OtpBoxes = window.OtpBoxes || function (cfg) {
-  var inp = typeof cfg.input === 'string' ? document.getElementById(cfg.input) : cfg.input;
-  if (!inp || inp.__otp) return null; inp.__otp = 1;
-  var row = document.createElement('div'); row.className = 'otpRow'; row.setAttribute('role', 'group');
-  var bx = [], i, pending = false, pTimer = null;
-  for (i = 0; i < 6; i++) {
-    var b = document.createElement('input'); b.type = 'text'; b.inputMode = 'numeric'; b.setAttribute('pattern', '[0-9]*'); b.maxLength = 6; b.placeholder = ' ';
-    b.autocomplete = i === 0 ? 'one-time-code' : 'off'; b.setAttribute('aria-label', (i + 1) + '/6'); b.className = 'otpBox'; bx.push(b); row.appendChild(b);
-  }
-  inp.parentNode.insertBefore(row, inp); inp.style.display = 'none';
-  function val() { return bx.map(function (x) { return x.value; }).join(''); }
-  function visible() { return row.offsetParent !== null; }
-  var last = '';
-  function sync() { inp.value = val(); last = inp.value; }
-  function clear() { bx.forEach(function (x) { x.value = ''; }); inp.value = ''; last = ''; }
-  function focusFirst() { try { bx[0].focus(); } catch (e) {} }
-  function reset() { pending = false; row.classList.remove('busy', 'bad'); clear(); focusFirst(); }
-  function fail() {
-    pending = false; clearTimeout(pTimer); row.classList.remove('busy'); row.classList.remove('bad'); void row.offsetWidth; row.classList.add('bad');
-    try { if (navigator.vibrate) navigator.vibrate(120); } catch (e) {}
-    setTimeout(function () { row.classList.remove('bad'); clear(); focusFirst(); }, 520);
-  }
-  function done() {
-    var v = val(); if (v.length !== 6 || pending) return;
-    sync(); pending = true; row.classList.add('busy');
-    clearTimeout(pTimer); pTimer = setTimeout(function () { pending = false; row.classList.remove('busy'); }, 6000);
-    try { cfg.submit(); } catch (e) { pending = false; row.classList.remove('busy'); }
-  }
-  function spread(from, digits) {
-    var k = from; for (var j = 0; j < digits.length && k < 6; j++, k++) bx[k].value = digits[j];
-    sync(); var next = Math.min(k, 5); bx[next].focus(); try { bx[next].select(); } catch (e) {}
-    if (val().length === 6) done();
-  }
-  bx.forEach(function (x, idx) {
-    x.addEventListener('input', function () {
-      var d = x.value.replace(/\D/g, ''); x.value = '';
-      if (!d) return;
-      row.classList.remove('bad');
-      if (d.length > 1) { spread(idx, d); return; }
-      x.value = d; sync(); if (idx < 5) bx[idx + 1].focus(); else done();
-      if (val().length === 6) done();
-    });
-    x.addEventListener('keydown', function (e) {
-      if (e.key === 'Backspace') { if (!x.value && idx > 0) { e.preventDefault(); bx[idx - 1].value = ''; sync(); bx[idx - 1].focus(); } else if (x.value) { x.value = ''; sync(); e.preventDefault(); } }
-      else if (e.key === 'ArrowLeft' && idx > 0) { e.preventDefault(); bx[idx - 1].focus(); }
-      else if (e.key === 'ArrowRight' && idx < 5) { e.preventDefault(); bx[idx + 1].focus(); }
-      else if (e.key === 'Enter') { e.preventDefault(); done(); }
-    });
-    x.addEventListener('focus', function () { try { x.select(); } catch (e) {} });
-    x.addEventListener('paste', function (e) {
-      var t = ''; try { t = (e.clipboardData || window.clipboardData).getData('text'); } catch (er) {}
-      var d = String(t || '').replace(/\D/g, ''); if (!d) return; e.preventDefault(); spread(0, d.slice(0, 6));
-    });
-  });
-  /* a wrong code: the page writes a message in its error area - shake and clear */
-  var errEl = typeof cfg.err === 'string' ? document.getElementById(cfg.err) : cfg.err;
-  if (errEl && window.MutationObserver) {
-    new MutationObserver(function () {
-      if (!pending) return;
-      var shown = errEl.offsetParent !== null || getComputedStyle(errEl).display !== 'none';
-      if (shown && String(errEl.textContent || '').trim()) fail();
-    }).observe(errEl, { attributes: true, childList: true, subtree: true, characterData: true });
-  }
-  /* optional "use a backup code" switch for pages that take both kinds in one field */
-  var alt = null, altOn = false;
-  if (cfg.backupLink) {
-    var l = (function () { var s = ''; try { s = localStorage.getItem('xpLang') || localStorage.getItem('tdLang') || localStorage.getItem('appLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} s = String(s || document.documentElement.lang || 'en').toLowerCase().slice(0, 2); return s === 'kh' ? 'km' : s; })();
-    var T = { en: ['Use a backup code', 'Use authenticator code'], km: ['ប្រើកូដបម្រុង', 'ប្រើកូដ Authenticator'], zh: ['使用备用代码', '使用验证器代码'] }[l] || ['Use a backup code', 'Use authenticator code'];
-    alt = document.createElement('button'); alt.type = 'button'; alt.className = 'otpAlt'; alt.textContent = T[0]; row.parentNode.insertBefore(alt, row.nextSibling);
-    alt.onclick = function () {
-      altOn = !altOn; row.style.display = altOn ? 'none' : ''; inp.style.display = altOn ? '' : 'none'; alt.textContent = T[altOn ? 1 : 0];
-      if (altOn) { inp.value = ''; try { inp.focus(); } catch (e) {} } else reset();
-    };
-  }
-  /* keep in step with the page: hide the Verify button while the boxes are on screen, clear when the page resets the field */
-  var was = false, tmr = setInterval(function () {
-    if (!document.body.contains(row)) { clearInterval(tmr); return; }
-    var v = visible() && (!alt || !altOn || true);
-    (cfg.btns || []).forEach(function (id) { var e = typeof id === 'string' ? document.getElementById(id) : id; if (e) e.style.display = v ? 'none' : ''; });
-    if (alt) alt.style.display = (row.parentNode && row.parentNode.offsetParent !== null) ? '' : 'none';
-    if (v && !was) { reset(); }
-    if (!v && !altOn) { /* hidden: nothing */ }
-    if (inp.value !== last) { if (inp.value === '') clear(); else last = inp.value; }
-    was = v;
-  }, 250);
-  return { reset: reset, fail: fail };
-};
-
-(function(){
-OtpBoxes({ input: 'totpVerifyInput', submit: function () { confirmTotpVerify(); }, err: 'totpVerifyError', btns: [document.querySelector('#totpCodeSection .btn-submit')] });
-})();
-</script>
-<!-- OTP-END -->
-
-<!-- TRUST-BEGIN -->
-<script>
-
-var TD_HOURS = 8;
-function TD_hex(buf) { return Array.from(new Uint8Array(buf)).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
-async function TD_sha(s) { return TD_hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(s)))); }
-async function TD_ok(found) {
-  var s = ''; try { s = localStorage.getItem('hrTrust_' + found.firebaseKey) || ''; } catch (e) {}
-  if (!s || !found.trusted) return false;
-  var h = await TD_sha(s); return Number(found.trusted[h] || 0) > Date.now();
-}
-async function TD_remember(found) {
-  var a = new Uint8Array(24); crypto.getRandomValues(a); var s = TD_hex(a), h = await TD_sha(s), up = {}, now = Date.now();
-  Object.keys(found.trusted || {}).forEach(function (k) { if (Number(found.trusted[k] || 0) < now) up['accounts/' + found.firebaseKey + '/trusted/' + k] = null; });
-  up['accounts/' + found.firebaseKey + '/trusted/' + h] = now + TD_HOURS * 3600000;
-  await db.ref().update(up);
-  try { localStorage.setItem('hrTrust_' + found.firebaseKey, s); } catch (e) {}
-}
-
-(function () {
-  /* normal accounts: a device that already entered the code skips it for 8 hours. Owner accounts always enter the code. */
-  var _ssl = saSecureLogin;
-  saSecureLogin = async function () {
-    var f = await _ssl.apply(this, arguments);
-    try { if (f && f.owner !== true && (f.totpEnabled || f.totpSecret)) f.__trusted = await TD_ok(f); } catch (e) {}
-    return f;
-  };
-  var _atr = accountTotpRequired;
-  accountTotpRequired = function (a) { if (a && a.__trusted && a.owner !== true) return false; return _atr.apply(this, arguments); };
-  var _cl = completeLogin;
-  completeLogin = function (found) {
-    if (found && !found.__trusted && !found.__tdDone && found.owner !== true && _atr(found)) {
-      found.__tdDone = 1;
-      TD_remember(found).catch(function () {}).then(function () { _cl(found); });
-      return;
-    }
-    return _cl(found);
-  };
-  var _pr = pwDoReset;
-  pwDoReset = function (k) { try { db.ref('accounts/' + k + '/trusted').remove().catch(function () {}); } catch (e) {} return _pr.apply(this, arguments); };
-  /* Management: Forget trusted devices */
-  var TX = {
-    en: { b: 'Forget trusted devices', q: 'Every device will be asked for the authenticator code again at the next login. Continue?', h: 'Devices that entered the code skip it for 8 hours. Owner accounts always enter it.' },
-    km: { b: 'បំភ្លេចឧបករណ៍ដែលទុកចិត្ត', q: 'គ្រប់ឧបករណ៍នឹងត្រូវបញ្ចូលកូដ Authenticator ម្តងទៀតពេលចូលលើកក្រោយ។ បន្តទេ?', h: 'ឧបករណ៍ដែលបានបញ្ចូលកូដមិនត្រូវបញ្ចូលម្តងទៀតក្នុងរយៈពេល 8 ម៉ោង។ គណនីម្ចាស់ត្រូវបញ្ចូលរាល់ពេល។' },
-    zh: { b: '忘记受信任的设备', q: '下次登录时所有设备都需要重新输入验证器代码。继续吗？', h: '已输入验证码的设备 8 小时内无需再次输入。所有者账户每次都需要输入。' }
-  };
-  function L() { var l = 'en'; try { if (TX[currentLang]) l = currentLang; } catch (e) {} return TX[l]; }
-  var host = document.getElementById('saSummary');
-  if (host) {
-    var w = document.createElement('div'); w.style.cssText = 'margin:8px 0 12px';
-    w.innerHTML = '<button type="button" id="tdForgetBtn" style="border:1px solid #cbd5e1;background:#fff;color:#334155;border-radius:10px;height:38px;padding:0 14px;font-weight:700;cursor:pointer"></button><div id="tdForgetHint" style="font-size:11px;color:#64748b;margin-top:4px"></div>';
-    host.parentNode.insertBefore(w, host.nextSibling);
-    var lab = function () { document.getElementById('tdForgetBtn').textContent = L().b; document.getElementById('tdForgetHint').textContent = L().h; }; lab(); setInterval(lab, 1500);
-    document.getElementById('tdForgetBtn').onclick = async function () {
-      var ok = true; try { ok = await showConfirm(L().q); } catch (e) {}
-      if (!ok) return;
-      var mineOwner = (typeof viewerIsOwner === 'function') ? viewerIsOwner() : false, up = {};
-      (accounts || []).forEach(function (a) { if (a.firebaseKey && (mineOwner || a.owner !== true)) up['accounts/' + a.firebaseKey + '/trusted'] = null; });
-      try { await db.ref().update(up); try { logActivity('trusted_devices_forget', 'account', 'all', '', ''); } catch (e) {} showToast(true); } catch (e) { showToast(false); }
-    };
-  }
-})();
-</script>
-<!-- TRUST-END -->
 </body>
 </html>
