@@ -426,7 +426,7 @@ function tdInst(tpl, key, done, today) {
   if (complete) status = 'done'; else if (!due) status = 'open'; else if (days < 0) status = 'over'; else if (days <= warn) status = 'soon'; else if (days <= lead) status = 'open'; else status = 'hidden';
   var sLate = 0, sSoon = 0, sMin = 9999, sMinIx = -1, firstLate = -1, why = '', waiting = false, firstAvail = -1, unlock = '';
   /* a step with a date opens ON that date (its start date for a range) and cannot be swiped before */
-  var avail = steps.map(function (st, ix) { var w = tpl.stepDates ? tdStepWin(tpl, key, ix) : null; if (!w) return true; return (w.from || w.to) <= today; });
+  var avail = steps.map(function (st, ix) { var w = tpl.stepDates ? tdStepWin(tpl, key, ix) : null; if (!w) return true; if (dn.open && dn.open[tdStepKey(st)]) return true; return (w.from || w.to) <= today; });
   if (!complete && tpl.stepDates) steps.forEach(function (st, ix) {
     if (s[tdStepKey(st)]) return; if (firstAvail < 0 && avail[ix]) firstAvail = ix;
     var w = tdStepWin(tpl, key, ix); if (w && !avail[ix]) { var us = w.from || w.to; if (!unlock || us < unlock) unlock = us; } if (!w || !avail[ix]) return; var dd = tdDiff(w.to, today);
@@ -548,9 +548,10 @@ function tdTick(cid, key, i, on) {
   if (on && x.avail && x.avail[i] === false) { toast(T('stLocked')); return; }
   var after = x.ticked + (on ? 1 : -1);
   ups[base + '/s/' + sk] = on ? { at: Date.now(), by: myName } : null;
+  ups[base + '/open/' + sk] = on ? null : true;
   ups[base + '/doneAt'] = (on && after === x.total) ? Date.now() : null;
   td.done[cid] = td.done[cid] || {}; var dn = td.done[cid][key] = td.done[cid][key] || {}; dn.s = dn.s || {};
-  if (on) dn.s[sk] = { at: Date.now(), by: myName }; else delete dn.s[sk];
+  dn.open = dn.open || {}; if (on) { dn.s[sk] = { at: Date.now(), by: myName }; delete dn.open[sk]; } else { delete dn.s[sk]; dn.open[sk] = true; }
   dn.doneAt = ups[base + '/doneAt'] || 0;
   render();
   db.ref().update(ups).catch(function () { toast(T('saveFail')); });
@@ -693,8 +694,7 @@ function render() {
     var items = list.filter(function (x) { return x.status === g[0]; }); if (!items.length) return;
     h += '<div class="groupH ' + g[2] + '">' + esc(T(g[1])) + ' (' + items.length + ')</div>' + items.map(cardHtml).join('');
   });
-  if (waits.length && view.status !== 'done') h += '<div class="groupH grey">' + esc(T('stWaitHdr', { n: waits.length })) + '</div>' + waits.map(waitCardHtml).join('');
-  if (!list.length && !(waits.length && view.status !== 'done')) h = '<div class="empty">' + esc(T(all.length ? 'noneHere' : 'noTasksYet')) + '</div>';
+  if (!list.length) h = '<div class="empty">' + esc(T(all.length ? 'noneHere' : 'noTasksYet')) + '</div>';
   var keepY = window.scrollY; document.getElementById('list').innerHTML = h; swipeInit(document.getElementById('list')); window.scrollTo(0, keepY);
 }
 

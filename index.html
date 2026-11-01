@@ -2234,7 +2234,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 .tdDim{opacity:.45;filter:grayscale(1);pointer-events:none;user-select:none;}
 .tdBanner{margin-top:8px;background:#e2e8f0;color:#334155;border-radius:8px;padding:8px 10px;font-size:12px;font-weight:700;}
 .tdNow{background:#eff6ff;border:2px solid #2563eb;border-radius:12px;padding:10px 12px;margin-top:8px;}.tdNowLbl{font-size:10px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:.5px;}.tdNowTxt{font-size:17px;font-weight:700;margin:4px 0 10px;line-height:1.3;}.tdBig{width:100%;background:#16a34a;color:#fff;border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;}
-.tdWait{background:#f1f5f9;}.tdWait .tdDim{opacity:.6;}.tdWaitBn{margin-top:8px;background:#e2e8f0;color:#475569;border-radius:10px;padding:10px 12px;font-weight:700;font-size:13px;}.tdWaitHdr{margin:14px 0 6px;font-size:12px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.5px;}
+.tdWrap{position:relative;}.tdLockLay{position:absolute;left:8%;right:8%;top:50%;transform:translateY(-50%);background:rgba(100,116,139,.82);color:#fff;border-radius:18px;padding:18px 14px;text-align:center;font-weight:800;font-size:20px;line-height:1.25;pointer-events:none;}.tdWait{background:#f1f5f9;}.tdWait .tdDim{opacity:.35;min-height:90px;}.tdWaitBn{margin-top:8px;background:#e2e8f0;color:#475569;border-radius:10px;padding:10px 12px;font-weight:700;font-size:13px;}.tdWaitHdr{margin:14px 0 6px;font-size:12px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.5px;}
 .tdStep.lk{opacity:.55;}.tdStep.lk .tdChk{border-style:dashed;}
 .tdSw{position:relative;height:56px;border-radius:99px;background:linear-gradient(100deg,#1b46a8 0%,#2f63d6 55%,#4f7fe8 100%);border:1px solid rgba(255,255,255,.28);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:pan-y;box-shadow:0 4px 14px rgba(37,99,235,.28),inset 0 1px 0 rgba(255,255,255,.25);}
 .tdSw::after{content:"";position:absolute;top:0;bottom:0;left:0;width:38%;background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.42) 50%,transparent 100%);transform:translateX(-130%) skewX(-18deg);animation:tdSwShine 2.1s ease-in-out infinite;pointer-events:none;}
@@ -26031,7 +26031,7 @@ function tdInst(tpl, key, done, today) {
   /* a step with its own dates also counts: a step that is late (not ticked) makes the task Late, a step ending within the warning days makes it Due soon */
   var sLate = 0, sLateMax = 0, sSoon = 0, sMin = 9999, sMinIx = -1, firstLate = -1, firstAvail = -1, waiting = false, why = '', unlock = '';
   /* a step with a date opens ON that date (its start date for a range) and cannot be completed before */
-  var avail = steps.map(function (st, ix) { var w = tpl.stepDates ? tdStepWin(tpl, key, ix) : null; if (!w) return true; return (w.from || w.to) <= today; });
+  var avail = steps.map(function (st, ix) { var w = tpl.stepDates ? tdStepWin(tpl, key, ix) : null; if (!w) return true; if (dn.open && dn.open[tdStepKey(st)]) return true; return (w.from || w.to) <= today; });
   if (!complete && tpl.stepDates) steps.forEach(function (st, ix) {
     if (s[tdStepKey(st)]) return; if (firstAvail < 0 && avail[ix]) firstAvail = ix;
     var w = tdStepWin(tpl, key, ix); if (w && !avail[ix]) { var us = w.from || w.to; if (!unlock || us < unlock) unlock = us; } if (!w || !avail[ix]) return; var dd = tdDiff(w.to, today);
@@ -26254,7 +26254,8 @@ function tdCardHtml(x) {
         '<div class="tdBar"><div style="width:' + pct + '%;background:' + col + ';"></div></div><div style="font-size:11px;color:#64748b;">' + escapeHtmlText(done ? (x.ticked + ' / ' + x.total) : fillTemplate(t('tdStepOf'), { a: (x.next >= 0 ? x.next + 1 : Math.min(x.ticked + 1, x.total)), b: x.total }))+ '</div>';
     var undo = '<button class="kbBtn grey" style="margin:0;" onclick="tdUndo(\'' + id + '\',\'' + key + '\')">&#8630; ' + escapeHtmlText(t('tdUndo')) + '</button>';
     if (x.waiting) {
-        return '<div class="tdCard tdWait" style="border-left:6px solid #94a3b8;"><div class="tdDim">' + head + '</div><div class="tdWaitBn">&#128274; ' + escapeHtmlText(fillTemplate(t('tdLockedUntil'), { d: tdFmtDM(x.unlock) })) + '</div>' + (x.ticked > 0 ? '<div style="margin-top:6px;">' + undo + '</div>' : '') + '</div>';
+        var headNP = head.replace(/<span class="tdPill"[^>]*>.*?<\/span>/, '');
+        return '<div class="tdCard tdWait" style="border-left:6px solid #94a3b8;"><div class="tdWrap"><div class="tdDim">' + headNP + '</div><div class="tdLockLay"><span>' + escapeHtmlText(fillTemplate(t('tdLockedUntil'), { d: tdFmtDM(x.unlock) })) + '</span></div></div>' + (x.ticked > 0 ? '<div style="margin-top:8px;">' + undo + '</div>' : '') + '</div>';
     }
     if (done) {
         var wake = { monthly: 'tdWakeM', weekly: 'tdWakeW', daily: 'tdWakeD' }[f];
@@ -26292,9 +26293,10 @@ function tdTick(id, key, i, on) {
     if (on && x.avail && x.avail[i] === false) { showToast(false, t('tdStLocked')); return; }
     var after = x.ticked + (on ? 1 : -1);
     ups[base + '/s/' + sk] = on ? { at: Date.now(), by: tdWho() } : null;
+    ups[base + '/open/' + sk] = on ? null : true;
     ups[base + '/doneAt'] = (on && after === x.total) ? Date.now() : null;
     td.done[id] = td.done[id] || {}; var dn = td.done[id][key] = td.done[id][key] || {}; dn.s = dn.s || {};
-    if (on) dn.s[sk] = { at: Date.now(), by: tdWho() }; else delete dn.s[sk];
+    dn.open = dn.open || {}; if (on) { dn.s[sk] = { at: Date.now(), by: tdWho() }; delete dn.open[sk]; } else { delete dn.s[sk]; dn.open[sk] = true; }
     dn.doneAt = ups[base + '/doneAt'] || 0;
     tdRender(); try { kbRefresh(); tdBadge(); } catch (e) {}
     db.ref().update(ups).catch(function (e) { showToast(false, String(e && e.message || e)); });
