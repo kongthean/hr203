@@ -2234,6 +2234,15 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 .tdDim{opacity:.45;filter:grayscale(1);pointer-events:none;user-select:none;}
 .tdBanner{margin-top:8px;background:#e2e8f0;color:#334155;border-radius:8px;padding:8px 10px;font-size:12px;font-weight:700;}
 .tdNow{background:#eff6ff;border:2px solid #2563eb;border-radius:12px;padding:10px 12px;margin-top:8px;}.tdNowLbl{font-size:10px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:.5px;}.tdNowTxt{font-size:17px;font-weight:700;margin:4px 0 10px;line-height:1.3;}.tdBig{width:100%;background:#16a34a;color:#fff;border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;}
+.tdStep.lk{opacity:.55;}.tdStep.lk .tdChk{border-style:dashed;}
+.tdSw{position:relative;height:56px;border-radius:99px;background:linear-gradient(100deg,#1b46a8 0%,#2f63d6 55%,#4f7fe8 100%);border:1px solid rgba(255,255,255,.28);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:pan-y;box-shadow:0 4px 14px rgba(37,99,235,.28),inset 0 1px 0 rgba(255,255,255,.25);}
+.tdSw::after{content:"";position:absolute;top:0;bottom:0;left:0;width:38%;background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.42) 50%,transparent 100%);transform:translateX(-130%) skewX(-18deg);animation:tdSwShine 2.1s ease-in-out infinite;pointer-events:none;}
+@keyframes tdSwShine{0%{transform:translateX(-130%) skewX(-18deg);}70%,100%{transform:translateX(330%) skewX(-18deg);}}
+.tdSwFill{position:absolute;left:0;top:0;bottom:0;width:0;background:rgba(255,255,255,.22);border-radius:99px;}
+.tdSwTxt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:800;font-size:14px;letter-spacing:.6px;color:#fff;text-transform:uppercase;pointer-events:none;text-shadow:0 1px 2px rgba(0,0,0,.25);}
+.tdSwKnob{position:absolute;left:5px;top:5px;width:44px;height:44px;border-radius:50%;background:#fff;color:#2563eb;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:grab;touch-action:none;z-index:2;}
+.tdSw.drag .tdSwKnob{cursor:grabbing;}
+@media (prefers-reduced-motion:reduce){.tdSw::after{animation:none;opacity:0;}}
 .tdHint{font-size:11px;color:#64748b;margin-top:3px;line-height:1.4;}
 .tdSRow{display:flex;gap:8px;align-items:flex-end;margin-bottom:10px;flex-wrap:wrap;padding:8px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;}.tdSRow textarea{flex:1 1 100%;min-width:0;box-sizing:border-box;resize:none;overflow:hidden;min-height:38px;padding:8px 10px;line-height:1.35;}.tdSRow input[type=date]{box-sizing:border-box;}#tdSteps.noDate .tdSD{display:none;}.tdSBtn{flex:none;width:30px;height:38px;border:1px solid #cbd5e1;background:#fff;border-radius:8px;cursor:pointer;font-size:14px;padding:0 !important;min-height:0 !important;}.tdSBtn.del{color:#b91c1c;}
 .tdSDate{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;background:#f1f5f9;color:#475569;margin-right:6px;}.tdSDate.over{background:#fee2e2;color:#b91c1c;}.tdSDate.today{background:#fef3c7;color:#b45309;}.tdSDate.active{background:#dbeafe;color:#1d4ed8;}.tdXRow{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;padding:8px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;position:relative;}.tdXRow input,.tdXRow textarea{width:100%;box-sizing:border-box;}.tdXRow textarea{resize:vertical;min-height:38px;}.tdXTop{display:flex;gap:8px;align-items:stretch;}.tdXTop input{flex:1;min-width:0;width:auto !important;}.tdXDel{flex:0 0 auto;width:44px;border:1px solid #fecaca;background:#fef2f2;border-radius:10px;color:#dc2626;cursor:pointer;padding:0 !important;min-height:0 !important;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;margin:0 !important;}.tdXDel:hover{background:#fee2e2;}
@@ -5157,8 +5166,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStLeft: "{n} day(s) left",
         tdStLast: "last day today",
         tdStepsLate: "{n} step(s) LATE",
-        tdStepEnds: "Step ends in {n} day(s)",
-        tdStepEndsToday: "Step ends today",
+        tdStepEnds: "Step {s} ends in {n} day(s)",
+        tdStepEndsToday: "Step {s} ends today",
+        tdStLocked: "This step opens on its date.",
+        tdSwipe: "Swipe to complete",
         tdAddStep: "Add step",
         tdStepPh: "Step description",
         tdStepLate: "late",
@@ -7500,8 +7511,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStLeft: "នៅសល់ {n} ថ្ងៃ",
         tdStLast: "ថ្ងៃចុងក្រោយថ្ងៃនេះ",
         tdStepsLate: "យឺត {n} ជំហាន",
-        tdStepEnds: "ជំហានបញ្ចប់ក្នុង {n} ថ្ងៃ",
-        tdStepEndsToday: "ជំហានបញ្ចប់ថ្ងៃនេះ",
+        tdStepEnds: "ជំហានទី {s} បញ្ចប់ក្នុង {n} ថ្ងៃ",
+        tdStepEndsToday: "ជំហានទី {s} បញ្ចប់ថ្ងៃនេះ",
+        tdStLocked: "ជំហាននេះនឹងបើកនៅថ្ងៃកំណត់របស់វា។",
+        tdSwipe: "អូសដើម្បីបញ្ចប់",
         tdAddStep: "បន្ថែមជំហាន",
         tdStepPh: "ពិពណ៌នាជំហាន",
         tdStepLate: "យឺត",
@@ -9805,8 +9818,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStLeft: "还剩 {n} 天",
         tdStLast: "今天是最后一天",
         tdStepsLate: "{n} 个步骤已逾期",
-        tdStepEnds: "步骤将在 {n} 天后结束",
-        tdStepEndsToday: "步骤今天结束",
+        tdStepEnds: "第 {s} 步将在 {n} 天后结束",
+        tdStepEndsToday: "第 {s} 步今天结束",
+        tdStLocked: "此步骤将在设定日期开启。",
+        tdSwipe: "滑动完成",
         tdAddStep: "添加步骤",
         tdStepPh: "步骤说明",
         tdStepLate: "逾期",
@@ -26007,13 +26022,19 @@ function tdInst(tpl, key, done, today) {
   else if (days <= lead) status = 'open';
   else status = 'hidden';
   /* a step with its own dates also counts: a step that is late (not ticked) makes the task Late, a step ending within the warning days makes it Due soon */
-  var sLate = 0, sLateMax = 0, sSoon = 0, sMin = 9999, why = '';
+  var sLate = 0, sLateMax = 0, sSoon = 0, sMin = 9999, sMinIx = -1, firstLate = -1, firstAvail = -1, waiting = false, why = '';
+  /* a step with a date opens ON that date (its start date for a range) and cannot be completed before */
+  var avail = steps.map(function (st, ix) { var w = tpl.stepDates ? tdStepWin(tpl, key, ix) : null; if (!w) return true; return (w.from || w.to) <= today; });
   if (!complete && tpl.stepDates) steps.forEach(function (st, ix) {
-    if (s[tdStepKey(st)]) return; var w = tdStepWin(tpl, key, ix); if (!w) return; var dd = tdDiff(w.to, today);
-    if (dd < 0) { sLate++; if (-dd > sLateMax) sLateMax = -dd; } else if (dd <= warn) { sSoon++; if (dd < sMin) sMin = dd; }
+    if (s[tdStepKey(st)]) return; if (firstAvail < 0 && avail[ix]) firstAvail = ix;
+    var w = tdStepWin(tpl, key, ix); if (!w || !avail[ix]) return; var dd = tdDiff(w.to, today);
+    if (dd < 0) { sLate++; if (firstLate < 0) firstLate = ix; if (-dd > sLateMax) sLateMax = -dd; } else if (dd <= warn) { sSoon++; if (dd < sMin) { sMin = dd; sMinIx = ix; } }
   });
+  /* show the step that needs action now: first late step, else the step ending soonest, else the first open step; nothing open yet = the task waits */
+  if (!complete && tpl.stepDates) { if (firstAvail < 0) { next = -1; waiting = true; } else if (firstLate >= 0) next = firstLate; else if (sMinIx >= 0) next = sMinIx; else next = firstAvail; }
   if (!complete && sLate) { status = 'over'; why = 'step'; } else if (!complete && sSoon && (status === 'open' || status === 'hidden')) { status = 'soon'; why = 'step'; }
-  return { id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? steps[next] : '', complete: complete, doneAt: dn.doneAt || 0, s: s, why: why, stepLate: sLate, stepLateMax: sLateMax, stepSoonMin: sMin };
+  if (waiting) { status = 'wait'; why = ''; }
+  return { waiting: waiting, avail: avail, stepSoonIx: sMinIx, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? steps[next] : '', complete: complete, doneAt: dn.doneAt || 0, s: s, why: why, stepLate: sLate, stepLateMax: sLateMax, stepSoonMin: sMin };
 }
 function tdAll(tpls, done, today, nowMs) {
   var out = [];
@@ -26024,6 +26045,7 @@ function tdAll(tpls, done, today, nowMs) {
     tdPeriods(tpl, today).forEach(function (k) {
       var x = tdInst(tpl, k, done, today), isCur = (k === cur);
       if (isNew && k > cur && k !== 'once') return;                 /* a coming month stays hidden until it starts */
+      if (x.status === 'wait') return;
       if (x.status === 'hidden') { if (isCur) x.status = 'open'; else return; }
       if (x.status === 'done' && !isCur && !(k === 'once' && x.doneAt && (nowMs - x.doneAt) < 14 * 86400000)) return;
       x.cur = isCur; out.push(x);
@@ -26127,7 +26149,7 @@ function tdPeriodLabel(x) {
 }
 function tdDueText(x) {
     if (x.status === 'done') return t('tdFinished');
-    if (x.why === 'step') return x.status === 'over' ? fillTemplate(t('tdStepsLate'), { n: x.stepLate }) : (x.stepSoonMin === 0 ? t('tdStepEndsToday') : fillTemplate(t('tdStepEnds'), { n: x.stepSoonMin }));
+    if (x.why === 'step') return x.status === 'over' ? fillTemplate(t('tdStepsLate'), { n: x.stepLate }) : (x.stepSoonMin === 0 ? fillTemplate(t('tdStepEndsToday'), { s: x.stepSoonIx + 1 }) : fillTemplate(t('tdStepEnds'), { s: x.stepSoonIx + 1, n: x.stepSoonMin }));
     if (x.days < 0) return fillTemplate(t('tdOverdueBy'), { n: -x.days });
     if (x.days === 0) return t('tdDueToday');
     return fillTemplate(t('tdDueIn'), { n: x.days });
@@ -26200,7 +26222,7 @@ function tdRender() {
         h = '<div style="font-size:11px;color:#64748b;margin-bottom:8px;">' + escapeHtmlText(t('tdHelp')) + '</div>' + shown.map(tdCardHtml).join('');
         if (!shown.length) h = '<p style="text-align:center;color:#94a3b8;padding:18px;">' + escapeHtmlText(t(all.length ? 'tdNoneHere' : 'tdNoTplYet')) + '</p>';
     }
-    var body = document.getElementById('tdBody'), keep = body.scrollTop; body.innerHTML = h; body.scrollTop = keep;
+    var body = document.getElementById('tdBody'), keep = body.scrollTop; body.innerHTML = h; body.scrollTop = keep; try { tdSwipeInit(body); } catch (e) {};
 }
 function tdCardHtml(x) {
     var id = escapeHtmlText(x.id), key = escapeHtmlText(x.key), steps = x.tpl.steps || [], done = x.status === 'done', p = x.tpl, f = p.freq || 'monthly', ck = x.id + '|' + x.key, all = !!td.open[ck];
@@ -26218,21 +26240,34 @@ function tdCardHtml(x) {
     if (p._owner && p._owner !== td.me) meta += '<div class="tdMeta">&#128100; ' + escapeHtmlText(fillTemplate(t('tdSharedBy'), { n: tdOwnerName(p._owner) })) + '</div>';
     else if (p.shareWith && Object.keys(p.shareWith).length) meta += '<div class="tdMeta">&#128101; ' + escapeHtmlText(fillTemplate(t('tdSharedWith'), { n: Object.keys(p.shareWith).map(tdOwnerName).join(', ') })) + '</div>';
     var head = '<div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start;"><b style="font-size:15px;white-space:pre-line;">' + escapeHtmlText(p.title || '') + '</b><span class="tdPill" style="background:' + col + ';">' + escapeHtmlText(tdDueText(x)) + '</span></div>' + meta + tdXBoxHtml(p) +
-        '<div class="tdBar"><div style="width:' + pct + '%;background:' + col + ';"></div></div><div style="font-size:11px;color:#64748b;">' + escapeHtmlText(done ? (x.ticked + ' / ' + x.total) : fillTemplate(t('tdStepOf'), { a: Math.min(x.ticked + 1, x.total), b: x.total }))+ '</div>';
+        '<div class="tdBar"><div style="width:' + pct + '%;background:' + col + ';"></div></div><div style="font-size:11px;color:#64748b;">' + escapeHtmlText(done ? (x.ticked + ' / ' + x.total) : fillTemplate(t('tdStepOf'), { a: (x.next >= 0 ? x.next + 1 : Math.min(x.ticked + 1, x.total)), b: x.total }))+ '</div>';
     var undo = '<button class="kbBtn grey" style="margin:0;" onclick="tdUndo(\'' + id + '\',\'' + key + '\')">&#8630; ' + escapeHtmlText(t('tdUndo')) + '</button>';
     if (done) {
         var wake = { monthly: 'tdWakeM', weekly: 'tdWakeW', daily: 'tdWakeD' }[f];
         return '<div class="tdCard tdDone"><div class="tdDim">' + head + '</div><div class="tdBanner">&#10003; ' + escapeHtmlText(t('tdAllFin')) + (wake ? ' ' + escapeHtmlText(t(wake)) : '') + '</div><div style="margin-top:6px;">' + undo + '</div></div>';
     }
-    var cur = '<div class="tdNow"><div class="tdNowLbl">' + escapeHtmlText(t('tdNowDo')) + '</div><div class="tdNowTxt">' + '<span style="white-space:pre-wrap;">' + escapeHtmlText(x.nextText) + '</span>' + '<div style="margin-top:5px;">' + tdStepDateHtml(p, x.key, x.next, false) + '</div>' + '</div>' +
-        '<button class="tdBig" onclick="tdTick(\'' + id + '\',\'' + key + '\',' + x.next + ',true)">&#10003; ' + escapeHtmlText(t('tdMarkFin')) + '</button></div>';
+    var cur = '<div class="tdNow"><div class="tdNowLbl">' + escapeHtmlText(t('tdNowDo')) + ' &#183; ' + (x.next + 1) + '/' + x.total + '</div><div class="tdNowTxt">' + '<span style="white-space:pre-wrap;">' + escapeHtmlText(x.nextText) + '</span>' + '<div style="margin-top:5px;">' + tdStepDateHtml(p, x.key, x.next, false) + '</div>' + '</div>' +
+        '<div class="tdSw" role="button" tabindex="0" data-id="' + id + '" data-key="' + key + '" data-i="' + x.next + '"><div class="tdSwFill"></div><div class="tdSwTxt">' + escapeHtmlText(t('tdSwipe')) + '</div><div class="tdSwKnob"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div></div></div>';
     var list = '';
     if (all) list = '<div style="margin-top:8px;">' + steps.map(function (st, i) {
-        var d = x.s[tdStepKey(st)];
-        return '<div class="tdStep' + (d ? ' on' : '') + (i === x.next ? ' nx' : '') + '" onclick="tdTick(\'' + id + '\',\'' + key + '\',' + i + ',' + (d ? 'false' : 'true') + ')"><span class="tdChk">' + (d ? '&#10003;' : '') + '</span><span style="flex:1;white-space:pre-wrap;">' + escapeHtmlText(st) + '<div style="margin-top:5px;">' + tdStepDateHtml(p, x.key, i, !!d) + '</div>' + '</span>' + (d ? '<span style="font-size:10px;color:#64748b;text-align:right;">' + escapeHtmlText((d.by || '') + ' ' + (d.at ? tdStamp(d.at) : '')) + '</span>' : '') + '</div>';
+        var d = x.s[tdStepKey(st)], lk = !d && x.avail && x.avail[i] === false;
+        return '<div class="tdStep' + (d ? ' on' : '') + (i === x.next ? ' nx' : '') + (lk ? ' lk' : '') + '" onclick="tdTick(\'' + id + '\',\'' + key + '\',' + i + ',' + (d ? 'false' : 'true') + ')"><span class="tdChk">' + (d ? '&#10003;' : '') + '</span><span style="flex:1;white-space:pre-wrap;">' + escapeHtmlText(st) + '<div style="margin-top:5px;">' + tdStepDateHtml(p, x.key, i, !!d) + '</div>' + '</span>' + (d ? '<span style="font-size:10px;color:#64748b;text-align:right;">' + escapeHtmlText((d.by || '') + ' ' + (d.at ? tdStamp(d.at) : '')) + '</span>' : '') + '</div>';
     }).join('') + (p.note ? '<div class="tdMeta" style="font-style:italic;">' + escapeHtmlText(p.note) + '</div>' : '') + '</div>';
     return '<div class="tdCard" style="border-left:6px solid ' + col + ';">' + head + cur + '<div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">' + undo +
         '<button class="kbBtn navy" style="margin:0;" onclick="tdToggle(\'' + ck.replace(/'/g, '') + '\')">' + escapeHtmlText(t(all ? 'tdHideSteps' : 'tdAllSteps')) + '</button></div>' + list + '</div>';
+}
+function tdSwipeInit(root) {
+    (root || document).querySelectorAll('.tdSw:not([data-ready])').forEach(function (sw) {
+        sw.setAttribute('data-ready', '1');
+        var knob = sw.querySelector('.tdSwKnob'), fill = sw.querySelector('.tdSwFill'), txt = sw.querySelector('.tdSwTxt'), startX = 0, x = 0, max = 0, on = false, fired = false;
+        function setX(v) { x = Math.max(0, Math.min(max, v)); knob.style.transform = 'translateX(' + x + 'px)'; fill.style.width = (x + 47) + 'px'; txt.style.opacity = String(Math.max(0, 1 - x / (max * 0.6 || 1))); }
+        function fire() { if (fired) return; fired = true; setX(max); try { if (navigator.vibrate) navigator.vibrate(30); } catch (e) {} setTimeout(function () { tdTick(sw.getAttribute('data-id'), sw.getAttribute('data-key'), +sw.getAttribute('data-i'), true); }, 160); }
+        knob.addEventListener('pointerdown', function (e) { if (fired) return; max = sw.clientWidth - knob.offsetWidth - 10; on = true; startX = e.clientX - x; sw.classList.add('drag'); knob.style.transition = 'none'; fill.style.transition = 'none'; try { knob.setPointerCapture(e.pointerId); } catch (er) {} e.preventDefault(); });
+        knob.addEventListener('pointermove', function (e) { if (!on) return; setX(e.clientX - startX); });
+        function end() { if (!on) return; on = false; sw.classList.remove('drag'); if (x >= max * 0.85) fire(); else { knob.style.transition = 'transform .25s'; fill.style.transition = 'width .25s'; txt.style.opacity = '1'; setX(0); } }
+        knob.addEventListener('pointerup', end); knob.addEventListener('pointercancel', end);
+        sw.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); max = sw.clientWidth - knob.offsetWidth - 10; knob.style.transition = 'transform .3s'; fill.style.transition = 'width .3s'; fire(); } });
+    });
 }
 function tdToggle(ck) { td.open[ck] = !td.open[ck]; tdRender(); }
 function tdStamp(ms) { var d = new Date(ms + 7 * 3600000); return tdPad(d.getUTCDate()) + '/' + tdPad(d.getUTCMonth() + 1) + ' ' + tdPad(d.getUTCHours()) + ':' + tdPad(d.getUTCMinutes()); }
@@ -26240,6 +26275,7 @@ function tdTick(id, key, i, on) {
     var tpl = td.tpl[id]; if (!tpl) return;
     var sk = tdStepKey(tpl.steps[i]), x = tdInst(Object.assign({}, tpl, { id: id }), key, td.done, kbToday()), base = tdPath(id, 'done') + '/' + key, ups = {};
     var was = !!x.s[sk]; if (on === was) return;
+    if (on && x.avail && x.avail[i] === false) { showToast(false, t('tdStLocked')); return; }
     var after = x.ticked + (on ? 1 : -1);
     ups[base + '/s/' + sk] = on ? { at: Date.now(), by: tdWho() } : null;
     ups[base + '/doneAt'] = (on && after === x.total) ? Date.now() : null;
@@ -26446,6 +26482,7 @@ function tdStepDateHtml(tpl, key, i, ticked) {
         if (dTo < 0) { cls = ' over'; extra = fillTemplate(t('tdStLate'), { n: -dTo }); }
         else if (w.from && today < w.from) { extra = fillTemplate(t('tdStStarts'), { n: tdDiff(w.from, today) }); }
         else if (dTo === 0) { cls = ' today'; extra = t('tdStLast'); }
+        else if (!w.from && dTo > 0) { extra = fillTemplate(t('tdStStarts'), { n: dTo }); }
         else if (w.from) { cls = ' active'; extra = fillTemplate(t('tdStLeft'), { n: dTo }); }
     }
     return '<span class="tdSDate' + cls + '">&#128197; ' + (w.from ? escapeHtmlText(fm(w.from)) + ' &rarr; ' + escapeHtmlText(fm(w.to)) : escapeHtmlText(fm(w.to))) + (extra ? ' &#183; ' + escapeHtmlText(extra) : '') + '</span>';
