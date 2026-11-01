@@ -2245,7 +2245,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 .tdSRow{display:flex;gap:8px;align-items:flex-end;margin-bottom:10px;flex-wrap:wrap;padding:8px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;}.tdSRow textarea{flex:1 1 100%;min-width:0;box-sizing:border-box;resize:none;overflow:hidden;min-height:38px;padding:8px 10px;line-height:1.35;}.tdSRow input[type=date]{box-sizing:border-box;}#tdSteps.noDate .tdSD{display:none;}.tdSBtn{flex:none;width:30px;height:38px;border:1px solid #cbd5e1;background:#fff;border-radius:8px;cursor:pointer;font-size:14px;padding:0 !important;min-height:0 !important;}.tdSBtn.del{color:#b91c1c;}
 .tdSDate{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;background:#f1f5f9;color:#475569;margin-right:6px;}.tdSDate.over{background:#fee2e2;color:#b91c1c;}.tdSDate.today{background:#fef3c7;color:#b45309;}.tdSDate.active{background:#dbeafe;color:#1d4ed8;}.tdXRow{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;padding:8px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;position:relative;}.tdXRow input,.tdXRow textarea{width:100%;box-sizing:border-box;}.tdXRow textarea{resize:vertical;min-height:38px;}.tdXTop{display:flex;gap:8px;align-items:stretch;}.tdXTop input{flex:1;min-width:0;width:auto !important;}.tdXDel{flex:0 0 auto;width:44px;border:1px solid #fecaca;background:#fef2f2;border-radius:10px;color:#dc2626;cursor:pointer;padding:0 !important;min-height:0 !important;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;margin:0 !important;}.tdXDel:hover{background:#fee2e2;}
 .tdXBox{margin-top:8px;border:1px solid #fde68a;background:#fffbeb;border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.45;}.tdXBox div+div{margin-top:6px;}.tdXBox small{display:block;white-space:pre-wrap;color:#78350f;}
-.tdSD{display:flex;flex-direction:column;flex:1 1 150px;max-width:210px;}.tdSD select{width:100%;box-sizing:border-box;padding:8px 6px;}.tdSNote{flex:1 1 100%;font-size:12px;font-weight:700;line-height:1.35;border-radius:8px;padding:6px 9px;}.tdSNote:empty{display:none;}.tdSNote.r{background:#fef2f2;color:#b91c1c;}.tdSNote.g{background:#f0fdf4;color:#15803d;}.tdSNote.a{background:#fffbeb;color:#b45309;}.tdSNote.n{background:#f1f5f9;color:#475569;}#tdSteps.noDate .tdSNote{display:none;}
+.tdSD{display:flex;flex-direction:column;flex:1 1 150px;max-width:210px;}.tdSD select{width:100%;box-sizing:border-box;padding:8px 6px;}.tdSWaitL{flex:1 1 100%;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#334155;}.tdSWaitL input{width:20px;height:20px;margin:0;flex:none;}.tdSNote{flex:1 1 100%;font-size:12px;font-weight:700;line-height:1.35;border-radius:8px;padding:6px 9px;}.tdSNote:empty{display:none;}.tdSNote.r{background:#fef2f2;color:#b91c1c;}.tdSNote.g{background:#f0fdf4;color:#15803d;}.tdSNote.a{background:#fffbeb;color:#b45309;}.tdSNote.n{background:#f1f5f9;color:#475569;}#tdSteps.noDate .tdSNote{display:none;}
 .tdSTx{position:relative;flex:1 1 100%;min-width:0;}.tdSTx textarea{width:100%;padding-right:44px !important;}
 .tdSPick{position:absolute;right:5px;top:5px;width:32px;height:30px;border:1px solid #cbd5e1;background:#f1f5f9;border-radius:8px;cursor:pointer;font-size:13px;color:#334155;padding:0 !important;min-height:0 !important;}
 .tdPhPop{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;background:#fff;border:1px solid #cbd5e1;border-radius:12px;box-shadow:0 10px 30px rgba(15,23,42,.22);padding:8px;max-height:320px;overflow:auto;}
@@ -5175,6 +5175,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdCanFrom: "Only from a date",
         tdOpensOn: "Opens on",
         tdAllAny: "Set all steps to Any time",
+        tdWaitLbl: "Wait for the steps above",
+        tdWaitsFor: "Waits for step {n}",
+        tdNoteWait: "Waits until all the steps above are done. Then you can swipe it.",
+        tdNoteWaitFirst: "This is the first step, so there is nothing above it to wait for.",
         tdTagHint: "Tap a tag. It becomes the real month, for example {next month num} shows 12/2026 and {next month km} shows ខែ 12 ឆ្នាំ 2026.",
         tdDayN: "day {n} of the month",
         tdNoteLockFT: "Opens on {f}. You cannot swipe it before then. It turns late after {t}.",
@@ -7546,6 +7550,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdCanFrom: "ចាប់ពីកាលបរិច្ឆេទ",
         tdOpensOn: "បើកនៅថ្ងៃ",
         tdAllAny: "កំណត់គ្រប់ជំហានជា «គ្រប់ពេល»",
+        tdWaitLbl: "រង់ចាំជំហានខាងលើ",
+        tdWaitsFor: "រង់ចាំជំហានទី {n}",
+        tdNoteWait: "រង់ចាំរហូតដល់ជំហានខាងលើបញ្ចប់ទាំងអស់ ទើបអូសបាន។",
+        tdNoteWaitFirst: "នេះជាជំហានដំបូង មិនមានអ្វីត្រូវរង់ចាំទេ។",
         tdTagHint: "ចុចស្លាក វាប្តូរជាឈ្មោះខែពិត ឧ. {next month} បង្ហាញ ធ្នូ 2026។",
         tdDayN: "ថ្ងៃទី {n} នៃខែ",
         tdNoteLockFT: "ចាក់សោរហូតដល់ {f}។ មិនអាចអូសមុននេះទេ។ បើក {f} ដល់ {t}។",
@@ -9879,6 +9887,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdCanFrom: "从某日起",
         tdOpensOn: "开放日期",
         tdAllAny: "将所有步骤设为“随时”",
+        tdWaitLbl: "等待上面的步骤",
+        tdWaitsFor: "等待第 {n} 步",
+        tdNoteWait: "需等上面的步骤全部完成后才能滑动。",
+        tdNoteWaitFirst: "这是第一步，上面没有需要等待的步骤。",
         tdTagHint: "点选标签，会自动变成真实月份，例如 {next month} 显示 2026年12月。",
         tdDayN: "每月 {n} 号",
         tdNoteLockFT: "锁定至 {f}，之前无法滑动完成。开放时间 {f} 至 {t}。",
@@ -26143,16 +26155,17 @@ function tdInst(tpl, key, done, today) {
   var sLate = 0, sLateMax = 0, sSoon = 0, sMin = 9999, sMinIx = -1, firstLate = -1, firstAvail = -1, waiting = false, why = '', unlock = '';
   /* a step with a date opens ON that date (its start date for a range) and cannot be completed before */
   var avail = steps.map(function (st, ix) { var w = tpl.stepDates ? tdStepWin(tpl, key, ix) : null; if (!w) return true; if (dn.open && dn.open[tdStepKey(st)]) return true; if (tpl.stepEarly && tpl.stepEarly[ix]) return true; return (w.from || w.to) <= today; });
-  if (!complete && tpl.stepDates) steps.forEach(function (st, ix) {
+  var wb = [], wf = []; if (tpl.stepWait) steps.forEach(function (st, ix) { if (!tpl.stepWait[ix]) return; for (var j = 0; j < ix; j++) { if (!s[tdStepKey(steps[j])]) { avail[ix] = false; wb[ix] = true; wf[ix] = j; break; } } });
+  if (!complete && (tpl.stepDates || tpl.stepWait)) steps.forEach(function (st, ix) {
     if (s[tdStepKey(st)]) return; if (firstAvail < 0 && avail[ix]) firstAvail = ix;
-    var w = tdStepWin(tpl, key, ix); if (w && !avail[ix]) { var us = w.from || w.to; if (!unlock || us < unlock) unlock = us; } if (!w || !avail[ix]) return; var dd = tdDiff(w.to, today);
+    var w = tdStepWin(tpl, key, ix); if (w && !avail[ix] && !wb[ix]) { var us = w.from || w.to; if (!unlock || us < unlock) unlock = us; } if (!w || !avail[ix]) return; var dd = tdDiff(w.to, today);
     if (dd < 0) { sLate++; if (firstLate < 0) firstLate = ix; if (-dd > sLateMax) sLateMax = -dd; } else if (dd <= warn) { sSoon++; if (dd < sMin) { sMin = dd; sMinIx = ix; } }
   });
   /* show the step that needs action now: first late step, else the step ending soonest, else the first open step; nothing open yet = the task waits */
-  if (!complete && tpl.stepDates) { if (firstAvail < 0) { next = -1; waiting = true; } else if (firstLate >= 0) next = firstLate; else if (sMinIx >= 0) next = sMinIx; else next = firstAvail; }
+  if (!complete && (tpl.stepDates || tpl.stepWait)) { if (firstAvail < 0) { next = -1; waiting = true; } else if (firstLate >= 0) next = firstLate; else if (sMinIx >= 0) next = sMinIx; else next = firstAvail; }
   if (!complete && sLate) { status = 'over'; why = 'step'; } else if (!complete && sSoon && (status === 'open' || status === 'hidden')) { status = 'soon'; why = 'step'; }
   if (waiting) { status = 'wait'; why = ''; }
-  return { unlock: unlock, waiting: waiting, avail: avail, stepSoonIx: sMinIx, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? tdTxt(steps[next], key) : '', complete: complete, doneAt: dn.doneAt || 0, s: s, why: why, stepLate: sLate, stepLateMax: sLateMax, stepSoonMin: sMin };
+  return { unlock: unlock, waiting: waiting, avail: avail, waitFor: wf, stepSoonIx: sMinIx, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? tdTxt(steps[next], key) : '', complete: complete, doneAt: dn.doneAt || 0, s: s, why: why, stepLate: sLate, stepLateMax: sLateMax, stepSoonMin: sMin };
 }
 function tdAll(tpls, done, today, nowMs) {
   var out = []; tdAll.wait = [];
@@ -26184,7 +26197,7 @@ function tdSplit(cid) { var i = cid.indexOf('~'); return { owner: cid.slice(0, i
 function tdPath(cid, kind) { var q = tdSplit(cid); return 'todo/' + q.owner + '/' + kind + '/' + q.id; }
 function tdRole() { return sessionStorage.getItem('loggedInRole') || ''; }
 function tdWantsIt() { return sessionStorage.getItem('isLoggedIn') === 'true' && (tdRole() === 'admin' || tdRole() === 'hr'); }
-function tdNorm(p) { p = p || {}; p.steps = Array.isArray(p.steps) ? p.steps : Object.keys(p.steps || {}).map(function (q) { return p.steps[q]; }); if (p.extra && !Array.isArray(p.extra)) p.extra = Object.keys(p.extra).sort(function (a, b) { return a - b; }).map(function (q) { return p.extra[q]; }); ['stepDates', 'stepFrom', 'stepEarly'].forEach(function (k) { if (p[k]) p[k] = Array.isArray(p[k]) ? p[k] : (function (ob) { var n = 0, r = [], i; Object.keys(ob).forEach(function (q) { n = Math.max(n, (+q || 0) + 1); }); for (i = 0; i < n; i++) r.push(ob[i] === undefined ? '' : ob[i]); return r; })(p[k]); }); return p; }
+function tdNorm(p) { p = p || {}; p.steps = Array.isArray(p.steps) ? p.steps : Object.keys(p.steps || {}).map(function (q) { return p.steps[q]; }); if (p.extra && !Array.isArray(p.extra)) p.extra = Object.keys(p.extra).sort(function (a, b) { return a - b; }).map(function (q) { return p.extra[q]; }); ['stepDates', 'stepFrom', 'stepEarly', 'stepWait'].forEach(function (k) { if (p[k]) p[k] = Array.isArray(p[k]) ? p[k] : (function (ob) { var n = 0, r = [], i; Object.keys(ob).forEach(function (q) { n = Math.max(n, (+q || 0) + 1); }); for (i = 0; i < n; i++) r.push(ob[i] === undefined ? '' : ob[i]); return r; })(p[k]); }); return p; }
 function tdResolveMe(cb) {
     var fb = tdSan(sessionStorage.getItem('loggedInAccountUsername') || sessionStorage.getItem('loggedInAccountName') || 'admin');
     if (td.me) { cb(); return; }
@@ -26388,7 +26401,7 @@ function tdCardHtml(x) {
     var list = '';
     if (all) list = '<div style="margin-top:8px;">' + steps.map(function (st, i) {
         var d = x.s[tdStepKey(st)], lk = !d && x.avail && x.avail[i] === false;
-        return '<div class="tdStep' + (d ? ' on' : '') + (i === x.next ? ' nx' : '') + (lk ? ' lk' : '') + '" onclick="tdTick(\'' + id + '\',\'' + key + '\',' + i + ',' + (d ? 'false' : 'true') + ')"><span class="tdChk">' + (d ? '&#10003;' : '') + '</span><span style="flex:1;white-space:pre-wrap;">' + escapeHtmlText(tdTxt(st, x.key)) + '<div style="margin-top:5px;">' + tdStepDateHtml(p, x.key, i, !!d) + '</div>' + '</span>' + (d ? '<span style="font-size:10px;color:#64748b;text-align:right;">' + escapeHtmlText((d.by || '') + ' ' + (d.at ? tdStamp(d.at) : '')) + '</span>' : '') + '</div>';
+        return '<div class="tdStep' + (d ? ' on' : '') + (i === x.next ? ' nx' : '') + (lk ? ' lk' : '') + '" onclick="tdTick(\'' + id + '\',\'' + key + '\',' + i + ',' + (d ? 'false' : 'true') + ')"><span class="tdChk">' + (d ? '&#10003;' : '') + '</span><span style="flex:1;white-space:pre-wrap;">' + escapeHtmlText(tdTxt(st, x.key)) + '<div style="margin-top:5px;">' + tdStepDateHtml(p, x.key, i, !!d) + '</div>' + (lk && x.waitFor && x.waitFor[i] !== undefined ? '<div style="margin-top:4px;font-size:11px;font-weight:700;color:#b45309;">' + escapeHtmlText(fillTemplate(t('tdWaitsFor'), { n: x.waitFor[i] + 1 })) + '</div>' : '') + '</span>' + (d ? '<span style="font-size:10px;color:#64748b;text-align:right;">' + escapeHtmlText((d.by || '') + ' ' + (d.at ? tdStamp(d.at) : '')) + '</span>' : '') + '</div>';
     }).join('') + '</div>';
     return '<div class="tdCard" style="border-left:6px solid ' + col + ';">' + head + cur + '<div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">' + undo +
         '<button class="kbBtn navy" style="margin:0;" onclick="tdToggle(\'' + ck.replace(/'/g, '') + '\')">' + escapeHtmlText(t(all ? 'tdHideSteps' : 'tdAllSteps')) + '</button></div>' + list + '</div>';
@@ -26512,7 +26525,7 @@ function tdEdit(id) {
     var df = p.docsFor !== undefined ? parseInt(p.docsFor, 10) : -(parseInt(p.dueOffset, 10) || 0); g('tdE_docs').value = String(df || 0);
     g('tdE_warn').value = p.warn === undefined ? '' : p.warn;
     g('tdE_start').value = p.startFrom || ''; g('tdE_dueDate').value = p.dueDate || '';
-    tdStepRows(p.steps || [], p.stepDates || [], p.stepFrom || [], p.stepEarly || []); tdExtraRows(p.extra || []); tdStepGrow(g('tdE_note')); g('tdE_active').checked = p.active !== false;
+    tdStepRows(p.steps || [], p.stepDates || [], p.stepFrom || [], p.stepEarly || [], p.stepWait || []); tdExtraRows(p.extra || []); tdStepGrow(g('tdE_note')); g('tdE_active').checked = p.active !== false;
     td.shareSel = Object.assign({}, p.shareWith || {}); td.shareOld = Object.assign({}, p.shareWith || {}); tdShareFill();
     document.getElementById('tdTypeBox').style.display = 'none'; tdTypeFill(p.type || '');
     g('tdDelBtn').style.display = id ? '' : 'none'; g('tdDelBtn').innerText = t('tdDelete'); g('tdCopyBtn').style.display = id ? '' : 'none';
@@ -26582,6 +26595,7 @@ function tdStepNotes() {
         var html = '<div class="' + cls + '" style="margin:0;">' + escapeHtmlText(msg[0]) + '</div>';
         var extra = [];
         if (sw) extra.push(['r', t('tdNoteSwap')]);
+        var wk = r.querySelector('.tdSWait'); if (wk && wk.checked) extra.push(['a', t(rows[0] === r ? 'tdNoteWaitFirst' : 'tdNoteWait')]);
         var op = a || b;
         if (op && prev && op < prev && f !== 'daily') extra.push(['a', t('tdNoteBefore')]);
         if (op && (f === 'once' || f === 'weekly') && (a || b)) { var m0 = (a || b).slice(0, 7), m1 = b.slice(0, 7); if (a && a.slice(0, 7) !== m1) extra.push(['a', t('tdNoteMonth')]); }
@@ -26592,13 +26606,13 @@ function tdStepNotes() {
 }
 document.addEventListener('input', function (ev) { if (ev.target && ev.target.closest && ev.target.closest('#tdSteps')) tdStepNotes(); });
 document.addEventListener('change', function (ev) { if (ev.target && ev.target.closest && (ev.target.closest('#tdSteps') || ev.target.id === 'tdE_freq')) tdStepNotes(); });
-function tdStepRowHtml(txt, dt, fr, early) {
-    return '<div class="tdSRow"><div class="tdSTx"><textarea rows="1" oninput="tdStepGrow(this)" data-i18n-ph="tdStepPh" placeholder="' + escapeHtmlText(t('tdStepPh')) + '">' + escapeHtmlText(txt || '') + '</textarea><button type="button" class="tdSPick" title="' + escapeHtmlText(t('tdSnPick')) + '" onclick="tdPhOpen(this)">&#9660;</button></div><label class="tdSD"><small>' + escapeHtmlText(t('tdDeadlineLbl')) + '</small><input type="date" class="tdSTo" value="' + escapeHtmlText(dt || '') + '"></label><label class="tdSD"><small>' + escapeHtmlText(t('tdCanLbl')) + '</small><select class="tdSOpen"><option value="1"' + (early ? ' selected' : '') + '>' + escapeHtmlText(t('tdCanAny')) + '</option><option value=""' + (early ? '' : ' selected') + '>' + escapeHtmlText(t('tdCanFrom')) + '</option></select></label><label class="tdSD tdSFromBox"><small>' + escapeHtmlText(t('tdOpensOn')) + '</small><input type="date" class="tdSFrom" value="' + escapeHtmlText(fr || '') + '"></label><div class="tdSNote"></div>' +
+function tdStepRowHtml(txt, dt, fr, early, wait) {
+    return '<div class="tdSRow"><div class="tdSTx"><textarea rows="1" oninput="tdStepGrow(this)" data-i18n-ph="tdStepPh" placeholder="' + escapeHtmlText(t('tdStepPh')) + '">' + escapeHtmlText(txt || '') + '</textarea><button type="button" class="tdSPick" title="' + escapeHtmlText(t('tdSnPick')) + '" onclick="tdPhOpen(this)">&#9660;</button></div><label class="tdSD"><small>' + escapeHtmlText(t('tdDeadlineLbl')) + '</small><input type="date" class="tdSTo" value="' + escapeHtmlText(dt || '') + '"></label><label class="tdSD"><small>' + escapeHtmlText(t('tdCanLbl')) + '</small><select class="tdSOpen"><option value="1"' + (early ? ' selected' : '') + '>' + escapeHtmlText(t('tdCanAny')) + '</option><option value=""' + (early ? '' : ' selected') + '>' + escapeHtmlText(t('tdCanFrom')) + '</option></select></label><label class="tdSD tdSFromBox"><small>' + escapeHtmlText(t('tdOpensOn')) + '</small><input type="date" class="tdSFrom" value="' + escapeHtmlText(fr || '') + '"></label><label class="tdSWaitL"><input type="checkbox" class="tdSWait"' + (wait ? ' checked' : '') + '> ' + escapeHtmlText(t('tdWaitLbl')) + '</label><div class="tdSNote"></div>' +
         '<button type="button" class="tdSBtn" onclick="tdStepMove(this,-1)">&#9650;</button><button type="button" class="tdSBtn" onclick="tdStepMove(this,1)">&#9660;</button><button type="button" class="tdSBtn del" onclick="tdStepDel(this)">&times;</button></div>';
 }
-function tdStepRows(steps, dates, froms, earlies) {
+function tdStepRows(steps, dates, froms, earlies, waits) {
     var box = document.getElementById('tdSteps'); steps = steps && steps.length ? steps : ['', '', ''];
-    box.innerHTML = steps.map(function (x, i) { return tdStepRowHtml(x, (dates || [])[i] || '', (froms || [])[i] || '', ((dates || [])[i] || (froms || [])[i]) ? (earlies || [])[i] : 1); }).join('');
+    box.innerHTML = steps.map(function (x, i) { return tdStepRowHtml(x, (dates || [])[i] || '', (froms || [])[i] || '', ((dates || [])[i] || (froms || [])[i]) ? (earlies || [])[i] : 1, (waits || [])[i]); }).join('');
     box.querySelectorAll('textarea').forEach(tdStepGrow); tdStepNotes();
 }
 /* saved sentences: one list per account (todo/<account>/phrases), used to fill a step with one click */
@@ -26629,10 +26643,10 @@ function tdPhSaveEdit() { var k = tdPhEditK, v = (document.getElementById('tdPhE
 async function tdPhDel(k) { if (!(await cfAsk(t('tdPhDelAsk'), t('cfDelete')))) return; db.ref('todo/' + td.me + '/phrases/' + k).remove().catch(function (e) { showToast(false, String(e && e.message || e)); }); }
 document.addEventListener('mousedown', function (e) { if (tdPhBox && !tdPhBox.contains(e.target)) tdPhClose(); }, true);
 function tdAllAny() { document.querySelectorAll('#tdSteps .tdSOpen').forEach(function (x) { x.value = '1'; }); tdStepNotes(); showToast(true); }
-function tdStepAdd() { var box = document.getElementById('tdSteps'); box.insertAdjacentHTML('beforeend', tdStepRowHtml('', '', '', 1)); tdStepNotes(); var ta = box.lastElementChild.querySelector('textarea'); tdStepGrow(ta); ta.focus(); }
+function tdStepAdd() { var box = document.getElementById('tdSteps'); box.insertAdjacentHTML('beforeend', tdStepRowHtml('', '', '', 1, 0)); tdStepNotes(); var ta = box.lastElementChild.querySelector('textarea'); tdStepGrow(ta); ta.focus(); }
 function tdStepDel(b) { var r = b.parentNode; r.parentNode.removeChild(r); }
 function tdStepMove(b, d) { var r = b.parentNode, o = d < 0 ? r.previousElementSibling : r.nextElementSibling; if (!o) return; if (d < 0) r.parentNode.insertBefore(r, o); else r.parentNode.insertBefore(o, r); }
-function tdStepsRead() { var st = [], dt = [], fr = [], er = []; document.querySelectorAll('#tdSteps .tdSRow').forEach(function (r) { var x = r.querySelector('textarea').value.trim(); if (!x) return; var anyT = !!r.querySelector('.tdSOpen').value, a = anyT ? '' : (r.querySelector('.tdSFrom').value || ''), b = r.querySelector('.tdSTo').value || ''; if (a && b && a > b) { var z = a; a = b; b = z; } if (a && !b) { b = a; a = ''; } st.push(x); dt.push(b); fr.push(a); er.push(r.querySelector('.tdSOpen').value ? 1 : 0); }); return { steps: st, dates: dt, froms: fr, earlies: er }; }
+function tdStepsRead() { var st = [], dt = [], fr = [], er = [], wr = []; document.querySelectorAll('#tdSteps .tdSRow').forEach(function (r) { var x = r.querySelector('textarea').value.trim(); if (!x) return; var anyT = !!r.querySelector('.tdSOpen').value, a = anyT ? '' : (r.querySelector('.tdSFrom').value || ''), b = r.querySelector('.tdSTo').value || ''; if (a && b && a > b) { var z = a; a = b; b = z; } if (a && !b) { b = a; a = ''; } st.push(x); dt.push(b); fr.push(a); er.push(r.querySelector('.tdSOpen').value ? 1 : 0); wr.push(r.querySelector('.tdSWait').checked ? 1 : 0); }); return { steps: st, dates: dt, froms: fr, earlies: er, waits: wr }; }
 /* a step can have a FROM and a TO date. monthly = those DAYS in the month, weekly = those weekdays, once = exact dates */
 function tdStepWin(tpl, key, i) {
     var to = tpl.stepDates && tpl.stepDates[i], fr = tpl.stepFrom && tpl.stepFrom[i];
@@ -26666,8 +26680,8 @@ function tdStepDateHtml(tpl, key, i, ticked) {
 }
 function tdSave() {
     var g = function (k) { return document.getElementById(k).value; }, title = g('tdE_title').trim(), seen = {}, steps = [];
-    var rd = tdStepsRead(), sdates = [], sfrom = [], searly = [];
-    rd.steps.forEach(function (x, ix) { var base = x, n = 2; while (seen[tdStepKey(x)]) x = '(' + (n++) + ') ' + base; seen[tdStepKey(x)] = 1; steps.push(x); sdates.push(rd.dates[ix] || ''); sfrom.push(rd.froms[ix] || ''); searly.push(rd.earlies[ix] || 0); });
+    var rd = tdStepsRead(), sdates = [], sfrom = [], searly = [], swait = [];
+    rd.steps.forEach(function (x, ix) { var base = x, n = 2; while (seen[tdStepKey(x)]) x = '(' + (n++) + ') ' + base; seen[tdStepKey(x)] = 1; steps.push(x); sdates.push(rd.dates[ix] || ''); sfrom.push(rd.froms[ix] || ''); searly.push(rd.earlies[ix] || 0); swait.push(rd.waits[ix] || 0); });
     if (!td.me) { tdEnsure(); showToast(false, t('tdNeed')); return; }
     if (!title || !steps.length) { showToast(false, t('tdNeed')); return; }
     var f = g('tdE_freq'), pk = dgPickRaw('tdEPick') || { dept: '', group: '' };
@@ -26682,6 +26696,7 @@ function tdSave() {
     var tyv = document.getElementById('tdE_type').value; if (tyv) o.type = tyv;
     var exl = tdExtraRead(); if (exl.length) o.extra = exl;
     if (f !== 'daily') { if (sdates.some(function (x) { return x; })) o.stepDates = sdates; if (sfrom.some(function (x) { return x; })) o.stepFrom = sfrom; if (searly.some(function (x) { return x; })) o.stepEarly = searly; }
+    if (swait.some(function (x) { return x; })) o.stepWait = swait;
     if (Object.keys(sel).length) o.shareWith = Object.assign({}, sel);
     ups['todo/' + td.me + '/tasks/' + tid] = o;
     if (td.edit) { var dne = (td.done || {})[td.edit] || {}; Object.keys(dne).forEach(function (pk) { if (dne[pk] && dne[pk].open) ups['todo/' + td.me + '/done/' + tid + '/' + pk + '/open'] = null; }); }

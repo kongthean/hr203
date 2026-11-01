@@ -176,7 +176,7 @@ async function loadTodo(env) {
   if (c) { c.v = v; c.at = Date.now(); }
   return v;
 }
-function normTask(p) { p = p || {}; p.steps = Array.isArray(p.steps) ? p.steps : Object.keys(p.steps || {}).map(k => p.steps[k]); if (p.extra && !Array.isArray(p.extra)) p.extra = Object.keys(p.extra).sort((a, b) => a - b).map(q => p.extra[q]); ['stepDates', 'stepFrom', 'stepEarly'].forEach(k => { if (p[k]) p[k] = Array.isArray(p[k]) ? p[k] : (ob => { let n = 0; const r = []; Object.keys(ob).forEach(q => { n = Math.max(n, (+q || 0) + 1); }); for (let i = 0; i < n; i++) r.push(ob[i] === undefined ? '' : ob[i]); return r; })(p[k]); }); return p; }
+function normTask(p) { p = p || {}; p.steps = Array.isArray(p.steps) ? p.steps : Object.keys(p.steps || {}).map(k => p.steps[k]); if (p.extra && !Array.isArray(p.extra)) p.extra = Object.keys(p.extra).sort((a, b) => a - b).map(q => p.extra[q]); ['stepDates', 'stepFrom', 'stepEarly', 'stepWait'].forEach(k => { if (p[k]) p[k] = Array.isArray(p[k]) ? p[k] : (ob => { let n = 0; const r = []; Object.keys(ob).forEach(q => { n = Math.max(n, (+q || 0) + 1); }); for (let i = 0; i < n; i++) r.push(ob[i] === undefined ? '' : ob[i]); return r; })(p[k]); }); return p; }
 function visibleTasks(T, key) {
   const tpls = {}, dn = {}, own = T.todo[key] || {};
   Object.keys(own.tasks || {}).forEach(id => { tpls[key + '~' + id] = normTask(own.tasks[id]); dn[key + '~' + id] = (own.done || {})[id] || {}; });
