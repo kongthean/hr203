@@ -26184,7 +26184,7 @@ function tdSplit(cid) { var i = cid.indexOf('~'); return { owner: cid.slice(0, i
 function tdPath(cid, kind) { var q = tdSplit(cid); return 'todo/' + q.owner + '/' + kind + '/' + q.id; }
 function tdRole() { return sessionStorage.getItem('loggedInRole') || ''; }
 function tdWantsIt() { return sessionStorage.getItem('isLoggedIn') === 'true' && (tdRole() === 'admin' || tdRole() === 'hr'); }
-function tdNorm(p) { p = p || {}; p.steps = Array.isArray(p.steps) ? p.steps : Object.keys(p.steps || {}).map(function (q) { return p.steps[q]; }); if (p.extra && !Array.isArray(p.extra)) p.extra = Object.keys(p.extra).sort(function (a, b) { return a - b; }).map(function (q) { return p.extra[q]; }); ['stepDates', 'stepFrom', 'stepEarly'].forEach(function (k) { if (p[k]) p[k] = Array.isArray(p[k]) ? p[k] : Object.keys(p[k]).sort(function (a, b) { return a - b; }).map(function (q) { return p[k][q]; }); }); return p; }
+function tdNorm(p) { p = p || {}; p.steps = Array.isArray(p.steps) ? p.steps : Object.keys(p.steps || {}).map(function (q) { return p.steps[q]; }); if (p.extra && !Array.isArray(p.extra)) p.extra = Object.keys(p.extra).sort(function (a, b) { return a - b; }).map(function (q) { return p.extra[q]; }); ['stepDates', 'stepFrom', 'stepEarly'].forEach(function (k) { if (p[k]) p[k] = Array.isArray(p[k]) ? p[k] : (function (ob) { var n = 0, r = [], i; Object.keys(ob).forEach(function (q) { n = Math.max(n, (+q || 0) + 1); }); for (i = 0; i < n; i++) r.push(ob[i] === undefined ? '' : ob[i]); return r; })(p[k]); }); return p; }
 function tdResolveMe(cb) {
     var fb = tdSan(sessionStorage.getItem('loggedInAccountUsername') || sessionStorage.getItem('loggedInAccountName') || 'admin');
     if (td.me) { cb(); return; }
