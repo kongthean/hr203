@@ -5168,8 +5168,13 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdOpensLbl: "Opens",
         tdOpOnDate: "On its date",
         tdOpEarly: "Can finish early",
-        tdNoteLockFT: "Locked until {f}. You cannot swipe it before then. Open {f} to {t}.",
-        tdNoteLockT: "Locked until {t}, the deadline day. To finish earlier, choose Can finish early.",
+        tdDeadlineLbl: "Deadline",
+        tdCanLbl: "Can be done",
+        tdCanAny: "Any time",
+        tdCanFrom: "Only from a date",
+        tdOpensOn: "Opens on",
+        tdNoteLockFT: "Opens on {f}. You cannot swipe it before then. It turns late after {t}.",
+        tdNoteLockT: "Locked until {t}, the deadline day. To finish earlier, choose Any time.",
         tdNoteEarly: "You can swipe this any time. It turns late after {t}.",
         tdNoteNone: "No dates. Always open.",
         tdNoteSwap: "From is after To. They will be swapped when you save.",
@@ -7531,8 +7536,13 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdOpensLbl: "បើក",
         tdOpOnDate: "តាមកាលបរិច្ឆេទ",
         tdOpEarly: "បញ្ចប់មុនបាន",
+        tdDeadlineLbl: "ថ្ងៃកំណត់",
+        tdCanLbl: "អាចធ្វើបាន",
+        tdCanAny: "គ្រប់ពេល",
+        tdCanFrom: "ចាប់ពីកាលបរិច្ឆេទ",
+        tdOpensOn: "បើកនៅថ្ងៃ",
         tdNoteLockFT: "ចាក់សោរហូតដល់ {f}។ មិនអាចអូសមុននេះទេ។ បើក {f} ដល់ {t}។",
-        tdNoteLockT: "ចាក់សោរហូតដល់ {t} ថ្ងៃកំណត់។ ចង់បញ្ចប់មុន សូមជ្រើស «បញ្ចប់មុនបាន»។",
+        tdNoteLockT: "ចាក់សោរហូតដល់ {t} ថ្ងៃកំណត់។ ចង់បញ្ចប់មុន សូមជ្រើស «គ្រប់ពេល»។",
         tdNoteEarly: "អាចអូសបានគ្រប់ពេល។ យឺតក្រោយ {t}។",
         tdNoteNone: "គ្មានកាលបរិច្ឆេទ។ បើកជានិច្ច។",
         tdNoteSwap: "«ចាប់ពី» នៅក្រោយ «ដល់»។ នឹងប្តូរកន្លែងពេលរក្សាទុក។",
@@ -9856,8 +9866,13 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdOpensLbl: "开放",
         tdOpOnDate: "按日期",
         tdOpEarly: "可提前完成",
+        tdDeadlineLbl: "截止日期",
+        tdCanLbl: "可完成时间",
+        tdCanAny: "随时",
+        tdCanFrom: "从某日起",
+        tdOpensOn: "开放日期",
         tdNoteLockFT: "锁定至 {f}，之前无法滑动完成。开放时间 {f} 至 {t}。",
-        tdNoteLockT: "锁定至 {t}（截止日）。如需提前完成，请选“可提前完成”。",
+        tdNoteLockT: "锁定至 {t}（截止日）。如需提前完成，请选“随时”。",
         tdNoteEarly: "随时可滑动完成。{t} 之后算逾期。",
         tdNoteNone: "没有日期，随时开放。",
         tdNoteSwap: "“从”晚于“到”，保存时将自动对调。",
@@ -26535,11 +26550,12 @@ function tdStepNotes() {
     var mon = (document.getElementById('tdE_dueDate') || {}).value || '';
     rows.forEach(function (r) {
         var nb = r.querySelector('.tdSNote'); if (!nb) return;
-        var a = r.querySelector('.tdSFrom').value || '', b = r.querySelector('.tdSTo').value || '', e = r.querySelector('.tdSOpen').value === '1', msg = [], sw = false;
+        var e = r.querySelector('.tdSOpen').value === '1', a = e ? '' : (r.querySelector('.tdSFrom').value || ''), b = r.querySelector('.tdSTo').value || '', msg = [], sw = false; var fb = r.querySelector('.tdSFromBox'); if (fb) fb.style.display = e ? 'none' : '';
         if (a && b && a > b) { var z = a; a = b; b = z; sw = true; }
         if (a && !b) { b = a; a = ''; }
         var cls = 'n';
         if (!a && !b) msg.push(t('tdNoteNone'));
+        else if (e && !b) msg.push(t('tdNoteNone'));
         else if (e) { cls = 'g'; msg.push(fillTemplate(t('tdNoteEarly'), { t: fm(b) })); }
         else { cls = 'r'; msg.push(a ? fillTemplate(t('tdNoteLockFT'), { f: fm(a), t: fm(b) }) : fillTemplate(t('tdNoteLockT'), { t: fm(b) })); }
         var html = '<div class="' + cls + '" style="margin:0;">' + escapeHtmlText(msg[0]) + '</div>';
@@ -26556,12 +26572,12 @@ function tdStepNotes() {
 document.addEventListener('input', function (ev) { if (ev.target && ev.target.closest && ev.target.closest('#tdSteps')) tdStepNotes(); });
 document.addEventListener('change', function (ev) { if (ev.target && ev.target.closest && (ev.target.closest('#tdSteps') || ev.target.id === 'tdE_freq')) tdStepNotes(); });
 function tdStepRowHtml(txt, dt, fr, early) {
-    return '<div class="tdSRow"><div class="tdSTx"><textarea rows="1" oninput="tdStepGrow(this)" data-i18n-ph="tdStepPh" placeholder="' + escapeHtmlText(t('tdStepPh')) + '">' + escapeHtmlText(txt || '') + '</textarea><button type="button" class="tdSPick" title="' + escapeHtmlText(t('tdSnPick')) + '" onclick="tdPhOpen(this)">&#9660;</button></div><label class="tdSD"><small>' + escapeHtmlText(t('tdFromLbl')) + '</small><input type="date" class="tdSFrom" value="' + escapeHtmlText(fr || '') + '"></label><label class="tdSD"><small>' + escapeHtmlText(t('tdToLbl')) + '</small><input type="date" class="tdSTo" value="' + escapeHtmlText(dt || '') + '"></label><label class="tdSD"><small>' + escapeHtmlText(t('tdOpensLbl')) + '</small><select class="tdSOpen"><option value="">' + escapeHtmlText(t('tdOpOnDate')) + '</option><option value="1"' + (early ? ' selected' : '') + '>' + escapeHtmlText(t('tdOpEarly')) + '</option></select></label><div class="tdSNote"></div>' +
+    return '<div class="tdSRow"><div class="tdSTx"><textarea rows="1" oninput="tdStepGrow(this)" data-i18n-ph="tdStepPh" placeholder="' + escapeHtmlText(t('tdStepPh')) + '">' + escapeHtmlText(txt || '') + '</textarea><button type="button" class="tdSPick" title="' + escapeHtmlText(t('tdSnPick')) + '" onclick="tdPhOpen(this)">&#9660;</button></div><label class="tdSD"><small>' + escapeHtmlText(t('tdDeadlineLbl')) + '</small><input type="date" class="tdSTo" value="' + escapeHtmlText(dt || '') + '"></label><label class="tdSD"><small>' + escapeHtmlText(t('tdCanLbl')) + '</small><select class="tdSOpen"><option value="1"' + (early ? ' selected' : '') + '>' + escapeHtmlText(t('tdCanAny')) + '</option><option value=""' + (early ? '' : ' selected') + '>' + escapeHtmlText(t('tdCanFrom')) + '</option></select></label><label class="tdSD tdSFromBox"><small>' + escapeHtmlText(t('tdOpensOn')) + '</small><input type="date" class="tdSFrom" value="' + escapeHtmlText(fr || '') + '"></label><div class="tdSNote"></div>' +
         '<button type="button" class="tdSBtn" onclick="tdStepMove(this,-1)">&#9650;</button><button type="button" class="tdSBtn" onclick="tdStepMove(this,1)">&#9660;</button><button type="button" class="tdSBtn del" onclick="tdStepDel(this)">&times;</button></div>';
 }
 function tdStepRows(steps, dates, froms, earlies) {
     var box = document.getElementById('tdSteps'); steps = steps && steps.length ? steps : ['', '', ''];
-    box.innerHTML = steps.map(function (x, i) { return tdStepRowHtml(x, (dates || [])[i] || '', (froms || [])[i] || '', (earlies || [])[i]); }).join('');
+    box.innerHTML = steps.map(function (x, i) { return tdStepRowHtml(x, (dates || [])[i] || '', (froms || [])[i] || '', ((dates || [])[i] || (froms || [])[i]) ? (earlies || [])[i] : 1); }).join('');
     box.querySelectorAll('textarea').forEach(tdStepGrow); tdStepNotes();
 }
 /* saved sentences: one list per account (todo/<account>/phrases), used to fill a step with one click */
@@ -26589,10 +26605,10 @@ function tdPhSaveCurrent() { if (!tdPhBox) return; tdPhWrite(tdPhBox.querySelect
 function tdPhSaveEdit() { var k = tdPhEditK, v = (document.getElementById('tdPhEditTx') || {}).value; v = String(v || '').trim().slice(0, 500); if (!k || !v) return; db.ref('todo/' + td.me + '/phrases/' + k).update({ text: v }).catch(function (e) { showToast(false, String(e && e.message || e)); }); tdPhEditK = null; }
 async function tdPhDel(k) { if (!(await cfAsk(t('tdPhDelAsk'), t('cfDelete')))) return; db.ref('todo/' + td.me + '/phrases/' + k).remove().catch(function (e) { showToast(false, String(e && e.message || e)); }); }
 document.addEventListener('mousedown', function (e) { if (tdPhBox && !tdPhBox.contains(e.target)) tdPhClose(); }, true);
-function tdStepAdd() { var box = document.getElementById('tdSteps'); box.insertAdjacentHTML('beforeend', tdStepRowHtml('', '', '', 0)); tdStepNotes(); var ta = box.lastElementChild.querySelector('textarea'); tdStepGrow(ta); ta.focus(); }
+function tdStepAdd() { var box = document.getElementById('tdSteps'); box.insertAdjacentHTML('beforeend', tdStepRowHtml('', '', '', 1)); tdStepNotes(); var ta = box.lastElementChild.querySelector('textarea'); tdStepGrow(ta); ta.focus(); }
 function tdStepDel(b) { var r = b.parentNode; r.parentNode.removeChild(r); }
 function tdStepMove(b, d) { var r = b.parentNode, o = d < 0 ? r.previousElementSibling : r.nextElementSibling; if (!o) return; if (d < 0) r.parentNode.insertBefore(r, o); else r.parentNode.insertBefore(o, r); }
-function tdStepsRead() { var st = [], dt = [], fr = [], er = []; document.querySelectorAll('#tdSteps .tdSRow').forEach(function (r) { var x = r.querySelector('textarea').value.trim(); if (!x) return; var a = r.querySelector('.tdSFrom').value || '', b = r.querySelector('.tdSTo').value || ''; if (a && b && a > b) { var z = a; a = b; b = z; } if (a && !b) { b = a; a = ''; } st.push(x); dt.push(b); fr.push(a); er.push(r.querySelector('.tdSOpen').value ? 1 : 0); }); return { steps: st, dates: dt, froms: fr, earlies: er }; }
+function tdStepsRead() { var st = [], dt = [], fr = [], er = []; document.querySelectorAll('#tdSteps .tdSRow').forEach(function (r) { var x = r.querySelector('textarea').value.trim(); if (!x) return; var anyT = !!r.querySelector('.tdSOpen').value, a = anyT ? '' : (r.querySelector('.tdSFrom').value || ''), b = r.querySelector('.tdSTo').value || ''; if (a && b && a > b) { var z = a; a = b; b = z; } if (a && !b) { b = a; a = ''; } st.push(x); dt.push(b); fr.push(a); er.push(r.querySelector('.tdSOpen').value ? 1 : 0); }); return { steps: st, dates: dt, froms: fr, earlies: er }; }
 /* a step can have a FROM and a TO date. monthly = those DAYS in the month, weekly = those weekdays, once = exact dates */
 function tdStepWin(tpl, key, i) {
     var to = tpl.stepDates && tpl.stepDates[i], fr = tpl.stepFrom && tpl.stepFrom[i];
