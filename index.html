@@ -5171,6 +5171,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "Step {s} ends today",
         tdStLocked: "This step opens on its date.",
         tdLockedUntil: "Task locked until {d}",
+        tdReopen: "Unlock this task now",
         tdWaitHdr: "Waiting ({n})",
         tdSwipe: "Swipe to complete",
         tdAddStep: "Add step",
@@ -7518,6 +7519,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "ជំហានទី {s} បញ្ចប់ថ្ងៃនេះ",
         tdStLocked: "ជំហាននេះនឹងបើកនៅថ្ងៃកំណត់របស់វា។",
         tdLockedUntil: "ការងារចាក់សោរហូតដល់ {d}",
+        tdReopen: "ដោះសោការងារនេះឥឡូវ",
         tdWaitHdr: "កំពុងរង់ចាំ ({n})",
         tdSwipe: "អូសដើម្បីបញ្ចប់",
         tdAddStep: "បន្ថែមជំហាន",
@@ -9827,6 +9829,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "第 {s} 步今天结束",
         tdStLocked: "此步骤将在设定日期开启。",
         tdLockedUntil: "任务已锁定，至 {d} 解锁",
+        tdReopen: "立即解锁此任务",
         tdWaitHdr: "等待中（{n}）",
         tdSwipe: "滑动完成",
         tdAddStep: "添加步骤",
@@ -26255,7 +26258,7 @@ function tdCardHtml(x) {
     var undo = '<button class="kbBtn grey" style="margin:0;" onclick="tdUndo(\'' + id + '\',\'' + key + '\')">&#8630; ' + escapeHtmlText(t('tdUndo')) + '</button>';
     if (x.waiting) {
         var headNP = head.replace(/<span class="tdPill"[^>]*>.*?<\/span>/, '');
-        return '<div class="tdCard tdWait" style="border-left:6px solid #94a3b8;"><div class="tdWrap"><div class="tdDim">' + headNP + '</div><div class="tdLockLay"><span>' + escapeHtmlText(fillTemplate(t('tdLockedUntil'), { d: tdFmtDM(x.unlock) })) + '</span></div></div>' + (x.ticked > 0 ? '<div style="margin-top:8px;">' + undo + '</div>' : '') + '</div>';
+        return '<div class="tdCard tdWait" style="border-left:6px solid #94a3b8;"><div class="tdWrap"><div class="tdDim">' + headNP + '</div><div class="tdLockLay"><span>' + escapeHtmlText(fillTemplate(t('tdLockedUntil'), { d: tdFmtDM(x.unlock) })) + '</span></div></div>' + '<div style="margin-top:8px;">' + (x.ticked > 0 ? undo : '<button class="kbBtn grey" style="margin:0;" onclick="tdReopen(\'' + id + '\',\'' + key + '\')">&#8630; ' + escapeHtmlText(t('tdReopen')) + '</button>') + '</div></div>';
     }
     if (done) {
         var wake = { monthly: 'tdWakeM', weekly: 'tdWakeW', daily: 'tdWakeD' }[f];
@@ -26301,6 +26304,14 @@ function tdTick(id, key, i, on) {
     tdRender(); try { kbRefresh(); tdBadge(); } catch (e) {}
     db.ref().update(ups).catch(function (e) { showToast(false, String(e && e.message || e)); });
     if (on && after === x.total) { showToast(true, fillTemplate(t('tdAllDone'), { name: tpl.title || '' })); try { logActivity('To-Do completed', 'todo', id, tpl.title || '', key); } catch (e) {} }
+}
+function tdReopen(id, key) {
+    var tpl = td.tpl[id]; if (!tpl) return;
+    var base = tdPath(id, 'done') + '/' + key, ups = {}, x = tdInst(Object.assign({}, tpl, { id: id }), key, td.done, kbToday());
+    td.done[id] = td.done[id] || {}; var dn = td.done[id][key] = td.done[id][key] || {}; dn.open = dn.open || {};
+    (tpl.steps || []).forEach(function (st) { var sk = tdStepKey(st); if (!x.s[sk]) { ups[base + '/open/' + sk] = true; dn.open[sk] = true; } });
+    tdRender(); try { kbRefresh(); tdBadge(); } catch (e) {}
+    db.ref().update(ups).catch(function (e) { showToast(false, String(e && e.message || e)); });
 }
 function tdUndo(id, key) {
     var tpl = td.tpl[id]; if (!tpl) return;
