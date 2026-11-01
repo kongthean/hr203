@@ -2306,6 +2306,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         <div class="form-group" id="tdRowStart"><label data-i18n="tdLblStart">Start from</label><input type="month" id="tdE_start" style="width:100%;box-sizing:border-box;"><div class="tdHint" data-i18n="tdStartHint">Older periods before this are ignored, so you do not get old red tasks.</div></div>
         <div class="form-group"><label data-i18n="tdLblStepsNew">Steps</label>
             <div id="tdSteps"></div>
+            <div style="margin-top:8px;"><button type="button" class="kbBtn grey" style="margin:0;" onclick="tdAllAny()"><span data-i18n="tdAllAny">Set all steps to Any time</span></button></div>
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;"><button type="button" class="kbBtn navy" style="margin:0;" onclick="tdStepAdd()">&#43; <span data-i18n="tdAddStep">Add step</span></button><button type="button" class="kbBtn grey" style="margin:0;" onclick="tdFlowFill()" data-i18n="tdUseFlow">Fill with my 9-step print / sign flow</button></div>
             <div class="tdHint" id="tdStepsHintTxt" data-i18n="tdStepsHint2">Write each step in its own box (any length). Choose a date for the step if it must be done on a certain day. For a monthly task only the DAY of the date is used, and it repeats every month. You can tick the steps in any order.</div></div>
         <div class="form-group"><label data-i18n="tdLblShare">Share this task with</label><div id="tdE_share" style="max-height:150px;overflow:auto;"></div><div class="tdHint" data-i18n="tdShareHint">Your tasks are private: only you see them. Tick accounts here to share this task. Shared accounts see the task and can tick its steps, but cannot change or delete it.</div></div>
@@ -5173,6 +5174,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdCanAny: "Any time",
         tdCanFrom: "Only from a date",
         tdOpensOn: "Opens on",
+        tdAllAny: "Set all steps to Any time",
+        tdDayN: "day {n} of the month",
         tdNoteLockFT: "Opens on {f}. You cannot swipe it before then. It turns late after {t}.",
         tdNoteLockT: "Locked until {t}, the deadline day. To finish earlier, choose Any time.",
         tdNoteEarly: "You can swipe this any time. It turns late after {t}.",
@@ -7541,6 +7544,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdCanAny: "គ្រប់ពេល",
         tdCanFrom: "ចាប់ពីកាលបរិច្ឆេទ",
         tdOpensOn: "បើកនៅថ្ងៃ",
+        tdAllAny: "កំណត់គ្រប់ជំហានជា «គ្រប់ពេល»",
+        tdDayN: "ថ្ងៃទី {n} នៃខែ",
         tdNoteLockFT: "ចាក់សោរហូតដល់ {f}។ មិនអាចអូសមុននេះទេ។ បើក {f} ដល់ {t}។",
         tdNoteLockT: "ចាក់សោរហូតដល់ {t} ថ្ងៃកំណត់។ ចង់បញ្ចប់មុន សូមជ្រើស «គ្រប់ពេល»។",
         tdNoteEarly: "អាចអូសបានគ្រប់ពេល។ យឺតក្រោយ {t}។",
@@ -9871,6 +9876,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdCanAny: "随时",
         tdCanFrom: "从某日起",
         tdOpensOn: "开放日期",
+        tdAllAny: "将所有步骤设为“随时”",
+        tdDayN: "每月 {n} 号",
         tdNoteLockFT: "锁定至 {f}，之前无法滑动完成。开放时间 {f} 至 {t}。",
         tdNoteLockT: "锁定至 {t}（截止日）。如需提前完成，请选“随时”。",
         tdNoteEarly: "随时可滑动完成。{t} 之后算逾期。",
@@ -26546,7 +26553,7 @@ function tdStepGrow(el) { el.style.height = 'auto'; el.style.height = (el.scroll
 
 function tdStepNotes() {
     var f = (document.getElementById('tdE_freq') || {}).value || 'monthly', rows = document.querySelectorAll('#tdSteps .tdSRow'), prev = '';
-    var fm = function (d) { return f === 'monthly' ? String(parseInt(d.slice(8, 10), 10)) : (d.slice(8, 10) + '/' + d.slice(5, 7)); };
+    var fm = function (d) { return f === 'monthly' ? fillTemplate(t('tdDayN'), { n: parseInt(d.slice(8, 10), 10) }) : (d.slice(8, 10) + '/' + d.slice(5, 7)); };
     var mon = (document.getElementById('tdE_dueDate') || {}).value || '';
     rows.forEach(function (r) {
         var nb = r.querySelector('.tdSNote'); if (!nb) return;
@@ -26605,6 +26612,7 @@ function tdPhSaveCurrent() { if (!tdPhBox) return; tdPhWrite(tdPhBox.querySelect
 function tdPhSaveEdit() { var k = tdPhEditK, v = (document.getElementById('tdPhEditTx') || {}).value; v = String(v || '').trim().slice(0, 500); if (!k || !v) return; db.ref('todo/' + td.me + '/phrases/' + k).update({ text: v }).catch(function (e) { showToast(false, String(e && e.message || e)); }); tdPhEditK = null; }
 async function tdPhDel(k) { if (!(await cfAsk(t('tdPhDelAsk'), t('cfDelete')))) return; db.ref('todo/' + td.me + '/phrases/' + k).remove().catch(function (e) { showToast(false, String(e && e.message || e)); }); }
 document.addEventListener('mousedown', function (e) { if (tdPhBox && !tdPhBox.contains(e.target)) tdPhClose(); }, true);
+function tdAllAny() { document.querySelectorAll('#tdSteps .tdSOpen').forEach(function (x) { x.value = '1'; }); tdStepNotes(); showToast(true); }
 function tdStepAdd() { var box = document.getElementById('tdSteps'); box.insertAdjacentHTML('beforeend', tdStepRowHtml('', '', '', 1)); tdStepNotes(); var ta = box.lastElementChild.querySelector('textarea'); tdStepGrow(ta); ta.focus(); }
 function tdStepDel(b) { var r = b.parentNode; r.parentNode.removeChild(r); }
 function tdStepMove(b, d) { var r = b.parentNode, o = d < 0 ? r.previousElementSibling : r.nextElementSibling; if (!o) return; if (d < 0) r.parentNode.insertBefore(r, o); else r.parentNode.insertBefore(o, r); }
