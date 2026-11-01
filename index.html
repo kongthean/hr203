@@ -27583,14 +27583,14 @@ function hrQRsvg(text, px) {
   };
 
   /* ---- label as a picture (for the small Bluetooth printer app) ---- */
-  function labGet() { var w = 50, h = 30; try { w = parseFloat(localStorage.getItem('amLabW')) || 50; h = parseFloat(localStorage.getItem('amLabH')) || 30; } catch (e) {} return { w: Math.min(120, Math.max(10, w)), h: Math.min(200, Math.max(10, h)) }; }
+  function labGet() { var w = 40, h = 18; try { w = parseFloat(localStorage.getItem('amLabW2')) || 40; h = parseFloat(localStorage.getItem('amLabH2')) || 18; } catch (e) {} return { w: Math.min(120, Math.max(10, w)), h: Math.min(200, Math.max(10, h)) }; }
   window.amLabLoad = function () { var z = labGet(); if ($('amLabW')) { $('amLabW').value = z.w; $('amLabH').value = z.h; } };
-  window.amLabSave = function () { try { localStorage.setItem('amLabW', $('amLabW').value); localStorage.setItem('amLabH', $('amLabH').value); } catch (e) {} };
+  window.amLabSave = function () { try { localStorage.setItem('amLabW2', $('amLabW').value); localStorage.setItem('amLabH2', $('amLabH').value); } catch (e) {} };
   function labCanvas(a, z) {
     var K = 8, W = Math.round(z.w * K), H = Math.round(z.h * K), c = document.createElement('canvas'); c.width = W; c.height = H;
     var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); g.fillStyle = '#000'; g.textBaseline = 'top';
     var G = hrQR(String(a.id)); if (!G) throw new Error('qr');
-    var n = G.length, q = 2, tot = n + 2 * q, pad = Math.round(1.5 * K), wide = W >= H * 1.25;
+    var n = G.length, q = 2, tot = n + 2 * q, pad = Math.round(1 * K), wide = W >= H * 1.25;
     var qs = wide ? H - 2 * pad : Math.min(W - 2 * pad, Math.round(H * 0.58)), cell = Math.max(1, Math.floor(qs / tot)), qpx = cell * tot;
     var qx = wide ? pad : Math.round((W - qpx) / 2), qy = wide ? Math.round((H - qpx) / 2) : pad;
     for (var r = 0; r < n; r++) for (var cc = 0; cc < n; cc++) if (G[r][cc]) g.fillRect(qx + (cc + q) * cell, qy + (r + q) * cell, cell, cell);
