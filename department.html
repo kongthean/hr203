@@ -13553,7 +13553,7 @@ function exportDocGridToPDF() {
         '<style>body{font-family:Arial,sans-serif; padding:16px; color:#0f172a;} @media print { @page { margin: 10mm; } }</style>' +
         '</head><body>' +
         buildDocGridPrintHtml(state) +
-        '<script>window.onload = function(){ window.print(); };<\/script>' +
+        hrPrintTag() +
         '</body></html>'
     );
     win.document.close();
@@ -13699,7 +13699,7 @@ function exportDocWordToPDF() {
         '<!doctype html><html><head><meta charset="utf-8"><title>' + escapePrintText(title) + '</title>' +
         '<style>body{font-family:Arial,sans-serif; padding:20px; color:#0f172a; line-height:1.6;} @media print { @page { margin: 15mm; } }</style>' +
         '</head><body>' + html +
-        '<script>window.onload = function(){ window.print(); };<\/script>' +
+        hrPrintTag() +
         '</body></html>'
     );
     win.document.close();
@@ -16284,16 +16284,18 @@ function faPreviewReport(btn) {
 }
 
 function faExportReportPdf(btn) {
+    const pre = hrPreWin();
     withBusyButton(btn, async function () {
         const parts = await faReportParts();
-        if (!parts || !parts.rows.length) return;
+        if (!parts || !parts.rows.length) { hrPreClose(pre); return; }
         const html = faBuildReportHtml(parts.rows, parts.opts);
-        const win = window.open('', '_blank');
+        const win = pre || window.open('', '_blank');
         if (!win) { showToast(false); return; }
+        if (pre) { win.document.open(); }
         win.document.write(
             '<!doctype html><html><head><meta charset="utf-8"><title>' + faEsc(tLang('faReportTitle', parts.opts.lang) + ' ' + parts.opts.date) + '</title>' +
             '<style>body{font-family:"Khmer OS","Noto Sans Khmer","Noto Sans SC",Arial,sans-serif; padding:14px; color:#0f172a;} .fa-report th,.fa-report td{border:1px solid #94a3b8; padding:4px 6px; font-size:12px;} @media print { @page { size: A4 landscape; margin: 10mm; } }</style>' +
-            '</head><body>' + html + '<script>window.onload = function(){ window.print(); };<\/script></body></html>'
+            '</head><body>' + html + hrPrintTag() + '</body></html>'
         );
         win.document.close();
     });
@@ -16725,9 +16727,10 @@ function xcPreview(btn) {
 const XC_FONT = '"Khmer OS","Noto Sans Khmer","Noto Sans SC",Arial,sans-serif';
 
 function xcExport(btn) {
+    let pre = null; try { const fm = xcOptions().format; if (fm !== 'excel' && fm !== 'word') pre = hrPreWin(); } catch (e) {}
     withBusyButton(btn, async function () {
         const p = await xcPrepare();
-        if (!p) return;
+        if (!p) { hrPreClose(pre); return; }
         const o = p.o, ds = p.ds, orient = xcOrientOf(ds, o);
         const html = xcBuildHtml(ds, o);
         const name = xcFileBase(p.k, o);
@@ -16748,11 +16751,12 @@ function xcExport(btn) {
                 '</head><body><div class="Section1">' + html + '</div></body></html>';
             faDownloadBlob(new Blob(['﻿', doc], { type: 'application/msword' }), name + '.doc');
         } else {
-            const win = window.open('', '_blank');
+            const win = pre || window.open('', '_blank');
             if (!win) { showToast(false); return; }
+            if (pre) { win.document.open(); }
             win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>' + faEsc(ds.title) + '</title>' +
                 '<style>body{font-family:' + XC_FONT + '; padding:14px; color:#0f172a;} @media print { @page { size: A4 ' + orient + '; margin: 10mm; } }</style>' +
-                '</head><body>' + html + '<script>window.onload = function(){ window.print(); };<\/script></body></html>');
+                '</head><body>' + html + hrPrintTag() + '</body></html>');
             win.document.close();
         }
     });
@@ -18846,9 +18850,40 @@ function rqDocHtml(r, key) {
         '<h4>' + rqE(t('rqChange')) + '</h4>' + what + '<h4>' + rqE(t('rqDetail')) + '</h4><div class="rq-detail">' + rqE(r.detail) + '</div>' +
         '<div class="rq-sigs">' + rqSig(t('rqSigRequested'), { s: 'approved', by: r.by, at: r.at }) + rqSig(t('rqSigHR'), r.hr, null, r) + rqSig(t('rqSigAdmin'), r.ad, instead) + '</div></div>';
 }
+
+/* ================= print footer: same on every print / Save as PDF =================
+   Browser lines (website link, page title, its own date) are switched off. Our own footer is
+   "01/11/2026 8:00 AM" with "Page 1/1" below. PC Chrome/Edge: exact page numbers on every page.
+   iPhone / Safari: no page-number support, so the page count is shown only when the print is one page. */
+
+/* phones block a new window that opens after the page waited for data: open it at the tap, fill it later */
+function hrPreWin() { var w = null; try { w = window.open('', '_blank'); if (w) { w.document.write('<!doctype html><meta charset="utf-8"><title> </title><body style="font-family:Arial,sans-serif;color:#64748b;padding:24px;">...</body>'); } } catch (e) {} return w; }
+function hrPreClose(w) { try { if (w) w.close(); } catch (e) {} }
+function hrStamp() { var d = new Date(Date.now() + 7 * 3600000), h = d.getUTCHours(), p = function (n) { return (n < 10 ? '0' : '') + n; }; return p(d.getUTCDate()) + '/' + p(d.getUTCMonth() + 1) + '/' + d.getUTCFullYear() + ' ' + (h % 12 || 12) + ':' + p(d.getUTCMinutes()) + ' ' + (h >= 12 ? 'PM' : 'AM'); }
+function hrMB() { var u = navigator.userAgent || ''; return /(Chrome|Edg)\//.test(u) && !/iPhone|iPad|iPod|CriOS|FxiOS/.test(u); }
+function hrPrintCss() {
+    if (hrMB()) return '@page{margin-bottom:16mm;@top-left{content:""}@top-center{content:""}@top-right{content:""}@bottom-left{content:""}@bottom-center{content:""}@bottom-right{content:"' + hrStamp() + '\\A Page " counter(page) "/" counter(pages);white-space:pre;text-align:right;font:9px Arial,sans-serif;color:#555}}';
+    return '@page{margin:0!important}html,body{margin:0!important}body{padding:10mm 10mm 18mm!important;box-sizing:border-box}.hrFoot{position:fixed;right:10mm;bottom:5mm;font:9px Arial,sans-serif;color:#555;text-align:right;white-space:pre;}';
+}
+function hrFootHtml(one) { return hrMB() ? '' : '<div class="hrFoot">' + hrStamp() + (one ? '\nPage 1/1' : '') + '</div>'; }
+/* put at the end of a print window: style + footer (+ print when auto is not false) */
+function hrPrintTag(noAuto) {
+    return '<style>' + hrPrintCss() + '</style>' + hrFootHtml(false) +
+        '<script>(function(){var f=document.querySelector(".hrFoot");function go(){if(f){var h=document.documentElement.scrollHeight,l=document.documentElement.innerHTML.indexOf("landscape")>-1;if(h<=(l?700:1000))f.textContent=f.textContent.split("\\n")[0]+"\\nPage 1/1";}' + (noAuto ? '' : 'window.print();') + '}' + (noAuto ? 'window.addEventListener("beforeprint",go);' : 'window.onload=go;') + '})();<\/script>';
+}
+/* prints of the page itself (labels, asset report, ...) */
+(function () {
+    var st = document.createElement('style'); st.id = 'hrpMain'; document.head.appendChild(st);
+    window.addEventListener('beforeprint', function () {
+        document.head.appendChild(st);
+        st.textContent = hrPrintCss() + 'html body>div#hrFootMain{display:block!important;}';
+        if (!hrMB()) { var f = document.getElementById('hrFootMain'); if (f) f.remove(); f = document.createElement('div'); f.id = 'hrFootMain'; f.className = 'hrFoot'; f.textContent = hrStamp() + (window.__hrOnePage ? '\nPage 1/1' : ''); document.body.appendChild(f); }
+    });
+    window.addEventListener('afterprint', function () { st.textContent = ''; var f = document.getElementById('hrFootMain'); if (f) f.remove(); });
+})();
 function rqPrint(html) {
     const w = window.open('', '_blank'); if (!w) return;
-    w.document.write('<html><head><meta charset="utf-8"><title>' + rqE(t('rqTitle')) + '</title><style>body{margin:16px}@media print{@page{margin:12mm}}' + RQ_CSS + '</style></head><body>' + html + '</body></html>');
+    w.document.write('<html><head><meta charset="utf-8"><title>' + rqE(t('rqTitle')) + '</title><style>body{margin:16px}@media print{@page{margin:12mm}}' + RQ_CSS + '</style></head><body>' + html + '' + hrPrintTag(true) + '</body></html>');
     w.document.close(); w.focus(); setTimeout(function () { try { w.print(); } catch (e) {} }, 350);
 }
 
@@ -21293,7 +21328,7 @@ document.addEventListener('DOMContentLoaded', pgScan);
          '<h2>' + escapePrintText(title) + '</h2>' +
          (monthVal ? '<p>' + escapePrintText(monthVal) + '</p>' : '') +
          table.outerHTML +
-         '<script>window.onload = function(){ window.print(); };<\/script>' +
+         hrPrintTag() +
          '</body></html>'
      );
      win.document.close();
@@ -21373,7 +21408,7 @@ document.addEventListener('DOMContentLoaded', pgScan);
          (purposeText ? '<p>' + purposeText + '</p>' : '') +
          '<p class="cert-date">' + fillTemplate(tLang('certIssuedOnLine', lang), { date: todayStr }) + '</p>' +
          '<div class="cert-sig"><div>' + escapePrintText(tLang('certSignatureLine', lang)) + '<br>' + escapePrintText(tLang('certSignatureRole', lang)) + '</div></div>' +
-         '<div class="cert-print-btn" style="text-align:center; margin-top:30px;"><button onclick="window.print()" style="padding:8px 18px; font-size:13px;">' + escapePrintText(tLang('btnPrintSaveAsPDF', lang)) + '</button></div>' +
+         '<div class="cert-print-btn" style="text-align:center; margin-top:30px;"><button onclick="window.print()" style="padding:8px 18px; font-size:13px;">' + escapePrintText(tLang('btnPrintSaveAsPDF', lang)) + '</button></div>' + hrPrintTag(true) +
          '</body></html>'
      );
      win.document.close();

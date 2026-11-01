@@ -1412,6 +1412,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
              <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></span><span class="quick-btn-label" data-i18n="tdBtn">To-Do List</span>
              <span id="tdMenuBadge" class="notif-badge" style="display:none; top:2px; right:2px;">0</span>
          </button>
+         <button class="quick-btn" style="background:linear-gradient(135deg,#0369a1,#075985);" onclick="trpOpen()">
+             <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg></span>
+             <span class="quick-btn-label" data-i18n="trpBtn">To-Do Reports</span>
+         </button>
          <button class="quick-btn purple admin-only" onclick="triggerNav('tab-dept', 'nav-dept')">
              <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 10h.01"/><path d="M15 10h.01"/></svg></span><span class="quick-btn-label" data-i18n="navDepartments">Departments</span>
          </button>
@@ -2253,6 +2257,13 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 .tdPhB{flex:none;width:32px;height:30px;border:1px solid #cbd5e1;background:#fff;border-radius:8px;cursor:pointer;font-size:13px;padding:0 !important;min-height:0 !important;}.tdPhB.del{color:#b91c1c;}
 .tdPhNew{display:flex;gap:6px;margin:4px 0 8px;align-items:flex-start;}.tdPhNew textarea,.tdPhItem textarea{flex:1;min-width:0;box-sizing:border-box;resize:vertical;min-height:38px;padding:8px 10px;}.tdSD small{font-size:10px;font-weight:700;color:#64748b;margin:0 0 2px 2px;}.tdSD input{width:100%;}
 </style>
+<div class="modal" id="trpModal">
+    <div class="modal-content" style="max-width:560px;">
+        <div class="modal-header"><h4 data-i18n="trpTitle">To-Do Reports</h4><button class="modal-close" onclick="trpClose()">&times;</button></div>
+        <div style="font-size:12px;color:#64748b;margin-bottom:10px;" data-i18n="trpHint">A report is made when every step of a task is finished. It is removed after 7 days, so save or print it first.</div>
+        <div id="trpList"></div>
+    </div>
+</div>
 <div class="modal" id="tdModal">
     <div class="modal-content" style="max-width:560px;">
         <div class="modal-header"><h4 data-i18n="tdTitle">To-Do List</h4><button class="modal-close" onclick="tdClose()">&times;</button></div>
@@ -5168,6 +5179,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "Step {s} ends today",
         tdStLocked: "This step opens on its date.",
         tdLockedUntil: "Task locked until {d}",
+        trpBtn:"To-Do Reports", trpTitle:"To-Do Reports", trpHint:"A report is made when every step of a task is finished. It is removed after 7 days, so save or print it first.", trpEmpty:"No reports now. A report appears when a task is fully finished.", trpDoneAt:"Completed", trpLeft:"Removed in {n} day(s)", trpLeft0:"Removed today", trpPrint:"Print / Save as PDF", trpRepTitle:"To-Do Task Report", trpColStep:"Step", trpColAt:"Completed on", trpColBy:"By", trpAllDone:"All {n} steps are completed.", trpIssued:"Issued by HR 203 on {d}", trpSharedBy:"Task owner: {n}",
         acctPendingLbl:"Account is pending approval", acctApprove:"Approve", acctDismiss:"Dismiss", acctApproved:"Account approved.", acctDismissed:"Account dismissed.", acctDismissConfirm:"Dismiss and delete the account of {name}?", acctPendingBy:"Created by {n}",
         tdReopen: "Unlock this task now",
         tdWaitHdr: "Waiting ({n})",
@@ -7516,6 +7528,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "ជំហានទី {s} បញ្ចប់ថ្ងៃនេះ",
         tdStLocked: "ជំហាននេះនឹងបើកនៅថ្ងៃកំណត់របស់វា។",
         tdLockedUntil: "ការងារចាក់សោរហូតដល់ {d}",
+        trpBtn:"របាយការណ៍ការងារ", trpTitle:"របាយការណ៍ការងារ", trpHint:"របាយការណ៍ត្រូវបង្កើតនៅពេលជំហានទាំងអស់នៃការងារត្រូវបានបញ្ចប់។ វានឹងត្រូវលុបក្រោយ 7 ថ្ងៃ ដូច្នេះសូមរក្សាទុក ឬបោះពុម្ពជាមុន។", trpEmpty:"មិនទាន់មានរបាយការណ៍ទេ។ របាយការណ៍លេចឡើងនៅពេលការងារបញ្ចប់ទាំងស្រុង។", trpDoneAt:"បានបញ្ចប់", trpLeft:"នឹងលុបក្នុង {n} ថ្ងៃ", trpLeft0:"នឹងលុបថ្ងៃនេះ", trpPrint:"បោះពុម្ព / រក្សាទុកជា PDF", trpRepTitle:"របាយការណ៍ការងារ", trpColStep:"ជំហាន", trpColAt:"បានបញ្ចប់នៅ", trpColBy:"ដោយ", trpAllDone:"ជំហានទាំង {n} បានបញ្ចប់។", trpIssued:"ចេញដោយ HR 203 នៅ {d}", trpSharedBy:"ម្ចាស់ការងារ៖ {n}",
         acctPendingLbl:"គណនីកំពុងរង់ចាំការអនុម័ត", acctApprove:"អនុម័ត", acctDismiss:"បដិសេធ", acctApproved:"បានអនុម័តគណនី។", acctDismissed:"បានបដិសេធគណនី។", acctDismissConfirm:"បដិសេធ និងលុបគណនីរបស់ {name}?", acctPendingBy:"បង្កើតដោយ {n}",
         tdReopen: "ដោះសោការងារនេះឥឡូវ",
         tdWaitHdr: "កំពុងរង់ចាំ ({n})",
@@ -9826,6 +9839,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "第 {s} 步今天结束",
         tdStLocked: "此步骤将在设定日期开启。",
         tdLockedUntil: "任务已锁定，至 {d} 解锁",
+        trpBtn:"待办报告", trpTitle:"待办报告", trpHint:"任务的所有步骤完成后会生成报告。报告将在 7 天后删除，请先保存或打印。", trpEmpty:"暂无报告。任务全部完成后会出现报告。", trpDoneAt:"完成于", trpLeft:"{n} 天后删除", trpLeft0:"今天删除", trpPrint:"打印 / 保存为 PDF", trpRepTitle:"待办任务报告", trpColStep:"步骤", trpColAt:"完成时间", trpColBy:"完成人", trpAllDone:"全部 {n} 个步骤已完成。", trpIssued:"由 HR 203 于 {d} 出具", trpSharedBy:"任务所有者：{n}",
         acctPendingLbl:"账户待批准", acctApprove:"批准", acctDismiss:"拒绝", acctApproved:"账户已批准。", acctDismissed:"账户已拒绝。", acctDismissConfirm:"拒绝并删除 {name} 的账户？", acctPendingBy:"创建人：{n}",
         tdReopen: "立即解锁此任务",
         tdWaitHdr: "等待中（{n}）",
@@ -16532,7 +16546,7 @@ function exportDocGridToPDF() {
         '<style>body{font-family:Arial,sans-serif; padding:16px; color:#0f172a;} @media print { @page { margin: 10mm; } }</style>' +
         '</head><body>' +
         buildDocGridPrintHtml(state) +
-        '<script>window.onload = function(){ window.print(); };<\/script>' +
+        hrPrintTag() +
         '</body></html>'
     );
     win.document.close();
@@ -16678,7 +16692,7 @@ function exportDocWordToPDF() {
         '<!doctype html><html><head><meta charset="utf-8"><title>' + escapePrintText(title) + '</title>' +
         '<style>body{font-family:Arial,sans-serif; padding:20px; color:#0f172a; line-height:1.6;} @media print { @page { margin: 15mm; } }</style>' +
         '</head><body>' + html +
-        '<script>window.onload = function(){ window.print(); };<\/script>' +
+        hrPrintTag() +
         '</body></html>'
     );
     win.document.close();
@@ -19521,16 +19535,18 @@ function faPreviewReport(btn) {
 }
 
 function faExportReportPdf(btn) {
+    const pre = hrPreWin();
     withBusyButton(btn, async function () {
         const parts = await faReportParts();
-        if (!parts || !parts.rows.length) return;
+        if (!parts || !parts.rows.length) { hrPreClose(pre); return; }
         const html = faBuildReportHtml(parts.rows, parts.opts);
-        const win = window.open('', '_blank');
+        const win = pre || window.open('', '_blank');
         if (!win) { showToast(false); return; }
+        if (pre) { win.document.open(); }
         win.document.write(
             '<!doctype html><html><head><meta charset="utf-8"><title>' + faEsc(tLang('faReportTitle', parts.opts.lang) + ' ' + parts.opts.date) + '</title>' +
             '<style>body{font-family:"Khmer OS","Noto Sans Khmer","Noto Sans SC",Arial,sans-serif; padding:14px; color:#0f172a;} .fa-report th,.fa-report td{border:1px solid #94a3b8; padding:4px 6px; font-size:12px;} @media print { @page { size: A4 landscape; margin: 10mm; } }</style>' +
-            '</head><body>' + html + '<script>window.onload = function(){ window.print(); };<\/script></body></html>'
+            '</head><body>' + html + hrPrintTag() + '</body></html>'
         );
         win.document.close();
     });
@@ -19954,9 +19970,10 @@ function xcPreview(btn) {
 const XC_FONT = '"Khmer OS","Noto Sans Khmer","Noto Sans SC",Arial,sans-serif';
 
 function xcExport(btn) {
+    let pre = null; try { const fm = xcOptions().format; if (fm !== 'excel' && fm !== 'word') pre = hrPreWin(); } catch (e) {}
     withBusyButton(btn, async function () {
         const p = await xcPrepare();
-        if (!p) return;
+        if (!p) { hrPreClose(pre); return; }
         const o = p.o, ds = p.ds, orient = xcOrientOf(ds, o);
         const html = xcBuildHtml(ds, o);
         const name = xcFileBase(p.k, o);
@@ -19977,11 +19994,12 @@ function xcExport(btn) {
                 '</head><body><div class="Section1">' + html + '</div></body></html>';
             faDownloadBlob(new Blob(['﻿', doc], { type: 'application/msword' }), name + '.doc');
         } else {
-            const win = window.open('', '_blank');
+            const win = pre || window.open('', '_blank');
             if (!win) { showToast(false); return; }
+            if (pre) { win.document.open(); }
             win.document.write('<!doctype html><html><head><meta charset="utf-8"><title>' + faEsc(ds.title) + '</title>' +
                 '<style>body{font-family:' + XC_FONT + '; padding:14px; color:#0f172a;} @media print { @page { size: A4 ' + orient + '; margin: 10mm; } }</style>' +
-                '</head><body>' + html + '<script>window.onload = function(){ window.print(); };<\/script></body></html>');
+                '</head><body>' + html + hrPrintTag() + '</body></html>');
             win.document.close();
         }
     });
@@ -22244,7 +22262,7 @@ function rqDocHtml(r, key) {
 }
 function rqPrint(html) {
     const w = window.open('', '_blank'); if (!w) return;
-    w.document.write('<html><head><meta charset="utf-8"><title>' + rqE(t('rqTitle')) + '</title><style>body{margin:16px}@media print{@page{margin:12mm}}' + RQ_CSS + '</style></head><body>' + html + '</body></html>');
+    w.document.write('<html><head><meta charset="utf-8"><title>' + rqE(t('rqTitle')) + '</title><style>body{margin:16px}@media print{@page{margin:12mm}}' + RQ_CSS + '</style></head><body>' + html + '' + hrPrintTag(true) + '</body></html>');
     w.document.close(); w.focus(); setTimeout(function () { try { w.print(); } catch (e) {} }, 350);
 }
 
@@ -24693,7 +24711,7 @@ document.addEventListener('DOMContentLoaded', pgScan);
          '<h2>' + escapePrintText(title) + '</h2>' +
          (monthVal ? '<p>' + escapePrintText(monthVal) + '</p>' : '') +
          table.outerHTML +
-         '<script>window.onload = function(){ window.print(); };<\/script>' +
+         hrPrintTag() +
          '</body></html>'
      );
      win.document.close();
@@ -24773,7 +24791,7 @@ document.addEventListener('DOMContentLoaded', pgScan);
          (purposeText ? '<p>' + purposeText + '</p>' : '') +
          '<p class="cert-date">' + fillTemplate(tLang('certIssuedOnLine', lang), { date: todayStr }) + '</p>' +
          '<div class="cert-sig"><div>' + escapePrintText(tLang('certSignatureLine', lang)) + '<br>' + escapePrintText(tLang('certSignatureRole', lang)) + '</div></div>' +
-         '<div class="cert-print-btn" style="text-align:center; margin-top:30px;"><button onclick="window.print()" style="padding:8px 18px; font-size:13px;">' + escapePrintText(tLang('btnPrintSaveAsPDF', lang)) + '</button></div>' +
+         '<div class="cert-print-btn" style="text-align:center; margin-top:30px;"><button onclick="window.print()" style="padding:8px 18px; font-size:13px;">' + escapePrintText(tLang('btnPrintSaveAsPDF', lang)) + '</button></div>' + hrPrintTag(true) +
          '</body></html>'
      );
      win.document.close();
@@ -26003,7 +26021,7 @@ function paySlips(single) {
     if (!keys.length) { showToast(false, t('payNoRows')); return; }
     keys.sort(function (a, b) { return String(pay.rows[a].empId).localeCompare(String(pay.rows[b].empId), undefined, { numeric: true }); });
     var css = 'body{font-family:Arial,sans-serif;margin:0;padding:10px;}.slip{width:340px;border:1px solid #333;padding:12px;margin:0 auto 14px;page-break-inside:avoid;}h2{font-size:14px;margin:0 0 6px;}.who{font-size:12px;margin-bottom:6px;}table{width:100%;border-collapse:collapse;font-size:12px;}td{padding:2px 0;}td.n{text-align:right;}tr.b td{font-weight:bold;border-top:1px solid #333;padding-top:4px;}.bar{text-align:center;margin:10px;}@media print{.bar{display:none}.slip{margin:0 auto 8mm;}}';
-    var html = '<!doctype html><html><head><meta charset="utf-8"><title>Payslips ' + pay.month + '</title><style>' + css + '</style></head><body><div class="bar"><button onclick="window.print()" style="font-size:16px;padding:8px 18px;">Print / Save PDF</button></div>' + keys.map(paySlipBlock).join('') + '</body></html>';
+    var html = '<!doctype html><html><head><meta charset="utf-8"><title>Payslips ' + pay.month + '</title><style>' + css + '</style></head><body><div class="bar"><button onclick="window.print()" style="font-size:16px;padding:8px 18px;">Print / Save PDF</button></div>' + keys.map(paySlipBlock).join('') + hrPrintTag(true) + '</body></html>';
     var w = window.open('', '_blank'); if (!w) { showToast(false, t('payPopup')); return; }
     w.document.open(); w.document.write(html); w.document.close();
 }
@@ -26572,6 +26590,58 @@ async function tdDelete() {
     db.ref().update(ups).then(function () { showToast(true); tdEditClose(); });
 }
 try { if (tdWantsIt()) { setTimeout(function () { tdEnsure(); }, 1500); setInterval(function () { tdBadge(); }, 60000); } } catch (e) {}
+
+/* ================= To-Do Reports: made when every step of a task is finished; gone 7 days later ================= */
+var TRP_DAYS = 7;
+function trpStamp(ms) { var d = new Date(ms + 7 * 3600000); return tdPad(d.getUTCDate()) + '/' + tdPad(d.getUTCMonth() + 1) + '/' + d.getUTCFullYear() + ' ' + tdPad(d.getUTCHours()) + ':' + tdPad(d.getUTCMinutes()); }
+function trpItems() {
+    var out = [], now = Date.now(), today = kbToday();
+    Object.keys(td.tpl || {}).forEach(function (cid) {
+        var tpl = td.tpl[cid], dn = (td.done || {})[cid] || {}; if (!tpl) return;
+        Object.keys(dn).forEach(function (key) {
+            var d = dn[key]; if (!d || !d.doneAt || now - d.doneAt > TRP_DAYS * 86400000) return;
+            var x = tdInst(Object.assign({}, tpl, { id: cid }), key, td.done, today); if (!x.complete) return;
+            out.push({ cid: cid, key: key, x: x, at: d.doneAt });
+        });
+    });
+    return out.sort(function (a, b) { return b.at - a.at; });
+}
+function trpOpen(focus) { tdEnsure(function () { document.getElementById('trpModal').style.display = 'flex'; trpRender(focus); }); }
+function trpClose() { document.getElementById('trpModal').style.display = 'none'; }
+function trpRender(focus) {
+    var m = document.getElementById('trpModal'); if (!m || m.style.display !== 'flex') return;
+    var items = trpItems(), box = document.getElementById('trpList'), now = Date.now();
+    if (!items.length) { box.innerHTML = '<div style="text-align:center;color:#94a3b8;padding:24px 8px;">' + escapeHtmlText(t('trpEmpty')) + '</div>'; return; }
+    box.innerHTML = items.map(function (it) {
+        var p = it.x.tpl, left = Math.max(0, Math.ceil((it.at + TRP_DAYS * 86400000 - now) / 86400000));
+        var sub = [tdPeriodLabel(it.x), t('trpDoneAt') + ' ' + trpStamp(it.at)].filter(Boolean).join(' · ');
+        var own = (p._owner && p._owner !== td.me) ? '<div style="font-size:11px;color:#64748b;">' + escapeHtmlText(fillTemplate(t('trpSharedBy'), { n: tdOwnerName(p._owner) })) + '</div>' : '';
+        return '<div class="tdCard" style="border-left:6px solid #0369a1;' + (focus && focus === it.cid + '|' + it.key ? 'box-shadow:0 0 0 3px #bae6fd;' : '') + '"><b style="font-size:15px;white-space:pre-line;">' + escapeHtmlText(p.title || '') + '</b><div style="font-size:12px;color:#475569;margin-top:3px;">' + escapeHtmlText(sub) + '</div>' + own +
+            '<div style="font-size:11px;color:#b45309;margin-top:3px;">' + escapeHtmlText(left > 0 ? fillTemplate(t('trpLeft'), { n: left }) : t('trpLeft0')) + '</div>' +
+            '<div style="margin-top:8px;"><button class="kbBtn" style="margin:0;" onclick="trpPrint(\'' + it.cid.replace(/'/g, "\\'") + '\',\'' + it.key + '\')">' + escapeHtmlText(t('trpPrint')) + '</button></div></div>';
+    }).join('');
+}
+function trpPrint(cid, key) {
+    var tpl = td.tpl[cid]; if (!tpl) return;
+    var x = tdInst(Object.assign({}, tpl, { id: cid }), key, td.done, kbToday()); if (!x.complete) return;
+    var steps = tpl.steps || [], rows = steps.map(function (st, i) {
+        var d = x.s[tdStepKey(st)] || {};
+        return '<tr><td style="width:8%;text-align:center;">' + (i + 1) + '</td><td>' + escapeHtmlText(st) + '</td><td style="width:22%;">' + escapeHtmlText(d.at ? trpStamp(d.at) : '-') + '</td><td style="width:20%;">' + escapeHtmlText(d.by || '-') + '</td></tr>';
+    }).join('');
+    var sub = [tdPeriodLabel(x), tpl.type || '', tpl.scope ? (dgScopeLabel(tpl.scope) || '') : ''].filter(Boolean).join(' · ');
+    var own = (tpl._owner && tpl._owner !== td.me) ? '<div class="m">' + escapeHtmlText(fillTemplate(t('trpSharedBy'), { n: tdOwnerName(tpl._owner) })) + '</div>' : '';
+    var html = '<div class="rp"><div class="k">' + escapeHtmlText(t('trpRepTitle')) + '</div><h2>' + escapeHtmlText(tpl.title || '') + '</h2><div class="m">' + escapeHtmlText(sub) + '</div>' + own +
+        '<table><thead><tr><th>#</th><th>' + escapeHtmlText(t('trpColStep')) + '</th><th>' + escapeHtmlText(t('trpColAt')) + '</th><th>' + escapeHtmlText(t('trpColBy')) + '</th></tr></thead><tbody>' + rows + '</tbody></table>' +
+        '<p class="ok">&#10003; ' + escapeHtmlText(fillTemplate(t('trpAllDone'), { n: x.total })) + ' ' + escapeHtmlText(t('trpDoneAt')) + ' ' + escapeHtmlText(trpStamp(x.doneAt)) + '</p><div class="f">' + escapeHtmlText(fillTemplate(t('trpIssued'), { d: trpStamp(Date.now()) })) + '</div></div>';
+    cfPrintFrame(html, '@page{size:A4;margin:14mm}body{font-family:Arial,"Noto Sans Khmer","Khmer OS","Noto Sans SC",sans-serif;color:#0f172a;}.rp .k{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#64748b;}.rp h2{margin:4px 0 4px;font-size:20px;white-space:pre-line;}.rp .m{font-size:12px;color:#475569;margin-bottom:4px;}.rp table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px;}.rp th,.rp td{border:.3mm solid #94a3b8;padding:5px 7px;text-align:left;vertical-align:top;}.rp th{background:#e2e8f0;}.rp .ok{margin-top:14px;font-weight:700;color:#166534;}.rp .f{margin-top:18px;font-size:10px;color:#94a3b8;}', true);
+}
+(function () { var o = tdRender; tdRender = function () { o.apply(this, arguments); try { trpRender(); } catch (e) {} }; })();
+/* a Telegram link opens the report page after the login: https://hr203.com/#trp=<task>|<period> */
+(function () {
+    var h = ''; try { h = decodeURIComponent(String(location.hash || '')); } catch (e) {}
+    if (h.indexOf('#trp=') !== 0) return; var want = h.slice(5), tries = 0;
+    var iv = setInterval(function () { if (++tries > 240) { clearInterval(iv); return; } if (sessionStorage.getItem('isLoggedIn') === 'true') { clearInterval(iv); trpOpen(want); } }, 1000);
+})();
 function tdBadge() {
     var b = document.getElementById('tdMenuBadge'); if (!b) return;
     var n = tdCount('over') + tdCount('soon'); b.style.display = n ? 'inline-block' : 'none'; b.innerText = n;
@@ -26892,12 +26962,43 @@ function cfDownload() {
 }
 /* Printing: the page is built with no margin and no title, so the browser has no room for its own
    header / footer (date, title, address, page numbers), and a PDF is printed page by page at its own size. */
-function cfPrintFrame(inner, css) {
+
+/* ================= print footer: same on every print / Save as PDF =================
+   Browser lines (website link, page title, its own date) are switched off. Our own footer is
+   "01/11/2026 8:00 AM" with "Page 1/1" below. PC Chrome/Edge: exact page numbers on every page.
+   iPhone / Safari: no page-number support, so the page count is shown only when the print is one page. */
+
+/* phones block a new window that opens after the page waited for data: open it at the tap, fill it later */
+function hrPreWin() { var w = null; try { w = window.open('', '_blank'); if (w) { w.document.write('<!doctype html><meta charset="utf-8"><title> </title><body style="font-family:Arial,sans-serif;color:#64748b;padding:24px;">...</body>'); } } catch (e) {} return w; }
+function hrPreClose(w) { try { if (w) w.close(); } catch (e) {} }
+function hrStamp() { var d = new Date(Date.now() + 7 * 3600000), h = d.getUTCHours(), p = function (n) { return (n < 10 ? '0' : '') + n; }; return p(d.getUTCDate()) + '/' + p(d.getUTCMonth() + 1) + '/' + d.getUTCFullYear() + ' ' + (h % 12 || 12) + ':' + p(d.getUTCMinutes()) + ' ' + (h >= 12 ? 'PM' : 'AM'); }
+function hrMB() { var u = navigator.userAgent || ''; return /(Chrome|Edg)\//.test(u) && !/iPhone|iPad|iPod|CriOS|FxiOS/.test(u); }
+function hrPrintCss() {
+    if (hrMB()) return '@page{margin-bottom:16mm;@top-left{content:""}@top-center{content:""}@top-right{content:""}@bottom-left{content:""}@bottom-center{content:""}@bottom-right{content:"' + hrStamp() + '\\A Page " counter(page) "/" counter(pages);white-space:pre;text-align:right;font:9px Arial,sans-serif;color:#555}}';
+    return '@page{margin:0!important}html,body{margin:0!important}body{padding:10mm 10mm 18mm!important;box-sizing:border-box}.hrFoot{position:fixed;right:10mm;bottom:5mm;font:9px Arial,sans-serif;color:#555;text-align:right;white-space:pre;}';
+}
+function hrFootHtml(one) { return hrMB() ? '' : '<div class="hrFoot">' + hrStamp() + (one ? '\nPage 1/1' : '') + '</div>'; }
+/* put at the end of a print window: style + footer (+ print when auto is not false) */
+function hrPrintTag(noAuto) {
+    return '<style>' + hrPrintCss() + '</style>' + hrFootHtml(false) +
+        '<script>(function(){var f=document.querySelector(".hrFoot");function go(){if(f){var h=document.documentElement.scrollHeight,l=document.documentElement.innerHTML.indexOf("landscape")>-1;if(h<=(l?700:1000))f.textContent=f.textContent.split("\\n")[0]+"\\nPage 1/1";}' + (noAuto ? '' : 'window.print();') + '}' + (noAuto ? 'window.addEventListener("beforeprint",go);' : 'window.onload=go;') + '})();<\/script>';
+}
+/* prints of the page itself (labels, asset report, ...) */
+(function () {
+    var st = document.createElement('style'); st.id = 'hrpMain'; document.head.appendChild(st);
+    window.addEventListener('beforeprint', function () {
+        document.head.appendChild(st);
+        st.textContent = hrPrintCss() + 'html body>div#hrFootMain{display:block!important;}';
+        if (!hrMB()) { var f = document.getElementById('hrFootMain'); if (f) f.remove(); f = document.createElement('div'); f.id = 'hrFootMain'; f.className = 'hrFoot'; f.textContent = hrStamp() + (window.__hrOnePage ? '\nPage 1/1' : ''); document.body.appendChild(f); }
+    });
+    window.addEventListener('afterprint', function () { st.textContent = ''; var f = document.getElementById('hrFootMain'); if (f) f.remove(); });
+})();
+function cfPrintFrame(inner, css, foot) {
     var old = document.getElementById('cfPrintFrame'); if (old) old.remove();
     var f = document.createElement('iframe'); f.id = 'cfPrintFrame'; f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;visibility:hidden;';
     document.body.appendChild(f);
     var d = f.contentWindow.document; d.open();
-    d.write('<!doctype html><html><head><meta charset="utf-8"><title> </title><style>html,body{margin:0;padding:0;}img{display:block;}' + css + '</style></head><body>' + inner + '</body></html>');
+    d.write('<!doctype html><html><head><meta charset="utf-8"><title> </title><style>html,body{margin:0;padding:0;}img{display:block;}' + css + '</style></head><body>' + inner + (foot ? hrPrintTag(true) : '') + '</body></html>');
     d.close();
     var go = function () { try { f.contentWindow.focus(); f.contentWindow.print(); } catch (e) { window.print(); } };
     var imgs = d.images, left = imgs.length; if (!left) { setTimeout(go, 200); return; }
@@ -27602,8 +27703,8 @@ function hrQRsvg(text, px) {
       var dt = a.createdAt ? new Date(a.createdAt) : new Date(), ds = ('0' + dt.getDate()).slice(-2) + '/' + ('0' + (dt.getMonth() + 1)).slice(-2) + '/' + dt.getFullYear();
       return '<div class="am-label">' + hrQRsvg(String(a.id), 90) + '<div class="tx"><div class="i">' + esc(a.id) + '</div><div class="d">' + esc(ds) + '</div><div class="p">' + esc(a.dept || '') + '</div></div></div>';
     }).join('') + '</div>';
-    var root = $('amPrintRoot'); root.innerHTML = html;
-    var done = function () { root.innerHTML = ''; window.removeEventListener('afterprint', done); };
+    var root = $('amPrintRoot'); root.innerHTML = html; window.__hrOnePage = list.length <= 20;
+    var done = function () { window.__hrOnePage = false; root.innerHTML = ''; window.removeEventListener('afterprint', done); };
     window.addEventListener('afterprint', done);
     setTimeout(function () { try { window.print(); } catch (e) { done(); } }, 150);
   };

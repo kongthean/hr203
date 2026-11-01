@@ -1055,9 +1055,36 @@ function rqDocHtml(r, key) {
         '<h4>' + rqE(t('rqChange')) + '</h4>' + what + '<h4>' + rqE(t('rqDetail')) + '</h4><div class="rq-detail">' + rqE(r.detail) + '</div>' +
         '<div class="rq-sigs">' + rqSig(t('rqSigRequested'), { s: 'approved', by: r.by, at: r.at }) + rqSig(t('rqSigHR'), r.hr, null, r) + rqSig(t('rqSigAdmin'), r.ad, instead) + '</div></div>';
 }
+
+/* ================= print footer: same on every print / Save as PDF =================
+   Browser lines (website link, page title, its own date) are switched off. Our own footer is
+   "01/11/2026 8:00 AM" with "Page 1/1" below. PC Chrome/Edge: exact page numbers on every page.
+   iPhone / Safari: no page-number support, so the page count is shown only when the print is one page. */
+function hrStamp() { var d = new Date(Date.now() + 7 * 3600000), h = d.getUTCHours(), p = function (n) { return (n < 10 ? '0' : '') + n; }; return p(d.getUTCDate()) + '/' + p(d.getUTCMonth() + 1) + '/' + d.getUTCFullYear() + ' ' + (h % 12 || 12) + ':' + p(d.getUTCMinutes()) + ' ' + (h >= 12 ? 'PM' : 'AM'); }
+function hrMB() { var u = navigator.userAgent || ''; return /(Chrome|Edg)\//.test(u) && !/iPhone|iPad|iPod|CriOS|FxiOS/.test(u); }
+function hrPrintCss() {
+    if (hrMB()) return '@page{margin-bottom:16mm;@top-left{content:""}@top-center{content:""}@top-right{content:""}@bottom-left{content:""}@bottom-center{content:""}@bottom-right{content:"' + hrStamp() + '\\A Page " counter(page) "/" counter(pages);white-space:pre;text-align:right;font:9px Arial,sans-serif;color:#555}}';
+    return '@page{margin:0!important}html,body{margin:0!important}body{padding:10mm 10mm 18mm!important;box-sizing:border-box}.hrFoot{position:fixed;right:10mm;bottom:5mm;font:9px Arial,sans-serif;color:#555;text-align:right;white-space:pre;}';
+}
+function hrFootHtml(one) { return hrMB() ? '' : '<div class="hrFoot">' + hrStamp() + (one ? '\nPage 1/1' : '') + '</div>'; }
+/* put at the end of a print window: style + footer (+ print when auto is not false) */
+function hrPrintTag(noAuto) {
+    return '<style>' + hrPrintCss() + '</style>' + hrFootHtml(false) +
+        '<script>(function(){var f=document.querySelector(".hrFoot");function go(){if(f){var h=document.documentElement.scrollHeight,l=document.documentElement.innerHTML.indexOf("landscape")>-1;if(h<=(l?700:1000))f.textContent=f.textContent.split("\\n")[0]+"\\nPage 1/1";}' + (noAuto ? '' : 'window.print();') + '}' + (noAuto ? 'window.addEventListener("beforeprint",go);' : 'window.onload=go;') + '})();<\/script>';
+}
+/* prints of the page itself (labels, asset report, ...) */
+(function () {
+    var st = document.createElement('style'); st.id = 'hrpMain'; document.head.appendChild(st);
+    window.addEventListener('beforeprint', function () {
+        document.head.appendChild(st);
+        st.textContent = hrPrintCss() + 'html body>div#hrFootMain{display:block!important;}';
+        if (!hrMB()) { var f = document.getElementById('hrFootMain'); if (f) f.remove(); f = document.createElement('div'); f.id = 'hrFootMain'; f.className = 'hrFoot'; f.textContent = hrStamp() + (window.__hrOnePage ? '\nPage 1/1' : ''); document.body.appendChild(f); }
+    });
+    window.addEventListener('afterprint', function () { st.textContent = ''; var f = document.getElementById('hrFootMain'); if (f) f.remove(); });
+})();
 function rqPrint(html) {
     const w = window.open('', '_blank'); if (!w) return;
-    w.document.write('<html><head><meta charset="utf-8"><title>' + rqE(t('rqTitle')) + '</title><style>body{margin:16px}@media print{@page{margin:12mm}}' + RQ_CSS + '</style></head><body>' + html + '</body></html>');
+    w.document.write('<html><head><meta charset="utf-8"><title>' + rqE(t('rqTitle')) + '</title><style>body{margin:16px}@media print{@page{margin:12mm}}' + RQ_CSS + '</style></head><body>' + html + '' + hrPrintTag(true) + '</body></html>');
     w.document.close(); w.focus(); setTimeout(function () { try { w.print(); } catch (e) {} }, 350);
 }
 

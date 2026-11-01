@@ -294,6 +294,7 @@ async function run(env) {
   /* 3) To-Do steps: one pinned message per open task step, per linked group (see the notes above) */
   {
     const stepsAll = (await tref.child('steps').once('value')).val() || {};
+    const repAll = (await tref.child('reportSent').once('value')).val() || {};
     const sid = z => String(z).replace(/[.#$\[\]\/]/g, '_');
     const pinTry = async (chat, mid) => {
       try { await tg('pinChatMessage', { chat_id: chat, message_id: mid, disable_notification: true }); }
@@ -328,6 +329,19 @@ async function run(env) {
         /* a step of an earlier message got completed (button or website) */
         seen[sid(cid) + '|' + sid(per)] = 1;
         if (rec && (rec.n !== x.next || x.complete)) { await finish(x, rec, node); rec = null; }
+        /* a finished task makes a report: tell the task owner once per completion (a redo and finish again makes a new one) */
+        if (x.complete && x.doneAt && String(cid).indexOf(key + '~') === 0 && nowMs - x.doneAt < 7 * 86400000) {
+          const sc = sid(cid), sp = sid(per);
+          if (((repAll[key] || {})[sc] || {})[sp] !== x.doneAt) {
+            try {
+              const link = 'https://hr203.com/#trp=' + encodeURIComponent(cid + '|' + per);
+              await tg('sendMessage', { chat_id: me ? me.chatId : chat, parse_mode: 'HTML', text: '📄 <b>Task report ready</b>\n\n' + taskLines(x, false) + '\n\nCompleted: <b>' + esc(whenText(x.doneAt)) + '</b>\n\nOpen it, then save or print the PDF (it is removed after 7 days):\n' + link });
+              await db.ref('meta/telegram/reportSent/' + key + '/' + sc + '/' + sp).set(x.doneAt);
+              repAll[key] = repAll[key] || {}; repAll[key][sc] = repAll[key][sc] || {}; repAll[key][sc][sp] = x.doneAt;
+              out.reports = (out.reports || 0) + 1;
+            } catch (e) { console.error('report message failed: ' + String(e && e.message || e).replace(/bot\d+:[A-Za-z0-9_-]+/g, 'bot***')); }
+          }
+        }
         if (x.complete || x.next < 0) continue;
         const n = x.next, w = tdStepWin(x.tpl, per, n);
         if (!rec) {
