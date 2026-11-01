@@ -165,7 +165,7 @@ async function loadTodo(env) {
   if (c) { c.v = v; c.at = Date.now(); }
   return v;
 }
-function normTask(p) { p = p || {}; p.steps = Array.isArray(p.steps) ? p.steps : Object.keys(p.steps || {}).map(k => p.steps[k]); if (p.extra && !Array.isArray(p.extra)) p.extra = Object.keys(p.extra).sort((a, b) => a - b).map(q => p.extra[q]); ['stepDates', 'stepFrom'].forEach(k => { if (p[k]) p[k] = Array.isArray(p[k]) ? p[k] : Object.keys(p[k]).sort((a, b) => a - b).map(q => p[k][q]); }); return p; }
+function normTask(p) { p = p || {}; p.steps = Array.isArray(p.steps) ? p.steps : Object.keys(p.steps || {}).map(k => p.steps[k]); if (p.extra && !Array.isArray(p.extra)) p.extra = Object.keys(p.extra).sort((a, b) => a - b).map(q => p.extra[q]); ['stepDates', 'stepFrom', 'stepEarly'].forEach(k => { if (p[k]) p[k] = Array.isArray(p[k]) ? p[k] : Object.keys(p[k]).sort((a, b) => a - b).map(q => p[k][q]); }); return p; }
 function visibleTasks(T, key) {
   const tpls = {}, dn = {}, own = T.todo[key] || {};
   Object.keys(own.tasks || {}).forEach(id => { tpls[key + '~' + id] = normTask(own.tasks[id]); dn[key + '~' + id] = (own.done || {})[id] || {}; });

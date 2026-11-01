@@ -2245,7 +2245,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 .tdSRow{display:flex;gap:8px;align-items:flex-end;margin-bottom:10px;flex-wrap:wrap;padding:8px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;}.tdSRow textarea{flex:1 1 100%;min-width:0;box-sizing:border-box;resize:none;overflow:hidden;min-height:38px;padding:8px 10px;line-height:1.35;}.tdSRow input[type=date]{box-sizing:border-box;}#tdSteps.noDate .tdSD{display:none;}.tdSBtn{flex:none;width:30px;height:38px;border:1px solid #cbd5e1;background:#fff;border-radius:8px;cursor:pointer;font-size:14px;padding:0 !important;min-height:0 !important;}.tdSBtn.del{color:#b91c1c;}
 .tdSDate{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;background:#f1f5f9;color:#475569;margin-right:6px;}.tdSDate.over{background:#fee2e2;color:#b91c1c;}.tdSDate.today{background:#fef3c7;color:#b45309;}.tdSDate.active{background:#dbeafe;color:#1d4ed8;}.tdXRow{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;padding:8px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;position:relative;}.tdXRow input,.tdXRow textarea{width:100%;box-sizing:border-box;}.tdXRow textarea{resize:vertical;min-height:38px;}.tdXTop{display:flex;gap:8px;align-items:stretch;}.tdXTop input{flex:1;min-width:0;width:auto !important;}.tdXDel{flex:0 0 auto;width:44px;border:1px solid #fecaca;background:#fef2f2;border-radius:10px;color:#dc2626;cursor:pointer;padding:0 !important;min-height:0 !important;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;margin:0 !important;}.tdXDel:hover{background:#fee2e2;}
 .tdXBox{margin-top:8px;border:1px solid #fde68a;background:#fffbeb;border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.45;}.tdXBox div+div{margin-top:6px;}.tdXBox small{display:block;white-space:pre-wrap;color:#78350f;}
-.tdSD{display:flex;flex-direction:column;flex:1 1 150px;max-width:210px;}
+.tdSD{display:flex;flex-direction:column;flex:1 1 150px;max-width:210px;}.tdSD select{width:100%;box-sizing:border-box;padding:8px 6px;}.tdSNote{flex:1 1 100%;font-size:12px;font-weight:700;line-height:1.35;border-radius:8px;padding:6px 9px;}.tdSNote:empty{display:none;}.tdSNote.r{background:#fef2f2;color:#b91c1c;}.tdSNote.g{background:#f0fdf4;color:#15803d;}.tdSNote.a{background:#fffbeb;color:#b45309;}.tdSNote.n{background:#f1f5f9;color:#475569;}#tdSteps.noDate .tdSNote{display:none;}
 .tdSTx{position:relative;flex:1 1 100%;min-width:0;}.tdSTx textarea{width:100%;padding-right:44px !important;}
 .tdSPick{position:absolute;right:5px;top:5px;width:32px;height:30px;border:1px solid #cbd5e1;background:#f1f5f9;border-radius:8px;cursor:pointer;font-size:13px;color:#334155;padding:0 !important;min-height:0 !important;}
 .tdPhPop{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;background:#fff;border:1px solid #cbd5e1;border-radius:12px;box-shadow:0 10px 30px rgba(15,23,42,.22);padding:8px;max-height:320px;overflow:auto;}
@@ -5165,6 +5165,20 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdSnDup: "This sentence is already saved.",
         mtA_todo_phrases: "Saved sentences (add / edit / delete)",
         tdFromLbl: "From",
+        tdOpensLbl: "Opens",
+        tdOpOnDate: "On its date",
+        tdOpEarly: "Can finish early",
+        tdNoteLockFT: "Locked until {f}. You cannot swipe it before then. Open {f} to {t}.",
+        tdNoteLockT: "Locked until {t}, the deadline day. To finish earlier, choose Can finish early.",
+        tdNoteEarly: "You can swipe this any time. It turns late after {t}.",
+        tdNoteNone: "No dates. Always open.",
+        tdNoteSwap: "From is after To. They will be swapped when you save.",
+        tdNoteBefore: "This step opens before the step above it.",
+        tdNoteMonth: "This date is in a different month. Only the day number is used.",
+        tdOpenedNext: "{a} of {b} done · next step opens {d}",
+        tdNextOpens: "Next step opens {d}",
+        tdSaveLockAsk: "These steps will be locked until their date:",
+        tdSaveLockLine: "Step {n} locked until {d}",
         tdToLbl: "To (deadline)",
         tdStLate: "late {n} day(s)",
         tdStStarts: "starts in {n} day(s)",
@@ -7514,6 +7528,20 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdSnDup: "ប្រយោគនេះបានរក្សាទុករួចហើយ។",
         mtA_todo_phrases: "ប្រយោគដែលបានរក្សាទុក (បន្ថែម / កែ / លុប)",
         tdFromLbl: "ចាប់ពី",
+        tdOpensLbl: "បើក",
+        tdOpOnDate: "តាមកាលបរិច្ឆេទ",
+        tdOpEarly: "បញ្ចប់មុនបាន",
+        tdNoteLockFT: "ចាក់សោរហូតដល់ {f}។ មិនអាចអូសមុននេះទេ។ បើក {f} ដល់ {t}។",
+        tdNoteLockT: "ចាក់សោរហូតដល់ {t} ថ្ងៃកំណត់។ ចង់បញ្ចប់មុន សូមជ្រើស «បញ្ចប់មុនបាន»។",
+        tdNoteEarly: "អាចអូសបានគ្រប់ពេល។ យឺតក្រោយ {t}។",
+        tdNoteNone: "គ្មានកាលបរិច្ឆេទ។ បើកជានិច្ច។",
+        tdNoteSwap: "«ចាប់ពី» នៅក្រោយ «ដល់»។ នឹងប្តូរកន្លែងពេលរក្សាទុក។",
+        tdNoteBefore: "ជំហាននេះបើកមុនជំហានខាងលើ។",
+        tdNoteMonth: "កាលបរិច្ឆេទនេះនៅខែផ្សេង។ ប្រើតែលេខថ្ងៃ។",
+        tdOpenedNext: "រួច {a} នៃ {b} · ជំហានបន្ទាប់បើក {d}",
+        tdNextOpens: "ជំហានបន្ទាប់បើក {d}",
+        tdSaveLockAsk: "ជំហានទាំងនេះនឹងចាក់សោរដល់កាលបរិច្ឆេទ៖",
+        tdSaveLockLine: "ជំហាន {n} ចាក់សោរដល់ {d}",
         tdToLbl: "ដល់ (កំណត់)",
         tdStLate: "យឺត {n} ថ្ងៃ",
         tdStStarts: "ចាប់ផ្តើមក្នុង {n} ថ្ងៃ",
@@ -9825,6 +9853,20 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdSnDup: "该句子已保存。",
         mtA_todo_phrases: "已保存的句子（添加 / 编辑 / 删除）",
         tdFromLbl: "从",
+        tdOpensLbl: "开放",
+        tdOpOnDate: "按日期",
+        tdOpEarly: "可提前完成",
+        tdNoteLockFT: "锁定至 {f}，之前无法滑动完成。开放时间 {f} 至 {t}。",
+        tdNoteLockT: "锁定至 {t}（截止日）。如需提前完成，请选“可提前完成”。",
+        tdNoteEarly: "随时可滑动完成。{t} 之后算逾期。",
+        tdNoteNone: "没有日期，随时开放。",
+        tdNoteSwap: "“从”晚于“到”，保存时将自动对调。",
+        tdNoteBefore: "此步骤比上一步更早开放。",
+        tdNoteMonth: "此日期在不同月份，只使用日号。",
+        tdOpenedNext: "已完成 {a}/{b} · 下一步 {d} 开放",
+        tdNextOpens: "下一步 {d} 开放",
+        tdSaveLockAsk: "以下步骤在日期前将被锁定：",
+        tdSaveLockLine: "第 {n} 步锁定至 {d}",
         tdToLbl: "到（截止）",
         tdStLate: "逾期 {n} 天",
         tdStStarts: "{n} 天后开始",
@@ -26075,7 +26117,7 @@ function tdInst(tpl, key, done, today) {
   /* a step with its own dates also counts: a step that is late (not ticked) makes the task Late, a step ending within the warning days makes it Due soon */
   var sLate = 0, sLateMax = 0, sSoon = 0, sMin = 9999, sMinIx = -1, firstLate = -1, firstAvail = -1, waiting = false, why = '', unlock = '';
   /* a step with a date opens ON that date (its start date for a range) and cannot be completed before */
-  var avail = steps.map(function (st, ix) { var w = tpl.stepDates ? tdStepWin(tpl, key, ix) : null; if (!w) return true; if (dn.open && dn.open[tdStepKey(st)]) return true; return (w.from || w.to) <= today; });
+  var avail = steps.map(function (st, ix) { var w = tpl.stepDates ? tdStepWin(tpl, key, ix) : null; if (!w) return true; if (dn.open && dn.open[tdStepKey(st)]) return true; if (tpl.stepEarly && tpl.stepEarly[ix]) return true; return (w.from || w.to) <= today; });
   if (!complete && tpl.stepDates) steps.forEach(function (st, ix) {
     if (s[tdStepKey(st)]) return; if (firstAvail < 0 && avail[ix]) firstAvail = ix;
     var w = tdStepWin(tpl, key, ix); if (w && !avail[ix]) { var us = w.from || w.to; if (!unlock || us < unlock) unlock = us; } if (!w || !avail[ix]) return; var dd = tdDiff(w.to, today);
@@ -26117,7 +26159,7 @@ function tdSplit(cid) { var i = cid.indexOf('~'); return { owner: cid.slice(0, i
 function tdPath(cid, kind) { var q = tdSplit(cid); return 'todo/' + q.owner + '/' + kind + '/' + q.id; }
 function tdRole() { return sessionStorage.getItem('loggedInRole') || ''; }
 function tdWantsIt() { return sessionStorage.getItem('isLoggedIn') === 'true' && (tdRole() === 'admin' || tdRole() === 'hr'); }
-function tdNorm(p) { p = p || {}; p.steps = Array.isArray(p.steps) ? p.steps : Object.keys(p.steps || {}).map(function (q) { return p.steps[q]; }); if (p.extra && !Array.isArray(p.extra)) p.extra = Object.keys(p.extra).sort(function (a, b) { return a - b; }).map(function (q) { return p.extra[q]; }); ['stepDates', 'stepFrom'].forEach(function (k) { if (p[k]) p[k] = Array.isArray(p[k]) ? p[k] : Object.keys(p[k]).sort(function (a, b) { return a - b; }).map(function (q) { return p[k][q]; }); }); return p; }
+function tdNorm(p) { p = p || {}; p.steps = Array.isArray(p.steps) ? p.steps : Object.keys(p.steps || {}).map(function (q) { return p.steps[q]; }); if (p.extra && !Array.isArray(p.extra)) p.extra = Object.keys(p.extra).sort(function (a, b) { return a - b; }).map(function (q) { return p.extra[q]; }); ['stepDates', 'stepFrom', 'stepEarly'].forEach(function (k) { if (p[k]) p[k] = Array.isArray(p[k]) ? p[k] : Object.keys(p[k]).sort(function (a, b) { return a - b; }).map(function (q) { return p[k][q]; }); }); return p; }
 function tdResolveMe(cb) {
     var fb = tdSan(sessionStorage.getItem('loggedInAccountUsername') || sessionStorage.getItem('loggedInAccountName') || 'admin');
     if (td.me) { cb(); return; }
@@ -26201,7 +26243,7 @@ function tdPeriodLabel(x) {
     return '';
 }
 function tdDueText(x) {
-    if (x.status === 'wait') return fillTemplate(t('tdLockedUntil'), { d: tdFmtDM(x.unlock) });
+    if (x.status === 'wait') return fillTemplate(t('tdNextOpens'), { d: tdFmtDM(x.unlock) });
     if (x.status === 'done') return t('tdFinished');
     if (x.why === 'step') return x.status === 'over' ? fillTemplate(t('tdStepsLate'), { n: x.stepLate }) : (x.stepSoonMin === 0 ? fillTemplate(t('tdStepEndsToday'), { s: x.stepSoonIx + 1 }) : fillTemplate(t('tdStepEnds'), { s: x.stepSoonIx + 1, n: x.stepSoonMin }));
     if (x.days < 0) return fillTemplate(t('tdOverdueBy'), { n: -x.days });
@@ -26295,11 +26337,11 @@ function tdCardHtml(x) {
     if (p._owner && p._owner !== td.me) meta += '<div class="tdMeta">' + TDI.usr + '' + escapeHtmlText(fillTemplate(t('tdSharedBy'), { n: tdOwnerName(p._owner) })) + '</div>';
     else if (p.shareWith && Object.keys(p.shareWith).length) meta += '<div class="tdMeta">' + TDI.grp + '' + escapeHtmlText(fillTemplate(t('tdSharedWith'), { n: Object.keys(p.shareWith).map(tdOwnerName).join(', ') })) + '</div>';
     var head = '<div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start;"><b style="font-size:15px;white-space:pre-line;">' + escapeHtmlText(p.title || '') + '</b><span class="tdPill" style="background:' + col + ';">' + escapeHtmlText(tdDueText(x)) + '</span></div>' + meta + tdXBoxHtml(p) +
-        '<div class="tdBar"><div style="width:' + pct + '%;background:' + col + ';"></div></div><div style="font-size:11px;color:#64748b;">' + escapeHtmlText(done ? (x.ticked + ' / ' + x.total) : fillTemplate(t('tdStepOf'), { a: (x.next >= 0 ? x.next + 1 : Math.min(x.ticked + 1, x.total)), b: x.total }))+ '</div>';
+        '<div class="tdBar"><div style="width:' + pct + '%;background:' + col + ';"></div></div><div style="font-size:11px;color:#64748b;">' + escapeHtmlText(done ? (x.ticked + ' / ' + x.total) : x.waiting ? fillTemplate(t('tdOpenedNext'), { a: x.ticked, b: x.total, d: tdFmtDM(x.unlock) }) : fillTemplate(t('tdStepOf'), { a: (x.next >= 0 ? x.next + 1 : Math.min(x.ticked + 1, x.total)), b: x.total }))+ '</div>';
     var undo = '<button class="kbBtn grey" style="margin:0;" onclick="tdUndo(\'' + id + '\',\'' + key + '\')">&#8630; ' + escapeHtmlText(t('tdUndo')) + '</button>';
     if (x.waiting) {
         var headNP = head.replace(/<span class="tdPill"[^>]*>.*?<\/span>/, '');
-        return '<div class="tdCard tdWait" style="border-left:6px solid #94a3b8;"><div class="tdWrap"><div class="tdDim">' + headNP + '</div><div class="tdLockLay"><span>' + escapeHtmlText(fillTemplate(t('tdLockedUntil'), { d: tdFmtDM(x.unlock) })) + '</span></div></div>' + '<div style="margin-top:8px;">' + (x.ticked > 0 ? undo : '<button class="kbBtn grey" style="margin:0;" onclick="tdReopen(\'' + id + '\',\'' + key + '\')">&#8630; ' + escapeHtmlText(t('tdReopen')) + '</button>') + '</div></div>';
+        return '<div class="tdCard tdWait" style="border-left:6px solid #94a3b8;"><div class="tdWrap"><div class="tdDim">' + headNP + '</div><div class="tdLockLay"><span>' + escapeHtmlText(fillTemplate(t('tdNextOpens'), { d: tdFmtDM(x.unlock) })) + '</span></div></div>' + '<div style="margin-top:8px;">' + (x.ticked > 0 ? undo : '<button class="kbBtn grey" style="margin:0;" onclick="tdReopen(\'' + id + '\',\'' + key + '\')">&#8630; ' + escapeHtmlText(t('tdReopen')) + '</button>') + '</div></div>';
     }
     if (done) {
         var wake = { monthly: 'tdWakeM', weekly: 'tdWakeW', daily: 'tdWakeD' }[f];
@@ -26434,7 +26476,7 @@ function tdEdit(id) {
     var df = p.docsFor !== undefined ? parseInt(p.docsFor, 10) : -(parseInt(p.dueOffset, 10) || 0); g('tdE_docs').value = String(df || 0);
     g('tdE_warn').value = p.warn === undefined ? '' : p.warn;
     g('tdE_start').value = p.startFrom || ''; g('tdE_dueDate').value = p.dueDate || '';
-    tdStepRows(p.steps || [], p.stepDates || [], p.stepFrom || []); tdExtraRows(p.extra || []); tdStepGrow(g('tdE_note')); g('tdE_active').checked = p.active !== false;
+    tdStepRows(p.steps || [], p.stepDates || [], p.stepFrom || [], p.stepEarly || []); tdExtraRows(p.extra || []); tdStepGrow(g('tdE_note')); g('tdE_active').checked = p.active !== false;
     td.shareSel = Object.assign({}, p.shareWith || {}); td.shareOld = Object.assign({}, p.shareWith || {}); tdShareFill();
     document.getElementById('tdTypeBox').style.display = 'none'; tdTypeFill(p.type || '');
     g('tdDelBtn').style.display = id ? '' : 'none'; g('tdDelBtn').innerText = t('tdDelete'); g('tdCopyBtn').style.display = id ? '' : 'none';
@@ -26486,14 +26528,41 @@ function tdXBoxHtml(p) {
 }
 function tdFlowFill() { tdStepRows(tdFlowSteps().split('\n'), []); }
 function tdStepGrow(el) { el.style.height = 'auto'; el.style.height = (el.scrollHeight + 2) + 'px'; }
-function tdStepRowHtml(txt, dt, fr) {
-    return '<div class="tdSRow"><div class="tdSTx"><textarea rows="1" oninput="tdStepGrow(this)" data-i18n-ph="tdStepPh" placeholder="' + escapeHtmlText(t('tdStepPh')) + '">' + escapeHtmlText(txt || '') + '</textarea><button type="button" class="tdSPick" title="' + escapeHtmlText(t('tdSnPick')) + '" onclick="tdPhOpen(this)">&#9660;</button></div><label class="tdSD"><small>' + escapeHtmlText(t('tdFromLbl')) + '</small><input type="date" class="tdSFrom" value="' + escapeHtmlText(fr || '') + '"></label><label class="tdSD"><small>' + escapeHtmlText(t('tdToLbl')) + '</small><input type="date" class="tdSTo" value="' + escapeHtmlText(dt || '') + '"></label>' +
+
+function tdStepNotes() {
+    var f = (document.getElementById('tdE_freq') || {}).value || 'monthly', rows = document.querySelectorAll('#tdSteps .tdSRow'), prev = '';
+    var fm = function (d) { return f === 'monthly' ? String(parseInt(d.slice(8, 10), 10)) : (d.slice(8, 10) + '/' + d.slice(5, 7)); };
+    var mon = (document.getElementById('tdE_dueDate') || {}).value || '';
+    rows.forEach(function (r) {
+        var nb = r.querySelector('.tdSNote'); if (!nb) return;
+        var a = r.querySelector('.tdSFrom').value || '', b = r.querySelector('.tdSTo').value || '', e = r.querySelector('.tdSOpen').value === '1', msg = [], sw = false;
+        if (a && b && a > b) { var z = a; a = b; b = z; sw = true; }
+        if (a && !b) { b = a; a = ''; }
+        var cls = 'n';
+        if (!a && !b) msg.push(t('tdNoteNone'));
+        else if (e) { cls = 'g'; msg.push(fillTemplate(t('tdNoteEarly'), { t: fm(b) })); }
+        else { cls = 'r'; msg.push(a ? fillTemplate(t('tdNoteLockFT'), { f: fm(a), t: fm(b) }) : fillTemplate(t('tdNoteLockT'), { t: fm(b) })); }
+        var html = '<div class="' + cls + '" style="margin:0;">' + escapeHtmlText(msg[0]) + '</div>';
+        var extra = [];
+        if (sw) extra.push(['r', t('tdNoteSwap')]);
+        var op = a || b;
+        if (op && prev && op < prev && f !== 'daily') extra.push(['a', t('tdNoteBefore')]);
+        if (op && (f === 'once' || f === 'weekly') && (a || b)) { var m0 = (a || b).slice(0, 7), m1 = b.slice(0, 7); if (a && a.slice(0, 7) !== m1) extra.push(['a', t('tdNoteMonth')]); }
+        if (op) prev = op;
+        nb.className = 'tdSNote ' + cls; nb.innerHTML = escapeHtmlText(msg[0]);
+        nb.insertAdjacentHTML('beforeend', extra.map(function (x) { return '<div class="tdSNote ' + x[0] + '" style="margin-top:5px;">' + escapeHtmlText(x[1]) + '</div>'; }).join(''));
+    });
+}
+document.addEventListener('input', function (ev) { if (ev.target && ev.target.closest && ev.target.closest('#tdSteps')) tdStepNotes(); });
+document.addEventListener('change', function (ev) { if (ev.target && ev.target.closest && (ev.target.closest('#tdSteps') || ev.target.id === 'tdE_freq')) tdStepNotes(); });
+function tdStepRowHtml(txt, dt, fr, early) {
+    return '<div class="tdSRow"><div class="tdSTx"><textarea rows="1" oninput="tdStepGrow(this)" data-i18n-ph="tdStepPh" placeholder="' + escapeHtmlText(t('tdStepPh')) + '">' + escapeHtmlText(txt || '') + '</textarea><button type="button" class="tdSPick" title="' + escapeHtmlText(t('tdSnPick')) + '" onclick="tdPhOpen(this)">&#9660;</button></div><label class="tdSD"><small>' + escapeHtmlText(t('tdFromLbl')) + '</small><input type="date" class="tdSFrom" value="' + escapeHtmlText(fr || '') + '"></label><label class="tdSD"><small>' + escapeHtmlText(t('tdToLbl')) + '</small><input type="date" class="tdSTo" value="' + escapeHtmlText(dt || '') + '"></label><label class="tdSD"><small>' + escapeHtmlText(t('tdOpensLbl')) + '</small><select class="tdSOpen"><option value="">' + escapeHtmlText(t('tdOpOnDate')) + '</option><option value="1"' + (early ? ' selected' : '') + '>' + escapeHtmlText(t('tdOpEarly')) + '</option></select></label><div class="tdSNote"></div>' +
         '<button type="button" class="tdSBtn" onclick="tdStepMove(this,-1)">&#9650;</button><button type="button" class="tdSBtn" onclick="tdStepMove(this,1)">&#9660;</button><button type="button" class="tdSBtn del" onclick="tdStepDel(this)">&times;</button></div>';
 }
-function tdStepRows(steps, dates, froms) {
+function tdStepRows(steps, dates, froms, earlies) {
     var box = document.getElementById('tdSteps'); steps = steps && steps.length ? steps : ['', '', ''];
-    box.innerHTML = steps.map(function (x, i) { return tdStepRowHtml(x, (dates || [])[i] || '', (froms || [])[i] || ''); }).join('');
-    box.querySelectorAll('textarea').forEach(tdStepGrow);
+    box.innerHTML = steps.map(function (x, i) { return tdStepRowHtml(x, (dates || [])[i] || '', (froms || [])[i] || '', (earlies || [])[i]); }).join('');
+    box.querySelectorAll('textarea').forEach(tdStepGrow); tdStepNotes();
 }
 /* saved sentences: one list per account (todo/<account>/phrases), used to fill a step with one click */
 function tdPhList() { var o = (td.own || {}).phrases || {}; return Object.keys(o).map(function (k) { return { k: k, text: (o[k] && o[k].text) || '' }; }).filter(function (x) { return x.text; }).sort(function (a, b) { return (((o[b.k] || {}).at) || 0) - (((o[a.k] || {}).at) || 0) || a.text.localeCompare(b.text); }); }
@@ -26520,10 +26589,10 @@ function tdPhSaveCurrent() { if (!tdPhBox) return; tdPhWrite(tdPhBox.querySelect
 function tdPhSaveEdit() { var k = tdPhEditK, v = (document.getElementById('tdPhEditTx') || {}).value; v = String(v || '').trim().slice(0, 500); if (!k || !v) return; db.ref('todo/' + td.me + '/phrases/' + k).update({ text: v }).catch(function (e) { showToast(false, String(e && e.message || e)); }); tdPhEditK = null; }
 async function tdPhDel(k) { if (!(await cfAsk(t('tdPhDelAsk'), t('cfDelete')))) return; db.ref('todo/' + td.me + '/phrases/' + k).remove().catch(function (e) { showToast(false, String(e && e.message || e)); }); }
 document.addEventListener('mousedown', function (e) { if (tdPhBox && !tdPhBox.contains(e.target)) tdPhClose(); }, true);
-function tdStepAdd() { var box = document.getElementById('tdSteps'); box.insertAdjacentHTML('beforeend', tdStepRowHtml('', '', '')); var ta = box.lastElementChild.querySelector('textarea'); tdStepGrow(ta); ta.focus(); }
+function tdStepAdd() { var box = document.getElementById('tdSteps'); box.insertAdjacentHTML('beforeend', tdStepRowHtml('', '', '', 0)); tdStepNotes(); var ta = box.lastElementChild.querySelector('textarea'); tdStepGrow(ta); ta.focus(); }
 function tdStepDel(b) { var r = b.parentNode; r.parentNode.removeChild(r); }
 function tdStepMove(b, d) { var r = b.parentNode, o = d < 0 ? r.previousElementSibling : r.nextElementSibling; if (!o) return; if (d < 0) r.parentNode.insertBefore(r, o); else r.parentNode.insertBefore(o, r); }
-function tdStepsRead() { var st = [], dt = [], fr = []; document.querySelectorAll('#tdSteps .tdSRow').forEach(function (r) { var x = r.querySelector('textarea').value.trim(); if (!x) return; var a = r.querySelector('.tdSFrom').value || '', b = r.querySelector('.tdSTo').value || ''; if (a && b && a > b) { var z = a; a = b; b = z; } if (a && !b) { b = a; a = ''; } st.push(x); dt.push(b); fr.push(a); }); return { steps: st, dates: dt, froms: fr }; }
+function tdStepsRead() { var st = [], dt = [], fr = [], er = []; document.querySelectorAll('#tdSteps .tdSRow').forEach(function (r) { var x = r.querySelector('textarea').value.trim(); if (!x) return; var a = r.querySelector('.tdSFrom').value || '', b = r.querySelector('.tdSTo').value || ''; if (a && b && a > b) { var z = a; a = b; b = z; } if (a && !b) { b = a; a = ''; } st.push(x); dt.push(b); fr.push(a); er.push(r.querySelector('.tdSOpen').value ? 1 : 0); }); return { steps: st, dates: dt, froms: fr, earlies: er }; }
 /* a step can have a FROM and a TO date. monthly = those DAYS in the month, weekly = those weekdays, once = exact dates */
 function tdStepWin(tpl, key, i) {
     var to = tpl.stepDates && tpl.stepDates[i], fr = tpl.stepFrom && tpl.stepFrom[i];
@@ -26557,8 +26626,8 @@ function tdStepDateHtml(tpl, key, i, ticked) {
 }
 function tdSave() {
     var g = function (k) { return document.getElementById(k).value; }, title = g('tdE_title').trim(), seen = {}, steps = [];
-    var rd = tdStepsRead(), sdates = [], sfrom = [];
-    rd.steps.forEach(function (x, ix) { var base = x, n = 2; while (seen[tdStepKey(x)]) x = '(' + (n++) + ') ' + base; seen[tdStepKey(x)] = 1; steps.push(x); sdates.push(rd.dates[ix] || ''); sfrom.push(rd.froms[ix] || ''); });
+    var rd = tdStepsRead(), sdates = [], sfrom = [], searly = [];
+    rd.steps.forEach(function (x, ix) { var base = x, n = 2; while (seen[tdStepKey(x)]) x = '(' + (n++) + ') ' + base; seen[tdStepKey(x)] = 1; steps.push(x); sdates.push(rd.dates[ix] || ''); sfrom.push(rd.froms[ix] || ''); searly.push(rd.earlies[ix] || 0); });
     if (!td.me) { tdEnsure(); showToast(false, t('tdNeed')); return; }
     if (!title || !steps.length) { showToast(false, t('tdNeed')); return; }
     var f = g('tdE_freq'), pk = dgPickRaw('tdEPick') || { dept: '', group: '' };
@@ -26572,12 +26641,14 @@ function tdSave() {
     var tid = td.edit ? tdSplit(td.edit).id : db.ref('todo/' + td.me + '/tasks').push().key, ups = {}, sel = td.shareSel || {}, old = td.shareOld || {};
     var tyv = document.getElementById('tdE_type').value; if (tyv) o.type = tyv;
     var exl = tdExtraRead(); if (exl.length) o.extra = exl;
-    if (f !== 'daily') { if (sdates.some(function (x) { return x; })) o.stepDates = sdates; if (sfrom.some(function (x) { return x; })) o.stepFrom = sfrom; }
+    if (f !== 'daily') { if (sdates.some(function (x) { return x; })) o.stepDates = sdates; if (sfrom.some(function (x) { return x; })) o.stepFrom = sfrom; if (searly.some(function (x) { return x; })) o.stepEarly = searly; }
     if (Object.keys(sel).length) o.shareWith = Object.assign({}, sel);
     ups['todo/' + td.me + '/tasks/' + tid] = o;
     Object.keys(sel).forEach(function (k) { ups['todoShared/' + k + '/' + td.me + '/' + tid] = true; });
     Object.keys(old).forEach(function (k) { if (!sel[k]) ups['todoShared/' + k + '/' + td.me + '/' + tid] = null; });
-    db.ref().update(ups).then(function () { showToast(true); tdEditClose(); }).catch(function (e) { showToast(false, String(e && e.message || e)); });
+    var lk = []; if (f !== 'daily') steps.forEach(function (x, ix) { if (!searly[ix] && (sdates[ix] || sfrom[ix])) { var dd = sfrom[ix] || sdates[ix]; lk.push(fillTemplate(t('tdSaveLockLine'), { n: ix + 1, d: f === 'monthly' ? String(parseInt(dd.slice(8, 10), 10)) : tdFmtDM(dd) })); } });
+    var go = function () { db.ref().update(ups).then(function () { showToast(true); tdEditClose(); }).catch(function (e) { showToast(false, String(e && e.message || e)); }); };
+    if (lk.length) { cfAsk(t('tdSaveLockAsk') + '\n\n' + lk.join('\n'), t('shMkSave')).then(function (ok) { if (ok) go(); }); } else go();
 }
 async function tdDelete() {
     if (!(await cfAsk(t('tdDelAsk') + '\n\n' + String((td.tpl[td.edit] || {}).title || '').split('\n')[0], t('cfDelete')))) return;
