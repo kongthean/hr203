@@ -2234,6 +2234,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 .tdDim{opacity:.45;filter:grayscale(1);pointer-events:none;user-select:none;}
 .tdBanner{margin-top:8px;background:#e2e8f0;color:#334155;border-radius:8px;padding:8px 10px;font-size:12px;font-weight:700;}
 .tdNow{background:#eff6ff;border:2px solid #2563eb;border-radius:12px;padding:10px 12px;margin-top:8px;}.tdNowLbl{font-size:10px;font-weight:800;color:#2563eb;text-transform:uppercase;letter-spacing:.5px;}.tdNowTxt{font-size:17px;font-weight:700;margin:4px 0 10px;line-height:1.3;}.tdBig{width:100%;background:#16a34a;color:#fff;border:none;border-radius:10px;padding:13px;font-size:15px;font-weight:800;cursor:pointer;}
+.tdWait{background:#f1f5f9;}.tdWait .tdDim{opacity:.6;}.tdWaitBn{margin-top:8px;background:#e2e8f0;color:#475569;border-radius:10px;padding:10px 12px;font-weight:700;font-size:13px;}.tdWaitHdr{margin:14px 0 6px;font-size:12px;font-weight:800;color:#64748b;text-transform:uppercase;letter-spacing:.5px;}
 .tdStep.lk{opacity:.55;}.tdStep.lk .tdChk{border-style:dashed;}
 .tdSw{position:relative;height:56px;border-radius:99px;background:linear-gradient(100deg,#1b46a8 0%,#2f63d6 55%,#4f7fe8 100%);border:1px solid rgba(255,255,255,.28);overflow:hidden;user-select:none;-webkit-user-select:none;touch-action:pan-y;box-shadow:0 4px 14px rgba(37,99,235,.28),inset 0 1px 0 rgba(255,255,255,.25);}
 .tdSw::after{content:"";position:absolute;top:0;bottom:0;left:0;width:38%;background:linear-gradient(100deg,transparent 0%,rgba(255,255,255,.42) 50%,transparent 100%);transform:translateX(-130%) skewX(-18deg);animation:tdSwShine 2.1s ease-in-out infinite;pointer-events:none;}
@@ -5169,6 +5170,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEnds: "Step {s} ends in {n} day(s)",
         tdStepEndsToday: "Step {s} ends today",
         tdStLocked: "This step opens on its date.",
+        tdLockedUntil: "Task locked until {d}",
+        tdWaitHdr: "Waiting ({n})",
         tdSwipe: "Swipe to complete",
         tdAddStep: "Add step",
         tdStepPh: "Step description",
@@ -7514,6 +7517,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEnds: "ជំហានទី {s} បញ្ចប់ក្នុង {n} ថ្ងៃ",
         tdStepEndsToday: "ជំហានទី {s} បញ្ចប់ថ្ងៃនេះ",
         tdStLocked: "ជំហាននេះនឹងបើកនៅថ្ងៃកំណត់របស់វា។",
+        tdLockedUntil: "ការងារចាក់សោរហូតដល់ {d}",
+        tdWaitHdr: "កំពុងរង់ចាំ ({n})",
         tdSwipe: "អូសដើម្បីបញ្ចប់",
         tdAddStep: "បន្ថែមជំហាន",
         tdStepPh: "ពិពណ៌នាជំហាន",
@@ -9821,6 +9826,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEnds: "第 {s} 步将在 {n} 天后结束",
         tdStepEndsToday: "第 {s} 步今天结束",
         tdStLocked: "此步骤将在设定日期开启。",
+        tdLockedUntil: "任务已锁定，至 {d} 解锁",
+        tdWaitHdr: "等待中（{n}）",
         tdSwipe: "滑动完成",
         tdAddStep: "添加步骤",
         tdStepPh: "步骤说明",
@@ -26022,22 +26029,22 @@ function tdInst(tpl, key, done, today) {
   else if (days <= lead) status = 'open';
   else status = 'hidden';
   /* a step with its own dates also counts: a step that is late (not ticked) makes the task Late, a step ending within the warning days makes it Due soon */
-  var sLate = 0, sLateMax = 0, sSoon = 0, sMin = 9999, sMinIx = -1, firstLate = -1, firstAvail = -1, waiting = false, why = '';
+  var sLate = 0, sLateMax = 0, sSoon = 0, sMin = 9999, sMinIx = -1, firstLate = -1, firstAvail = -1, waiting = false, why = '', unlock = '';
   /* a step with a date opens ON that date (its start date for a range) and cannot be completed before */
   var avail = steps.map(function (st, ix) { var w = tpl.stepDates ? tdStepWin(tpl, key, ix) : null; if (!w) return true; return (w.from || w.to) <= today; });
   if (!complete && tpl.stepDates) steps.forEach(function (st, ix) {
     if (s[tdStepKey(st)]) return; if (firstAvail < 0 && avail[ix]) firstAvail = ix;
-    var w = tdStepWin(tpl, key, ix); if (!w || !avail[ix]) return; var dd = tdDiff(w.to, today);
+    var w = tdStepWin(tpl, key, ix); if (w && !avail[ix]) { var us = w.from || w.to; if (!unlock || us < unlock) unlock = us; } if (!w || !avail[ix]) return; var dd = tdDiff(w.to, today);
     if (dd < 0) { sLate++; if (firstLate < 0) firstLate = ix; if (-dd > sLateMax) sLateMax = -dd; } else if (dd <= warn) { sSoon++; if (dd < sMin) { sMin = dd; sMinIx = ix; } }
   });
   /* show the step that needs action now: first late step, else the step ending soonest, else the first open step; nothing open yet = the task waits */
   if (!complete && tpl.stepDates) { if (firstAvail < 0) { next = -1; waiting = true; } else if (firstLate >= 0) next = firstLate; else if (sMinIx >= 0) next = sMinIx; else next = firstAvail; }
   if (!complete && sLate) { status = 'over'; why = 'step'; } else if (!complete && sSoon && (status === 'open' || status === 'hidden')) { status = 'soon'; why = 'step'; }
   if (waiting) { status = 'wait'; why = ''; }
-  return { waiting: waiting, avail: avail, stepSoonIx: sMinIx, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? steps[next] : '', complete: complete, doneAt: dn.doneAt || 0, s: s, why: why, stepLate: sLate, stepLateMax: sLateMax, stepSoonMin: sMin };
+  return { unlock: unlock, waiting: waiting, avail: avail, stepSoonIx: sMinIx, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? steps[next] : '', complete: complete, doneAt: dn.doneAt || 0, s: s, why: why, stepLate: sLate, stepLateMax: sLateMax, stepSoonMin: sMin };
 }
 function tdAll(tpls, done, today, nowMs) {
-  var out = [];
+  var out = []; tdAll.wait = [];
   Object.keys(tpls || {}).forEach(function (id) {
     var tpl = tpls[id]; if (!tpl || tpl.active === false || !(tpl.steps && tpl.steps.length)) return;
     tpl = Object.assign({}, tpl, { id: id });
@@ -26045,7 +26052,7 @@ function tdAll(tpls, done, today, nowMs) {
     tdPeriods(tpl, today).forEach(function (k) {
       var x = tdInst(tpl, k, done, today), isCur = (k === cur);
       if (isNew && k > cur && k !== 'once') return;                 /* a coming month stays hidden until it starts */
-      if (x.status === 'wait') return;
+      if (x.status === 'wait') { x.cur = isCur; tdAll.wait.push(x); return; }
       if (x.status === 'hidden') { if (isCur) x.status = 'open'; else return; }
       if (x.status === 'done' && !isCur && !(k === 'once' && x.doneAt && (nowMs - x.doneAt) < 14 * 86400000)) return;
       x.cur = isCur; out.push(x);
@@ -26140,6 +26147,7 @@ function tdLoc() { return { en: 'en-US', km: 'km-KH', zh: 'zh-CN' }[currentLang]
 function tdMonthName(key, shift) {
     try { var k = tdMonthShift(key, shift || 0); return new Date(Date.UTC(+k.slice(0, 4), +k.slice(5, 7) - 1, 1)).toLocaleDateString(tdLoc(), { month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch (e) { return key; }
 }
+function tdFmtDM(ds) { return ds ? ds.slice(8, 10) + '/' + ds.slice(5, 7) : ''; }
 function tdPeriodLabel(x) {
     var f = x.tpl.freq || 'monthly';
     if (f === 'monthly') return tdMonthName(x.key, 0);
@@ -26148,6 +26156,7 @@ function tdPeriodLabel(x) {
     return '';
 }
 function tdDueText(x) {
+    if (x.status === 'wait') return fillTemplate(t('tdLockedUntil'), { d: tdFmtDM(x.unlock) });
     if (x.status === 'done') return t('tdFinished');
     if (x.why === 'step') return x.status === 'over' ? fillTemplate(t('tdStepsLate'), { n: x.stepLate }) : (x.stepSoonMin === 0 ? fillTemplate(t('tdStepEndsToday'), { s: x.stepSoonIx + 1 }) : fillTemplate(t('tdStepEnds'), { s: x.stepSoonIx + 1, n: x.stepSoonMin }));
     if (x.days < 0) return fillTemplate(t('tdOverdueBy'), { n: -x.days });
@@ -26220,13 +26229,15 @@ function tdRender() {
             return rank[a.status] - rank[b.status] || a.days - b.days || String(a.tpl.title).localeCompare(String(b.tpl.title));
         });
         h = '<div style="font-size:11px;color:#64748b;margin-bottom:8px;">' + escapeHtmlText(t('tdHelp')) + '</div>' + shown.map(tdCardHtml).join('');
-        if (!shown.length) h = '<p style="text-align:center;color:#94a3b8;padding:18px;">' + escapeHtmlText(t(all.length ? 'tdNoneHere' : 'tdNoTplYet')) + '</p>';
+        var waits = (tdAll.wait || []).filter(function (x) { return tdScopeMatch(x.tpl.scope || '', scope) && (!td.typeF || (td.typeF === '__none' ? !x.tpl.type : x.tpl.type === td.typeF)); });
+        if (!shown.length && !waits.length) h = '<p style="text-align:center;color:#94a3b8;padding:18px;">' + escapeHtmlText(t(all.length ? 'tdNoneHere' : 'tdNoTplYet')) + '</p>';
+        if (waits.length) h += '<div class="tdWaitHdr">' + escapeHtmlText(fillTemplate(t('tdWaitHdr'), { n: waits.length })) + '</div>' + waits.map(tdCardHtml).join('');
     }
     var body = document.getElementById('tdBody'), keep = body.scrollTop; body.innerHTML = h; body.scrollTop = keep; try { tdSwipeInit(body); } catch (e) {};
 }
 function tdCardHtml(x) {
     var id = escapeHtmlText(x.id), key = escapeHtmlText(x.key), steps = x.tpl.steps || [], done = x.status === 'done', p = x.tpl, f = p.freq || 'monthly', ck = x.id + '|' + x.key, all = !!td.open[ck];
-    var col = { over: '#dc2626', soon: '#d97706', open: '#2563eb', done: '#64748b' }[x.status], pct = x.total ? Math.round(x.ticked * 100 / x.total) : 0;
+    var col = { over: '#dc2626', soon: '#d97706', open: '#2563eb', done: '#64748b', wait: '#94a3b8' }[x.status], pct = x.total ? Math.round(x.ticked * 100 / x.total) : 0;
     var meta = '', parts = [];
     if (f === 'monthly') {
         parts.push('&#128197; ' + escapeHtmlText(tdMonthName(x.key, 0)));
@@ -26242,6 +26253,9 @@ function tdCardHtml(x) {
     var head = '<div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start;"><b style="font-size:15px;white-space:pre-line;">' + escapeHtmlText(p.title || '') + '</b><span class="tdPill" style="background:' + col + ';">' + escapeHtmlText(tdDueText(x)) + '</span></div>' + meta + tdXBoxHtml(p) +
         '<div class="tdBar"><div style="width:' + pct + '%;background:' + col + ';"></div></div><div style="font-size:11px;color:#64748b;">' + escapeHtmlText(done ? (x.ticked + ' / ' + x.total) : fillTemplate(t('tdStepOf'), { a: (x.next >= 0 ? x.next + 1 : Math.min(x.ticked + 1, x.total)), b: x.total }))+ '</div>';
     var undo = '<button class="kbBtn grey" style="margin:0;" onclick="tdUndo(\'' + id + '\',\'' + key + '\')">&#8630; ' + escapeHtmlText(t('tdUndo')) + '</button>';
+    if (x.waiting) {
+        return '<div class="tdCard tdWait" style="border-left:6px solid #94a3b8;"><div class="tdDim">' + head + '</div><div class="tdWaitBn">&#128274; ' + escapeHtmlText(fillTemplate(t('tdLockedUntil'), { d: tdFmtDM(x.unlock) })) + '</div>' + (x.ticked > 0 ? '<div style="margin-top:6px;">' + undo + '</div>' : '') + '</div>';
+    }
     if (done) {
         var wake = { monthly: 'tdWakeM', weekly: 'tdWakeW', daily: 'tdWakeD' }[f];
         return '<div class="tdCard tdDone"><div class="tdDim">' + head + '</div><div class="tdBanner">&#10003; ' + escapeHtmlText(t('tdAllFin')) + (wake ? ' ' + escapeHtmlText(t(wake)) : '') + '</div><div style="margin-top:6px;">' + undo + '</div></div>';
