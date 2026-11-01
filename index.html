@@ -274,6 +274,7 @@
      .lang-option.active { font-weight: bold; background: #e2e8f0; }
  
      /* Notification Bell Badge */
+     .apWrap{position:relative;} .apDim{opacity:.4; padding:14px 6px; min-height:44px;} .apLay{position:absolute; left:6%; right:6%; top:50%; transform:translateY(-50%); background:rgba(100,116,139,.85); color:#fff; border-radius:14px; padding:10px 12px; text-align:center; font-weight:800; font-size:15px; pointer-events:none;}
      .notif-badge {
          position: absolute; top: -4px; right: -4px; background: #dc2626; color: #fff;
          border-radius: 999px; font-size: 9px; line-height: 1; padding: 3px 5px; font-weight: bold;
@@ -1445,6 +1446,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          </button>
          <button class="quick-btn admin-only" style="background:linear-gradient(135deg,#6d28d9,#5b21b6);" onclick="openManagementModal()">
              <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span class="quick-btn-label" data-i18n="navManagement">Management</span>
+         <span id="acctPendBadge" class="notif-badge" style="display:none; top:2px; right:2px;">0</span>
          </button>
         <button class="quick-btn admin-only" style="background:linear-gradient(135deg,#0f766e,#115e59);" onclick="openDeptAccModal()">
             <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/></svg></span><span class="quick-btn-label" data-i18n="navDeptAcc">Department Accounts</span>
@@ -5166,6 +5168,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "Step {s} ends today",
         tdStLocked: "This step opens on its date.",
         tdLockedUntil: "Task locked until {d}",
+        acctPendingLbl:"Account is pending approval", acctApprove:"Approve", acctDismiss:"Dismiss", acctApproved:"Account approved.", acctDismissed:"Account dismissed.", acctDismissConfirm:"Dismiss and delete the account of {name}?", acctPendingBy:"Created by {n}",
         tdReopen: "Unlock this task now",
         tdWaitHdr: "Waiting ({n})",
         tdSwipe: "Swipe to complete",
@@ -7513,6 +7516,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "ជំហានទី {s} បញ្ចប់ថ្ងៃនេះ",
         tdStLocked: "ជំហាននេះនឹងបើកនៅថ្ងៃកំណត់របស់វា។",
         tdLockedUntil: "ការងារចាក់សោរហូតដល់ {d}",
+        acctPendingLbl:"គណនីកំពុងរង់ចាំការអនុម័ត", acctApprove:"អនុម័ត", acctDismiss:"បដិសេធ", acctApproved:"បានអនុម័តគណនី។", acctDismissed:"បានបដិសេធគណនី។", acctDismissConfirm:"បដិសេធ និងលុបគណនីរបស់ {name}?", acctPendingBy:"បង្កើតដោយ {n}",
         tdReopen: "ដោះសោការងារនេះឥឡូវ",
         tdWaitHdr: "កំពុងរង់ចាំ ({n})",
         tdSwipe: "អូសដើម្បីបញ្ចប់",
@@ -9822,6 +9826,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "第 {s} 步今天结束",
         tdStLocked: "此步骤将在设定日期开启。",
         tdLockedUntil: "任务已锁定，至 {d} 解锁",
+        acctPendingLbl:"账户待批准", acctApprove:"批准", acctDismiss:"拒绝", acctApproved:"账户已批准。", acctDismissed:"账户已拒绝。", acctDismissConfirm:"拒绝并删除 {name} 的账户？", acctPendingBy:"创建人：{n}",
         tdReopen: "立即解锁此任务",
         tdWaitHdr: "等待中（{n}）",
         tdSwipe: "滑动完成",
@@ -13558,6 +13563,10 @@ function filterMakeupTable() {
  function acctBlocked(k) { if (acctIsOwner(k) && !viewerIsOwner()) { showToast(false, t('ownerLocked')); return true; } return false; }
  function acctRowHtml(a, vo) {
      const own = a.owner === true;
+     if (a.pending === true) {
+         const btns = vo ? `<div style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;"><button class="btn-edit" style="font-size:12px; padding:6px 14px; background:#16a34a; color:#fff; border-color:#16a34a;" onclick="acctApprove('${a.firebaseKey}', this)">${t('acctApprove')}</button><button class="btn-delete" style="font-size:12px; padding:6px 14px;" onclick="acctDismiss('${a.firebaseKey}', this)">${t('acctDismiss')}</button></div>` : '';
+         return `<tr><td colspan="7"><div class="apWrap"><div class="apDim"><b>${escapeHtmlText(a.name || '')}</b> &middot; ${escapeHtmlText(a.username || '')} &middot; ${a.role === 'admin' ? t('roleLabelAdmin') : t('roleLabelHR')}${a.pendingBy ? '<div style="font-size:11px;">' + escapeHtmlText(fillTemplate(t('acctPendingBy'), { n: a.pendingBy })) + '</div>' : ''}</div><div class="apLay">${t('acctPendingLbl')}</div></div>${btns}</td></tr>`;
+     }
      if (own && !vo) {
          return `<tr style="background:#f8fafc;">
              <td><span class="ownBadge">${t('ownerBadge')}</span></td>
@@ -13589,7 +13598,31 @@ function filterMakeupTable() {
              <td>${renderAcctTotpCell(a)}</td>
          </tr>`;
  }
+async function acctApprove(k, btn) {
+     if (!viewerIsOwner()) { showToast(false, t('ownerLocked')); return; }
+     const a = acctByKey(k); if (!a) return;
+     if (!a.uid) { showToast(false, t('ownerSetupNeedLogin')); return; }
+     withBusyButton(btn, () => db.ref().update({ ['accounts/' + k + '/pending']: null, ['accounts/' + k + '/pendingBy']: null, ['accounts/' + k + '/pendingAt']: null, ['accounts/' + k + '/disabled']: false, ['staff/' + a.uid]: { role: a.role, name: a.name || '', key: k } }).then(function () {
+         try { logActivity('account_approve', 'account', a.username || k, a.name || '', a.role || ''); } catch (e) {}
+         showToast(true, t('acctApproved'));
+     }).catch(function () { showToast(false); }));
+ }
+ async function acctDismiss(k, btn) {
+     if (!viewerIsOwner()) { showToast(false, t('ownerLocked')); return; }
+     const a = acctByKey(k); if (!a) return;
+     if (!(await showConfirm(fillTemplate(t('acctDismissConfirm'), { name: a.name || a.username })))) return;
+     withBusyButton(btn, () => Promise.all([db.ref('accounts/' + k).remove(), saForget(a)]).then(function () {
+         try { logActivity('account_dismiss', 'account', a.username || k, a.name || '', a.role || ''); } catch (e) {}
+         showToast(true, t('acctDismissed'));
+     }).catch(function () { showToast(false); }));
+ }
+ function acctPendBadge() {
+     const b = document.getElementById('acctPendBadge'); if (!b) return;
+     const n = viewerIsOwner() ? accounts.filter(function (a) { return a.pending === true; }).length : 0;
+     if (n) { b.style.display = 'inline-block'; b.innerText = n; } else b.style.display = 'none';
+ }
  function renderAccountsTable() {
+     try { acctPendBadge(); } catch (e) {}
      const tbody = document.querySelector('#accountsTable tbody');
      if (!tbody) return;
      const vo = viewerIsOwner();
@@ -13678,12 +13711,14 @@ function filterMakeupTable() {
      const role = document.getElementById('newAcctRole').value;
      /* v6.79: this early return used to be silent on a missing required field. */
      if (!name || !username || !password) { showToast(false); return; }
+     /* an account created by someone who is not an Owner waits for an Owner to approve it (only once the Owners are set) */
+     const needOk = window.__ownersSet === true && !viewerIsOwner();
      if (password.length < 6) { showToast(false, t('pwTooShort')); return; }
      if (accounts.some(a => a.username === username)) {
          showToast(false, t('acctDuplicateUsernameMsg'));
          return;
      }
-     withBusyButton(btnEl, () => pwFields(password).then(f => db.ref('accounts').push(Object.assign({ name, username, role, disabled: false }, f))).then(ref => saAfterAdd(ref.key, { name, username, role }, password)).then(() => {
+     withBusyButton(btnEl, () => pwFields(password).then(f => db.ref('accounts').push(Object.assign({ name, username, role, disabled: needOk }, needOk ? { pending: true, pendingBy: (sessionStorage.getItem('loggedInAccountName') || ''), pendingAt: Date.now() } : {}, f))).then(ref => saAfterAdd(ref.key, needOk ? { name, username, role, pending: true } : { name, username, role }, password)).then(() => {
          document.getElementById('newAcctName').value = '';
          document.getElementById('newAcctUsername').value = '';
          document.getElementById('newAcctPassword').value = '';
@@ -20610,7 +20645,7 @@ async function saRegister(acc, id, uid) {
     const up = {};
     if (acc.authId && acc.authId !== id) up['staffLookup/' + saLookupKey(acc.role, acc.username) + '/' + acc.authId] = null;
     if (acc.uid && acc.uid !== uid) up['staff/' + acc.uid] = null;
-    up['staff/' + uid] = { role: acc.role, name: acc.name || '', key: acc.firebaseKey, owner: acc.owner === true ? true : null };
+    up['staff/' + uid] = acc.pending === true ? null : { role: acc.role, name: acc.name || '', key: acc.firebaseKey, owner: acc.owner === true ? true : null };
     if (acc.owner === true) { up['ownerAuth/' + id] = true; if (acc.authId && acc.authId !== id) up['ownerAuth/' + acc.authId] = null; }
     up['staffLookup/' + saLookupKey(acc.role, acc.username) + '/' + id] = true;
     up['accounts/' + acc.firebaseKey + '/authId'] = id;
@@ -27597,6 +27632,7 @@ function hrQRsvg(text, px) {
     }
     var y = wide ? Math.max(pad, Math.round((H - tot2) / 2)) : ty;
     for (i = 0; i < lines.length; i++) { if (!lines[i][0]) continue; g.font = (lines[i][1] ? 'bold ' : '') + sizes[i] + 'px ' + font; g.fillText(lines[i][0], tx, y, tw); y += Math.round(sizes[i] * 1.25); }
+    g.fillStyle = '#000'; g.fillRect(0, 0, W, 3); g.fillRect(0, H - 3, W, 3);   /* cut lines at the top and bottom edge */
     return c;
   }
   window.amPicture = function () {
