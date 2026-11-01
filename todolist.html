@@ -329,7 +329,7 @@ function showLogin() {
 async function doLogin() {
   var u = document.getElementById('inUser').value.trim(), p = document.getElementById('inPass').value.trim(), btn = document.getElementById('btnLogin');
   if (!u || !p) { setErr('loginFail'); return; }
-  btn.disabled = true; setErr('');
+  btn.disabled = true; setErr(''); loginBusy = true;
   try {
     var found = await secureLogin(loginRole, u, p);
     if (!found) { setErr('loginFail'); return; }
@@ -343,7 +343,7 @@ async function doLogin() {
     }
     finishLogin(found);
   } catch (e) { setErr('loginFail'); }
-  finally { btn.disabled = false; }
+  finally { btn.disabled = false; loginBusy = false; }
 }
 function showBackup() { document.getElementById('backupField').classList.remove('hidden'); document.getElementById('inTotp').parentNode.classList.add('hidden'); document.getElementById('lnkBackup').classList.add('hidden'); setErr(''); setTimeout(function () { document.getElementById('inBackup').focus(); }, 80); }
 async function cancelTotp() { pending = null; await backToAnon(); showLogin(); }
@@ -372,9 +372,10 @@ function finishLogin(acc) {
 async function doSignOut() { try { localStorage.removeItem('tdTrust'); } catch (e) {} await backToAnon(); showLogin(); }
 
 /* stay signed in for 30 days on this phone; a different login (for example the main website in the same browser) shows the login again */
-var authInit = false;
+var authInit = false, loginBusy = false;
 firebase.auth().onAuthStateChanged(async function (u) {
   if (!u) { try { await firebase.auth().signInAnonymously(); } catch (e) {} if (!authInit) { authInit = true; showLogin(); } return; }
+  if (loginBusy || pending) return;      /* a sign-in or the 2nd-code step is in progress: do not reset it */
   if (u.isAnonymous) { if (!authInit || me) { authInit = true; showLogin(); } return; }
   if (authInit && me) return;      /* already running */
   authInit = true;
