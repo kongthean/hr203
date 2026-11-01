@@ -26684,6 +26684,8 @@ function tdSave() {
     if (f !== 'daily') { if (sdates.some(function (x) { return x; })) o.stepDates = sdates; if (sfrom.some(function (x) { return x; })) o.stepFrom = sfrom; if (searly.some(function (x) { return x; })) o.stepEarly = searly; }
     if (Object.keys(sel).length) o.shareWith = Object.assign({}, sel);
     ups['todo/' + td.me + '/tasks/' + tid] = o;
+    if (td.edit) { var dne = (td.done || {})[td.edit] || {}; Object.keys(dne).forEach(function (pk) { if (dne[pk] && dne[pk].open) ups['todo/' + td.me + '/done/' + tid + '/' + pk + '/open'] = null; }); }
+    if (td.edit) { var dnn = (td.done || {})[td.edit] || {}; Object.keys(dnn).forEach(function (pk) { if (dnn[pk] && dnn[pk].open) ups['todo/' + td.me + '/done/' + tdSplit(td.edit).id + '/' + pk + '/open'] = null; }); }
     Object.keys(sel).forEach(function (k) { ups['todoShared/' + k + '/' + td.me + '/' + tid] = true; });
     Object.keys(old).forEach(function (k) { if (!sel[k]) ups['todoShared/' + k + '/' + td.me + '/' + tid] = null; });
     var lk = []; if (f !== 'daily') steps.forEach(function (x, ix) { if (!searly[ix] && (sdates[ix] || sfrom[ix])) { var dd = sfrom[ix] || sdates[ix]; lk.push(fillTemplate(t('tdSaveLockLine'), { n: ix + 1, d: f === 'monthly' ? String(parseInt(dd.slice(8, 10), 10)) : tdFmtDM(dd) })); } });
