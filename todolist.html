@@ -398,9 +398,12 @@ function tdMonthShift(key, off) { var y = +key.slice(0, 4), m = +key.slice(5, 7)
 function tdTxt(s, key) {
   s = String(s == null ? '' : s); if (s.indexOf('{') < 0) return s;
   var k = String(key || '').slice(0, 7); if (!/^\d{4}-\d{2}$/.test(k)) k = todayStr().slice(0, 7);
-  return s.replace(/\{\s*(this|next|last)\s+(month|mon)\s*\}/gi, function (m, w, f) {
-    var sh = w.toLowerCase() === 'this' ? 0 : w.toLowerCase() === 'next' ? 1 : -1, kk = tdMonthShift(k, sh), lc = 'en'; try { if (typeof tdLoc === 'function') lc = tdLoc(); } catch (e) {}
-    try { return new Date(Date.UTC(+kk.slice(0, 4), +kk.slice(5, 7) - 1, 1)).toLocaleDateString(lc, f.toLowerCase() === 'mon' ? { month: 'short', timeZone: 'UTC' } : { month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch (e) { return m; }
+  return s.replace(/\{\s*(this|next|last)\s+(month|mon)(?:\s+(num|km))?\s*\}/gi, function (m, w, f, sty) {
+    var sh = w.toLowerCase() === 'this' ? 0 : w.toLowerCase() === 'next' ? 1 : -1, kk = tdMonthShift(k, sh), lc = ({ en: 'en-US', km: 'km-KH', zh: 'zh-CN' }[lang] || 'en-US'); sty = (sty || '').toLowerCase();
+    var yy = kk.slice(0, 4), mm = String(parseInt(kk.slice(5, 7), 10));
+    if (sty === 'num') return (kk.slice(5, 7)) + '/' + yy;
+    if (sty === 'km') return 'ខែ ' + mm + ' ឆ្នាំ ' + yy;
+    try { return new Date(Date.UTC(+yy, +kk.slice(5, 7) - 1, 1)).toLocaleDateString(lc, f.toLowerCase() === 'mon' ? { month: 'short', timeZone: 'UTC' } : { month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch (e) { return m; }
   });
 }
 function tdMonday(ds) { var d = new Date(tdParse(ds)), wd = (d.getUTCDay() + 6) % 7; return tdAdd(ds, -wd); }
