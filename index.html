@@ -27166,6 +27166,13 @@ function cfShowSeeBtn(on) { var w = document.getElementById('cfSeeWrap'); if (w)
       <button class="am-btn alt" onclick="amPrintSel()" id="amBtnPrintSel" disabled>Print selected (0)</button>
       <button class="am-btn alt" onclick="amPrintAll()" id="amBtnPrintAll">Print all shown</button>
     </div>
+    <div class="am-top" style="align-items:center;flex-wrap:wrap;gap:8px;">
+      <button class="am-btn alt" onclick="amPicture()" id="amBtnPic">Save label as picture</button>
+      <span id="amLabSizeT" style="font-size:12px;font-weight:700;color:#334155;">Label paper size (mm)</span>
+      <input id="amLabW" type="number" inputmode="decimal" min="10" max="120" step="1" style="width:64px;padding:6px;border:1px solid #cbd5e1;border-radius:8px;" onchange="amLabSave()"><span>&times;</span>
+      <input id="amLabH" type="number" inputmode="decimal" min="10" max="200" step="1" style="width:64px;padding:6px;border:1px solid #cbd5e1;border-radius:8px;" onchange="amLabSave()">
+    </div>
+    <div id="amPicHint" style="font-size:11px;color:#64748b;margin:-2px 0 6px;"></div>
     <div class="am-top">
       <input class="am-search" id="amSearch" type="search" autocomplete="off" oninput="amRender()" placeholder="Search ID or name">
       <select id="amFDept" onchange="amDeptFilter()"></select>
@@ -27386,7 +27393,7 @@ function hrQRsvg(text, px) {
 <script id="amJs">
 (function () {
   var AMT = {
-    en: { printSel:'Print selected ({n})', printShown:'Print all shown', selAll:'Select all', fAllGroup:'All groups', title:'Asset Manager', add:'+ Add item', printAll:'Print QR labels', search:'Search ID or name', allDept:'All departments', allStatus:'All statuses',
+    en: { picBtn:'Save label as picture', labSize:'Label paper size (mm)', labW:'Width', labH:'Height', picHint:'Uses selected items, or all shown if none selected. Then share the picture to your printer app.', picErr:'Could not make the picture.', picSaved:'Picture saved.', printSel:'Print selected ({n})', printShown:'Print all shown', selAll:'Select all', fAllGroup:'All groups', title:'Asset Manager', add:'+ Add item', printAll:'Print QR labels', search:'Search ID or name', allDept:'All departments', allStatus:'All statuses',
       count:'{n} item(s)', empty:'No items yet. Tap "+ Add item".', emptyF:'No item matches.', noPhoto:'No photo', photo:'Photo / file', cam:'Take photo', up:'Upload file', rmPhoto:'Remove photo',
       id:'Asset ID', idAuto:'Made automatically when you save', name:'Item name', cat:'Category', dept:'Department', group:'Group', noGroup:'No group', pickDept:'Choose department',
       status:'Status', type:'When scanned', tInfo:'Show information only', tTrack:'Track on a schedule', every:'Scan every', m1:'1 month', m3:'3 months', m6:'6 months', m12:'12 months',
@@ -27394,7 +27401,7 @@ function hrQRsvg(text, px) {
       bTrack:'Track every {m} mo', bInfo:'Info only', needName:'Please type the item name.', saved:'Saved', delConf:'Delete this item? This cannot be undone.', deleted:'Deleted', failed:'Failed. Please try again.',
       newItem:'New item', editItem:'Edit item', link:'Scan page: hr203.com/assetmanagement', printNone:'No items to print.', photoErr:'Cannot read this file. Please choose a picture.',
       catList:['Document','Property','Equipment','Furniture','Vehicle','IT device','Other'] },
-    km: { printSel:'បោះពុម្ពដែលបានជ្រើស ({n})', printShown:'បោះពុម្ពទាំងអស់ដែលបង្ហាញ', selAll:'ជ្រើសទាំងអស់', fAllGroup:'គ្រប់ក្រុម', title:'គ្រប់គ្រងទ្រព្យសម្បត្តិ', add:'+ បន្ថែមវត្ថុ', printAll:'បោះពុម្ព QR', search:'ស្វែងរកលេខសម្គាល់ ឬឈ្មោះ', allDept:'ដេប៉ាតឺម៉ង់ទាំងអស់', allStatus:'ស្ថានភាពទាំងអស់',
+    km: { picBtn:'រក្សាទុកស្លាកជារូបភាព', labSize:'ទំហំក្រដាសស្លាក (mm)', labW:'ទទឹង', labH:'កម្ពស់', picHint:'ប្រើវត្ថុដែលបានជ្រើស ឬទាំងអស់ដែលបង្ហាញ។ បន្ទាប់មកចែករំលែករូបភាពទៅកម្មវិធីម៉ាស៊ីនបោះពុម្ព។', picErr:'មិនអាចបង្កើតរូបភាពបានទេ។', picSaved:'បានរក្សាទុករូបភាព។', printSel:'បោះពុម្ពដែលបានជ្រើស ({n})', printShown:'បោះពុម្ពទាំងអស់ដែលបង្ហាញ', selAll:'ជ្រើសទាំងអស់', fAllGroup:'គ្រប់ក្រុម', title:'គ្រប់គ្រងទ្រព្យសម្បត្តិ', add:'+ បន្ថែមវត្ថុ', printAll:'បោះពុម្ព QR', search:'ស្វែងរកលេខសម្គាល់ ឬឈ្មោះ', allDept:'ដេប៉ាតឺម៉ង់ទាំងអស់', allStatus:'ស្ថានភាពទាំងអស់',
       count:'{n} វត្ថុ', empty:'មិនទាន់មានវត្ថុទេ។ ចុច "+ បន្ថែមវត្ថុ"។', emptyF:'រកមិនឃើញវត្ថុ។', noPhoto:'គ្មានរូប', photo:'រូបថត / ឯកសារ', cam:'ថតរូប', up:'ផ្ទុកឡើងឯកសារ', rmPhoto:'លុបរូប',
       id:'លេខសម្គាល់ទ្រព្យសម្បត្តិ', idAuto:'បង្កើតដោយស្វ័យប្រវត្តិពេលរក្សាទុក', name:'ឈ្មោះវត្ថុ', cat:'ប្រភេទ', dept:'ដេប៉ាតឺម៉ង់', group:'ក្រុម', noGroup:'គ្មានក្រុម', pickDept:'ជ្រើសរើសដេប៉ាតឺម៉ង់',
       status:'ស្ថានភាព', type:'ពេលស្កេន', tInfo:'បង្ហាញព័ត៌មានតែប៉ុណ្ណោះ', tTrack:'តាមដានតាមកាលកំណត់', every:'ស្កេនរៀងរាល់', m1:'១ ខែ', m3:'៣ ខែ', m6:'៦ ខែ', m12:'១២ ខែ',
@@ -27402,7 +27409,7 @@ function hrQRsvg(text, px) {
       bTrack:'តាមដានរៀងរាល់ {m} ខែ', bInfo:'ព័ត៌មានប៉ុណ្ណោះ', needName:'សូមវាយឈ្មោះវត្ថុ។', saved:'បានរក្សាទុក', delConf:'លុបវត្ថុនេះឬ? មិនអាចយកមកវិញបានទេ។', deleted:'បានលុប', failed:'បរាជ័យ។ សូមព្យាយាមម្តងទៀត។',
       newItem:'វត្ថុថ្មី', editItem:'កែវត្ថុ', link:'ទំព័រស្កេន៖ hr203.com/assetmanagement', printNone:'គ្មានវត្ថុសម្រាប់បោះពុម្ពទេ។', photoErr:'មិនអាចអានឯកសារនេះបានទេ។ សូមជ្រើសរើសរូបភាព។',
       catList:['ឯកសារ','ទ្រព្យសម្បត្តិ','ឧបករណ៍','គ្រឿងសង្ហារិម','យានយន្ត','ឧបករណ៍ IT','ផ្សេងៗ'] },
-    zh: { printSel:'打印所选 ({n})', printShown:'打印当前显示全部', selAll:'全选', fAllGroup:'所有小组', title:'资产管理', add:'+ 添加物品', printAll:'打印二维码标签', search:'搜索编号或名称', allDept:'所有部门', allStatus:'所有状态',
+    zh: { picBtn:'将标签保存为图片', labSize:'标签纸尺寸（毫米）', labW:'宽', labH:'高', picHint:'使用已选物品，未选则使用当前显示的全部。然后将图片分享到打印机应用。', picErr:'无法生成图片。', picSaved:'图片已保存。', printSel:'打印所选 ({n})', printShown:'打印当前显示全部', selAll:'全选', fAllGroup:'所有小组', title:'资产管理', add:'+ 添加物品', printAll:'打印二维码标签', search:'搜索编号或名称', allDept:'所有部门', allStatus:'所有状态',
       count:'{n} 件物品', empty:'还没有物品。点击“+ 添加物品”。', emptyF:'没有符合的物品。', noPhoto:'无照片', photo:'照片 / 文件', cam:'拍照', up:'上传文件', rmPhoto:'删除照片',
       id:'资产编号', idAuto:'保存时自动生成', name:'物品名称', cat:'类别', dept:'部门', group:'小组', noGroup:'无小组', pickDept:'选择部门',
       status:'状态', type:'扫描时', tInfo:'仅显示信息', tTrack:'按期追踪', every:'每隔', m1:'1个月', m3:'3个月', m6:'6个月', m12:'12个月',
@@ -27429,7 +27436,7 @@ function hrQRsvg(text, px) {
     }, function () { listening = false; toast(false, T('failed')); });
   }
   function labels() {
-    $('amTitle').textContent = T('title'); $('amBtnAdd').textContent = T('add'); $('amBtnPrintAll').textContent = T('printShown'); $('amSelAllT').textContent = T('selAll'); fillGroupFilter();
+    $('amTitle').textContent = T('title'); $('amBtnAdd').textContent = T('add'); $('amBtnPrintAll').textContent = T('printShown'); $('amSelAllT').textContent = T('selAll'); $('amBtnPic').textContent = T('picBtn'); $('amLabSizeT').textContent = T('labSize'); $('amPicHint').textContent = T('picHint'); amLabLoad(); fillGroupFilter();
     $('amSearch').placeholder = T('search'); $('amLinkHint').textContent = T('link');
     var fd = $('amFDept'), cur = fd.value;
     fd.innerHTML = '<option value="">' + esc(T('allDept')) + '</option>' + orgs().map(function (o) { return '<option value="' + esc(o) + '">' + esc(o) + '</option>'; }).join('');
@@ -27573,6 +27580,47 @@ function hrQRsvg(text, px) {
     var done = function () { root.innerHTML = ''; window.removeEventListener('afterprint', done); };
     window.addEventListener('afterprint', done);
     setTimeout(function () { try { window.print(); } catch (e) { done(); } }, 150);
+  };
+
+  /* ---- label as a picture (for the small Bluetooth printer app) ---- */
+  function labGet() { var w = 50, h = 30; try { w = parseFloat(localStorage.getItem('amLabW')) || 50; h = parseFloat(localStorage.getItem('amLabH')) || 30; } catch (e) {} return { w: Math.min(120, Math.max(10, w)), h: Math.min(200, Math.max(10, h)) }; }
+  window.amLabLoad = function () { var z = labGet(); if ($('amLabW')) { $('amLabW').value = z.w; $('amLabH').value = z.h; } };
+  window.amLabSave = function () { try { localStorage.setItem('amLabW', $('amLabW').value); localStorage.setItem('amLabH', $('amLabH').value); } catch (e) {} };
+  function labCanvas(a, z) {
+    var K = 8, W = Math.round(z.w * K), H = Math.round(z.h * K), c = document.createElement('canvas'); c.width = W; c.height = H;
+    var g = c.getContext('2d'); g.fillStyle = '#fff'; g.fillRect(0, 0, W, H); g.fillStyle = '#000'; g.textBaseline = 'top';
+    var G = hrQR(String(a.id)); if (!G) throw new Error('qr');
+    var n = G.length, q = 2, tot = n + 2 * q, pad = Math.round(1.5 * K), wide = W >= H * 1.25;
+    var qs = wide ? H - 2 * pad : Math.min(W - 2 * pad, Math.round(H * 0.58)), cell = Math.max(1, Math.floor(qs / tot)), qpx = cell * tot;
+    var qx = wide ? pad : Math.round((W - qpx) / 2), qy = wide ? Math.round((H - qpx) / 2) : pad;
+    for (var r = 0; r < n; r++) for (var cc = 0; cc < n; cc++) if (G[r][cc]) g.fillRect(qx + (cc + q) * cell, qy + (r + q) * cell, cell, cell);
+    var dt = a.createdAt ? new Date(a.createdAt) : new Date(), ds = ('0' + dt.getDate()).slice(-2) + '/' + ('0' + (dt.getMonth() + 1)).slice(-2) + '/' + dt.getFullYear();
+    var tx = wide ? qx + qpx + pad : pad, tw = W - tx - pad, ty = wide ? 0 : qy + qpx + Math.round(K * 0.5), th = H - ty;
+    var lines = [[String(a.id), 'bold', 0.2], [ds, '', 0.12], [String(a.dept || ''), '', 0.12]], font = "Arial,'Noto Sans Khmer','Noto Sans SC',sans-serif", sizes = [], tot2 = 0, i;
+    var base = Math.min(th, H) ;
+    for (i = 0; i < lines.length; i++) {
+      var px = Math.max(10, Math.round(base * lines[i][2] * (wide ? 1.5 : 1.2)));
+      g.font = (lines[i][1] ? 'bold ' : '') + px + 'px ' + font;
+      while (px > 9 && g.measureText(lines[i][0]).width > tw) { px--; g.font = (lines[i][1] ? 'bold ' : '') + px + 'px ' + font; }
+      sizes.push(px); tot2 += px * 1.25;
+    }
+    var y = wide ? Math.max(pad, Math.round((H - tot2) / 2)) : ty;
+    for (i = 0; i < lines.length; i++) { if (!lines[i][0]) continue; g.font = (lines[i][1] ? 'bold ' : '') + sizes[i] + 'px ' + font; g.fillText(lines[i][0], tx, y, tw); y += Math.round(sizes[i] * 1.25); }
+    return c;
+  }
+  window.amPicture = function () {
+    amLabSave(); var z = labGet(), ids = Object.keys(sel).filter(function (k) { return sel[k] && find(k); });
+    if (!ids.length) ids = filtered().map(function (a) { return a.id; });
+    var list = ids.map(find).filter(Boolean).sort(function (a, b) { return String(a.id).localeCompare(String(b.id), undefined, { numeric: true }); });
+    if (!list.length) { toast(false, T('printNone')); return; }
+    var go = function () {
+      Promise.all(list.map(function (a) { return new Promise(function (res, rej) { try { labCanvas(a, z).toBlob(function (b) { b ? res(new File([b], 'label-' + String(a.id).replace(/[^\w-]/g, '_') + '.png', { type: 'image/png' })) : rej(new Error('blob')); }, 'image/png'); } catch (e) { rej(e); } }); })).then(function (files) {
+        if (navigator.canShare && navigator.canShare({ files: files })) { return navigator.share({ files: files }).catch(function (e) { if (e && e.name === 'AbortError') return; throw e; }); }
+        files.forEach(function (f, i) { setTimeout(function () { var u = URL.createObjectURL(f), l = document.createElement('a'); l.href = u; l.download = f.name; document.body.appendChild(l); l.click(); l.remove(); setTimeout(function () { URL.revokeObjectURL(u); }, 4000); }, i * 400); });
+        toast(true, T('picSaved'));
+      }).catch(function () { toast(false, T('picErr')); });
+    };
+    try { if (document.fonts && document.fonts.ready) document.fonts.ready.then(go); else go(); } catch (e) { go(); }
   };
   window.amPrintAll = function () { window.amPrint(filtered().map(function (a) { return a.id; })); };
 
