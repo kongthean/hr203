@@ -17,6 +17,14 @@ function tdAdd(ds, n) { return tdFmt(tdParse(ds) + n * 86400000); }
 function tdDiff(a, b) { return Math.round((tdParse(a) - tdParse(b)) / 86400000); }
 function tdDim(y, m) { return new Date(Date.UTC(y, m, 0)).getUTCDate(); }
 function tdMonthShift(key, off) { var y = +key.slice(0, 4), m = +key.slice(5, 7) - 1 + off; y += Math.floor(m / 12); m = ((m % 12) + 12) % 12; return y + '-' + tdPad(m + 1); }
+function tdTxt(s, key) {
+  s = String(s == null ? '' : s); if (s.indexOf('{') < 0) return s;
+  var k = String(key || '').slice(0, 7); if (!/^\d{4}-\d{2}$/.test(k)) k = tdFmt(Date.now() + 7 * 3600000).slice(0, 7);
+  return s.replace(/\{\s*(this|next|last)\s+(month|mon)\s*\}/gi, function (m, w, f) {
+    var sh = w.toLowerCase() === 'this' ? 0 : w.toLowerCase() === 'next' ? 1 : -1, kk = tdMonthShift(k, sh), lc = 'en'; try { if (typeof tdLoc === 'function') lc = tdLoc(); } catch (e) {}
+    try { return new Date(Date.UTC(+kk.slice(0, 4), +kk.slice(5, 7) - 1, 1)).toLocaleDateString(lc, f.toLowerCase() === 'mon' ? { month: 'short', timeZone: 'UTC' } : { month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch (e) { return m; }
+  });
+}
 function tdMonday(ds) { var d = new Date(tdParse(ds)), wd = (d.getUTCDay() + 6) % 7; return tdAdd(ds, -wd); }
 function tdDefaults(tpl) {
   var f = tpl.freq || 'monthly';
@@ -79,7 +87,7 @@ function tdInst(tpl, key, done, today) {
     if (dd < 0) sLate++; else if (dd <= warn) { sSoon++; if (dd < sMin) sMin = dd; }
   });
   if (!complete && sLate) { status = 'over'; why = 'step'; } else if (!complete && sSoon && (status === 'open' || status === 'hidden')) { status = 'soon'; why = 'step'; }
-  return { why: why, stepLate: sLate, stepSoonMin: sMin, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? steps[next] : '', complete: complete, doneAt: dn.doneAt || 0, s: s };
+  return { why: why, stepLate: sLate, stepSoonMin: sMin, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? tdTxt(steps[next], key) : '', complete: complete, doneAt: dn.doneAt || 0, s: s };
 }
 function tdAll(tpls, done, today, nowMs) {
   var out = [];
@@ -142,7 +150,7 @@ function taskLines(x, withNotes) {
 function winText(x, n) { const w = tdStepWin(x.tpl, x.key, n); if (w) return w.from ? fmtD(w.from, false) + ' → ' + fmtD(w.to) : fmtD(w.to); return x.due ? fmtD(x.due) : ''; }
 function stepText(x, n, late) {
   const wt = winText(x, n), steps = x.tpl.steps || [];
-  let t = '📋 <b>To-Do List ' + stepTitle(x, n) + '</b>\n\n' + (late ? 'You have <b>overdue</b> task' : 'You have new tasks to complete') + (wt ? ' for: <b>' + esc(wt) + '</b>' : '') + '\n\n' + taskLines(x, true) + '\n\nStep: <b>' + esc(steps[n] || '') + '</b>';
+  let t = '📋 <b>To-Do List ' + stepTitle(x, n) + '</b>\n\n' + (late ? 'You have <b>overdue</b> task' : 'You have new tasks to complete') + (wt ? ' for: <b>' + esc(wt) + '</b>' : '') + '\n\n' + taskLines(x, true) + '\n\nStep: <b>' + esc(tdTxt(steps[n] || '', x.key)) + '</b>';
   if (late) t += '\n\nPlease complete your task as soon as possible.';
   else if (n < x.total - 1) t += '\nNext Step: ' + esc(nextAfter(x, n));
   return t;
@@ -151,7 +159,7 @@ function nextAfter(x, n) { const st = x.tpl.steps || [], s = x.s || {}; for (let
 function whenText(ms) { const d = khNow(ms); return d.getUTCDate() + ' ' + MON[d.getUTCMonth()] + ' ' + d.getUTCFullYear() + ' ' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()); }
 function doneText(x, n, who, at, last, groupName) {
   const steps = x.tpl.steps || [];
-  let t = '✅ <b>Task complete ' + stepTitle(x, n) + '</b>\n\n' + taskLines(x, false) + '\n\nStep: <b>' + esc(steps[n] || '') + '</b>\nCompleted by: ' + esc(who || '-') + (at ? ' · ' + esc(whenText(at)) : '');
+  let t = '✅ <b>Task complete ' + stepTitle(x, n) + '</b>\n\n' + taskLines(x, false) + '\n\nStep: <b>' + esc(tdTxt(steps[n] || '', x.key)) + '</b>\nCompleted by: ' + esc(who || '-') + (at ? ' · ' + esc(whenText(at)) : '');
   if (groupName) t += '\nGroup: ' + esc(groupName);
   t += last ? '\n\n🎉 All steps are finished.' : '\n\nNext Step: <b>' + esc(nextAfter(x, n)) + '</b>';
   return t;

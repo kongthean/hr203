@@ -5175,6 +5175,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdCanFrom: "Only from a date",
         tdOpensOn: "Opens on",
         tdAllAny: "Set all steps to Any time",
+        tdTagHint: "Tap a tag. It becomes the real month name, for example {next month} shows December 2026.",
         tdDayN: "day {n} of the month",
         tdNoteLockFT: "Opens on {f}. You cannot swipe it before then. It turns late after {t}.",
         tdNoteLockT: "Locked until {t}, the deadline day. To finish earlier, choose Any time.",
@@ -7545,6 +7546,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdCanFrom: "ចាប់ពីកាលបរិច្ឆេទ",
         tdOpensOn: "បើកនៅថ្ងៃ",
         tdAllAny: "កំណត់គ្រប់ជំហានជា «គ្រប់ពេល»",
+        tdTagHint: "ចុចស្លាក វាប្តូរជាឈ្មោះខែពិត ឧ. {next month} បង្ហាញ ធ្នូ 2026។",
         tdDayN: "ថ្ងៃទី {n} នៃខែ",
         tdNoteLockFT: "ចាក់សោរហូតដល់ {f}។ មិនអាចអូសមុននេះទេ។ បើក {f} ដល់ {t}។",
         tdNoteLockT: "ចាក់សោរហូតដល់ {t} ថ្ងៃកំណត់។ ចង់បញ្ចប់មុន សូមជ្រើស «គ្រប់ពេល»។",
@@ -9877,6 +9879,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdCanFrom: "从某日起",
         tdOpensOn: "开放日期",
         tdAllAny: "将所有步骤设为“随时”",
+        tdTagHint: "点选标签，会自动变成真实月份，例如 {next month} 显示 2026年12月。",
         tdDayN: "每月 {n} 号",
         tdNoteLockFT: "锁定至 {f}，之前无法滑动完成。开放时间 {f} 至 {t}。",
         tdNoteLockT: "锁定至 {t}（截止日）。如需提前完成，请选“随时”。",
@@ -26149,7 +26152,7 @@ function tdInst(tpl, key, done, today) {
   if (!complete && tpl.stepDates) { if (firstAvail < 0) { next = -1; waiting = true; } else if (firstLate >= 0) next = firstLate; else if (sMinIx >= 0) next = sMinIx; else next = firstAvail; }
   if (!complete && sLate) { status = 'over'; why = 'step'; } else if (!complete && sSoon && (status === 'open' || status === 'hidden')) { status = 'soon'; why = 'step'; }
   if (waiting) { status = 'wait'; why = ''; }
-  return { unlock: unlock, waiting: waiting, avail: avail, stepSoonIx: sMinIx, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? steps[next] : '', complete: complete, doneAt: dn.doneAt || 0, s: s, why: why, stepLate: sLate, stepLateMax: sLateMax, stepSoonMin: sMin };
+  return { unlock: unlock, waiting: waiting, avail: avail, stepSoonIx: sMinIx, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? tdTxt(steps[next], key) : '', complete: complete, doneAt: dn.doneAt || 0, s: s, why: why, stepLate: sLate, stepLateMax: sLateMax, stepSoonMin: sMin };
 }
 function tdAll(tpls, done, today, nowMs) {
   var out = []; tdAll.wait = [];
@@ -26253,6 +26256,14 @@ function tdList() { return tdAll(td.tpl, td.done, kbToday(), Date.now()); }
 function tdCount(st) { return tdList().filter(function (x) { return x.status === st; }).length; }
 function tdLoc() { return { en: 'en-US', km: 'km-KH', zh: 'zh-CN' }[currentLang] || 'en-US'; }
 var TDI = {cal:'<svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>',clk:'<svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6"/></svg>',tag:'<svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12V4a1 1 0 0 1 1-1h8l9 9-9 9z"/><circle cx="8" cy="8" r="1.4"/></svg>',bld:'<svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="1"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/></svg>',grp:'<svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.5 2.7-6 6-6s6 2.5 6 6M16 5a3 3 0 0 1 0 6M18 14c2 .6 3 2.6 3 5"/></svg>',usr:'<svg class="ti" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>'};
+function tdTxt(s, key) {
+  s = String(s == null ? '' : s); if (s.indexOf('{') < 0) return s;
+  var k = String(key || '').slice(0, 7); if (!/^\d{4}-\d{2}$/.test(k)) k = kbToday().slice(0, 7);
+  return s.replace(/\{\s*(this|next|last)\s+(month|mon)\s*\}/gi, function (m, w, f) {
+    var sh = w.toLowerCase() === 'this' ? 0 : w.toLowerCase() === 'next' ? 1 : -1, kk = tdMonthShift(k, sh), lc = 'en'; try { if (typeof tdLoc === 'function') lc = tdLoc(); } catch (e) {}
+    try { return new Date(Date.UTC(+kk.slice(0, 4), +kk.slice(5, 7) - 1, 1)).toLocaleDateString(lc, f.toLowerCase() === 'mon' ? { month: 'short', timeZone: 'UTC' } : { month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch (e) { return m; }
+  });
+}
 function tdMonthName(key, shift) {
     try { var k = tdMonthShift(key, shift || 0); return new Date(Date.UTC(+k.slice(0, 4), +k.slice(5, 7) - 1, 1)).toLocaleDateString(tdLoc(), { month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch (e) { return key; }
 }
@@ -26374,7 +26385,7 @@ function tdCardHtml(x) {
     var list = '';
     if (all) list = '<div style="margin-top:8px;">' + steps.map(function (st, i) {
         var d = x.s[tdStepKey(st)], lk = !d && x.avail && x.avail[i] === false;
-        return '<div class="tdStep' + (d ? ' on' : '') + (i === x.next ? ' nx' : '') + (lk ? ' lk' : '') + '" onclick="tdTick(\'' + id + '\',\'' + key + '\',' + i + ',' + (d ? 'false' : 'true') + ')"><span class="tdChk">' + (d ? '&#10003;' : '') + '</span><span style="flex:1;white-space:pre-wrap;">' + escapeHtmlText(st) + '<div style="margin-top:5px;">' + tdStepDateHtml(p, x.key, i, !!d) + '</div>' + '</span>' + (d ? '<span style="font-size:10px;color:#64748b;text-align:right;">' + escapeHtmlText((d.by || '') + ' ' + (d.at ? tdStamp(d.at) : '')) + '</span>' : '') + '</div>';
+        return '<div class="tdStep' + (d ? ' on' : '') + (i === x.next ? ' nx' : '') + (lk ? ' lk' : '') + '" onclick="tdTick(\'' + id + '\',\'' + key + '\',' + i + ',' + (d ? 'false' : 'true') + ')"><span class="tdChk">' + (d ? '&#10003;' : '') + '</span><span style="flex:1;white-space:pre-wrap;">' + escapeHtmlText(tdTxt(st, x.key)) + '<div style="margin-top:5px;">' + tdStepDateHtml(p, x.key, i, !!d) + '</div>' + '</span>' + (d ? '<span style="font-size:10px;color:#64748b;text-align:right;">' + escapeHtmlText((d.by || '') + ' ' + (d.at ? tdStamp(d.at) : '')) + '</span>' : '') + '</div>';
     }).join('') + '</div>';
     return '<div class="tdCard" style="border-left:6px solid ' + col + ';">' + head + cur + '<div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">' + undo +
         '<button class="kbBtn navy" style="margin:0;" onclick="tdToggle(\'' + ck.replace(/'/g, '') + '\')">' + escapeHtmlText(t(all ? 'tdHideSteps' : 'tdAllSteps')) + '</button></div>' + list + '</div>';
@@ -26596,6 +26607,7 @@ function tdPhRender() {
     if (!tdPhBox) return; var old = document.getElementById('tdPhPop'); if (old) old.remove();
     var list = tdPhList(), cur = (tdPhBox.querySelector('textarea').value || '').trim(), has = list.some(function (x) { return x.text === cur; }), e = escapeHtmlText;
     var h = '<div class="tdPhHead">' + e(t('tdSnTitle')) + '</div>';
+    h += '<div class="tdHint" style="padding:2px 4px 4px;">' + e(t('tdTagHint')) + '</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;">' + ['{last month}', '{this month}', '{next month}', '{last mon}', '{this mon}', '{next mon}'].map(function (g) { return '<button type="button" class="kbBtn grey" style="margin:0;padding:6px 10px;" onclick="tdPhTag(\'' + g + '\')">' + e(g) + '</button>'; }).join('') + '</div>';
     h += '<div class="tdPhNew"><textarea id="tdPhNewTx" rows="2" placeholder="' + e(t('tdSnNewPh')) + '"></textarea><button type="button" class="kbBtn navy" style="margin:0;" onclick="tdPhAdd()">' + e(t('tdSnAdd')) + '</button></div>';
     if (cur && !has) h += '<button type="button" class="kbBtn grey" style="margin:6px 0 8px;" onclick="tdPhSaveCurrent()">&#43; ' + e(t('tdSnSaveCur')) + '</button>';
     if (!list.length) h += '<div class="tdHint" style="padding:4px 6px 8px;">' + e(t('tdSnEmpty')) + '</div>';
@@ -26605,6 +26617,7 @@ function tdPhRender() {
     });
     var d = document.createElement('div'); d.id = 'tdPhPop'; d.className = 'tdPhPop'; d.innerHTML = h; tdPhBox.appendChild(d);
 }
+function tdPhTag(g) { if (!tdPhBox) return; var ta = tdPhBox.querySelector('textarea'), a = ta.selectionStart == null ? ta.value.length : ta.selectionStart, b = ta.selectionEnd == null ? a : ta.selectionEnd; ta.value = ta.value.slice(0, a) + g + ta.value.slice(b); tdStepGrow(ta); tdPhClose(); ta.focus(); }
 function tdPhUse(i) { var x = tdPhList()[i]; if (!x || !tdPhBox) return; var ta = tdPhBox.querySelector('textarea'); ta.value = x.text; tdStepGrow(ta); tdPhClose(); ta.focus(); }
 function tdPhWrite(text) { text = String(text || '').trim().slice(0, 500); if (!text || !td.me) return; if (tdPhList().some(function (x) { return x.text === text; })) { showToast(false, t('tdSnDup')); return; } db.ref('todo/' + td.me + '/phrases').push({ text: text, at: Date.now() }).catch(function (e) { showToast(false, String(e && e.message || e)); }); }
 function tdPhAdd() { var ta = document.getElementById('tdPhNewTx'); var v = ta ? ta.value : ''; tdPhWrite(v); if (ta) ta.value = ''; }
@@ -26717,7 +26730,7 @@ function trpPrint(cid, key) {
     var x = tdInst(Object.assign({}, tpl, { id: cid }), key, td.done, kbToday()); if (!x.complete) return;
     var steps = tpl.steps || [], rows = steps.map(function (st, i) {
         var d = x.s[tdStepKey(st)] || {};
-        return '<tr><td style="width:8%;text-align:center;">' + (i + 1) + '</td><td>' + escapeHtmlText(st) + '</td><td style="width:22%;">' + escapeHtmlText(d.at ? trpStamp(d.at) : '-') + '</td><td style="width:20%;">' + escapeHtmlText(d.by || '-') + '</td></tr>';
+        return '<tr><td style="width:8%;text-align:center;">' + (i + 1) + '</td><td>' + escapeHtmlText(tdTxt(st, x.key)) + '</td><td style="width:22%;">' + escapeHtmlText(d.at ? trpStamp(d.at) : '-') + '</td><td style="width:20%;">' + escapeHtmlText(d.by || '-') + '</td></tr>';
     }).join('');
     var sub = [tdPeriodLabel(x), tpl.type || '', tpl.scope ? (dgScopeLabel(tpl.scope) || '') : ''].filter(Boolean).join(' · ');
     var own = (tpl._owner && tpl._owner !== td.me) ? '<div class="m">' + escapeHtmlText(fillTemplate(t('trpSharedBy'), { n: tdOwnerName(tpl._owner) })) + '</div>' : '';

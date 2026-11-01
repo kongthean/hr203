@@ -395,6 +395,14 @@ function tdAdd(ds, n) { return tdFmt(tdParse(ds) + n * 86400000); }
 function tdDiff(a, b) { return Math.round((tdParse(a) - tdParse(b)) / 86400000); }
 function tdDim(y, m) { return new Date(Date.UTC(y, m, 0)).getUTCDate(); }
 function tdMonthShift(key, off) { var y = +key.slice(0, 4), m = +key.slice(5, 7) - 1 + off; y += Math.floor(m / 12); m = ((m % 12) + 12) % 12; return y + '-' + tdPad(m + 1); }
+function tdTxt(s, key) {
+  s = String(s == null ? '' : s); if (s.indexOf('{') < 0) return s;
+  var k = String(key || '').slice(0, 7); if (!/^\d{4}-\d{2}$/.test(k)) k = todayStr().slice(0, 7);
+  return s.replace(/\{\s*(this|next|last)\s+(month|mon)\s*\}/gi, function (m, w, f) {
+    var sh = w.toLowerCase() === 'this' ? 0 : w.toLowerCase() === 'next' ? 1 : -1, kk = tdMonthShift(k, sh), lc = 'en'; try { if (typeof tdLoc === 'function') lc = tdLoc(); } catch (e) {}
+    try { return new Date(Date.UTC(+kk.slice(0, 4), +kk.slice(5, 7) - 1, 1)).toLocaleDateString(lc, f.toLowerCase() === 'mon' ? { month: 'short', timeZone: 'UTC' } : { month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch (e) { return m; }
+  });
+}
 function tdMonday(ds) { var d = new Date(tdParse(ds)), wd = (d.getUTCDay() + 6) % 7; return tdAdd(ds, -wd); }
 function tdDefaults(tpl) { var f = tpl.freq || 'monthly'; return { lead: f === 'monthly' ? 10 : f === 'weekly' ? 3 : f === 'daily' ? 0 : 7, warn: f === 'monthly' ? 3 : f === 'weekly' ? 1 : 0 }; }
 function tdStepKey(text) { return String(text).replace(/[.#$\[\]\/]/g, '_').trim().slice(0, 60); }
@@ -437,7 +445,7 @@ function tdInst(tpl, key, done, today) {
   if (!complete && tpl.stepDates) { if (firstAvail < 0) { next = -1; waiting = true; } else if (firstLate >= 0) next = firstLate; else if (sMinIx >= 0) next = sMinIx; else next = firstAvail; }
   if (!complete && sLate) { status = 'over'; why = 'step'; } else if (!complete && sSoon && (status === 'open' || status === 'hidden')) { status = 'soon'; why = 'step'; }
   if (waiting) { status = 'wait'; why = ''; }
-  return { unlock: unlock, waiting: waiting, avail: avail, why: why, stepLate: sLate, stepSoonMin: sMin, stepSoonIx: sMinIx, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? steps[next] : '', complete: complete, doneAt: dn.doneAt || 0, s: s };
+  return { unlock: unlock, waiting: waiting, avail: avail, why: why, stepLate: sLate, stepSoonMin: sMin, stepSoonIx: sMinIx, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? tdTxt(steps[next], key) : '', complete: complete, doneAt: dn.doneAt || 0, s: s };
 }
 function tdAll(tpls, done, today, nowMs) {
   var out = []; tdAll.wait = [];
@@ -661,7 +669,7 @@ function cardHtml(x) {
   h += '<button class="togg" data-c="' + cid + '" data-k="' + key + '" onclick="toggSteps(this)"><span>' + (isOpen ? '&#9662; ' + esc(T('hideSteps')) : '&#9656; ' + esc(T('showSteps'))) + '</span><i>' + x.ticked + ' / ' + x.total + '</i></button>';
   if (isOpen) h += '<div style="margin-top:6px;">' + steps.map(function (st, i) {
     var d = x.s[tdStepKey(st)], lk = !d && x.avail && x.avail[i] === false;
-    return '<div class="step' + (d ? ' on' : '') + (i === x.next ? ' nx' : '') + (lk ? ' lk' : '') + '" data-c="' + cid + '" data-k="' + key + '" data-i="' + i + '" data-on="' + (d ? 0 : 1) + '" onclick="tickBtn(this)"><span class="chk">' + (d ? '&#10003;' : '') + '</span><span class="txt">' + esc(st) + '<div style="margin-top:5px;">' + stepDateHtml(p, x.key, i, !!d) + '</div>' + (d && d.at ? '<small>' + esc(stamp(d.at)) + (d.by ? ' &middot; ' + esc(d.by) : '') + '</small>' : '') + '</span></div>';
+    return '<div class="step' + (d ? ' on' : '') + (i === x.next ? ' nx' : '') + (lk ? ' lk' : '') + '" data-c="' + cid + '" data-k="' + key + '" data-i="' + i + '" data-on="' + (d ? 0 : 1) + '" onclick="tickBtn(this)"><span class="chk">' + (d ? '&#10003;' : '') + '</span><span class="txt">' + esc(tdTxt(st, x.key)) + '<div style="margin-top:5px;">' + stepDateHtml(p, x.key, i, !!d) + '</div>' + (d && d.at ? '<small>' + esc(stamp(d.at)) + (d.by ? ' &middot; ' + esc(d.by) : '') + '</small>' : '') + '</span></div>';
   }).join('') + '</div>';
   if (isOpen && x.ticked > 0) h += '<button class="ghost" data-c="' + cid + '" data-k="' + key + '" onclick="undoBtn(this)">&#8630; ' + esc(T('tdUndo')) + '</button>';
   return h + '</div>';
