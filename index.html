@@ -2257,7 +2257,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 .tdPhB{flex:none;width:32px;height:30px;border:1px solid #cbd5e1;background:#fff;border-radius:8px;cursor:pointer;font-size:13px;padding:0 !important;min-height:0 !important;}.tdPhB.del{color:#b91c1c;}
 .tdPhNew{display:flex;gap:6px;margin:4px 0 8px;align-items:flex-start;}.tdPhNew textarea,.tdPhItem textarea{flex:1;min-width:0;box-sizing:border-box;resize:vertical;min-height:38px;padding:8px 10px;}.tdSD small{font-size:10px;font-weight:700;color:#64748b;margin:0 0 2px 2px;}.tdSD input{width:100%;}
 </style>
-<div class="modal" id="trpModal">
+<div class="modal" id="trpModal" style="z-index:2000;">
     <div class="modal-content" style="max-width:560px;">
         <div class="modal-header"><h4 data-i18n="trpTitle">To-Do Reports</h4><button class="modal-close" onclick="trpClose()">&times;</button></div>
         <div style="font-size:12px;color:#64748b;margin-bottom:10px;" data-i18n="trpHint">A report is made when every step of a task is finished. It is removed after 7 days, so save or print it first.</div>
@@ -5179,7 +5179,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "Step {s} ends today",
         tdStLocked: "This step opens on its date.",
         tdLockedUntil: "Task locked until {d}",
-        trpBtn:"To-Do Reports", trpTitle:"To-Do Reports", trpHint:"A report is made when every step of a task is finished. It is removed after 7 days, so save or print it first.", trpEmpty:"No reports now. A report appears when a task is fully finished.", trpDoneAt:"Completed", trpLeft:"Removed in {n} day(s)", trpLeft0:"Removed today", trpPrint:"Print / Save as PDF", trpRepTitle:"To-Do Task Report", trpColStep:"Step", trpColAt:"Completed on", trpColBy:"By", trpAllDone:"All {n} steps are completed.", trpIssued:"Issued by HR 203 on {d}", trpSharedBy:"Task owner: {n}",
+        trpTab:"Reports", trpBtn:"To-Do Reports", trpTitle:"To-Do Reports", trpHint:"A report is made when every step of a task is finished. It is removed after 7 days, so save or print it first.", trpEmpty:"No reports now. A report appears when a task is fully finished.", trpDoneAt:"Completed", trpLeft:"Removed in {n} day(s)", trpLeft0:"Removed today", trpPrint:"Print / Save as PDF", trpRepTitle:"To-Do Task Report", trpColStep:"Step", trpColAt:"Completed on", trpColBy:"By", trpAllDone:"All {n} steps are completed.", trpIssued:"Issued by HR 203 on {d}", trpSharedBy:"Task owner: {n}",
         acctPendingLbl:"Account is pending approval", acctApprove:"Approve", acctDismiss:"Dismiss", acctApproved:"Account approved.", acctDismissed:"Account dismissed.", acctDismissConfirm:"Dismiss and delete the account of {name}?", acctPendingBy:"Created by {n}",
         tdReopen: "Unlock this task now",
         tdWaitHdr: "Waiting ({n})",
@@ -7528,7 +7528,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "ជំហានទី {s} បញ្ចប់ថ្ងៃនេះ",
         tdStLocked: "ជំហាននេះនឹងបើកនៅថ្ងៃកំណត់របស់វា។",
         tdLockedUntil: "ការងារចាក់សោរហូតដល់ {d}",
-        trpBtn:"របាយការណ៍ការងារ", trpTitle:"របាយការណ៍ការងារ", trpHint:"របាយការណ៍ត្រូវបង្កើតនៅពេលជំហានទាំងអស់នៃការងារត្រូវបានបញ្ចប់។ វានឹងត្រូវលុបក្រោយ 7 ថ្ងៃ ដូច្នេះសូមរក្សាទុក ឬបោះពុម្ពជាមុន។", trpEmpty:"មិនទាន់មានរបាយការណ៍ទេ។ របាយការណ៍លេចឡើងនៅពេលការងារបញ្ចប់ទាំងស្រុង។", trpDoneAt:"បានបញ្ចប់", trpLeft:"នឹងលុបក្នុង {n} ថ្ងៃ", trpLeft0:"នឹងលុបថ្ងៃនេះ", trpPrint:"បោះពុម្ព / រក្សាទុកជា PDF", trpRepTitle:"របាយការណ៍ការងារ", trpColStep:"ជំហាន", trpColAt:"បានបញ្ចប់នៅ", trpColBy:"ដោយ", trpAllDone:"ជំហានទាំង {n} បានបញ្ចប់។", trpIssued:"ចេញដោយ HR 203 នៅ {d}", trpSharedBy:"ម្ចាស់ការងារ៖ {n}",
+        trpTab:"របាយការណ៍", trpBtn:"របាយការណ៍ការងារ", trpTitle:"របាយការណ៍ការងារ", trpHint:"របាយការណ៍ត្រូវបង្កើតនៅពេលជំហានទាំងអស់នៃការងារត្រូវបានបញ្ចប់។ វានឹងត្រូវលុបក្រោយ 7 ថ្ងៃ ដូច្នេះសូមរក្សាទុក ឬបោះពុម្ពជាមុន។", trpEmpty:"មិនទាន់មានរបាយការណ៍ទេ។ របាយការណ៍លេចឡើងនៅពេលការងារបញ្ចប់ទាំងស្រុង។", trpDoneAt:"បានបញ្ចប់", trpLeft:"នឹងលុបក្នុង {n} ថ្ងៃ", trpLeft0:"នឹងលុបថ្ងៃនេះ", trpPrint:"បោះពុម្ព / រក្សាទុកជា PDF", trpRepTitle:"របាយការណ៍ការងារ", trpColStep:"ជំហាន", trpColAt:"បានបញ្ចប់នៅ", trpColBy:"ដោយ", trpAllDone:"ជំហានទាំង {n} បានបញ្ចប់។", trpIssued:"ចេញដោយ HR 203 នៅ {d}", trpSharedBy:"ម្ចាស់ការងារ៖ {n}",
         acctPendingLbl:"គណនីកំពុងរង់ចាំការអនុម័ត", acctApprove:"អនុម័ត", acctDismiss:"បដិសេធ", acctApproved:"បានអនុម័តគណនី។", acctDismissed:"បានបដិសេធគណនី។", acctDismissConfirm:"បដិសេធ និងលុបគណនីរបស់ {name}?", acctPendingBy:"បង្កើតដោយ {n}",
         tdReopen: "ដោះសោការងារនេះឥឡូវ",
         tdWaitHdr: "កំពុងរង់ចាំ ({n})",
@@ -9839,7 +9839,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         tdStepEndsToday: "第 {s} 步今天结束",
         tdStLocked: "此步骤将在设定日期开启。",
         tdLockedUntil: "任务已锁定，至 {d} 解锁",
-        trpBtn:"待办报告", trpTitle:"待办报告", trpHint:"任务的所有步骤完成后会生成报告。报告将在 7 天后删除，请先保存或打印。", trpEmpty:"暂无报告。任务全部完成后会出现报告。", trpDoneAt:"完成于", trpLeft:"{n} 天后删除", trpLeft0:"今天删除", trpPrint:"打印 / 保存为 PDF", trpRepTitle:"待办任务报告", trpColStep:"步骤", trpColAt:"完成时间", trpColBy:"完成人", trpAllDone:"全部 {n} 个步骤已完成。", trpIssued:"由 HR 203 于 {d} 出具", trpSharedBy:"任务所有者：{n}",
+        trpTab:"报告", trpBtn:"待办报告", trpTitle:"待办报告", trpHint:"任务的所有步骤完成后会生成报告。报告将在 7 天后删除，请先保存或打印。", trpEmpty:"暂无报告。任务全部完成后会出现报告。", trpDoneAt:"完成于", trpLeft:"{n} 天后删除", trpLeft0:"今天删除", trpPrint:"打印 / 保存为 PDF", trpRepTitle:"待办任务报告", trpColStep:"步骤", trpColAt:"完成时间", trpColBy:"完成人", trpAllDone:"全部 {n} 个步骤已完成。", trpIssued:"由 HR 203 于 {d} 出具", trpSharedBy:"任务所有者：{n}",
         acctPendingLbl:"账户待批准", acctApprove:"批准", acctDismiss:"拒绝", acctApproved:"账户已批准。", acctDismissed:"账户已拒绝。", acctDismissConfirm:"拒绝并删除 {name} 的账户？", acctPendingBy:"创建人：{n}",
         tdReopen: "立即解锁此任务",
         tdWaitHdr: "等待中（{n}）",
@@ -26259,9 +26259,9 @@ function tdRender() {
     if (tsel) { var tcur = td.typeF || ''; tsel.innerHTML = '<option value="">' + escapeHtmlText(t('tdTypeAll')) + '</option>' + tl.map(function (n) { return '<option value="' + escapeHtmlText(n) + '">' + escapeHtmlText(n) + '</option>'; }).join('') + '<option value="__none">' + escapeHtmlText(t('tdTypeNone')) + '</option>'; tsel.value = tcur; if (tsel.value !== tcur) { td.typeF = ''; tsel.value = ''; } }
     var shown = all.filter(function (x) { return tdScopeMatch(x.tpl.scope || '', scope) && (!td.typeF || (td.typeF === '__none' ? !x.tpl.type : x.tpl.type === td.typeF)); });
     var open = shown.filter(function (x) { return x.status !== 'done'; });
-    document.getElementById('tdTabs').innerHTML = [['now', 'tdTabNow', open.length + '/' + shown.length], ['manage', 'tdTabManage', Object.keys(td.tpl).length], ['tg', 'tdTabTg', '']].map(function (x) {
+    document.getElementById('tdTabs').innerHTML = [['now', 'tdTabNow', open.length + '/' + shown.length], ['manage', 'tdTabManage', Object.keys(td.tpl).length], ['tg', 'tdTabTg', ''], ['rep', 'trpTab', '']].map(function (x) {
         var hot = x[0] === 'now' && open.some(function (y) { return y.status === 'over'; });
-        return '<button class="trTab' + (td.tab === x[0] ? ' on' : '') + (hot ? ' hot' : '') + '" onclick="tdTab(\'' + x[0] + '\')">' + escapeHtmlText(t(x[1])) + (x[2] === '' ? (((td.own || {}).tg && (td.own || {}).tg.chatId) ? ' &#10003;' : '') : ' (' + x[2] + ')') + '</button>';
+        return '<button class="trTab' + (td.tab === x[0] ? ' on' : '') + (hot ? ' hot' : '') + '" onclick="' + (x[0] === 'rep' ? 'trpOpen()' : 'tdTab(\'' + x[0] + '\')') + '">' + escapeHtmlText(t(x[1])) + (x[2] === '' ? '' : ' (' + x[2] + ')') + '</button>';
     }).join('');
     document.getElementById('tdFilters').style.display = td.tab === 'now' ? '' : 'none';
     document.getElementById('tdSortSel').value = td.sort;
@@ -26315,7 +26315,7 @@ function tdCardHtml(x) {
     if (all) list = '<div style="margin-top:8px;">' + steps.map(function (st, i) {
         var d = x.s[tdStepKey(st)], lk = !d && x.avail && x.avail[i] === false;
         return '<div class="tdStep' + (d ? ' on' : '') + (i === x.next ? ' nx' : '') + (lk ? ' lk' : '') + '" onclick="tdTick(\'' + id + '\',\'' + key + '\',' + i + ',' + (d ? 'false' : 'true') + ')"><span class="tdChk">' + (d ? '&#10003;' : '') + '</span><span style="flex:1;white-space:pre-wrap;">' + escapeHtmlText(st) + '<div style="margin-top:5px;">' + tdStepDateHtml(p, x.key, i, !!d) + '</div>' + '</span>' + (d ? '<span style="font-size:10px;color:#64748b;text-align:right;">' + escapeHtmlText((d.by || '') + ' ' + (d.at ? tdStamp(d.at) : '')) + '</span>' : '') + '</div>';
-    }).join('') + (p.note ? '<div class="tdMeta" style="font-style:italic;">' + escapeHtmlText(p.note) + '</div>' : '') + '</div>';
+    }).join('') + '</div>';
     return '<div class="tdCard" style="border-left:6px solid ' + col + ';">' + head + cur + '<div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap;">' + undo +
         '<button class="kbBtn navy" style="margin:0;" onclick="tdToggle(\'' + ck.replace(/'/g, '') + '\')">' + escapeHtmlText(t(all ? 'tdHideSteps' : 'tdAllSteps')) + '</button></div>' + list + '</div>';
 }
