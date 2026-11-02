@@ -1635,7 +1635,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 </div>
 
 <!-- TAB 2: MASTER SHEET -->
- <div id="tab-master" class="tab-panel">
+ <div id="tab-master" class="tab-panel"><div class="hrMB"></div>
      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
          <div>
              <h3 data-i18n="masterTitle">Employee Master Management</h3>
@@ -1696,7 +1696,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
  </div>
  
  <!-- TAB 3: MONTHLY REPORT -->
- <div id="tab-monthly" class="tab-panel">
+ <div id="tab-monthly" class="tab-panel"><div class="hrMB"></div>
      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap:10px;">
          <div>
              <h3 data-i18n="monthlyReportTitle">Monthly Report</h3>
@@ -1708,6 +1708,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
                  <input type="number" id="bulkWorkDaysInput" value="208" step="1" style="width: 70px; padding: 4px;">
                  <button class="quick-btn" style="padding: 4px 8px; font-size:11px;" onclick="applyBulkWorkingHours(this)" data-i18n="btnApplyAll">Apply to All</button>
              </div>
+             <button class="quick-btn" onclick="mrUseSuggested(this)" data-i18n="mrUseAllBtn">Use shift hours for everyone</button>
+             <button class="quick-btn amber" onclick="mrCheckMonth()" data-i18n="mrCheckBtn">Check this month</button>
              <button class="quick-btn green" onclick="openExportLangModal('monthly')" data-i18n="btnExport">Export to Excel (.xlsx)</button>
          </div>
      </div>
@@ -1749,7 +1751,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
  </div>
 
  <!-- TAB 3b: MONTHLY ANNUAL LEAVE (v6.74) -->
- <div id="tab-monthlyal" class="tab-panel">
+ <div id="tab-monthlyal" class="tab-panel"><div class="hrMB"></div>
      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap:10px;">
          <div>
              <h3 data-i18n="monthlyALTitle">Monthly Annual Leave</h3>
@@ -2245,7 +2247,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 .tdSRow{display:flex;gap:8px;align-items:flex-end;margin-bottom:10px;flex-wrap:wrap;padding:8px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;}.tdSRow textarea{flex:1 1 100%;min-width:0;box-sizing:border-box;resize:none;overflow:hidden;min-height:38px;padding:8px 10px;line-height:1.35;}.tdSRow input[type=date]{box-sizing:border-box;}#tdSteps.noDate .tdSD{display:none;}.tdSBtn{flex:none;width:30px;height:38px;border:1px solid #cbd5e1;background:#fff;border-radius:8px;cursor:pointer;font-size:14px;padding:0 !important;min-height:0 !important;}.tdSBtn.del{color:#b91c1c;}
 .tdSDate{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;background:#f1f5f9;color:#475569;margin-right:6px;}.tdSDate.over{background:#fee2e2;color:#b91c1c;}.tdSDate.today{background:#fef3c7;color:#b45309;}.tdSDate.active{background:#dbeafe;color:#1d4ed8;}.tdXRow{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;padding:8px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;position:relative;}.tdXRow input,.tdXRow textarea{width:100%;box-sizing:border-box;}.tdXRow textarea{resize:vertical;min-height:38px;}.tdXTop{display:flex;gap:8px;align-items:stretch;}.tdXTop input{flex:1;min-width:0;width:auto !important;}.tdXDel{flex:0 0 auto;width:44px;border:1px solid #fecaca;background:#fef2f2;border-radius:10px;color:#dc2626;cursor:pointer;padding:0 !important;min-height:0 !important;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;margin:0 !important;}.tdXDel:hover{background:#fee2e2;}
 .tdXBox{margin-top:8px;border:1px solid #fde68a;background:#fffbeb;border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.45;}.tdXBox div+div{margin-top:6px;}.tdXBox small{display:block;white-space:pre-wrap;color:#78350f;}
-.tdSD{display:flex;flex-direction:column;flex:1 1 150px;max-width:210px;}.tdSD select{width:100%;box-sizing:border-box;padding:8px 6px;}.tdSWaitL{flex:1 1 100%;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#334155;}.tdSWaitL input{width:20px;height:20px;margin:0;flex:none;}.tdSNote{flex:1 1 100%;font-size:12px;font-weight:700;line-height:1.35;border-radius:8px;padding:6px 9px;}.tdSNote:empty{display:none;}.tdSNote.r{background:#fef2f2;color:#b91c1c;}.tdSNote.g{background:#f0fdf4;color:#15803d;}.tdSNote.a{background:#fffbeb;color:#b45309;}.tdSNote.n{background:#f1f5f9;color:#475569;}#tdSteps.noDate .tdSNote{display:none;}
+.tdSD{display:flex;flex-direction:column;flex:1 1 150px;max-width:210px;}.tdSD select{width:100%;box-sizing:border-box;padding:8px 6px;}.hrMBbox{background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 12px;margin:0 0 10px;font-size:13px}.hrFrozen{background:#e0f2fe;color:#075985;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700}.mrSug{font-size:11px;color:#64748b;margin-top:2px}.mrSug.diff{color:#b45309;font-weight:700;cursor:pointer;text-decoration:underline}tr.mrRed td{background:#fef2f2}.chkNote{font-size:11px;font-weight:700;color:#b91c1c;margin-top:2px}.chkNote.ok{color:#475569;font-weight:600}tr.chkOff td{background:#e2e8f0;color:#94a3b8}tr.chkOff input{background:#cbd5e1;cursor:not-allowed}.tdSWaitL{flex:1 1 100%;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#334155;}.tdSWaitL input{width:20px;height:20px;margin:0;flex:none;}.tdSNote{flex:1 1 100%;font-size:12px;font-weight:700;line-height:1.35;border-radius:8px;padding:6px 9px;}.tdSNote:empty{display:none;}.tdSNote.r{background:#fef2f2;color:#b91c1c;}.tdSNote.g{background:#f0fdf4;color:#15803d;}.tdSNote.a{background:#fffbeb;color:#b45309;}.tdSNote.n{background:#f1f5f9;color:#475569;}#tdSteps.noDate .tdSNote{display:none;}
 .tdSTx{position:relative;flex:1 1 100%;min-width:0;}.tdSTx textarea{width:100%;padding-right:44px !important;}
 .tdSPick{position:absolute;right:5px;top:5px;width:32px;height:30px;border:1px solid #cbd5e1;background:#f1f5f9;border-radius:8px;cursor:pointer;font-size:13px;color:#334155;padding:0 !important;min-height:0 !important;}
 .tdPhPop{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;background:#fff;border:1px solid #cbd5e1;border-radius:12px;box-shadow:0 10px 30px rgba(15,23,42,.22);padding:8px;max-height:320px;overflow:auto;}
@@ -4644,6 +4646,51 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          btnLoadDept: "Show Employees",
          attDateRequiredMsg: "Please choose a date first.",
          attNoValuesEnteredMsg: "No working hours or overtime were entered.",
+         chkWorkMax: "The most is {n} hours of working time for this day.",
+         chkOtMax: "The most is {n} hours of OT for this day.",
+         chkNoShift: "No shift on this day",
+         chkNoShiftAll: "No shifts are set for this date, so all boxes are locked.",
+         chkAlready: "Already: work {w}h, OT {o}h, leave {l}h",
+         chkOverDay: "too many hours (room left: work {w}h, OT {o}h)",
+         chkShiftDropAsk: "Employee {id} has hours on {d}: work {w}h, OT {o}h, leave {l}h.\n\nRemoving the shift will remove the working hours and OT of this day. The leave stays, please check it. Continue?",
+         chkShiftDropAsk2: "This import clears shifts on {n} day(s) that have hours (work {w}h, OT {o}h). Those hours will be removed too. Continue?",
+         chkShiftDropBtn: "Remove shift and hours",
+         chkContinue: "Continue",
+         mrProbWork: "Actual working hours {w} is more than Attendance {a}. Move the extra to OT.",
+         mrProbShift: "Attendance {a} is different from the shift hours {s}.",
+         mrShiftSays: "Shift says {n}",
+         mrTapUse: "Tap to use the shift hours",
+         mrAllMatch: "All Attendance numbers already match the shifts.",
+         mrUseAllAsk: "Use the shift hours as Attendance for {n} employee(s)?",
+         mrUseAllOk: "Use shift hours",
+         mrMoveAsk: "Employee {id}: Actual working hours {v} is more than Attendance {a}.\n\nPut {a} in Actual working hours and {x} in OT hours?",
+         mrMoveBtn: "Move {x} hours to OT",
+         mrCheckTitle: "Check this month: {m}",
+         mrCheckOk: "No problems found.",
+         mrClose: "Close",
+         mrUseAllBtn: "Use shift hours for everyone",
+         mrCheckBtn: "Check this month",
+         hrReasonTitle: "{m} is already confirmed. Why do you need to change it?",
+         hrReasonSub: "The reason is saved in the activity log.",
+         hrReasonPh: "Type the reason",
+         hrReasonOk: "Save with this reason",
+         hrSetupTitle: "Which month do the current numbers belong to?",
+         hrSetupSub: "Choose it once. From then on, each month has its own sheet.",
+         hrSetupSave: "Save",
+         hrMonthLbl: "Month",
+         hrCurrent: "current",
+         hrConfirmedTag: "confirmed",
+         hrFrozen: "Confirmed month: numbers are frozen",
+         hrConfirmBtn: "Confirm {m}",
+         hrConfirmAsk: "Confirm {m}?\n\n{m} is saved as its own sheet and frozen. {n} starts at 0 for all employees, and this month's used leave is added to Previous used. Changing {m} later needs a reason.",
+         hrConfirmOk: "Confirm month",
+         hrConfirmDone: "{m} confirmed. {n} has started.",
+         chkLeaveNoShift: "This employee has no shift on that date, so leave cannot be added.",
+         chkLeaveMax: "One day can have 8 hours at most. Only {n} hours of leave can still be added on this date.",
+         chkLeaveSame: "Employee {id} already has {o} hours of leave on {d}.\n\nIf you add {n} hours, the total will be {s} hours. Continue?",
+         chkLeaveAtt: "Employee {id} already has {a} hours of attendance on {d}.\n\nIf you continue, attendance will be lowered to {c} hours and the leave will be {l} hours, so the day stays at 8 hours. Continue?",
+         chkLeaveBal: "Employee {id} has only {r} hours of leave balance left, and you are adding {n} hours.\n\nContinue anyway?",
+         chkLeaveLowerFirst: "Attendance on this day is already high. Lower the attendance first, then raise the leave.",
          lblAttDate: "Date",
          workHoursLabel: "Working Hours",
          otHoursLabel: "Monthly Overtime",
@@ -7019,6 +7066,51 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          btnLoadDept: "បង្ហាញបុគ្គលិក",
          attDateRequiredMsg: "សូមជ្រើសរើសកាលបរិច្ឆេទជាមុនសិន។",
          attNoValuesEnteredMsg: "មិនមានការបញ្ចូលម៉ោងធ្វើការ ឬម៉ោងបន្ថែមទេ។",
+         chkWorkMax: "ច្រើនបំផុតគឺ {n} ម៉ោងធ្វើការសម្រាប់ថ្ងៃនេះ។",
+         chkOtMax: "ច្រើនបំផុតគឺ {n} ម៉ោងបន្ថែមសម្រាប់ថ្ងៃនេះ។",
+         chkNoShift: "គ្មានវេននៅថ្ងៃនេះ",
+         chkNoShiftAll: "មិនមានវេនសម្រាប់ថ្ងៃនេះទេ ប្រអប់ទាំងអស់ត្រូវបានចាក់សោ។",
+         chkAlready: "មានរួចហើយ៖ ធ្វើការ {w} ម៉ោង បន្ថែម {o} ម៉ោង ឈប់ {l} ម៉ោង",
+         chkOverDay: "ម៉ោងច្រើនពេក (នៅសល់៖ ធ្វើការ {w} ម៉ោង បន្ថែម {o} ម៉ោង)",
+         chkShiftDropAsk: "និយោជិត {id} មានម៉ោងនៅ {d}៖ ធ្វើការ {w} ម៉ោង បន្ថែម {o} ម៉ោង ឈប់ {l} ម៉ោង។\n\nការលុបវេននឹងលុបម៉ោងធ្វើការ និងម៉ោងបន្ថែមនៃថ្ងៃនេះ។ ម៉ោងឈប់នៅដដែល សូមពិនិត្យ។ បន្តទេ?",
+         chkShiftDropAsk2: "ការនាំចូលនេះលុបវេនក្នុង {n} ថ្ងៃដែលមានម៉ោង (ធ្វើការ {w} ម៉ោង បន្ថែម {o} ម៉ោង)។ ម៉ោងទាំងនោះនឹងត្រូវលុបដែរ។ បន្តទេ?",
+         chkShiftDropBtn: "លុបវេន និងម៉ោង",
+         chkContinue: "បន្ត",
+         mrProbWork: "ម៉ោងធ្វើការជាក់ស្តែង {w} លើសពីវត្តមាន {a}។ សូមផ្លាស់ម៉ោងលើសទៅម៉ោងបន្ថែម។",
+         mrProbShift: "វត្តមាន {a} ខុសពីម៉ោងតាមវេន {s}។",
+         mrShiftSays: "វេនថា {n}",
+         mrTapUse: "ចុចដើម្បីប្រើម៉ោងតាមវេន",
+         mrAllMatch: "លេខវត្តមានទាំងអស់ត្រូវនឹងវេនរួចហើយ។",
+         mrUseAllAsk: "ប្រើម៉ោងតាមវេនជាវត្តមានសម្រាប់និយោជិត {n} នាក់ឬ?",
+         mrUseAllOk: "ប្រើម៉ោងតាមវេន",
+         mrMoveAsk: "និយោជិត {id}៖ ម៉ោងធ្វើការជាក់ស្តែង {v} លើសពីវត្តមាន {a}។\n\nដាក់ {a} ក្នុងម៉ោងធ្វើការ និង {x} ក្នុងម៉ោងបន្ថែមឬ?",
+         mrMoveBtn: "ផ្លាស់ {x} ម៉ោងទៅម៉ោងបន្ថែម",
+         mrCheckTitle: "ពិនិត្យខែនេះ៖ {m}",
+         mrCheckOk: "រកមិនឃើញបញ្ហាទេ។",
+         mrClose: "បិទ",
+         mrUseAllBtn: "ប្រើម៉ោងតាមវេនសម្រាប់ទាំងអស់",
+         mrCheckBtn: "ពិនិត្យខែនេះ",
+         hrReasonTitle: "{m} ត្រូវបានបញ្ជាក់រួចហើយ។ ហេតុអ្វីបានជាអ្នកត្រូវកែប្រែ?",
+         hrReasonSub: "មូលហេតុត្រូវបានរក្សាទុកក្នុងកំណត់ត្រាសកម្មភាព។",
+         hrReasonPh: "សរសេរមូលហេតុ",
+         hrReasonOk: "រក្សាទុកជាមួយមូលហេតុនេះ",
+         hrSetupTitle: "លេខបច្ចុប្បន្នជារបស់ខែណា?",
+         hrSetupSub: "ជ្រើសរើសម្តងគត់។ បន្ទាប់មក ខែនីមួយៗមានសន្លឹករបស់ខ្លួន។",
+         hrSetupSave: "រក្សាទុក",
+         hrMonthLbl: "ខែ",
+         hrCurrent: "បច្ចុប្បន្ន",
+         hrConfirmedTag: "បានបញ្ជាក់",
+         hrFrozen: "ខែបានបញ្ជាក់៖ លេខត្រូវបានចាក់សោ",
+         hrConfirmBtn: "បញ្ជាក់ {m}",
+         hrConfirmAsk: "បញ្ជាក់ {m}?\n\n{m} ត្រូវបានរក្សាទុកជាសន្លឹកផ្ទាល់ខ្លួន ហើយចាក់សោ។ {n} ចាប់ផ្តើមពី 0 សម្រាប់និយោជិតទាំងអស់ ហើយការឈប់ដែលបានប្រើខែនេះត្រូវបានបន្ថែមទៅ \"បានប្រើពីមុន\"។ ការកែ {m} ក្រោយមកត្រូវមានមូលហេតុ។",
+         hrConfirmOk: "បញ្ជាក់ខែ",
+         hrConfirmDone: "{m} បានបញ្ជាក់។ {n} បានចាប់ផ្តើម។",
+         chkLeaveNoShift: "និយោជិតនេះគ្មានវេននៅថ្ងៃនោះ ដូច្នេះមិនអាចបន្ថែមការឈប់បានទេ។",
+         chkLeaveMax: "មួយថ្ងៃមានអតិបរមា 8 ម៉ោង។ នៅអាចបន្ថែមការឈប់បានត្រឹម {n} ម៉ោងប៉ុណ្ណោះនៅថ្ងៃនេះ។",
+         chkLeaveSame: "និយោជិត {id} មានការឈប់ {o} ម៉ោងរួចហើយនៅ {d}។\n\nបើបន្ថែម {n} ម៉ោង សរុបនឹងជា {s} ម៉ោង។ បន្តទេ?",
+         chkLeaveAtt: "និយោជិត {id} មានម៉ោងធ្វើការ {a} ម៉ោងរួចហើយនៅ {d}។\n\nបើបន្ត ម៉ោងធ្វើការនឹងថយមក {c} ម៉ោង ហើយការឈប់ {l} ម៉ោង ដូច្នេះថ្ងៃនោះនៅតែ 8 ម៉ោង។ បន្តទេ?",
+         chkLeaveBal: "និយោជិត {id} នៅសល់សមតុល្យឈប់ត្រឹម {r} ម៉ោង ហើយអ្នកកំពុងបន្ថែម {n} ម៉ោង។\n\nបន្តទេ?",
+         chkLeaveLowerFirst: "ម៉ោងធ្វើការនៅថ្ងៃនេះច្រើនរួចហើយ។ សូមបន្ថយម៉ោងធ្វើការជាមុន រួចទើបបង្កើនការឈប់។",
          lblAttDate: "កាលបរិច្ឆេទ",
          workHoursLabel: "ម៉ោងធ្វើការ",
          otHoursLabel: "ម៉ោងថែម",
@@ -9356,6 +9448,51 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          btnLoadDept: "显示员工",
          attDateRequiredMsg: "请先选择日期。",
          attNoValuesEnteredMsg: "未输入任何工作时间或加班时间。",
+         chkWorkMax: "这一天最多 {n} 个工作小时。",
+         chkOtMax: "这一天加班最多 {n} 小时。",
+         chkNoShift: "当天没有班次",
+         chkNoShiftAll: "这一天没有设置班次，所有输入框已锁定。",
+         chkAlready: "已有：工作 {w} 小时，加班 {o} 小时，请假 {l} 小时",
+         chkOverDay: "小时数过多（剩余：工作 {w} 小时，加班 {o} 小时）",
+         chkShiftDropAsk: "员工 {id} 在 {d} 有工时：工作 {w} 小时，加班 {o} 小时，请假 {l} 小时。\n\n删除班次将同时删除当天的工作和加班时间，请假保留，请自行检查。是否继续？",
+         chkShiftDropAsk2: "此次导入将清除 {n} 天有工时的班次（工作 {w} 小时，加班 {o} 小时），这些工时也会被删除。是否继续？",
+         chkShiftDropBtn: "删除班次和工时",
+         chkContinue: "继续",
+         mrProbWork: "实际工作时间 {w} 超过出勤 {a}，请将多出的部分移到加班。",
+         mrProbShift: "出勤 {a} 与班次小时数 {s} 不一致。",
+         mrShiftSays: "班次为 {n}",
+         mrTapUse: "点击使用班次小时数",
+         mrAllMatch: "所有出勤数字都与班次一致。",
+         mrUseAllAsk: "将班次小时数用作 {n} 名员工的出勤？",
+         mrUseAllOk: "使用班次小时数",
+         mrMoveAsk: "员工 {id}：实际工作时间 {v} 超过出勤 {a}。\n\n将 {a} 填入实际工作时间，{x} 填入加班？",
+         mrMoveBtn: "将 {x} 小时移到加班",
+         mrCheckTitle: "检查本月：{m}",
+         mrCheckOk: "未发现问题。",
+         mrClose: "关闭",
+         mrUseAllBtn: "全员使用班次小时数",
+         mrCheckBtn: "检查本月",
+         hrReasonTitle: "{m} 已确认。你为什么要修改它？",
+         hrReasonSub: "原因会保存在操作日志中。",
+         hrReasonPh: "输入原因",
+         hrReasonOk: "按此原因保存",
+         hrSetupTitle: "当前数字属于哪个月？",
+         hrSetupSub: "只需选择一次，之后每个月都有自己的报表。",
+         hrSetupSave: "保存",
+         hrMonthLbl: "月份",
+         hrCurrent: "当前",
+         hrConfirmedTag: "已确认",
+         hrFrozen: "已确认月份：数字已冻结",
+         hrConfirmBtn: "确认 {m}",
+         hrConfirmAsk: "确认 {m}？\n\n{m} 将保存为独立报表并冻结。{n} 对所有员工从 0 开始，本月已用假期会加入“以前已用”。之后修改 {m} 需要填写原因。",
+         hrConfirmOk: "确认月份",
+         hrConfirmDone: "{m} 已确认，{n} 已开始。",
+         chkLeaveNoShift: "该员工当天没有班次，无法添加请假。",
+         chkLeaveMax: "一天最多 8 小时，这一天只能再添加 {n} 小时请假。",
+         chkLeaveSame: "员工 {id} 在 {d} 已有 {o} 小时请假。\n\n若再添加 {n} 小时，合计 {s} 小时。是否继续？",
+         chkLeaveAtt: "员工 {id} 在 {d} 已有 {a} 小时出勤。\n\n若继续，出勤将减为 {c} 小时，请假为 {l} 小时，当天仍为 8 小时。是否继续？",
+         chkLeaveBal: "员工 {id} 剩余假期仅 {r} 小时，而你要添加 {n} 小时。\n\n仍要继续吗？",
+         chkLeaveLowerFirst: "当天出勤已较多，请先减少出勤，再增加请假。",
          lblAttDate: "日期",
          workHoursLabel: "工作时间",
          otHoursLabel: "加班时间",
@@ -12908,7 +13045,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
         hide every correct row after it (that used to look exactly like "my entry never
         recorded" for employees who came later in the list, when the real problem was an
         earlier row throwing mid-render). */
-     employees.forEach((emp, index) => {
+     hrViewList().forEach((emp, index) => {
        try {
          const parts = emp.joinDate.split('.');
          const join = new Date(parts[0], parts[1]-1, parts[2]);
@@ -12976,13 +13113,13 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
      tbody.innerHTML = '';
 
      /* v6.53: same one-bad-row-shouldn't-hide-the-rest protection as renderMaster(). */
-     employees.forEach((emp, index) => {
+     hrViewList().forEach((emp, index) => {
        try {
          const totalUsed = ((parseFloat(emp.prevUsed) || 0) + (parseFloat(emp.monthUsed) || 0)) - (parseFloat(emp.exceeded) || 0);
          const remaining = (emp.entitled - totalUsed) + (parseFloat(emp.carried) || 0);
  
          tbody.innerHTML += `
-             <tr>
+             <tr ${mrProblems(emp).length ? 'class="mrRed"' : ''}>
                  <td>
                      <button class="btn-view" onclick="openMonthlyDetailModal(${index})" title="View Details">${ICON_VIEW}</button>
                      <button class="btn-edit" onclick="openEditModal(${index})" title="Edit Record">${ICON_EDIT}</button>
@@ -12994,8 +13131,8 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
                  <td>${emp.department || '-'}</td>
                  <td>${emp.joinDate}</td>
                  <td>${emp.resignedDate || '-'}</td>
-                 <td><input type="number" value="${emp.monthlyWorkDays || 208}" step="1" style="width:75px;" onchange="updateEmpMonthlyField('${emp.firebaseKey}', 'monthlyWorkDays', this.value)"></td>
-                 <td><input type="number" value="${emp.workHours || 0}" step="0.5" style="width:75px;" onchange="updateEmpMonthlyField('${emp.firebaseKey}', 'workHours', this.value)"></td>
+                 <td><input type="number" value="${emp.monthlyWorkDays || 208}" step="1" ${hrViewLocked() ? 'disabled' : ''} style="width:75px;" onchange="updateEmpMonthlyField('${emp.firebaseKey}', 'monthlyWorkDays', this.value)">${mrSugHtml(emp)}</td>
+                 <td><input type="number" value="${emp.workHours || 0}" step="0.5" ${hrViewLocked() ? 'disabled' : ''} style="width:75px;${(parseFloat(emp.workHours) || 0) > (parseFloat(emp.monthlyWorkDays) || 208) ? 'border-color:#dc2626;color:#b91c1c;' : ''}" onchange="mrWorkChange('${emp.firebaseKey}', this)"></td>
                  <td>${(parseFloat(emp.entitled) || 0).toFixed(2)}</td>
                  <td><b>${totalUsed.toFixed(2)}</b></td>
                  <td style="color:${remaining < 0 ? '#dc2626':'#15803d'}; font-weight:bold;">${remaining.toFixed(2)}</td>
@@ -13025,7 +13162,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
      tbody.innerHTML = '';
      const now = new Date();
      const isAdminRole = (sessionStorage.getItem('loggedInRole') || 'admin') === 'admin';
-     employees.forEach((emp, index) => {
+     hrViewList().forEach((emp, index) => {
        try {
          const computedCycle = computeLeaveCycle(emp.joinDate, now);
          const startStr = emp.startDate || computedCycle.startStr;
@@ -13992,13 +14129,25 @@ function shMarkRemove() {
      }).join('');
  }
 
+
+/* when a shift is removed, the working hours and OT of that day are removed too (after a warning) */
+function hrDropPlan(empId, date, ups, acc) {
+    var emp = (employees || []).find(function (e) { return String(e.id) === String(empId); }), w = 0, o = 0, n = 0;
+    (attendanceHistory || []).forEach(function (h) { if (String(h.empId) === String(empId) && h.date === date) { ups['attendanceHistory/' + h.firebaseKey] = null; w += parseFloat(h.workHours) || 0; o += parseFloat(h.otHours) || 0; n++; } });
+    if (emp && n) { var a = acc[emp.firebaseKey] = acc[emp.firebaseKey] || { w: parseFloat(emp.workHours) || 0, o: parseFloat(emp.otHours) || 0 }; a.w = Math.max(0, a.w - w); a.o = Math.max(0, a.o - o); ups['employees/' + emp.firebaseKey + '/workHours'] = a.w; ups['employees/' + emp.firebaseKey + '/otHours'] = a.o; }
+    return { w: w, o: o, n: n };
+}
  function updateShiftCell(empId, empName, dateStr, rawVal, inputEl) {
      const val = (rawVal || '').trim().toUpperCase();
      const existing = shifts.find(s => s.empId === empId && s.date === dateStr);
 
      if (!val) {
          if (existing) {
-             db.ref('shifts/' + existing.firebaseKey).remove().then(() => showToast(true)).catch(() => showToast(false));
+             var ups0 = {}, acc0 = {}, dp = hrDropPlan(empId, dateStr, ups0, acc0), lv = hrSum(leaveHistory, empId, dateStr, 'hours');
+             var doRemove = function () { ups0['shifts/' + existing.firebaseKey] = null; db.ref().update(ups0).then(() => showToast(true)).catch(() => showToast(false)); };
+             if (dp.n || lv) {
+                 cfAsk(fillTemplate(t('chkShiftDropAsk'), { id: empId, d: dateStr, w: hrFmt(dp.w), o: hrFmt(dp.o), l: hrFmt(lv) }), t('chkShiftDropBtn'), true).then(function (ok) { if (ok) doRemove(); else if (inputEl) inputEl.value = existing.type; });
+             } else doRemove();
          }
          return;
      }
@@ -14192,7 +14341,7 @@ function shMarkRemove() {
                  const d = dayCol[c]; if (d > days) return;
                  const raw = String(row[c] === undefined ? '' : row[c]).trim().toUpperCase(); if (!raw) return;
                  const date = dstr(d), ex = byKey[e.id + '|' + date];
-                 if (raw === '-') { if (ex) plan.clr.push({ key: ex.firebaseKey }); return; }
+                 if (raw === '-') { if (ex) plan.clr.push({ key: ex.firebaseKey, empId: e.id, date: date }); return; }
                  if (VALID_SHIFT_TYPES.indexOf(raw) === -1) { plan.probs.push(pre + fillTemplate(t('shiftImpPCode'), { r: r + 1, d: d, v: raw.slice(0, 6) })); return; }
                  const payload = { empId: e.id, empName: e.name, date: date, type: raw };
                  if (!ex) plan.add.push({ payload: payload });
@@ -14223,8 +14372,13 @@ function shMarkRemove() {
      plan.chg.forEach(a => { ups['shifts/' + a.key] = a.payload; });
      plan.clr.forEach(a => { ups['shifts/' + a.key] = null; });
      const keys = Object.keys(ups), n = keys.length; if (!n) return;
+     const accI = {}; let dropN = 0, dropW = 0, dropO = 0;
+     plan.clr.forEach(a => { if (a.empId) { const dp = hrDropPlan(a.empId, a.date, ups, accI); dropN += dp.n; dropW += dp.w; dropO += dp.o; } });
+     const keys2 = Object.keys(ups);
      withBusyButton(btn, async function () {
          try {
+             if (dropN && !(await cfAsk(fillTemplate(t('chkShiftDropAsk2'), { n: dropN, w: hrFmt(dropW), o: hrFmt(dropO) }), t('chkShiftDropBtn'), true))) return;
+             keys.length = 0; keys2.forEach(k => keys.push(k));
              for (let i = 0; i < keys.length; i += 400) { const part = {}; keys.slice(i, i + 400).forEach(k => { part[k] = ups[k]; }); await db.ref().update(part); }
              try { logActivity('Shift Import', 'Shift', plan.months.join(','), plan.months.join(','), n + ' shift(s)'); } catch (e) {}
              closeShiftImport(); showToast(true, fillTemplate(t('shiftImpDone'), { n: n }));
@@ -14557,6 +14711,7 @@ function shMarkRemove() {
      if (attCalPendingOps.has(opKey)) return;
      const entry = leaveHistory.find(h => h.firebaseKey === firebaseKey);
      if (!entry) { showToast(false); return; }
+     if (hrMode(entry.date) === 'closed' && !window.__hrR) { hrReason(fillTemplate(t('hrReasonTitle'), { m: hrYmName(String(entry.date).slice(0, 7)) })).then(function (r) { if (r) { window.__hrR = r; saveAttCalLeaveEntry(firebaseKey, btnEl); } }); return; }
      const emp = employees.find(e => e.id === entry.empId);
      if (!emp) { showToast(false); return; }
      const input = document.getElementById('acHours_' + firebaseKey);
@@ -14568,6 +14723,11 @@ function shMarkRemove() {
 
      const oldHours = entry.hours || 0;
      const delta = newHours - oldHours;
+     var chkU = {}, chkAcc = {};
+     if (!hrShiftOn(entry.empId, newDate)) { showToast(false, t('chkLeaveNoShift')); return; }
+     (function () { var dd = hrDay(entry.empId, newDate), othL = dd.leave - (newDate === entry.date ? oldHours : 0); if (othL + newHours > HRCHK_WORK + 1e-9) { window.__lvBad = fillTemplate(t('chkLeaveMax'), { n: hrFmt(Math.max(0, HRCHK_WORK - othL)) }); } else if (newDate === entry.date && delta > 0 && dd.work > 0 && dd.work + dd.leave + delta > HRCHK_WORK + 1e-9) { window.__lvBad = t('chkLeaveLowerFirst'); } else window.__lvBad = ''; })();
+     if (window.__lvBad) { showToast(false, window.__lvBad); return; }
+     if (newDate === entry.date && delta < 0) hrAttAdjust(entry.empId, entry.date, -delta, chkU, chkAcc);
      const field = LEAVE_TYPE_FIELD_MAP[entry.leaveType];
      const updatePayload = {};
      if (field) {
@@ -14583,10 +14743,11 @@ function shMarkRemove() {
      attCalPendingOps.add(opKey);
      if (btnEl) btnEl.disabled = true;
 
-     return db.ref('employees/' + emp.firebaseKey).update(updatePayload).then(() => {
+     return hrWriteEmp(emp, entry.date, updatePayload).then(() => {
          return db.ref('leaveHistory/' + firebaseKey).update({ hours: newHours, date: newDate });
-     }).then(() => {
+     }).then(() => { if (Object.keys(chkU).length) return db.ref().update(chkU); }).then(() => {
          showToast(true, t('acEditSavedMsg'));
+         try { logActivity('Entry edited', 'Calendar', entry.empId, entry.date, (entry.leaveType ? 'leave ' + (entry.hours || 0) : 'work ' + (entry.workHours || 0) + ' ot ' + (entry.otHours || 0)) + ' -> saved'); } catch (e) {}
          renderAttCalEditList();
          renderAttCalTable();
      }).catch(() => showToast(false)).finally(() => {
@@ -14601,6 +14762,7 @@ function shMarkRemove() {
      /* v6.78: show a failure toast instead of silently doing nothing - see the comment in
         saveAttCalLeaveEntry() above. */
      if (!entry) { showToast(false); return; }
+     if (hrMode(entry.date) === 'closed' && !window.__hrR) { hrReason(fillTemplate(t('hrReasonTitle'), { m: hrYmName(String(entry.date).slice(0, 7)) })).then(function (r) { if (r) { window.__hrR = r; deleteAttCalLeaveEntry(firebaseKey, btnEl); } }); return; }
      /* v6.77: this confirm() was the "pop up message from Google force to click OK" the user
         reported in the calendar's edit/delete flow - removed to match the no-forced-dialog
         pattern already applied to Reset Monthly in v6.73. Delete now runs immediately on click. */
@@ -14608,6 +14770,8 @@ function shMarkRemove() {
      if (!emp) { showToast(false); return; }
 
      const oldHours = entry.hours || 0;
+     const backU = {}, backAcc = {};
+     (function () { var dd = hrDay(entry.empId, entry.date), room = Math.max(0, HRCHK_WORK - (dd.leave - oldHours) - dd.work); var give = Math.min(oldHours, room); if (give > 0 && dd.work > 0) hrAttAdjust(entry.empId, entry.date, give, backU, backAcc); })();
      const field = LEAVE_TYPE_FIELD_MAP[entry.leaveType];
      const updatePayload = {};
      if (field) {
@@ -14620,10 +14784,11 @@ function shMarkRemove() {
      attCalPendingOps.add(opKey);
      if (btnEl) btnEl.disabled = true;
 
-     return db.ref('employees/' + emp.firebaseKey).update(updatePayload).then(() => {
+     return hrWriteEmp(emp, entry.date, updatePayload).then(() => {
          return db.ref('leaveHistory/' + firebaseKey).remove();
-     }).then(() => {
+     }).then(() => { if (Object.keys(backU).length) return db.ref().update(backU); }).then(() => {
          showToast(true, t('acEditDeletedMsg'));
+         try { logActivity('Entry deleted', 'Calendar', entry.empId, entry.date, entry.leaveType ? 'leave ' + (entry.hours || 0) + 'h' : 'work ' + (entry.workHours || 0) + ' ot ' + (entry.otHours || 0)); } catch (e) {}
          renderAttCalEditList();
          renderAttCalTable();
      }).catch(() => showToast(false)).finally(() => {
@@ -14637,6 +14802,7 @@ function shMarkRemove() {
      const entry = attendanceHistory.find(h => h.firebaseKey === firebaseKey);
      /* v6.78: failure toast instead of silently doing nothing - see saveAttCalLeaveEntry() above. */
      if (!entry) { showToast(false); return; }
+     if (hrMode(entry.date) === 'closed' && !window.__hrR) { hrReason(fillTemplate(t('hrReasonTitle'), { m: hrYmName(String(entry.date).slice(0, 7)) })).then(function (r) { if (r) { window.__hrR = r; saveAttCalAttEntry(firebaseKey, btnEl); } }); return; }
      const emp = employees.find(e => e.id === entry.empId);
      if (!emp) { showToast(false); return; }
      const workInput = document.getElementById('acWork_' + firebaseKey);
@@ -14647,6 +14813,8 @@ function shMarkRemove() {
      if (isNaN(newWork) || newWork < 0 || isNaN(newOt) || newOt < 0) { showToast(false); return; }
      const dateInput = document.getElementById('acDate_' + firebaseKey);
      const newDate = (dateInput && dateInput.value) ? dateInput.value : entry.date;
+     (function () { var oth = attendanceHistory.filter(function (h) { return h.firebaseKey !== firebaseKey && String(h.empId) === String(entry.empId) && h.date === newDate; }), ow = oth.reduce(function (a, h) { return a + (parseFloat(h.workHours) || 0); }, 0), oo = oth.reduce(function (a, h) { return a + (parseFloat(h.otHours) || 0); }, 0), lv = hrSum(leaveHistory, entry.empId, newDate, 'hours'); window.__attBad = !hrShiftOn(entry.empId, newDate) ? t('chkNoShift') : (newWork > HRCHK_WORK - lv - ow + 1e-9 ? fillTemplate(t('chkWorkMax'), { n: hrFmt(Math.max(0, HRCHK_WORK - lv - ow)) }) : (newOt > HRCHK_OT - oo + 1e-9 ? fillTemplate(t('chkOtMax'), { n: hrFmt(Math.max(0, HRCHK_OT - oo)) }) : '')); })();
+     if (window.__attBad) { showToast(false, window.__attBad); return; }
 
      const deltaWork = newWork - (entry.workHours || 0);
      const deltaOt = newOt - (entry.otHours || 0);
@@ -14658,10 +14826,11 @@ function shMarkRemove() {
      attCalPendingOps.add(opKey);
      if (btnEl) btnEl.disabled = true;
 
-     return db.ref('employees/' + emp.firebaseKey).update(updatePayload).then(() => {
+     return hrWriteEmp(emp, entry.date, updatePayload).then(() => {
          return db.ref('attendanceHistory/' + firebaseKey).update({ workHours: newWork, otHours: newOt, date: newDate });
      }).then(() => {
          showToast(true, t('acEditSavedMsg'));
+         try { logActivity('Entry edited', 'Calendar', entry.empId, entry.date, (entry.leaveType ? 'leave ' + (entry.hours || 0) : 'work ' + (entry.workHours || 0) + ' ot ' + (entry.otHours || 0)) + ' -> saved'); } catch (e) {}
          renderAttCalEditList();
          renderAttCalTable();
      }).catch(() => showToast(false)).finally(() => {
@@ -14675,6 +14844,7 @@ function shMarkRemove() {
      const entry = attendanceHistory.find(h => h.firebaseKey === firebaseKey);
      /* v6.78: failure toast instead of silently doing nothing - see saveAttCalLeaveEntry() above. */
      if (!entry) { showToast(false); return; }
+     if (hrMode(entry.date) === 'closed' && !window.__hrR) { hrReason(fillTemplate(t('hrReasonTitle'), { m: hrYmName(String(entry.date).slice(0, 7)) })).then(function (r) { if (r) { window.__hrR = r; deleteAttCalAttEntry(firebaseKey, btnEl); } }); return; }
      /* v6.77: confirm() removed here too - see the matching comment in deleteAttCalLeaveEntry(). */
      const emp = employees.find(e => e.id === entry.empId);
      if (!emp) { showToast(false); return; }
@@ -14687,10 +14857,11 @@ function shMarkRemove() {
      attCalPendingOps.add(opKey);
      if (btnEl) btnEl.disabled = true;
 
-     return db.ref('employees/' + emp.firebaseKey).update(updatePayload).then(() => {
+     return hrWriteEmp(emp, entry.date, updatePayload).then(() => {
          return db.ref('attendanceHistory/' + firebaseKey).remove();
      }).then(() => {
          showToast(true, t('acEditDeletedMsg'));
+         try { logActivity('Entry deleted', 'Calendar', entry.empId, entry.date, entry.leaveType ? 'leave ' + (entry.hours || 0) + 'h' : 'work ' + (entry.workHours || 0) + ' ot ' + (entry.otHours || 0)); } catch (e) {}
          renderAttCalEditList();
          renderAttCalTable();
      }).catch(() => showToast(false)).finally(() => {
@@ -15805,9 +15976,56 @@ function openEmployeeDetailModal(index) {
      if (found) document.getElementById('leaveEmpId').value = found.id;
  }
 
- /* LEAVE RECORDS FORM SUBMISSION */
+ 
+/* move attendance hours up or down on one day (leave added = lower, leave removed = give back) */
+function hrAttAdjust(empId, date, delta, ups, acc) {
+    var emp = (employees || []).find(function (e) { return String(e.id) === String(empId); }); if (!emp) return 0;
+    var list = (attendanceHistory || []).filter(function (h) { return String(h.empId) === String(empId) && h.date === date; }).sort(function (a, b) { return (b.timestamp || 0) - (a.timestamp || 0); });
+    if (!list.length) return 0; var done = 0, left = Math.abs(delta);
+    list.forEach(function (h) { if (left <= 1e-9) return; var w = parseFloat(h.workHours) || 0, nw;
+        if (delta < 0) { var take = Math.min(w, left); nw = w - take; left -= take; done -= take; } else { nw = w + left; done += left; left = 0; }
+        ups['attendanceHistory/' + h.firebaseKey + '/workHours'] = nw; });
+    var a = acc[emp.firebaseKey] = acc[emp.firebaseKey] || { w: parseFloat(emp.workHours) || 0, o: parseFloat(emp.otHours) || 0 }; a.w = Math.max(0, a.w + done); ups['employees/' + emp.firebaseKey + '/workHours'] = a.w;
+    return done;
+}
+function hrAsk(msg, okLabel) { return cfAsk(msg, okLabel); }
+/* checks before a leave is saved: shift, 8 h a day, same-day leave, attendance overlap, leave balance */
+async function hrLeaveGate(form) {
+    window.__hrLower = null;
+    var id = document.getElementById('leaveEmpId').value.trim(), date = document.getElementById('leaveDate').value;
+    var g = function (k) { return parseFloat(document.getElementById(k).value) || 0; };
+    var ent = g('leaveAL') + g('leaveSpecial') + g('leaveMaternity') + g('leaveTravel') + g('leaveSick') + g('leaveOther'), total = ent + g('leavePersonal');
+    var emp = (employees || []).find(function (e) { return e.id === id; });
+    if (!emp || !date || total <= 0) return true;
+    if (!hrShiftOn(id, date)) { showToast(false, t('chkLeaveNoShift')); return false; }
+    var d = hrDay(id, date);
+    if (hrMode(date) === 'closed') { var rs = await hrReason(fillTemplate(t('hrReasonTitle'), { m: hrYmName(date.slice(0, 7)) })); if (!rs) return false; window.__hrR = rs; }
+    if (d.leave + total > HRCHK_WORK + 1e-9) { showToast(false, fillTemplate(t('chkLeaveMax'), { n: hrFmt(Math.max(0, HRCHK_WORK - d.leave)) })); return false; }
+    if (d.leave > 0) { if (!(await hrAsk(fillTemplate(t('chkLeaveSame'), { id: id, d: date, o: hrFmt(d.leave), n: hrFmt(total), s: hrFmt(d.leave + total) }), t('chkContinue')))) return false; }
+    var over = d.work + d.leave + total - HRCHK_WORK;
+    if (over > 1e-9 && d.work > 0) {
+        var low = Math.min(over, d.work);
+        if (!(await hrAsk(fillTemplate(t('chkLeaveAtt'), { id: id, d: date, a: hrFmt(d.work), c: hrFmt(d.work - low), l: hrFmt(low) }), t('chkContinue')))) return false;
+        var ups = {}, acc = {}; hrAttAdjust(id, date, -low, ups, acc); window.__hrLower = ups;
+    }
+    var rem = (parseFloat(emp.entitled) || 0) - ((parseFloat(emp.prevUsed) || 0) + (parseFloat(emp.monthUsed) || 0) - (parseFloat(emp.exceeded) || 0)) + (parseFloat(emp.carried) || 0);
+    if (ent > 0 && rem - ent < -1e-9) { if (!(await hrAsk(fillTemplate(t('chkLeaveBal'), { id: id, r: hrFmt(rem), n: hrFmt(ent) }), t('chkContinue')))) { window.__hrLower = null; return false; } }
+    return true;
+}
+/* hint + quick fill: when attendance exists on the date, the leave boxes offer the rest of the 8 hours */
+function hrLeaveHint() {
+    var id = (document.getElementById('leaveEmpId') || {}).value, date = (document.getElementById('leaveDate') || {}).value, rest = 0;
+    id = (id || '').trim();
+    if (id && date) { var d = hrDay(id, date); if (d.work > 0) rest = Math.max(0, HRCHK_WORK - d.leave - d.work); }
+    ['leaveAL', 'leaveSpecial', 'leaveMaternity', 'leaveTravel', 'leavePersonal', 'leaveSick', 'leaveOther'].forEach(function (k) { var el = document.getElementById(k); if (el) { el.setAttribute('data-rest', rest ? String(rest) : ''); el.placeholder = rest ? String(rest) : (el.getAttribute('data-ph0') || el.placeholder); } });
+}
+document.addEventListener('focusin', function (ev) { var el = ev.target; if (el && el.id && /^leave(AL|Special|Maternity|Travel|Personal|Sick|Other)$/.test(el.id)) { hrLeaveHint(); var r = parseFloat(el.getAttribute('data-rest')); if (r > 0 && !el.value) el.value = String(r); } });
+/* LEAVE RECORDS FORM SUBMISSION */
 document.getElementById('leaveForm').addEventListener('submit', function(e){
-    e.preventDefault();
+    e.preventDefault(); var self = this;
+    hrLeaveGate(this).then(function (ok) { if (ok) leaveSubmitCore.call(self); });
+});
+function leaveSubmitCore(){
     /* v6.79: Submit Leave Record now disables itself the instant it's clicked, re-enabling once
        the write settles - same reasoning as the editForm/addEmpForm fixes above. */
     const submitBtn = this.querySelector('[type=submit]');
@@ -15856,8 +16074,11 @@ document.getElementById('leaveForm').addEventListener('submit', function(e){
         const selectedDate = document.getElementById('leaveDate').value;
         const formEl = this;
 
-        withBusyButton(submitBtn, () => db.ref('employees/' + emp.firebaseKey).update(updatePayload).then(() => {
+        const lowerUps = window.__hrLower; window.__hrLower = null;
+        withBusyButton(submitBtn, () => hrWriteEmp(emp, selectedDate, updatePayload).then(() => {
             showToast(true);
+            if (lowerUps) db.ref().update(lowerUps);
+            try { logActivity('Leave entry', 'Leave', id, selectedDate, emp.name + ' | AL ' + addAL + ' Sp ' + addSpecial + ' Mat ' + addMaternity + ' Tr ' + addTravel + ' Pers ' + addPersonal + ' Sick ' + addSick + ' Oth ' + addOther + (lowerUps ? ' | attendance lowered' : '')); } catch (e) {}
 
             /* v6.29: automatic notifications + a dated leaveHistory log entry for every leave
                type entered this submission. Entitlement-drawing types (AL/Special/Maternity/
@@ -15920,7 +16141,7 @@ document.getElementById('leaveForm').addEventListener('submit', function(e){
     } else {
         showToast(false, t('empIdNotFound'));
     }
-});
+}
 
 /* v6.29: leaveHistory log - a dated record of every leave-type submission, used to compute
    "Personal Leave used this month" for the automatic notification above (the employee's
@@ -17224,6 +17445,134 @@ function formatNotifReceivedAt(timestamp) {
 }
 
  
+
+/* ================= HRMONTH: each month has its own sheet; confirm a month to freeze it ================= */
+var hrOpen = '', hrSheets = {}, hrView = '', hrConfirmed = {};
+var HR_MFIELDS = ['prevUsed', 'monthUsed', 'exceeded', 'workHours', 'otHours', 'leaveAL', 'leaveSpecial', 'leaveMaternity', 'leaveTravel', 'leavePersonal', 'leaveSick', 'leaveOther', 'monthlyWorkDays', 'entitled', 'carried'];
+var HR_ZERO = ['monthUsed', 'exceeded', 'workHours', 'otHours', 'leaveAL', 'leaveSpecial', 'leaveMaternity', 'leaveTravel', 'leavePersonal', 'leaveSick', 'leaveOther'];
+function hrMode(date) { var ym = String(date || '').slice(0, 7); if (!hrOpen || !ym || ym === hrOpen) return 'open'; return ym > hrOpen ? 'future' : 'closed'; }
+function hrNextYm(ym) { var y = +ym.slice(0, 4), m = +ym.slice(5, 7); m++; if (m > 12) { m = 1; y++; } return y + '-' + (m < 10 ? '0' : '') + m; }
+function hrYmName(ym) { try { return new Date(Date.UTC(+ym.slice(0, 4), +ym.slice(5, 7) - 1, 1)).toLocaleDateString({ en: 'en-US', km: 'km-KH', zh: 'zh-CN' }[currentLang] || 'en-US', { month: 'long', year: 'numeric', timeZone: 'UTC' }); } catch (e) { return ym; } }
+function hrViewLocked() { return !!hrView && hrView !== hrOpen; }
+function hrViewList() {
+    if (!hrViewLocked()) return employees;
+    var snap = hrSheets[hrView] || {};
+    return employees.map(function (e) { var sn = snap[e.firebaseKey], o = Object.assign({}, e); HR_MFIELDS.forEach(function (f) { if (sn && sn[f] !== undefined) o[f] = sn[f]; else if (f !== 'entitled' && f !== 'carried' && f !== 'monthlyWorkDays' && f !== 'prevUsed') o[f] = 0; }); return o; });
+}
+function hrRerender() { try { renderMaster(); } catch (e) {} try { renderMonthlyReport(); } catch (e) {} try { renderMonthlyALReport(); } catch (e) {} hrBarRender(); }
+db.ref('meta/openMonth').on('value', function (sn) { hrOpen = sn.val() || ''; if (hrView === hrOpen) hrView = ''; hrRerender(); });
+db.ref('meta/monthConfirmed').on('value', function (sn) { hrConfirmed = sn.val() || {}; hrBarRender(); });
+db.ref('monthSheets').on('value', function (sn) { hrSheets = sn.val() || {}; hrRerender(); });
+function hrReason(title) {
+    return new Promise(function (resolve) {
+        var d = document.createElement('div'); d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100002;display:flex;align-items:center;justify-content:center;padding:16px;';
+        d.innerHTML = '<div style="background:#fff;border-radius:14px;padding:18px;max-width:420px;width:100%;"><div style="font-weight:700;color:#0f172a;margin-bottom:6px;">' + escapeHtmlText(title) + '</div><div style="font-size:12px;color:#64748b;margin-bottom:8px;">' + escapeHtmlText(t('hrReasonSub')) + '</div><textarea id="hrReasonTx" rows="3" style="width:100%;box-sizing:border-box;padding:8px;border:1px solid #cbd5e1;border-radius:8px;" placeholder="' + escapeHtmlText(t('hrReasonPh')) + '"></textarea><div style="display:flex;gap:8px;margin-top:10px;justify-content:flex-end;"><button type="button" class="quick-btn" id="hrReasonNo" style="background:#e2e8f0;color:#334155;">' + escapeHtmlText(t('cfCancel') || 'Cancel') + '</button><button type="button" class="quick-btn" id="hrReasonOk">' + escapeHtmlText(t('hrReasonOk')) + '</button></div></div>';
+        document.body.appendChild(d);
+        var tx = d.querySelector('#hrReasonTx'); tx.focus();
+        d.querySelector('#hrReasonNo').onclick = function () { d.remove(); resolve(null); };
+        d.querySelector('#hrReasonOk').onclick = function () { var v = tx.value.trim(); if (!v) { tx.style.borderColor = '#dc2626'; return; } d.remove(); resolve(v); };
+    });
+}
+/* write the running totals of an employee for an entry on `date`: open month = as before, later month = log only, confirmed month = fix its frozen sheet and Previous used */
+function hrWriteEmp(emp, date, payload) {
+    var md = hrMode(date);
+    if (md === 'open') return db.ref('employees/' + emp.firebaseKey).update(payload);
+    if (md === 'future') return Promise.resolve();
+    var ym = String(date).slice(0, 7), ups = {}, dPrev = 0, reason = window.__hrR || ''; window.__hrR = null;
+    Object.keys(payload).forEach(function (k) { var delta = (parseFloat(payload[k]) || 0) - (parseFloat(emp[k]) || 0), cur = parseFloat(((hrSheets[ym] || {})[emp.firebaseKey] || {})[k]) || 0; ups['monthSheets/' + ym + '/' + emp.firebaseKey + '/' + k] = Math.max(0, cur + delta); if (k === 'monthUsed') dPrev += delta; });
+    if (dPrev) ups['employees/' + emp.firebaseKey + '/prevUsed'] = Math.max(0, (parseFloat(emp.prevUsed) || 0) + dPrev);
+    try { logActivity('Closed month edit', 'Month', ym, hrYmName(ym), emp.id + ' ' + (emp.name || '') + ' | ' + JSON.stringify(payload) + ' | ' + reason); } catch (e) {}
+    return db.ref().update(ups);
+}
+function hrSetOpen(btn) { var v = (document.getElementById('hrOpenIn') || {}).value; if (!v) { showToast(false); return; } db.ref('meta/openMonth').set(v).then(function () { showToast(true); try { logActivity('Set open month', 'Month', v, hrYmName(v), ''); } catch (e) {} }).catch(function () { showToast(false); }); }
+function hrSetView(v) { hrView = v === 'open' ? '' : v; hrRerender(); }
+function hrBarRender() {
+    var host = document.querySelectorAll('.hrMB'); if (!host.length) return;
+    var h;
+    if (!hrOpen) {
+        var d = new Date(Date.now() + 7 * 3600000), day = d.getUTCDate(), y = d.getUTCFullYear(), m = d.getUTCMonth() + 1; if (day <= 15) { m--; if (m < 1) { m = 12; y--; } }
+        var def = y + '-' + (m < 10 ? '0' : '') + m;
+        h = '<div class="hrMBbox"><b>' + escapeHtmlText(t('hrSetupTitle')) + '</b><div style="font-size:12px;color:#475569;margin:4px 0 8px;">' + escapeHtmlText(t('hrSetupSub')) + '</div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><input type="month" id="hrOpenIn" value="' + def + '" style="padding:6px;"><button type="button" class="quick-btn" onclick="hrSetOpen(this)">' + escapeHtmlText(t('hrSetupSave')) + '</button></div></div>';
+    } else {
+        var months = Object.keys(hrSheets).sort().reverse();
+        var opts = '<option value="open"' + (!hrViewLocked() ? ' selected' : '') + '>' + escapeHtmlText(hrYmName(hrOpen) + ' (' + t('hrCurrent') + ')') + '</option>' + months.map(function (m2) { return '<option value="' + m2 + '"' + (hrView === m2 ? ' selected' : '') + '>' + escapeHtmlText(hrYmName(m2) + ' - ' + t('hrConfirmedTag')) + '</option>'; }).join('');
+        h = '<div class="hrMBbox" style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><b>' + escapeHtmlText(t('hrMonthLbl')) + '</b><select onchange="hrSetView(this.value)" style="padding:6px;">' + opts + '</select>' +
+            (hrViewLocked() ? '<span class="hrFrozen">' + escapeHtmlText(t('hrFrozen')) + '</span>' : '<button type="button" class="quick-btn amber" style="margin-left:auto;" onclick="hrConfirm(this)">' + escapeHtmlText(fillTemplate(t('hrConfirmBtn'), { m: hrYmName(hrOpen) })) + '</button>') + '</div>';
+    }
+    host.forEach(function (e) { e.innerHTML = h; });
+}
+async function hrConfirm(btn) {
+    if (!hrOpen) return; var ym = hrOpen, next = hrNextYm(ym);
+    if (!(await cfAsk(fillTemplate(t('hrConfirmAsk'), { m: hrYmName(ym), n: hrYmName(next) }), t('hrConfirmOk')))) return;
+    var ups = {}, who = sessionStorage.getItem('loggedInAccountName') || sessionStorage.getItem('loggedInRole') || '';
+    employees.forEach(function (e) {
+        var snap = {}; HR_MFIELDS.forEach(function (f) { snap[f] = parseFloat(e[f]) || 0; }); snap.id = e.id; snap.name = e.name || '';
+        ups['monthSheets/' + ym + '/' + e.firebaseKey] = snap;
+        var nx = { prevUsed: (parseFloat(e.prevUsed) || 0) + (parseFloat(e.monthUsed) || 0) }; HR_ZERO.forEach(function (f) { nx[f] = 0; });
+        attendanceHistory.forEach(function (h) { if (String(h.empId) === String(e.id) && String(h.date || '').slice(0, 7) === next) { nx.workHours += parseFloat(h.workHours) || 0; nx.otHours += parseFloat(h.otHours) || 0; } });
+        leaveHistory.forEach(function (h) { if (String(h.empId) === String(e.id) && String(h.date || '').slice(0, 7) === next) { var fld = LEAVE_TYPE_FIELD_MAP[h.leaveType]; if (fld) { nx[fld] += parseFloat(h.hours) || 0; if (fld !== 'leavePersonal') nx.monthUsed += parseFloat(h.hours) || 0; } } });
+        Object.keys(nx).forEach(function (f) { ups['employees/' + e.firebaseKey + '/' + f] = nx[f]; });
+    });
+    ups['meta/openMonth'] = next; ups['meta/monthConfirmed/' + ym] = { at: Date.now(), by: who };
+    var keys = Object.keys(ups);
+    withBusyButton(btn, async function () {
+        try { for (var i = 0; i < keys.length; i += 400) { var part = {}; keys.slice(i, i + 400).forEach(function (k) { part[k] = ups[k]; }); await db.ref().update(part); } try { logActivity('Confirm month', 'Month', ym, hrYmName(ym), employees.length + ' employee(s)'); } catch (e) {} showToast(true, fillTemplate(t('hrConfirmDone'), { m: hrYmName(ym), n: hrYmName(next) })); } catch (e) { showToast(false); }
+    });
+}
+
+/* ================= Monthly Report checks: shift-based Attendance suggestion, work <= Attendance, red rows ================= */
+function mrYm() { if (hrOpen) return hrOpen; var d = new Date(Date.now() + 7 * 3600000); return d.getUTCFullYear() + '-' + ('0' + (d.getUTCMonth() + 1)).slice(-2); }
+function mrSuggest(emp) {
+    var ym = mrYm(), n = 0;
+    (shifts || []).forEach(function (x) { if (String(x.empId) === String(emp.id) && String(x.date || '').slice(0, 7) === ym && VALID_SHIFT_TYPES.indexOf(String(x.type || '').toUpperCase()) !== -1) n++; });
+    return n ? n * HRCHK_WORK : null;
+}
+function mrProblems(emp) {
+    if (hrViewLocked()) return [];
+    var out = [], att = parseFloat(emp.monthlyWorkDays) || 208, wk = parseFloat(emp.workHours) || 0, sg = mrSuggest(emp);
+    if (wk > att + 1e-9) out.push(fillTemplate(t('mrProbWork'), { w: hrFmt(wk), a: hrFmt(att) }));
+    if (sg !== null && Math.abs(sg - att) > 1e-9) out.push(fillTemplate(t('mrProbShift'), { a: hrFmt(att), s: hrFmt(sg) }));
+    return out;
+}
+function mrSugHtml(emp) { if (hrViewLocked()) return ''; var sg = mrSuggest(emp), att = parseFloat(emp.monthlyWorkDays) || 208; if (sg === null) return ''; return '<div class="mrSug' + (Math.abs(sg - att) > 1e-9 ? ' diff' : '') + '"' + (Math.abs(sg - att) > 1e-9 ? ' onclick="mrUseOne(\'' + emp.firebaseKey + '\')" title="' + escapeHtmlText(t('mrTapUse')) + '"' : '') + '>' + escapeHtmlText(fillTemplate(t('mrShiftSays'), { n: hrFmt(sg) })) + '</div>'; }
+function mrUseOne(key) { var emp = employees.find(function (e) { return e.firebaseKey === key; }); if (!emp) return; var sg = mrSuggest(emp); if (sg === null) return; updateEmpMonthlyField(key, 'monthlyWorkDays', String(sg)); setTimeout(function () { try { renderMonthlyReport(); } catch (e) {} }, 400); }
+async function mrUseSuggested(btn) {
+    var list = employees.filter(function (e) { var sg = mrSuggest(e); return sg !== null && Math.abs(sg - (parseFloat(e.monthlyWorkDays) || 208)) > 1e-9; });
+    if (!list.length) { showToast(true, t('mrAllMatch')); return; }
+    if (!(await cfAsk(fillTemplate(t('mrUseAllAsk'), { n: list.length }), t('mrUseAllOk')))) return;
+    if ((sessionStorage.getItem('loggedInRole') || 'admin') === 'hr') { list.forEach(function (e) { updateEmpMonthlyField(e.firebaseKey, 'monthlyWorkDays', String(mrSuggest(e))); }); return; }
+    var ups = {}; list.forEach(function (e) { ups['employees/' + e.firebaseKey + '/monthlyWorkDays'] = mrSuggest(e); });
+    db.ref().update(ups).then(function () { showToast(true); try { logActivity('Use shift hours', 'Monthly Report', mrYm(), hrYmName(mrYm()), list.length + ' employee(s)'); } catch (e) {} }).catch(function () { showToast(false); });
+}
+function mrWorkChange(key, el) {
+    var emp = employees.find(function (e) { return e.firebaseKey === key; }); if (!emp) return;
+    var v = parseFloat(el.value) || 0, att = parseFloat(emp.monthlyWorkDays) || 208;
+    if (v <= att + 1e-9) { updateEmpMonthlyField(key, 'workHours', el.value); setTimeout(function () { try { renderMonthlyReport(); } catch (e) {} }, 400); return; }
+    var ex = v - att;
+    cfAsk(fillTemplate(t('mrMoveAsk'), { id: emp.id, v: hrFmt(v), a: hrFmt(att), x: hrFmt(ex) }), fillTemplate(t('mrMoveBtn'), { x: hrFmt(ex) })).then(function (ok) {
+        if (!ok) { renderMonthlyReport(); return; }
+        updateEmpMonthlyField(key, 'workHours', String(att));
+        updateEmpMonthlyField(key, 'otHours', String((parseFloat(emp.otHours) || 0) + ex));
+        setTimeout(function () { try { renderMonthlyReport(); } catch (e) {} }, 500);
+    });
+}
+function mrCheckMonth() {
+    var rows = [];
+    employees.forEach(function (e) { var p = mrProblems(e); if (p.length) rows.push('<div style="padding:8px 10px;border:1px solid #fecaca;background:#fef2f2;border-radius:8px;margin-bottom:6px;"><b>' + escapeHtmlText(e.id + ' ' + (e.name || '')) + '</b><div style="font-size:12px;color:#991b1b;">' + p.map(escapeHtmlText).join('<br>') + '</div></div>'); });
+    var d = document.createElement('div'); d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100002;display:flex;align-items:center;justify-content:center;padding:16px;';
+    d.innerHTML = '<div style="background:#fff;border-radius:14px;padding:16px;max-width:520px;width:100%;max-height:80vh;display:flex;flex-direction:column;"><div style="font-weight:700;margin-bottom:8px;">' + escapeHtmlText(fillTemplate(t('mrCheckTitle'), { m: hrYmName(mrYm()) })) + '</div><div style="overflow:auto;flex:1;">' + (rows.length ? rows.join('') : '<div style="padding:10px;color:#15803d;font-weight:700;">' + escapeHtmlText(t('mrCheckOk')) + '</div>') + '</div><div style="text-align:right;margin-top:10px;"><button type="button" class="quick-btn" id="mrCkClose">' + escapeHtmlText(t('mrClose')) + '</button></div></div>';
+    document.body.appendChild(d); d.querySelector('#mrCkClose').onclick = function () { d.remove(); };
+}
+
+/* ================= HRCHK: daily rules for attendance and leave (8 h / 2 h OT, shift required) ================= */
+var HRCHK_WORK = 8, HRCHK_OT = 2;
+function hrShiftOn(empId, date) { try { return (shifts || []).some(function (x) { return String(x.empId) === String(empId) && x.date === date && x.type; }); } catch (e) { return true; } }
+function hrSum(list, empId, date, f) { return (list || []).reduce(function (a, h) { return (String(h.empId) === String(empId) && h.date === date) ? a + (parseFloat(h[f]) || 0) : a; }, 0); }
+function hrDay(empId, date) { return { work: hrSum(attendanceHistory, empId, date, 'workHours'), ot: hrSum(attendanceHistory, empId, date, 'otHours'), leave: hrSum(leaveHistory, empId, date, 'hours') }; }
+function hrRoom(empId, date) { var d = hrDay(empId, date); return { work: Math.max(0, HRCHK_WORK - d.leave - d.work), ot: Math.max(0, HRCHK_OT - d.ot), d: d }; }
+function hrFmt(n) { return String(Math.round(n * 100) / 100); }
+function hrAttInput(el) { var mx = parseFloat(el.getAttribute('data-max')); var v = parseFloat(el.value); if (isNaN(mx) || isNaN(v)) return; if (v > mx + 1e-9) { el.value = hrFmt(mx); showToast(false, fillTemplate(t(el.getAttribute('data-field') === 'ot' ? 'chkOtMax' : 'chkWorkMax'), { n: hrFmt(mx) })); } if (parseFloat(el.value) < 0) el.value = 0; }
+
  /* ================= v6.20: ATTENDANCE BY DEPARTMENT (BATCH ENTRY) =================
     Replaces the old one-employee-at-a-time Attendance form. Pick a department + date,
     every employee in that department shows up as a row with plain fillable boxes for
@@ -17246,14 +17595,19 @@ function formatNotifReceivedAt(timestamp) {
      if (list.length === 0) {
          tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:#94a3b8;">-</td></tr>';
      } else {
-         tbody.innerHTML = list.map(emp => (
-             '<tr>' +
+         var noShiftAny = 0;
+         tbody.innerHTML = list.map(emp => {
+             var has = hrShiftOn(emp.id, date), rm = hrRoom(emp.id, date), d = rm.d, lockW = !has || rm.work <= 0, lockO = !has || rm.ot <= 0;
+             if (!has) noShiftAny++;
+             var info = !has ? '<div class="chkNote">' + escapeHtmlText(t('chkNoShift')) + '</div>' : ((d.work || d.ot || d.leave) ? '<div class="chkNote ok">' + escapeHtmlText(fillTemplate(t('chkAlready'), { w: hrFmt(d.work), o: hrFmt(d.ot), l: hrFmt(d.leave) })) + '</div>' : '');
+             return '<tr' + (!has ? ' class="chkOff"' : '') + '>' +
                  '<td><b>' + emp.id + '</b></td>' +
-                 '<td style="text-align:left; white-space:nowrap;">' + emp.name + '</td>' +
-                 '<td><input type="number" step="0.5" min="0" placeholder="0.00" style="width:90px; text-align:center;" class="att-batch-input" data-emp-key="' + emp.firebaseKey + '" data-field="work"></td>' +
-                 '<td><input type="number" step="0.5" min="0" placeholder="0.00" style="width:90px; text-align:center;" class="att-batch-input" data-emp-key="' + emp.firebaseKey + '" data-field="ot"></td>' +
-             '</tr>'
-         )).join('');
+                 '<td style="text-align:left; white-space:nowrap;">' + emp.name + info + '</td>' +
+                 '<td><input type="number" step="0.5" min="0" max="' + rm.work + '" data-max="' + rm.work + '" oninput="hrAttInput(this)" placeholder="' + (lockW ? '-' : '0.00') + '" ' + (lockW ? 'disabled ' : '') + 'style="width:90px; text-align:center;" class="att-batch-input" data-emp-key="' + emp.firebaseKey + '" data-field="work"></td>' +
+                 '<td><input type="number" step="0.5" min="0" max="' + rm.ot + '" data-max="' + rm.ot + '" oninput="hrAttInput(this)" placeholder="' + (lockO ? '-' : '0.00') + '" ' + (lockO ? 'disabled ' : '') + 'style="width:90px; text-align:center;" class="att-batch-input" data-emp-key="' + emp.firebaseKey + '" data-field="ot"></td>' +
+             '</tr>';
+         }).join('');
+         if (noShiftAny === list.length) showToast(false, t('chkNoShiftAll'));
      }
      document.getElementById('attDeptTableWrap').style.display = 'block';
  }
@@ -17261,6 +17615,9 @@ function formatNotifReceivedAt(timestamp) {
  function saveAttendanceDeptBatch(btnEl) {
      const date = document.getElementById('attDate').value;
      if (!date) { showToast(false, t('attDateRequiredMsg')); return; }
+     const md = hrMode(date);
+     if (md === 'closed' && !window.__hrR) { hrReason(fillTemplate(t('hrReasonTitle'), { m: hrYmName(date.slice(0, 7)) })).then(function (r) { if (r) { window.__hrR = r; saveAttendanceDeptBatch(btnEl); } }); return; }
+     const attReason = window.__hrR || ''; window.__hrR = null;
 
      const byEmp = {};
      document.querySelectorAll('#attDeptTable .att-batch-input').forEach(input => {
@@ -17274,25 +17631,31 @@ function formatNotifReceivedAt(timestamp) {
      const updates = {};
      const historyEntries = []; /* v6.44: dated log for the Attendance Calendar, one row per employee in this batch */
      let countUpdated = 0;
+     const chkBad = [];
      Object.keys(byEmp).forEach(key => {
          const entry = byEmp[key];
          if (entry.work === 0 && entry.ot === 0) return; /* nothing typed for this employee - leave them untouched */
          const emp = employees.find(e => e.firebaseKey === key);
          if (!emp) return;
+         if (!hrShiftOn(emp.id, date)) { chkBad.push(emp.id + ' ' + t('chkNoShift')); return; }
+         var rm2 = hrRoom(emp.id, date);
+         if (entry.work > rm2.work + 1e-9 || entry.ot > rm2.ot + 1e-9) { chkBad.push(emp.id + ': ' + fillTemplate(t('chkOverDay'), { w: hrFmt(rm2.work), o: hrFmt(rm2.ot) })); return; }
          /* v6.53: parseFloat guards against a workHours/otHours value that somehow got stored
             as a string in Firebase - a raw "+" on a string would silently concatenate text
             instead of adding, so the new hours would never actually sum into the total. */
-         updates['employees/' + key + '/workHours'] = (parseFloat(emp.workHours) || 0) + entry.work;
-         updates['employees/' + key + '/otHours'] = (parseFloat(emp.otHours) || 0) + entry.ot;
+         if (md === 'open') { updates['employees/' + key + '/workHours'] = (parseFloat(emp.workHours) || 0) + entry.work; updates['employees/' + key + '/otHours'] = (parseFloat(emp.otHours) || 0) + entry.ot; }
+         else if (md === 'closed') { const ym0 = date.slice(0, 7), sn0 = ((hrSheets[ym0] || {})[key]) || {}; updates['monthSheets/' + ym0 + '/' + key + '/workHours'] = (parseFloat(sn0.workHours) || 0) + entry.work; updates['monthSheets/' + ym0 + '/' + key + '/otHours'] = (parseFloat(sn0.otHours) || 0) + entry.ot; try { logActivity('Closed month edit', 'Month', ym0, hrYmName(ym0), emp.id + ' work+' + entry.work + ' ot+' + entry.ot + ' | ' + attReason); } catch (e) {} }
          historyEntries.push({ empId: emp.id, empName: emp.name, workHours: entry.work, otHours: entry.ot, date: date, timestamp: Date.now() });
          countUpdated++;
      });
 
+     if (chkBad.length) { showToast(false, chkBad.slice(0, 3).join(' | ')); if (!countUpdated) { loadAttendanceDeptTable(); return; } }
      if (countUpdated === 0) { showToast(false, t('attNoValuesEnteredMsg')); return; }
 
      withBusyButton(btnEl, () => db.ref().update(updates).then(() => {
          showToast(true);
          historyEntries.forEach(function(h) { db.ref('attendanceHistory').push(h); });
+         try { logActivity('Attendance entry', 'Attendance', date, date, countUpdated + ' employee(s)' + (attReason ? ' | ' + attReason : '')); } catch (e) {}
          loadAttendanceDeptTable(); /* refresh the boxes back to blank so the same batch can't be added twice by accident */
      }).catch(() => showToast(false)));
  }
