@@ -212,7 +212,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
   </div>
   <div class="wrap">
     <div id="installTip" class="install hidden"><div><b data-i="installTitle">Install on iPhone</b><br><span data-i="installBody">Tap the Share button, then Add to Home Screen.</span></div><button class="ghost" style="margin:0;" onclick="hideInstall()" data-i="btnClose">Close</button></div>
-    <div id="banner"></div>
+    <div id="banner" style="display:none"></div>
     <div class="chips" id="chips"></div>
     <div class="filters">
       <div class="seg" id="segOwner"><button type="button" data-o="all" onclick="setOwner('all')" data-i="fAll">All</button><button type="button" data-o="mine" onclick="setOwner('mine')" data-i="fMine">Mine</button><button type="button" data-o="shared" onclick="setOwner('shared')" data-i="fShared">Shared with me</button></div>
@@ -696,11 +696,7 @@ function render() {
   var cnt = { over: 0, soon: 0, open: 0, done: 0 }; scoped.forEach(function (x) { cnt[x.status]++; });
   var chips = [['red', cnt.over, 'cLate'], ['amber', cnt.soon, 'cSoon'], ['blue', cnt.open, 'cOpen'], ['grey', cnt.done, 'cDone']];
   document.getElementById('chips').innerHTML = chips.map(function (c) { return '<div class="chip ' + c[0] + '"><b>' + c[1] + '</b><span>' + esc(T(c[2])) + '</span></div>'; }).join('');
-  var bn = '';
-  if (cnt.over) bn = '<div class="banner red">&#9888; ' + esc(T('warnLate', { n: cnt.over })) + (cnt.soon ? ' &middot; ' + esc(T('warnSoon', { n: cnt.soon })) : '') + '</div>';
-  else if (cnt.soon) bn = '<div class="banner amber">&#9200; ' + esc(T('warnSoon', { n: cnt.soon })) + '</div>';
-  else bn = '<div class="banner green">&#10003; ' + esc(T('allGood')) + '</div>';
-  document.getElementById('banner').innerHTML = bn;
+  document.getElementById('banner').innerHTML = '';
   var rank = { over: 0, soon: 1, open: 2, done: 3 };
   var list = scoped.filter(function (x) { return view.status === 'all' ? true : view.status === 'done' ? x.status === 'done' : x.status !== 'done'; });
   list.sort(function (a, b) { return rank[a.status] - rank[b.status] || a.days - b.days || String(a.tpl.title).localeCompare(String(b.tpl.title)); });
