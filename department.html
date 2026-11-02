@@ -608,6 +608,7 @@
 #chkDate { display: block !important; text-align: center !important; text-align-last: center !important; -webkit-appearance: none; appearance: none; }
 #chkDate::-webkit-date-and-time-value { text-align: center !important; margin: 0 auto; }
 #chkDate::-webkit-datetime-edit { display: inline-block; }
+#chkDate { color: transparent !important; -webkit-text-fill-color: transparent; }
 </style>
 <style id="gradBtn">
 .quick-btn{background:linear-gradient(135deg,#0b1d3a 0%,#24406e 100%);box-shadow:0 5px 14px rgba(11,29,58,.28)}
@@ -1800,7 +1801,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
              <h4 data-i18n="queryParams">Query Parameters</h4>
              <div class="form-group">
                  <label data-i18n="lblQueryDate">Query Date</label>
-                 <input type="date" id="chkDate">
+                 <div style="position:relative;"><input type="date" id="chkDate"><span id="chkDateTxt" aria-hidden="true" style="position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;justify-content:center;pointer-events:none;color:#0f172a;"></span></div>
              </div>
              <div class="form-group">
                  <label data-i18n="lblEmpId">Employee ID</label>
@@ -22047,6 +22048,19 @@ function menuPage(n) {
 
 
 
-<!-- HRFT-PUSH-BEGIN --><script>(function(){var q=0;function run(){q=0;try{var f=[].slice.call(document.querySelectorAll('.hrft'));f.forEach(function(e){e.style.paddingTop='';});var vis=f.filter(function(e){return e.getClientRects().length;});if(!vis.length)return;var el=vis[vis.length-1],r=el.getBoundingClientRect(),mb=r.bottom,n=el;while(n&&n!==document.body){var sb=n.nextElementSibling;while(sb){var ps=getComputedStyle(sb).position;if(ps!=='fixed'&&ps!=='absolute'&&sb.getClientRects().length&&!/^(SCRIPT|STYLE)$/.test(sb.tagName)){var q2=sb.getBoundingClientRect();if(q2.height>0&&q2.bottom>mb)mb=q2.bottom;}sb=sb.nextElementSibling;}n=n.parentElement;}var cs=getComputedStyle(document.body),below=(mb-r.bottom)+(parseFloat(cs.paddingBottom)||0)+(parseFloat(cs.marginBottom)||0),gap=Math.floor(window.innerHeight-(r.bottom+below));if(gap>0)el.style.paddingTop=(14+gap)+'px';}catch(e){}}function sch(){if(!q)q=requestAnimationFrame(run);}window.addEventListener('load',sch);window.addEventListener('resize',sch);try{new MutationObserver(sch).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class','hidden']});}catch(e){}setInterval(sch,1500);sch();})();</script><!-- HRFT-PUSH-END -->
+<!-- HRFT-PUSH-BEGIN --><script>(function(){var q=0;function run(){q=0;try{var f=[].slice.call(document.querySelectorAll('.hrft'));f.forEach(function(e){e.style.paddingTop='';});var vis=f.filter(function(e){return e.getClientRects().length;});if(!vis.length)return;var el=vis[vis.length-1],r=el.getBoundingClientRect(),mb=r.bottom,n=el;while(n&&n!==document.body){var sb=n.nextElementSibling;while(sb){var ps=getComputedStyle(sb).position;if(ps!=='fixed'&&ps!=='absolute'&&sb.getClientRects().length&&!/^(SCRIPT|STYLE)$/.test(sb.tagName)){var q2=sb.getBoundingClientRect();if(q2.height>0&&q2.bottom>mb)mb=q2.bottom;}sb=sb.nextElementSibling;}n=n.parentElement;}var cs=getComputedStyle(document.body),below=(mb-r.bottom)+(parseFloat(cs.paddingBottom)||0)+(parseFloat(cs.marginBottom)||0),gap=Math.floor(window.innerHeight-(r.bottom+below));if(gap>0)el.style.paddingTop=(14+gap)+'px';}catch(e){}}function sch(){if(!q)q=requestAnimationFrame(run);}window.addEventListener('load',sch);window.addEventListener('resize',sch);try{new MutationObserver(sch).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class','hidden']});}catch(e){}setInterval(sch,1500);sch();})();
+/* Check Record: show the query date as centered text over the date box (iPhone ignores text-align on date inputs) */
+(function () {
+    var last = null;
+    function sync() {
+        var inp = document.getElementById('chkDate'), sp = document.getElementById('chkDateTxt'); if (!inp || !sp) return;
+        if (inp.value === last) return; last = inp.value;
+        var cs = getComputedStyle(inp); sp.style.fontSize = cs.fontSize; sp.style.fontFamily = cs.fontFamily; sp.style.fontWeight = cs.fontWeight;
+        var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(inp.value || '');
+        sp.textContent = m ? (parseInt(m[3], 10) + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][parseInt(m[2], 10) - 1] + ' ' + m[1]) : '';
+    }
+    setInterval(sync, 300); document.addEventListener('change', sync, true); document.addEventListener('input', sync, true);
+})();
+</script><!-- HRFT-PUSH-END -->
 </body>
 </html>
