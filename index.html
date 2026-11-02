@@ -4682,13 +4682,16 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          hrConfirmedTag: "confirmed",
          hrFrozen: "Confirmed month: numbers are frozen",
          hrConfirmBtn: "Confirm {m}",
-         hrConfirmAsk: "Confirm {m}?\n\n{m} is saved as its own sheet and frozen. {n} starts at 0 for all employees, and this month's used leave is added to Previous used. Changing {m} later needs a reason.",
+         hrConfirmAsk: "Start {n} now?\n\n{m} is saved as its own sheet and kept. {n} starts at 0 for all employees, and this month's used leave is added to Previous used. Changing {m} later needs a reason.",
+         hrRollBtn: "Start {n} now",
+         hrAutoDone: "{n} has started. Last month is saved.",
+         hrConfirmEarly: "{m} is not finished yet!\n\nIf you confirm now, {m} is frozen and {n} starts at 0. Attendance and leave still to be entered for {m} will need a reason and a saved note. Are you sure you want to confirm {m} now?",
          hrConfirmOk: "Confirm month",
          hrConfirmDone: "{m} confirmed. {n} has started.",
          chkLeaveNoShift: "This employee has no shift on that date, so leave cannot be added.",
          chkLeaveRest: "This day is a rest day (H), so leave cannot be added.",
-         chkRestDay: "Rest day (H): OT only",
-         chkShiftRestAsk: "Employee {id} has {w}h working time on {d} and {l}h leave.\n\nChanging the shift to H (rest day) will remove the working hours of this day. OT stays, leave stays, please check it. Continue?",
+         chkRestDay: "Rest day (H): no work, no OT",
+         chkShiftRestAsk: "Employee {id} has {w}h working time, {o}h OT and {l}h leave on {d}.\n\nChanging the shift to H (rest day) will remove the working hours and OT of this day. Leave stays, please check it. Continue?",
          chkLeaveMax: "One day can have 8 hours at most. Only {n} hours of leave can still be added on this date.",
          chkLeaveSame: "Employee {id} already has {o} hours of leave on {d}.\n\nIf you add {n} hours, the total will be {s} hours. Continue?",
          chkLeaveAtt: "Employee {id} already has {a} hours of attendance on {d}.\n\nIf you continue, attendance will be lowered to {c} hours and the leave will be {l} hours, so the day stays at 8 hours. Continue?",
@@ -7106,12 +7109,15 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          hrFrozen: "ខែបានបញ្ជាក់៖ លេខត្រូវបានចាក់សោ",
          hrConfirmBtn: "បញ្ជាក់ {m}",
          hrConfirmAsk: "បញ្ជាក់ {m}?\n\n{m} ត្រូវបានរក្សាទុកជាសន្លឹកផ្ទាល់ខ្លួន ហើយចាក់សោ។ {n} ចាប់ផ្តើមពី 0 សម្រាប់និយោជិតទាំងអស់ ហើយការឈប់ដែលបានប្រើខែនេះត្រូវបានបន្ថែមទៅ \"បានប្រើពីមុន\"។ ការកែ {m} ក្រោយមកត្រូវមានមូលហេតុ។",
+         hrRollBtn: "ចាប់ផ្តើម {n} ឥឡូវនេះ",
+         hrAutoDone: "{n} បានចាប់ផ្តើម។ ខែមុនត្រូវបានរក្សាទុក។",
+         hrConfirmEarly: "{m} មិនទាន់ចប់ទេ!\n\nបើបញ្ជាក់ឥឡូវនេះ {m} នឹងត្រូវចាក់សោ ហើយ {n} ចាប់ផ្តើមពី 0។ ការចូលវត្តមាន និងការឈប់សម្រាប់ {m} បន្ទាប់ពីនេះត្រូវការមូលហេតុ។ តើអ្នកប្រាកដថាចង់បញ្ជាក់ {m} ឥឡូវនេះមែនទេ?",
          hrConfirmOk: "បញ្ជាក់ខែ",
          hrConfirmDone: "{m} បានបញ្ជាក់។ {n} បានចាប់ផ្តើម។",
          chkLeaveNoShift: "និយោជិតនេះគ្មានវេននៅថ្ងៃនោះ ដូច្នេះមិនអាចបន្ថែមការឈប់បានទេ។",
          chkLeaveRest: "ថ្ងៃនេះជាថ្ងៃសម្រាក (H) ដូច្នេះមិនអាចបន្ថែមការឈប់បានទេ។",
-         chkRestDay: "ថ្ងៃសម្រាក (H)៖ មានតែម៉ោងបន្ថែម",
-         chkShiftRestAsk: "និយោជិត {id} មានម៉ោងធ្វើការ {w} ម៉ោង និងឈប់ {l} ម៉ោង នៅ {d}។\n\nការប្តូរវេនទៅ H (ថ្ងៃសម្រាក) នឹងលុបម៉ោងធ្វើការនៃថ្ងៃនេះ។ ម៉ោងបន្ថែម និងការឈប់នៅដដែល សូមពិនិត្យ។ បន្តទេ?",
+         chkRestDay: "ថ្ងៃសម្រាក (H)៖ គ្មានម៉ោងធ្វើការ គ្មានម៉ោងបន្ថែម",
+         chkShiftRestAsk: "និយោជិត {id} មានម៉ោងធ្វើការ {w} ម៉ោង ម៉ោងបន្ថែម {o} ម៉ោង និងឈប់ {l} ម៉ោង នៅ {d}។\n\nការប្តូរវេនទៅ H (ថ្ងៃសម្រាក) នឹងលុបម៉ោងធ្វើការ និងម៉ោងបន្ថែមនៃថ្ងៃនេះ។ ការឈប់នៅដដែល សូមពិនិត្យ។ បន្តទេ?",
          chkLeaveMax: "មួយថ្ងៃមានអតិបរមា 8 ម៉ោង។ នៅអាចបន្ថែមការឈប់បានត្រឹម {n} ម៉ោងប៉ុណ្ណោះនៅថ្ងៃនេះ។",
          chkLeaveSame: "និយោជិត {id} មានការឈប់ {o} ម៉ោងរួចហើយនៅ {d}។\n\nបើបន្ថែម {n} ម៉ោង សរុបនឹងជា {s} ម៉ោង។ បន្តទេ?",
          chkLeaveAtt: "និយោជិត {id} មានម៉ោងធ្វើការ {a} ម៉ោងរួចហើយនៅ {d}។\n\nបើបន្ត ម៉ោងធ្វើការនឹងថយមក {c} ម៉ោង ហើយការឈប់ {l} ម៉ោង ដូច្នេះថ្ងៃនោះនៅតែ 8 ម៉ោង។ បន្តទេ?",
@@ -9491,12 +9497,15 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          hrFrozen: "已确认月份：数字已冻结",
          hrConfirmBtn: "确认 {m}",
          hrConfirmAsk: "确认 {m}？\n\n{m} 将保存为独立报表并冻结。{n} 对所有员工从 0 开始，本月已用假期会加入“以前已用”。之后修改 {m} 需要填写原因。",
+         hrRollBtn: "立即开始 {n}",
+         hrAutoDone: "{n} 已开始，上个月已保存。",
+         hrConfirmEarly: "{m} 还没有结束！\n\n现在确认会冻结 {m}，{n} 从 0 开始。之后补录 {m} 的出勤和请假需要填写原因。确定现在确认 {m} 吗？",
          hrConfirmOk: "确认月份",
          hrConfirmDone: "{m} 已确认，{n} 已开始。",
          chkLeaveNoShift: "该员工当天没有班次，无法添加请假。",
          chkLeaveRest: "当天是休息日（H），无法添加请假。",
-         chkRestDay: "休息日（H）：只能加班",
-         chkShiftRestAsk: "员工 {id} 在 {d} 有工作 {w} 小时、请假 {l} 小时。\n\n将班次改为 H（休息日）会删除当天的工作时间，加班和请假保留，请自行检查。是否继续？",
+         chkRestDay: "休息日（H）：不能填工作和加班",
+         chkShiftRestAsk: "员工 {id} 在 {d} 有工作 {w} 小时、加班 {o} 小时、请假 {l} 小时。\n\n将班次改为 H（休息日）会删除当天的工作和加班时间，请假保留，请自行检查。是否继续？",
          chkLeaveMax: "一天最多 8 小时，这一天只能再添加 {n} 小时请假。",
          chkLeaveSame: "员工 {id} 在 {d} 已有 {o} 小时请假。\n\n若再添加 {n} 小时，合计 {s} 小时。是否继续？",
          chkLeaveAtt: "员工 {id} 在 {d} 已有 {a} 小时出勤。\n\n若继续，出勤将减为 {c} 小时，请假为 {l} 小时，当天仍为 8 小时。是否继续？",
@@ -14170,9 +14179,9 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
      if (inputEl) inputEl.value = val;
      const payload = { empId: empId, empName: empName, date: dateStr, type: val };
      if (val === 'H' && (!existing || existing.type !== 'H')) {
-         var upsH = {}, accH = {}, dpH = hrDropPlan(empId, dateStr, upsH, accH, true), lvH = hrSum(leaveHistory, empId, dateStr, 'hours');
+         var upsH = {}, accH = {}, dpH = hrDropPlan(empId, dateStr, upsH, accH, false), lvH = hrSum(leaveHistory, empId, dateStr, 'hours');
          if (dpH.n || lvH) {
-             cfAsk(fillTemplate(t('chkShiftRestAsk'), { id: empId, d: dateStr, w: hrFmt(dpH.w), l: hrFmt(lvH) }), t('chkShiftDropBtn'), true).then(function (ok) {
+             cfAsk(fillTemplate(t('chkShiftRestAsk'), { id: empId, d: dateStr, w: hrFmt(dpH.w), o: hrFmt(dpH.o), l: hrFmt(lvH) }), t('chkShiftDropBtn'), true).then(function (ok) {
                  if (!ok) { if (inputEl) inputEl.value = existing ? existing.type : ''; return; }
                  var k = existing ? existing.firebaseKey : db.ref('shifts').push().key; if (existing) upsH['shifts/' + k + '/type'] = val; else upsH['shifts/' + k] = payload;
                  db.ref().update(upsH).then(() => showToast(true)).catch(() => showToast(false));
@@ -14833,7 +14842,7 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
      if (isNaN(newWork) || newWork < 0 || isNaN(newOt) || newOt < 0) { showToast(false); return; }
      const dateInput = document.getElementById('acDate_' + firebaseKey);
      const newDate = (dateInput && dateInput.value) ? dateInput.value : entry.date;
-     (function () { var oth = attendanceHistory.filter(function (h) { return h.firebaseKey !== firebaseKey && String(h.empId) === String(entry.empId) && h.date === newDate; }), ow = oth.reduce(function (a, h) { return a + (parseFloat(h.workHours) || 0); }, 0), oo = oth.reduce(function (a, h) { return a + (parseFloat(h.otHours) || 0); }, 0), lv = hrSum(leaveHistory, entry.empId, newDate, 'hours'); window.__attBad = !hrShiftOn(entry.empId, newDate) ? t('chkNoShift') : (newWork > hrWorkCap(entry.empId, newDate) - lv - ow + 1e-9 ? fillTemplate(t('chkWorkMax'), { n: hrFmt(Math.max(0, hrWorkCap(entry.empId, newDate) - lv - ow)) }) : (newOt > HRCHK_OT - oo + 1e-9 ? fillTemplate(t('chkOtMax'), { n: hrFmt(Math.max(0, HRCHK_OT - oo)) }) : '')); })();
+     (function () { var oth = attendanceHistory.filter(function (h) { return h.firebaseKey !== firebaseKey && String(h.empId) === String(entry.empId) && h.date === newDate; }), ow = oth.reduce(function (a, h) { return a + (parseFloat(h.workHours) || 0); }, 0), oo = oth.reduce(function (a, h) { return a + (parseFloat(h.otHours) || 0); }, 0), lv = hrSum(leaveHistory, entry.empId, newDate, 'hours'); window.__attBad = !hrShiftOn(entry.empId, newDate) ? t('chkNoShift') : (newWork > hrWorkCap(entry.empId, newDate) - lv - ow + 1e-9 ? fillTemplate(t('chkWorkMax'), { n: hrFmt(Math.max(0, hrWorkCap(entry.empId, newDate) - lv - ow)) }) : (newOt > (hrType(entry.empId, newDate) === 'H' ? 0 : HRCHK_OT) - oo + 1e-9 ? fillTemplate(t('chkOtMax'), { n: hrFmt(Math.max(0, (hrType(entry.empId, newDate) === 'H' ? 0 : HRCHK_OT) - oo)) }) : '')); })();
      if (window.__attBad) { showToast(false, window.__attBad); return; }
 
      const deltaWork = newWork - (entry.workHours || 0);
@@ -17479,7 +17488,7 @@ function hrViewList() {
     var snap = hrSheets[hrView] || {};
     return employees.map(function (e) { var sn = snap[e.firebaseKey], o = Object.assign({}, e); HR_MFIELDS.forEach(function (f) { if (sn && sn[f] !== undefined) o[f] = sn[f]; else if (f !== 'entitled' && f !== 'carried' && f !== 'monthlyWorkDays' && f !== 'prevUsed') o[f] = 0; }); return o; });
 }
-function hrRerender() { try { renderMaster(); } catch (e) {} try { renderMonthlyReport(); } catch (e) {} try { renderMonthlyALReport(); } catch (e) {} hrBarRender(); }
+function hrRerender() { try { renderMaster(); } catch (e) {} try { renderMonthlyReport(); } catch (e) {} try { renderMonthlyALReport(); } catch (e) {} hrBarRender(); setTimeout(function () { try { hrAutoRoll(); } catch (e) {} }, 800); }
 db.ref('meta/openMonth').on('value', function (sn) { var v = sn.val() || ''; var first = !hrLoaded; hrLoaded = true; if (!first && v === hrOpen) return; hrOpen = v; if (hrView === hrOpen) hrView = ''; hrRerender(); });
 db.ref('meta/monthConfirmed').on('value', function (sn) { hrConfirmed = sn.val() || {}; hrBarRender(); });
 db.ref('monthSheets').on('value', function (sn) { var v = sn.val() || {}, sig = JSON.stringify(v); if (sig === hrSheetsSig) return; hrSheetsSig = sig; hrSheets = v; hrRerender(); });
@@ -17519,26 +17528,50 @@ function hrBarRender() {
         var months = Object.keys(hrSheets).sort().reverse();
         var opts = '<option value="open"' + (!hrViewLocked() ? ' selected' : '') + '>' + escapeHtmlText(hrYmName(hrOpen) + ' (' + t('hrCurrent') + ')') + '</option>' + months.map(function (m2) { return '<option value="' + m2 + '"' + (hrView === m2 ? ' selected' : '') + '>' + escapeHtmlText(hrYmName(m2) + ' - ' + t('hrConfirmedTag')) + '</option>'; }).join('');
         h = '<div class="hrMBbox" style="display:flex;gap:6px;align-items:center;flex-wrap:nowrap;"><b>' + escapeHtmlText(t('hrMonthLbl')) + '</b><select onchange="hrSetView(this.value)" style="padding:6px;">' + opts + '</select>' +
-            (hrViewLocked() ? '<span class="hrFrozen">' + escapeHtmlText(t('hrFrozen')) + '</span>' : '<button type="button" class="quick-btn slate" style="width:auto;min-width:auto;min-height:auto;padding:5px 12px;font-size:11px;" onclick="hrConfirm(this)">' + escapeHtmlText(fillTemplate(t('hrConfirmBtn'), { m: hrYmName(hrOpen) })) + '</button>') + '</div>';
+            (hrViewLocked() ? '<span class="hrFrozen">' + escapeHtmlText(t('hrFrozen')) + '</span>' : '<button type="button" class="quick-btn slate" style="width:auto;min-width:auto;min-height:auto;padding:5px 12px;font-size:11px;" onclick="hrConfirm(this)">' + escapeHtmlText(fillTemplate(t('hrRollBtn'), { n: hrYmName(hrNextYm(hrOpen)) })) + '</button>') + '</div>';
     }
     host.forEach(function (e) { e.innerHTML = h; });
+}
+/* start the next month: save the open month as its own sheet, new month starts at 0, used leave goes to Previous used */
+var hrRolling = false;
+function hrTodayYm() { return new Date(Date.now() + 7 * 3600000).toISOString().slice(0, 7); }
+async function hrRollCore(ym, silent) {
+    var next = hrNextYm(ym), who = silent ? 'auto' : (sessionStorage.getItem('loggedInAccountName') || sessionStorage.getItem('loggedInRole') || '');
+    var lock = await db.ref('meta/rollLock/' + ym).transaction(function (c) { return c ? undefined : Date.now(); });
+    if (!lock.committed) return false;
+    try {
+        var snaps = await Promise.all([db.ref('employees').once('value'), db.ref('attendanceHistory').once('value'), db.ref('leaveHistory').once('value'), db.ref('meta/openMonth').once('value')]);
+        if ((snaps[3].val() || '') !== ym) { await db.ref('meta/rollLock/' + ym).remove(); return false; }
+        var emps = snaps[0].val() || {}, att = snaps[1].val() || {}, lv = snaps[2].val() || {}, ups = {};
+        var attBy = {}, lvBy = {};
+        Object.keys(att).forEach(function (k) { var h = att[k]; if (h && String(h.date || '').slice(0, 7) === next) (attBy[String(h.empId)] = attBy[String(h.empId)] || []).push(h); });
+        Object.keys(lv).forEach(function (k) { var h = lv[k]; if (h && String(h.date || '').slice(0, 7) === next) (lvBy[String(h.empId)] = lvBy[String(h.empId)] || []).push(h); });
+        Object.keys(emps).forEach(function (key) {
+            var e = emps[key]; if (!e) return;
+            var snap = {}; HR_MFIELDS.forEach(function (f) { snap[f] = parseFloat(e[f]) || 0; }); snap.id = e.id; snap.name = e.name || '';
+            ups['monthSheets/' + ym + '/' + key] = snap;
+            var nx = { prevUsed: (parseFloat(e.prevUsed) || 0) + (parseFloat(e.monthUsed) || 0) }; HR_ZERO.forEach(function (f) { nx[f] = 0; });
+            (attBy[String(e.id)] || []).forEach(function (h) { nx.workHours += parseFloat(h.workHours) || 0; nx.otHours += parseFloat(h.otHours) || 0; });
+            (lvBy[String(e.id)] || []).forEach(function (h) { var fld = LEAVE_TYPE_FIELD_MAP[h.leaveType]; if (fld) { nx[fld] += parseFloat(h.hours) || 0; if (fld !== 'leavePersonal') nx.monthUsed += parseFloat(h.hours) || 0; } });
+            Object.keys(nx).forEach(function (f) { ups['employees/' + key + '/' + f] = nx[f]; });
+        });
+        ups['meta/openMonth'] = next; ups['meta/monthConfirmed/' + ym] = { at: Date.now(), by: who };
+        var keys = Object.keys(ups);
+        for (var i = 0; i < keys.length; i += 400) { var part = {}; keys.slice(i, i + 400).forEach(function (k) { part[k] = ups[k]; }); await db.ref().update(part); }
+        try { logActivity(silent ? 'Auto start month' : 'Start next month', 'Month', ym, hrYmName(ym), Object.keys(emps).length + ' employee(s) -> ' + hrYmName(next)); } catch (e) {}
+        return true;
+    } catch (err) { try { await db.ref('meta/rollLock/' + ym).remove(); } catch (e2) {} throw err; }
+}
+function hrAutoRoll() {
+    if (hrRolling || !hrLoaded || !hrOpen || !(hrTodayYm() > hrOpen)) return;
+    hrRolling = true;
+    hrRollCore(hrOpen, true).then(function (ok) { hrRolling = false; if (ok) showToast(true, fillTemplate(t('hrAutoDone'), { n: hrYmName(hrNextYm(hrOpen)) })); }).catch(function () { hrRolling = false; });
 }
 async function hrConfirm(btn) {
     if (!hrOpen) return; var ym = hrOpen, next = hrNextYm(ym);
     if (!(await cfAsk(fillTemplate(t('hrConfirmAsk'), { m: hrYmName(ym), n: hrYmName(next) }), t('hrConfirmOk')))) return;
-    var ups = {}, who = sessionStorage.getItem('loggedInAccountName') || sessionStorage.getItem('loggedInRole') || '';
-    employees.forEach(function (e) {
-        var snap = {}; HR_MFIELDS.forEach(function (f) { snap[f] = parseFloat(e[f]) || 0; }); snap.id = e.id; snap.name = e.name || '';
-        ups['monthSheets/' + ym + '/' + e.firebaseKey] = snap;
-        var nx = { prevUsed: (parseFloat(e.prevUsed) || 0) + (parseFloat(e.monthUsed) || 0) }; HR_ZERO.forEach(function (f) { nx[f] = 0; });
-        attendanceHistory.forEach(function (h) { if (String(h.empId) === String(e.id) && String(h.date || '').slice(0, 7) === next) { nx.workHours += parseFloat(h.workHours) || 0; nx.otHours += parseFloat(h.otHours) || 0; } });
-        leaveHistory.forEach(function (h) { if (String(h.empId) === String(e.id) && String(h.date || '').slice(0, 7) === next) { var fld = LEAVE_TYPE_FIELD_MAP[h.leaveType]; if (fld) { nx[fld] += parseFloat(h.hours) || 0; if (fld !== 'leavePersonal') nx.monthUsed += parseFloat(h.hours) || 0; } } });
-        Object.keys(nx).forEach(function (f) { ups['employees/' + e.firebaseKey + '/' + f] = nx[f]; });
-    });
-    ups['meta/openMonth'] = next; ups['meta/monthConfirmed/' + ym] = { at: Date.now(), by: who };
-    var keys = Object.keys(ups);
     withBusyButton(btn, async function () {
-        try { for (var i = 0; i < keys.length; i += 400) { var part = {}; keys.slice(i, i + 400).forEach(function (k) { part[k] = ups[k]; }); await db.ref().update(part); } try { logActivity('Confirm month', 'Month', ym, hrYmName(ym), employees.length + ' employee(s)'); } catch (e) {} showToast(true, fillTemplate(t('hrConfirmDone'), { m: hrYmName(ym), n: hrYmName(next) })); } catch (e) { showToast(false); }
+        try { var ok = await hrRollCore(ym, false); if (ok) showToast(true, fillTemplate(t('hrConfirmDone'), { m: hrYmName(ym), n: hrYmName(next) })); else showToast(false); } catch (e) { showToast(false); }
     });
 }
 
@@ -17594,7 +17627,7 @@ function hrWorkOn(empId, date) { var ty = hrType(empId, date); return ty === 'M'
 function hrWorkCap(empId, date) { return hrType(empId, date) === 'H' ? 0 : HRCHK_WORK; }
 function hrSum(list, empId, date, f) { return (list || []).reduce(function (a, h) { return (String(h.empId) === String(empId) && h.date === date) ? a + (parseFloat(h[f]) || 0) : a; }, 0); }
 function hrDay(empId, date) { return { work: hrSum(attendanceHistory, empId, date, 'workHours'), ot: hrSum(attendanceHistory, empId, date, 'otHours'), leave: hrSum(leaveHistory, empId, date, 'hours') }; }
-function hrRoom(empId, date) { var d = hrDay(empId, date); return { work: Math.max(0, hrWorkCap(empId, date) - d.leave - d.work), ot: Math.max(0, HRCHK_OT - d.ot), d: d }; }
+function hrRoom(empId, date) { var d = hrDay(empId, date); return { work: Math.max(0, hrWorkCap(empId, date) - d.leave - d.work), ot: Math.max(0, (hrType(empId, date) === 'H' ? 0 : HRCHK_OT) - d.ot), d: d }; }
 function hrFmt(n) { return String(Math.round(n * 100) / 100); }
 function hrAttInput(el) { var mx = parseFloat(el.getAttribute('data-max')); var v = parseFloat(el.value); if (isNaN(mx) || isNaN(v)) return; if (v > mx + 1e-9) { el.value = hrFmt(mx); showToast(false, fillTemplate(t(el.getAttribute('data-field') === 'ot' ? 'chkOtMax' : 'chkWorkMax'), { n: hrFmt(mx) })); } if (parseFloat(el.value) < 0) el.value = 0; }
 
