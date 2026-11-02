@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Payroll</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Asset Manager">
+<meta name="theme-color" content="#0b1d3a">
+<link rel="icon" type="image/png" href="data:image/png;base64,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Pfvc+UsCsCwEACxWi0/rTvUaVr3K+yK9znx70SsgdOe+LwVgiQgAWDK5EdTbrp332IFyayhNf6Pc6pkyK2JVYhIzW2DBCABYvty5cw0f6DB2qNPrTJv57cGj4IXRIUvimNkCi0cAQBf581nbdW7Rx6HDX7WYPvrVmej4zYkbdjx89FgAGiAAoJ1KFcq2bFK37j9sWjap9+Dho8PHTh05fnrH3qP0coBuCAAA0JSlTV4FALwmAgAANEUAAICmCAAA0BQBAACaIgAAQFMEAABoigAAAE0RAACgKQIAADRFAACApggAANAUAQAAmiIAAEBTBAAAaIoAAABNEQAAoCkCAAA0RQAAgKYIAADQFAEAAJoiAABAUwQAAGiKAAAATREAAKApAgAANEUAAICmCAAA0BQBAACaIgAAQFMEAABoigAAAE0RAACgKQIAADRFAACApggAANAUAQAAmiIAAEBTBAAAaIoAAABNEQAAoCkCAAA0RQAAgKYIAADQFAEAAJoiAABAUwQAAGiKAAAATREAAKApAgAANEUAAICmCAAA0BQBAACaIgAAQFMEAABoigAAAE0RAACgKQIAADRFAACApggAANAUAQAAmiIAAEBTBAAAaIoAAABNEQAAoCkCAAA0RQAAgKYIAADQFAEAAJoiAABAUwQAAGiKAAAATREAAKApAgAANEUAAICmCAAA0BQBAACaIgAAQFMEAABoigAAAE0RAACgKQIAADRFAACApggAANAUAQAAmiIAAEBTBAAAaIoAAABNEQAAoCkCAAA0RQAAgKYIAADQFAEAAJoiAABAU/8PAAD//wwvagkAAAAGSURBVAMA12PlcUN72TQAAAAASUVORK5CYII=">
+<link rel="apple-touch-icon" href="data:image/png;base64,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">
+<style>
+:root { --bg:#f1f5f9; --card:#ffffff; --ink:#0f172a; --mute:#64748b; --line:#e2e8f0; --navy:#0b1d3a; --red:#dc2626; --amber:#d97706; --blue:#2563eb; --green:#16a34a; --grey:#64748b; --soft:#f8fafc; }
+@media (prefers-color-scheme: dark) { :root { --bg:#0b1220; --card:#111b2e; --ink:#e5edf8; --mute:#94a3b8; --line:#22314a; --soft:#0e1727; } }
+* { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html, body { margin:0; padding:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Khmer","Noto Sans SC",Arial,sans-serif; font-size:15px; }
+body { min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; padding-bottom:calc(10px + env(safe-area-inset-bottom)); }
+.wrap { width:100%; }
+.hrft { margin-top:auto; }
+.hidden { display:none !important; }
+button, input { font-family:inherit; font-size:16px; }
+/* ---------- header ---------- */
+.top { position:sticky; top:0; z-index:20; background:var(--navy); color:#fff; padding:calc(10px + env(safe-area-inset-top)) 14px 10px; display:flex; align-items:center; gap:10px; }
+.top h1 { font-size:18px; margin:0; flex:1; font-weight:800; letter-spacing:.2px; }
+.top .who { font-size:14px; font-weight:700; opacity:1; max-width:34vw; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.iconBtn { height:36px; min-width:36px; border-radius:10px; border:1px solid rgba(255,255,255,.25); background:rgba(255,255,255,.08); color:#fff; font-size:14px; padding:0 10px; cursor:pointer; }
+.wrap { max-width:720px; margin:0 auto; padding:12px 12px 0; }
+/* ---------- login ---------- */
+#loginBox { max-width:380px; margin:0 auto; padding:calc(40px + env(safe-area-inset-top)) 18px 24px; }
+#loginBox .logo { width:72px; height:72px; border-radius:18px; display:block; margin:0 auto 12px; }
+#loginBox h2 { text-align:center; margin:0 0 4px; font-size:22px; }
+#loginBox p.sub { text-align:center; color:var(--mute); margin:0 0 18px; font-size:13px; }
+.seg { display:flex; background:var(--line); border-radius:12px; padding:3px; gap:3px; margin-bottom:12px; }
+.seg button { flex:1; height:38px; border:0; background:transparent; color:var(--mute); border-radius:10px; font-weight:700; font-size:14px; cursor:pointer; }
+.seg button.on { background:var(--card); color:var(--ink); box-shadow:0 1px 4px rgba(0,0,0,.12); }
+.field { margin-bottom:12px; }
+.field label { display:block; font-size:12px; font-weight:700; color:var(--mute); margin-bottom:4px; }
+.field input { width:100%; height:46px; border:1px solid var(--line); border-radius:12px; padding:0 14px; background:var(--card); color:var(--ink); }
+.field input:focus { outline:2px solid var(--blue); border-color:transparent; }
+.bigBtn { width:100%; height:48px; border:0; border-radius:12px; background:var(--navy); color:#fff; font-weight:800; font-size:16px; cursor:pointer; }
+.bigBtn:disabled { opacity:.6; }
+.err { color:var(--red); font-size:13px; text-align:center; margin:8px 0; min-height:18px; }
+.linkBtn { background:none; border:0; color:var(--blue); font-size:13px; padding:8px; cursor:pointer; display:block; margin:6px auto 0; }
+.langRow { display:flex; justify-content:center; gap:6px; margin-top:16px; }
+.langRow button { border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:10px; padding:6px 12px; font-size:13px; cursor:pointer; }
+.langRow button.on { background:var(--navy); color:#fff; border-color:var(--navy); }
+.toast { position:fixed; left:50%; bottom:calc(24px + env(safe-area-inset-bottom)); transform:translateX(-50%); background:#111827; color:#fff; padding:10px 16px; border-radius:12px; font-size:14px; z-index:50; max-width:90vw; text-align:center; }
+
+body.bad { }
+body.warn { }
+.top h1 { font-size:12px; text-transform:uppercase; letter-spacing:.5px; margin:0 auto 0 10px; padding-left:10px; border-left:1px solid rgba(255,255,255,.4); font-weight:700; }
+.top .hrLogo { font-size:24px; }
+.cam { position:relative; max-height:27vh; width:100%; border-radius:16px; overflow:hidden; background:#000; aspect-ratio:16/9; margin-top:8px; box-shadow:0 2px 10px rgba(0,0,0,.18); }
+.cam video { width:100%; height:100%; object-fit:cover; display:block; }
+.cam .frame { position:absolute; left:50%; top:45%; height:74%; width:auto; aspect-ratio:1; transform:translate(-50%,-50%); border-radius:16px; box-shadow:0 0 0 999px rgba(0,0,0,.35); pointer-events:none; }
+.cam .frame i { position:absolute; width:22px; height:22px; border:4px solid #fff; }
+.cam .frame i:nth-child(1){left:-2px;top:-2px;border-right:0;border-bottom:0;border-top-left-radius:14px}
+.cam .frame i:nth-child(2){right:-2px;top:-2px;border-left:0;border-bottom:0;border-top-right-radius:14px}
+.cam .frame i:nth-child(3){left:-2px;bottom:-2px;border-right:0;border-top:0;border-bottom-left-radius:14px}
+.cam .frame i:nth-child(4){right:-2px;bottom:-2px;border-left:0;border-top:0;border-bottom-right-radius:14px}
+.cam .line { position:absolute; left:8%; right:8%; height:3px; background:#ff3030; box-shadow:0 0 10px #ff3030; animation:scanl 2.2s ease-in-out infinite; }
+@keyframes scanl { 0%,100%{top:8%} 50%{top:90%} }
+.cam .msg { position:absolute; left:0; right:0; bottom:0; padding:8px 12px; color:#fff; font-size:13px; text-align:center; background:linear-gradient(transparent,rgba(0,0,0,.65)); }
+.cam .off { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:12px; color:#cbd5e1; text-align:center; padding:20px; font-size:14px; background:#0f172a; }
+.row { display:flex; gap:8px; margin-top:10px; }
+.btn { flex:1; height:46px; border:0; border-radius:12px; background:var(--navy); color:#fff; font-weight:800; font-size:15px; cursor:pointer; }
+.btn.alt { background:var(--card); color:var(--ink); border:1px solid var(--line); }
+.manual { display:flex; gap:8px; margin-top:12px; }
+.manual input { flex:1; min-width:0; height:38px; font-size:16px; border:1px solid var(--line); border-radius:10px; padding:0 12px; background:var(--card); color:var(--ink); letter-spacing:1px; }
+.manual .btn { flex:0 0 96px; }
+.mlabel { font-size:12px; font-weight:700; color:var(--mute); margin:14px 0 0; }
+.card { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:16px; margin-top:12px; box-shadow:0 1px 4px rgba(0,0,0,.06); }
+.hint { text-align:center; color:var(--mute); padding:22px 8px; font-size:14px; }
+.banner { text-align:center; font-size:30px; font-weight:900; letter-spacing:2px; padding:10px 0 4px; }
+.banner small { display:block; font-size:14px; font-weight:600; letter-spacing:0; opacity:.9; }
+.res { display:flex; gap:14px; align-items:flex-start; }
+.res .ph { width:96px; height:96px; border-radius:14px; background:var(--soft); flex:none; overflow:hidden; display:flex; align-items:center; justify-content:center; color:var(--mute); font-size:12px; }
+.res .ph img { width:100%; height:100%; object-fit:cover; }
+.res .nm { font-size:20px; font-weight:800; overflow-wrap:anywhere; }
+.res .idv { font-size:14px; font-weight:800; color:var(--blue); letter-spacing:1px; }
+.kv { margin-top:12px; display:grid; grid-template-columns:auto 1fr; gap:6px 12px; font-size:14px; }
+.kv b { color:var(--mute); font-weight:700; }
+.kv span { overflow-wrap:anywhere; }
+.pill { display:inline-block; padding:3px 12px; border-radius:999px; font-weight:800; font-size:13px; }
+.pill.active{background:#dcfce7;color:#166534}.pill.broken{background:#fee2e2;color:#991b1b}.pill.missing{background:#ffedd5;color:#9a3412}.pill.retired{background:#e2e8f0;color:#475569}
+.result.bad .card { background:#fef2f2; border-color:#fecaca; }
+.result.warn .card { background:#fff7ed; border-color:#fed7aa; }
+.result.bad .banner { color:#b91c1c; }
+.result.warn .banner { color:#c2410c; }
+.result.bad .banner small, .result.warn .banner small { color:inherit; opacity:.85; }
+.rcard { padding:12px; border:1px solid var(--line); border-radius:14px; background:var(--card); margin-top:8px; }
+.rcard .rn { font-weight:800; font-size:15px; overflow-wrap:anywhere; }
+.rcard .rs { color:var(--mute); font-size:12px; margin-top:2px; }
+.rbar { height:8px; background:var(--line); border-radius:6px; overflow:hidden; margin-top:8px; }
+.rbar div { height:100%; background:#16a34a; }
+.rcard .btn { margin-top:10px; height:42px; }
+.rcard.on { border-color:#16a34a; box-shadow:0 0 0 2px rgba(22,163,74,.25); }
+.lbl { font-weight:800; font-size:13px; color:var(--mute); margin-top:12px; }
+.lbl:first-child { margin-top:0; }
+.hero { text-align:center; padding:18px 4px 6px; }
+.hero h2 { margin:0; font-size:22px; font-weight:900; color:var(--ink); }
+.hero p { margin:6px 0 0; color:var(--mute); font-size:14px; }
+.tile { display:flex; align-items:center; gap:16px; width:100%; margin-top:14px; padding:18px; border:1px solid var(--line); border-radius:20px; background:var(--card); color:var(--ink); text-align:left; cursor:pointer; box-shadow:0 2px 10px rgba(0,0,0,.08); font-family:inherit; }
+.tile:active { transform:scale(.985); }
+.tile .ic { flex:none; width:68px; height:68px; border-radius:18px; display:flex; align-items:center; justify-content:center; }
+.tile .ic.b { background:linear-gradient(135deg,#1d4ed8,#0b1d3a); }
+.tile .ic.g { background:linear-gradient(135deg,#16a34a,#0f5132); }
+.tile .tt { font-size:19px; font-weight:900; }
+.tile .ts { font-size:13px; color:var(--mute); margin-top:3px; line-height:1.35; }
+.tile .ar { margin-left:auto; flex:none; color:var(--mute); font-size:22px; }
+.subhead { display:flex; align-items:center; gap:10px; margin-top:8px; }
+.subhead .bk { flex:none; height:36px; padding:0 14px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-weight:800; font-size:13px; cursor:pointer; }
+
+.subhead .st { font-weight:900; font-size:15px; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.top h1 { display:flex; align-items:center; gap:7px; }
+.top h1 svg { flex:none; }
+.lrow2 { display:flex; align-items:center; gap:10px; padding:10px 0; border-bottom:1px solid var(--line); }
+.lrow2:last-child { border-bottom:0; }
+.stp { flex:none; padding:4px 10px; border-radius:999px; font-size:12px; font-weight:800; }
+.stp.d { background:#dcfce7; color:#166534; }
+.stp.n { background:#ffedd5; color:#9a3412; }
+.stp.m { background:#fee2e2; color:#991b1b; }
+.tabs2 { display:flex; gap:8px; margin-top:8px; }
+.tabs2 button { flex:1; height:36px; border-radius:10px; border:1px solid var(--line); background:var(--card); color:var(--ink); font-weight:800; font-size:13px; cursor:pointer; }
+.tabs2 button.on { background:var(--navy); color:#fff; border-color:var(--navy); }
+.doneic { width:96px; height:96px; border-radius:50%; background:#16a34a; margin:26px auto 0; display:flex; align-items:center; justify-content:center; }
+.btn.sm { height:38px; font-size:13px; border-radius:10px; }
+.modebar { display:flex; gap:0; background:var(--line); border-radius:10px; padding:3px; }
+.modebar button { flex:1; height:32px; border:0; border-radius:8px; background:transparent; color:var(--mute); font-weight:800; font-size:13px; cursor:pointer; }
+.modebar button.on { background:var(--navy); color:#fff; }
+.rpanel { margin-top:8px; padding:10px 12px; border:1px solid var(--line); border-radius:12px; background:var(--card); }
+.rpanel .lb { font-weight:700; font-size:12px; margin-top:6px; color:var(--mute); }
+.rpanel .lb:first-child { margin-top:0; }
+.rpanel .btn { height:38px; font-size:14px; margin-top:8px; }
+.rline { margin-top:8px; padding:8px 10px; border:1px solid #16a34a; border-radius:12px; background:var(--card); }
+.rline .t { display:flex; gap:8px; align-items:center; font-size:13px; }
+.rline .t b.nm2 { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.rline .btn { height:34px; font-size:12px; margin-top:0; padding:0 10px; }
+.rnote { margin-top:8px; padding:10px 12px; border-radius:12px; font-weight:700; font-size:14px; text-align:center; background:#dcfce7; color:#166534; }
+.rnote.warn { background:#ffedd5; color:#9a3412; }
+.lrow { display:flex; gap:10px; align-items:center; padding:8px 4px; border-bottom:1px solid var(--line); }
+.lrow .ph { width:44px; height:44px; border-radius:8px; background:var(--soft); overflow:hidden; flex:none; display:flex; align-items:center; justify-content:center; color:var(--mute); font-size:10px; }
+.lrow .ph img { width:100%; height:100%; object-fit:cover; }
+@media (max-width:520px){ .top .who { display:none; } }
+</style>
+<style id="hrLogoCss">
+.hrLogo{display:inline-flex;align-items:flex-end;flex:none;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:30px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrLogo i{font-style:normal}
+.hrLogo s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+@media (max-width:600px){.hrLogo{font-size:24px}}
+.top .hrLogo + h1{margin:0 auto 0 12px;padding-left:12px;border-left:1px solid rgba(255,255,255,.4);font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;line-height:1.2}</style>
+<style id="hrFtCss">
+.hrft{text-align:center;padding:14px 0 18px;color:inherit;opacity:.62;line-height:1.2;font-family:Arial,Helvetica,sans-serif;width:100%}
+.hrft .hrftL{display:inline-flex;align-items:flex-end;font-weight:700;font-size:16px;line-height:1;letter-spacing:-.01em;white-space:nowrap}
+.hrft .hrftL i{font-style:normal}
+.hrft .hrftL s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+.hrft .n{font-size:11px;font-weight:700;margin-top:5px}
+.hrft .v{font-size:10px;margin-top:2px}
+@media print{.hrft{display:none}}
+</style>
+</head>
+<body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
+#kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
+#kbSplash.out{opacity:0;pointer-events:none}
+@keyframes kbsFail{to{opacity:0;visibility:hidden;pointer-events:none}}
+#kbSplash .lg{display:flex;align-items:flex-end;font-family:Arial,"Helvetica Neue",Helvetica,sans-serif;font-weight:700;color:#fff;font-size:min(17vw,84px);line-height:1;letter-spacing:-.01em;animation:kbsOut .5s ease 2.15s forwards}
+#kbSplash .lg i{font-style:normal;display:inline-block;opacity:0;will-change:transform,opacity}
+#kbSplash .h{animation:kbsL .7s cubic-bezier(.2,.9,.25,1) .1s forwards}
+#kbSplash .r{animation:kbsL .7s cubic-bezier(.2,.9,.25,1) .24s forwards}
+#kbSplash .bar{width:.15em;height:.36em;margin:.072em .2em 0 .04em;align-self:flex-start;background:#ff3030;border-radius:0;opacity:0;transform-origin:50% 0;animation:kbsBar .7s cubic-bezier(.3,1.5,.4,1) 1.05s forwards}
+#kbSplash .n1{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .55s forwards}
+#kbSplash .n2{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .7s forwards}
+#kbSplash .n3{animation:kbsR .6s cubic-bezier(.2,.9,.25,1) .85s forwards}
+@keyframes kbsL{from{opacity:0;transform:translateX(-.6em)}to{opacity:1;transform:none}}
+@keyframes kbsR{from{opacity:0;transform:translateX(.6em)}to{opacity:1;transform:none}}
+@keyframes kbsBar{0%{opacity:0;transform:translateY(-1.1em) scaleY(.4)}60%{opacity:1;transform:translateY(.08em) scaleY(1.08)}100%{opacity:1;transform:none}}
+@keyframes kbsOut{to{opacity:0;transform:scale(1.06)}}
+@media (prefers-reduced-motion:reduce){#kbSplash .lg i{animation:none;opacity:1}#kbSplash .lg{animation:none}}
+</style><div id="kbSplash" aria-hidden="true"><div class="lg"><i class="h">H</i><i class="r">R</i><i class="bar"></i><i class="n1">2</i><i class="n2">0</i><i class="n3">3</i></div></div><script>(function(){var s=document.getElementById('kbSplash');if(!s)return;var done=false;function hide(){if(done)return;done=true;s.classList.add('out');setTimeout(function(){try{s.remove();var c=document.getElementById('kbSplashCss');if(c)c.remove();}catch(e){}},520);}
+var rm=false;try{rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
+setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener('touchstart',hide,{passive:true});})();</script><!-- SPLASH-END -->
+
+<!-- ============ LOGIN ============ -->
+<div id="loginView" class="hidden">
+  <div id="loginBox">
+    <div class="hrftL" style="display:flex;width:max-content;align-items:flex-end;font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:44px;line-height:1;color:#0b1d3a;margin:6px auto 10px;"><i style="font-style:normal">H</i><i style="font-style:normal">R</i><s style="display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none"></s><i style="font-style:normal">2</i><i style="font-style:normal">0</i><i style="font-style:normal">3</i></div>
+    <h2 data-i="loginTitle">Sign in</h2>
+    <p class="sub" data-i="loginSub">Use the same account as the main system.</p>
+    <div id="stepLogin">
+      <div class="seg"><button type="button" id="roleAdmin" class="on" onclick="setRole('admin')" data-i="roleAdmin">Administration</button><button type="button" id="roleHr" onclick="setRole('hr')" data-i="roleHr">HR</button></div>
+      <div class="field"><label data-i="lblUser">Username</label><input id="inUser" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false"></div>
+      <div class="field"><label data-i="lblPass">Password</label><input id="inPass" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <button class="bigBtn" id="btnLogin" onclick="doLogin()" data-i="btnSignIn">Sign in</button>
+    </div>
+    <div id="stepTotp" class="hidden">
+      <div class="field"><label data-i="totpTitle">Authenticator code</label><input id="inTotp" inputmode="numeric" maxlength="6" autocomplete="one-time-code" onkeydown="if(event.key==='Enter')doTotp()" style="text-align:center;letter-spacing:6px;font-size:22px;"></div>
+      <div class="field hidden" id="backupField"><label data-i="backupLbl">Backup code</label><input id="inBackup" autocapitalize="characters" autocomplete="off" style="text-align:center;letter-spacing:2px;"></div>
+      <button class="bigBtn" id="btnTotp" onclick="doTotp()" data-i="btnVerify">Verify</button>
+      <button class="linkBtn" id="lnkBackup" onclick="showBackup()" data-i="useBackup">Use a backup code instead</button>
+      <button class="linkBtn" onclick="cancelTotp()" data-i="btnBack">Back</button>
+    </div>
+    <div class="err" id="loginErr"></div>
+    <div class="langRow" id="langRowLogin"></div>
+  </div>
+</div>
+
+<!-- ============ APP ============ -->
+<div id="appView" class="hidden">
+  <div class="top">
+    <span class="hrLogo" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><h1><span data-i="appTitle">Payroll</span></h1>
+    <div class="who" id="whoName"></div>
+    <button class="iconBtn" id="langBtn" onclick="cycleLang()">EN</button>
+    <button class="iconBtn" onclick="location.href='/'" data-i="btnAdmin">Admin site</button>
+    <button class="iconBtn" onclick="doSignOut()" data-i="btnSignOut">Sign out</button>
+  </div>
+  <div class="wrap pyWrap">
+<div class="modal" id="payModal">
+    <div class="modal-content" style="max-width:560px;">
+        <div class="modal-header"><h4 data-i18n="payTitle">Payroll</h4><button class="modal-close" onclick="payClose()">&times;</button></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px;">
+            <div class="form-group" style="margin:0;flex:1;min-width:140px;"><label data-i18n="payMonthLbl">Salary month</label><input type="month" id="payMonth" onchange="payMonthChange()" style="width:100%;box-sizing:border-box;"></div>
+            <button class="btn-submit" style="margin:0;width:auto;padding:9px 14px;background:#059669;" onclick="payStartMonth()" data-i18n="payStart">Start this month</button>
+            <button class="btn-submit" style="margin:0;width:auto;padding:9px 14px;background:#7c3aed;" onclick="payFillBase()" data-i18n="payFillBtn">Fill empty basic</button>
+            <button class="btn-submit" style="margin:0;width:auto;padding:9px 14px;background:#0369a1;" onclick="payFromAtt()" data-i18n="payAttBtn">Fill from attendance</button>
+            <button class="btn-submit" style="margin:0;width:auto;padding:9px 14px;background:#0f766e;" id="payLockBtn" onclick="payLockToggle()">Lock month</button>
+            <button class="btn-submit" style="margin:0;width:auto;padding:9px 14px;background:#123a5c;" onclick="paySetOpen()" data-i18n="paySettings">Settings</button>
+        </div>
+        <div id="payLockBanner" style="display:none;background:#fee2e2;color:#991b1b;border-radius:8px;padding:8px;font-size:12px;font-weight:700;margin-bottom:8px;" data-i18n="payLockedMsg">This month is locked.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+            <button class="kbBtn navy" style="margin:0;" onclick="payTemplate()" data-i18n="payTplBtn">Excel template</button>
+            <button class="kbBtn navy" style="margin:0;" onclick="payImportPick()" data-i18n="payImpBtn">Import Excel</button>
+            <button class="kbBtn navy" style="margin:0;" onclick="paySlips()" data-i18n="paySlipsBtn">Payslips (shown)</button>
+            <input type="file" id="payImportFile" accept=".xlsx,.xls,.csv" style="display:none;" onchange="payImportRead(this.files)">
+        </div>
+        <div id="payPick" style="margin-bottom:10px;"></div>
+        <input type="text" id="paySearch" oninput="payRender()" data-i18n-ph="paySearch" placeholder="Search employee..." style="width:100%;box-sizing:border-box;margin-bottom:8px;">
+        <div id="paySum" style="font-size:12px;font-weight:700;color:#334155;margin-bottom:8px;"></div>
+        <div id="payList"></div>
+        <button class="btn-submit" style="background:#16a34a;" onclick="payExport()" data-i18n="payExport">Export Excel</button>
+        <div style="font-size:11px;color:#64748b;margin-top:8px;" data-i18n="payNote">The system calculates; the paper you receive is still the official one. Type the paper's net pay in each row to compare.</div>
+    </div>
+</div>
+<div class="modal" id="payEditModal">
+    <div class="modal-content" style="max-width:520px;">
+        <div class="modal-header"><h4 id="payEditHead"></h4><button class="modal-close" onclick="payEditClose()">&times;</button></div>
+        <div id="payEditForm"></div>
+        <div style="font-weight:700;font-size:12px;color:#123a5c;margin:14px 0 6px;text-transform:uppercase;" data-i18n="payResult">Calculation</div>
+        <div id="payEditRes" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;font-size:13px;"></div>
+        <button class="btn-submit" onclick="payEditSave()" data-i18n="remSaveEdit">Save changes</button>
+        <button class="btn-submit" style="background:#0369a1;" onclick="paySlipOne()" data-i18n="paySlipBtn">Payslip</button>
+        <button class="btn-submit" id="payDelBtn" onclick="payEditDel()" style="background:#dc2626 !important;"></button>
+    </div>
+</div>
+<div class="modal" id="paySetModal">
+    <div class="modal-content" style="max-width:520px;">
+        <div class="modal-header"><h4 data-i18n="paySettings">Settings</h4><button class="modal-close" onclick="paySetClose()">&times;</button></div>
+        <div style="font-size:11px;color:#64748b;margin-bottom:10px;" data-i18n="sNote">Please confirm these values with your accountant. When the government changes a rule, change it here.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sHours">Hours per month (hourly rate = base ÷ this)</label><input type="number" id="payS_hours" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sAdvPct">Advance (% of base salary)</label><input type="number" id="payS_advPct" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sM15">Weekday overtime multiplier</label><input type="number" id="payS_m15" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sM20">Holiday / rest day multiplier</label><input type="number" id="payS_m20" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sM13">Night shift multiplier</label><input type="number" id="payS_m13" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sPenRate">Pension rate (%)</label><input type="number" id="payS_penRate" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sPenCeil">Pension wage ceiling (KHR)</label><input type="number" id="payS_penCeilKhr" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sDep">Deduction per dependent (KHR)</label><input type="number" id="payS_depKhr" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sRate1">Rate USD → KHR (tax base, pension cap)</label><input type="number" id="payS_rate1" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sRate2">Rate KHR → USD (tax result)</label><input type="number" id="payS_rate2" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sAttBonus">Full attendance bonus amount</label><input type="number" id="payS_attBonus" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sTripRate">Temporary transport: rate per trip</label><input type="number" id="payS_tripRate" step="any" style="width:100%;box-sizing:border-box;"></div>
+            <div class="form-group" style="margin:0;"><label style="font-size:11px;" data-i18n="sDefTransport">Default transport / housing for new employees</label><input type="number" id="payS_defTransport" step="any" style="width:100%;box-sizing:border-box;"></div>
+        </div>
+        <label style="display:flex;gap:8px;align-items:center;margin:12px 0;font-size:13px;"><input type="checkbox" id="payS_dedPersonal"> <span data-i18n="sDedPersonal">Personal leave is deducted from salary</span></label>
+        <div style="font-weight:700;font-size:12px;color:#123a5c;margin:10px 0 6px;text-transform:uppercase;" data-i18n="sBrackets">Tax brackets (monthly, KHR): up to / rate</div>
+        <div id="paySetBr"></div>
+        <button class="btn-submit" type="button" style="background:#64748b;" onclick="paySetBrAdd()" data-i18n="sAddBr">+ Add bracket</button>
+        <button class="btn-submit" onclick="paySetSave()" data-i18n="shMkSave">Save</button>
+    </div>
+</div>
+ 
+  </div>
+</div>
+<div class="modal" id="cfAskModal" style="z-index:100001;">
+    <div class="modal-content" style="max-width:380px;text-align:center;">
+        <div id="cfAskMsg" style="font-size:15px;font-weight:600;color:#0f172a;margin:6px 0 18px;white-space:pre-wrap;"></div>
+        <div style="display:flex;gap:10px;justify-content:center;"><button type="button" id="cfAskNo" class="btn-submit" style="width:auto;padding:8px 26px;margin:0;background:#64748b;" data-i18n="btnCancel">Cancel</button><button type="button" id="cfAskOk" class="btn-submit" style="width:auto;padding:8px 26px;margin:0;">OK</button></div>
+    </div>
+</div>
+<style>
+.modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.6); align-items: center; justify-content: center; padding: 10px; }
+.modal-content { background: #fff; color: #0f172a; padding: 20px; border-radius: 12px; width: 100%; max-width: 900px; max-height: 95vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(2,6,23,0.3); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+.modal-close { background: none; border: none; font-size: 22px; cursor: pointer; color: #64748b; }
+.pyWrap { max-width: 1000px; margin: 0 auto; padding: 10px; }
+#payModal { display: block !important; position: static; background: none; height: auto; width: auto; padding: 0; z-index: auto; }
+#payModal .modal-content { max-width: none; max-height: none; overflow: visible; box-shadow: 0 1px 4px rgba(2,6,23,.12); }
+#payModal .modal-close { display: none; }
+.pyWrap label { display: block; font-weight: 600; margin-bottom: 3px; font-size: 12px; color: #334155; }
+.modal-content label { color: #334155; }
+.modal-content input, .modal-content select, .modal-content textarea, .pyWrap input, .pyWrap select { width: 100%; padding: 8px 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; background: #fff; color: #0f172a; height: auto; }
+.modal-content input[type=checkbox], .pyWrap input[type=checkbox] { width: auto; margin-right: 6px; }
+.form-group { margin-bottom: 10px; }
+.btn-submit { width: 100%; padding: 9px 12px; background: #123a5c; color: #fff; border: none; border-radius: 6px; font-weight: 700; font-size: 13px; cursor: pointer; margin-top: 6px; }
+div[style*="display:flex"] > .btn-submit { margin-top: 0 !important; }
+.kbBtn { margin-top: 7px; padding: 8px 12px; border: none; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; color: #fff; background: #16a34a; }
+.kbBtn.navy { background: #123a5c; }
+.payChip { font-size: 11px; font-weight: 700; border-radius: 10px; padding: 2px 8px; }.payChip.g { background: #e2e8f0; color: #475569; }.payChip.ok { background: #dcfce7; color: #166534; }.payChip.bad { background: #fee2e2; color: #991b1b; }
+.remRow { border: 1px solid #e2e8f0; border-left: 4px solid #94a3b8; border-radius: 8px; padding: 9px 10px; margin-bottom: 8px; background: #fff; color: #0f172a; }
+.remRow.due { border-left-color: #d97706; background: #fffbeb; } .remRow.done { border-left-color: #16a34a; background: #f0fdf4; }
+.remRow .remT { font-size: 13px; font-weight: 700; color: #0f172a; word-break: break-word; } .remRow .remS { font-size: 12px; color: #64748b; margin-top: 2px; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com",
+  databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda",
+  storageBucket: "annual-leave-1feda.firebasestorage.app", messagingSenderId: "989242956584", appId: "1:989242956584:web:8ebe1333e38705600dce1d"
+});
+var db = firebase.database();
+
+
+/* ================= language ================= */
+var I18N = {"en": {"loginSub": "Sign in with the same account as the main system.", "roleAdmin": "Administration", "roleHr": "HR", "lblUser": "Username", "lblPass": "Password", "btnSignIn": "Sign in", "totpTitle": "Authenticator code", "backupLbl": "Backup code", "btnVerify": "Verify", "useBackup": "Use a backup code instead", "btnBack": "Back", "btnSignOut": "Sign out", "loading": "Loading...", "loginFail": "Wrong username or password.", "totpNotSetup": "Set up the authenticator in the main website first, then sign in here.", "totpBad": "Wrong code. Try again.", "tabList": "Item list", "stDone": "Scanned", "stNot": "Not yet scanned", "hTitle": "Choose scan type", "hSub": "What do you want to do?", "nTitle": "Normal Scan", "nSub": "Scan one item and see its information", "qTitle": "Rounds Scan", "qSub": "Scan all items of a department for a report", "back": "Back", "setupT": "Rounds Scan", "setupSub": "Choose what to scan", "tabTodo": "Need to scan", "tabDone": "Scanned", "doneT": "All items scanned", "doneS": "The report is ready in Asset Manager (main website).", "doneB": "Done", "nothing": "Nothing here yet.", "mNormal": "Normal scan", "mRound": "Scan round", "selDept": "Department", "selGroup": "Group", "selRound": "Round", "pick": "Choose...", "allGrp": "All groups", "noRoundDept": "No open round for this choice.", "loginTitle": "Payroll", "appTitle": "Payroll", "camHint": "Point the camera at a QR code", "camStart": "Start camera", "camStop": "Stop camera", "camDenied": "The camera is blocked. Allow the camera for this website in your browser settings, then tap Start camera.", "camNone": "No camera found on this device. Type the ID below.", "torch": "Light", "manual": "Or type the Asset ID", "find": "Find", "again": "Scan next item", "infoHint": "Scan an item to see its information.", "recent": "Recent scans", "notFound": "Item not found", "notFoundSub": "This code is not in the Asset Manager list.", "bBroken": "BROKEN", "bMissing": "MISSING", "bRetired": "RETIRED", "bActive": "In use", "brokenMsg": "This item is broken.", "missingMsg": "This item is marked as missing.", "retiredMsg": "This item is no longer in use.", "fId": "Asset ID", "fName": "Item name", "fCat": "Category", "fDept": "Department", "fGroup": "Group", "fStatus": "Status", "fType": "Scan type", "fNote": "Note", "tInfo": "Information only", "tTrack": "Tracked: every {m} month(s)", "noDept": "None", "loadErr": "Could not read the item. Check the internet and try again.", "typeIdErr": "Please type a number ID.", "lastScan": "Last scan", "never": "Never", "sActive": "Active", "sBroken": "Broken", "sMissing": "Missing", "sRetired": "Retired", "rTitle": "Scan rounds", "rNone": "No scan round is open. Open one in Asset Manager (main website).", "rStart": "Start scan", "rActiveBtn": "Scanning", "rStop": "Stop round", "rProg": "{a} of {b} scanned", "rLeft": "Not scanned yet", "rLeftTitle": "Not scanned yet", "rAllDone": "All items scanned. The report is ready.", "rAdded": "Added to the report. {a} of {b} scanned.", "rAlready": "Already scanned in this round.", "rNotIn": "This item is not in this round.", "rInfoOnly": "Information only", "rClose": "Close", "rSaveErr": "Could not save the scan. Check the internet.", "rMode": "Mode", "btnCancel": "Cancel", "cfDelAsk": "Delete \"{n}\" permanently? This cannot be undone.", "cfDelete": "Delete", "dgAllDept": "All departments", "dgAllGroups": "All groups", "dgDept": "Department", "dgGroup": "Group", "dgNoDept": "No department", "dgNoGroup": "No group", "fAbsentH": "Absent hours (no permission)", "fAdv": "Advance paid (empty = {x} automatic)", "fAnnualCash": "Annual leave cash", "fAtt": "Attendance bonus (empty = automatic, full {x})", "fBase": "Base salary", "fContract": "5% contract bonus", "fDep": "Dependents (spouse + children)", "fHealth": "Health insurance", "fLateH": "Late / early hours (information only)", "fMeal": "Overtime meal", "fMedical": "Medical check", "fOt13": "Night shift hours (x1.3)", "fOt15": "Weekday overtime hours (x1.5)", "fOt20": "Holiday / rest day hours (x2.0)", "fOther": "Other additions", "fOtherDed": "Other deductions", "fPaperNet": "Net pay on the paper", "fPermit": "Work permit fee", "fPersonalH": "Personal leave hours (system: {h}, empty = use system)", "fProd": "Production bonus", "fResp": "Responsibility bonus", "fSenior": "Seniority allowance", "fSeniorComp": "Seniority compensation", "fSkill": "Skill allowance", "fTemp": "Temporary transport", "fTransport": "Transport / housing", "fTrips": "Temporary transport trips (x {x} each; empty = use amount below)", "fUnion": "Union fee", "fWork": "Work allowance", "payAdvance": "Advance (15th)", "payAttBtn": "Fill from attendance", "payAttDone": "Updated overtime / night / absent hours for {n} employee(s) from attendance.", "payAttNone": "No attendance records found for this month yet.", "payDed": "Deductions", "payDiff": "Differs by {d}", "payEarn": "Earnings (taxable)", "payExport": "Export Excel", "payFillBtn": "Fill empty basic", "payFree": "Tax-free items", "payGross": "Gross", "payImpBad": "Could not read this Excel file. Use the template.", "payImpBtn": "Import Excel", "payImpDone": "Imported {n} employee(s), {c} values. IDs not found: {m}.", "payImpNone": "No employee found (IDs not in the system: {m}).", "payLockBtn": "Lock month", "payLockedMsg": "This month is locked. Unlock it to change anything.", "payLockedOk": "Month locked.", "payMatch": "Matches paper", "payMonthLbl": "Salary month", "payMore": "Advance and others", "payNet": "Net pay", "payNoPaper": "No paper entered", "payNoRows": "No salary rows for this month yet. Tap 'Start this month'.", "payNote": "The system calculates; the paper you receive is still the official one. Type the paper's net pay in each row to compare.", "payNothingNew": "Every employee already has a row.", "payOT": "Overtime hours", "payPopup": "Please allow pop-ups to see the payslips.", "payRemove": "Remove from this month", "payResult": "Calculation", "paySearch": "Search employee...", "paySettings": "Settings", "paySlipBtn": "Payslip", "paySlipTitle": "Payslip", "paySlipsBtn": "Payslips (shown)", "payStart": "Start this month", "payStarted": "{n} rows created.", "payTitle": "Payroll", "payTotals": "{n} employees - gross {g} - advances {a} - net {nt}", "payTplBtn": "Excel template", "payUnlockBtn": "Unlock month", "payUnlocked": "Month unlocked.", "payVsPrev": "Last month net {p} ({d} now)", "rAbsDed": "Absence deduction", "rAdvance": "Advance (5)", "rAfter": "After deductions", "rAttAmt": "Attendance bonus", "rColl": "Tax and fees (4)", "rDedTotal": "Deductions total (3)", "rFree": "Tax-free total (2)", "rGross": "Gross (1)+(2)", "rHourly": "Hourly rate", "rLeaveDed": "Personal leave deduction", "rNet": "Net pay", "rOtPay": "Overtime pay", "rOtherDed": "Other deductions", "rPay15": "Paid on the 15th", "rPay25": "Paid on the 25th", "rPension": "Pension (NSSF)", "rTax": "Tax on salary", "rTaxKhr": "Taxable salary (KHR)", "rTaxable": "Taxable total (1)", "rTempAmt": "Temporary transport", "remSaveEdit": "Save changes", "sAddBr": "+ Add bracket", "sAdvPct": "Advance (% of base salary)", "sAttBonus": "Full attendance bonus amount", "sBad": "Please check the numbers.", "sBrackets": "Tax brackets (monthly, KHR): up to / rate", "sDedPersonal": "Personal leave is deducted from salary", "sDefTransport": "Default transport / housing for new employees", "sDep": "Deduction per dependent (KHR)", "sHours": "Hours per month (hourly rate = base ÷ this)", "sM13": "Night shift multiplier", "sM15": "Weekday overtime multiplier", "sM20": "Holiday / rest day multiplier", "sNoLimit": "No limit", "sNote": "Please confirm these values with your accountant. When the government changes a rule, change it here.", "sPenCeil": "Pension wage ceiling (KHR)", "sPenRate": "Pension rate (%)", "sRate1": "Rate USD → KHR (tax base, pension cap)", "sRate2": "Rate KHR → USD (tax result)", "sTripRate": "Temporary transport: rate per trip", "shMkSave": "Save", "thMasterPersonalLeave": "Personal Leave", "toastFail": "Failed", "toastSuccess": "Success", "adminOnly": "Payroll is for Administration accounts only.", "btnAdmin": "Admin site", "pyBack": "Admin site"}, "km": {"loginSub": "ចូលដោយប្រើគណនីដូចប្រព័ន្ធមេ។", "roleAdmin": "រដ្ឋបាល", "roleHr": "ធនធានមនុស្ស", "lblUser": "ឈ្មោះអ្នកប្រើ", "lblPass": "ពាក្យសម្ងាត់", "btnSignIn": "ចូល", "totpTitle": "កូដ Authenticator", "backupLbl": "កូដបម្រុង", "btnVerify": "ផ្ទៀងផ្ទាត់", "useBackup": "ប្រើកូដបម្រុងជំនួស", "btnBack": "ត្រឡប់", "btnSignOut": "ចាកចេញ", "loading": "កំពុងផ្ទុក...", "loginFail": "ឈ្មោះអ្នកប្រើ ឬពាក្យសម្ងាត់ខុស។", "totpNotSetup": "សូមដំឡើង Authenticator នៅគេហទំព័រមេជាមុន។", "totpBad": "កូដខុស។ សូមព្យាយាមម្តងទៀត។", "tabList": "បញ្ជីវត្ថុ", "stDone": "បានស្កេន", "stNot": "មិនទាន់ស្កេន", "hTitle": "ជ្រើសរើសប្រភេទស្កេន", "hSub": "តើអ្នកចង់ធ្វើអ្វី?", "nTitle": "ស្កេនធម្មតា", "nSub": "ស្កេនវត្ថុមួយ ហើយមើលព័ត៌មាន", "qTitle": "ស្កេនជុំ", "qSub": "ស្កេនវត្ថុទាំងអស់របស់ដេប៉ាតឺម៉ង់ ដើម្បីធ្វើរបាយការណ៍", "back": "ត្រឡប់ក្រោយ", "setupT": "ស្កេនជុំ", "setupSub": "ជ្រើសរើសអ្វីដែលត្រូវស្កេន", "tabTodo": "ត្រូវស្កេន", "tabDone": "បានស្កេន", "doneT": "បានស្កេនវត្ថុទាំងអស់", "doneS": "របាយការណ៍រួចរាល់នៅក្នុងការគ្រប់គ្រងទ្រព្យសម្បត្តិ (គេហទំព័រមេ)។", "doneB": "រួចរាល់", "nothing": "មិនទាន់មានទេ។", "mNormal": "ស្កេនធម្មតា", "mRound": "ជុំស្កេន", "selDept": "ដេប៉ាតឺម៉ង់", "selGroup": "ក្រុម", "selRound": "ជុំ", "pick": "ជ្រើសរើស...", "allGrp": "គ្រប់ក្រុម", "noRoundDept": "មិនមានជុំបើកសម្រាប់ជម្រើសនេះទេ។", "loginTitle": "ប្រាក់ខែ", "appTitle": "ប្រាក់ខែ", "camHint": "ដាក់កាមេរ៉ាទៅលើ QR កូដ", "camStart": "បើកកាមេរ៉ា", "camStop": "បិទកាមេរ៉ា", "camDenied": "កាមេរ៉ាត្រូវបានរារាំង។ សូមអនុញ្ញាតកាមេរ៉ាក្នុងការកំណត់កម្មវិធីរុករក រួចចុចបើកកាមេរ៉ា។", "camNone": "រកមិនឃើញកាមេរ៉ាលើឧបករណ៍នេះទេ។ សូមវាយលេខសម្គាល់ខាងក្រោម។", "torch": "ភ្លើង", "manual": "ឬវាយលេខសម្គាល់ទ្រព្យសម្បត្តិ", "find": "ស្វែងរក", "again": "ស្កេនវត្ថុបន្ទាប់", "infoHint": "ស្កេនវត្ថុដើម្បីមើលព័ត៌មាន។", "recent": "ការស្កេនថ្មីៗ", "notFound": "រកមិនឃើញវត្ថុ", "notFoundSub": "កូដនេះមិនមាននៅក្នុងបញ្ជីគ្រប់គ្រងទ្រព្យសម្បត្តិទេ។", "bBroken": "ខូច", "bMissing": "បាត់", "bRetired": "ឈប់ប្រើ", "bActive": "កំពុងប្រើ", "brokenMsg": "វត្ថុនេះខូច។", "missingMsg": "វត្ថុនេះត្រូវបានកត់ត្រាថាបាត់។", "retiredMsg": "វត្ថុនេះឈប់ប្រើហើយ។", "fId": "លេខសម្គាល់", "fName": "ឈ្មោះវត្ថុ", "fCat": "ប្រភេទ", "fDept": "ដេប៉ាតឺម៉ង់", "fGroup": "ក្រុម", "fStatus": "ស្ថានភាព", "fType": "ប្រភេទស្កេន", "fNote": "កំណត់ចំណាំ", "tInfo": "ព័ត៌មានប៉ុណ្ណោះ", "tTrack": "តាមដាន៖ រៀងរាល់ {m} ខែ", "noDept": "គ្មាន", "loadErr": "មិនអាចអានវត្ថុបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត រួចព្យាយាមម្តងទៀត។", "typeIdErr": "សូមវាយលេខសម្គាល់ជាលេខ។", "lastScan": "ស្កេនចុងក្រោយ", "never": "មិនទាន់ធ្លាប់", "sActive": "កំពុងប្រើ", "sBroken": "ខូច", "sMissing": "បាត់", "sRetired": "ឈប់ប្រើ", "rTitle": "ជុំស្កេន", "rNone": "មិនមានជុំស្កេនបើកទេ។ សូមបើកមួយនៅក្នុងការគ្រប់គ្រងទ្រព្យសម្បត្តិ (គេហទំព័រមេ)។", "rStart": "ចាប់ផ្តើមស្កេន", "rActiveBtn": "កំពុងស្កេន", "rStop": "បញ្ឈប់ជុំ", "rProg": "បានស្កេន {a} ក្នុងចំណោម {b}", "rLeft": "មិនទាន់ស្កេន", "rLeftTitle": "មិនទាន់ស្កេន", "rAllDone": "បានស្កេនវត្ថុទាំងអស់។ របាយការណ៍រួចរាល់។", "rAdded": "បានបន្ថែមទៅរបាយការណ៍។ បានស្កេន {a} ក្នុងចំណោម {b}។", "rAlready": "បានស្កេនរួចហើយក្នុងជុំនេះ។", "rNotIn": "វត្ថុនេះមិនស្ថិតក្នុងជុំនេះទេ។", "rInfoOnly": "ព័ត៌មានប៉ុណ្ណោះ", "rClose": "បិទ", "rSaveErr": "មិនអាចរក្សាទុកការស្កេនបានទេ។ សូមពិនិត្យអ៊ីនធឺណិត។", "rMode": "របៀប", "btnCancel": "បោះបង់", "cfDelAsk": "លុប \"{n}\" ជារៀងរហូតឬ? មិនអាចមកវិញបានទេ។", "cfDelete": "លុប", "dgAllDept": "នាយកដ្ឋានទាំងអស់", "dgAllGroups": "ក្រុមទាំងអស់", "dgDept": "នាយកដ្ឋាន", "dgGroup": "ក្រុម", "dgNoDept": "គ្មាននាយកដ្ឋាន", "dgNoGroup": "គ្មានក្រុម", "fAbsentH": "ម៉ោងអវត្តមាន (គ្មានច្បាប់)", "fAdv": "ប្រាក់ទុកជាមុនបានទូទាត់ (ទទេ = {x} ស្វ័យប្រវត្តិ)", "fAnnualCash": "ប្រាក់ជំនួសច្បាប់ប្រចាំឆ្នាំ", "fAtt": "ប្រាក់ឧបត្ថម្ភមកធ្វើការទៀងទាត់ (ទទេ = ស្វ័យប្រវត្តិ ពេញ {x})", "fBase": "ប្រាក់ខែគោល", "fContract": "រង្វាន់កិច្ចសន្យា 5%", "fDep": "អ្នកអាស្រ័យ (ប្តីប្រពន្ធ + កូន)", "fHealth": "ធានារ៉ាប់រងសុខភាព", "fLateH": "ម៉ោងចូលយឺត / ចេញមុន (ព័ត៌មានប៉ុណ្ណោះ)", "fMeal": "អាហារម៉ោងថែម", "fMedical": "ពិនិត្យសុខភាព", "fOt13": "ម៉ោងវេនយប់ (x1.3)", "fOt15": "ម៉ោងថែមថ្ងៃធម្មតា (x1.5)", "fOt20": "ម៉ោងថែមថ្ងៃឈប់សម្រាក (x2.0)", "fOther": "ប្រាក់បន្ថែមផ្សេងៗ", "fOtherDed": "ការកាត់ផ្សេងៗ", "fPaperNet": "ប្រាក់ទទួលបានលើក្រដាស", "fPermit": "ថ្លៃប័ណ្ណកម្មករ", "fPersonalH": "ម៉ោងច្បាប់ផ្ទាល់ខ្លួន (ប្រព័ន្ធ៖ {h} ទទេ = ប្រើតាមប្រព័ន្ធ)", "fProd": "ប្រាក់រង្វាន់ផលិតកម្ម", "fResp": "ប្រាក់រង្វាន់ទទួលខុសត្រូវ", "fSenior": "ប្រាក់ឧបត្ថម្ភអតីតភាព", "fSeniorComp": "សំណងអតីតភាព", "fSkill": "ប្រាក់បន្ថែមបច្ចេកទេស", "fTemp": "ដឹកជញ្ជូនបណ្តោះអាសន្ន", "fTransport": "ដឹកជញ្ជូន / ស្នាក់នៅ", "fTrips": "ដំណើរដឹកជញ្ជូនបណ្តោះអាសន្ន (x {x} ក្នុងមួយដង ទទេ = ប្រើចំនួនខាងក្រោម)", "fUnion": "ថ្លៃសហជីព", "fWork": "ប្រាក់ឧបត្ថម្ភការងារ", "payAdvance": "ប្រាក់ទុកជាមុន (ថ្ងៃទី១៥)", "payAttBtn": "បំពេញពីវត្តមាន", "payAttDone": "បានកែម៉ោងថែម / យប់ / អវត្តមាន សម្រាប់បុគ្គលិក {n} នាក់ ពីវត្តមាន។", "payAttNone": "មិនទាន់មានកំណត់ត្រាវត្តមានសម្រាប់ខែនេះទេ។", "payDed": "ការកាត់", "payDiff": "ខុសគ្នា {d}", "payEarn": "ប្រាក់ចំណូល (ជាប់ពន្ធ)", "payExport": "នាំចេញ Excel", "payFillBtn": "បំពេញប្រាក់ខែគោលទទេ", "payFree": "ចំណូលមិនជាប់ពន្ធ", "payGross": "សរុបមុនកាត់", "payImpBad": "មិនអាចអានឯកសារ Excel នេះបានទេ។ សូមប្រើទម្រង់។", "payImpBtn": "នាំចូល Excel", "payImpDone": "បាននាំចូលបុគ្គលិក {n} នាក់ តម្លៃ {c}។ រកមិនឃើញ៖ {m}។", "payImpNone": "រកមិនឃើញបុគ្គលិក (អត្តលេខមិនមាន៖ {m})។", "payLockBtn": "ចាក់សោខែ", "payLockedMsg": "ខែនេះត្រូវបានចាក់សោ។ ដោះសោមុនពេលកែប្រែ។", "payLockedOk": "បានចាក់សោខែ។", "payMatch": "ត្រូវនឹងក្រដាស", "payMonthLbl": "ខែប្រាក់ខែ", "payMore": "ប្រាក់ទុកជាមុន និងផ្សេងៗ", "payNet": "ប្រាក់ទទួលបាន", "payNoPaper": "មិនទាន់បញ្ចូលក្រដាស", "payNoRows": "មិនទាន់មានជួរប្រាក់ខែសម្រាប់ខែនេះទេ។ ចុច 'ចាប់ផ្តើមខែនេះ'។", "payNote": "ប្រព័ន្ធគណនា ប៉ុន្តែក្រដាសដែលអ្នកទទួលនៅតែជាផ្លូវការ។ វាយប្រាក់ទទួលបានលើក្រដាសក្នុងជួរនីមួយៗដើម្បីប្រៀបធៀប។", "payNothingNew": "បុគ្គលិកគ្រប់គ្នាមានជួររួចហើយ។", "payOT": "ម៉ោងថែម", "payPopup": "សូមអនុញ្ញាត pop-up ដើម្បីមើលប័ណ្ណប្រាក់ខែ។", "payRemove": "ដកចេញពីខែនេះ", "payResult": "ការគណនា", "paySearch": "ស្វែងរកបុគ្គលិក...", "paySettings": "ការកំណត់", "paySlipBtn": "ប័ណ្ណប្រាក់ខែ", "paySlipTitle": "ប័ណ្ណប្រាក់ខែ", "paySlipsBtn": "ប័ណ្ណប្រាក់ខែ (ដែលបង្ហាញ)", "payStart": "ចាប់ផ្តើមខែនេះ", "payStarted": "បានបង្កើត {n} ជួរ។", "payTitle": "ប្រាក់ខែ", "payTotals": "បុគ្គលិក {n} នាក់ - សរុប {g} - ទុកជាមុន {a} - ទទួលបាន {nt}", "payTplBtn": "ទម្រង់ Excel", "payUnlockBtn": "ដោះសោខែ", "payUnlocked": "បានដោះសោខែ។", "payVsPrev": "ខែមុនសុទ្ធ {p} ({d} ឥឡូវ)", "rAbsDed": "កាត់អវត្តមាន", "rAdvance": "ប្រាក់ទុកជាមុន (5)", "rAfter": "ក្រោយការកាត់", "rAttAmt": "ប្រាក់ឧបត្ថម្ភមកធ្វើការទៀងទាត់", "rColl": "ពន្ធ និងថ្លៃសេវា (4)", "rDedTotal": "សរុបការកាត់ (3)", "rFree": "សរុបមិនជាប់ពន្ធ (2)", "rGross": "សរុបមុនកាត់ (1)+(2)", "rHourly": "តម្លៃក្នុងមួយម៉ោង", "rLeaveDed": "កាត់ច្បាប់ផ្ទាល់ខ្លួន", "rNet": "ប្រាក់ទទួលបាន", "rOtPay": "ប្រាក់ម៉ោងថែម", "rOtherDed": "ការកាត់ផ្សេងៗ", "rPay15": "បើកថ្ងៃទី១៥", "rPay25": "បើកថ្ងៃទី២៥", "rPension": "ប្រាក់សោធនិវត្តន៍ (ប.ស.ស.)", "rTax": "ពន្ធលើប្រាក់ខែ", "rTaxKhr": "ប្រាក់ខែជាប់ពន្ធ (រៀល)", "rTaxable": "សរុបជាប់ពន្ធ (1)", "rTempAmt": "ដឹកជញ្ជូនបណ្តោះអាសន្ន", "remSaveEdit": "រក្សាទុកការកែប្រែ", "sAddBr": "+ បន្ថែមជណ្តើរ", "sAdvPct": "ប្រាក់ទុកជាមុន (% នៃប្រាក់ខែគោល)", "sAttBonus": "ចំនួនប្រាក់ឧបត្ថម្ភមកធ្វើការពេញ", "sBad": "សូមពិនិត្យលេខ។", "sBrackets": "ជណ្តើរពន្ធ (ប្រចាំខែ រៀល)៖ ដល់ / អត្រា", "sDedPersonal": "ច្បាប់ផ្ទាល់ខ្លួនត្រូវកាត់ប្រាក់ខែ", "sDefTransport": "ដឹកជញ្ជូន / ស្នាក់នៅ លំនាំដើមសម្រាប់បុគ្គលិកថ្មី", "sDep": "ការកាត់ក្នុងមួយអ្នកអាស្រ័យ (រៀល)", "sHours": "ម៉ោងក្នុងមួយខែ (តម្លៃម៉ោង = ប្រាក់ខែគោល ÷ នេះ)", "sM13": "មេគុណវេនយប់", "sM15": "មេគុណម៉ោងថែមថ្ងៃធម្មតា", "sM20": "មេគុណថ្ងៃឈប់សម្រាក", "sNoLimit": "គ្មានដែនកំណត់", "sNote": "សូមបញ្ជាក់តម្លៃទាំងនេះជាមួយគណនេយ្យករ។ ពេលរដ្ឋាភិបាលប្តូរច្បាប់ សូមកែនៅទីនេះ។", "sPenCeil": "ពិដានប្រាក់ឈ្នួលសោធនិវត្តន៍ (រៀល)", "sPenRate": "អត្រាសោធនិវត្តន៍ (%)", "sRate1": "អត្រា USD → រៀល (មូលដ្ឋានពន្ធ ពិដានសោធនិវត្តន៍)", "sRate2": "អត្រា រៀល → USD (លទ្ធផលពន្ធ)", "sTripRate": "ដឹកជញ្ជូនបណ្តោះអាសន្ន៖ តម្លៃក្នុងមួយដង", "shMkSave": "រក្សាទុក", "thMasterPersonalLeave": "ច្បាប់ផ្ទាល់ខ្លួន", "toastFail": "មិនជោគជ័យ", "toastSuccess": "ជោគជ័យ", "adminOnly": "ប្រាក់ខែសម្រាប់គណនីរដ្ឋបាលតែប៉ុណ្ណោះ។", "btnAdmin": "គេហទំព័ររដ្ឋបាល", "pyBack": "គេហទំព័ររដ្ឋបាល"}, "zh": {"loginSub": "使用与主系统相同的账号登录。", "roleAdmin": "行政", "roleHr": "人事", "lblUser": "用户名", "lblPass": "密码", "btnSignIn": "登录", "totpTitle": "验证器代码", "backupLbl": "备用代码", "btnVerify": "验证", "useBackup": "改用备用代码", "btnBack": "返回", "btnSignOut": "退出", "loading": "加载中...", "loginFail": "用户名或密码错误。", "totpNotSetup": "请先在主网站设置验证器，再来登录。", "totpBad": "代码错误，请重试。", "tabList": "物品列表", "stDone": "已扫描", "stNot": "未扫描", "hTitle": "选择扫描类型", "hSub": "你想做什么？", "nTitle": "普通扫描", "nSub": "扫描单个物品并查看信息", "qTitle": "轮次扫描", "qSub": "扫描部门的所有物品并生成报告", "back": "返回", "setupT": "轮次扫描", "setupSub": "选择要扫描的内容", "tabTodo": "待扫描", "tabDone": "已扫描", "doneT": "所有物品已扫描", "doneS": "报告已在资产管理（主网站）中就绪。", "doneB": "完成", "nothing": "暂无内容。", "mNormal": "普通扫描", "mRound": "扫描轮次", "selDept": "部门", "selGroup": "小组", "selRound": "轮次", "pick": "请选择...", "allGrp": "所有小组", "noRoundDept": "此选择没有开启的轮次。", "loginTitle": "工资", "appTitle": "工资", "camHint": "将摄像头对准二维码", "camStart": "开启摄像头", "camStop": "关闭摄像头", "camDenied": "摄像头被阻止。请在浏览器设置中允许本网站使用摄像头，然后点击开启摄像头。", "camNone": "此设备没有摄像头。请在下方输入编号。", "torch": "灯光", "manual": "或输入资产编号", "find": "查找", "again": "扫描下一件", "infoHint": "扫描物品以查看信息。", "recent": "最近扫描", "notFound": "未找到物品", "notFoundSub": "此二维码不在资产管理列表中。", "bBroken": "损坏", "bMissing": "丢失", "bRetired": "停用", "bActive": "使用中", "brokenMsg": "此物品已损坏。", "missingMsg": "此物品已标记为丢失。", "retiredMsg": "此物品已停用。", "fId": "资产编号", "fName": "物品名称", "fCat": "类别", "fDept": "部门", "fGroup": "小组", "fStatus": "状态", "fType": "扫描类型", "fNote": "备注", "tInfo": "仅信息", "tTrack": "追踪：每 {m} 个月", "noDept": "无", "loadErr": "无法读取物品，请检查网络后重试。", "typeIdErr": "请输入数字编号。", "lastScan": "上次扫描", "never": "从未", "sActive": "正常", "sBroken": "损坏", "sMissing": "丢失", "sRetired": "停用", "rTitle": "扫描轮次", "rNone": "没有开启的扫描轮次。请在资产管理（主网站）中开启一轮。", "rStart": "开始扫描", "rActiveBtn": "扫描中", "rStop": "停止本轮", "rProg": "已扫描 {a} / {b}", "rLeft": "未扫描", "rLeftTitle": "未扫描", "rAllDone": "所有物品已扫描，报告已就绪。", "rAdded": "已加入报告。已扫描 {a} / {b}。", "rAlready": "本轮已扫描过。", "rNotIn": "此物品不在本轮中。", "rInfoOnly": "仅信息", "rClose": "关闭", "rSaveErr": "无法保存扫描，请检查网络。", "rMode": "模式", "btnCancel": "取消", "cfDelAsk": "永久删除\"{n}\"?此操作无法撤销。", "cfDelete": "删除", "dgAllDept": "所有部门", "dgAllGroups": "所有小组", "dgDept": "部门", "dgGroup": "小组", "dgNoDept": "无部门", "dgNoGroup": "无小组", "fAbsentH": "旷工时数", "fAdv": "已预支（留空=自动 {x}）", "fAnnualCash": "年假代金", "fAtt": "全勤奖金（留空=自动，满额 {x}）", "fBase": "基本薪资", "fContract": "5%合约金", "fDep": "受抚养人（配偶+子女）", "fHealth": "医疗健康保险费", "fLateH": "迟到/早退小时（仅供参考）", "fMeal": "加班伙食费", "fMedical": "体检费", "fOt13": "夜班时数 (x1.3)", "fOt15": "平日加班时数 (x1.5)", "fOt20": "国假/例日加班时数 (x2.0)", "fOther": "其他加项", "fOtherDed": "其他减项", "fPaperNet": "工资单上的实领金额", "fPermit": "劳工证", "fPersonalH": "事假时数（系统：{h}，留空=用系统）", "fProd": "生产奖金", "fResp": "干部责任奖金", "fSenior": "工龄补贴", "fSeniorComp": "工龄补偿金", "fSkill": "技术加给", "fTemp": "临时交通津贴", "fTransport": "交通住宿补助", "fTrips": "临时交通次数（每次 {x}；留空=使用下面金额）", "fUnion": "工会费", "fWork": "工作津贴", "payAdvance": "预支（15号）", "payAttBtn": "从考勤填充", "payAttDone": "已根据考勤更新 {n} 名员工的加班/夜班/缺勤小时。", "payAttNone": "本月还没有考勤记录。", "payDed": "扣款", "payDiff": "相差 {d}", "payEarn": "收入（应税）", "payExport": "导出 Excel", "payFillBtn": "填充空基本工资", "payFree": "免税项目", "payGross": "应发", "payImpBad": "无法读取该 Excel 文件，请使用模板。", "payImpBtn": "导入 Excel", "payImpDone": "已导入 {n} 名员工，{c} 个数值。未找到：{m}。", "payImpNone": "未找到员工（系统中不存在的工号：{m}）。", "payLockBtn": "锁定本月", "payLockedMsg": "本月已锁定，解锁后才能修改。", "payLockedOk": "已锁定。", "payMatch": "与工资单一致", "payMonthLbl": "工资月份", "payMore": "预支及其他", "payNet": "实领", "payNoPaper": "未输入工资单", "payNoRows": "本月还没有工资行。点击“开始本月”。", "payNote": "系统负责计算；你收到的工资单仍是正式依据。在每行输入工资单上的实领金额进行对比。", "payNothingNew": "每位员工都已有工资行。", "payOT": "加班时数", "payPopup": "请允许弹出窗口以查看工资条。", "payRemove": "从本月移除", "payResult": "计算结果", "paySearch": "搜索员工...", "paySettings": "设置", "paySlipBtn": "工资条", "paySlipTitle": "工资条", "paySlipsBtn": "工资条（当前显示）", "payStart": "开始本月", "payStarted": "已创建 {n} 行。", "payTitle": "工资", "payTotals": "{n} 人 - 应发 {g} - 预支 {a} - 实领 {nt}", "payTplBtn": "Excel 模板", "payUnlockBtn": "解锁本月", "payUnlocked": "已解锁。", "payVsPrev": "上月实发 {p}（现差 {d}）", "rAbsDed": "旷工扣款", "rAdvance": "预支薪资 (5)", "rAfter": "扣款后", "rAttAmt": "全勤奖金", "rColl": "税及费用 (4)", "rDedTotal": "减项合计 (3)", "rFree": "免税项目 (2)", "rGross": "应发金额 (1)+(2)", "rHourly": "时薪", "rLeaveDed": "事假扣款", "rNet": "实领金额", "rOtPay": "加班费", "rOtherDed": "其他减项", "rPay15": "15号发放", "rPay25": "25号发放", "rPension": "退休金 (NSSF)", "rTax": "薪资所得税", "rTaxKhr": "应税薪资（瑞尔）", "rTaxable": "应税项目 (1)", "rTempAmt": "临时交通津贴", "remSaveEdit": "保存修改", "sAddBr": "+ 添加级距", "sAdvPct": "预支（占基本薪资 %）", "sAttBonus": "全勤奖金金额", "sBad": "请检查数字。", "sBrackets": "税率级距（每月，瑞尔）：上限 / 税率", "sDedPersonal": "事假从工资中扣除", "sDefTransport": "新员工默认交通住宿补助", "sDep": "每位受抚养人扣除（瑞尔）", "sHours": "每月小时数（时薪 = 基本薪资 ÷ 此值）", "sM13": "夜班倍数", "sM15": "平日加班倍数", "sM20": "假日/例日倍数", "sNoLimit": "无上限", "sNote": "请与会计确认这些数值。政府规则变化时，在此修改。", "sPenCeil": "退休金工资上限（瑞尔）", "sPenRate": "退休金比例 (%)", "sRate1": "美元→瑞尔 汇率（税基、退休金上限）", "sRate2": "瑞尔→美元 汇率（税额）", "sTripRate": "临时交通：每次金额", "shMkSave": "保存", "thMasterPersonalLeave": "个人假", "toastFail": "失败", "toastSuccess": "成功", "adminOnly": "工资页面仅限管理员账号使用。", "btnAdmin": "管理网站", "pyBack": "管理网站"}};
+var lang = 'en';
+try { lang = localStorage.getItem('tdLang') || 'en'; } catch (e) {}
+if (!I18N[lang]) lang = 'en';
+function t(k, v) { return T(k, v); }
+function T(k, v) { var s = (I18N[lang] && I18N[lang][k]); if (s === undefined) s = I18N.en[k]; if (s === undefined) s = k; if (v) Object.keys(v).forEach(function (q) { s = s.split('{' + q + '}').join(v[q]); }); return s; }
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+var me = '';
+function applyLang() {
+  document.documentElement.lang = lang;
+  document.title = T('appTitle');
+  document.querySelectorAll('[data-i]').forEach(function (e) { e.textContent = T(e.getAttribute('data-i')); });
+  document.querySelectorAll('[data-i18n]').forEach(function (e) { e.textContent = T(e.getAttribute('data-i18n')); });
+  document.querySelectorAll('[data-i18n-ph]').forEach(function (e) { e.setAttribute('placeholder', T(e.getAttribute('data-i18n-ph'))); });
+  var b = document.getElementById('langBtn'); if (b) b.textContent = { en: 'EN', km: 'ខ្មែរ', zh: '中文' }[lang];
+  var r = document.getElementById('langRowLogin');
+  if (r) r.innerHTML = ['en', 'km', 'zh'].map(function (l) { return '<button type="button" class="' + (l === lang ? 'on' : '') + '" onclick="setLang(\'' + l + '\')">' + { en: 'English', km: 'ខ្មែរ', zh: '中文' }[l] + '</button>'; }).join('');
+  if (me) { try { payRender(); } catch (e) {} try { dgPickMount('payPick', 'payRender()'); } catch (e) {} }
+}
+function setLang(l) { lang = l; try { localStorage.setItem('tdLang', l); } catch (e) {} applyLang(); }
+function cycleLang() { setLang({ en: 'km', km: 'zh', zh: 'en' }[lang]); }
+var toastTimer = null;
+function toast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.remove('hidden'); clearTimeout(toastTimer); toastTimer = setTimeout(function () { t.classList.add('hidden'); }, 2600); }
+function $(i) { return document.getElementById(i); }
+
+/* ================= staff login (same method as the main system) ================= */
+var PW_OK = !!(window.crypto && window.crypto.subtle && window.TextEncoder);
+function pwHex(buf) { return Array.from(new Uint8Array(buf)).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
+async function pwDerive(password, salt) {
+  var key = await crypto.subtle.importKey('raw', new TextEncoder().encode(password), 'PBKDF2', false, ['deriveBits']);
+  var bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: new TextEncoder().encode(salt), iterations: 100000 }, key, 256);
+  return 'pbkdf2$' + salt + '$' + pwHex(bits);
+}
+var SA_DOMAIN = 'staff.hr203.com';
+function saHexStr(s) { return Array.from(new TextEncoder().encode(String(s))).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
+function saLookupKey(role, username) { return saHexStr(role + '|' + username); }
+function saEmail(id) { return id + '@' + SA_DOMAIN; }
+async function saPw(pass, id) { return (await pwDerive(pass, 'staff-auth:' + id)).split('$')[2].slice(0, 48); }
+async function saSignIn(id, pass) { return await firebase.auth().signInWithEmailAndPassword(saEmail(id), await saPw(pass, id)); }
+function saSleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+async function saReadRetry(path) {
+  var last = null;
+  for (var i = 0; i < 40; i++) { try { return (await db.ref(path).once('value')).val(); } catch (e) { last = e; await saSleep(250); } }
+  throw last;
+}
+async function backToAnon() { try { await firebase.auth().signOut(); } catch (e) {} try { await firebase.auth().signInAnonymously(); } catch (e) {} }
+async function saCandidates(role, username) { var v = await saReadRetry('staffLookup/' + saLookupKey(role, username)); return v ? Object.keys(v) : []; }
+async function secureLogin(role, user, pass) {
+  var ids = await saCandidates(role, user);
+  for (var n = 0; n < ids.length; n++) {
+    var id = ids[n];
+    try {
+      var cred = await saSignIn(id, pass);
+      var uid = (cred && cred.user ? cred.user : firebase.auth().currentUser).uid;
+      var st = await saReadRetry('staff/' + uid);
+      var acc = (st && st.role === role && st.key) ? await saReadRetry('accounts/' + st.key) : null;
+      if (acc && acc.authId === id && acc.role === role && !acc.disabled) return Object.assign({ firebaseKey: st.key }, acc);
+      await backToAnon();
+    } catch (e) { try { var cu = firebase.auth().currentUser; if (cu && !cu.isAnonymous) await backToAnon(); } catch (e2) {} }
+  }
+  return null;
+}
+/* authenticator (same method as the main system) */
+function base32Decode(b32) {
+  var al = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', clean = (b32 || '').replace(/=+$/, '').toUpperCase().replace(/[^A-Z2-7]/g, ''), bits = '';
+  for (var i = 0; i < clean.length; i++) { var v = al.indexOf(clean[i]); if (v !== -1) bits += v.toString(2).padStart(5, '0'); }
+  var bytes = []; for (var j = 0; j + 8 <= bits.length; j += 8) bytes.push(parseInt(bits.substr(j, 8), 2));
+  return new Uint8Array(bytes);
+}
+async function generateTOTP(secret, forTime) {
+  var keyBytes = base32Decode(secret), counter = Math.floor((forTime || Date.now()) / 1000 / 30), cb = new ArrayBuffer(8), view = new DataView(cb);
+  view.setUint32(0, Math.floor(counter / 0x100000000)); view.setUint32(4, counter >>> 0);
+  var key = await crypto.subtle.importKey('raw', keyBytes, { name: 'HMAC', hash: 'SHA-1' }, false, ['sign']);
+  var h = new Uint8Array(await crypto.subtle.sign('HMAC', key, new Uint8Array(cb))), off = h[h.length - 1] & 0xf;
+  var bin = ((h[off] & 0x7f) << 24) | ((h[off + 1] & 0xff) << 16) | ((h[off + 2] & 0xff) << 8) | (h[off + 3] & 0xff);
+  return (bin % 1000000).toString().padStart(6, '0');
+}
+async function verifyTOTP(secret, token) {
+  var clean = (token || '').trim(); if (!/^\d{6}$/.test(clean)) return false;
+  for (var s = -1; s <= 1; s++) { if ((await generateTOTP(secret, Date.now() + s * 30000)) === clean) return true; }
+  return false;
+}
+
+var loginRole = 'admin', pending = null;
+function setRole(r) { loginRole = r; document.getElementById('roleAdmin').classList.toggle('on', r === 'admin'); document.getElementById('roleHr').classList.toggle('on', r === 'hr'); }
+function setErr(k) { document.getElementById('loginErr').textContent = k ? T(k) : ''; }
+function showLogin() {
+  stopData(); me = '';
+  document.getElementById('appView').classList.add('hidden'); document.getElementById('loginView').classList.remove('hidden');
+  document.getElementById('stepLogin').classList.remove('hidden'); document.getElementById('stepTotp').classList.add('hidden');
+  document.getElementById('inPass').value = ''; setErr(''); applyLang();
+}
+async function doLogin() {
+  var u = document.getElementById('inUser').value.trim(), p = document.getElementById('inPass').value.trim(), btn = document.getElementById('btnLogin');
+  if (!u || !p) { setErr('loginFail'); return; }
+  btn.disabled = true; setErr(''); loginBusy = true;
+  try {
+    var found = await secureLogin(loginRole, u, p);
+    if (!found) { setErr('loginFail'); return; }
+    try { if (found.owner !== true && (found.totpEnabled || found.totpSecret)) found.__trusted = await TD_ok(found); } catch (e) {}
+    if ((found.totpEnabled || found.totpSecret) && !found.__trusted) {
+      if (!found.totpSecret) { await backToAnon(); setErr('totpNotSetup'); return; }
+      pending = found; document.getElementById('stepLogin').classList.add('hidden'); document.getElementById('stepTotp').classList.remove('hidden');
+      document.getElementById('inTotp').value = ''; document.getElementById('backupField').classList.add('hidden'); document.getElementById('inTotp').parentNode.classList.remove('hidden'); document.getElementById('lnkBackup').classList.remove('hidden');
+      setTimeout(function () { document.getElementById('inTotp').focus(); }, 80);
+      return;
+    }
+    finishLogin(found);
+  } catch (e) { setErr('loginFail'); }
+  finally { btn.disabled = false; loginBusy = false; }
+}
+function showBackup() { document.getElementById('backupField').classList.remove('hidden'); document.getElementById('inTotp').parentNode.classList.add('hidden'); document.getElementById('lnkBackup').classList.add('hidden'); setErr(''); setTimeout(function () { document.getElementById('inBackup').focus(); }, 80); }
+async function cancelTotp() { pending = null; await backToAnon(); showLogin(); }
+async function doTotp() {
+  if (!pending) return; setErr('');
+  var backupMode = !document.getElementById('backupField').classList.contains('hidden');
+  if (backupMode) {
+    var code = document.getElementById('inBackup').value.trim().toUpperCase(); if (!code) return;
+    try {
+      var snap = await db.ref('accounts/' + pending.firebaseKey + '/backupCodes/' + code).once('value');
+      if (!snap.exists() || snap.val() === true) { setErr('totpBad'); return; }
+      await db.ref('accounts/' + pending.firebaseKey + '/backupCodes/' + code).set(true);
+      var a = pending; pending = null; finishLogin(a);
+    } catch (e) { setErr('totpBad'); }
+    return;
+  }
+  var ok = await verifyTOTP(pending.totpSecret, document.getElementById('inTotp').value);
+  if (!ok) { setErr('totpBad'); return; }
+  var acc = pending; pending = null; finishLogin(acc);
+}
+function finishLogin(acc) {
+  if (!acc.__trusted && !acc.__tdDone && acc.owner !== true && (acc.totpEnabled || acc.totpSecret)) { acc.__tdDone = 1; TD_remember(acc).catch(function () {}).then(function () { finishLogin(acc); }); return; }
+  try { localStorage.setItem('tdTrust', JSON.stringify({ key: acc.firebaseKey, at: Date.now() })); } catch (e) {}
+  startApp(acc.firebaseKey, acc.name || acc.username || '', acc.role);
+}
+async function doSignOut() { try { localStorage.removeItem('tdTrust'); } catch (e) {} await backToAnon(); showLogin(); }
+
+/* stay signed in for 30 days on this phone; a different login (for example the main website in the same browser) shows the login again */
+var authInit = false, loginBusy = false;
+firebase.auth().onAuthStateChanged(async function (u) {
+  if (!u) { try { await firebase.auth().signInAnonymously(); } catch (e) {} if (!authInit) { authInit = true; showLogin(); } return; }
+  if (loginBusy || pending) return;      /* a sign-in or the 2nd-code step is in progress: do not reset it */
+  if (u.isAnonymous) { if (!authInit || me) { authInit = true; showLogin(); } return; }
+  if (authInit && me) return;      /* already running */
+  authInit = true;
+  try {
+    var st = await saReadRetry('staff/' + u.uid), tr = null;
+    try { tr = JSON.parse(localStorage.getItem('tdTrust') || 'null'); } catch (e) {}
+    if (st && st.key && tr && tr.key === st.key && Date.now() - tr.at < 30 * 86400000) { startApp(st.key, st.name || '', st.role); return; }
+  } catch (e) {}
+  await backToAnon(); showLogin();
+});
+
+
+
+
+/* ================= payroll page: data, helpers (same calculation as the Payroll window of the admin site) ================= */
+var employees = [], attendanceHistory = [], leaveHistory = [], departments = [], pyListening = false;
+function stopData() { }
+function escapeHtmlText(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function fillTemplate(str, vars) { return (str || '').replace(/\{(\w+)\}/g, function (m, k) { return (vars && vars[k] !== undefined) ? vars[k] : m; }); }
+function kbPad(n) { return (n < 10 ? '0' : '') + n; }
+function kbNow() { return new Date(Date.now() + 7 * 3600 * 1000); }
+function kbToday() { var d = kbNow(); return d.getUTCFullYear() + '-' + kbPad(d.getUTCMonth() + 1) + '-' + kbPad(d.getUTCDate()); }
+function kbNum(x) { return String(Number((+x || 0).toFixed(2))); }
+function kbRefresh() { }
+function hrPrintTag() { return ''; }
+function showToast(success, msg) { toast(msg || T(success ? 'toastSuccess' : 'toastFail')); }
+function cfAsk(message, okLabel, danger) {
+    return new Promise(function (resolve) {
+        document.getElementById('cfAskMsg').innerText = message;
+        var ok = document.getElementById('cfAskOk'), no = document.getElementById('cfAskNo');
+        ok.innerText = okLabel; ok.style.background = danger === false ? '#0f766e' : '#dc2626';
+        document.getElementById('cfAskModal').style.display = 'flex';
+        function done(v) { document.getElementById('cfAskModal').style.display = 'none'; ok.onclick = null; no.onclick = null; resolve(v); }
+        ok.onclick = function () { done(true); }; no.onclick = function () { done(false); };
+    });
+}
+function logActivity(action, targetType, targetId, targetLabel, details) {
+    try {
+        var role = sessionStorage.getItem('loggedInRole') || 'admin';
+        db.ref('auditLog').push({ timestamp: Date.now(), actorRole: role, actorName: sessionStorage.getItem('loggedInAccountName') || 'Administrator', action: action || '', targetType: targetType || '', targetId: targetId || '', targetLabel: targetLabel || '', details: details || '' }).catch(function () {});
+    } catch (e) {}
+}
+/* department / group picker + scope (copied from the admin site) */
+var dgOrg = [];
+var dgSel = { dept: "", group: "" };
+function dgGroupObj(name) { return (typeof departments !== 'undefined' ? departments : []).find(function (d) { return d.name === name; }); }
+function dgParentOf(groupName) { const g = dgGroupObj(groupName); return g ? (g.parent || '') : ''; }
+function dgGroupsFor(dept) {
+    return (typeof departments !== 'undefined' ? departments : []).filter(function (g) { return !dept || (dept === '__none' ? !g.parent : g.parent === dept); });
+}
+function dgEsc(s) { return escapeHtmlText(String(s == null ? '' : s)); }
+function dgScopeFrom(dept, group) {
+    if (group === '__nogroup') return 'X:';
+    if (group) return 'G:' + group;
+    if (dept === '__none') return 'N:';
+    if (dept) return 'D:' + dept;
+    return '';
+}
+function dgScopeOk(e, s) {
+    if (!s) return true; if (!e) return false;
+    const k = s.slice(0, 2), v = s.slice(2), g = e.department || '';
+    if (k === 'G:') return g === v;
+    if (k === 'X:') return !g;
+    if (k === 'D:') return !!g && dgParentOf(g) === v;
+    if (k === 'N:') return !g || !dgParentOf(g);
+    return true;
+}
+function dgScopeLabel(s) {
+    if (!s) return ''; const k = s.slice(0, 2), v = s.slice(2);
+    if (k === 'N:') return t('dgNoDept'); if (k === 'X:') return t('dgNoGroup'); return v;
+}
+function dgScopeFile(s) { const l = dgScopeLabel(s); return l ? ('_' + l.replace(/[^a-zA-Z0-9]+/g, '_').replace(/^_+|_+$/g, '')) : ''; }
+function dgPickRaw(pid) { const d = document.getElementById(pid + 'D'), g = document.getElementById(pid + 'G'); return d && g ? { dept: d.value, group: g.value } : null; }
+function dgPickFill(pid, st) {
+    const d = document.getElementById(pid + 'D'), g = document.getElementById(pid + 'G'); if (!d || !g) return;
+    d.innerHTML = '<option value="">' + dgEsc(t('dgAllDept')) + '</option>' + dgOrg.map(function (o) { return '<option value="' + dgEsc(o.name) + '">' + dgEsc(o.name) + '</option>'; }).join('') + '<option value="__none">' + dgEsc(t('dgNoDept')) + '</option>';
+    d.value = st.dept || ''; if (d.value !== (st.dept || '')) d.value = '';
+    const real = d.value && d.value !== '__none';
+    g.innerHTML = '<option value="">' + dgEsc(t('dgAllGroups')) + '</option>' + dgGroupsFor(d.value).map(function (x) { return '<option value="' + dgEsc(x.name) + '">' + dgEsc(x.name) + '</option>'; }).join('') + (real ? '' : '<option value="__nogroup">' + dgEsc(t('dgNoGroup')) + '</option>');
+    g.value = st.group || ''; if (g.value !== (st.group || '')) g.value = '';
+}
+function dgPickMount(pid, onchg) {
+    const box = document.getElementById(pid); if (!box) return;
+    const prev = dgPickRaw(pid), st = prev || { dept: dgSel.dept, group: dgSel.group };
+    box.setAttribute('data-oc', onchg || '');
+    box.style.cssText = 'display:flex; gap:10px; flex-wrap:wrap; text-align:left;';
+    box.innerHTML = '<div class="form-group" style="flex:1; min-width:150px; margin-bottom:0;"><label>' + dgEsc(t('dgDept')) + '</label><select data-ss="1" id="' + pid + 'D" onchange="dgPickChange(\'' + pid + '\',1)"></select></div>' +
+        '<div class="form-group" style="flex:1; min-width:150px; margin-bottom:0;"><label>' + dgEsc(t('dgGroup')) + '</label><select data-ss="1" id="' + pid + 'G" onchange="dgPickChange(\'' + pid + '\',0)"></select></div>';
+    dgPickFill(pid, st);
+}
+function dgPickChange(pid, deptChanged) {
+    const r = dgPickRaw(pid); if (!r) return; dgPickFill(pid, { dept: r.dept, group: deptChanged ? '' : r.group });
+    const box = document.getElementById(pid), oc = box && box.getAttribute('data-oc'); if (oc) { try { (new Function(oc))(); } catch (e) {} }
+}
+function dgPickScope(pid) { const r = dgPickRaw(pid); return r ? dgScopeFrom(r.dept, r.group) : ''; }
+
+/* training: only the base salary lookup used by "Fill base pay" */
+var tr = { st: null, tab: 'ready', limit: 150 };
+var TR_DEF = { baseTraining: 208, baseFull: 210, defMonths: 3, warnDays: 7, autoNew: true };
+function trSetSt(v) { tr.st = v || null; var m = document.getElementById('trModal'); if (m && m.style.display === 'flex') trRender();  }
+function trSt() { var o = {}, s = tr.st || {}; Object.keys(TR_DEF).forEach(function (k) { o[k] = (s[k] !== undefined && s[k] !== null && s[k] !== '') ? s[k] : TR_DEF[k]; }); return o; }
+function trDays(a, b) { return Math.round((b - a) / 86400000); }
+function trInfo(e) {
+    var st = trSt(), o = { status: e.trainStatus === 'training' ? 'training' : 'full', months: parseInt(e.trainMonths, 10) || st.defMonths, end: '', days: null, state: 'full' };
+    o.base = o.status === 'training' ? parseFloat(st.baseTraining) : parseFloat(st.baseFull);
+    if (o.status !== 'training') return o;
+    var p = String(e.joinDate || '').split('.');
+    if (p.length !== 3) { o.state = 'training'; return o; }
+    var end = new Date(Date.UTC(+p[0], +p[1] - 1 + o.months, +p[2]));
+    o.end = end.getUTCFullYear() + '-' + kbPad(end.getUTCMonth() + 1) + '-' + kbPad(end.getUTCDate());
+    var tp = kbToday().split('-');
+    o.days = trDays(Date.UTC(+tp[0], +tp[1] - 1, +tp[2]), end.getTime());
+    o.state = o.days <= 0 ? 'ready' : (o.days <= st.warnDays ? 'soon' : 'training');
+    return o;
+}
+function trBaseFor(e) { return (e.trainStatus === 'training' || e.trainStatus === 'full') ? trInfo(e).base : null; }
+
+/* ===== payroll (copied from the admin site, v7.79) ===== */
+/* ================= v7.79: PAYROLL (Administration only) =================
+   Data: payroll/settings  and  payroll/months/<YYYY-MM>/<employeeKey>  (database rules: administrators only).
+   The system calculates the salary and you compare it with the paper you receive (Option A: check, not replace).
+   All rates are settings; nothing about tax or pension is fixed in the code. */
+var pay = { locked: false, prevTot: null, started: false, st: null, rows: {}, month: '', ref: null, editKey: '', delAsk: false, setBr: [] };
+var PAY_DEF = { tripRate: 0.5, attBonus: 10, defTransport: 7, hours: 208, m15: 1.5, m20: 2.0, m13: 1.3, penRate: 2, penCeilKhr: 1200000, rate1: 4050, rate2: 4000, depKhr: 150000, advPct: 50, dedPersonal: true,
+    brackets: [{ upTo: 1500000, rate: 0 }, { upTo: 2000000, rate: 5 }, { upTo: 8500000, rate: 10 }, { upTo: 12500000, rate: 15 }, { upTo: null, rate: 20 }] };
+var PAY_SECS = [
+    ['payEarn', [['base', 'fBase'], ['att', 'fAtt'], ['senior', 'fSenior'], ['work', 'fWork'], ['skill', 'fSkill'], ['prod', 'fProd'], ['resp', 'fResp'], ['other', 'fOther']]],
+    ['payOT', [['ot15', 'fOt15'], ['ot20', 'fOt20'], ['ot13', 'fOt13']]],
+    ['payFree', [['transport', 'fTransport'], ['medical', 'fMedical'], ['trips', 'fTrips'], ['temp', 'fTemp'], ['contract', 'fContract'], ['meal', 'fMeal'], ['seniorComp', 'fSeniorComp'], ['annualCash', 'fAnnualCash']]],
+    ['payDed', [['personalH', 'fPersonalH'], ['absentH', 'fAbsentH'], ['otherDed', 'fOtherDed'], ['health', 'fHealth'], ['union', 'fUnion'], ['permit', 'fPermit']]],
+    ['payMore', [['lateH', 'fLateH'], ['advance', 'fAdv'], ['dep', 'fDep'], ['paper', 'fPaperNet']]]
+];
+var PAY_KEEP = ['base', 'senior', 'work', 'skill', 'prod', 'resp', 'other', 'transport', 'medical', 'contract', 'meal', 'seniorComp', 'annualCash', 'otherDed', 'health', 'union', 'permit', 'dep'];
+function payN(v) { var x = parseFloat(v); return isNaN(x) ? 0 : x; }
+function payR2(x) { return Math.round((x + (x >= 0 ? 1e-9 : -1e-9)) * 100) / 100; }
+function payM(x) { return payR2(x).toFixed(2); }
+function paySt() {
+    var s = pay.st || {}, o = {};
+    Object.keys(PAY_DEF).forEach(function (k) { o[k] = (s[k] !== undefined && s[k] !== null) ? s[k] : PAY_DEF[k]; });
+    if (!Array.isArray(o.brackets) || !o.brackets.length) o.brackets = PAY_DEF.brackets;
+    return o;
+}
+function payTaxKhr(x, br) {
+    var tax = 0, prev = 0;
+    for (var i = 0; i < br.length; i++) {
+        var up = (br[i].upTo === null || br[i].upTo === undefined || br[i].upTo === '') ? Infinity : +br[i].upTo, rate = (+br[i].rate || 0) / 100;
+        if (x > prev) tax += (Math.min(x, up) - prev) * rate;
+        prev = up; if (x <= up) break;
+    }
+    return tax;
+}
+/* the whole calculation in one place (also used by the tests) */
+function payCalc(row, st, autoPersonalH) {
+    var n = payN, r2 = payR2, o = {};
+    o.hr = st.hours > 0 ? n(row.base) / st.hours : 0;
+    o.otPay = r2(o.hr * (n(row.ot15) * st.m15 + n(row.ot20) * st.m20 + n(row.ot13) * st.m13));
+    o.perH = (row.personalH === '' || row.personalH == null || isNaN(parseFloat(row.personalH))) ? autoPersonalH : n(row.personalH);
+    o.dedLeave = st.dedPersonal ? r2(o.hr * o.perH) : 0;
+    o.dedAbs = r2(o.hr * n(row.absentH));
+    /* attendance bonus: empty = automatic (full amount, unless the person has absent hours without permission) */
+    o.attAmt = (row.att === '' || row.att == null || isNaN(parseFloat(row.att))) ? (n(row.absentH) > 0 ? 0 : n(st.attBonus)) : n(row.att);
+    /* temporary transport: trips x rate when trips are typed, otherwise the typed amount */
+    o.tempAmt = (row.trips === '' || row.trips == null || isNaN(parseFloat(row.trips))) ? n(row.temp) : r2(n(row.trips) * st.tripRate);
+    o.t1 = r2(n(row.base) + o.attAmt + n(row.senior) + n(row.work) + n(row.skill) + n(row.prod) + n(row.resp) + n(row.other) + o.otPay);
+    o.t2 = r2(n(row.transport) + n(row.medical) + o.tempAmt + n(row.contract) + n(row.meal) + n(row.seniorComp) + n(row.annualCash));
+    o.gross = r2(o.t1 + o.t2);
+    o.wage = Math.max(0, r2(o.t1 - o.dedLeave - o.dedAbs));
+    o.capUsd = r2(st.penCeilKhr * st.penRate / 100 / st.rate1);
+    o.pension = Math.min(r2(o.wage * st.penRate / 100), o.capUsd);
+    o.dedTotal = r2(o.dedLeave + o.dedAbs + o.pension + n(row.otherDed));
+    o.after = r2(o.gross - o.dedTotal);
+    o.taxKhrBase = Math.max(0, (o.wage - o.pension) * st.rate1 - n(row.dep) * st.depKhr);
+    o.taxKhr = payTaxKhr(o.taxKhrBase, st.brackets);
+    o.tax = r2(o.taxKhr / st.rate2);
+    o.coll = r2(o.tax + n(row.health) + n(row.union) + n(row.permit));
+    o.advAuto = r2(n(row.base) * st.advPct / 100);
+    o.adv = (row.advance === '' || row.advance == null || isNaN(parseFloat(row.advance))) ? o.advAuto : n(row.advance);
+    o.net = r2(o.after - o.coll - o.adv);
+    o.paper = (row.paper === '' || row.paper == null || isNaN(parseFloat(row.paper))) ? null : n(row.paper);
+    o.diff = o.paper === null ? null : r2(o.net - o.paper);
+    return o;
+}
+function payKey(id) { return String(id).replace(/[.#$\[\]\/]/g, '_'); }
+function payCurMonth() { return kbToday().slice(0, 7); }
+function payPrevMonth(m) { var y = +m.slice(0, 4), mm = +m.slice(5, 7) - 1; if (mm < 1) { mm = 12; y--; } return y + '-' + kbPad(mm); }
+function payAutoPersonal(empId, month) {
+    var h = 0; (leaveHistory || []).forEach(function (x) { if (x.empId === empId && x.leaveType === 'thMasterPersonalLeave' && String(x.date || '').indexOf(month) === 0) h += payN(x.hours); });
+    return h;
+}
+function payEmp(id) { return employees.filter(function (e) { return e.id === id; })[0]; }
+
+function payOpen() {
+    var sc = document.getElementById('payMonth');
+    if (!pay.month) pay.month = payCurMonth();
+    sc.value = pay.month;
+    dgPickMount('payPick', 'payRender()');
+    if (!pay.started) {
+        pay.started = true;
+        db.ref('payroll/settings').on('value', function (s) { pay.st = s.val() || null; payRender(); });
+    }
+    payBind();
+    document.getElementById('payModal').style.display = 'flex';
+}
+function payClose() { document.getElementById('payModal').style.display = 'none'; }
+function payBind() {
+    if (pay.ref) { try { pay.ref.off(); } catch (e) {} }
+    pay.ref = db.ref('payroll/months/' + pay.month);
+    pay.ref.on('value', function (s) { pay.rows = s.val() || {}; payRender(); });
+    if (pay.lockRef) { try { pay.lockRef.off(); } catch (e) {} }
+    pay.lockRef = db.ref('payroll/locks/' + pay.month);
+    pay.lockRef.on('value', function (s) { pay.locked = !!s.val(); payRender(); });
+    pay.prevTot = null;
+    db.ref('payroll/months/' + payPrevMonth(pay.month)).once('value').then(function (s) {
+        var v = s.val() || {}, st = paySt(), n = 0, net = 0, g = 0;
+        Object.keys(v).forEach(function (k) { var r = v[k], e = payEmp(r.empId), c = payCalc(r, st, payAutoPersonal(r.empId, payPrevMonth(pay.month))); n++; net += c.net; g += c.gross; });
+        pay.prevTot = n ? { n: n, net: net, gross: g } : null; payRender();
+    }).catch(function () {});
+}
+function payLockedWarn() { if (pay.locked) { showToast(false, t('payLockedMsg')); return true; } return false; }
+function payLockToggle() {
+    var ref = db.ref('payroll/locks/' + pay.month);
+    if (pay.locked) { ref.remove().then(function () { showToast(true, t('payUnlocked')); }); }
+    else { ref.set({ by: sessionStorage.getItem('loggedInAccountName') || 'Administrator', at: Date.now() }).then(function () { showToast(true, t('payLockedOk')); try { logActivity('Payroll locked', 'payroll', pay.month, pay.month, ''); } catch (e) {} }); }
+}
+function payMonthChange() { var v = document.getElementById('payMonth').value; if (!/^\d{4}-\d{2}$/.test(v)) return; pay.month = v; pay.rows = {}; payBind(); payRender(); }
+function payRender() {
+    var box = document.getElementById('payList'); if (!box || document.getElementById('payModal').style.display !== 'flex') return;
+    var st = paySt(), scope = dgPickScope('payPick'), q = (document.getElementById('paySearch').value || '').toLowerCase();
+    var keys = Object.keys(pay.rows || {}).filter(function (k) {
+        var r = pay.rows[k] || {}, e = payEmp(r.empId);
+        if (!dgScopeOk(e || { department: '' }, scope)) return false;
+        var nm = ((e && e.name) || r.name || '') + ' ' + (r.empId || '');
+        return !q || nm.toLowerCase().indexOf(q) >= 0;
+    }).sort(function (a, b) { return String((pay.rows[a] || {}).empId).localeCompare(String((pay.rows[b] || {}).empId), undefined, { numeric: true }); });
+    var tg = 0, tn = 0, ta = 0;
+    var html = keys.map(function (k) {
+        var r = pay.rows[k], e = payEmp(r.empId), c = payCalc(r, st, payAutoPersonal(r.empId, pay.month));
+        tg += c.gross; tn += c.net; ta += c.adv;
+        var chip = c.paper === null ? '<span class="payChip g">' + escapeHtmlText(t('payNoPaper')) + '</span>' : (Math.abs(c.diff) < 0.005 ? '<span class="payChip ok">' + escapeHtmlText(t('payMatch')) + '</span>' : '<span class="payChip bad">' + escapeHtmlText(fillTemplate(t('payDiff'), { d: payM(c.diff) })) + '</span>');
+        return '<div class="remRow" style="cursor:pointer;" onclick="payEdit(\'' + k + '\')"><div class="remT">' + escapeHtmlText((e && e.name) || r.name || '') + ' <span style="color:#64748b;font-weight:400;">(' + escapeHtmlText(r.empId || '') + ')</span></div>' +
+            '<div class="remS">' + escapeHtmlText(t('payGross')) + ' ' + payM(c.gross) + ' · ' + escapeHtmlText(t('payAdvance')) + ' ' + payM(c.adv) + '</div>' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;"><b style="font-size:15px;color:#0f172a;">' + escapeHtmlText(t('payNet')) + ' ' + payM(c.net) + '</b>' + chip + '</div></div>';
+    }).join('');
+    var sumTxt = keys.length ? fillTemplate(t('payTotals'), { n: keys.length, g: payM(tg), a: payM(ta), nt: payM(tn) }) : '';
+    if (keys.length && pay.prevTot && !scope && !q) { var dlt = tn - pay.prevTot.net; sumTxt += '\n' + fillTemplate(t('payVsPrev'), { p: payM(pay.prevTot.net), d: (dlt >= 0 ? '+' : '') + payM(dlt) }); }
+    document.getElementById('paySum').innerText = sumTxt; document.getElementById('paySum').style.whiteSpace = 'pre-line';
+    var lb = document.getElementById('payLockBtn'); if (lb) { lb.innerText = pay.locked ? t('payUnlockBtn') : t('payLockBtn'); lb.style.background = pay.locked ? '#b91c1c' : '#0f766e'; }
+    var lw = document.getElementById('payLockBanner'); if (lw) lw.style.display = pay.locked ? '' : 'none';
+    box.innerHTML = html || '<p style="text-align:center;color:#94a3b8;padding:16px;">' + escapeHtmlText(t('payNoRows')) + '</p>';
+}
+function payStartMonth() {
+    if (payLockedWarn()) return;
+    var m = pay.month, scope = dgPickScope('payPick');
+    db.ref('payroll/months/' + payPrevMonth(m)).once('value').then(function (snap) {
+        var prev = snap.val() || {}, ups = {}, cnt = 0, cur = (m === payCurMonth());
+        employees.filter(function (e) { return e.status === 'Active' && dgScopeOk(e, scope); }).forEach(function (e) {
+            var k = payKey(e.id); if (pay.rows[k]) return;
+            var p = prev[k] || {}, row = { empId: e.id, name: e.name || '' };
+            PAY_KEEP.forEach(function (f) { row[f] = p[f] !== undefined && p[f] !== null ? p[f] : (f === 'transport' ? payN(paySt().defTransport) : 0); });
+            var lvB = trBaseFor(e); if (lvB !== null && !isNaN(lvB)) row.base = lvB; else if (!(p.base > 0)) row.base = payN(trSt().baseFull);
+            row.att = ''; row.trips = ''; row.temp = 0;
+            var at = payAttFor(e.id, m);
+            row.ot15 = at ? at.ot : (cur ? payN(e.otHours) : 0); row.ot20 = 0; row.ot13 = at ? at.night : 0; row.absentH = at ? at.absent : 0; row.lateH = at ? at.late : 0; row.personalH = ''; row.advance = ''; row.paper = '';
+            ups['payroll/months/' + m + '/' + k] = row; cnt++;
+        });
+        if (!cnt) { showToast(true, t('payNothingNew')); return; }
+        return db.ref().update(ups).then(function () { showToast(true, fillTemplate(t('payStarted'), { n: cnt })); });
+    }).catch(function (e) { showToast(false, String(e && e.message || e)); });
+}
+
+/* ---------- one employee ---------- */
+function payEdit(key) {
+    var r = pay.rows[key]; if (!r) return;
+    pay.editKey = key; pay.delAsk = false;
+    var e = payEmp(r.empId), auto = payAutoPersonal(r.empId, pay.month), st = paySt();
+    document.getElementById('payEditHead').innerText = ((e && e.name) || r.name || '') + ' (' + r.empId + ') - ' + pay.month;
+    document.getElementById('payEditForm').innerHTML = PAY_SECS.map(function (sec) {
+        return '<div style="font-weight:700;font-size:12px;color:#123a5c;margin:12px 0 6px;text-transform:uppercase;">' + escapeHtmlText(t(sec[0])) + '</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+            sec[1].map(function (f) {
+                var lab = t(f[1]); if (f[0] === 'personalH') lab = fillTemplate(lab, { h: kbNum(auto) }); if (f[0] === 'advance') lab = fillTemplate(lab, { x: payM(payN(r.base) * st.advPct / 100) }); if (f[0] === 'att') lab = fillTemplate(lab, { x: payM(st.attBonus) }); if (f[0] === 'trips') lab = fillTemplate(lab, { x: payM(st.tripRate) });
+                var v = r[f[0]] === undefined || r[f[0]] === null ? '' : r[f[0]];
+                return '<div class="form-group" style="margin:0;"><label style="font-size:11px;">' + escapeHtmlText(lab) + '</label><input type="number" step="0.01" inputmode="decimal" id="payF_' + f[0] + '" value="' + escapeHtmlText(String(v)) + '" oninput="payEditCalc()" style="width:100%;box-sizing:border-box;"></div>';
+            }).join('') + '</div>';
+    }).join('');
+    document.getElementById('payDelBtn').innerText = t('payRemove');
+    payEditCalc();
+    document.getElementById('payEditModal').style.display = 'flex';
+    document.querySelector('#payEditModal .modal-content').scrollTop = 0;
+}
+function payRead() {
+    var row = JSON.parse(JSON.stringify(pay.rows[pay.editKey] || {}));
+    PAY_SECS.forEach(function (sec) { sec[1].forEach(function (f) { var v = document.getElementById('payF_' + f[0]).value; row[f[0]] = v === '' ? '' : parseFloat(v); }); });
+    return row;
+}
+function payEditCalc() {
+    var row = payRead(), c = payCalc(row, paySt(), payAutoPersonal(row.empId, pay.month));
+    var L = function (k, v, b) { return '<div style="display:flex;justify-content:space-between;padding:3px 0;' + (b ? 'font-weight:800;border-top:1px solid #cbd5e1;margin-top:3px;padding-top:6px;' : '') + '"><span>' + escapeHtmlText(t(k)) + '</span><span>' + v + '</span></div>'; };
+    var h = L('rHourly', payM(c.hr)) + L('rOtPay', payM(c.otPay)) + L('rAttAmt', payM(c.attAmt)) + L('rTempAmt', payM(c.tempAmt)) + L('rTaxable', payM(c.t1)) + L('rFree', payM(c.t2)) + L('rGross', payM(c.gross), 1) +
+        L('rLeaveDed', '-' + payM(c.dedLeave)) + L('rAbsDed', '-' + payM(c.dedAbs)) + L('rPension', '-' + payM(c.pension)) + L('rOtherDed', '-' + payM(payN(row.otherDed))) + L('rDedTotal', '-' + payM(c.dedTotal), 1) + L('rAfter', payM(c.after)) +
+        L('rTaxKhr', Math.round(c.taxKhrBase).toLocaleString()) + L('rTax', '-' + payM(c.tax)) + L('rColl', '-' + payM(c.coll), 1) + L('rAdvance', '-' + payM(c.adv)) + L('rNet', payM(c.net), 1) +
+        L('rPay15', payM(c.adv)) + L('rPay25', payM(c.net));
+    if (c.paper !== null) h += '<div style="margin-top:8px;padding:8px;border-radius:6px;font-weight:700;text-align:center;' + (Math.abs(c.diff) < 0.005 ? 'background:#dcfce7;color:#166534;' : 'background:#fee2e2;color:#991b1b;') + '">' +
+        escapeHtmlText(Math.abs(c.diff) < 0.005 ? t('payMatch') : fillTemplate(t('payDiff'), { d: payM(c.diff) })) + '</div>';
+    document.getElementById('payEditRes').innerHTML = h;
+}
+function payEditSave() {
+    if (payLockedWarn()) return;
+    var row = payRead(), k = pay.editKey;
+    db.ref('payroll/months/' + pay.month + '/' + k).set(row).then(function () { showToast(true); document.getElementById('payEditModal').style.display = 'none'; try { logActivity('Payroll edited', 'payroll', row.empId, pay.month, ''); } catch (e) {} }).catch(function (e) { showToast(false, String(e && e.message || e)); });
+}
+function payEditClose() { document.getElementById('payEditModal').style.display = 'none'; }
+async function payEditDel() {
+    if (payLockedWarn()) return;
+    if (!(await cfAsk(t('cfDelAsk').replace('{n}', t('payTitle') || 'payroll'), t('cfDelete')))) return;
+    db.ref('payroll/months/' + pay.month + '/' + pay.editKey).remove().then(function () { showToast(true); payEditClose(); });
+}
+
+/* ---------- settings ---------- */
+function paySetOpen() {
+    var st = paySt();
+    ['hours', 'm15', 'm20', 'm13', 'penRate', 'penCeilKhr', 'rate1', 'rate2', 'depKhr', 'advPct', 'tripRate', 'attBonus', 'defTransport'].forEach(function (k) { document.getElementById('payS_' + k).value = st[k]; });
+    document.getElementById('payS_dedPersonal').checked = !!st.dedPersonal;
+    pay.setBr = st.brackets.map(function (b) { return { upTo: (b.upTo === null || b.upTo === undefined) ? '' : b.upTo, rate: b.rate }; });
+    paySetBr();
+    document.getElementById('paySetModal').style.display = 'flex';
+}
+function paySetBr() {
+    document.getElementById('paySetBr').innerHTML = pay.setBr.map(function (b, i) {
+        return '<div style="display:flex;gap:6px;align-items:center;margin-bottom:6px;"><input type="number" id="payB_u' + i + '" value="' + escapeHtmlText(String(b.upTo)) + '" placeholder="' + escapeHtmlText(t('sNoLimit')) + '" style="flex:2;min-width:0;"><input type="number" id="payB_r' + i + '" value="' + escapeHtmlText(String(b.rate)) + '" style="flex:1;min-width:0;"><span>%</span>' +
+            '<button type="button" class="kbBtn grey" style="margin:0;" onclick="paySetBrDel(' + i + ')">&times;</button></div>';
+    }).join('');
+}
+function paySetBrRead() { pay.setBr = pay.setBr.map(function (b, i) { return { upTo: document.getElementById('payB_u' + i).value, rate: document.getElementById('payB_r' + i).value }; }); }
+function paySetBrAdd() { paySetBrRead(); pay.setBr.push({ upTo: '', rate: 0 }); paySetBr(); }
+function paySetBrDel(i) { paySetBrRead(); pay.setBr.splice(i, 1); paySetBr(); }
+function paySetSave() {
+    paySetBrRead();
+    var o = {}; ['hours', 'm15', 'm20', 'm13', 'penRate', 'penCeilKhr', 'rate1', 'rate2', 'depKhr', 'advPct', 'tripRate', 'attBonus', 'defTransport'].forEach(function (k) { o[k] = payN(document.getElementById('payS_' + k).value); });
+    if (!(o.hours > 0) || !(o.rate1 > 0) || !(o.rate2 > 0)) { showToast(false, t('sBad')); return; }
+    o.dedPersonal = document.getElementById('payS_dedPersonal').checked;
+    var br = pay.setBr.filter(function (b) { return b.rate !== '' && !isNaN(parseFloat(b.rate)); }).map(function (b) { return { upTo: b.upTo === '' ? null : parseFloat(b.upTo), rate: parseFloat(b.rate) }; });
+    if (!br.length) { showToast(false, t('sBad')); return; }
+    br.sort(function (a, b) { return (a.upTo === null ? Infinity : a.upTo) - (b.upTo === null ? Infinity : b.upTo); });
+    if (br[br.length - 1].upTo !== null) br.push({ upTo: null, rate: br[br.length - 1].rate });
+    o.brackets = br; o.by = sessionStorage.getItem('loggedInAccountName') || 'Administrator'; o.at = Date.now();
+    db.ref('payroll/settings').set(o).then(function () { showToast(true); document.getElementById('paySetModal').style.display = 'none'; }).catch(function (e) { showToast(false, String(e && e.message || e)); });
+}
+function paySetClose() { document.getElementById('paySetModal').style.display = 'none'; }
+
+/* ---------- export ---------- */
+function payExport() {
+    var st = paySt(), scope = dgPickScope('payPick'), rows = [];
+    Object.keys(pay.rows).forEach(function (k) {
+        var r = pay.rows[k], e = payEmp(r.empId); if (!dgScopeOk(e || { department: '' }, scope)) return;
+        var c = payCalc(r, st, payAutoPersonal(r.empId, pay.month));
+        rows.push({ 'ID': r.empId, 'Name': (e && e.name) || r.name || '', 'Department / Group': (e && e.department) || '', 'Base salary': payN(r.base), 'Attendance bonus': c.attAmt, 'Seniority allowance': payN(r.senior), 'Work allowance': payN(r.work), 'Skill allowance': payN(r.skill), 'Production bonus': payN(r.prod), 'Responsibility bonus': payN(r.resp), 'Other additions': payN(r.other),
+            'OT x1.5 hours': payN(r.ot15), 'OT x2.0 hours': payN(r.ot20), 'Night x1.3 hours': payN(r.ot13), 'Overtime pay': c.otPay, 'Taxable total (1)': c.t1, 'Temporary transport': c.tempAmt, 'Tax-free total (2)': c.t2, 'Gross': c.gross,
+            'Personal leave hours': c.perH, 'Personal leave deduction': c.dedLeave, 'Absence deduction': c.dedAbs, 'Pension': c.pension, 'Other deductions': payN(r.otherDed), 'Deductions total (3)': c.dedTotal, 'Tax on salary': c.tax, 'Fees (health/union/permit)': r2f(payN(r.health) + payN(r.union) + payN(r.permit)),
+            'Advance (15th)': c.adv, 'Net pay (25th)': c.net, 'Paper net': c.paper === null ? '' : c.paper, 'Difference': c.diff === null ? '' : c.diff });
+    });
+    if (!rows.length) { showToast(false, t('payNoRows')); return; }
+    var ws = XLSX.utils.json_to_sheet(rows), wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Payroll ' + pay.month);
+    XLSX.writeFile(wb, 'Payroll_' + pay.month + dgScopeFile(scope) + '.xlsx');
+}
+function r2f(x) { return payR2(x); }
+
+
+/* ===== attendance -> payroll, Excel import / template, month lock, payslips (v7.85) ===== */
+/* ===== v7.85: attendance -> payroll, Excel import / template, month lock, payslips ===== */
+function payAttFor(empId, month) {
+    var o = { ot: 0, night: 0, absent: 0, late: 0, n: 0 };
+    (attendanceHistory || []).forEach(function (h) {
+        if (String(h.empId) !== String(empId) || String(h.date || '').indexOf(month) !== 0) return;
+        o.n++; o.ot += payN(h.otHours); o.night += payN(h.nightH); o.absent += payN(h.absentH); o.late += payN(h.lateH);
+    });
+    return o.n ? o : null;
+}
+function payFromAtt() {
+    if (payLockedWarn()) return;
+    var scope = dgPickScope('payPick'), ups = {}, n = 0;
+    Object.keys(pay.rows).forEach(function (k) {
+        var r = pay.rows[k], e = payEmp(r.empId); if (!e || !dgScopeOk(e, scope)) return;
+        var a = payAttFor(r.empId, pay.month); if (!a) return;
+        var b = 'payroll/months/' + pay.month + '/' + k + '/';
+        ups[b + 'ot15'] = payR2(a.ot); ups[b + 'ot13'] = payR2(a.night); ups[b + 'absentH'] = payR2(a.absent); ups[b + 'lateH'] = payR2(a.late); n++;
+    });
+    if (!n) { showToast(false, t('payAttNone')); return; }
+    db.ref().update(ups).then(function () { showToast(true, fillTemplate(t('payAttDone'), { n: n })); }).catch(function (e) { showToast(false, String(e && e.message || e)); });
+}
+var PAY_XL = [['ID', 'id'], ['Name', 'name'], ['Base salary', 'base'], ['Seniority allowance', 'senior'], ['Work allowance', 'work'], ['Skill allowance', 'skill'], ['Production bonus', 'prod'], ['Responsibility bonus', 'resp'], ['Other additions', 'other'],
+    ['Medical', 'medical'], ['Trips', 'trips'], ['Contract', 'contract'], ['Meal', 'meal'], ['OT x1.5 hours', 'ot15'], ['OT x2.0 hours', 'ot20'], ['Night x1.3 hours', 'ot13'], ['Absent hours', 'absentH'], ['Personal leave hours', 'personalH'],
+    ['Other deductions', 'otherDed'], ['Health', 'health'], ['Union', 'union'], ['Permit', 'permit'], ['Advance (15th)', 'advance'], ['Dependents', 'dep'], ['Paper net', 'paper']];
+function payTemplate() {
+    var scope = dgPickScope('payPick'), rows = [];
+    Object.keys(pay.rows).forEach(function (k) {
+        var r = pay.rows[k], e = payEmp(r.empId); if (!dgScopeOk(e || { department: '' }, scope)) return;
+        var o = {}; PAY_XL.forEach(function (c) { o[c[0]] = c[1] === 'id' ? r.empId : (c[1] === 'name' ? ((e && e.name) || r.name || '') : (r[c[1]] === undefined || r[c[1]] === null ? '' : r[c[1]])); }); rows.push(o);
+    });
+    if (!rows.length) { showToast(false, t('payNoRows')); return; }
+    var ws = XLSX.utils.json_to_sheet(rows), wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, 'Salary ' + pay.month);
+    XLSX.writeFile(wb, 'Payroll_template_' + pay.month + dgScopeFile(scope) + '.xlsx');
+}
+function payImportPick() { if (payLockedWarn()) return; document.getElementById('payImportFile').click(); }
+function payImportRead(files) {
+    var f = files && files[0]; if (!f) return;
+    var rd = new FileReader();
+    rd.onload = function (ev) {
+        try { var wb = XLSX.read(new Uint8Array(ev.target.result), { type: 'array' }); payImportApply(XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]], { defval: '' })); }
+        catch (e) { showToast(false, t('payImpBad')); }
+        document.getElementById('payImportFile').value = '';
+    };
+    rd.readAsArrayBuffer(f);
+}
+function payImportApply(list) {
+    var ups = {}, done = 0, miss = 0, cells = 0, map = {};
+    PAY_XL.forEach(function (c) { map[c[0].toLowerCase().replace(/[^a-z0-9]/g, '')] = c[1]; });
+    list.forEach(function (row) {
+        var idv = null, vals = {};
+        Object.keys(row).forEach(function (h) {
+            var f = map[String(h).toLowerCase().replace(/[^a-z0-9]/g, '')]; if (!f) return;
+            if (f === 'id') idv = String(row[h]).trim(); else if (f !== 'name' && String(row[h]).trim() !== '') { var n = parseFloat(row[h]); if (!isNaN(n)) vals[f] = n; }
+        });
+        if (!idv) return;
+        var e = payEmp(idv), k = payKey(idv);
+        if (!e) { miss++; return; }
+        var b = 'payroll/months/' + pay.month + '/' + k + '/';
+        if (!pay.rows[k]) { ups[b + 'empId'] = e.id; ups[b + 'name'] = e.name || ''; var lb = trBaseFor(e); if (!('base' in vals)) ups[b + 'base'] = (lb !== null && !isNaN(lb)) ? lb : payN(trSt().baseFull); }
+        Object.keys(vals).forEach(function (f) { ups[b + f] = vals[f]; cells++; }); done++;
+    });
+    if (!done) { showToast(false, miss ? fillTemplate(t('payImpNone'), { m: miss }) : t('payImpBad')); return; }
+    db.ref().update(ups).then(function () { showToast(true, fillTemplate(t('payImpDone'), { n: done, c: cells, m: miss })); try { logActivity('Payroll import', 'payroll', pay.month, pay.month, done + ' employees'); } catch (e) {} })
+        .catch(function (e) { showToast(false, String(e && e.message || e)); });
+}
+/* ---- payslip (opens a clean page; use Print / Save as PDF) ---- */
+function paySlipBlock(k) {
+    var r = pay.rows[k], e = payEmp(r.empId), st = paySt(), c = payCalc(r, st, payAutoPersonal(r.empId, pay.month)), esc = escapeHtmlText;
+    var L = function (lab, v, b) { return '<tr' + (b ? ' class="b"' : '') + '><td>' + esc(t(lab)) + '</td><td class="n">' + v + '</td></tr>'; };
+    var add = function (lab, x) { return payN(x) ? L(lab, payM(payN(x))) : ''; };
+    var h = '<div class="slip"><h2>' + esc(t('paySlipTitle')) + ' - ' + esc(pay.month) + '</h2><div class="who"><b>' + esc((e && e.name) || r.name || '') + '</b> (' + esc(r.empId) + ') &nbsp; ' + esc((e && e.department) || '') + '</div><table>' +
+        L('fBase', payM(payN(r.base))) + L('rAttAmt', payM(c.attAmt)) + add('fSenior', r.senior) + add('fWork', r.work) + add('fSkill', r.skill) + add('fProd', r.prod) + add('fResp', r.resp) + add('fOther', r.other) + (c.otPay ? L('rOtPay', payM(c.otPay)) : '') +
+        add('fTransport', r.transport) + add('fMedical', r.medical) + (c.tempAmt ? L('rTempAmt', payM(c.tempAmt)) : '') + add('fContract', r.contract) + add('fMeal', r.meal) + add('fSeniorComp', r.seniorComp) + add('fAnnualCash', r.annualCash) +
+        L('rGross', payM(c.gross), 1) + (c.dedLeave ? L('rLeaveDed', '-' + payM(c.dedLeave)) : '') + (c.dedAbs ? L('rAbsDed', '-' + payM(c.dedAbs)) : '') + L('rPension', '-' + payM(c.pension)) + (payN(r.otherDed) ? L('rOtherDed', '-' + payM(payN(r.otherDed))) : '') +
+        L('rTax', '-' + payM(c.tax)) + (c.coll - c.tax > 0.004 ? L('rColl', '-' + payM(c.coll - c.tax)) : '') + L('rAdvance', '-' + payM(c.adv)) + L('rNet', payM(c.net), 1) + L('rPay15', payM(c.adv)) + L('rPay25', payM(c.net)) + '</table></div>';
+    return h;
+}
+function paySlips(single) {
+    var scope = dgPickScope('payPick'), keys = single ? [single] : Object.keys(pay.rows).filter(function (k) { return dgScopeOk(payEmp(pay.rows[k].empId) || { department: '' }, scope); });
+    if (!keys.length) { showToast(false, t('payNoRows')); return; }
+    keys.sort(function (a, b) { return String(pay.rows[a].empId).localeCompare(String(pay.rows[b].empId), undefined, { numeric: true }); });
+    var css = 'body{font-family:Arial,sans-serif;margin:0;padding:10px;}.slip{width:340px;border:1px solid #333;padding:12px;margin:0 auto 14px;page-break-inside:avoid;}h2{font-size:14px;margin:0 0 6px;}.who{font-size:12px;margin-bottom:6px;}table{width:100%;border-collapse:collapse;font-size:12px;}td{padding:2px 0;}td.n{text-align:right;}tr.b td{font-weight:bold;border-top:1px solid #333;padding-top:4px;}.bar{text-align:center;margin:10px;}@media print{.bar{display:none}.slip{margin:0 auto 8mm;}}';
+    var html = '<!doctype html><html><head><meta charset="utf-8"><title>Payslips ' + pay.month + '</title><style>' + css + '</style></head><body><div class="bar"><button onclick="window.print()" style="font-size:16px;padding:8px 18px;">Print / Save PDF</button></div>' + keys.map(paySlipBlock).join('') + hrPrintTag(true) + '</body></html>';
+    var w = window.open('', '_blank'); if (!w) { showToast(false, t('payPopup')); return; }
+    w.document.open(); w.document.write(html); w.document.close();
+}
+function paySlipOne() { paySlips(pay.editKey); }
+
+/* ---- To-Do workflow core (same code runs in the website and in the Telegram helper) ----
+   template: { id, title, note, freq:'monthly'|'weekly'|'daily'|'once', dueDay (1-31 or 'last'; weekly 1=Mon..7=Sun), dueOffset (-1,0,1 months, monthly only),
+               lead (show N days before due), warn (remind N days before due), steps:[...], startFrom, dueDate (once), active }
+   progress: done[templateId][periodKey] = { s:{ '0':{at,by}, ... }, doneAt } */
+function tdPad(n) { return (n < 10 ? '0' : '') + n; }
+function tdParse(ds) { var p = String(ds).split('-'); return Date.UTC(+p[0], +p[1] - 1, +p[2]); }
+function tdFmt(ms) { var d = new Date(ms); return d.getUTCFullYear() + '-' + tdPad(d.getUTCMonth() + 1) + '-' + tdPad(d.getUTCDate()); }
+function tdAdd(ds, n) { return tdFmt(tdParse(ds) + n * 86400000); }
+function tdDiff(a, b) { return Math.round((tdParse(a) - tdParse(b)) / 86400000); }
+function tdDim(y, m) { return new Date(Date.UTC(y, m, 0)).getUTCDate(); }
+function tdMonthShift(key, off) { var y = +key.slice(0, 4), m = +key.slice(5, 7) - 1 + off; y += Math.floor(m / 12); m = ((m % 12) + 12) % 12; return y + '-' + tdPad(m + 1); }
+function tdMonday(ds) { var d = new Date(tdParse(ds)), wd = (d.getUTCDay() + 6) % 7; return tdAdd(ds, -wd); }
+function tdDefaults(tpl) {
+  var f = tpl.freq || 'monthly';
+  return { lead: f === 'monthly' ? 10 : f === 'weekly' ? 3 : f === 'daily' ? 0 : 7, warn: f === 'monthly' ? 3 : f === 'weekly' ? 1 : 0 };
+}
+function tdStepKey(text) { return String(text).replace(/[.#$\[\]\/]/g, '_').trim().slice(0, 60); }
+function tdCur(tpl, today) { var f = tpl.freq || 'monthly'; return f === 'monthly' ? today.slice(0, 7) : f === 'weekly' ? tdMonday(today) : f === 'daily' ? today : 'once'; }
+function tdNum(v, d) { var x = parseInt(v, 10); return isNaN(x) ? d : x; }
+function tdDue(tpl, key) {
+  var f = tpl.freq || 'monthly';
+  if (f === 'monthly') {
+    var mk = tdMonthShift(key, tdNum(tpl.dueOffset, 0)), y = +mk.slice(0, 4), m = +mk.slice(5, 7), dm = tdDim(y, m);
+    var day = (tpl.dueDay === 'last') ? dm : Math.min(Math.max(tdNum(tpl.dueDay, 1), 1), dm);
+    return mk + '-' + tdPad(day);
+  }
+  if (f === 'weekly') return tdAdd(key, Math.min(Math.max(tdNum(tpl.dueDay, 5), 1), 7) - 1);
+  if (f === 'daily') return key;
+  return tpl.dueDate || '';
+}
+function tdPeriods(tpl, today) {
+  var f = tpl.freq || 'monthly', out = [], i, k, sf = tpl.startFrom || '';
+  if (f === 'monthly') { var cm = today.slice(0, 7); for (i = -6; i <= 3; i++) { k = tdMonthShift(cm, i); if (!sf || k >= sf.slice(0, 7)) out.push(k); } }
+  else if (f === 'weekly') { var mon = tdMonday(today); for (i = -6; i <= 1; i++) { k = tdAdd(mon, i * 7); if (!sf || k >= tdMonday(sf)) out.push(k); } }
+  else if (f === 'daily') { for (i = -3; i <= 0; i++) { k = tdAdd(today, i); if (!sf || k >= sf) out.push(k); } }
+  else out.push('once');
+  return out;
+}
+function tdInst(tpl, key, done, today) {
+  var steps = tpl.steps || [], dn = ((done || {})[tpl.id] || {})[key] || {}, s = dn.s || {}, due = tdDue(tpl, key), df = tdDefaults(tpl), ticked = 0, next = -1, i;
+  for (i = 0; i < steps.length; i++) { if (s[tdStepKey(steps[i])]) ticked++; else if (next < 0) next = i; }
+  var complete = steps.length > 0 && ticked === steps.length;
+  var lead = tdNum(tpl.lead, df.lead), warn = tdNum(tpl.warn, df.warn), days = due ? tdDiff(due, today) : 9999, status;
+  if (complete) status = 'done';
+  else if (!due) status = 'open';
+  else if (days < 0) status = 'over';
+  else if (days <= warn) status = 'soon';
+  else if (days <= lead) status = 'open';
+  else status = 'hidden';
+  /* a step with its own dates also counts: a step that is late (not ticked) makes the task Late, a step ending within the warning days makes it Due soon */
+  var sLate = 0, sLateMax = 0, sSoon = 0, sMin = 9999, sMinIx = -1, firstLate = -1, firstAvail = -1, waiting = false, why = '', unlock = '';
+  /* a step with a date opens ON that date (its start date for a range) and cannot be completed before */
+  var avail = steps.map(function (st, ix) { var w = tpl.stepDates ? tdStepWin(tpl, key, ix) : null; if (!w) return true; if (dn.open && dn.open[tdStepKey(st)]) return true; if (tpl.stepEarly && tpl.stepEarly[ix]) return true; return (w.from || w.to) <= today; });
+  var wb = [], wf = []; if (tpl.stepWait) steps.forEach(function (st, ix) { if (!tpl.stepWait[ix]) return; for (var j = 0; j < ix; j++) { if (!s[tdStepKey(steps[j])]) { avail[ix] = false; wb[ix] = true; wf[ix] = j; break; } } });
+  if (!complete && (tpl.stepDates || tpl.stepWait)) steps.forEach(function (st, ix) {
+    if (s[tdStepKey(st)]) return; if (firstAvail < 0 && avail[ix]) firstAvail = ix;
+    var w = tdStepWin(tpl, key, ix); if (w && !avail[ix] && !wb[ix]) { var us = w.from || w.to; if (!unlock || us < unlock) unlock = us; } if (!w || !avail[ix]) return; var dd = tdDiff(w.to, today);
+    if (dd < 0) { sLate++; if (firstLate < 0) firstLate = ix; if (-dd > sLateMax) sLateMax = -dd; } else if (dd <= warn) { sSoon++; if (dd < sMin) { sMin = dd; sMinIx = ix; } }
+  });
+  /* show the step that needs action now: first late step, else the step ending soonest, else the first open step; nothing open yet = the task waits */
+  if (!complete && (tpl.stepDates || tpl.stepWait)) { if (firstAvail < 0) { next = -1; waiting = true; } else if (firstLate >= 0) next = firstLate; else if (sMinIx >= 0) next = sMinIx; else next = firstAvail; }
+  if (!complete && sLate) { status = 'over'; why = 'step'; } else if (!complete && sSoon && (status === 'open' || status === 'hidden')) { status = 'soon'; why = 'step'; }
+  if (waiting) { status = 'wait'; why = ''; }
+  return { unlock: unlock, waiting: waiting, avail: avail, waitFor: wf, stepSoonIx: sMinIx, id: tpl.id, key: key, tpl: tpl, due: due, days: days, status: status, total: steps.length, ticked: ticked, next: next, nextText: next >= 0 ? tdTxt(steps[next], key) : '', complete: complete, doneAt: dn.doneAt || 0, s: s, why: why, stepLate: sLate, stepLateMax: sLateMax, stepSoonMin: sMin };
+}
+function tdAll(tpls, done, today, nowMs) {
+  var out = []; tdAll.wait = [];
+  Object.keys(tpls || {}).forEach(function (id) {
+    var tpl = tpls[id]; if (!tpl || tpl.active === false || !(tpl.steps && tpl.steps.length)) return;
+    tpl = Object.assign({}, tpl, { id: id });
+    var cur = tdCur(tpl, today), isNew = tpl.docsFor !== undefined;
+    tdPeriods(tpl, today).forEach(function (k) {
+      var x = tdInst(tpl, k, done, today), isCur = (k === cur);
+      if (isNew && k > cur && k !== 'once') return;                 /* a coming month stays hidden until it starts */
+      if (x.status === 'wait') { x.cur = isCur; tdAll.wait.push(x); return; }
+      if (x.status === 'hidden') { if (isCur) x.status = 'open'; else return; }
+      if (x.status === 'done' && !isCur && !(k === 'once' && x.doneAt && (nowMs - x.doneAt) < 14 * 86400000)) return;
+      x.cur = isCur; out.push(x);
+    });
+  });
+  var rank = { over: 0, soon: 1, open: 2, done: 3 };
+  out.sort(function (a, b) { return rank[a.status] - rank[b.status] || a.days - b.days || String(a.tpl.title).localeCompare(String(b.tpl.title)); });
+  return out;
+}
+
+
+function pyMap(s) { var d = s.val() || {}; return Object.keys(d).map(function (k) { var o = d[k] || {}; if (typeof o !== 'object') o = { value: o }; o.firebaseKey = k; return o; }); }
+function pyStart() {
+    if (pyListening) return; pyListening = true;
+    db.ref('employees').on('value', function (s) { employees = pyMap(s); try { payRender(); } catch (e) {} });
+    db.ref('attendanceHistory').on('value', function (s) { attendanceHistory = pyMap(s); });
+    db.ref('leaveHistory').on('value', function (s) { leaveHistory = pyMap(s); });
+    db.ref('departments').on('value', function (s) {
+        var d = s.val() || {};
+        dgOrg = Object.keys(d._org || {}).map(function (k) { return { key: k, name: (d._org[k] && d._org[k].name) || '' }; });
+        departments = Object.keys(d).filter(function (k) { return k.charAt(0) !== '_'; }).map(function (k) { return { firebaseKey: k, name: (d[k] && d[k].name) || '', parent: (d[k] && d[k].parent) || '' }; });
+        try { dgPickMount('payPick', 'payRender()'); } catch (e) {}
+    });
+    db.ref('meta/training').on('value', function (s) { tr.st = s.val() || null; try { payRender(); } catch (e) {} });
+}
+function startApp(key, name, role) {
+    if (role !== 'admin') { backToAnon().then(function () { showLogin(); setTimeout(function () { document.getElementById('loginErr').textContent = T('adminOnly'); }, 0); }); return; }
+    me = key; try { sessionStorage.setItem('loggedInRole', 'admin'); sessionStorage.setItem('loggedInAccountName', name || ''); } catch (e) {}
+    document.getElementById('whoName').textContent = name || '';
+    document.getElementById('loginView').classList.add('hidden'); document.getElementById('appView').classList.remove('hidden');
+    applyLang(); pyStart(); payOpen();
+}
+</script>
+
+</script>
+<!-- HRFT-BEGIN --><div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Payroll</div><div class="v">Version 8.00</div></div><!-- HRFT-END -->
+
+<!-- OTP-BEGIN -->
+<style>
+.otpRow{display:flex;gap:8px;justify-content:center;margin:6px 0 4px;direction:ltr}
+.otpRow input.otpBox{flex:0 0 46px;width:46px!important;height:56px;padding:0!important;margin:0!important;line-height:normal;box-sizing:border-box;border:1.5px solid #cbd5e1!important;border-radius:12px!important;background:#fff;color:#0f172a!important;font-size:24px!important;font-weight:700;text-align:center;padding:0;outline:none;caret-color:#2563eb;transition:border-color .15s,box-shadow .15s,transform .15s;-webkit-appearance:none;appearance:none;font-family:inherit;letter-spacing:0}
+.otpRow input.otpBox:focus{border-color:#2563eb;box-shadow:0 0 0 4px rgba(37,99,235,.15);transform:translateY(-1px)}
+.otpRow input.otpBox:not(:placeholder-shown){border-color:#1e3a8a;background:#f8fafc}
+.otpRow.busy .otpRow input.otpBox{border-color:#2563eb;animation:otpPulse .9s ease-in-out infinite}
+.otpRow.bad .otpRow input.otpBox{border-color:#dc2626;background:#fef2f2;color:#b91c1c}
+.otpRow.bad{animation:otpShake .4s}
+@keyframes otpShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes otpPulse{0%,100%{opacity:1}50%{opacity:.55}}
+.otpAlt{display:block;margin:10px auto 0;border:0;background:none;color:#475569;font-size:13px;text-decoration:underline;cursor:pointer;padding:6px}
+@media (max-width:360px){.otpRow input.otpBox{flex-basis:40px;width:40px!important;height:50px;font-size:21px!important}.otpRow{gap:6px}}
+@media (prefers-reduced-motion:reduce){.otpRow.bad,.otpRow.busy .otpRow input.otpBox{animation:none}}
+</style>
+<script>
+window.OtpBoxes = window.OtpBoxes || function (cfg) {
+  var inp = typeof cfg.input === 'string' ? document.getElementById(cfg.input) : cfg.input;
+  if (!inp || inp.__otp) return null; inp.__otp = 1;
+  var row = document.createElement('div'); row.className = 'otpRow'; row.setAttribute('role', 'group');
+  var bx = [], i, pending = false, pTimer = null;
+  for (i = 0; i < 6; i++) {
+    var b = document.createElement('input'); b.type = 'text'; b.inputMode = 'numeric'; b.setAttribute('pattern', '[0-9]*'); b.maxLength = 6; b.placeholder = ' ';
+    b.autocomplete = i === 0 ? 'one-time-code' : 'off'; b.setAttribute('aria-label', (i + 1) + '/6'); b.className = 'otpBox'; bx.push(b); row.appendChild(b);
+  }
+  inp.parentNode.insertBefore(row, inp); inp.style.display = 'none';
+  function val() { return bx.map(function (x) { return x.value; }).join(''); }
+  function visible() { return row.offsetParent !== null; }
+  var last = '';
+  function sync() { inp.value = val(); last = inp.value; }
+  function clear() { bx.forEach(function (x) { x.value = ''; }); inp.value = ''; last = ''; }
+  function focusFirst() { try { bx[0].focus(); } catch (e) {} }
+  function reset() { pending = false; row.classList.remove('busy', 'bad'); clear(); focusFirst(); }
+  function fail() {
+    pending = false; clearTimeout(pTimer); row.classList.remove('busy'); row.classList.remove('bad'); void row.offsetWidth; row.classList.add('bad');
+    try { if (navigator.vibrate) navigator.vibrate(120); } catch (e) {}
+    setTimeout(function () { row.classList.remove('bad'); clear(); focusFirst(); }, 520);
+  }
+  function done() {
+    var v = val(); if (v.length !== 6 || pending) return;
+    sync(); pending = true; row.classList.add('busy');
+    clearTimeout(pTimer); pTimer = setTimeout(function () { pending = false; row.classList.remove('busy'); }, 6000);
+    try { cfg.submit(); } catch (e) { pending = false; row.classList.remove('busy'); }
+  }
+  function spread(from, digits) {
+    var k = from; for (var j = 0; j < digits.length && k < 6; j++, k++) bx[k].value = digits[j];
+    sync(); var next = Math.min(k, 5); bx[next].focus(); try { bx[next].select(); } catch (e) {}
+    if (val().length === 6) done();
+  }
+  bx.forEach(function (x, idx) {
+    x.addEventListener('input', function () {
+      var d = x.value.replace(/\D/g, ''); x.value = '';
+      if (!d) return;
+      row.classList.remove('bad');
+      if (d.length > 1) { spread(idx, d); return; }
+      x.value = d; sync(); if (idx < 5) bx[idx + 1].focus(); else done();
+      if (val().length === 6) done();
+    });
+    x.addEventListener('keydown', function (e) {
+      if (e.key === 'Backspace') { if (!x.value && idx > 0) { e.preventDefault(); bx[idx - 1].value = ''; sync(); bx[idx - 1].focus(); } else if (x.value) { x.value = ''; sync(); e.preventDefault(); } }
+      else if (e.key === 'ArrowLeft' && idx > 0) { e.preventDefault(); bx[idx - 1].focus(); }
+      else if (e.key === 'ArrowRight' && idx < 5) { e.preventDefault(); bx[idx + 1].focus(); }
+      else if (e.key === 'Enter') { e.preventDefault(); done(); }
+    });
+    x.addEventListener('focus', function () { try { x.select(); } catch (e) {} });
+    x.addEventListener('paste', function (e) {
+      var t = ''; try { t = (e.clipboardData || window.clipboardData).getData('text'); } catch (er) {}
+      var d = String(t || '').replace(/\D/g, ''); if (!d) return; e.preventDefault(); spread(0, d.slice(0, 6));
+    });
+  });
+  /* a wrong code: the page writes a message in its error area - shake and clear */
+  var errEl = typeof cfg.err === 'string' ? document.getElementById(cfg.err) : cfg.err;
+  if (errEl && window.MutationObserver) {
+    new MutationObserver(function () {
+      if (!pending) return;
+      var shown = errEl.offsetParent !== null || getComputedStyle(errEl).display !== 'none';
+      if (shown && String(errEl.textContent || '').trim()) fail();
+    }).observe(errEl, { attributes: true, childList: true, subtree: true, characterData: true });
+  }
+  /* optional "use a backup code" switch for pages that take both kinds in one field */
+  var alt = null, altOn = false;
+  if (cfg.backupLink) {
+    var l = (function () { var s = ''; try { s = localStorage.getItem('xpLang') || localStorage.getItem('tdLang') || localStorage.getItem('appLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} s = String(s || document.documentElement.lang || 'en').toLowerCase().slice(0, 2); return s === 'kh' ? 'km' : s; })();
+    var T = { en: ['Use a backup code', 'Use authenticator code'], km: ['ប្រើកូដបម្រុង', 'ប្រើកូដ Authenticator'], zh: ['使用备用代码', '使用验证器代码'] }[l] || ['Use a backup code', 'Use authenticator code'];
+    alt = document.createElement('button'); alt.type = 'button'; alt.className = 'otpAlt'; alt.textContent = T[0]; row.parentNode.insertBefore(alt, row.nextSibling);
+    alt.onclick = function () {
+      altOn = !altOn; row.style.display = altOn ? 'none' : ''; inp.style.display = altOn ? '' : 'none'; alt.textContent = T[altOn ? 1 : 0];
+      if (altOn) { inp.value = ''; try { inp.focus(); } catch (e) {} } else reset();
+    };
+  }
+  /* keep in step with the page: hide the Verify button while the boxes are on screen, clear when the page resets the field */
+  var was = false, tmr = setInterval(function () {
+    if (!document.body.contains(row)) { clearInterval(tmr); return; }
+    var v = visible() && (!alt || !altOn || true);
+    (cfg.btns || []).forEach(function (id) { var e = typeof id === 'string' ? document.getElementById(id) : id; if (e) e.style.display = v ? 'none' : ''; });
+    if (alt) alt.style.display = (row.parentNode && row.parentNode.offsetParent !== null) ? '' : 'none';
+    if (v && !was) { reset(); }
+    if (!v && !altOn) { /* hidden: nothing */ }
+    if (inp.value !== last) { if (inp.value === '') clear(); else last = inp.value; }
+    was = v;
+  }, 250);
+  return { reset: reset, fail: fail };
+};
+
+(function(){
+OtpBoxes({ input: 'inTotp', submit: function () { doTotp(); }, err: 'loginErr', btns: ['btnTotp'] });
+})();
+</script>
+<!-- OTP-END -->
+<!-- TRUST-BEGIN -->
+<script>
+var TD_HOURS = 8;
+function TD_hex(buf) { return Array.from(new Uint8Array(buf)).map(function (b) { return (b < 16 ? '0' : '') + b.toString(16); }).join(''); }
+async function TD_sha(s) { return TD_hex(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(String(s)))); }
+async function TD_ok(found) {
+  var s = ''; try { s = localStorage.getItem('hrTrust_' + found.firebaseKey) || ''; } catch (e) {}
+  if (!s || !found.trusted) return false;
+  var h = await TD_sha(s); return Number(found.trusted[h] || 0) > Date.now();
+}
+async function TD_remember(found) {
+  var a = new Uint8Array(24); crypto.getRandomValues(a); var s = TD_hex(a), h = await TD_sha(s), up = {}, now = Date.now();
+  Object.keys(found.trusted || {}).forEach(function (k) { if (Number(found.trusted[k] || 0) < now) up['accounts/' + found.firebaseKey + '/trusted/' + k] = null; });
+  up['accounts/' + found.firebaseKey + '/trusted/' + h] = now + TD_HOURS * 3600000;
+  await db.ref().update(up);
+  try { localStorage.setItem('hrTrust_' + found.firebaseKey, s); } catch (e) {}
+}
+</script>
+<!-- TRUST-END -->
+
+
+
+<!-- HRFT-PUSH-BEGIN --><script>(function(){var q=0;function run(){q=0;try{var f=[].slice.call(document.querySelectorAll('.hrft'));f.forEach(function(e){e.style.paddingTop='';});var vis=f.filter(function(e){return e.getClientRects().length;});if(!vis.length)return;var el=vis[vis.length-1],r=el.getBoundingClientRect(),mb=r.bottom,n=el;while(n&&n!==document.body){var sb=n.nextElementSibling;while(sb){var ps=getComputedStyle(sb).position;if(ps!=='fixed'&&ps!=='absolute'&&sb.getClientRects().length&&!/^(SCRIPT|STYLE)$/.test(sb.tagName)){var q2=sb.getBoundingClientRect();if(q2.height>0&&q2.bottom>mb)mb=q2.bottom;}sb=sb.nextElementSibling;}n=n.parentElement;}var cs=getComputedStyle(document.body),below=(mb-r.bottom)+(parseFloat(cs.paddingBottom)||0)+(parseFloat(cs.marginBottom)||0),gap=Math.floor(window.innerHeight-(r.bottom+below));if(gap>0)el.style.paddingTop=(14+gap)+'px';}catch(e){}}function sch(){if(!q)q=requestAnimationFrame(run);}window.addEventListener('load',sch);window.addEventListener('resize',sch);try{new MutationObserver(sch).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class','hidden']});}catch(e){}setInterval(sch,1500);sch();})();</script><!-- HRFT-PUSH-END -->
+</body>
+</html>
