@@ -4154,8 +4154,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          hrConfirmAsk: "Start {n} now?\n\n{m} is saved as its own sheet and kept. {n} starts at 0 for all employees, and this month's used leave is added to Previous used. Changing {m} later needs a reason.",
          hrSettingsBtn: "Settings",
          hrSetTitle: "Saved months",
-         hrSetSub: "Old months are kept for viewing. You can delete an old month here. The latest saved month is protected.",
-         hrSetKeep: "Protected",
+         hrSetSub: "Old months are kept for viewing. You can delete an old month here. The current month cannot be deleted.",
+         hrSetKeep: "Current month, protected",
          hrSetDel: "Delete",
          hrSetNone: "No saved month yet.",
          hrSetClose: "Close",
@@ -5845,8 +5845,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          hrConfirmAsk: "បញ្ជាក់ {m}?\n\n{m} ត្រូវបានរក្សាទុកជាសន្លឹកផ្ទាល់ខ្លួន ហើយចាក់សោ។ {n} ចាប់ផ្តើមពី 0 សម្រាប់និយោជិតទាំងអស់ ហើយការឈប់ដែលបានប្រើខែនេះត្រូវបានបន្ថែមទៅ \"បានប្រើពីមុន\"។ ការកែ {m} ក្រោយមកត្រូវមានមូលហេតុ។",
          hrSettingsBtn: "ការកំណត់",
          hrSetTitle: "ខែដែលបានរក្សាទុក",
-         hrSetSub: "ខែចាស់ត្រូវបានរក្សាទុកសម្រាប់មើល។ អ្នកអាចលុបខែចាស់នៅទីនេះ។ ខែចុងក្រោយដែលបានរក្សាទុកត្រូវបានការពារ។",
-         hrSetKeep: "ការពារ",
+         hrSetSub: "ខែចាស់ត្រូវបានរក្សាទុកសម្រាប់មើល។ អ្នកអាចលុបខែចាស់នៅទីនេះ។ ខែបច្ចុប្បន្នមិនអាចលុបបានទេ។",
+         hrSetKeep: "ខែបច្ចុប្បន្ន ការពារ",
          hrSetDel: "លុប",
          hrSetNone: "មិនទាន់មានខែដែលបានរក្សាទុកទេ។",
          hrSetClose: "បិទ",
@@ -7498,8 +7498,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          hrConfirmAsk: "确认 {m}？\n\n{m} 将保存为独立报表并冻结。{n} 对所有员工从 0 开始，本月已用假期会加入“以前已用”。之后修改 {m} 需要填写原因。",
          hrSettingsBtn: "设置",
          hrSetTitle: "已保存的月份",
-         hrSetSub: "旧月份仅保留用于查看，可在此删除旧月份。最近保存的月份受保护。",
-         hrSetKeep: "受保护",
+         hrSetSub: "旧月份仅保留用于查看，可在此删除。当前月份不能删除。",
+         hrSetKeep: "当前月份，受保护",
          hrSetDel: "删除",
          hrSetNone: "还没有已保存的月份。",
          hrSetClose: "关闭",
@@ -14486,8 +14486,9 @@ function hrBarRender() {
     host.forEach(function (e) { e.innerHTML = h; });
 }
 function hrSettings() {
-    var months = Object.keys(hrSheets).sort().reverse(), latest = months[0] || '';
-    var rows = months.length ? months.map(function (m) { var lock = (m === latest); return '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e2e8f0;"><b style="flex:1;">' + escapeHtmlText(hrYmName(m)) + '</b>' + (lock ? '<span style="font-size:11px;color:#64748b;">' + escapeHtmlText(t('hrSetKeep')) + '</span>' : '<button type="button" class="quick-btn" style="width:auto;min-width:auto;min-height:auto;padding:5px 12px;font-size:11px;background:#dc2626;color:#fff;" onclick="hrDelMonth(\'' + m + '\')">' + escapeHtmlText(t('hrSetDel')) + '</button>') + '</div>'; }).join('') : '<div style="color:#64748b;font-size:12px;padding:8px 0;">' + escapeHtmlText(t('hrSetNone')) + '</div>';
+    var months = Object.keys(hrSheets).sort().reverse();
+    var curRow = hrOpen ? '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e2e8f0;"><b style="flex:1;">' + escapeHtmlText(hrYmName(hrOpen)) + '</b><span style="font-size:11px;color:#64748b;">' + escapeHtmlText(t('hrSetKeep')) + '</span></div>' : '';
+    var rows = curRow + (months.length ? months.map(function (m) { var lock = false; return '<div style="display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #e2e8f0;"><b style="flex:1;">' + escapeHtmlText(hrYmName(m)) + '</b>' + (lock ? '<span style="font-size:11px;color:#64748b;">' + escapeHtmlText(t('hrSetKeep')) + '</span>' : '<button type="button" class="quick-btn" style="width:auto;min-width:auto;min-height:auto;padding:5px 12px;font-size:11px;background:#dc2626;color:#fff;" onclick="hrDelMonth(\'' + m + '\')">' + escapeHtmlText(t('hrSetDel')) + '</button>') + '</div>'; }).join('') : '<div style="color:#64748b;font-size:12px;padding:8px 0;">' + escapeHtmlText(t('hrSetNone')) + '</div>');
     var d = document.getElementById('hrSetBox'); if (d) d.remove();
     d = document.createElement('div'); d.id = 'hrSetBox'; d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100002;display:flex;align-items:center;justify-content:center;padding:16px;';
     d.innerHTML = '<div style="background:#fff;border-radius:14px;padding:18px;max-width:420px;width:100%;max-height:80vh;overflow:auto;"><div style="font-weight:700;color:#0f172a;margin-bottom:4px;">' + escapeHtmlText(t('hrSetTitle')) + '</div><div style="font-size:12px;color:#64748b;margin-bottom:8px;">' + escapeHtmlText(t('hrSetSub')) + '</div>' + rows +
@@ -14495,7 +14496,7 @@ function hrSettings() {
     document.body.appendChild(d);
 }
 async function hrDelMonth(ym) {
-    var months = Object.keys(hrSheets).sort().reverse(); if (ym === months[0] || ym === hrOpen) return;
+    if (ym === hrOpen) return;
     if (!(await cfAsk(fillTemplate(t('hrSetDelAsk'), { m: hrYmName(ym) }), t('hrSetDel'), true))) return;
     try {
         var ups = {}; ups['monthSheets/' + ym] = null; ups['meta/monthConfirmed/' + ym] = null; ups['meta/rollLock/' + ym] = null;

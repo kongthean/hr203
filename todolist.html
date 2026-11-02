@@ -111,6 +111,10 @@ button, input { font-family:inherit; font-size:16px; }
 /* v compact top area */
 .pill.sm { display:inline-block; font-size:11px; font-weight:700; padding:2px 8px; border:1px solid transparent; margin:4px 4px 0 0; vertical-align:top; line-height:1.25; }
 .tag { line-height:1.25; }
+.trow { display:flex; flex-wrap:nowrap; gap:4px; margin-top:4px; }
+.trow .tag, .trow .pill.sm { margin:0; font-size:10px; padding:2px 7px; white-space:nowrap; flex:0 1 auto; min-width:0; overflow:hidden; text-overflow:ellipsis; }
+.trow.two { flex-wrap:wrap; }
+.trow.two > * { flex:1 1 calc(50% - 4px); text-align:center; }
 .tag.rpt { background:#dbeafe; color:#1d4ed8; border-color:#bfdbfe; margin:0 0 4px 0; }
 #sndBar { position:fixed; left:12px; right:12px; bottom:14px; z-index:9999; background:#0f172a; color:#fff; border-radius:14px; padding:10px 12px; display:flex; align-items:center; gap:10px; box-shadow:0 6px 20px rgba(0,0,0,.35); }
 #sndBar b { flex:1; font-size:13px; }
@@ -706,18 +710,19 @@ function waitCardHtml(x) {
 function cardHtml(x) {
   var p = x.tpl, f = p.freq || 'monthly', col = COL[x.status], done = x.status === 'done', steps = p.steps || [], pct = x.total ? Math.round(x.ticked * 100 / x.total) : 0;
   var cid = esc(x.id), key = esc(x.key), meta = [];
-  var per = periodLabel(x); if (per) meta.push('' + TDI.cal + '' + esc(per));
+  var per = periodLabel(x); if (per && f !== 'monthly') meta.push('' + TDI.cal + '' + esc(per));
   if (x.due) meta.push('' + TDI.clk + '' + esc(T('tdDueLbl')) + ' <b>' + esc(x.due) + '</b>');
   var h = '<div class="card' + (done ? ' done' : '') + '" style="border-left-color:' + col + ';">';
-  if (f === 'monthly') { var dfr = p.docsFor === undefined ? 0 : parseInt(p.docsFor, 10) || 0; h += '<div><span class="tag rpt">' + esc(T('rptTag', { m: monthOnly(x.key, dfr) })) + '</span></div>'; }
   h += '<div class="cardHead"><b style="white-space:pre-line;">' + esc(p.title || '') + '</b></div>';
   h += '<div class="meta">' + meta.join(' &nbsp;&middot;&nbsp; ') + '</div>';
-  var tags = '';
+  var row = '', tags = '';
+  if (f === 'monthly') { var dfr = p.docsFor === undefined ? 0 : parseInt(p.docsFor, 10) || 0; row += '<span class="tag rpt">' + esc(monthName(x.key, dfr)) + '</span>'; }
+  row += '<span class="pill sm" style="background:' + col + ';">' + esc(dueText(x)) + '</span>';
+  if (p.type) row += '<span class="tag" style="background:#ede9fe;color:#6d28d9;border-color:#ddd6fe;">' + esc(p.type) + '</span>';
+  var sc = scopeLabel(p.scope); if (sc) row += '<span class="tag">' + esc(sc) + '</span>';
   if (p._owner && p._owner !== me) tags += '<span class="tag">' + TDI.usr + '' + esc(T('tdSharedBy', { n: ownerName(p._owner) })) + '</span>';
-  if (p.type) tags += '<span class="tag" style="background:#ede9fe;color:#6d28d9;border-color:#ddd6fe;">' + TDI.tag + '' + esc(p.type) + '</span>';
-  var sc = scopeLabel(p.scope); if (sc) tags += '<span class="tag">' + TDI.bld + '' + esc(sc) + '</span>';
   if (f === 'monthly') { var df = p.docsFor === undefined ? 0 : parseInt(p.docsFor, 10) || 0; if (df !== 0) tags += '<span class="tag">&#128196; ' + esc(T('tdDocsFor')) + ' ' + esc(monthName(x.key, df)) + ' (' + esc(T(df > 0 ? 'tdEarly' : 'tdLate')) + ')</span>'; }
-  h += '<div><span class="pill sm" style="background:' + col + ';">' + esc(dueText(x)) + '</span>' + tags + '</div>';
+  h += '<div class="trow">' + row + '</div>' + (tags ? '<div>' + tags + '</div>' : '');
   var ents = tdEntries(p);
   if (ents.length > 1) {
     h += '<div class="note">' + ents.map(function (r, i) { return '<div style="' + (i ? 'margin-top:8px;' : '') + '"><b style="white-space:pre-line;">' + (i + 1) + '. ' + esc(r.title) + '</b>' + (r.note ? '<div style="font-weight:400;white-space:pre-line;">' + esc(r.note) + '</div>' : '') + '</div>'; }).join('') + '</div>';
@@ -734,6 +739,8 @@ function cardHtml(x) {
   if (isOpen && x.ticked > 0) h += '<button class="ghost" data-c="' + cid + '" data-k="' + key + '" onclick="undoBtn(this)">&#8630; ' + esc(T('tdUndo')) + '</button>';
   return h + '</div>';
 }
+function fitRows() { document.querySelectorAll('.trow').forEach(function (r) { r.classList.remove('two'); if (r.children.length === 4) { var w = 0; for (var i = 0; i < r.children.length; i++) { var c = r.children[i]; c.style.overflow = 'visible'; w += c.scrollWidth + 4; c.style.overflow = ''; } if (w > r.clientWidth) r.classList.add('two'); } }); }
+window.addEventListener('resize', function () { try { fitRows(); } catch (e) {} });
 function render() {
   if (!me) return;
   var all = tdAll(td.tpl, td.done, todayStr(), Date.now()), q = (document.getElementById('inSearch').value || '').trim().toLowerCase();
@@ -753,6 +760,7 @@ function render() {
   var chips = [['red', cnt.over, 'cLate'], ['amber', cnt.soon, 'cSoon'], ['blue', cnt.open, 'cOpen'], ['grey', cnt.done, 'cDone']];
   document.getElementById('chips').innerHTML = chips.map(function (c) { return '<div class="chip ' + c[0] + '"><b>' + c[1] + '</b><span>' + esc(T(c[2])) + '</span></div>'; }).join('');
   document.getElementById('banner').innerHTML = '';
+  setTimeout(fitRows, 0);
   var rank = { over: 0, soon: 1, open: 2, done: 3 };
   var list = scoped.filter(function (x) { return view.status === 'all' ? true : view.status === 'done' ? x.status === 'done' : x.status !== 'done'; });
   list.sort(function (a, b) { return rank[a.status] - rank[b.status] || a.days - b.days || String(a.tpl.title).localeCompare(String(b.tpl.title)); });
