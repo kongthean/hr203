@@ -2123,7 +2123,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
              <div class="detail-item"><span class="lbl" data-i18n="tblTotalUsed">Total Hours Used</span><span class="val" id="cdTotalUsed">-</span></div>
              <div class="detail-item"><span class="lbl" data-i18n="tblMonthUsed">Current Month Used</span><span class="val" id="cdCurrentMonthUsed">-</span></div>
-             <div class="detail-item"><span class="lbl" data-i18n="tblRemaining">Total Remaining Hours</span><span class="val" id="cdRemainingTotal">-</span></div>
+             <div class="detail-item"><span class="lbl" data-i18n="tblRemaining">Remaining Hours</span><span class="val" id="cdRemainingTotal">-</span></div>
+             <div class="detail-item"><span class="lbl" data-i18n="alTotalLbl">Total (old + new)</span><span class="val" id="cdTotalBoth">-</span></div>
 
              <div class="detail-item" id="cdCarriedLabel"><span class="lbl" data-i18n="tblCarried">Carried Forward Balance</span><span class="val" id="cdCarried">-</span></div>
              <div class="detail-item" id="cdAllowedLabel"><span class="lbl" data-i18n="lblAllowedThisMonth">Available This Month</span><span class="val" id="cdAllowedThisMonth">-</span></div>
@@ -4174,6 +4175,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          chkLeaveRest: "This day is a rest day (H), so leave cannot be added.",
          chkRestDay: "Rest day (H): no work, no OT",
          chkLeaveOt: "{id} already has {o} h OT on {d}. Remove the OT first, then add 8 hours of leave.",
+         alOldRemark: "Old year left {n} hours",
+         alTotalLbl: "Total (old + new)",
+         alOldLeftHdr: "Old Balance Left",
+         alTotalRemHdr: "Total Remaining (old + new)",
          chkShiftRestAsk: "Employee {id} has {w}h working time, {o}h OT and {l}h leave on {d}.\n\nChanging the shift to H (rest day) will remove the working hours and OT of this day. Leave stays, please check it. Continue?",
          chkLeaveMax: "One day can have 8 hours at most. Only {n} hours of leave can still be added on this date.",
          chkLeaveSame: "Employee {id} already has {o} hours of leave on {d}.\n\nIf you add {n} hours, the total will be {s} hours. Continue?",
@@ -5866,6 +5871,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          chkLeaveRest: "ថ្ងៃនេះជាថ្ងៃសម្រាក (H) ដូច្នេះមិនអាចបន្ថែមការឈប់បានទេ។",
          chkRestDay: "ថ្ងៃសម្រាក (H)៖ គ្មានម៉ោងធ្វើការ គ្មានម៉ោងបន្ថែម",
          chkLeaveOt: "{id} មានម៉ោងបន្ថែម {o} ម៉ោង នៅថ្ងៃ {d} រួចហើយ។ សូមលុបម៉ោងបន្ថែមជាមុន ហើយបន្ទាប់មកបន្ថែមការឈប់ 8 ម៉ោង។",
+         alOldRemark: "ឆ្នាំចាស់សល់ {n} ម៉ោង",
+         alTotalLbl: "សរុប (ចាស់ + ថ្មី)",
+         alOldLeftHdr: "សមតុល្យឆ្នាំចាស់នៅសល់",
+         alTotalRemHdr: "ម៉ោងនៅសល់សរុប (ចាស់ + ថ្មី)",
          chkShiftRestAsk: "និយោជិត {id} មានម៉ោងធ្វើការ {w} ម៉ោង ម៉ោងបន្ថែម {o} ម៉ោង និងឈប់ {l} ម៉ោង នៅ {d}។\n\nការប្តូរវេនទៅ H (ថ្ងៃសម្រាក) នឹងលុបម៉ោងធ្វើការ និងម៉ោងបន្ថែមនៃថ្ងៃនេះ។ ការឈប់នៅដដែល សូមពិនិត្យ។ បន្តទេ?",
          chkLeaveMax: "មួយថ្ងៃមានអតិបរមា 8 ម៉ោង។ នៅអាចបន្ថែមការឈប់បានត្រឹម {n} ម៉ោងប៉ុណ្ណោះនៅថ្ងៃនេះ។",
          chkLeaveSame: "និយោជិត {id} មានការឈប់ {o} ម៉ោងរួចហើយនៅ {d}។\n\nបើបន្ថែម {n} ម៉ោង សរុបនឹងជា {s} ម៉ោង។ បន្តទេ?",
@@ -7520,6 +7529,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          chkLeaveRest: "当天是休息日（H），无法添加请假。",
          chkRestDay: "休息日（H）：不能填工作和加班",
          chkLeaveOt: "{id} 在 {d} 已有 {o} 小时加班。请先删除加班，再填 8 小时请假。",
+         alOldRemark: "上年结余 {n} 小时",
+         alTotalLbl: "合计（旧+新）",
+         alOldLeftHdr: "上年结余剩余",
+         alTotalRemHdr: "剩余合计（旧+新）",
          chkShiftRestAsk: "员工 {id} 在 {d} 有工作 {w} 小时、加班 {o} 小时、请假 {l} 小时。\n\n将班次改为 H（休息日）会删除当天的工作和加班时间，请假保留，请自行检查。是否继续？",
          chkLeaveMax: "一天最多 8 小时，这一天只能再添加 {n} 小时请假。",
          chkLeaveSame: "员工 {id} 在 {d} 已有 {o} 小时请假。\n\n若再添加 {n} 小时，合计 {s} 小时。是否继续？",
@@ -9458,7 +9471,16 @@ function renderEmpShiftCalendar() {
  }
 
  // Shared calculation core for the Check Record tab, used by the Check Details popup.
- function computeQueryData(emp, queryDate, todayHours) {
+ /* OLDBAL: the old (carried forward) balance is used first. Display only: stored numbers and totals are unchanged. */
+function alSplit(emp) {
+    var c = parseFloat(emp.carried) || 0, used = (parseFloat(emp.prevUsed) || 0) + (parseFloat(emp.monthUsed) || 0) - (parseFloat(emp.exceeded) || 0), ent = parseFloat(emp.entitled) || 0;
+    var total = ent - used + c, old = c > 0 ? Math.max(0, c - Math.max(0, used)) : 0;
+    return { c: c, used: used, total: total, old: old, neu: total - old };
+}
+function alTotNote(emp) { var a = alSplit(emp); return a.c > 0 ? '<div style="font-size:11px;font-weight:600;color:#64748b;">' + t('alTotalLbl') + ' ' + a.total.toFixed(2) + '</div>' : ''; }
+function alOldRemark(emp, lang) { var a = alSplit(emp); return a.old > 0.004 ? fillTemplate(tLang('alOldRemark', lang), { n: a.old.toFixed(2) }) : ''; }
+function alJoinRemark(emp, lang) { return [emp.remarks || '', alOldRemark(emp, lang)].filter(Boolean).join('; '); }
+function computeQueryData(emp, queryDate, todayHours) {
      const joinParts = (emp.joinDate || '').split('.');
      const join = joinParts.length === 3 ? new Date(joinParts[0], joinParts[1] - 1, joinParts[2]) : null;
 
@@ -9486,7 +9508,8 @@ function renderEmpShiftCalendar() {
      const startDateObj = (startParts2 && startParts2.length === 3) ? new Date(startParts2[0], startParts2[1] - 1, startParts2[2]) : null;
      const isStarted = startDateObj ? queryDate >= startDateObj : false;
 
-     return { workYears, startStr, endStr, yearRangeStr, renewalMonths, totalUsed, remainingTotal, isExceeded, monthsOfService, allowedThisMonth, remAfterToday, isStarted };
+     var alS = alSplit(emp);
+     return { workYears, startStr, endStr, yearRangeStr, renewalMonths, totalUsed, remainingTotal, isExceeded, monthsOfService, allowedThisMonth, remAfterToday, isStarted, oldLeft: alS.old, newLeft: alS.neu };
  }
 
 
@@ -9513,7 +9536,7 @@ function renderEmpShiftCalendar() {
      const qd = computeQueryData(emp, queryDate, todayHours);
      const { workYears, startStr, endStr, yearRangeStr, renewalMonths, totalUsed, remainingTotal, isExceeded, monthsOfService, allowedThisMonth, remAfterToday, isStarted } = qd;
      const carried = emp.carried || 0;
-     const hasCarried = carried > 0;
+     const hasCarried = qd.oldLeft > 0;
      const exceedsMonthlyLimit = allowedThisMonth < 0;
 
      document.getElementById('cdTitleInfo').innerText = ': ' + (emp.name || '-') + ' (' + (emp.id || '-') + ')';
@@ -9532,8 +9555,8 @@ function renderEmpShiftCalendar() {
      document.getElementById('cdTotalAL').innerText = (parseFloat(emp.entitled) || 0).toFixed(2);
      document.getElementById('cdTotalUsed').innerText = totalUsed.toFixed(2);
      document.getElementById('cdCurrentMonthUsed').innerText = (parseFloat(emp.monthUsed) || 0).toFixed(2);
-     document.getElementById('cdRemainingTotal').innerText = remainingTotal.toFixed(2);
-     document.getElementById('cdCarried').innerText = carried.toFixed(2);
+     document.getElementById('cdRemainingTotal').innerText = qd.newLeft.toFixed(2); document.getElementById('cdTotalBoth').innerText = remainingTotal.toFixed(2);
+     document.getElementById('cdCarried').innerText = qd.oldLeft.toFixed(2);
      document.getElementById('cdAllowedThisMonth').innerText = allowedThisMonth.toFixed(2);
      document.getElementById('cdRemAfterToday').innerText = remAfterToday.toFixed(2);
      document.getElementById('cdAvailCarried').innerText = hasCarried ? t('txtAvailable') : t('txtUnavailable');
@@ -10366,12 +10389,12 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
                  <td>${yearRangeStr}</td>
                  <td><b>${remainingMonthsCycle}</b></td>
                  <td>${(parseFloat(emp.entitled) || 0).toFixed(2)}</td>
-                 <td>${(parseFloat(emp.carried) || 0).toFixed(2)}</td>
+                 <td>${alSplit(emp).old.toFixed(2)}</td>
                  <td>${(parseFloat(emp.prevUsed) || 0).toFixed(2)}</td>
                  <td>${(parseFloat(emp.monthUsed) || 0).toFixed(2)}</td>
                  <td><b>${totalUsed.toFixed(2)}</b></td>
                  <td style="color:${emp.exceeded > 0 ? '#dc2626':'#64748b'}; font-weight:bold;">${(parseFloat(emp.exceeded) || 0).toFixed(2)}</td>
-                 <td style="color:${remaining < 0 ? '#dc2626':'#15803d'}; font-weight:bold;">${remaining.toFixed(2)}</td>
+                 <td style="color:${remaining < 0 ? '#dc2626':'#15803d'}; font-weight:bold;">${alSplit(emp).neu.toFixed(2)}${alTotNote(emp)}</td>
                  <td>${(parseFloat(emp.workHours) || 0).toFixed(2)}</td>
                  <td>${(parseFloat(emp.otHours) || 0).toFixed(2)}</td>
                  <td>${(parseFloat(emp.leaveAL) || 0).toFixed(2)}</td>
@@ -10418,7 +10441,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
                  <td><input type="number" value="${emp.workHours || 0}" step="0.5" ${hrViewLocked() ? 'disabled' : ''} class="mrBox" style="${(parseFloat(emp.workHours) || 0) > (parseFloat(emp.monthlyWorkDays) || 208) ? 'border-color:#dc2626;color:#b91c1c;' : ''}" onchange="mrWorkChange('${emp.firebaseKey}', this)"></td>
                  <td>${(parseFloat(emp.entitled) || 0).toFixed(2)}</td>
                  <td><b>${totalUsed.toFixed(2)}</b></td>
-                 <td style="color:${remaining < 0 ? '#dc2626':'#15803d'}; font-weight:bold;">${remaining.toFixed(2)}</td>
+                 <td style="color:${remaining < 0 ? '#dc2626':'#15803d'}; font-weight:bold;">${alSplit(emp).neu.toFixed(2)}${alTotNote(emp)}</td>
                  <td>${(parseFloat(emp.leaveAL) || 0).toFixed(2)}</td>
                  <td>${(parseFloat(emp.leaveSpecial) || 0).toFixed(2)}</td>
                  <td>${(parseFloat(emp.leaveMaternity) || 0).toFixed(2)}</td>
@@ -10461,7 +10484,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
                  <td>${endStr}</td>
                  <td>${(parseFloat(emp.entitled) || 0).toFixed(2)}</td>
                  <td><b>${totalUsed.toFixed(2)}</b></td>
-                 <td style="color:${remaining < 0 ? '#dc2626':'#15803d'}; font-weight:bold;">${remaining.toFixed(2)}</td>
+                 <td style="color:${remaining < 0 ? '#dc2626':'#15803d'}; font-weight:bold;">${alSplit(emp).neu.toFixed(2)}${alTotNote(emp)}</td>
                  <td>${emp.remarks || '-'}</td>
              </tr>
          `;
@@ -12086,9 +12109,9 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
              emp.id, emp.name, emp.joinDate, startStr, endStr,
              Number((parseFloat(emp.entitled) || 0).toFixed(2)),
              Number(qd.totalUsed.toFixed(2)),
-             Number(qd.remainingTotal.toFixed(2)),
+             Number(qd.newLeft.toFixed(2)),
              Number(lastColVal.toFixed(2)),
-             emp.remarks || ''
+             alJoinRemark(emp, lang)
          ]);
      });
 
@@ -12142,8 +12165,8 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
              emp.id, emp.name, emp.joinDate, startStr, endStr,
              Number((parseFloat(emp.entitled) || 0).toFixed(2)),
              Number(totalUsed.toFixed(2)),
-             Number(remaining.toFixed(2)),
-             emp.remarks || ''
+             Number(alSplit(emp).neu.toFixed(2)),
+             alJoinRemark(emp, lang)
          ]);
      });
 
@@ -12215,7 +12238,7 @@ function buildRenewalRows(maxMonths, dept) {
         const endKey = ep.length === 3 ? (parseInt(ep[0], 10) * 10000 + parseInt(ep[1], 10) * 100 + parseInt(ep[2], 10)) : 0;
         const totalUsed = ((parseFloat(emp.prevUsed) || 0) + (parseFloat(emp.monthUsed) || 0)) - (parseFloat(emp.exceeded) || 0);
         const entitled = parseFloat(emp.entitled) || 0;
-        const remaining = entitled - totalUsed + (parseFloat(emp.carried) || 0);
+        const remaining = alSplit(emp).neu;
         rows.push({ emp, startStr, endStr, months, left: renewalLeft(endStr, now), overdue: endKey > 0 && endKey < todayKey, entitled, totalUsed, remaining });
     });
     rows.sort((a, b) => (a.months - b.months) || (a.emp.id || '').localeCompare(b.emp.id || '', undefined, { numeric: true }));
@@ -12257,7 +12280,7 @@ function exportRenewalList(maxMonths, lang, dept) {
     rows.forEach((r, i) => {
         const nd = renewalNextDate(r.endStr);
         const until = (nd ? nd + ' ' : '') + '(' + renewalLeftText(r.left, lang) + ')';
-        const remark = [r.emp.remarks || '', r.overdue ? tLang('renewOverdue', lang) : ''].filter(Boolean).join('; ');
+        const remark = [r.emp.remarks || '', alOldRemark(r.emp, lang), r.overdue ? tLang('renewOverdue', lang) : ''].filter(Boolean).join('; ');
         aoa.push([i + 1, r.emp.id, r.emp.name, r.emp.joinDate || '', r.startStr, r.endStr,
             Number(r.entitled.toFixed(2)), Number(r.totalUsed.toFixed(2)), Number(r.remaining.toFixed(2)), until, remark]);
     });
@@ -12285,8 +12308,8 @@ function getMasterExportHeaderMap(lang) {
         "Sex": tLang('tblSex', lang), "Join Date": tLang('tblJoin', lang), "Years of Work": tLang('tblYears', lang),
         "Entitled Hours": tLang('tblEntitled', lang), "AL Start Date": tLang('tblStart', lang), "AL End Date": tLang('tblEnd', lang),
         "Year Range": tLang('tblYearRange', lang), "Months Until AL Renewal": tLang('tblRenewed', lang), "Total AL": tLang('tblTotalAL', lang),
-        "Carried Forward": tLang('tblCarried', lang), "Prev Month Used": tLang('tblPrevUsed', lang), "Current Month Used": tLang('tblMonthUsed', lang),
-        "Total Used Hours": tLang('tblTotalUsed', lang), "Exceeded Hours": tLang('tblExceeded', lang), "Remaining Hours": tLang('tblRemaining', lang),
+        "Old Balance Left": tLang('alOldLeftHdr', lang), "Prev Month Used": tLang('tblPrevUsed', lang), "Current Month Used": tLang('tblMonthUsed', lang),
+        "Total Used Hours": tLang('tblTotalUsed', lang), "Exceeded Hours": tLang('tblExceeded', lang), "Remaining Hours": tLang('tblRemaining', lang), "Total Remaining (old + new)": tLang('alTotalRemHdr', lang),
         "Working Hours": tLang('thMasterWorkingHours', lang), "Monthly Overtime": tLang('thMasterMonthlyOT', lang),
         "Annual Leave": tLang('thMasterAnnualLeave', lang), "Special Leave": tLang('thMasterSpecialLeave', lang),
         "Maternity Leave": tLang('thMasterMaternityLeave', lang), "Travel Leave": tLang('thMasterTravelLeave', lang),
@@ -12300,7 +12323,7 @@ function getMonthlyExportHeaderMap(lang) {
         "Employee ID": tLang('tblId', lang), "Name": tLang('tblName', lang), "Join Date": tLang('tblJoin', lang),
         "Resigned Date": tLang('tblResignedDate', lang), "Attendance": tLang('thMonthlyAttendance', lang),
         "Actual Working Hours": tLang('thMonthlyActualWork', lang), "Entitled Hours": tLang('tblEntitled', lang),
-        "Total Hours Used": tLang('tblTotalUsed', lang), "Total Remaining Hours": tLang('tblRemaining', lang),
+        "Total Hours Used": tLang('tblTotalUsed', lang), "Total Remaining Hours": tLang('tblRemaining', lang), "Total Remaining (old + new)": tLang('alTotalRemHdr', lang),
         "Annual Leave": tLang('thMasterAnnualLeave', lang), "Special Leave": tLang('thMasterSpecialLeave', lang),
         "Maternity Leave": tLang('thMasterMaternityLeave', lang), "Travel Leave": tLang('thMasterTravelLeave', lang),
         "Personal Leave": tLang('thMasterPersonalLeave', lang), "Sick Leave": tLang('thMasterSickLeave', lang),
@@ -12352,9 +12375,9 @@ function exportToExcel(type, lang, dept) {
                 "Years of Work": workYears, "Entitled Hours": Number((parseFloat(emp.entitled) || 0).toFixed(2)),
                 "AL Start Date": startStr, "AL End Date": endStr, "Year Range": emp.yearRange || computedCycle.yearRangeStr,
                 "Months Until AL Renewal": remainingMonthsCycle, "Total AL": Number((parseFloat(emp.entitled) || 0).toFixed(2)),
-                "Carried Forward": Number((parseFloat(emp.carried) || 0).toFixed(2)), "Prev Month Used": Number((parseFloat(emp.prevUsed) || 0).toFixed(2)),
+                "Old Balance Left": Number(alSplit(emp).old.toFixed(2)), "Prev Month Used": Number((parseFloat(emp.prevUsed) || 0).toFixed(2)),
                 "Current Month Used": Number((parseFloat(emp.monthUsed) || 0).toFixed(2)), "Total Used Hours": Number(totalUsed.toFixed(2)),
-                "Exceeded Hours": Number((parseFloat(emp.exceeded) || 0).toFixed(2)), "Remaining Hours": Number(remaining.toFixed(2)),
+                "Exceeded Hours": Number((parseFloat(emp.exceeded) || 0).toFixed(2)), "Remaining Hours": Number(alSplit(emp).neu.toFixed(2)), "Total Remaining (old + new)": Number(remaining.toFixed(2)),
                 "Working Hours": Number((parseFloat(emp.workHours) || 0).toFixed(2)), "Monthly Overtime": Number((parseFloat(emp.otHours) || 0).toFixed(2)),
                 "Annual Leave": Number((parseFloat(emp.leaveAL) || 0).toFixed(2)), "Special Leave": Number((parseFloat(emp.leaveSpecial) || 0).toFixed(2)),
                 "Maternity Leave": Number((parseFloat(emp.leaveMaternity) || 0).toFixed(2)), "Travel Leave": Number((parseFloat(emp.leaveTravel) || 0).toFixed(2)),
@@ -12373,7 +12396,7 @@ function exportToExcel(type, lang, dept) {
                 "Employee ID": emp.id, "Name": emp.name, "Join Date": emp.joinDate, "Resigned Date": emp.resignedDate || "",
                 "Attendance": emp.monthlyWorkDays || 208, "Actual Working Hours": Number((parseFloat(emp.workHours) || 0).toFixed(2)),
                 "Entitled Hours": Number((parseFloat(emp.entitled) || 0).toFixed(2)), "Total Hours Used": Number(totalUsed.toFixed(2)),
-                "Total Remaining Hours": Number(remaining.toFixed(2)), "Annual Leave": Number((parseFloat(emp.leaveAL) || 0).toFixed(2)),
+                "Total Remaining Hours": Number(alSplit(emp).neu.toFixed(2)), "Total Remaining (old + new)": Number(remaining.toFixed(2)), "Annual Leave": Number((parseFloat(emp.leaveAL) || 0).toFixed(2)),
                 "Special Leave": Number((parseFloat(emp.leaveSpecial) || 0).toFixed(2)), "Maternity Leave": Number((parseFloat(emp.leaveMaternity) || 0).toFixed(2)),
                 "Travel Leave": Number((parseFloat(emp.leaveTravel) || 0).toFixed(2)), "Personal Leave": Number((parseFloat(emp.leavePersonal) || 0).toFixed(2)),
                 "Sick Leave": Number((parseFloat(emp.leaveSick) || 0).toFixed(2)), "Other Leave": Number((parseFloat(emp.leaveOther) || 0).toFixed(2)),
@@ -19229,8 +19252,8 @@ function msRenderTable() {
             const used = (parseFloat(e.prevUsed) || 0) + (parseFloat(e.monthUsed) || 0) - (parseFloat(e.exceeded) || 0), remaining = (parseFloat(e.entitled) || 0) - used + (parseFloat(e.carried) || 0);
             const f = function (v) { return (parseFloat(v) || 0).toFixed(2); };
             html += '<tr><td><button class="btn-view" onclick="msDetail(' + idx + ')" title="View">' + ICON_VIEW + '</button></td><td><b>' + dgEsc(e.id) + '</b></td><td>' + dgEsc(e.name) + '</td><td>' + dgEsc(e.department || '-') + '</td><td>' + dgEsc(e.joinDate) + '</td><td>' + Math.floor(Math.max(0, twm) / 12) + '</td>' +
-                '<td>' + f(e.entitled) + '</td><td>' + dgEsc(st) + '</td><td>' + dgEsc(en) + '</td><td>' + dgEsc(yr) + '</td><td><b>' + rem + '</b></td><td>' + f(e.entitled) + '</td><td>' + f(e.carried) + '</td><td>' + f(e.prevUsed) + '</td><td>' + f(e.monthUsed) + '</td><td><b>' + used.toFixed(2) + '</b></td>' +
-                '<td style="color:' + (e.exceeded > 0 ? '#dc2626' : '#64748b') + '; font-weight:bold;">' + f(e.exceeded) + '</td><td style="color:' + (remaining < 0 ? '#dc2626' : '#15803d') + '; font-weight:bold;">' + remaining.toFixed(2) + '</td>' +
+                '<td>' + f(e.entitled) + '</td><td>' + dgEsc(st) + '</td><td>' + dgEsc(en) + '</td><td>' + dgEsc(yr) + '</td><td><b>' + rem + '</b></td><td>' + f(e.entitled) + '</td><td>' + alSplit(e).old.toFixed(2) + '</td><td>' + f(e.prevUsed) + '</td><td>' + f(e.monthUsed) + '</td><td><b>' + used.toFixed(2) + '</b></td>' +
+                '<td style="color:' + (e.exceeded > 0 ? '#dc2626' : '#64748b') + '; font-weight:bold;">' + f(e.exceeded) + '</td><td style="color:' + (remaining < 0 ? '#dc2626' : '#15803d') + '; font-weight:bold;">' + alSplit(e).neu.toFixed(2) + alTotNote(e) + '</td>' +
                 '<td>' + f(e.workHours) + '</td><td>' + f(e.otHours) + '</td><td>' + f(e.leaveAL) + '</td><td>' + f(e.leaveSpecial) + '</td><td>' + f(e.leaveMaternity) + '</td><td>' + f(e.leaveTravel) + '</td><td>' + f(e.leavePersonal) + '</td><td>' + f(e.leaveSick) + '</td><td>' + f(e.leaveOther) + '</td><td>' + dgEsc(e.remarks || '-') + '</td></tr>';
         } catch (err) { html += '<tr><td colspan="27" style="color:#dc2626;">' + dgEsc(e.id) + '</td></tr>'; }
     });
@@ -19241,13 +19264,13 @@ function msRenderTable() {
 function msDetail(idx) {
     const e0 = msEmps[idx]; if (!e0) return;
     const emp = msMerge(e0), now = new Date();
-    const qd = computeQueryData(emp, now, 0), carried = parseFloat(emp.carried) || 0, hasC = carried > 0, exceeds = qd.allowedThisMonth < 0, f = function (v) { return (parseFloat(v) || 0).toFixed(2); };
+    const qd = computeQueryData(emp, now, 0), carried = parseFloat(emp.carried) || 0, hasC = qd.oldLeft > 0, exceeds = qd.allowedThisMonth < 0, f = function (v) { return (parseFloat(v) || 0).toFixed(2); };
     const S = function (id, v) { const el = document.getElementById(id); if (el) el.innerText = v; };
     S('cdTitleInfo', ': ' + (emp.name || '-') + ' (' + (emp.id || '-') + ')'); S('cdQueryShift', '');
     const sh = document.getElementById('cdQueryShift'); if (sh) sh.textContent = t('msViewOnlyTag') + ' - ' + dgOrgNameOf(msKey);
     S('cdId', emp.id || '-'); S('cdName', emp.name || '-'); S('cdDept', emp.department || '-'); S('cdJoin', emp.joinDate || '-'); S('cdYears', qd.workYears); S('cdEntitled', f(emp.entitled));
     S('cdStart', qd.startStr || '-'); S('cdEnd', qd.endStr || '-'); S('cdRenewal', qd.renewalMonths); S('cdYearRange', qd.yearRangeStr || '-'); S('cdMonths', qd.monthsOfService); S('cdTotalAL', f(emp.entitled));
-    S('cdTotalUsed', qd.totalUsed.toFixed(2)); S('cdCurrentMonthUsed', f(emp.monthUsed)); S('cdRemainingTotal', qd.remainingTotal.toFixed(2)); S('cdCarried', carried.toFixed(2));
+    S('cdTotalUsed', qd.totalUsed.toFixed(2)); S('cdCurrentMonthUsed', f(emp.monthUsed)); S('cdRemainingTotal', qd.newLeft.toFixed(2)); S('cdTotalBoth', qd.remainingTotal.toFixed(2)); S('cdCarried', qd.oldLeft.toFixed(2));
     S('cdAllowedThisMonth', qd.allowedThisMonth.toFixed(2)); S('cdRemAfterToday', qd.remAfterToday.toFixed(2)); S('cdAvailCarried', hasC ? t('txtAvailable') : t('txtUnavailable'));
     S('cdIsStarted', qd.isStarted ? t('txtStartYes') : t('txtStartNo')); S('cdIsExceeded', exceeds ? t('txtExceed') : t('txtInLimit'));
     S('cdWorkHours', f(emp.workHours)); S('cdOTHours', f(emp.otHours)); S('cdLeaveAL', f(emp.leaveAL)); S('cdLeavePersonal', f(emp.leavePersonal)); S('cdLeaveSpecial', f(emp.leaveSpecial));
@@ -19264,7 +19287,7 @@ function msExport() {
     msEmps.forEach(function (e0) {
         if (g && e0.department !== g) return; const e = msMerge(e0); if (!e._has) return;
         const cyc = computeLeaveCycle(e.joinDate, new Date()), u = (parseFloat(e.prevUsed) || 0) + (parseFloat(e.monthUsed) || 0) - (parseFloat(e.exceeded) || 0), r = (parseFloat(e.entitled) || 0) - u + (parseFloat(e.carried) || 0);
-        aoa.push(cols.map(function (c) { const k = c[1]; if (k === '_u') return Number(u.toFixed(2)); if (k === '_r') return Number(r.toFixed(2)); if (k === 'startDate') return e.startDate || cyc.startStr; if (k === 'endDate') return e.endDate || cyc.endStr; if (k === 'yearRange') return e.yearRange || cyc.yearRangeStr; if (N.indexOf(k) >= 0) return parseFloat(e[k]) || 0; return e[k] == null ? '' : e[k]; }));
+        aoa.push(cols.map(function (c) { const k = c[1]; if (k === '_u') return Number(u.toFixed(2)); if (k === '_r') return Number(alSplit(e).neu.toFixed(2)); if (k === 'carried') return Number(alSplit(e).old.toFixed(2)); if (k === 'startDate') return e.startDate || cyc.startStr; if (k === 'endDate') return e.endDate || cyc.endStr; if (k === 'yearRange') return e.yearRange || cyc.yearRangeStr; if (N.indexOf(k) >= 0) return parseFloat(e[k]) || 0; return e[k] == null ? '' : e[k]; }));
     });
     const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(aoa), 'Master Sheet');
     XLSX.writeFile(wb, 'MSE_' + dgOrgNameOf(msKey).replace(/[^\wក-៿一-龥-]+/g, '_') + '_' + new Date().toISOString().slice(0, 10) + '.xlsx');
