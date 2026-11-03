@@ -604,7 +604,8 @@
     .office-ribbon .ribbon-style-box:hover { border-color:#2563eb; background:#eff6ff; }
     .office-ribbon .ribbon-placeholder-note { font-size:11px; color:#6b7280; padding:8px 10px; font-style:italic; }
     #docGridEditorContainer .jexcel_toolbar, #docWordEditorContent .ck-toolbar { display:none !important; }
- .hrMB{display:block;margin:0 0 8px}.hrMB .hrMBbox{display:inline-flex!important}.hrMBbox{background:transparent;border:0;border-radius:0;padding:0;margin:0;font-size:12px}.hrMBbox b{font-size:12px;font-weight:700}.hrMBbox select{padding:6px 8px!important;border:1px solid #cbd5e1!important;border-radius:8px!important;background:#fff!important;font-size:12px!important;width:auto!important;min-width:180px;max-width:none!important;flex:0 0 auto}.hrMBbox b{white-space:nowrap}.hrMBbox .quick-btn{padding:4px 9px!important;font-size:11px!important;min-height:0!important;height:auto!important;line-height:1.2!important;white-space:nowrap}.hrFrozen{background:#e0f2fe;color:#075985;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700}.mrSug{font-size:11px;color:#64748b;margin-top:2px}.mrSug.diff{color:#b45309;font-weight:700;cursor:pointer;text-decoration:underline}tr.mrRed td{background:#fef2f2}.chkNote{font-size:11px;font-weight:700;color:#b91c1c;margin-top:2px}.chkNote.ok{color:#475569;font-weight:600}tr.chkOff td{background:#e2e8f0;color:#94a3b8}tr.chkOff input{background:#cbd5e1;cursor:not-allowed}
+ .hrMB{display:block;margin:0 0 8px}.hrMB .hrMBbox{display:inline-flex!important}.hrMBbox{background:transparent;border:0;border-radius:0;padding:0;margin:0;font-size:12px}.hrMBbox b{font-size:12px;font-weight:700}.hrMBbox select{padding:6px 8px!important;border:1px solid #cbd5e1!important;border-radius:8px!important;background:#fff!important;font-size:12px!important;width:auto!important;min-width:180px;max-width:none!important;flex:0 0 auto}.hrMBbox b{white-space:nowrap}.hrMBbox .quick-btn{padding:4px 9px!important;font-size:11px!important;min-height:0!important;height:auto!important;line-height:1.2!important;white-space:nowrap}.hrFrozen{background:#e0f2fe;color:#075985;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700}.mrSug{font-size:11px;color:#64748b;margin-top:2px}
+.mrBox{width:90px!important;height:34px!important;box-sizing:border-box!important;text-align:center;font-size:14px;padding:4px 6px!important}.mrSug.diff{color:#b45309;font-weight:700;cursor:pointer;text-decoration:underline}tr.mrRed td{background:#fef2f2}.chkNote{font-size:11px;font-weight:700;color:#b91c1c;margin-top:2px}.chkNote.ok{color:#475569;font-weight:600}tr.chkOff td{background:#e2e8f0;color:#94a3b8}tr.chkOff input{background:#cbd5e1;cursor:not-allowed}
 #chkDate { display: block !important; text-align: center !important; text-align-last: center !important; -webkit-appearance: none; appearance: none; }
 #chkDate::-webkit-date-and-time-value { text-align: center !important; margin: 0 auto; }
 #chkDate::-webkit-datetime-edit { display: inline-block; }
@@ -4172,6 +4173,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          chkLeaveNoShift: "This employee has no shift on that date, so leave cannot be added.",
          chkLeaveRest: "This day is a rest day (H), so leave cannot be added.",
          chkRestDay: "Rest day (H): no work, no OT",
+         chkLeaveOt: "{id} already has {o} h OT on {d}. Remove the OT first, then add 8 hours of leave.",
          chkShiftRestAsk: "Employee {id} has {w}h working time, {o}h OT and {l}h leave on {d}.\n\nChanging the shift to H (rest day) will remove the working hours and OT of this day. Leave stays, please check it. Continue?",
          chkLeaveMax: "One day can have 8 hours at most. Only {n} hours of leave can still be added on this date.",
          chkLeaveSame: "Employee {id} already has {o} hours of leave on {d}.\n\nIf you add {n} hours, the total will be {s} hours. Continue?",
@@ -5863,6 +5865,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          chkLeaveNoShift: "និយោជិតនេះគ្មានវេននៅថ្ងៃនោះ ដូច្នេះមិនអាចបន្ថែមការឈប់បានទេ។",
          chkLeaveRest: "ថ្ងៃនេះជាថ្ងៃសម្រាក (H) ដូច្នេះមិនអាចបន្ថែមការឈប់បានទេ។",
          chkRestDay: "ថ្ងៃសម្រាក (H)៖ គ្មានម៉ោងធ្វើការ គ្មានម៉ោងបន្ថែម",
+         chkLeaveOt: "{id} មានម៉ោងបន្ថែម {o} ម៉ោង នៅថ្ងៃ {d} រួចហើយ។ សូមលុបម៉ោងបន្ថែមជាមុន ហើយបន្ទាប់មកបន្ថែមការឈប់ 8 ម៉ោង។",
          chkShiftRestAsk: "និយោជិត {id} មានម៉ោងធ្វើការ {w} ម៉ោង ម៉ោងបន្ថែម {o} ម៉ោង និងឈប់ {l} ម៉ោង នៅ {d}។\n\nការប្តូរវេនទៅ H (ថ្ងៃសម្រាក) នឹងលុបម៉ោងធ្វើការ និងម៉ោងបន្ថែមនៃថ្ងៃនេះ។ ការឈប់នៅដដែល សូមពិនិត្យ។ បន្តទេ?",
          chkLeaveMax: "មួយថ្ងៃមានអតិបរមា 8 ម៉ោង។ នៅអាចបន្ថែមការឈប់បានត្រឹម {n} ម៉ោងប៉ុណ្ណោះនៅថ្ងៃនេះ។",
          chkLeaveSame: "និយោជិត {id} មានការឈប់ {o} ម៉ោងរួចហើយនៅ {d}។\n\nបើបន្ថែម {n} ម៉ោង សរុបនឹងជា {s} ម៉ោង។ បន្តទេ?",
@@ -7516,6 +7519,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          chkLeaveNoShift: "该员工当天没有班次，无法添加请假。",
          chkLeaveRest: "当天是休息日（H），无法添加请假。",
          chkRestDay: "休息日（H）：不能填工作和加班",
+         chkLeaveOt: "{id} 在 {d} 已有 {o} 小时加班。请先删除加班，再填 8 小时请假。",
          chkShiftRestAsk: "员工 {id} 在 {d} 有工作 {w} 小时、加班 {o} 小时、请假 {l} 小时。\n\n将班次改为 H（休息日）会删除当天的工作和加班时间，请假保留，请自行检查。是否继续？",
          chkLeaveMax: "一天最多 8 小时，这一天只能再添加 {n} 小时请假。",
          chkLeaveSame: "员工 {id} 在 {d} 已有 {o} 小时请假。\n\n若再添加 {n} 小时，合计 {s} 小时。是否继续？",
@@ -10410,8 +10414,8 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
                  <td>${emp.name}</td>
                  <td>${emp.joinDate}</td>
                  <td>${emp.resignedDate || '-'}</td>
-                 <td><input type="number" value="${emp.monthlyWorkDays || 208}" step="1" ${hrViewLocked() ? 'disabled' : ''} style="width:75px;" onchange="updateEmpMonthlyField('${emp.firebaseKey}', 'monthlyWorkDays', this.value)">${mrSugHtml(emp)}</td>
-                 <td><input type="number" value="${emp.workHours || 0}" step="0.5" ${hrViewLocked() ? 'disabled' : ''} style="width:75px;${(parseFloat(emp.workHours) || 0) > (parseFloat(emp.monthlyWorkDays) || 208) ? 'border-color:#dc2626;color:#b91c1c;' : ''}" onchange="mrWorkChange('${emp.firebaseKey}', this)"></td>
+                 <td><input type="number" value="${emp.monthlyWorkDays || 208}" step="1" ${hrViewLocked() ? 'disabled' : ''} class="mrBox" onchange="updateEmpMonthlyField('${emp.firebaseKey}', 'monthlyWorkDays', this.value)">${mrSugHtml(emp)}</td>
+                 <td><input type="number" value="${emp.workHours || 0}" step="0.5" ${hrViewLocked() ? 'disabled' : ''} class="mrBox" style="${(parseFloat(emp.workHours) || 0) > (parseFloat(emp.monthlyWorkDays) || 208) ? 'border-color:#dc2626;color:#b91c1c;' : ''}" onchange="mrWorkChange('${emp.firebaseKey}', this)"></td>
                  <td>${(parseFloat(emp.entitled) || 0).toFixed(2)}</td>
                  <td><b>${totalUsed.toFixed(2)}</b></td>
                  <td style="color:${remaining < 0 ? '#dc2626':'#15803d'}; font-weight:bold;">${remaining.toFixed(2)}</td>
@@ -12985,6 +12989,7 @@ async function hrLeaveGate(form) {
     if (!hrWorkOn(id, date)) { showToast(false, t(hrShiftOn(id, date) ? 'chkLeaveRest' : 'chkLeaveNoShift')); return false; }
     var d = hrDay(id, date);
     if (hrMode(date) === 'closed') { var rs = await hrReason(fillTemplate(t('hrReasonTitle'), { m: hrYmName(date.slice(0, 7)) })); if (!rs) return false; window.__hrR = rs; }
+    if (d.ot > 0 && d.leave + total >= HRCHK_WORK - 1e-9) { showToast(false, fillTemplate(t('chkLeaveOt'), { id: id, d: date, o: hrFmt(d.ot) })); return false; }
     if (d.leave + total > HRCHK_WORK + 1e-9) { showToast(false, fillTemplate(t('chkLeaveMax'), { n: hrFmt(Math.max(0, HRCHK_WORK - d.leave)) })); return false; }
     if (d.leave > 0) { if (!(await hrAsk(fillTemplate(t('chkLeaveSame'), { id: id, d: date, o: hrFmt(d.leave), n: hrFmt(total), s: hrFmt(d.leave + total) }), t('chkContinue')))) return false; }
     var over = d.work + d.leave + total - HRCHK_WORK;
@@ -14604,7 +14609,7 @@ function hrWorkOn(empId, date) { var ty = hrType(empId, date); return ty === 'M'
 function hrWorkCap(empId, date) { return hrType(empId, date) === 'H' ? 0 : HRCHK_WORK; }
 function hrSum(list, empId, date, f) { return (list || []).reduce(function (a, h) { return (String(h.empId) === String(empId) && h.date === date) ? a + (parseFloat(h[f]) || 0) : a; }, 0); }
 function hrDay(empId, date) { return { work: hrSum(attendanceHistory, empId, date, 'workHours'), ot: hrSum(attendanceHistory, empId, date, 'otHours'), leave: hrSum(leaveHistory, empId, date, 'hours') }; }
-function hrRoom(empId, date) { var d = hrDay(empId, date); return { work: Math.max(0, hrWorkCap(empId, date) - d.leave - d.work), ot: Math.max(0, (hrType(empId, date) === 'H' ? 0 : HRCHK_OT) - d.ot), d: d }; }
+function hrRoom(empId, date) { var d = hrDay(empId, date); return { work: Math.max(0, hrWorkCap(empId, date) - d.leave - d.work), ot: Math.max(0, ((hrType(empId, date) === 'H' || d.leave >= HRCHK_WORK - 1e-9) ? 0 : HRCHK_OT) - d.ot), d: d }; }
 function hrFmt(n) { return String(Math.round(n * 100) / 100); }
 function hrAttInput(el) { var mx = parseFloat(el.getAttribute('data-max')); var v = parseFloat(el.value); if (isNaN(mx) || isNaN(v)) return; if (v > mx + 1e-9) { el.value = hrFmt(mx); showToast(false, fillTemplate(t(el.getAttribute('data-field') === 'ot' ? 'chkOtMax' : 'chkWorkMax'), { n: hrFmt(mx) })); } if (parseFloat(el.value) < 0) el.value = 0; }
 
