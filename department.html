@@ -22089,9 +22089,13 @@ function menuPage(n) {
 })();
 </script><!-- HRFT-PUSH-END -->
 <style id="frzCss">
+/* FRZ: table with its own borders so the frozen heading never shows lines through its text */
 .table-responsive.frzOn { overflow: auto; max-height: var(--frzH, 65vh); }
-.frz table.master-tbl > thead > tr > th { position: sticky; top: 0; z-index: 3; background-color: #f1f5f9; box-shadow: inset 0 -1px 0 #cbd5e1; }
+.frz table.master-tbl { border-collapse: separate; border-spacing: 0; border-left: 1px solid #e2e8f0; border-top: 1px solid #e2e8f0; }
+.frz table.master-tbl th, .frz table.master-tbl td { border-width: 0 1px 1px 0; }
+.frz table.master-tbl > thead > tr > th { position: sticky; top: 0; z-index: 3; background-color: #f1f5f9; border-bottom: 1px solid #cbd5e1; }
 th.srt { cursor: pointer; user-select: none; }
+th.srt:not([data-srt])::after { content: " \21C5"; font-size: 10px; color: #94a3b8; }
 th.srt:hover { background-color: #e2e8f0 !important; }
 th.srt[data-srt="asc"]::after { content: " \25B2"; font-size: 9px; color: #2563eb; }
 th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563eb; }
@@ -22108,6 +22112,7 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
   function ths(tb) { var h = tb.tHead; return h && h.rows.length === 1 ? Array.prototype.slice.call(h.rows[0].cells) : null; }
   function colKind(th) {
     var k = (th.getAttribute('data-i18n') || '').toLowerCase(), tx = (th.textContent || '').trim().toLowerCase();
+    if (k === 'tblactions' || tx === 'actions') return 'act';
     if (k === 'tblid' || tx === 'id' || tx === 'employee id') return 'id';
     if (k === 'tblname' || tx === 'name') return 'name';
     return '';
@@ -22158,7 +22163,7 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
     var wrap = tb.closest('.table-responsive'); if (wrap) wrap.classList.add('frz');
     h.forEach(function (th, i) {
       var tx = (th.textContent || '').trim();
-      if (!tx || th.colSpan > 1 || th.querySelector('input,button,select')) return;
+      if (colKind(th) !== 'id' || !tx || th.colSpan > 1 || th.querySelector('input,button,select')) return;
       th.classList.add('srt');
       th.addEventListener('click', function (ev) { if (ev.target.closest('input,button,select')) return; if (st.col === i) st.dir = -st.dir; else { st.col = i; st.dir = 1; } sortTable(tb); arrows(tb); });
     });
