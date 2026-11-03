@@ -22153,6 +22153,8 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
       css += '.frz ' + sel.split(', ').join(', .frz ') + '{position:sticky;left:' + left + 'px;z-index:2;background-color:#fff;}';
       css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '){z-index:5;background-color:#f1f5f9;}';
       css += '.frz #' + tb.id + ' > tbody > tr.mrRed > td:nth-child(' + (i + 1) + '){background-color:#fef2f2;}';
+      if (colKind(h[i]) === 'act') css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), .frz #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + '){padding-left:3px;padding-right:3px;}';
+      if (n === idx.length - 1) css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), .frz #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + '){border-right:2px solid #94a3b8;box-shadow:6px 0 6px -3px rgba(15,23,42,.28);}';
       var cell = h[i]; left += cell.offsetWidth || 70;
     });
     dynCss[tb.id] = css; styleEl.textContent = Object.keys(dynCss).map(function (k) { return dynCss[k]; }).join('\n');
