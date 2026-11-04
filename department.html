@@ -2800,7 +2800,6 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
                 <h4 id="attCalGridTitle" data-i18n="attCalModeLeave">Leave Calendar</h4>
                 <p id="attCalLegend" style="font-size:11px; color:#64748b; margin-bottom:10px;" data-i18n="attCalLegendLeave">Green = other leave types. Red = Personal Leave.</p>
             </div>
-            <button type="button" class="quick-btn" style="width:auto; min-width:auto; min-height:auto; padding:8px 14px; flex-direction:row; gap:6px; background:#334155;" onclick="exportAttCalToPDF()" data-i18n="btnExportPDF">Export as PDF</button>
         </div>
         <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end; margin-bottom:12px;">
             <div class="form-group" style="margin-bottom:0; min-width:160px;">
@@ -2811,6 +2810,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
                 <label data-i18n="lblSearch">Search Employee:</label>
                 <input type="text" id="attCalSearchInput" onkeyup="renderAttCalTable()" placeholder="Enter ID or Name...">
             </div>
+            <button type="button" class="quick-btn acExp" style="width:auto; min-width:auto; min-height:auto; padding:8px 14px; flex-direction:row; gap:6px; background:#334155;" onclick="exportAttCalToPDF()" data-i18n="btnExportPDF">Export as PDF</button>
         </div>
         <div id="attCalDescription" style="display:none; background:#f0f9ff; border:1px solid #bae6fd; border-radius:6px; padding:10px 14px; margin-bottom:12px; font-size:13px; color:#0c4a6e;"></div>
         <div class="table-responsive">
@@ -22088,8 +22088,7 @@ function menuPage(n) {
     setInterval(sync, 300); document.addEventListener('change', sync, true); document.addEventListener('input', sync, true);
 })();
 </script><!-- HRFT-PUSH-END -->
-<style id="frzCss">
-/* FRZ: table with its own borders so the frozen heading never shows lines through its text */
+<style id="frzCss">/* FRZ: table with its own borders so the frozen heading never shows lines through its text */
 .table-responsive.frzOn { overflow: auto; max-height: var(--frzH, 65vh); }
 .frz table.master-tbl { border-collapse: separate; border-spacing: 0; border-left: 1px solid #e2e8f0; border-top: 1px solid #e2e8f0; }
 .frz table.master-tbl th, .frz table.master-tbl td { border-width: 0 1px 1px 0; }
@@ -22106,6 +22105,14 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
 #tab-att > form .dg-bar > span label { font-size: 12px !important; font-weight: 600 !important; text-transform: none; color: inherit; }
 #tab-att > form .dg-bar > .dg-clear { order: 9; }
 #tab-att > form .dg-bar select, #tab-att > form .form-group select, #tab-att > form .form-group input { height: 36px; box-sizing: border-box; }
+/* Leave & Attendance Calendar: Month | Search | Department | Group | Clear filter | Export PDF in ONE row */
+#tab-attcal .dg-bar { display: contents !important; }
+#tab-attcal .dg-bar > span { display: flex !important; flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; text-align: left; }
+#tab-attcal .dg-bar > span label { font-size: 12px !important; font-weight: 600 !important; text-transform: none; color: inherit; margin: 0 !important; }
+#tab-attcal .dg-bar select { min-width: 140px; }
+#tab-attcal .dg-bar > .dg-clear, #tab-attcal .acExp { align-self: flex-end; }
+#tab-attcal .dg-bar select, #tab-attcal .form-group input, #tab-attcal .dg-bar > .dg-clear, #tab-attcal .acExp { height: 36px !important; min-height: 36px !important; box-sizing: border-box; }
+#tab-attcal .acExp { white-space: nowrap; padding-top: 0 !important; padding-bottom: 0 !important; }
 </style>
 <script id="frzJs">
 (function () {
