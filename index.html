@@ -29068,5 +29068,76 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
   setTimeout(scan, 800); window.frzScan = scan;
 })();
 </script>
+<style id="pgScrCss">.modal.pgScr{position:fixed!important;top:var(--pgTop,0px)!important;left:0!important;right:0!important;bottom:0!important;width:auto!important;height:auto!important;background:#f1f5f9!important;z-index:80!important;align-items:flex-start!important;justify-content:center!important;overflow-y:auto!important;overscroll-behavior:contain;padding:14px 14px 40px!important;box-sizing:border-box!important}
+.modal.pgScr.pgUnder{visibility:hidden!important}
+.modal.pgScr > .modal-content{max-width:1100px!important;width:100%!important;max-height:none!important;overflow:visible!important;box-sizing:border-box!important;box-shadow:0 1px 3px rgba(15,23,42,.10),0 8px 24px rgba(15,23,42,.06)!important}
+.modal.pgScr > .modal-content > .modal-header{position:static!important;margin:0 0 16px!important;padding:0 0 10px!important;border-radius:0!important;justify-content:flex-start!important;gap:12px;flex-wrap:wrap}
+.modal.pgScr > .modal-content > .modal-header > h3,.modal.pgScr > .modal-content > .modal-header > h4{margin:0!important;flex:1 1 auto}
+.modal.pgScr .modal-header .modal-close{display:none!important}
+.pgBack{display:none;border:0;border-radius:8px;background:#e2e8f0;color:#0f172a;font:600 13px/1 inherit;font-family:inherit;padding:9px 14px;cursor:pointer;min-height:36px;white-space:nowrap}
+.pgBack:hover{background:#cbd5e1}
+.modal.pgScr .pgBack{display:inline-flex;align-items:center;gap:4px}
+@media (max-width:600px){.modal.pgScr{padding:8px 8px 40px!important}.modal.pgScr > .modal-content{padding:14px!important}}
+.modal.pgScr #tdBody{max-height:none!important}
+#tab-certificates > h3,#tab-certificates > p{text-align:center}
+#tab-certificates > .dash-card{margin-left:auto!important;margin-right:auto!important}
+</style>
+<script id="pgScrJs">(function(){
+if(window.__pgScr)return;window.__pgScr=1;
+var MAP={tdModal:'tdOpen',deptReqModal:'openDeptReqModal',deptIvModal:'openDeptIvModal',dateCtlModal:'openDateCtl',clrModal:'openClr',ccModal:'openCardCenter',recentlyDeletedModal:'openRecentlyDeletedModal',pendingApprovalsModal:'openPendingApprovalsModal',managementModal:'openManagementModal',deptAccModal:'openDeptAccModal',manageNotifModal:'openManageNotifModal',remModal:'remOpen',trModal:'trOpen',deviceLogModal:'openDeviceLogModal',convertPhotoModal:'openConvertPhotoModal',lkModal:'lkOpen',amModal:'amOpen'};
+var stack=[];
+function isOpen(m){var d=m.style.display;return !!d&&d!=='none';}
+function top(){var s=document.getElementById('stickyTop'),b=0;if(s){var r=s.getBoundingClientRect();if(r.height>0&&r.top<=2)b=Math.max(0,r.bottom);}document.documentElement.style.setProperty('--pgTop',b+'px');}
+function closeFn(m){var c=m.querySelector(':scope > .modal-content > .modal-header .modal-close')||m.querySelector('.modal-close');return function(){if(c)c.click();else m.style.display='none';};}
+function backText(){try{var tr=window.translations,l=window.currentLang;if(tr&&tr[l]&&tr[l].lxBack)return tr[l].lxBack;}catch(e){}return 'Back';}
+function prep(m){
+ if(m.querySelector('.pgBack'))return;
+ var mc=m.querySelector(':scope > .modal-content');if(!mc)return;
+ var h=mc.querySelector(':scope > .modal-header');
+ var b=document.createElement('button');b.type='button';b.className='pgBack';
+ var hasI=false;try{hasI=!!(window.translations&&window.translations.en&&window.translations.en.lxBack);}catch(e){}
+ b.innerHTML='&larr; <span'+(hasI?' data-i18n="lxBack"':'')+'>'+backText()+'</span>';
+ b.onclick=function(e){e.stopPropagation();closeFn(m)();};
+ if(!h){h=document.createElement('div');h.className='modal-header pgAuto';mc.insertBefore(h,mc.firstChild);}
+ h.insertBefore(b,h.firstChild);
+ m.addEventListener('click',function(e){if(e.target===m)e.stopImmediatePropagation();},true);
+}
+function save(id){try{if(id)sessionStorage.setItem('activeScreen',id);else sessionStorage.removeItem('activeScreen');}catch(e){}}
+function sync(m){
+ var open=isOpen(m);
+ if(open&&!m.classList.contains('pgScr')){
+  prep(m);top();
+  stack.forEach(function(o){o.classList.add('pgUnder');});
+  stack.push(m);m.classList.remove('pgUnder');m.classList.add('pgScr');
+  try{m.scrollTop=0;}catch(e){}
+  save(m.id);
+ }else if(!open&&m.classList.contains('pgScr')){
+  m.classList.remove('pgScr','pgUnder');
+  stack=stack.filter(function(o){return o!==m;});
+  var p=stack[stack.length-1];
+  if(p){p.classList.remove('pgUnder');save(p.id);}else save(null);
+ }
+}
+function closeAll(){stack.slice().reverse().forEach(function(m){if(isOpen(m))closeFn(m)();});}
+function init(){
+ Object.keys(MAP).forEach(function(id){
+  var m=document.getElementById(id);if(!m)return;
+  new MutationObserver(function(){sync(m);}).observe(m,{attributes:true,attributeFilter:['style']});
+  sync(m);
+ });
+ window.addEventListener('resize',top);
+ var st=window.switchTab;
+ if(typeof st==='function')window.switchTab=function(){closeAll();return st.apply(this,arguments);};
+ var rs=window.restoreActiveAdminTab;
+ if(typeof rs==='function')window.restoreActiveAdminTab=function(){
+  var r=rs.apply(this,arguments);
+  try{var id=sessionStorage.getItem('activeScreen');if(id&&MAP[id])setTimeout(function(){var f=window[MAP[id]];if(typeof f==='function'){try{f();}catch(e){}}},1200);}catch(e){}
+  return r;};
+ var ls=window.lockSystem;
+ if(typeof ls==='function')window.lockSystem=function(){save(null);return ls.apply(this,arguments);};
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
 </body>
 </html>
