@@ -22376,7 +22376,7 @@ function dgInstall() {
         if (/^(master|monthly|monthlyAL)SearchInput$/.test(s[0])) { const tp = inp.closest('.tab-panel'), mb = tp && tp.querySelector('.hrMB'); if (mb) { mb.style.marginLeft = 'auto'; mb.style.marginBottom = '0'; nb.appendChild(mb); } }
     });
     const att = document.getElementById('tab-att');
-    if (att && !att.querySelector('.dg-bar')) { const form = att.querySelector('form'); if (form) form.parentNode.insertBefore(dgMake(false), form); }
+    if (att && !att.querySelector('.dg-bar')) { const form = att.querySelector('form'); if (form) form.insertBefore(dgMake(false), form.firstChild); }
     dgFillAll();
 }
 /* ---------- Departments tab: manage departments + assign every group to a department ---------- */
@@ -28965,6 +28965,13 @@ th.srt:not([data-srt])::after { content: " \21C5"; font-size: 10px; color: #94a3
 th.srt:hover { background-color: #e2e8f0 !important; }
 th.srt[data-srt="asc"]::after { content: " \25B2"; font-size: 9px; color: #2563eb; }
 th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563eb; }
+/* attendance page: Department, Group, Date and Show Employees on one line */
+#tab-att > form { max-width: 1000px !important; }
+#tab-att > form .dg-bar { display: contents !important; }
+#tab-att > form .dg-bar > span { display: flex !important; flex-direction: column !important; align-items: flex-start !important; gap: 4px !important; text-align: left; }
+#tab-att > form .dg-bar > span label { font-size: 12px !important; font-weight: 600 !important; text-transform: none; color: inherit; }
+#tab-att > form .dg-bar > .dg-clear { order: 9; }
+#tab-att > form .dg-bar select, #tab-att > form .form-group select, #tab-att > form .form-group input { height: 36px; box-sizing: border-box; }
 </style>
 <script id="frzJs">
 (function () {
@@ -29051,7 +29058,7 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
         if (sig !== st.sig && tb.offsetParent !== null) { st.sig = sig; frozenCss(tb); }
         var w = tb.closest('.table-responsive.frz');
         if (w && tb.offsetParent !== null) {
-          if (wide()) { var top = w.getBoundingClientRect().top, hh = Math.max(240, Math.round(window.innerHeight - top - 38)); if (w._h !== hh) { w._h = hh; w.style.setProperty('--frzH', hh + 'px'); } w.classList.add('frzOn'); }
+          if (wide()) { var wr = w.getBoundingClientRect(), top = wr.top, pn = w.closest('.tab-panel'), below = pn ? Math.max(0, pn.getBoundingClientRect().bottom - wr.bottom) : 28, hh = Math.max(240, Math.round(window.innerHeight - top - below - 14)); if (w._h !== hh) { w._h = hh; w.style.setProperty('--frzH', hh + 'px'); } w.classList.add('frzOn'); }
           else w.classList.remove('frzOn');
         }
       });
