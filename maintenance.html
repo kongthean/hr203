@@ -163,6 +163,52 @@ input[type=datetime-local]::-webkit-date-and-time-value{text-align:left;min-widt
 .ht{font-size:12px;color:var(--mute);font-weight:600}
 .hx{font-size:14px;font-weight:600;margin-top:6px;line-height:1.4}
 .hb{font-size:12px;color:var(--mute);margin-top:3px}
+/* v9.1 look: dark top card like Administration */
+svg.i{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.fl{display:inline-flex;width:24px;height:16px;border-radius:3px;overflow:hidden;box-shadow:0 0 0 1px rgba(0,0,0,.18);flex:none}
+.fl svg{width:24px;height:16px;display:block}
+.top{position:sticky;top:8px;margin:8px 10px 0;padding:0;display:block;border-radius:20px;background:linear-gradient(135deg,#131a30 0%,#1a2342 100%);box-shadow:0 12px 32px rgba(8,14,32,.38);z-index:50;overflow:visible}
+body.isLogin .top{display:none}
+.topBar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 14px 14px 18px}
+.brandL .wm{font-size:31px;display:inline-flex;align-items:flex-end;color:#fff;font:800 31px/1 Arial,Helvetica,sans-serif}
+.brandL b{display:block;font-size:12px;font-weight:600;color:#94a3b8;margin-top:6px;letter-spacing:.06em;text-transform:uppercase}
+.topR{display:flex;gap:10px;align-items:center}
+.lang{position:relative}
+.lgBtn{display:flex;align-items:center;gap:8px;background:#222c45;color:#fff;border:1px solid rgba(255,255,255,.14);border-radius:12px;height:42px;padding:0 12px;font-weight:700;font-size:14px;cursor:pointer}
+.lgBtn svg.i{width:14px;height:14px;opacity:.8}
+.langs.lgMenu{position:absolute;right:0;top:calc(100% + 8px);background:#fff;border-radius:16px;box-shadow:0 16px 44px rgba(0,0,0,.4);padding:6px;min-width:176px;z-index:80;display:flex;flex-direction:column;gap:2px}
+.langs.lgMenu button{display:flex;align-items:center;gap:12px;background:transparent;color:#0f172a;border:0;border-radius:11px;padding:11px 12px;font-size:14px;font-weight:600;cursor:pointer;text-align:left}
+.langs.lgMenu button.on{background:#e0e7ff;color:#1e1b4b}
+.pwr{display:flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#cf3b32;color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(207,59,50,.4)}
+.pwr svg.i{width:20px;height:20px}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:0;background:#1e2639;border-radius:0 0 20px 20px;padding:0;box-shadow:none;position:static;margin:0;overflow:hidden}
+.tabs button{display:flex;align-items:center;justify-content:center;gap:9px;padding:17px 8px;font-size:14px;font-weight:700;color:#8b97ad;background:transparent;border:0;border-top:1px solid rgba(255,255,255,.05);border-radius:0;box-shadow:none;flex:none;white-space:nowrap}
+.tabs button:nth-child(odd){border-right:1px solid rgba(255,255,255,.05)}
+.tabs button.sel{background:#1d3a5f;color:#fff;box-shadow:none}
+.top.cp .tabs{grid-template-columns:repeat(4,1fr)}
+.top.cp .tabs button{padding:11px 4px;border-right:0}
+.top.cp .tabs button span{display:none}
+.top.cp .topBar{padding:8px 12px 8px 16px}
+.top.cp .brandL b{display:none}
+.top.cp .brandL .wm{font-size:24px}
+.dic svg{width:27px;height:27px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.dic{box-shadow:0 6px 14px rgba(15,23,42,.18)}
+.ic-mm{background:linear-gradient(135deg,#fb7185,#dc2626)}.ic-lock{background:linear-gradient(135deg,#fbbf24,#d97706)}.ic-sched{background:linear-gradient(135deg,#60a5fa,#2563eb)}.ic-set{background:linear-gradient(135deg,#94a3b8,#475569)}.ic-stat{background:linear-gradient(135deg,#4ade80,#16a34a)}.ic-hist{background:linear-gradient(135deg,#a78bfa,#7c3aed)}
+.dcard{position:relative;padding-right:40px}
+.dcard .chev{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#cbd5e1}
+.dcard .chev svg.i{width:18px;height:18px}
+.chips button svg.i{width:16px;height:16px}
+.sth{display:flex;align-items:center;gap:10px}
+.sth .sti{width:34px;height:34px;border-radius:10px;background:#e0e7ff;color:#3730a3;display:inline-flex;align-items:center;justify-content:center}
+.pill svg.i{width:13px;height:13px;vertical-align:-2px;margin-right:3px}
+/* login */
+body.isLogin{background:linear-gradient(180deg,#131a30 0,#1a2342 330px,#f1f5f9 330px)}
+.login{margin-top:34px}
+.login h1{color:#fff}
+.login .sub{color:#cbd5e1}
+.login .lgo{box-shadow:0 12px 32px rgba(0,0,0,.45)}
+.login .box{box-shadow:0 18px 44px rgba(15,23,42,.22)}
+.login .backA{color:#64748b}
 </style>
 </head>
 <body class="isLogin"><!-- SPLASH-BEGIN --><style id="kbSplashCss">
@@ -187,14 +233,17 @@ var rm=false;try{rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: redu
 setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener('touchstart',hide,{passive:true});})();</script><!-- SPLASH-END -->
 <div id="appRoot" style="display:flex;flex-direction:column;min-height:100vh">
 <header class="top">
-  <div class="brandRow">
-    <img src="data:image/png;base64,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" alt="">
-    <div class="bt"><span class="wm"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><b id="hTitle">Maintenance</b></div>
+  <div class="topBar">
+    <div class="brandL"><span class="wm"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><b id="hTitle">Maintenance</b></div>
+    <div class="topR">
+      <div class="lang">
+        <button type="button" class="lgBtn" id="lgBtn"><span class="fl" id="lgFlag"></span><span id="lgTxt">EN</span><svg class="i " viewBox="0 0 24 24"><path d="M6 9.5l6 6 6-6"/></svg></button>
+        <div class="langs lgMenu hide" id="lgMenu"><button data-l="en"><span class="fl"><svg viewBox="0 0 24 16"><rect width="24" height="16" fill="#fff"/><g fill="#d22f3c"><rect y="0" width="24" height="1.8"/><rect y="3.6" width="24" height="1.8"/><rect y="7.2" width="24" height="1.8"/><rect y="10.8" width="24" height="1.8"/><rect y="14.4" width="24" height="1.6"/></g><rect width="11" height="8.8" fill="#3c3b6e"/><g fill="#fff"><circle cx="2.5" cy="2.2" r=".7"/><circle cx="5.5" cy="2.2" r=".7"/><circle cx="8.5" cy="2.2" r=".7"/><circle cx="4" cy="4.4" r=".7"/><circle cx="7" cy="4.4" r=".7"/><circle cx="2.5" cy="6.6" r=".7"/><circle cx="5.5" cy="6.6" r=".7"/><circle cx="8.5" cy="6.6" r=".7"/></g></svg></span>English</button><button data-l="km"><span class="fl"><svg viewBox="0 0 24 16"><rect width="24" height="16" fill="#032ea1"/><rect y="4" width="24" height="8" fill="#e00025"/><path d="M7.5 10.6h9V9.7h-1l-.5-1.3h-1V7h-1V5.6h-1V7h-1V8.4h-1l-.5 1.3h-1z" fill="#fff"/></svg></span>ខ្មែរ</button><button data-l="zh"><span class="fl"><svg viewBox="0 0 24 16"><rect width="24" height="16" fill="#de2910"/><polygon points="5,2.2 5.9,4.9 8.7,4.9 6.4,6.6 7.3,9.3 5,7.6 2.7,9.3 3.6,6.6 1.3,4.9 4.1,4.9" fill="#ffde00"/></svg></span>中文</button></div>
+      </div>
+      <button class="pwr hide" id="outBtn" type="button"><svg class="i " viewBox="0 0 24 24"><path d="M12 3v8.5"/><path d="M6.5 6.9a8 8 0 1 0 11 0"/></svg></button>
+    </div>
   </div>
-  <div class="tools">
-    <div class="langs"><button data-l="en">EN</button><button data-l="km">ខ្មែរ</button><button data-l="zh">中文</button></div>
-    <button class="icoBtn hide" id="outBtn" data-i="logout"></button>
-  </div>
+  <nav class="tabs" id="mainTabs"><button type="button" data-tab="dash"><svg class="i " viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.6"/><rect x="14" y="3" width="7" height="7" rx="1.6"/><rect x="3" y="14" width="7" height="7" rx="1.6"/><rect x="14" y="14" width="7" height="7" rx="1.6"/></svg><span data-i="tabDash"></span></button><button type="button" data-tab="set"><svg class="i " viewBox="0 0 24 24"><path d="M4 6h9M19 6h1M4 12h3M13 12h7M4 18h11M21 18h-1"/><circle cx="16" cy="6" r="2.4"/><circle cx="10" cy="12" r="2.4"/><circle cx="17.5" cy="18" r="2.4"/></svg><span data-i="tabSet"></span></button><button type="button" data-tab="stat"><svg class="i " viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg><span data-i="tabStat"></span></button><button type="button" data-tab="hist"><svg class="i " viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5"/><path d="M3.5 3.5v5h5"/><path d="M12 7.5V12l3 2"/></svg><span data-i="tabHist"></span></button></nav>
 </header>
 <main>
   <!-- LOGIN -->
@@ -220,7 +269,6 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
   <!-- CONTROL PANEL -->
   <div id="panel" class="hide">
-    <nav class="tabs" id="mainTabs"><button type="button" data-tab="dash" data-i="tabDash"></button><button type="button" data-tab="set" data-i="tabSet"></button><button type="button" data-tab="stat" data-i="tabStat"></button><button type="button" data-tab="hist" data-i="tabHist"></button></nav>
 
     <!-- DASHBOARD -->
     <div id="dashBox"><div class="dgrid" id="dashGrid"></div></div>
@@ -507,7 +555,7 @@ function renderLang() {
   document.title = T('title'); $('hTitle').textContent = T('brandSub');
   document.querySelectorAll('[data-i]').forEach(e => { e.textContent = T(e.getAttribute('data-i')); });
   document.querySelectorAll('.langs button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
-  try { renderAll(); } catch (e) {}
+  try { syncLang(); renderAll(); } catch (e) {}
 }
 document.querySelectorAll('.langs button').forEach(b => b.onclick = () => { lang = b.dataset.l; try { localStorage.setItem('appLang', lang); } catch (e) {} renderLang(); });
 
@@ -593,12 +641,22 @@ Object.assign(I18N.zh, {"brandSub":"维护","tabDash":"控制台","tabSet":"设�
 Object.assign(I18N.km, { schSub: 'ប្រព័ន្ធនឹងចូលម៉ូដថែទាំដោយខ្លួនឯងនៅម៉ោងចាប់ផ្តើម ហើយបើកវិញដោយខ្លួនឯងនៅម៉ោងបញ្ចប់។ សម្រាប់កាលវិភាគនីមួយៗ អ្នកជ្រើសរើសប្រព័ន្ធ គណនីដែលរក្សាសិទ្ធិពេញលេញ និងសេវាកម្មណាត្រូវបិទ។ ម៉ោងទាំងអស់ជាម៉ោងកម្ពុជា។' });
 Object.assign(I18N.zh, { schSub: '系统会在开始时间自动进入维护，并在结束时间自动恢复。每个计划可分别选择系统、保留全部权限的账户以及要关闭的服务。所有时间均为柬埔寨时间。' });
 Object.assign(I18N.en, { schSub: 'The system goes into maintenance by itself at the start time and opens again by itself at the end time. For each schedule you choose the systems, the accounts that keep full access, and which services close. All times are Cambodia time.' });
+const ICONS = {"dash": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.6\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.6\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.6\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.6\"/>", "tool": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z\"/>", "lock": "<rect x=\"4\" y=\"11\" width=\"16\" height=\"10\" rx=\"2.2\"/><path d=\"M8 11V7.5a4 4 0 0 1 8 0V11\"/>", "cal": "<rect x=\"3\" y=\"4.5\" width=\"18\" height=\"16.5\" rx=\"2.4\"/><path d=\"M16 2.5v4M8 2.5v4M3 10h18\"/><circle cx=\"12\" cy=\"15.5\" r=\"2.6\"/><path d=\"M12 14.4v1.2l.8.5\"/>", "sliders": "<path d=\"M4 6h9M19 6h1M4 12h3M13 12h7M4 18h11M21 18h-1\"/><circle cx=\"16\" cy=\"6\" r=\"2.4\"/><circle cx=\"10\" cy=\"12\" r=\"2.4\"/><circle cx=\"17.5\" cy=\"18\" r=\"2.4\"/>", "activity": "<path d=\"M3 12h4l3-8 4 16 3-8h4\"/>", "history": "<path d=\"M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5\"/><path d=\"M3.5 3.5v5h5\"/><path d=\"M12 7.5V12l3 2\"/>", "power": "<path d=\"M12 3v8.5\"/><path d=\"M6.5 6.9a8 8 0 1 0 11 0\"/>", "caret": "<path d=\"M6 9.5l6 6 6-6\"/>", "chev": "<path d=\"M9 5l7 7-7 7\"/>", "shield": "<path d=\"M12 3l8 3v6c0 4.8-3.4 8-8 9-4.6-1-8-4.2-8-9V6z\"/><path d=\"M9 12l2.2 2.2L15.5 10\"/>", "users": "<circle cx=\"9\" cy=\"8\" r=\"3.5\"/><path d=\"M2.5 20a6.5 6.5 0 0 1 13 0\"/><circle cx=\"17.2\" cy=\"9\" r=\"2.5\"/><path d=\"M17.5 14a5 5 0 0 1 4 5\"/>", "building": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"1.8\"/><path d=\"M9 7.5h2M13 7.5h2M9 11.5h2M13 11.5h2M10 21v-4h4v4\"/>", "user": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21a8 8 0 0 1 16 0\"/>", "globe": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18\"/>"};
+const FLAGS = {"us": "<svg viewBox=\"0 0 24 16\"><rect width=\"24\" height=\"16\" fill=\"#fff\"/><g fill=\"#d22f3c\"><rect y=\"0\" width=\"24\" height=\"1.8\"/><rect y=\"3.6\" width=\"24\" height=\"1.8\"/><rect y=\"7.2\" width=\"24\" height=\"1.8\"/><rect y=\"10.8\" width=\"24\" height=\"1.8\"/><rect y=\"14.4\" width=\"24\" height=\"1.6\"/></g><rect width=\"11\" height=\"8.8\" fill=\"#3c3b6e\"/><g fill=\"#fff\"><circle cx=\"2.5\" cy=\"2.2\" r=\".7\"/><circle cx=\"5.5\" cy=\"2.2\" r=\".7\"/><circle cx=\"8.5\" cy=\"2.2\" r=\".7\"/><circle cx=\"4\" cy=\"4.4\" r=\".7\"/><circle cx=\"7\" cy=\"4.4\" r=\".7\"/><circle cx=\"2.5\" cy=\"6.6\" r=\".7\"/><circle cx=\"5.5\" cy=\"6.6\" r=\".7\"/><circle cx=\"8.5\" cy=\"6.6\" r=\".7\"/></g></svg>", "kh": "<svg viewBox=\"0 0 24 16\"><rect width=\"24\" height=\"16\" fill=\"#032ea1\"/><rect y=\"4\" width=\"24\" height=\"8\" fill=\"#e00025\"/><path d=\"M7.5 10.6h9V9.7h-1l-.5-1.3h-1V7h-1V5.6h-1V7h-1V8.4h-1l-.5 1.3h-1z\" fill=\"#fff\"/></svg>", "cn": "<svg viewBox=\"0 0 24 16\"><rect width=\"24\" height=\"16\" fill=\"#de2910\"/><polygon points=\"5,2.2 5.9,4.9 8.7,4.9 6.4,6.6 7.3,9.3 5,7.6 2.7,9.3 3.6,6.6 1.3,4.9 4.1,4.9\" fill=\"#ffde00\"/></svg>"};
 /* ================= v9: dashboard, per-system maintenance, scheduled maintenance, setting, status, history ================= */
 const SYS = ['admin', 'hr', 'dept', 'emp'];
 const SYSN = { admin: 'scopeAdmin', hr: 'scopeHr', dept: 'scopeDept', emp: 'scopeEmp' };
 const SYSG = { admin: ['admin', 'apps'], hr: ['admin', 'apps'], dept: ['dept'], emp: ['emp'] };
 const GORD = ['admin', 'apps', 'emp', 'dept'];
 const ZONE = MTS.zone;
+const ic = (n, c) => '<svg class="i ' + (c || '') + '" viewBox="0 0 24 24">' + ICONS[n] + '</svg>';
+const SYSI = { all: 'globe', admin: 'shield', hr: 'users', dept: 'building', emp: 'user' };
+const FLAGK = { en: 'us', km: 'kh', zh: 'cn' };
+function syncLang() { $('lgFlag').innerHTML = FLAGS[FLAGK[lang]]; $('lgTxt').textContent = ({ en: 'EN', km: 'ខ្មែរ', zh: '中文' })[lang]; $('outBtn').title = T('logout'); $('outBtn').setAttribute('aria-label', T('logout')); }
+$('lgBtn').onclick = (e) => { e.stopPropagation(); $('lgMenu').classList.toggle('hide'); };
+document.addEventListener('click', () => $('lgMenu').classList.add('hide'));
+let cpOn = false;
+window.addEventListener('scroll', () => { const h = document.querySelector('.top'); if (!h) return; const y = window.scrollY, tall = document.documentElement.scrollHeight > window.innerHeight + 420; if (!cpOn && y > 170 && tall) { cpOn = true; h.classList.add('cp'); } else if (cpOn && y < 30) { cpOn = false; h.classList.remove('cp'); } }, { passive: true });
 const DOWN = { en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], km: ['អាទិត្យ', 'ច័ន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'], zh: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'] };
 const p2 = (n) => ('0' + n).slice(-2);
 const sysName = (k) => k === 'all' ? T('sysAll') : T(SYSN[k]);
@@ -773,19 +831,19 @@ function renderDash() {
   const ls = lockCur ? Object.keys(lockNames).filter(k => lockCur[k]).map(k => lockNames[k]) : [];
   const bad = SYS.filter(s => { const i = sysInfo(s); return i.on; }).length;
   const cards = [
-    ['mm', '🔧', 'cMm', 'dMmSub', onS.length ? [T('stOn') + ': ' + namesOf(onS), 'on'] : [T('stOff'), 'ok']],
-    ['lock', '🔒', 'cLk', 'dLkSub', ls.length ? [T('lkOn') + ': ' + namesOf(ls), 'on'] : [T('lkOff'), 'ok']],
-    ['sched', '🗓️', 'cSc', 'dScSub', ac ? [T('schActive') + ' · ' + T('schUntil', { t: fmtDT(ac.end) }), 'sch'] : (nx ? [T('ovScNext', { t: fmtDT(nx.start) }), 'sch'] : [T('ovScNone'), 'none'])],
-    ['set', '⚙️', 'tabSet', 'dStSub', null],
-    ['stat', '✅', 'tabStat', 'dChSub', [bad ? T('chCount', { n: SYS.length - bad, m: SYS.length }) : T('chAllOk'), bad ? 'sch' : 'ok']],
-    ['hist', '🕘', 'tabHist', 'dHiSub', null]
+    ['mm', 'tool', 'cMm', 'dMmSub', onS.length ? [T('stOn') + ': ' + namesOf(onS), 'on'] : [T('stOff'), 'ok']],
+    ['lock', 'lock', 'cLk', 'dLkSub', ls.length ? [T('lkOn') + ': ' + namesOf(ls), 'on'] : [T('lkOff'), 'ok']],
+    ['sched', 'cal', 'cSc', 'dScSub', ac ? [T('schActive') + ' · ' + T('schUntil', { t: fmtDT(ac.end) }), 'sch'] : (nx ? [T('ovScNext', { t: fmtDT(nx.start) }), 'sch'] : [T('ovScNone'), 'none'])],
+    ['set', 'sliders', 'tabSet', 'dStSub', null],
+    ['stat', 'activity', 'tabStat', 'dChSub', [bad ? T('chCount', { n: SYS.length - bad, m: SYS.length }) : T('chAllOk'), bad ? 'sch' : 'ok']],
+    ['hist', 'history', 'tabHist', 'dHiSub', null]
   ];
-  cards.forEach(([id, ic, tk, sk, st]) => {
+  cards.forEach(([id, icn, tk, sk, st]) => {
     const b = el('button', 'dcard'); b.type = 'button';
-    b.appendChild(el('div', 'dic ic-' + id, ic));
+    const di = el('div', 'dic ic-' + id); di.innerHTML = ic(icn); b.appendChild(di);
     const tx = el('div', 'dtx'); tx.appendChild(el('b', '', T(tk))); tx.appendChild(el('span', '', T(sk)));
     if (st) tx.appendChild(el('em', 'dst ' + st[1], st[0]));
-    b.appendChild(tx); b.onclick = () => showTab(id); box.appendChild(b);
+    b.appendChild(tx); const cv = el('span', 'chev'); cv.innerHTML = ic('chev'); b.appendChild(cv); b.onclick = () => showTab(id); box.appendChild(b);
   });
 }
 
@@ -817,7 +875,7 @@ function renderMM() {
   ['all'].concat(SYS).forEach(k => {
     const b = el('button', k === curSys ? 'sel' : '', ''); b.type = 'button';
     const isOn = k === 'all' ? SYS.some(s => sc[s]) : sc[k];
-    b.appendChild(el('i', 'dot' + (isOn ? ' r' : ''))); b.appendChild(document.createTextNode(sysName(k)));
+    const cs = el('span'); cs.style.display = 'inline-flex'; cs.innerHTML = ic(SYSI[k]); b.appendChild(cs); b.appendChild(document.createTextNode(sysName(k))); b.appendChild(el('i', 'dot' + (isOn ? ' r' : '')));
     b.onclick = () => { curSys = k; renderMM(); }; ch.appendChild(b);
   });
   const L = curSys === 'all' ? SYS : [curSys], onN = L.filter(s => sc[s]).length;
@@ -944,8 +1002,8 @@ function renderSchedForm() {
   [1, 2, 3, 4, 5, 6, 0].forEach(d => { const b = el('button', sf.days.indexOf(d) >= 0 ? 'sel' : '', DOWN[lang][d]); b.type = 'button'; b.onclick = () => { const i = sf.days.indexOf(d); if (i >= 0) sf.days.splice(i, 1); else sf.days.push(d); renderSchedForm(); }; dw.appendChild(b); });
   const sc = $('schSys'); sc.innerHTML = '';
   const allOn = SYS.every(s => sf.sys[s]);
-  const ba = el('button', allOn ? 'sel' : '', T('sysAll')); ba.type = 'button'; ba.onclick = () => { SYS.forEach(s => sf.sys[s] = !allOn); renderSchedForm(); }; sc.appendChild(ba);
-  SYS.forEach(s => { const b = el('button', sf.sys[s] ? 'sel' : '', sysName(s)); b.type = 'button'; b.onclick = () => { sf.sys[s] = !sf.sys[s]; renderSchedForm(); }; sc.appendChild(b); });
+  const ba = el('button', allOn ? 'sel' : '', ''); ba.innerHTML = ic('globe') + ' ' + T('sysAll'); ba.type = 'button'; ba.onclick = () => { SYS.forEach(s => sf.sys[s] = !allOn); renderSchedForm(); }; sc.appendChild(ba);
+  SYS.forEach(s => { const b = el('button', sf.sys[s] ? 'sel' : '', ''); b.innerHTML = ic(SYSI[s]) + ' ' + sysName(s); b.type = 'button'; b.onclick = () => { sf.sys[s] = !sf.sys[s]; renderSchedForm(); }; sc.appendChild(b); });
   const L = SYS.filter(s => sf.sys[s]);
   $('schExW').classList.toggle('hide', !sf.sys.admin);
   if (sf.sys.admin) exList($('schExBox'), sf.bypass, renderSchedForm);
@@ -1048,13 +1106,13 @@ function renderStat() {
   SYS.forEach(S => {
     const i = sysInfo(S), locked = !!(lockCur && lockCur[lockNames[S]]);
     const c = el('section', 'card stc');
-    const hd = el('div', 'row sp'); hd.appendChild(el('h2', '', sysName(S)));
+    const hd = el('div', 'row sp'); const h2 = el('h2', 'sth'); const sti = el('span', 'sti'); sti.innerHTML = ic(SYSI[S]); h2.appendChild(sti); h2.appendChild(document.createTextNode(sysName(S))); hd.appendChild(h2);
     let cls, lab, line;
     if (!i.on) { cls = 'off'; lab = T('chNormal'); line = T('chAllOpen', { n: i.total }); }
     else if (i.closed.length === i.total) { cls = 'on'; lab = T('chMaint'); line = T('chAllClosed', { n: i.total }); }
     else if (i.closed.length === 0) { cls = 'sch'; lab = T('chPartly'); line = T('chBar'); }
     else { cls = 'sch'; lab = T('chPartly'); line = T('chSome', { o: i.open, n: i.total }); }
-    const pw = el('div', 'row'); pw.appendChild(el('span', 'pill ' + cls, lab)); if (locked) pw.appendChild(el('span', 'pill on', '🔒 ' + T('chLocked'))); hd.appendChild(pw); c.appendChild(hd);
+    const pw = el('div', 'row'); pw.appendChild(el('span', 'pill ' + cls, lab)); if (locked) { const lp = el('span', 'pill on'); lp.innerHTML = ic('lock') + T('chLocked'); pw.appendChild(lp); } hd.appendChild(pw); c.appendChild(hd);
     c.appendChild(el('div', 'ss big', line));
     if (i.on) c.appendChild(el('div', 'ss', i.manual ? T('chBy') : (ac ? T('chSch', { t: fmtDT(ac.end) }) : '')));
     if (i.on && i.closed.length) {
