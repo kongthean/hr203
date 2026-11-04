@@ -670,6 +670,81 @@ button.quick-btn[style*="background:#e2e8f0"] .quick-btn-label{color:#334155!imp
 .hrft .v{font-size:10px;margin-top:2px}
 @media print{.hrft{display:none}}
 </style>
+<script id="mtsJs">(function(){
+if(window.MTS)return;
+var OFF=0,ZONE=7*3600000,LAST=null,dismissed='';
+function now(){return Date.now()+OFF;}
+function hm(s){var p=String(s||'0:0').split(':');return (+p[0]||0)*60+(+p[1]||0);}
+function days(x){return String(x.days==null?'':x.days).split(',').filter(function(v){return v!=='';}).map(Number);}
+function occ(x,t){
+ var r=[];
+ if(x.type==='once'){if(x.start&&x.end)r.push([+x.start,+x.end]);return r;}
+ var d0=Math.floor((t+ZONE)/86400000)*86400000,dd=days(x);
+ for(var k=-1;k<=8;k++){
+  var day=d0+k*86400000,dow=new Date(day).getUTCDay();
+  if(x.type==='weekly'&&dd.indexOf(dow)<0)continue;
+  var s=day+hm(x.sh)*60000,e=day+hm(x.eh)*60000;if(e<=s)e+=86400000;
+  r.push([s-ZONE,e-ZONE]);
+ }
+ return r;
+}
+function items(raw){
+ var a=[],s=raw&&raw.sched&&raw.sched.items;if(!s)return a;
+ Object.keys(s).forEach(function(k){var x=s[k];if(x&&typeof x==='object'){x=Object.assign({},x);x.id=k;a.push(x);}});
+ return a;
+}
+function warnMin(raw){var w=raw&&raw.sched&&raw.sched.warn;return w==null?15:+w||0;}
+function act(raw,t){
+ t=t==null?now():t;var its=items(raw);
+ for(var i=0;i<its.length;i++){
+  var x=its[i];if(x.on===false)continue;
+  var o=occ(x,t);
+  for(var j=0;j<o.length;j++){
+   if(o[j][0]<=t&&t<o[j][1]){if(x.skipUntil&&t<+x.skipUntil)continue;return {item:x,start:o[j][0],end:o[j][1]};}
+  }
+ }
+ return null;
+}
+function next(raw,t){
+ t=t==null?now():t;var its=items(raw),best=null;
+ its.forEach(function(x){
+  if(x.on===false)return;
+  occ(x,t).forEach(function(o){
+   if(o[0]>t&&(!best||o[0]<best.start)){if(x.skipUntil&&o[0]<+x.skipUntil)return;best={item:x,start:o[0],end:o[1]};}
+  });
+ });
+ return best;
+}
+function isOn(raw){return !!(raw&&(raw.on||act(raw)));}
+function chg(raw){var v=isOn(raw);if(LAST===null){LAST=v;return false;}if(v!==LAST){LAST=v;return true;}return false;}
+function lang(){
+ var l='';try{l=localStorage.getItem('appLang')||localStorage.getItem('tdLang')||localStorage.getItem('lang')||localStorage.getItem('language')||'';}catch(e){}
+ l=String(l).toLowerCase().slice(0,2);if(l==='kh')l='km';
+ if(l!=='en'&&l!=='km'&&l!=='zh'){l=String(document.documentElement.lang||'en').toLowerCase().slice(0,2);if(l==='kh')l='km';}
+ return (l==='km'||l==='zh')?l:'en';
+}
+var W={en:'Maintenance starts at {t} (in {n} min). Please save your work.',km:'ការថែទាំនឹងចាប់ផ្តើមនៅម៉ោង {t} (ក្នុង {n} នាទី)។ សូមរក្សាទុកការងាររបស់អ្នក។',zh:'系统将于 {t} 开始维护（{n} 分钟后），请及时保存您的工作。'};
+function hhmm(ms){var d=new Date(ms+ZONE);return ('0'+d.getUTCHours()).slice(-2)+':'+('0'+d.getUTCMinutes()).slice(-2);}
+function tick(raw){
+ try{
+  var el=document.getElementById('mtsWarn'),t=now(),show=false,nx=null;
+  if(!isOn(raw)){nx=next(raw,t);var w=warnMin(raw);if(nx&&w>0&&nx.start-t<=w*60000&&dismissed!==String(nx.start))show=true;}
+  if(!show){if(el)el.remove();return;}
+  if(!document.body)return;
+  var n=Math.max(1,Math.ceil((nx.start-t)/60000)),txt=W[lang()].replace('{t}',hhmm(nx.start)).replace('{n}',n);
+  if(!el){
+   el=document.createElement('div');el.id='mtsWarn';
+   el.style.cssText='position:fixed;left:50%;top:10px;transform:translateX(-50%);z-index:2147483200;max-width:min(560px,calc(100vw - 20px));display:flex;align-items:center;gap:10px;background:linear-gradient(100deg,#f59e0b,#fbbf24);color:#1f1300;font:600 13px/1.4 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans Khmer","Noto Sans SC",Arial,sans-serif;padding:10px 14px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.25)';
+   el.innerHTML='<span style="font-size:18px">&#9888;</span><span class="mtsT" style="flex:1"></span><button type="button" aria-label="x" style="border:0;background:rgba(0,0,0,.12);color:inherit;border-radius:8px;width:26px;height:26px;font-size:16px;cursor:pointer;line-height:1">&times;</button>';
+   el.querySelector('button').onclick=function(){dismissed=String(nx.start);el.remove();};
+   document.body.appendChild(el);
+  }
+  el.querySelector('.mtsT').textContent=txt;
+ }catch(e){}
+}
+window.MTS={act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
+})();
+</script>
 </head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
@@ -18270,7 +18345,7 @@ function mtScopeOk() {
     if (sessionStorage.getItem('empLoggedInId')) return sc.emp === true;
     return !!(sc.admin || sc.hr || sc.emp);
 }
-function mtIsOn() { return !!(mtData && mtData.on && mtScopeOk()); }
+function mtIsOn() { return !!(mtData && (mtData.on || MTS.act(mtData)) && mtScopeOk()); }
 (function () { let k0 = null; setInterval(function () { const k = [sessionStorage.getItem('isLoggedIn'), sessionStorage.getItem('loggedInRole'), sessionStorage.getItem('empLoggedInId')].join('|'); if (k !== k0) { if (k0 !== null) { try { mtRefresh(); } catch (e) {} } k0 = k; } }, 700); })();
 /* only the Administration accounts ticked on the maintenance page keep full access (e.g. one account for testing) */
 function mtBypass() {
@@ -18489,6 +18564,8 @@ function mtRefresh() {
 try { const c = JSON.parse(localStorage.getItem('mtCache') || 'null'); if (c && c.on) { mtData = c; try { mtRefresh(); } catch (e) {} } } catch (e) {}
 db.ref('maintenance').on('value', function (s) { mtData = s.val(); mtReady = true; try { localStorage.setItem('mtCache', JSON.stringify(mtData)); } catch (e) {} mtRefresh(); }, function () { mtReady = true; });
 setTimeout(function () { mtReady = true; }, 6000);
+try { db.ref('.info/serverTimeOffset').on('value', function (s) { MTS.setOff(s.val()); }); } catch (e) {}
+setInterval(function () { try { MTS.tick(mtData); if (MTS.chg(mtData)) mtRefresh(); } catch (e) {} }, 8000);
 /* "loading data" hint + timing (shown while the first lists are still arriving) */
 (function () {
     const need = sessionStorage.getItem('isLoggedIn') === 'true' || !!sessionStorage.getItem('empLoggedInId');
