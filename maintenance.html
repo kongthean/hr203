@@ -119,6 +119,50 @@ textarea{resize:vertical;min-height:46px}
 .hrft .n{font-size:11px;font-weight:700;margin-top:5px}
 .hrft .v{font-size:10px;margin-top:2px}
 .pill.none{background:#94a3b8}
+/* v9 */
+.top{flex-direction:column;align-items:flex-start;flex-wrap:nowrap;gap:10px;padding:12px 16px 12px}
+.brandRow{display:flex;align-items:center;gap:12px}
+.brandRow img{width:46px;height:46px;border-radius:12px;flex:none}
+.bt .wm{display:inline-flex;align-items:flex-end;font:800 23px/1 Arial,Helvetica,sans-serif;letter-spacing:-.01em;color:#fff}
+.wm i{font-style:normal}
+.wm s{display:inline-block;width:.2em;height:.36em;background:#ff3030;margin:.072em .2em 0 .03em;align-self:flex-start;text-decoration:none}
+.bt b{display:block;font-size:13px;font-weight:600;opacity:.85;margin-top:5px;letter-spacing:.02em}
+.tools{width:100%;justify-content:flex-start;flex-wrap:wrap}
+.langs button.on{background:#fff;color:var(--navy)}
+.tabs button{padding:10px 2px;font-size:12px;min-width:0;white-space:normal;line-height:1.2}
+.tabs{gap:2px;padding:4px}
+.dgrid{display:grid;grid-template-columns:1fr;gap:12px}
+@media(min-width:620px){.dgrid{grid-template-columns:1fr 1fr}}
+.dcard{display:flex;gap:14px;align-items:center;text-align:left;background:#fff;border:0;border-radius:18px;padding:16px;box-shadow:0 1px 3px rgba(15,23,42,.08),0 8px 24px rgba(15,23,42,.06);cursor:pointer;width:100%;transition:transform .12s}
+.dcard:active{transform:scale(.985)}
+.dic{width:52px;height:52px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:26px;flex:none;background:#e0e7ff}
+.ic-mm{background:#fee2e2}.ic-lock{background:#fef3c7}.ic-sched{background:#dbeafe}.ic-set{background:#e2e8f0}.ic-stat{background:#dcfce7}.ic-hist{background:#ede9fe}
+.dtx{display:flex;flex-direction:column;gap:3px;min-width:0}
+.dtx b{font-size:16px;color:var(--ink)}
+.dtx span{font-size:12.5px;color:var(--mute);line-height:1.35}
+.dst{font-style:normal;font-size:12px;font-weight:700;margin-top:3px}
+.dst.ok{color:var(--green)}.dst.on{color:var(--red)}.dst.sch{color:var(--amber)}.dst.none{color:var(--mute)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips button{display:inline-flex;align-items:center;gap:7px;border:1.5px solid #cbd5e1;background:#fff;color:#334155;border-radius:22px;padding:9px 15px;font-size:13px;font-weight:700;cursor:pointer}
+.chips button.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
+.dot{width:9px;height:9px;border-radius:50%;background:#22c55e;display:inline-block}
+.dot.r{background:#ef4444}
+.row.sp{justify-content:space-between;align-items:flex-start}
+.row.sp h2{margin-bottom:8px}
+input[type=datetime-local],input[type=time]{-webkit-appearance:none;appearance:none;display:block;width:100%;min-width:0;max-width:100%;min-height:46px;text-align:left}
+input[type=datetime-local]::-webkit-date-and-time-value{text-align:left;min-width:0}
+.fgrid>div{min-width:0}
+.stc .ss.big{font-size:14px;color:var(--ink);margin-top:2px}
+.ss{font-size:12.5px;color:var(--mute);margin-top:4px;line-height:1.45}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.tg{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px}
+.tg.c{background:#fee2e2;color:#b91c1c}.tg.o{background:#dcfce7;color:#166534}.tg.m{background:#dbeafe;color:#1d4ed8}.tg.l{background:#fef3c7;color:#92400e}
+.hrow{background:#fff;border-radius:14px;padding:12px 14px;margin-bottom:10px;box-shadow:0 1px 3px rgba(15,23,42,.08);border-left:4px solid #3b82f6}
+.hrow.lk{border-left-color:#f59e0b}
+.hh{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.ht{font-size:12px;color:var(--mute);font-weight:600}
+.hx{font-size:14px;font-weight:600;margin-top:6px;line-height:1.4}
+.hb{font-size:12px;color:var(--mute);margin-top:3px}
 </style>
 </head>
 <body class="isLogin"><!-- SPLASH-BEGIN --><style id="kbSplashCss">
@@ -143,7 +187,10 @@ var rm=false;try{rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: redu
 setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener('touchstart',hide,{passive:true});})();</script><!-- SPLASH-END -->
 <div id="appRoot" style="display:flex;flex-direction:column;min-height:100vh">
 <header class="top">
-  <div class="brand"><img src="data:image/png;base64,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" alt=""><div><b id="hTitle">Maintenance</b><small>HR 203</small></div></div>
+  <div class="brandRow">
+    <img src="data:image/png;base64,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" alt="">
+    <div class="bt"><span class="wm"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><b id="hTitle">Maintenance</b></div>
+  </div>
   <div class="tools">
     <div class="langs"><button data-l="en">EN</button><button data-l="km">ខ្មែរ</button><button data-l="zh">中文</button></div>
     <button class="icoBtn hide" id="outBtn" data-i="logout"></button>
@@ -173,77 +220,41 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
   <!-- CONTROL PANEL -->
   <div id="panel" class="hide">
-    <nav class="tabs" id="mainTabs"><button type="button" data-tab="ov" data-i="tabOv"></button><button type="button" data-tab="maint" data-i="tabMaint"></button><button type="button" data-tab="lock" data-i="tabLock"></button><button type="button" data-tab="sched" data-i="tabSched"></button></nav>
+    <nav class="tabs" id="mainTabs"><button type="button" data-tab="dash" data-i="tabDash"></button><button type="button" data-tab="set" data-i="tabSet"></button><button type="button" data-tab="stat" data-i="tabStat"></button><button type="button" data-tab="hist" data-i="tabHist"></button></nav>
 
-    <!-- OVERVIEW -->
-    <div id="ovBox">
-      <div class="tiles">
-        <div class="tile"><div class="tl" data-i="ovMaint"></div><span id="ovMtPill" class="pill off">-</span><div class="tv" id="ovMtTxt"></div><button class="btn sm" id="ovMtBtn"></button></div>
-        <div class="tile"><div class="tl" data-i="ovLock"></div><span id="ovLkPill" class="pill off">-</span><div class="tv" id="ovLkTxt"></div><button class="btn sm sec" id="ovLkBtn" data-i="ovGoLock"></button></div>
-        <div class="tile"><div class="tl" data-i="ovSched"></div><span id="ovScPill" class="pill off">-</span><div class="tv" id="ovScTxt"></div><button class="btn sm sec" id="ovScBtn" data-i="ovGoSched"></button></div>
-      </div>
+    <!-- DASHBOARD -->
+    <div id="dashBox"><div class="dgrid" id="dashGrid"></div></div>
+
+    <!-- MAINTENANCE MODE -->
+    <div id="mmBox" class="hide">
       <section class="card">
-        <h2 data-i="ovHowTitle"></h2>
-        <p class="sub" data-i="whatItDoes" style="margin-bottom:0"></p>
-        <p class="note" id="ovCount"></p>
-        <p class="note" id="lastBy"></p>
-        <div class="row" style="margin-top:12px"><button class="btn sec sm" id="ovGoMaint" data-i="ovGoMaint"></button></div>
+        <h2 data-i="cMm"></h2>
+        <p class="sub" data-i="mmPick" style="margin-bottom:8px"></p>
+        <div class="chips" id="mmChips"></div>
       </section>
-    </div>
-
-    <!-- MAINTENANCE -->
-    <div id="maintBox" class="hide">
-    <section class="card">
-      <div class="row" style="justify-content:space-between">
-        <div><div class="sub" style="margin:0 0 4px;" data-i="statusLabel"></div><span id="pill" class="pill off">OFF</span></div>
-        <button class="btn green" id="mainBtn"></button>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2 data-i="msgTitle"></h2>
-      <p class="sub" data-i="msgSub"></p>
-      <label>English</label><textarea id="m_en" rows="2"></textarea>
-      <label>ខ្មែរ</label><textarea id="m_km" rows="2"></textarea>
-      <label>中文</label><textarea id="m_zh" rows="2"></textarea>
-      <label data-i="alignTitle"></label>
-      <div class="seg" id="alignSeg"><button type="button" data-a="left" data-i="alignLeft"></button><button type="button" data-a="center" data-i="alignCenter"></button></div>
-    </section>
-
-    <section class="card">
-      <h2 data-i="scopeTitle"></h2>
-      <p class="sub" data-i="scopeSub"></p>
-      <div id="scopeList"></div>
-    </section>
-
-    <section class="card">
-      <h2 data-i="acctTitle"></h2>
-      <p class="sub" data-i="acctSub"></p>
-      <div id="acctList"></div>
-    </section>
-
-    <section class="card">
-      <h2 data-i="svcTitle"></h2>
-      <p class="sub" data-i="svcSub"></p>
-      <div class="row">
-        <button class="btn sec sm" id="allOpen" data-i="allOpen"></button>
-        <button class="btn red sm" id="allClosed" data-i="allClosed"></button>
-      </div>
-      <div class="count" id="count"></div>
-      <div class="grpSeg" id="grpSeg"></div>
-      <div id="list"></div>
-    </section>
-    <div class="savebar"><button class="btn" id="saveBtn" data-i="save"></button><span class="note" id="dirtyNote" style="margin:0"></span></div>
+      <section class="card">
+        <div class="row sp"><div><h2 id="mmName"></h2><span id="mmPill" class="pill off">-</span></div><div class="row" id="mmBtns"></div></div>
+        <p class="note" id="mmBy"></p>
+      </section>
+      <section class="card">
+        <h2 data-i="acctTitle"></h2>
+        <div id="mmExW"><p class="sub" data-i="acctSub"></p><div id="mmExList"></div></div>
+        <p class="sub hide" id="mmExNote" data-i="mmExNote"></p>
+      </section>
+      <section class="card">
+        <h2 data-i="svcTitle"></h2>
+        <p class="sub" id="mmSvcSub"></p>
+        <div id="mmSvc"></div>
+      </section>
+      <div class="savebar"><button class="btn" id="mmSave" data-i="save"></button><span class="note" id="mmDirty" style="margin:0"></span></div>
     </div>
 
     <!-- LOCK -->
     <div id="lockBox" class="hide">
       <section class="card">
-        <h2 data-i="lkTitle"></h2>
+        <h2 data-i="cLk"></h2>
         <p class="sub" data-i="lkSub"></p>
-        <div class="row">
-          <div><div class="sub" style="margin:0 0 4px;" data-i="lkStatus"></div><span id="lkPill" class="pill off">-</span></div>
-        </div>
+        <div class="row"><div><div class="sub" style="margin:0 0 4px;" data-i="lkStatus"></div><span id="lkPill" class="pill off">-</span></div></div>
         <p class="note" id="lkLast"></p>
       </section>
       <section class="card">
@@ -251,15 +262,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         <div id="lkScope"></div>
       </section>
       <section class="card">
-        <h2 data-i="lkMsgTitle"></h2>
-        <label>English</label><textarea id="lk_m_en" rows="2"></textarea>
-        <label>ខ្មែរ</label><textarea id="lk_m_km" rows="2"></textarea>
-        <label>中文</label><textarea id="lk_m_zh" rows="2"></textarea>
-      </section>
-      <section class="card">
         <h2 data-i="lkExemptTitle"></h2>
         <p class="sub" data-i="lkExemptSub"></p>
         <div id="lkAcct"></div>
+        <p class="note" data-i="lkMsgNote"></p>
       </section>
       <div class="savebar"><button class="btn red" id="lkApply" data-i="lkApply"></button><button class="btn sec" id="lkUnlock" data-i="lkUnlock"></button><span class="note" id="lkDirty" style="margin:0"></span></div>
     </div>
@@ -267,7 +273,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
     <!-- SCHEDULE -->
     <div id="schedBox" class="hide">
       <section class="card">
-        <h2 data-i="schTitle"></h2>
+        <h2 data-i="cSc"></h2>
         <p class="sub" data-i="schSub" style="margin-bottom:0"></p>
       </section>
       <section class="card">
@@ -275,9 +281,11 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         <p class="sub" data-i="schWarnSub"></p>
         <select id="warnSel"></select>
       </section>
-      <section class="card">
-        <h2 data-i="schAddTitle"></h2>
+      <section class="card" id="schFormCard">
+        <h2 id="schFormT" data-i="schAddTitle"></h2>
         <div class="seg" id="schType" style="margin-top:6px"><button type="button" data-t="once" data-i="schOnce"></button><button type="button" data-t="weekly" data-i="schWeek"></button><button type="button" data-t="daily" data-i="schDay"></button></div>
+        <label data-i="schWhich"></label>
+        <div class="chips" id="schSys"></div>
         <div id="schOnceF" class="fgrid">
           <div><label data-i="schStart"></label><input type="datetime-local" id="schS"></div>
           <div><label data-i="schEnd"></label><input type="datetime-local" id="schE"></div>
@@ -290,17 +298,56 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
           </div>
           <p class="note" data-i="schOvernight"></p>
         </div>
+        <div id="schExW"><label data-i="schExT"></label><div id="schExBox"></div></div>
+        <label data-i="schSvcT"></label>
+        <p class="sub" data-i="schSvcSub" style="margin:0 0 6px"></p>
+        <div id="schSvcBox"></div>
         <label data-i="schNote"></label><input type="text" id="schNoteIn" maxlength="60">
-        <div class="row" style="margin-top:14px"><button class="btn" id="schAddBtn" data-i="schAdd"></button></div>
+        <div class="row" style="margin-top:14px"><button class="btn" id="schAddBtn" data-i="schSave"></button><button class="btn sec hide" id="schCancelBtn" data-i="schCancel"></button></div>
       </section>
       <section class="card">
         <h2 data-i="schListTitle"></h2>
         <div id="schList"></div>
       </section>
     </div>
+
+    <!-- SETTING -->
+    <div id="setBox" class="hide">
+      <section class="card">
+        <h2 data-i="sgBarT"></h2>
+        <p class="sub" data-i="msgSub"></p>
+        <label>English</label><textarea id="st_en" rows="2"></textarea>
+        <label>ខ្មែរ</label><textarea id="st_km" rows="2"></textarea>
+        <label>中文</label><textarea id="st_zh" rows="2"></textarea>
+        <label data-i="alignTitle"></label>
+        <div class="seg" id="alignSeg"><button type="button" data-a="left" data-i="alignLeft"></button><button type="button" data-a="center" data-i="alignCenter"></button></div>
+        <div class="row" style="margin-top:14px"><button class="btn" id="stSaveBar" data-i="save"></button><span class="note" id="stDirty" style="margin:0"></span></div>
+      </section>
+      <section class="card">
+        <h2 data-i="sgLockT"></h2>
+        <p class="sub" data-i="sgLockSub"></p>
+        <label>English</label><textarea id="sl_en" rows="2"></textarea>
+        <label>ខ្មែរ</label><textarea id="sl_km" rows="2"></textarea>
+        <label>中文</label><textarea id="sl_zh" rows="2"></textarea>
+        <div class="row" style="margin-top:14px"><button class="btn" id="stSaveLock" data-i="save"></button><span class="note" id="sgDirty" style="margin:0"></span></div>
+      </section>
+    </div>
+
+    <!-- CHECK STATUS -->
+    <div id="statBox" class="hide"><div id="stList"></div></div>
+
+    <!-- HISTORY -->
+    <div id="histBox" class="hide">
+      <section class="card">
+        <h2 data-i="tabHist"></h2>
+        <p class="sub" data-i="hiSub"></p>
+        <div class="chips" id="hiChips"><button type="button" data-f="all" data-i="hiAll"></button><button type="button" data-f="m" data-i="hiMt"></button><button type="button" data-f="l" data-i="hiLk"></button></div>
+      </section>
+      <div id="hiList"></div>
+    </div>
   </div>
 </main>
-<div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Maintenance</div><div class="v">Version 8.00</div></div>
+<div class="hrft"><span class="hrftL"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><div class="n">Maintenance</div><div class="v">Version 9.00</div></div>
 </div>
 <div id="toast" class="toast hide"></div>
 
@@ -343,10 +390,11 @@ function act(raw,t){
  }
  return null;
 }
-function next(raw,t){
+function next(raw,t,ok){
  t=t==null?now():t;var its=items(raw),best=null;
  its.forEach(function(x){
   if(x.on===false)return;
+  if(ok&&!ok(itScope(raw,x)))return;
   occ(x,t).forEach(function(o){
    if(o[0]>t&&(!best||o[0]<best.start)){if(x.skipUntil&&o[0]<+x.skipUntil)return;best={item:x,start:o[0],end:o[1]};}
   });
@@ -354,7 +402,43 @@ function next(raw,t){
  return best;
 }
 function isOn(raw){return !!(raw&&(raw.on||act(raw)));}
-function chg(raw){var v=isOn(raw);if(LAST===null){LAST=v;return false;}if(v!==LAST){LAST=v;return true;}return false;}
+function nsc(sc){return {admin:sc?sc.admin===true:true,hr:sc?sc.hr===true:true,emp:sc?sc.emp===true:true,dept:sc?sc.dept===true:true};}
+var G2S={admin:['admin','hr'],apps:['admin','hr'],emp:['emp'],dept:['dept']},SYSL=['admin','hr','emp','dept'];
+function actAll(raw,t){
+ t=t==null?now():t;var out=[],its=items(raw);
+ its.forEach(function(x){
+  if(x.on===false)return;
+  var o=occ(x,t);
+  for(var j=0;j<o.length;j++){if(o[j][0]<=t&&t<o[j][1]){if(x.skipUntil&&t<+x.skipUntil)continue;out.push({item:x,start:o[j][0],end:o[j][1]});break;}}
+ });
+ return out;
+}
+function eff(raw){
+ if(!raw)return raw;
+ var all=actAll(raw).filter(function(a){return a.item.sx;});
+ if(!all.length){if(raw.on)return raw;var a0=act(raw);if(!a0)return raw;var e0=Object.assign({},raw);e0.on=true;return e0;}
+ if(!raw.grp){ if(raw.on)return raw; var a1=all[0],it1=a1.item,e1=Object.assign({},raw);e1.on=true;e1.scope=nsc(it1.scope);e1.services=it1.services||{};e1.actions=it1.actions||{};e1.bypassKeys=it1.bypass||{};return e1; }
+ var e=Object.assign({},raw);e.on=true;
+ e.scope=raw.on?nsc(raw.scope):{admin:false,hr:false,emp:false,dept:false};
+ e.services=Object.assign({},raw.services);e.actions=Object.assign({},raw.actions||{});e.bypassKeys=Object.assign({},raw.on?(raw.bypassKeys||{}):{});
+ all.forEach(function(a){
+  var it=a.item,sc=nsc(it.scope),nw={};
+  SYSL.forEach(function(S){if(sc[S]&&!e.scope[S]){nw[S]=true;}});
+  var newAny=Object.keys(nw).length;
+  Object.keys(it.services||{}).forEach(function(id){
+   var g=raw.grp[id],ss=G2S[g]||[];
+   if(!ss.some(function(S){return nw[S];}))return;
+   var covered=ss.some(function(S){return e.scope[S]===true;});
+   if(covered){if(it.services[id]==='closed'){e.services[id]='closed';}}
+   else{e.services[id]=it.services[id];if(it.actions&&it.actions[id])e.actions[id]=it.actions[id];else delete e.actions[id];}
+  });
+  Object.keys(nw).forEach(function(S){e.scope[S]=true;});
+  if(nw.admin||nw.hr){Object.keys(it.bypass||{}).forEach(function(k){e.bypassKeys[k]=true;});}
+ });
+ return e;
+}
+function itScope(raw,x){return x.sx?nsc(x.scope):raw.scope;}
+function chg(raw){var e=eff(raw),v=(e&&e.on)?JSON.stringify([e.scope,e.services,e.actions,e.bypassKeys]):'off';if(LAST===null){LAST=v;return false;}if(v!==LAST){LAST=v;return true;}return false;}
 function lang(){
  var l='';try{l=localStorage.getItem('appLang')||localStorage.getItem('tdLang')||localStorage.getItem('lang')||localStorage.getItem('language')||'';}catch(e){}
  l=String(l).toLowerCase().slice(0,2);if(l==='kh')l='km';
@@ -363,10 +447,10 @@ function lang(){
 }
 var W={en:'Maintenance starts at {t} (in {n} min). Please save your work.',km:'ការថែទាំនឹងចាប់ផ្តើមនៅម៉ោង {t} (ក្នុង {n} នាទី)។ សូមរក្សាទុកការងាររបស់អ្នក។',zh:'系统将于 {t} 开始维护（{n} 分钟后），请及时保存您的工作。'};
 function hhmm(ms){var d=new Date(ms+ZONE);return ('0'+d.getUTCHours()).slice(-2)+':'+('0'+d.getUTCMinutes()).slice(-2);}
-function tick(raw){
+function tick(raw,ok){
  try{
   var el=document.getElementById('mtsWarn'),t=now(),show=false,nx=null;
-  if(!isOn(raw)){nx=next(raw,t);var w=warnMin(raw);if(nx&&w>0&&nx.start-t<=w*60000&&dismissed!==String(nx.start))show=true;}
+  if(!isOn(raw)){nx=next(raw,t,ok);var w=warnMin(raw);if(nx&&w>0&&nx.start-t<=w*60000&&dismissed!==String(nx.start))show=true;}
   if(!show){if(el)el.remove();return;}
   if(!document.body)return;
   var n=Math.max(1,Math.ceil((nx.start-t)/60000)),txt=W[lang()].replace('{t}',hhmm(nx.start)).replace('{n}',n);
@@ -380,7 +464,7 @@ function tick(raw){
   el.querySelector('.mtsT').textContent=txt;
  }catch(e){}
 }
-window.MTS={act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
+window.MTS={eff:eff,act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
 })();
 
 const SERVICES = [{"id": "master", "group": "admin", "en": "Master Sheet", "km": "បញ្ជីចម្បង", "zh": "主控表"}, {"id": "monthly", "group": "admin", "en": "Monthly Report", "km": "របាយការណ៍ប្រចាំខែ", "zh": "月度报告"}, {"id": "monthlyal", "group": "admin", "en": "Monthly Annual Leave", "km": "ច្បាប់ឈប់សម្រាកប្រចាំឆ្នាំប្រចាំខែ", "zh": "月度年假"}, {"id": "employee", "group": "admin", "en": "Employee", "km": "បុគ្គលិក", "zh": "员工列表"}, {"id": "leave", "group": "admin", "en": "Leave Records", "km": "កំណត់ត្រាច្បាប់", "zh": "请假记录"}, {"id": "att", "group": "admin", "en": "Attendance", "km": "វត្តមាន", "zh": "考勤记录"}, {"id": "query", "group": "admin", "en": "Check Record", "km": "ពិនិត្យកំណត់ត្រា", "zh": "检查记录"}, {"id": "add", "group": "admin", "en": "Add Employee", "km": "បន្ថែមបុគ្គលិក", "zh": "添加员工"}, {"id": "shift", "group": "admin", "en": "Shift Roster", "km": "កាលវិភាគវេន", "zh": "排班表"}, {"id": "makeup", "group": "admin", "en": "Makeup Attendance Record", "km": "កំណត់ត្រាចុះកាតបំពេញបន្ថែម", "zh": "补卡记录"}, {"id": "attcal", "group": "admin", "en": "Leave & Attendance Calendar", "km": "ប្រតិទិនច្បាប់ និងវត្តមាន", "zh": "请假与考勤日历"}, {"id": "dept", "group": "admin", "en": "Departments", "km": "នាយកដ្ឋាន", "zh": "部门"}, {"id": "recdeleted", "group": "admin", "en": "Recently Deleted", "km": "បានលុបថ្មីៗ", "zh": "最近删除"}, {"id": "pending", "group": "admin", "en": "Pending Approvals", "km": "ការអនុម័តកំពុងរង់ចាំ", "zh": "待审批"}, {"id": "mgmt", "group": "admin", "en": "Management", "km": "ការគ្រប់គ្រង", "zh": "账户管理"}, {"id": "devices", "group": "admin", "en": "Device Log", "km": "កំណត់ត្រាឧបករណ៍", "zh": "设备日志"}, {"id": "backup", "group": "admin", "en": "Backup Now", "km": "បម្រុងទុកទិន្នន័យ", "zh": "立即备份"}, {"id": "notif", "group": "admin", "en": "Manage Notifications", "km": "គ្រប់គ្រងការជូនដំណឹង", "zh": "管理通知"}, {"id": "audit", "group": "admin", "en": "Activity Log", "km": "កំណត់ត្រាសកម្មភាព", "zh": "活动日志"}, {"id": "cert", "group": "admin", "en": "Certificates", "km": "វិញ្ញាបនបត្រ", "zh": "证明书"}, {"id": "convert", "group": "admin", "en": "Extract", "km": "ស្រង់ចេញ", "zh": "提取"}, {"id": "faceatt", "group": "apps", "en": "Face Attendance", "km": "វត្តមានតាមការស្កេនមុខ", "zh": "人脸考勤"}, {"id": "export", "group": "admin", "en": "Export", "km": "នាំចេញ", "zh": "导出"}, {"id": "mse", "group": "admin", "en": "MSE Departments", "km": "បញ្ជីចម្បងនាយកដ្ឋាន", "zh": "部门主控表"}, {"id": "deptreq", "group": "admin", "en": "Department Requests", "km": "សំណើពីនាយកដ្ឋាន", "zh": "部门申请"}, {"id": "deptiv", "group": "admin", "en": "Investigations", "km": "ការស៊ើបអង្កេត", "zh": "核查"}, {"id": "datectl", "group": "admin", "en": "Dept Data Reset", "km": "កំណត់ទិន្នន័យនាយកដ្ឋានឡើងវិញ", "zh": "部门数据重置"}, {"id": "clr", "group": "admin", "en": "Clear Old Data", "km": "សម្អាតទិន្នន័យចាស់", "zh": "清理旧数据"}, {"id": "deptacc", "group": "admin", "en": "Department Accounts", "km": "គណនីនាយកដ្ឋាន", "zh": "部门账户"}, {"id": "lforms", "group": "admin", "en": "Leave Forms", "km": "លិខិតសុំច្បាប់", "zh": "请假单"}, {"id": "cardcenter", "group": "admin", "en": "Card Center", "km": "មជ្ឈមណ្ឌលកាត", "zh": "卡片中心"}, {"id": "search", "group": "admin", "en": "Search", "km": "ស្វែងរក", "zh": "搜索"}, {"id": "bell", "group": "admin", "en": "Employee Requests", "km": "សំណើពីបុគ្គលិក", "zh": "员工请求"}, {"id": "todo", "group": "apps", "en": "To-Do List", "km": "បញ្ជីការងារ", "zh": "待办清单"}, {"id": "payroll", "group": "apps", "en": "Payroll", "km": "ប្រាក់ខែ", "zh": "工资"}, {"id": "reminders", "group": "admin", "en": "Reminder", "km": "រំលឹក", "zh": "提醒"}, {"id": "training", "group": "admin", "en": "Training & Agreements", "km": "ហ្វឹកហ្វឺន និងកិច្ចសន្យា", "zh": "培训与合同"}, {"id": "calendar", "group": "admin", "en": "Calendar", "km": "ប្រតិទិន", "zh": "日历"}, {"id": "printing", "group": "admin", "en": "Document Library", "km": "បណ្ណាល័យឯកសារ", "zh": "文档库"}, {"id": "links", "group": "admin", "en": "Links", "km": "តំណភ្ជាប់", "zh": "链接"}, {"id": "kanha", "group": "admin", "en": "Kanha Bot", "km": "Kanha Bot", "zh": "Kanha Bot"}, {"id": "emp_request", "group": "emp", "en": "Request", "km": "សំណើ", "zh": "申请"}, {"id": "emp_shift", "group": "emp", "en": "Check Shift", "km": "ពិនិត្យវេន", "zh": "查看排班"}, {"id": "emp_lf", "group": "emp", "en": "Leave Form", "km": "លិខិតសុំច្បាប់", "zh": "请假单"}, {"id": "emp_card", "group": "emp", "en": "Card", "km": "កាត", "zh": "卡片"}, {"id": "dept_master", "group": "dept", "en": "Master Sheet", "km": "បញ្ជីចម្បង", "zh": "主控表"}, {"id": "dept_leave", "group": "dept", "en": "Leave Record", "km": "កំណត់ត្រាច្បាប់", "zh": "请假记录"}, {"id": "dept_att", "group": "dept", "en": "Attendance Record", "km": "កំណត់ត្រាវត្តមាន", "zh": "考勤记录"}, {"id": "dept_check", "group": "dept", "en": "Check Record", "km": "ពិនិត្យកំណត់ត្រា", "zh": "查询记录"}, {"id": "dept_shift", "group": "dept", "en": "Shift Roster", "km": "កាលវិភាគវេន", "zh": "排班表"}, {"id": "dept_makeup", "group": "dept", "en": "Makeup Attendance Record", "km": "កំណត់ត្រាចុះកាតបំពេញបន្ថែម", "zh": "补卡记录"}, {"id": "dept_attcal", "group": "dept", "en": "Leave & Attendance Calendar", "km": "ប្រតិទិនច្បាប់ និងវត្តមាន", "zh": "请假与考勤日历"}, {"id": "dept_cmp", "group": "dept", "en": "Compare with HR", "km": "ប្រៀបធៀបជាមួយ HR", "zh": "与人事对比"}, {"id": "dept_req", "group": "dept", "en": "Requests", "km": "សំណើ", "zh": "申请"}, {"id": "dept_lf", "group": "dept", "en": "Leave Form", "km": "លិខិតសុំច្បាប់", "zh": "请假单"}, {"id": "dept_card", "group": "dept", "en": "Card", "km": "កាត", "zh": "卡片"}, {"id": "dept_bell", "group": "dept", "en": "Notifications", "km": "ការជូនដំណឹង", "zh": "通知"}, {"id": "assets", "group": "apps", "en": "Asset Management", "km": "គ្រប់គ្រងទ្រព្យសម្បត្តិ", "zh": "资产管理"}];
@@ -420,10 +504,10 @@ Object.assign(I18N.zh, {tabMaint:'维护模式', tabLock:'锁定系统', lkTitle
 const T = (k, o) => { let s = (I18N[lang] && I18N[lang][k]) || I18N.en[k] || k; if (o) for (const x in o) s = s.replace('{' + x + '}', o[x]); return s; };
 function renderLang() {
   document.documentElement.lang = lang === 'zh' ? 'zh' : (lang === 'km' ? 'km' : 'en');
-  document.title = T('title'); $('hTitle').textContent = T('title');
+  document.title = T('title'); $('hTitle').textContent = T('brandSub');
   document.querySelectorAll('[data-i]').forEach(e => { e.textContent = T(e.getAttribute('data-i')); });
   document.querySelectorAll('.langs button').forEach(b => b.classList.toggle('on', b.dataset.l === lang));
-  renderPanel(); if (lockForm) renderLock(); try { renderOv(); renderSched(); } catch (e) {}
+  try { renderAll(); } catch (e) {}
 }
 document.querySelectorAll('.langs button').forEach(b => b.onclick = () => { lang = b.dataset.l; try { localStorage.setItem('appLang', lang); } catch (e) {} renderLang(); });
 
@@ -492,20 +576,54 @@ async function doLogin() {
 }
 $('loginBtn').onclick = doLogin;
 ['u', 'p', 'c'].forEach(id => $(id).addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); }));
-$('outBtn').onclick = async () => { unlocked = false; account = null; if (unsub) { unsub(); unsub = null; } if (lockUnsub) { lockUnsub(); lockUnsub = null; } lockForm = null; lockDirty = false; await backToAnon(); $('panel').classList.add('hide'); $('loginBox').classList.remove('hide'); $('outBtn').classList.add('hide'); document.body.classList.add('isLogin'); $('stepPw').classList.remove('hide'); $('stepCode').classList.add('hide'); $('p').value = ''; $('c').value = ''; };
+$('outBtn').onclick = async () => { unlocked = false; account = null; if (unsub) { unsub(); unsub = null; } if (lockUnsub) { lockUnsub(); lockUnsub = null; } lockForm = null; lockDirty = false; await backToAnon(); $('panel').classList.add('hide'); $('loginBox').classList.remove('hide'); $('outBtn').classList.add('hide'); document.body.classList.add('isLogin'); try { if (logUnsub) { logUnsub(); logUnsub = null; } logData = {}; logPruned = false; cur = null; form = null; dirty = false; } catch (e) {} $('stepPw').classList.remove('hide'); $('stepCode').classList.add('hide'); $('p').value = ''; $('c').value = ''; };
 
-/* ---------- control panel ---------- */
-let cur = null;       // what the database says right now
-let form = null;      // what is on screen
+
+/* ================= v8.00: overview, schedule, new look ================= */
+Object.assign(I18N.en, {tabOv:'Overview', tabSched:'Schedule', ovMaint:'Maintenance', ovLock:'Lock', ovSched:'Schedule', ovGoLock:'Lock settings', ovGoSched:'Schedules', ovGoMaint:'Open maintenance settings', ovHowTitle:'How it works', ovMtOff:'Everything is open.', ovMtManual:'ON. Switched on by hand.', ovMtSched:'ON by schedule, until {t}.', ovLkOff:'No system is locked.', ovLkOn:'Locked: {l}', ovScNone:'No schedule yet.', ovScRun:'Running now, until {t}.', ovScNext:'Next: {t}',
+  schActive:'Running now', schWaiting:'Waiting', schDone:'Finished', schPaused:'Paused', schTitle:'Schedule maintenance', schSub:'The system goes into maintenance by itself at the start time and opens again by itself at the end time. It uses the message, systems and services you set in the Maintenance tab. All times are Cambodia time.', schWarnTitle:'Warning before it starts', schWarnSub:'People see a yellow notice before maintenance starts.', warnOff:'No warning', warnMin:'{n} minutes before', schAddTitle:'Add a schedule', schOnce:'One time', schWeek:'Every week', schDay:'Every day', schStart:'Starts', schEnd:'Ends', schFrom:'From', schTo:'To', schDays:'Days', schOvernight:'If the end time is earlier than the start time, it ends the next day.', schNote:'Name (optional)', schAdd:'Add schedule', schListTitle:'Your schedules', schEmpty:'No schedule yet.', schEndNow:'End now', schPause:'Pause', schResume:'Resume', schDelete:'Delete', schBadTime:'The end must be after the start.', schNeedDays:'Pick at least one day.', schNeedTime:'Please fill in the times.', schAdded:'Schedule added.', schDeleted:'Schedule deleted.', schReleased:'Released.', schConfirmDel:'Delete this schedule?', schEvery:'Every {d}', schDaily:'Every day', schUntil:'Until {t}', schNextAt:'Next: {t}', schPastEnd:'The end time has already passed.', grpApps:'Apps (separate pages)'});
+Object.assign(I18N.km, {tabOv:'ទិដ្ឋភាពទូទៅ', tabSched:'កាលវិភាគ', ovMaint:'ការថែទាំ', ovLock:'ចាក់សោ', ovSched:'កាលវិភាគ', ovGoLock:'ការកំណត់ចាក់សោ', ovGoSched:'គ្រប់គ្រងកាលវិភាគ', ovGoMaint:'បើកការកំណត់ថែទាំ', ovHowTitle:'របៀបដំណើរការ', ovMtOff:'អ្វីៗទាំងអស់បើកធម្មតា។', ovMtManual:'កំពុងបើក។ បើកដោយដៃ។', ovMtSched:'កំពុងបើកតាមកាលវិភាគ រហូតដល់ {t}។', ovLkOff:'គ្មានប្រព័ន្ធណាត្រូវបានចាក់សោទេ។', ovLkOn:'បានចាក់សោ៖ {l}', ovScNone:'មិនទាន់មានកាលវិភាគទេ។', ovScRun:'កំពុងដំណើរការ រហូតដល់ {t}។', ovScNext:'បន្ទាប់៖ {t}',
+  schActive:'កំពុងដំណើរការ', schWaiting:'កំពុងរង់ចាំ', schDone:'បានបញ្ចប់', schPaused:'ផ្អាក', schTitle:'កំណត់ពេលថែទាំ', schSub:'ប្រព័ន្ធនឹងចូលម៉ូដថែទាំដោយខ្លួនឯងនៅម៉ោងចាប់ផ្តើម ហើយបើកវិញដោយខ្លួនឯងនៅម៉ោងបញ្ចប់។ វាប្រើសារ ប្រព័ន្ធ និងសេវាកម្មដែលអ្នកបានកំណត់នៅផ្ទាំងម៉ូដថែទាំ។ ម៉ោងទាំងអស់ជាម៉ោងកម្ពុជា។', schWarnTitle:'ការជូនដំណឹងមុនចាប់ផ្តើម', schWarnSub:'អ្នកប្រើនឹងឃើញសេចក្តីជូនដំណឹងពណ៌លឿង មុនការថែទាំចាប់ផ្តើម។', warnOff:'មិនជូនដំណឹង', warnMin:'មុន {n} នាទី', schAddTitle:'បន្ថែមកាលវិភាគ', schOnce:'មួយដង', schWeek:'រៀងរាល់សប្តាហ៍', schDay:'រៀងរាល់ថ្ងៃ', schStart:'ចាប់ផ្តើម', schEnd:'បញ្ចប់', schFrom:'ពី', schTo:'ដល់', schDays:'ថ្ងៃ', schOvernight:'បើម៉ោងបញ្ចប់មុនម៉ោងចាប់ផ្តើម វានឹងបញ្ចប់នៅថ្ងៃបន្ទាប់។', schNote:'ឈ្មោះ (ជម្រើស)', schAdd:'បន្ថែមកាលវិភាគ', schListTitle:'កាលវិភាគរបស់អ្នក', schEmpty:'មិនទាន់មានកាលវិភាគទេ។', schEndNow:'បញ្ចប់ឥឡូវនេះ', schPause:'ផ្អាក', schResume:'បន្ត', schDelete:'លុប', schBadTime:'ម៉ោងបញ្ចប់ត្រូវនៅក្រោយម៉ោងចាប់ផ្តើម។', schNeedDays:'សូមជ្រើសរើសយ៉ាងតិចមួយថ្ងៃ។', schNeedTime:'សូមបំពេញម៉ោង។', schAdded:'បានបន្ថែមកាលវិភាគ។', schDeleted:'បានលុបកាលវិភាគ។', schReleased:'បានដោះលែង។', schConfirmDel:'លុបកាលវិភាគនេះ?', schEvery:'រៀងរាល់ {d}', schDaily:'រៀងរាល់ថ្ងៃ', schUntil:'រហូតដល់ {t}', schNextAt:'បន្ទាប់៖ {t}', schPastEnd:'ម៉ោងបញ្ចប់បានកន្លងផុតហើយ។', grpApps:'កម្មវិធីផ្សេងៗ (ទំព័រដាច់ដោយឡែក)'});
+Object.assign(I18N.zh, {tabOv:'概览', tabSched:'定时计划', ovMaint:'维护', ovLock:'锁定', ovSched:'定时计划', ovGoLock:'锁定设置', ovGoSched:'管理计划', ovGoMaint:'打开维护设置', ovHowTitle:'运作方式', ovMtOff:'所有功能正常开放。', ovMtManual:'已开启（手动）。', ovMtSched:'按计划开启，持续到 {t}。', ovLkOff:'没有锁定任何系统。', ovLkOn:'已锁定：{l}', ovScNone:'还没有计划。', ovScRun:'正在运行，持续到 {t}。', ovScNext:'下一次：{t}',
+  schActive:'运行中', schWaiting:'等待中', schDone:'已结束', schPaused:'已暂停', schTitle:'定时维护', schSub:'系统会在开始时间自动进入维护，并在结束时间自动恢复。维护内容（提示信息、系统和服务）使用“维护模式”页中的设置。所有时间均为柬埔寨时间。', schWarnTitle:'开始前提醒', schWarnSub:'维护开始前，用户会看到黄色提醒。', warnOff:'不提醒', warnMin:'提前 {n} 分钟', schAddTitle:'添加计划', schOnce:'单次', schWeek:'每周', schDay:'每天', schStart:'开始', schEnd:'结束', schFrom:'从', schTo:'到', schDays:'星期', schOvernight:'如果结束时间早于开始时间，则在次日结束。', schNote:'名称（可选）', schAdd:'添加计划', schListTitle:'已有计划', schEmpty:'暂无计划。', schEndNow:'立即结束', schPause:'暂停', schResume:'恢复', schDelete:'删除', schBadTime:'结束时间必须晚于开始时间。', schNeedDays:'请至少选择一天。', schNeedTime:'请填写时间。', schAdded:'已添加计划。', schDeleted:'已删除计划。', schReleased:'已恢复。', schConfirmDel:'删除此计划？', schEvery:'每 {d}', schDaily:'每天', schUntil:'持续到 {t}', schNextAt:'下一次：{t}', schPastEnd:'结束时间已过。', grpApps:'应用（独立页面）'});
+
+Object.assign(I18N.en, {"brandSub":"Maintenance","tabDash":"Dashboard","tabSet":"Setting","tabStat":"Check Status","tabHist":"History","cMm":"Maintenance Mode","cLk":"Lock System Mode","cSc":"Maintenance Schedule","dMmSub":"Turn maintenance on or off for each system","dLkSub":"Block a whole system until you unlock it","dScSub":"Start and stop maintenance by itself","dStSub":"Messages for the red bar and locked users","dChSub":"See if each system works normally","dHiSub":"Last 6 months of actions","sysAll":"All Systems","mmPick":"Choose a system","stOn":"In maintenance","stOff":"Open (normal)","stSome":"Some systems in maintenance","mmOnFor":"Turn ON maintenance: {s}","mmOffFor":"Turn OFF maintenance: {s}","mmOnAll":"Turn ON all systems","mmOffAll":"Turn OFF all systems","mmConfirmOn":"Turn ON maintenance for: {s}?\nEveryone in these systems will see the red bar and the services you set below.","mmConfirmOff":"Turn OFF maintenance for: {s} and release everything?","mmExNote":"Only Administration accounts can keep full access. Set them in Administration or All Systems.","mmShared":"Administration and HR share the same services.","schWhich":"Systems for this maintenance","schSvcT":"Services during this maintenance","schSvcSub":"Choose which services are closed (maintenance) and which stay open.","schExT":"Accounts that keep full access","schSave":"Add schedule","schSaveEdit":"Save changes","schEditing":"Edit schedule","schCancel":"Cancel edit","schEdit":"Edit","schNeedSys":"Tick at least one system.","schNoSvc":"Pick a system first to see its services.","schSum":"{c} services closed · {x} exempt accounts","schLegacy":"All systems (uses current Maintenance Mode settings)","chCount":"{n} of {m} systems normal","chAllOk":"All systems normal","chNormal":"Normal","chMaint":"Under maintenance","chPartly":"Partly open","chAllOpen":"All {n} services are open.","chAllClosed":"All {n} services are closed.","chSome":"{o} of {n} services are still available.","chBar":"The red bar is shown, but all services are still open.","chBy":"Switched on by hand.","chSch":"Started by schedule, ends {t}.","chLocked":"Locked","chLegend":"Red = closed, green = still available","chNextT":"Next maintenance","chNext":"Next maintenance starts {t}.","chNone":"No schedule is waiting.","hiSub":"Maintenance and lock actions from the last 6 months. Older records are removed automatically.","hiAll":"All","hiMt":"Maintenance","hiLk":"Lock","hiEmpty":"No records yet.","hiBy":"by {b}","hiAuto":"automatic","hiMore":"Showing the latest 300 of {n} records.","evOn":"Maintenance ON: {s}","evOff":"Maintenance OFF: {s}","evSaveMt":"Maintenance settings saved: {s}","evAutoS":"Automatic start{n}: {s}","evAutoE":"Automatic end{n}","evSchAdd":"Schedule added{n}: {s}","evSchEdit":"Schedule changed{n}: {s}","evSchDel":"Schedule deleted{n}","evSchPause":"Schedule paused{n}","evSchResume":"Schedule resumed{n}","evSchEnd":"Schedule ended early{n}","evWarn":"Warning time set to {m} min","evMsg":"Red bar message changed","evLock":"Lock applied: {s}","evUnlock":"All systems unlocked","evLkMsg":"Locked-user message changed","sgBarT":"Message in the red bar (optional)","sgLockT":"Message shown to locked users (optional)","sgLockSub":"Leave empty to use the standard message.","lkMsgNote":"The message for locked users is set in Setting."});
+Object.assign(I18N.km, {"brandSub":"ការថែទាំ","tabDash":"ផ្ទាំងគ្រប់គ្រង","tabSet":"ការកំណត់","tabStat":"ពិនិត្យស្ថានភាព","tabHist":"ប្រវត្តិ","cMm":"ម៉ូដថែទាំ","cLk":"ម៉ូដចាក់សោប្រព័ន្ធ","cSc":"កាលវិភាគថែទាំ","dMmSub":"បើក ឬបិទការថែទាំសម្រាប់ប្រព័ន្ធនីមួយៗ","dLkSub":"ទប់ស្កាត់ប្រព័ន្ធទាំងមូលរហូតដល់អ្នកដោះសោ","dScSub":"ចាប់ផ្តើម និងបញ្ចប់ការថែទាំដោយស្វ័យប្រវត្តិ","dStSub":"សារសម្រាប់របារក្រហម និងអ្នកប្រើដែលត្រូវចាក់សោ","dChSub":"មើលថាតើប្រព័ន្ធនីមួយៗដំណើរការធម្មតាឬអត់","dHiSub":"សកម្មភាព ៦ ខែចុងក្រោយ","sysAll":"ប្រព័ន្ធទាំងអស់","mmPick":"ជ្រើសរើសប្រព័ន្ធ","stOn":"កំពុងថែទាំ","stOff":"បើកធម្មតា","stSome":"ប្រព័ន្ធខ្លះកំពុងថែទាំ","mmOnFor":"បើកការថែទាំ៖ {s}","mmOffFor":"បិទការថែទាំ៖ {s}","mmOnAll":"បើកការថែទាំគ្រប់ប្រព័ន្ធ","mmOffAll":"បិទការថែទាំគ្រប់ប្រព័ន្ធ","mmConfirmOn":"បើកការថែទាំសម្រាប់៖ {s}?\nអ្នកប្រើក្នុងប្រព័ន្ធទាំងនេះនឹងឃើញរបារក្រហម និងសេវាកម្មដែលអ្នកបានកំណត់។","mmConfirmOff":"បិទការថែទាំសម្រាប់៖ {s} ហើយដោះលែងទាំងអស់?","mmExNote":"មានតែគណនី Administration ប៉ុណ្ណោះដែលអាចរក្សាសិទ្ធិពេញលេញ។ សូមកំណត់នៅ Administration ឬ ប្រព័ន្ធទាំងអស់។","mmShared":"Administration និង HR ប្រើសេវាកម្មដូចគ្នា។","schWhich":"ប្រព័ន្ធសម្រាប់ការថែទាំនេះ","schSvcT":"សេវាកម្មអំឡុងពេលថែទាំនេះ","schSvcSub":"ជ្រើសសេវាកម្មណាត្រូវបិទ (ថែទាំ) និងណានៅបើក។","schExT":"គណនីដែលរក្សាសិទ្ធិពេញលេញ","schSave":"បន្ថែមកាលវិភាគ","schSaveEdit":"រក្សាទុកការកែប្រែ","schEditing":"កែកាលវិភាគ","schCancel":"បោះបង់ការកែ","schEdit":"កែ","schNeedSys":"សូមធីកប្រព័ន្ធយ៉ាងហោចណាស់មួយ។","schNoSvc":"សូមជ្រើសប្រព័ន្ធមុន ដើម្បីមើលសេវាកម្ម។","schSum":"សេវាកម្មបិទ {c} · គណនីលើកលែង {x}","schLegacy":"ប្រព័ន្ធទាំងអស់ (ប្រើការកំណត់ម៉ូដថែទាំបច្ចុប្បន្ន)","chCount":"ប្រព័ន្ធធម្មតា {n} ក្នុងចំណោម {m}","chAllOk":"ប្រព័ន្ធទាំងអស់ធម្មតា","chNormal":"ធម្មតា","chMaint":"កំពុងថែទាំ","chPartly":"បើកមួយផ្នែក","chAllOpen":"សេវាកម្មទាំង {n} បើកទាំងអស់។","chAllClosed":"សេវាកម្មទាំង {n} បិទទាំងអស់។","chSome":"សេវាកម្ម {o} ក្នុងចំណោម {n} នៅតែប្រើបាន។","chBar":"របារក្រហមបង្ហាញ ប៉ុន្តែសេវាកម្មទាំងអស់នៅបើក។","chBy":"បើកដោយដៃ។","chSch":"ចាប់ផ្តើមតាមកាលវិភាគ បញ្ចប់ {t}។","chLocked":"បានចាក់សោ","chLegend":"ក្រហម = បិទ, បៃតង = នៅប្រើបាន","chNextT":"ការថែទាំបន្ទាប់","chNext":"ការថែទាំបន្ទាប់ចាប់ផ្តើម {t}។","chNone":"គ្មានកាលវិភាគកំពុងរង់ចាំទេ។","hiSub":"សកម្មភាពថែទាំ និងចាក់សោក្នុងរយៈពេល ៦ ខែចុងក្រោយ។ កំណត់ត្រាចាស់ត្រូវបានលុបដោយស្វ័យប្រវត្តិ។","hiAll":"ទាំងអស់","hiMt":"ការថែទាំ","hiLk":"ចាក់សោ","hiEmpty":"មិនទាន់មានកំណត់ត្រាទេ។","hiBy":"ដោយ {b}","hiAuto":"ស្វ័យប្រវត្តិ","hiMore":"បង្ហាញ ៣០០ ចុងក្រោយក្នុងចំណោម {n}។","evOn":"បើកការថែទាំ៖ {s}","evOff":"បិទការថែទាំ៖ {s}","evSaveMt":"បានរក្សាទុកការកំណត់ថែទាំ៖ {s}","evAutoS":"ចាប់ផ្តើមដោយស្វ័យប្រវត្តិ{n}៖ {s}","evAutoE":"បញ្ចប់ដោយស្វ័យប្រវត្តិ{n}","evSchAdd":"បានបន្ថែមកាលវិភាគ{n}៖ {s}","evSchEdit":"បានកែកាលវិភាគ{n}៖ {s}","evSchDel":"បានលុបកាលវិភាគ{n}","evSchPause":"បានផ្អាកកាលវិភាគ{n}","evSchResume":"បានបន្តកាលវិភាគ{n}","evSchEnd":"បានបញ្ចប់កាលវិភាគមុនពេល{n}","evWarn":"កំណត់ពេលព្រមាន {m} នាទី","evMsg":"បានកែសាររបារក្រហម","evLock":"បានចាក់សោ៖ {s}","evUnlock":"បានដោះសោគ្រប់ប្រព័ន្ធ","evLkMsg":"បានកែសារអ្នកប្រើដែលត្រូវចាក់សោ","sgBarT":"សាររបារក្រហម (ជម្រើស)","sgLockT":"សារដែលបង្ហាញដល់អ្នកប្រើដែលត្រូវចាក់សោ (ជម្រើស)","sgLockSub":"ទុកទទេ ដើម្បីប្រើសារស្តង់ដារ។","lkMsgNote":"សារសម្រាប់អ្នកប្រើដែលត្រូវចាក់សោ កំណត់នៅក្នុង ការកំណត់។"});
+Object.assign(I18N.zh, {"brandSub":"维护","tabDash":"控制台","tabSet":"设置","tabStat":"检查状态","tabHist":"历史记录","cMm":"维护模式","cLk":"锁定系统模式","cSc":"维护计划","dMmSub":"为每个系统开启或关闭维护","dLkSub":"在解锁前阻止整个系统","dScSub":"自动开始和结束维护","dStSub":"红色横幅与被锁用户的信息","dChSub":"查看各系统是否正常","dHiSub":"最近 6 个月的操作记录","sysAll":"所有系统","mmPick":"选择系统","stOn":"维护中","stOff":"正常开放","stSome":"部分系统维护中","mmOnFor":"开启维护：{s}","mmOffFor":"关闭维护：{s}","mmOnAll":"开启全部系统维护","mmOffAll":"关闭全部系统维护","mmConfirmOn":"为以下系统开启维护：{s}？\n这些系统的用户将看到红色横幅以及您设置的服务状态。","mmConfirmOff":"关闭以下系统的维护并全部恢复：{s}？","mmExNote":"只有管理员账户可以保留全部权限，请在“管理系统”或“所有系统”中设置。","mmShared":"管理系统和人事系统共用相同的服务。","schWhich":"本次维护的系统","schSvcT":"本次维护期间的服务","schSvcSub":"选择哪些服务关闭（维护），哪些保持开放。","schExT":"保留全部权限的账户","schSave":"添加计划","schSaveEdit":"保存修改","schEditing":"编辑计划","schCancel":"取消编辑","schEdit":"编辑","schNeedSys":"请至少勾选一个系统。","schNoSvc":"请先选择系统以查看其服务。","schSum":"关闭服务 {c} 项 · 豁免账户 {x} 个","schLegacy":"所有系统（使用当前维护模式设置）","chCount":"{m} 个系统中 {n} 个正常","chAllOk":"所有系统正常","chNormal":"正常","chMaint":"维护中","chPartly":"部分开放","chAllOpen":"全部 {n} 项服务均已开放。","chAllClosed":"全部 {n} 项服务均已关闭。","chSome":"{n} 项服务中仍有 {o} 项可用。","chBar":"已显示红色横幅，但所有服务仍然开放。","chBy":"手动开启。","chSch":"按计划开始，结束于 {t}。","chLocked":"已锁定","chLegend":"红色 = 已关闭，绿色 = 仍可用","chNextT":"下次维护","chNext":"下次维护开始于 {t}。","chNone":"没有等待中的计划。","hiSub":"最近 6 个月的维护与锁定操作记录，更早的记录会自动删除。","hiAll":"全部","hiMt":"维护","hiLk":"锁定","hiEmpty":"暂无记录。","hiBy":"操作人：{b}","hiAuto":"自动","hiMore":"显示最新 300 条，共 {n} 条。","evOn":"开启维护：{s}","evOff":"关闭维护：{s}","evSaveMt":"已保存维护设置：{s}","evAutoS":"自动开始{n}：{s}","evAutoE":"自动结束{n}","evSchAdd":"已添加计划{n}：{s}","evSchEdit":"已修改计划{n}：{s}","evSchDel":"已删除计划{n}","evSchPause":"已暂停计划{n}","evSchResume":"已恢复计划{n}","evSchEnd":"已提前结束计划{n}","evWarn":"警告时间设为 {m} 分钟","evMsg":"已修改红色横幅信息","evLock":"已锁定：{s}","evUnlock":"已解锁所有系统","evLkMsg":"已修改被锁用户信息","sgBarT":"红色横幅信息（可选）","sgLockT":"显示给被锁用户的信息（可选）","sgLockSub":"留空则使用标准信息。","lkMsgNote":"被锁用户的信息请在“设置”中填写。"});
+Object.assign(I18N.km, { schSub: 'ប្រព័ន្ធនឹងចូលម៉ូដថែទាំដោយខ្លួនឯងនៅម៉ោងចាប់ផ្តើម ហើយបើកវិញដោយខ្លួនឯងនៅម៉ោងបញ្ចប់។ សម្រាប់កាលវិភាគនីមួយៗ អ្នកជ្រើសរើសប្រព័ន្ធ គណនីដែលរក្សាសិទ្ធិពេញលេញ និងសេវាកម្មណាត្រូវបិទ។ ម៉ោងទាំងអស់ជាម៉ោងកម្ពុជា។' });
+Object.assign(I18N.zh, { schSub: '系统会在开始时间自动进入维护，并在结束时间自动恢复。每个计划可分别选择系统、保留全部权限的账户以及要关闭的服务。所有时间均为柬埔寨时间。' });
+Object.assign(I18N.en, { schSub: 'The system goes into maintenance by itself at the start time and opens again by itself at the end time. For each schedule you choose the systems, the accounts that keep full access, and which services close. All times are Cambodia time.' });
+/* ================= v9: dashboard, per-system maintenance, scheduled maintenance, setting, status, history ================= */
+const SYS = ['admin', 'hr', 'dept', 'emp'];
+const SYSN = { admin: 'scopeAdmin', hr: 'scopeHr', dept: 'scopeDept', emp: 'scopeEmp' };
+const SYSG = { admin: ['admin', 'apps'], hr: ['admin', 'apps'], dept: ['dept'], emp: ['emp'] };
+const GORD = ['admin', 'apps', 'emp', 'dept'];
+const ZONE = MTS.zone;
+const DOWN = { en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], km: ['អាទិត្យ', 'ច័ន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'], zh: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'] };
+const p2 = (n) => ('0' + n).slice(-2);
+const sysName = (k) => k === 'all' ? T('sysAll') : T(SYSN[k]);
+const namesOf = (arr) => arr.map(sysName).join(', ');
+const who = () => (account && (account.name || account.username)) || 'admin';
+const keysOf = (o) => Object.keys(o || {}).reduce((r, k) => { if (o[k]) r[k] = true; return r; }, {});
+function groupsFor(list) { return GORD.filter(g => list.some(s => SYSG[s].indexOf(g) >= 0)); }
+function el(tag, cls, txt) { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; }
+function fmtDT(ms) { const d = new Date(ms + ZONE); return DOWN[lang][d.getUTCDay()] + ' ' + p2(d.getUTCDate()) + '/' + p2(d.getUTCMonth() + 1) + '/' + d.getUTCFullYear() + ' ' + p2(d.getUTCHours()) + ':' + p2(d.getUTCMinutes()); }
+function toLocalVal(ms) { return new Date(ms + ZONE).toISOString().slice(0, 16); }
+function fromLocalVal(v) { const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v || ''); if (!m) return 0; return Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]) - ZONE; }
+
+/* ---------- state ---------- */
+let cur = null;        // maintenance node (without log)
+let form = null;       // working copy: { services, actions, bypassKeys }
 let dirty = false, unsub = null;
-function emptyForm() { const s = {}; SERVICES.forEach(x => s[x.id] = 'closed'); return { on: false, message: { en: '', km: '', zh: '' }, bypassKeys: {}, services: s, actions: {}, align: 'left', scope: { admin: true, hr: true, emp: true, dept: true } }; }
+let curSys = 'all', screen = 'dash';
+let logData = {}, logUnsub = null, logPruned = false, hiFilter = 'all';
+const expanded = {};
+
+function emptyForm() { const s = {}; SERVICES.forEach(x => s[x.id] = 'closed'); return { services: s, actions: {}, bypassKeys: {} }; }
 function fromData(d) {
   const f = emptyForm(); if (!d) return f;
-  f.on = !!d.on; f.bypassKeys = Object.assign({}, d.bypassKeys || {}); if (d.message) ['en', 'km', 'zh'].forEach(l => f.message[l] = d.message[l] || '');
-  if (d.services) SERVICES.forEach(x => { const v = d.services[x.id]; if (v === 'open' || v === 'view' || v === 'closed') f.services[x.id] = (v === 'closed' ? 'closed' : 'open'); });
-  SERVICES.forEach(x => { if (!d.services || d.services[x.id] === undefined) f.services[x.id] = 'open'; }); /* v7.57: a service added later (e.g. Department portal) starts open, never silently closed */
-  if (d.scope) ['admin', 'hr', 'emp', 'dept'].forEach(k => { f.scope[k] = d.scope[k] === true; });
-  f.align = d.align === 'center' ? 'center' : 'left';
+  SERVICES.forEach(x => { f.services[x.id] = (d.services && d.services[x.id] === 'closed') ? 'closed' : 'open'; });
+  f.bypassKeys = Object.assign({}, (d.bypassBy && d.bypassBy.admin) || d.bypassKeys || {});
   if (d.actions) ACTIONS.forEach(a => { if (d.actions[a.s] && d.actions[a.s][a.id] === 'closed') { f.actions[a.s] = f.actions[a.s] || {}; f.actions[a.s][a.id] = 'closed'; } });
   return f;
 }
@@ -513,27 +631,214 @@ let adminAccts = [];
 async function loadAccts() {
   try { const a = (await db.ref('accounts').once('value')).val() || {}; adminAccts = Object.keys(a).map(k => Object.assign({ key: k }, a[k])).filter(x => x.role === 'admin' && !x.disabled); } catch (e) { adminAccts = []; }
 }
-function renderScope() {
-  const box = $('scopeList'); box.innerHTML = '';
-  [['admin', 'scopeAdmin'], ['hr', 'scopeHr'], ['emp', 'scopeEmp'], ['dept', 'scopeDept']].forEach(([k, lk]) => {
-    const lab = document.createElement('label'); lab.className = 'check';
-    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!(form.scope && form.scope[k]);
-    cb.onchange = () => { readForm(); form.scope = form.scope || {}; form.scope[k] = cb.checked; dirty = true; $('saveBtn').disabled = false; $('dirtyNote').textContent = T('unsaved'); };
-    const sp = document.createElement('span'); sp.textContent = T(lk);
-    lab.appendChild(cb); lab.appendChild(sp); box.appendChild(lab);
+function cleanActionsOf(st) { const o = {}; ACTIONS.forEach(a => { if (st.actions && st.actions[a.s] && st.actions[a.s][a.id] === 'closed' && st.services[a.s] !== 'closed') { o[a.s] = o[a.s] || {}; o[a.s][a.id] = 'closed'; } }); return o; }
+function toast(msg, bad) { const t = $('toast'); t.textContent = msg; t.className = 'toast' + (bad ? ' bad' : ''); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.add('hide'), 3500); }
+/* in-page question (no browser pop-up) */
+function askYes(msg) {
+  return new Promise(res => {
+    const L = ({ en: ['Cancel', 'OK'], km: ['បោះបង់', 'យល់ព្រម'], zh: ['取消', '确定'] })[lang] || ['Cancel', 'OK'];
+    const o = document.createElement('div');
+    o.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
+    o.innerHTML = '<div style="background:#fff;color:#0f172a;border-radius:12px;max-width:440px;width:100%;padding:20px;box-shadow:0 14px 40px rgba(0,0,0,.35);font-size:15px;line-height:1.5"><div class="aq-m" style="white-space:pre-line"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button type="button" class="aq-c" style="border:0;border-radius:8px;padding:10px 18px;font-weight:700;background:#64748b;color:#fff;cursor:pointer"></button><button type="button" class="aq-o" style="border:0;border-radius:8px;padding:10px 18px;font-weight:700;background:#16a34a;color:#fff;cursor:pointer"></button></div></div>';
+    o.querySelector('.aq-m').textContent = msg; o.querySelector('.aq-c').textContent = L[0]; o.querySelector('.aq-o').textContent = L[1];
+    const done = v => { o.remove(); res(v); };
+    o.querySelector('.aq-c').onclick = () => done(false); o.querySelector('.aq-o').onclick = () => done(true);
+    document.body.appendChild(o);
   });
 }
-function renderAccts() {
-  const box = $('acctList'); box.innerHTML = '';
-  if (!adminAccts.length) { const p = document.createElement('p'); p.className = 'note'; p.textContent = T('acctNoList'); box.appendChild(p); return; }
+
+
+/* ---------- history log ---------- */
+async function logEv(c, k, p) { try { const e = { t: MTS.now(), by: who(), c: c, k: k }; if (p) e.p = p; await db.ref('maintenance/log').push(e); } catch (e) { } }
+function autoLog() {
+  if (!unlocked || !cur) return;
+  const t = MTS.now(), ac = MTS.act(cur, t);
+  if (ac && !cur.on) {
+    const key = 'a_' + ac.item.id + '_' + ac.start;
+    if (!logData[key]) {
+      const sc = ac.item.sx ? ac.item.scope : (cur.scope || {}); const s = SYS.filter(k => sc && sc[k] !== false && (ac.item.sx ? sc[k] === true : true));
+      const v = { t: ac.start, by: 'auto', c: 'm', k: 'evAutoS', p: { n: ac.item.note || '', s: s.join(','), e: ac.end } };
+      logData[key] = v; db.ref('maintenance/log/' + key).set(v).catch(() => { });
+    }
+  }
+  Object.keys(logData).forEach(k => {
+    const v = logData[k];
+    if (v && v.k === 'evAutoS' && v.p && v.p.e <= t && k.slice(0, 2) === 'a_') {
+      const ek = k + '_e';
+      if (!logData[ek]) { const w = { t: v.p.e, by: 'auto', c: 'm', k: 'evAutoE', p: { n: v.p.n || '' } }; logData[ek] = w; db.ref('maintenance/log/' + ek).set(w).catch(() => { }); }
+    }
+  });
+}
+function pruneLog() {
+  if (logPruned) return; logPruned = true;
+  const lim = MTS.now() - 183 * 86400000, u = {}; let n = 0;
+  Object.keys(logData).forEach(k => { const v = logData[k]; if (v && v.t < lim) { u[k] = null; n++; } });
+  if (n) db.ref('maintenance/log').update(u).catch(() => { });
+}
+function evText(e) {
+  const p = e.p || {}, o = {};
+  if (p.s != null) o.s = namesOf(String(p.s).split(',').filter(Boolean));
+  o.n = p.n ? ' (' + p.n + ')' : ''; if (p.m != null) o.m = p.m;
+  return T(e.k, o);
+}
+
+/* ---------- tabs / screens ---------- */
+const SCR = { dash: 'dashBox', mm: 'mmBox', lock: 'lockBox', sched: 'schedBox', set: 'setBox', stat: 'statBox', hist: 'histBox' };
+const TABOF = { dash: 'dash', mm: 'dash', lock: 'dash', sched: 'dash', set: 'set', stat: 'stat', hist: 'hist' };
+function showTab(w) {
+  screen = w;
+  Object.keys(SCR).forEach(k => $(SCR[k]).classList.toggle('hide', k !== w));
+  document.querySelectorAll('#mainTabs button').forEach(b => { b.className = (b.dataset.tab === TABOF[w]) ? 'sel' : ''; });
+  renderAll(); if (w === 'set') fillSet(true);
+  window.scrollTo(0, 0);
+}
+
+/* ---------- effective state helpers (used by dashboard + status) ---------- */
+function effNow() { return MTS.eff(cur) || {}; }
+function sysOnEff(S, e) { return !!(e && e.on && (!e.scope || e.scope[S] === true)); }
+function sysInfo(S) {
+  const e = effNow(), on = sysOnEff(S, e), svcs = SERVICES.filter(x => SYSG[S].indexOf(x.group) >= 0);
+  const closed = on ? svcs.filter(x => e.services && e.services[x.id] === 'closed') : [];
+  return { on: on, total: svcs.length, closed: closed, open: svcs.length - closed.length, manual: !!(cur && cur.on && (!cur.scope || cur.scope[S] === true)) };
+}
+
+/* ---------- generic: accounts check list + service editor ---------- */
+function exList(box, obj, onCh) {
+  box.innerHTML = '';
+  if (!adminAccts.length) { box.appendChild(el('p', 'note', T('acctNoList'))); return; }
   adminAccts.forEach(a => {
-    const lab = document.createElement('label'); lab.className = 'check';
-    const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!(form.bypassKeys && form.bypassKeys[a.key]);
-    cb.onchange = () => { readForm(); form.bypassKeys = form.bypassKeys || {}; form.bypassKeys[a.key] = cb.checked; dirty = true; $('saveBtn').disabled = false; $('dirtyNote').textContent = T('unsaved'); };
-    const sp = document.createElement('span'); sp.textContent = (a.name || a.username) + ' (' + a.username + ') - ' + T('acctFull');
-    lab.appendChild(cb); lab.appendChild(sp); box.appendChild(lab);
+    const lab = el('label', 'check'); const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!obj[a.key];
+    cb.onchange = () => { if (cb.checked) obj[a.key] = true; else delete obj[a.key]; onCh(); };
+    lab.appendChild(cb); lab.appendChild(el('span', '', (a.name || a.username) + ' (' + a.username + ') - ' + T('acctFull'))); box.appendChild(lab);
   });
 }
+function svcEditor(box, st, groups, onCh, pre) {
+  box.innerHTML = '';
+  const list = SERVICES.filter(x => groups.indexOf(x.group) >= 0);
+  if (!list.length) { box.appendChild(el('p', 'note', T('schNoSvc'))); return; }
+  const top = el('div', 'row');
+  const bo = el('button', 'btn sec sm', T('allOpen')); bo.type = 'button'; bo.onclick = () => { list.forEach(x => { st.services[x.id] = 'open'; if (st.actions) delete st.actions[x.id]; }); onCh(); };
+  const bc = el('button', 'btn red sm', T('allClosed')); bc.type = 'button'; bc.onclick = () => { list.forEach(x => st.services[x.id] = 'closed'); onCh(); };
+  top.appendChild(bo); top.appendChild(bc); box.appendChild(top);
+  let nOpen = 0, nClosed = 0, nBtn = 0;
+  list.forEach(x => { if (st.services[x.id] === 'closed') nClosed++; else { nOpen++; const a = st.actions && st.actions[x.id]; if (a) nBtn += Object.keys(a).filter(k => a[k] === 'closed').length; } });
+  box.appendChild(el('div', 'count', T('counts', { a: nOpen, b: nBtn, c: nClosed })));
+  groups.forEach(g => {
+    const items = list.filter(x => x.group === g); if (!items.length) return;
+    box.appendChild(el('div', 'grp', GROUPS[g][lang] || GROUPS[g].en));
+    items.forEach(x => {
+      const row = el('div', 'svc'); row.appendChild(el('div', 'nm', x[lang] || x.en));
+      const acts = ACTIONS.filter(a => a.s === x.id), ek = pre + ':' + x.id;
+      if (acts.length) {
+        const ex = el('button', 'exp'); ex.type = 'button';
+        const n = st.services[x.id] === 'closed' ? acts.length : (st.actions && st.actions[x.id] ? Object.keys(st.actions[x.id]).filter(k => st.actions[x.id][k] === 'closed').length : 0);
+        ex.textContent = T('btnsLabel') + (n ? ' (' + T('btnsClosedN', { n: n }) + ')' : '') + (expanded[ek] ? ' ▴' : ' ▾');
+        ex.onclick = () => { expanded[ek] = !expanded[ek]; onCh(true); }; row.appendChild(ex);
+      }
+      const seg = el('div', 'seg');
+      [['open', 'sOpen'], ['closed', 'sClosed']].forEach(([m, k]) => {
+        const b = el('button', (st.services[x.id] === m ? 'sel-' + m : ''), T(k)); b.type = 'button';
+        b.onclick = () => { st.services[x.id] = m; onCh(); }; seg.appendChild(b);
+      });
+      row.appendChild(seg); box.appendChild(row);
+      if (acts.length && expanded[ek]) {
+        const ab = el('div', 'acts');
+        if (st.services[x.id] === 'closed') ab.appendChild(el('p', 'note', T('svcClosedNote')));
+        else {
+          const mk = (label, val) => { const b = el('button', 'mini', label); b.type = 'button'; b.onclick = () => { st.actions = st.actions || {}; if (val) { st.actions[x.id] = {}; acts.forEach(a => st.actions[x.id][a.id] = 'closed'); } else delete st.actions[x.id]; onCh(true); }; return b; };
+          ab.appendChild(mk(T('closeAllBtns'), true)); ab.appendChild(mk(T('openAllBtns'), false));
+          acts.forEach(a => {
+            const r2 = el('div', 'svc'); r2.appendChild(el('div', 'nm', a[lang] || a.en));
+            const sg = el('div', 'seg'), isC = !!(st.actions && st.actions[x.id] && st.actions[x.id][a.id] === 'closed');
+            [['open', 'sOpen'], ['closed', 'sClosed']].forEach(([m, k]) => {
+              const b = el('button', ((m === 'closed') === isC ? 'sel-' + m : ''), T(k)); b.type = 'button';
+              b.onclick = () => { st.actions = st.actions || {}; st.actions[x.id] = st.actions[x.id] || {}; if (m === 'closed') st.actions[x.id][a.id] = 'closed'; else delete st.actions[x.id][a.id]; onCh(true); };
+              sg.appendChild(b);
+            });
+            r2.appendChild(sg); ab.appendChild(r2);
+          });
+        }
+        box.appendChild(ab);
+      }
+    });
+  });
+}
+
+/* ---------- DASHBOARD ---------- */
+function renderDash() {
+  const box = $('dashGrid'); if (!box || !unlocked) return; box.innerHTML = '';
+  const e = effNow(), t = MTS.now(), ac = MTS.act(cur, t), nx = MTS.next(cur, t);
+  const onS = SYS.filter(s => sysOnEff(s, e));
+  const lockNames = { adminLocked: 'admin', hrLocked: 'hr', deptLocked: 'dept', employeeLocked: 'emp' };
+  const ls = lockCur ? Object.keys(lockNames).filter(k => lockCur[k]).map(k => lockNames[k]) : [];
+  const bad = SYS.filter(s => { const i = sysInfo(s); return i.on; }).length;
+  const cards = [
+    ['mm', '🔧', 'cMm', 'dMmSub', onS.length ? [T('stOn') + ': ' + namesOf(onS), 'on'] : [T('stOff'), 'ok']],
+    ['lock', '🔒', 'cLk', 'dLkSub', ls.length ? [T('lkOn') + ': ' + namesOf(ls), 'on'] : [T('lkOff'), 'ok']],
+    ['sched', '🗓️', 'cSc', 'dScSub', ac ? [T('schActive') + ' · ' + T('schUntil', { t: fmtDT(ac.end) }), 'sch'] : (nx ? [T('ovScNext', { t: fmtDT(nx.start) }), 'sch'] : [T('ovScNone'), 'none'])],
+    ['set', '⚙️', 'tabSet', 'dStSub', null],
+    ['stat', '✅', 'tabStat', 'dChSub', [bad ? T('chCount', { n: SYS.length - bad, m: SYS.length }) : T('chAllOk'), bad ? 'sch' : 'ok']],
+    ['hist', '🕘', 'tabHist', 'dHiSub', null]
+  ];
+  cards.forEach(([id, ic, tk, sk, st]) => {
+    const b = el('button', 'dcard'); b.type = 'button';
+    b.appendChild(el('div', 'dic ic-' + id, ic));
+    const tx = el('div', 'dtx'); tx.appendChild(el('b', '', T(tk))); tx.appendChild(el('span', '', T(sk)));
+    if (st) tx.appendChild(el('em', 'dst ' + st[1], st[0]));
+    b.appendChild(tx); b.onclick = () => showTab(id); box.appendChild(b);
+  });
+}
+
+/* ---------- MAINTENANCE MODE (per system) ---------- */
+function curScope() { const sc = {}; SYS.forEach(s => sc[s] = !!(cur && cur.on && (!cur.scope || cur.scope[s] === true))); return sc; }
+const grpMap = () => SERVICES.reduce((o, x) => { o[x.id] = x.group; return o; }, {});
+async function mtWrite(scope) {
+  const bx = keysOf(form.bypassKeys);
+  await db.ref('maintenance').update({ on: SYS.some(s => scope[s]), scope: scope, bypassKeys: bx, bypassBy: { admin: bx }, services: Object.assign({}, form.services), actions: cleanActionsOf(form), grp: grpMap(), by: who(), at: MTS.now() });
+}
+function mmMark(nd) { if (nd !== true) dirty = true; renderMM(); }
+async function mmToggle(list, on) {
+  const noEx = on && list.indexOf('admin') >= 0 && !Object.keys(keysOf(form.bypassKeys)).length;
+  if (!(await askYes(T(on ? 'mmConfirmOn' : 'mmConfirmOff', { s: namesOf(list) }) + (noEx ? '\n\n' + T('acctNone') : '')))) return;
+  try {
+    const sc = curScope(); list.forEach(s => sc[s] = on);
+    await mtWrite(sc); dirty = false; logEv('m', on ? 'evOn' : 'evOff', { s: list.join(',') }); toast(T(on ? 'savedOn' : 'savedOff'));
+  } catch (e) { console.error(e); toast(T('saveFail'), true); }
+  renderAll();
+}
+async function mmSave() {
+  try { await mtWrite(curScope()); dirty = false; logEv('m', 'evSaveMt', { s: curSys === 'all' ? SYS.join(',') : curSys }); toast(T('saved')); } catch (e) { console.error(e); toast(T('saveFail'), true); }
+  renderAll();
+}
+function renderMM() {
+  if (!form || !unlocked) return;
+  const ch = $('mmChips'); ch.innerHTML = '';
+  const sc = curScope();
+  ['all'].concat(SYS).forEach(k => {
+    const b = el('button', k === curSys ? 'sel' : '', ''); b.type = 'button';
+    const isOn = k === 'all' ? SYS.some(s => sc[s]) : sc[k];
+    b.appendChild(el('i', 'dot' + (isOn ? ' r' : ''))); b.appendChild(document.createTextNode(sysName(k)));
+    b.onclick = () => { curSys = k; renderMM(); }; ch.appendChild(b);
+  });
+  const L = curSys === 'all' ? SYS : [curSys], onN = L.filter(s => sc[s]).length;
+  const pill = $('mmPill'); pill.textContent = onN === L.length ? T('stOn') : (onN === 0 ? T('stOff') : T('stSome')); pill.className = 'pill ' + (onN === L.length ? 'on' : (onN === 0 ? 'off' : 'sch'));
+  $('mmName').textContent = sysName(curSys);
+  const bt = $('mmBtns'); bt.innerHTML = '';
+  if (curSys === 'all') {
+    const a = el('button', 'btn red sm', T('mmOnAll')); a.type = 'button'; a.onclick = () => mmToggle(SYS, true); bt.appendChild(a);
+    const b = el('button', 'btn green sm', T('mmOffAll')); b.type = 'button'; b.onclick = () => mmToggle(SYS, false); bt.appendChild(b);
+  } else {
+    const on = !!sc[curSys]; const a = el('button', 'btn sm ' + (on ? 'green' : 'red'), T(on ? 'mmOffFor' : 'mmOnFor', { s: sysName(curSys) })); a.type = 'button'; a.onclick = () => mmToggle([curSys], !on); bt.appendChild(a);
+  }
+  $('mmBy').textContent = cur && cur.at ? T('last', { by: cur.by || '-', at: new Date(cur.at).toLocaleString('en-GB', { timeZone: 'Asia/Phnom_Penh' }) }) : T('never');
+  const showEx = curSys === 'all' || curSys === 'admin';
+  $('mmExW').classList.toggle('hide', !showEx); $('mmExNote').classList.toggle('hide', showEx);
+  if (showEx) exList($('mmExList'), form.bypassKeys, mmMark);
+  $('mmSvcSub').textContent = (curSys === 'admin' || curSys === 'hr') ? T('svcSub') + ' ' + T('mmShared') : T('svcSub');
+  svcEditor($('mmSvc'), form, groupsFor(L), mmMark, 'mm');
+  $('mmDirty').textContent = dirty ? T('unsaved') : ''; $('mmSave').disabled = !dirty;
+}
+
 /* ===== Lock System (separate from maintenance mode) ===== */
 let lockCur = null, lockForm = null, lockDirty = false, lockUnsub = null;
 function lkEmpty() { return { adminLocked: false, hrLocked: false, deptLocked: false, employeeLocked: false, messages: { en: '', km: '', zh: '' }, exemptKeys: {} }; }
@@ -545,7 +850,7 @@ function lkFrom(d) {
   return f;
 }
 function lkMark() { lockDirty = true; $('lkDirty').textContent = T('unsaved'); }
-function lkRead() { ['en', 'km', 'zh'].forEach(l => lockForm.messages[l] = $('lk_m_' + l).value); }
+function lkRead() { }
 function renderLock() {
   if (!lockForm || !unlocked) return;
   const anyOn = !!(lockCur && (lockCur.adminLocked || lockCur.hrLocked || lockCur.deptLocked || lockCur.employeeLocked));
@@ -559,7 +864,6 @@ function renderLock() {
     const sp = document.createElement('span'); sp.textContent = T(lk);
     lab.appendChild(cb); lab.appendChild(sp); box.appendChild(lab);
   });
-  ['en', 'km', 'zh'].forEach(l => { if (document.activeElement !== $('lk_m_' + l)) $('lk_m_' + l).value = lockForm.messages[l] || ''; });
   const ab = $('lkAcct'); ab.innerHTML = '';
   if (!adminAccts.length) { const p = document.createElement('p'); p.className = 'note'; p.textContent = T('lkNoAcct'); ab.appendChild(p); }
   adminAccts.forEach(a => {
@@ -576,160 +880,25 @@ async function lkSave(unlockAll) {
   const f = lockForm;
   const data = {
     adminLocked: unlockAll ? false : !!f.adminLocked, hrLocked: unlockAll ? false : !!f.hrLocked, deptLocked: unlockAll ? false : !!f.deptLocked, employeeLocked: unlockAll ? false : !!f.employeeLocked,
-    message: unlockAll ? '' : (f.messages.en || f.messages.km || f.messages.zh || ''),
-    messages: unlockAll ? { en: '', km: '', zh: '' } : { en: f.messages.en, km: f.messages.km, zh: f.messages.zh },
+    message: (f.messages.en || f.messages.km || f.messages.zh || ''),
+    messages: { en: f.messages.en, km: f.messages.km, zh: f.messages.zh },
     exemptKeys: Object.keys(f.exemptKeys || {}).reduce((o, k) => { if (f.exemptKeys[k]) o[k] = true; return o; }, {}),
     updatedAt: Date.now(), by: lkWho()
   };
   if (!unlockAll && data.adminLocked && !Object.keys(data.exemptKeys).length) { if (!(await askYes(T('lkWarnNone')))) return; }
-  try { await db.ref('systemLock').set(data); lockDirty = false; $('lkDirty').textContent = ''; lockForm = lkFrom(data); toast(T(unlockAll ? 'lkUnlocked' : 'lkSaved')); }
+  try { await db.ref('systemLock').set(data); lockDirty = false; $('lkDirty').textContent = ''; lockForm = lkFrom(data); toast(T(unlockAll ? 'lkUnlocked' : 'lkSaved')); logEv('l', unlockAll ? 'evUnlock' : 'evLock', { s: [['adminLocked', 'admin'], ['hrLocked', 'hr'], ['deptLocked', 'dept'], ['employeeLocked', 'emp']].filter(x => data[x[0]]).map(x => x[1]).join(',') }); }
   catch (e) { console.error(e); toast(T('saveFail'), true); }
   renderLock();
 }
-function showTab(w) {
-  ['ov', 'maint', 'lock', 'sched'].forEach(k => $(({ ov: 'ovBox', maint: 'maintBox', lock: 'lockBox', sched: 'schedBox' })[k]).classList.toggle('hide', k !== w));
-  document.querySelectorAll('#mainTabs button').forEach(b => { b.className = (b.dataset.tab === w) ? 'sel' : ''; });
-  if (w === 'lock') renderLock(); if (w === 'ov') renderOv(); if (w === 'sched') renderSched();
-  window.scrollTo(0, 0);
-}
-async function openPanel() {
-  await loadAccts();
-  $('loginBox').classList.add('hide'); $('panel').classList.remove('hide'); $('outBtn').classList.remove('hide'); document.body.classList.remove('isLogin'); setTimeout(setHH, 30); try { db.ref('.info/serverTimeOffset').on('value', s => MTS.setOff(s.val())); } catch (e) {}
-  if (unsub) unsub();
-  const r = db.ref('maintenance'); const cb = (s) => { cur = s.val(); if (!dirty || !form) { form = fromData(cur); if (!cur && account && account.firebaseKey) form.bypassKeys[account.firebaseKey] = true; } renderPanel(); renderOv(); renderSched(); };
-  r.on('value', cb, () => {}); unsub = () => r.off('value', cb);
-  if (lockUnsub) lockUnsub();
-  const lr = db.ref('systemLock'); const lcb = (s) => { lockCur = s.val(); if (!lockDirty || !lockForm) lockForm = lkFrom(lockCur); renderLock(); renderOv(); };
-  lr.on('value', lcb, () => {}); lockUnsub = () => lr.off('value', lcb);
-  document.querySelectorAll('#mainTabs button').forEach(b => { b.onclick = () => showTab(b.dataset.tab); });
-  $('lkApply').onclick = () => lkSave(false); $('lkUnlock').onclick = () => lkSave(true);
-  ['en', 'km', 'zh'].forEach(l => { $('lk_m_' + l).oninput = () => lkMark(); });
-  showTab('ov');
-}
-function readForm() { ['en', 'km', 'zh'].forEach(l => form.message[l] = $('m_' + l).value); }
-function counts() { const c = { open: 0, closed: 0, btn: 0 }; SERVICES.forEach(x => { c[form.services[x.id] === 'closed' ? 'closed' : 'open']++; if (form.services[x.id] !== 'closed') c.btn += closedN(x.id); }); return c; }
-const expanded = {};
-let curGrp = 'admin';
-function closedN(sid) { const a = form.actions && form.actions[sid]; return a ? Object.keys(a).filter(k => a[k] === 'closed').length : 0; }
-function markDirty() { dirty = true; renderPanel(); }
-function renderPanel() {
-  if (!form || !unlocked) return;
-  const on = !!(cur && cur.on);
-  $('pill').textContent = T(on ? 'on' : 'off'); $('pill').className = 'pill ' + (on ? 'on' : 'off');
-  $('mainBtn').textContent = T(on ? 'turnOff' : 'turnOn'); $('mainBtn').className = 'btn ' + (on ? 'red' : 'green');
-  $('lastBy').textContent = cur && cur.at ? T('last', { by: cur.by || '-', at: new Date(cur.at).toLocaleString('en-GB', { timeZone: 'Asia/Phnom_Penh' }) }) : T('never');
-  ['en', 'km', 'zh'].forEach(l => { if (document.activeElement !== $('m_' + l)) $('m_' + l).value = form.message[l] || ''; });
-  renderAccts(); renderScope();
-  document.querySelectorAll('#alignSeg button').forEach(b => { b.className = (form.align === b.dataset.a) ? 'sel-open' : ''; b.onclick = () => { readForm(); form.align = b.dataset.a; markDirty(); }; });
-  const list = $('list'); list.innerHTML = '';
-  const gs = $('grpSeg'); gs.innerHTML = '';
-  ['admin', 'emp', 'dept', 'apps'].forEach(g => { const b = document.createElement('button'); b.type = 'button'; b.textContent = (GROUPS[g][lang] || GROUPS[g].en) + ' (' + SERVICES.filter(x => x.group === g).length + ')'; if (g === curGrp) b.className = 'sel-open'; b.onclick = () => { readForm(); curGrp = g; renderPanel(); }; gs.appendChild(b); });
-  [curGrp].forEach(g => {
-    const items = SERVICES.filter(x => x.group === g); if (!items.length) return;
-    const h = document.createElement('div'); h.className = 'grp'; h.textContent = GROUPS[g][lang] || GROUPS[g].en; list.appendChild(h);
-    items.forEach(x => {
-      const row = document.createElement('div'); row.className = 'svc';
-      const nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = x[lang] || x.en; row.appendChild(nm);
-      const seg = document.createElement('div'); seg.className = 'seg';
-      [['open', 'sOpen'], ['closed', 'sClosed']].forEach(([m, k]) => {
-        const b = document.createElement('button'); b.type = 'button'; b.textContent = T(k); if (form.services[x.id] === m) b.className = 'sel-' + m;
-        b.onclick = () => { readForm(); form.services[x.id] = m; markDirty(); }; seg.appendChild(b);
-      });
-      const acts = ACTIONS.filter(a => a.s === x.id);
-      if (acts.length) {
-        const ex = document.createElement('button'); ex.type = 'button'; ex.className = 'exp';
-        const n = form.services[x.id] === 'closed' ? acts.length : closedN(x.id);
-        ex.textContent = T('btnsLabel') + (n ? ' (' + T('btnsClosedN', { n: n }) + ')' : '') + (expanded[x.id] ? ' ▴' : ' ▾');
-        ex.onclick = () => { readForm(); expanded[x.id] = !expanded[x.id]; renderPanel(); };
-        row.appendChild(ex);
-      }
-      row.appendChild(seg); list.appendChild(row);
-      if (acts.length && expanded[x.id]) {
-        const box = document.createElement('div'); box.className = 'acts';
-        if (form.services[x.id] === 'closed') { const p = document.createElement('p'); p.className = 'note'; p.textContent = T('svcClosedNote'); box.appendChild(p); }
-        else {
-          const mk = (label, val) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'mini'; b.textContent = label; b.onclick = () => { readForm(); form.actions = form.actions || {}; if (val) { form.actions[x.id] = {}; acts.forEach(a => form.actions[x.id][a.id] = 'closed'); } else delete form.actions[x.id]; markDirty(); }; return b; };
-          box.appendChild(mk(T('closeAllBtns'), true)); box.appendChild(mk(T('openAllBtns'), false));
-          acts.forEach(a => {
-            const r2 = document.createElement('div'); r2.className = 'svc';
-            const n2 = document.createElement('div'); n2.className = 'nm'; n2.textContent = a[lang] || a.en; r2.appendChild(n2);
-            const sg = document.createElement('div'); sg.className = 'seg';
-            const isC = !!(form.actions && form.actions[x.id] && form.actions[x.id][a.id] === 'closed');
-            [['open', 'sOpen'], ['closed', 'sClosed']].forEach(([m, k]) => {
-              const b = document.createElement('button'); b.type = 'button'; b.textContent = T(k); if ((m === 'closed') === isC) b.className = 'sel-' + m;
-              b.onclick = () => { readForm(); form.actions = form.actions || {}; form.actions[x.id] = form.actions[x.id] || {}; if (m === 'closed') form.actions[x.id][a.id] = 'closed'; else delete form.actions[x.id][a.id]; markDirty(); };
-              sg.appendChild(b);
-            });
-            r2.appendChild(sg); box.appendChild(r2);
-          });
-        }
-        list.appendChild(box);
-      }
-    });
-  });
-  const c = counts(); $('count').textContent = T('counts', { a: c.open, b: c.btn, c: c.closed });
-  $('dirtyNote').textContent = dirty ? T('unsaved') : '';
-  $('saveBtn').disabled = !dirty;
-}
-['m_en', 'm_km', 'm_zh'].forEach(id => $(id).addEventListener('input', () => { if (!form) return; readForm(); dirty = true; $('saveBtn').disabled = false; $('dirtyNote').textContent = T('unsaved'); }));
-$('allOpen').onclick = () => { readForm(); SERVICES.filter(x => x.group === curGrp).forEach(x => { form.services[x.id] = 'open'; if (form.actions) delete form.actions[x.id]; }); dirty = true; renderPanel(); };
-$('allClosed').onclick = () => { readForm(); SERVICES.filter(x => x.group === curGrp).forEach(x => form.services[x.id] = 'closed'); dirty = true; renderPanel(); };
-function toast(msg, bad) { const t = $('toast'); t.textContent = msg; t.className = 'toast' + (bad ? ' bad' : ''); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.add('hide'), 3500); }
-function cleanActions() { const o = {}; ACTIONS.forEach(a => { if (form.actions && form.actions[a.s] && form.actions[a.s][a.id] === 'closed' && form.services[a.s] !== 'closed') { o[a.s] = o[a.s] || {}; o[a.s][a.id] = 'closed'; } }); return o; }
-async function writeState(on) {
-  readForm();
-  const msg = {}; ['en', 'km', 'zh'].forEach(l => msg[l] = String(form.message[l] || '').trim());
-  const data = { on: !!on, message: msg, bypassKeys: Object.keys(form.bypassKeys || {}).reduce((o, k) => { if (form.bypassKeys[k]) o[k] = true; return o; }, {}), services: Object.assign({}, form.services), actions: cleanActions(), scope: { admin: !!(form.scope && form.scope.admin), hr: !!(form.scope && form.scope.hr), emp: !!(form.scope && form.scope.emp), dept: !!(form.scope && form.scope.dept) }, align: form.align === 'center' ? 'center' : 'left', by: (account && (account.name || account.username)) || 'admin', at: firebase.database.ServerValue.TIMESTAMP };
-  if (cur && cur.sched) data.sched = cur.sched;
-  await db.ref('maintenance').set(data);
-}
-/* in-page question (no browser pop-up) */
-function askYes(msg) {
-  return new Promise(res => {
-    const L = ({ en: ['Cancel', 'OK'], km: ['បោះបង់', 'យល់ព្រម'], zh: ['取消', '确定'] })[lang] || ['Cancel', 'OK'];
-    const o = document.createElement('div');
-    o.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:16px';
-    o.innerHTML = '<div style="background:#fff;color:#0f172a;border-radius:12px;max-width:440px;width:100%;padding:20px;box-shadow:0 14px 40px rgba(0,0,0,.35);font-size:15px;line-height:1.5"><div class="aq-m" style="white-space:pre-line"></div><div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px"><button type="button" class="aq-c" style="border:0;border-radius:8px;padding:10px 18px;font-weight:700;background:#64748b;color:#fff;cursor:pointer"></button><button type="button" class="aq-o" style="border:0;border-radius:8px;padding:10px 18px;font-weight:700;background:#16a34a;color:#fff;cursor:pointer"></button></div></div>';
-    o.querySelector('.aq-m').textContent = msg; o.querySelector('.aq-c').textContent = L[0]; o.querySelector('.aq-o').textContent = L[1];
-    const done = v => { o.remove(); res(v); };
-    o.querySelector('.aq-c').onclick = () => done(false); o.querySelector('.aq-o').onclick = () => done(true);
-    document.body.appendChild(o);
-  });
-}
-$('saveBtn').onclick = async () => {
-  try { await writeState(!!(cur && cur.on)); dirty = false; toast(T('saved')); } catch (e) { console.error(e); toast(T('saveFail'), true); }
-  renderPanel();
-};
-$('mainBtn').onclick = async () => {
-  const on = !!(cur && cur.on);
-  readForm();
-  if (!on && !(form.scope && (form.scope.admin || form.scope.hr || form.scope.emp || form.scope.dept))) { toast(T('scopeNone'), true); return; }
-  const none = !on && !Object.keys(form.bypassKeys || {}).some(k => form.bypassKeys[k]);
-  if (!(await askYes(T(on ? 'confirmOff' : 'confirmOn') + (none ? '\n\n' + T('acctNone') : '')))) return;
-  try {
-    if (on) { readForm(); await db.ref('maintenance').update({ on: false, by: (account && (account.name || account.username)) || 'admin', at: firebase.database.ServerValue.TIMESTAMP }); toast(T('savedOff')); }
-    else { await writeState(true); toast(T('savedOn')); }
-    dirty = false;
-  } catch (e) { console.error(e); toast(T('saveFail'), true); }
-  renderPanel();
-};
 
-/* ================= v8.00: overview, schedule, new look ================= */
-Object.assign(I18N.en, {tabOv:'Overview', tabSched:'Schedule', ovMaint:'Maintenance', ovLock:'Lock', ovSched:'Schedule', ovGoLock:'Lock settings', ovGoSched:'Schedules', ovGoMaint:'Open maintenance settings', ovHowTitle:'How it works', ovMtOff:'Everything is open.', ovMtManual:'ON. Switched on by hand.', ovMtSched:'ON by schedule, until {t}.', ovLkOff:'No system is locked.', ovLkOn:'Locked: {l}', ovScNone:'No schedule yet.', ovScRun:'Running now, until {t}.', ovScNext:'Next: {t}',
-  schActive:'Running now', schWaiting:'Waiting', schDone:'Finished', schPaused:'Paused', schTitle:'Schedule maintenance', schSub:'The system goes into maintenance by itself at the start time and opens again by itself at the end time. It uses the message, systems and services you set in the Maintenance tab. All times are Cambodia time.', schWarnTitle:'Warning before it starts', schWarnSub:'People see a yellow notice before maintenance starts.', warnOff:'No warning', warnMin:'{n} minutes before', schAddTitle:'Add a schedule', schOnce:'One time', schWeek:'Every week', schDay:'Every day', schStart:'Starts', schEnd:'Ends', schFrom:'From', schTo:'To', schDays:'Days', schOvernight:'If the end time is earlier than the start time, it ends the next day.', schNote:'Name (optional)', schAdd:'Add schedule', schListTitle:'Your schedules', schEmpty:'No schedule yet.', schEndNow:'End now', schPause:'Pause', schResume:'Resume', schDelete:'Delete', schBadTime:'The end must be after the start.', schNeedDays:'Pick at least one day.', schNeedTime:'Please fill in the times.', schAdded:'Schedule added.', schDeleted:'Schedule deleted.', schReleased:'Released.', schConfirmDel:'Delete this schedule?', schEvery:'Every {d}', schDaily:'Every day', schUntil:'Until {t}', schNextAt:'Next: {t}', schPastEnd:'The end time has already passed.', grpApps:'Apps (separate pages)'});
-Object.assign(I18N.km, {tabOv:'ទិដ្ឋភាពទូទៅ', tabSched:'កាលវិភាគ', ovMaint:'ការថែទាំ', ovLock:'ចាក់សោ', ovSched:'កាលវិភាគ', ovGoLock:'ការកំណត់ចាក់សោ', ovGoSched:'គ្រប់គ្រងកាលវិភាគ', ovGoMaint:'បើកការកំណត់ថែទាំ', ovHowTitle:'របៀបដំណើរការ', ovMtOff:'អ្វីៗទាំងអស់បើកធម្មតា។', ovMtManual:'កំពុងបើក។ បើកដោយដៃ។', ovMtSched:'កំពុងបើកតាមកាលវិភាគ រហូតដល់ {t}។', ovLkOff:'គ្មានប្រព័ន្ធណាត្រូវបានចាក់សោទេ។', ovLkOn:'បានចាក់សោ៖ {l}', ovScNone:'មិនទាន់មានកាលវិភាគទេ។', ovScRun:'កំពុងដំណើរការ រហូតដល់ {t}។', ovScNext:'បន្ទាប់៖ {t}',
-  schActive:'កំពុងដំណើរការ', schWaiting:'កំពុងរង់ចាំ', schDone:'បានបញ្ចប់', schPaused:'ផ្អាក', schTitle:'កំណត់ពេលថែទាំ', schSub:'ប្រព័ន្ធនឹងចូលម៉ូដថែទាំដោយខ្លួនឯងនៅម៉ោងចាប់ផ្តើម ហើយបើកវិញដោយខ្លួនឯងនៅម៉ោងបញ្ចប់។ វាប្រើសារ ប្រព័ន្ធ និងសេវាកម្មដែលអ្នកបានកំណត់នៅផ្ទាំងម៉ូដថែទាំ។ ម៉ោងទាំងអស់ជាម៉ោងកម្ពុជា។', schWarnTitle:'ការជូនដំណឹងមុនចាប់ផ្តើម', schWarnSub:'អ្នកប្រើនឹងឃើញសេចក្តីជូនដំណឹងពណ៌លឿង មុនការថែទាំចាប់ផ្តើម។', warnOff:'មិនជូនដំណឹង', warnMin:'មុន {n} នាទី', schAddTitle:'បន្ថែមកាលវិភាគ', schOnce:'មួយដង', schWeek:'រៀងរាល់សប្តាហ៍', schDay:'រៀងរាល់ថ្ងៃ', schStart:'ចាប់ផ្តើម', schEnd:'បញ្ចប់', schFrom:'ពី', schTo:'ដល់', schDays:'ថ្ងៃ', schOvernight:'បើម៉ោងបញ្ចប់មុនម៉ោងចាប់ផ្តើម វានឹងបញ្ចប់នៅថ្ងៃបន្ទាប់។', schNote:'ឈ្មោះ (ជម្រើស)', schAdd:'បន្ថែមកាលវិភាគ', schListTitle:'កាលវិភាគរបស់អ្នក', schEmpty:'មិនទាន់មានកាលវិភាគទេ។', schEndNow:'បញ្ចប់ឥឡូវនេះ', schPause:'ផ្អាក', schResume:'បន្ត', schDelete:'លុប', schBadTime:'ម៉ោងបញ្ចប់ត្រូវនៅក្រោយម៉ោងចាប់ផ្តើម។', schNeedDays:'សូមជ្រើសរើសយ៉ាងតិចមួយថ្ងៃ។', schNeedTime:'សូមបំពេញម៉ោង។', schAdded:'បានបន្ថែមកាលវិភាគ។', schDeleted:'បានលុបកាលវិភាគ។', schReleased:'បានដោះលែង។', schConfirmDel:'លុបកាលវិភាគនេះ?', schEvery:'រៀងរាល់ {d}', schDaily:'រៀងរាល់ថ្ងៃ', schUntil:'រហូតដល់ {t}', schNextAt:'បន្ទាប់៖ {t}', schPastEnd:'ម៉ោងបញ្ចប់បានកន្លងផុតហើយ។', grpApps:'កម្មវិធីផ្សេងៗ (ទំព័រដាច់ដោយឡែក)'});
-Object.assign(I18N.zh, {tabOv:'概览', tabSched:'定时计划', ovMaint:'维护', ovLock:'锁定', ovSched:'定时计划', ovGoLock:'锁定设置', ovGoSched:'管理计划', ovGoMaint:'打开维护设置', ovHowTitle:'运作方式', ovMtOff:'所有功能正常开放。', ovMtManual:'已开启（手动）。', ovMtSched:'按计划开启，持续到 {t}。', ovLkOff:'没有锁定任何系统。', ovLkOn:'已锁定：{l}', ovScNone:'还没有计划。', ovScRun:'正在运行，持续到 {t}。', ovScNext:'下一次：{t}',
-  schActive:'运行中', schWaiting:'等待中', schDone:'已结束', schPaused:'已暂停', schTitle:'定时维护', schSub:'系统会在开始时间自动进入维护，并在结束时间自动恢复。维护内容（提示信息、系统和服务）使用“维护模式”页中的设置。所有时间均为柬埔寨时间。', schWarnTitle:'开始前提醒', schWarnSub:'维护开始前，用户会看到黄色提醒。', warnOff:'不提醒', warnMin:'提前 {n} 分钟', schAddTitle:'添加计划', schOnce:'单次', schWeek:'每周', schDay:'每天', schStart:'开始', schEnd:'结束', schFrom:'从', schTo:'到', schDays:'星期', schOvernight:'如果结束时间早于开始时间，则在次日结束。', schNote:'名称（可选）', schAdd:'添加计划', schListTitle:'已有计划', schEmpty:'暂无计划。', schEndNow:'立即结束', schPause:'暂停', schResume:'恢复', schDelete:'删除', schBadTime:'结束时间必须晚于开始时间。', schNeedDays:'请至少选择一天。', schNeedTime:'请填写时间。', schAdded:'已添加计划。', schDeleted:'已删除计划。', schReleased:'已恢复。', schConfirmDel:'删除此计划？', schEvery:'每 {d}', schDaily:'每天', schUntil:'持续到 {t}', schNextAt:'下一次：{t}', schPastEnd:'结束时间已过。', grpApps:'应用（独立页面）'});
 
-const ZONE = MTS.zone;
-const DOWN = { en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], km: ['អាទិត្យ', 'ច័ន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'], zh: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'] };
-const p2 = (n) => ('0' + n).slice(-2);
-function fmtDT(ms) { const d = new Date(ms + ZONE); return DOWN[lang][d.getUTCDay()] + ' ' + p2(d.getUTCDate()) + '/' + p2(d.getUTCMonth() + 1) + '/' + d.getUTCFullYear() + ' ' + p2(d.getUTCHours()) + ':' + p2(d.getUTCMinutes()); }
-function toLocalVal(ms) { return new Date(ms + ZONE).toISOString().slice(0, 16); }
-function fromLocalVal(v) { const m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v || ''); if (!m) return 0; return Date.UTC(+m[1], +m[2] - 1, +m[3], +m[4], +m[5]) - ZONE; }
-let schType = 'once', schSel = [1], schInit = false;
+/* ---------- SCHEDULE ---------- */
+let schInit = false, sf = null;
 const sref = (p) => db.ref('maintenance/sched' + (p ? '/' + p : ''));
+function sfNew() {
+  const f = fromData(cur), n = MTS.now(), s0 = Math.ceil((n + ZONE) / 3600000) * 3600000 - ZONE + 3600000;
+  return { id: null, on: true, type: 'once', days: [1], sys: { admin: true, hr: true, dept: true, emp: true }, services: f.services, actions: f.actions, bypass: Object.assign({}, f.bypassKeys), s: toLocalVal(s0), e: toLocalVal(s0 + 3600000), sh: '22:00', eh: '23:00', note: '' };
+}
 function tickStatus(x, t) {
   if (x.on === false) return { s: 'pause' };
   const oc = MTS.occ(x, t); let nx = null;
@@ -741,54 +910,50 @@ function tickStatus(x, t) {
   return { s: 'wait', next: nx };
 }
 function itemText(x) {
-  const hmx = p2(0);
   if (x.type === 'once') return fmtDT(+x.start) + '  →  ' + fmtDT(+x.end);
   const ds = String(x.days == null ? '' : x.days).split(',').filter(v => v !== '').map(Number);
-  const when = x.type === 'daily' ? T('schDaily') : T('schEvery', { d: ds.map(d => DOWN[lang][d]).join(', ') });
-  return when + ' · ' + x.sh + ' – ' + x.eh;
+  return (x.type === 'daily' ? T('schDaily') : T('schEvery', { d: ds.map(d => DOWN[lang][d]).join(', ') })) + ' · ' + x.sh + ' – ' + x.eh;
+}
+function itemSys(x) { if (!x.sx) return SYS; return SYS.filter(s => x.scope && x.scope[s] === true); }
+function itemSum(x) {
+  if (!x.sx) return T('schLegacy');
+  const sv = x.services || {}, c = SERVICES.filter(s => sv[s.id] === 'closed').length, ex = Object.keys(x.bypass || {}).length;
+  return namesOf(itemSys(x)) + ' · ' + T('schSum', { c: c, x: ex });
 }
 async function schEndNow(x) {
   const t = MTS.now(), st = tickStatus(x, t);
-  try {
-    if (x.type === 'once') await sref('items/' + x.id).update({ end: t });
-    else await sref('items/' + x.id).update({ skipUntil: st.end || t });
-    toast(T('schReleased'));
-  } catch (e) { console.error(e); toast(T('saveFail'), true); }
+  try { if (x.type === 'once') await sref('items/' + x.id).update({ end: t }); else await sref('items/' + x.id).update({ skipUntil: st.end || t }); logEv('m', 'evSchEnd', { n: x.note || '' }); toast(T('schReleased')); }
+  catch (e) { console.error(e); toast(T('saveFail'), true); }
 }
-function renderOv() {
-  if (!unlocked || !$('ovMtPill')) return;
-  const t = MTS.now(), ac = MTS.act(cur, t), manual = !!(cur && cur.on), anyOn = manual || !!ac;
-  const mp = $('ovMtPill'); mp.textContent = T(anyOn ? 'on' : 'off'); mp.className = 'pill ' + (manual ? 'on' : (ac ? 'sch' : 'off'));
-  $('ovMtTxt').textContent = manual ? T('ovMtManual') : (ac ? T('ovMtSched', { t: fmtDT(ac.end) }) : T('ovMtOff'));
-  const mb = $('ovMtBtn');
-  if (!manual && ac) { mb.textContent = T('schEndNow'); mb.className = 'btn sm red'; mb.onclick = () => schEndNow(ac.item); }
-  else { mb.textContent = T(manual ? 'turnOff' : 'turnOn'); mb.className = 'btn sm ' + (manual ? 'red' : 'green'); mb.onclick = () => $('mainBtn').click(); }
-  const names = { adminLocked: 'lkAdmin', hrLocked: 'lkHr', deptLocked: 'lkDept', employeeLocked: 'lkEmp' };
-  const ls = lockCur ? Object.keys(names).filter(k => lockCur[k]).map(k => T(names[k])) : [];
-  $('ovLkPill').textContent = T(ls.length ? 'lkOn' : 'lkOff'); $('ovLkPill').className = 'pill ' + (ls.length ? 'on' : 'off');
-  $('ovLkTxt').textContent = ls.length ? T('ovLkOn', { l: ls.join(', ') }) : T('ovLkOff');
-  const nx = MTS.next(cur, t), sp = $('ovScPill');
-  if (ac) { sp.textContent = T('schActive'); sp.className = 'pill sch'; $('ovScTxt').textContent = T('ovScRun', { t: fmtDT(ac.end) }); }
-  else if (nx) { sp.textContent = T('schWaiting'); sp.className = 'pill sch'; $('ovScTxt').textContent = T('ovScNext', { t: fmtDT(nx.start) }); }
-  else { sp.textContent = '-'; sp.className = 'pill none'; $('ovScTxt').textContent = T('ovScNone'); }
-  $('ovMtBtn').disabled = false;
-  if (form) { const c = counts(); $('ovCount').textContent = T('counts', { a: c.open, b: c.btn, c: c.closed }); }
-  $('ovLkBtn').onclick = () => showTab('lock'); $('ovScBtn').onclick = () => showTab('sched'); $('ovGoMaint').onclick = () => showTab('maint');
+function schEdit(x) {
+  const f = fromData(cur);
+  sf = { id: x.id, on: x.on !== false, type: x.type, days: String(x.days == null ? '' : x.days).split(',').filter(v => v !== '').map(Number), sys: {}, services: Object.assign({}, x.sx ? x.services : f.services), actions: JSON.parse(JSON.stringify((x.sx ? x.actions : f.actions) || {})), bypass: Object.assign({}, x.sx ? x.bypass : f.bypassKeys), s: x.type === 'once' ? toLocalVal(+x.start) : '', e: x.type === 'once' ? toLocalVal(+x.end) : '', sh: x.sh || '22:00', eh: x.eh || '23:00', note: x.note || '' };
+  SYS.forEach(s => sf.sys[s] = itemSys(x).indexOf(s) >= 0);
+  SERVICES.forEach(s => { if (sf.services[s.id] !== 'closed') sf.services[s.id] = 'open'; });
+  if (!sf.s) { const z = sfNew(); sf.s = z.s; sf.e = z.e; }
+  $('schS').value = sf.s; $('schE').value = sf.e; $('schSh').value = sf.sh; $('schEh').value = sf.eh; $('schNoteIn').value = sf.note;
+  renderSchedForm(); $('schFormCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
-function renderSched() {
-  if (!unlocked || !$('schList')) return;
-  if (!schInit) {
-    schInit = true;
-    const n = MTS.now(), s0 = Math.ceil((n + ZONE) / 3600000) * 3600000 - ZONE + 3600000;
-    $('schS').value = toLocalVal(s0); $('schE').value = toLocalVal(s0 + 3600000);
-    document.querySelectorAll('#schType button').forEach(b => { b.onclick = () => { schType = b.dataset.t; renderSched(); }; });
-    $('schAddBtn').onclick = schAdd;
-    const w = $('warnSel'); w.onchange = async () => { try { await sref('warn').set(+w.value); toast(T('saved')); } catch (e) { console.error(e); toast(T('saveFail'), true); } };
-  }
-  document.querySelectorAll('#schType button').forEach(b => { b.className = (b.dataset.t === schType) ? 'sel-on' : ''; });
-  $('schOnceF').classList.toggle('hide', schType !== 'once'); $('schRepF').classList.toggle('hide', schType === 'once'); $('schDaysW').classList.toggle('hide', schType !== 'weekly');
+function schReset() { sf = sfNew(); $('schS').value = sf.s; $('schE').value = sf.e; $('schSh').value = sf.sh; $('schEh').value = sf.eh; $('schNoteIn').value = ''; renderSchedForm(); }
+function renderSchedForm() {
+  if (!unlocked || !sf) return;
+  $('schFormT').textContent = T(sf.id ? 'schEditing' : 'schAddTitle');
+  document.querySelectorAll('#schType button').forEach(b => { b.className = (b.dataset.t === sf.type) ? 'sel-on' : ''; b.disabled = !!sf.id; });
+  $('schOnceF').classList.toggle('hide', sf.type !== 'once'); $('schRepF').classList.toggle('hide', sf.type === 'once'); $('schDaysW').classList.toggle('hide', sf.type !== 'weekly');
   const dw = $('schDays'); dw.innerHTML = '';
-  [1, 2, 3, 4, 5, 6, 0].forEach(d => { const b = document.createElement('button'); b.type = 'button'; b.textContent = DOWN[lang][d]; if (schSel.indexOf(d) >= 0) b.className = 'sel'; b.onclick = () => { const i = schSel.indexOf(d); if (i >= 0) schSel.splice(i, 1); else schSel.push(d); renderSched(); }; dw.appendChild(b); });
+  [1, 2, 3, 4, 5, 6, 0].forEach(d => { const b = el('button', sf.days.indexOf(d) >= 0 ? 'sel' : '', DOWN[lang][d]); b.type = 'button'; b.onclick = () => { const i = sf.days.indexOf(d); if (i >= 0) sf.days.splice(i, 1); else sf.days.push(d); renderSchedForm(); }; dw.appendChild(b); });
+  const sc = $('schSys'); sc.innerHTML = '';
+  const allOn = SYS.every(s => sf.sys[s]);
+  const ba = el('button', allOn ? 'sel' : '', T('sysAll')); ba.type = 'button'; ba.onclick = () => { SYS.forEach(s => sf.sys[s] = !allOn); renderSchedForm(); }; sc.appendChild(ba);
+  SYS.forEach(s => { const b = el('button', sf.sys[s] ? 'sel' : '', sysName(s)); b.type = 'button'; b.onclick = () => { sf.sys[s] = !sf.sys[s]; renderSchedForm(); }; sc.appendChild(b); });
+  const L = SYS.filter(s => sf.sys[s]);
+  $('schExW').classList.toggle('hide', !sf.sys.admin);
+  if (sf.sys.admin) exList($('schExBox'), sf.bypass, renderSchedForm);
+  svcEditor($('schSvcBox'), sf, groupsFor(L), renderSchedForm, 'sf');
+  $('schAddBtn').textContent = T(sf.id ? 'schSaveEdit' : 'schSave'); $('schCancelBtn').classList.toggle('hide', !sf.id);
+}
+function renderSchedList() {
+  if (!unlocked || !$('schList')) return;
   const w = $('warnSel');
   if (document.activeElement !== w) {
     const cw = (cur && cur.sched && cur.sched.warn != null) ? +cur.sched.warn : 15;
@@ -798,46 +963,150 @@ function renderSched() {
   const t = MTS.now(), its = MTS.items(cur).map(x => ({ x: x, st: tickStatus(x, t) }));
   const rank = { run: 0, wait: 1, pause: 2, done: 3 };
   its.sort((a, b) => rank[a.st.s] - rank[b.st.s] || ((a.st.next || 0) - (b.st.next || 0)));
-  if (!its.length) { const p = document.createElement('p'); p.className = 'note'; p.textContent = T('schEmpty'); box.appendChild(p); return; }
+  if (!its.length) { box.appendChild(el('p', 'note', T('schEmpty'))); return; }
   its.forEach(({ x, st }) => {
-    const d = document.createElement('div'); d.className = 'sit' + (st.s === 'run' ? ' act' : '');
+    const d = el('div', 'sit' + (st.s === 'run' ? ' act' : ''));
     const lab = { run: ['run', 'schActive'], wait: ['wait', 'schWaiting'], pause: ['pause', 'schPaused'], done: ['done', 'schDone'] }[st.s];
-    const i = document.createElement('div'); i.className = 'si';
-    const tt = document.createElement('div'); tt.className = 'st'; tt.textContent = (x.note ? x.note : itemText(x)); const ch = document.createElement('span'); ch.className = 'chip ' + lab[0]; ch.textContent = T(lab[1]); tt.appendChild(ch); i.appendChild(tt);
-    const ss = document.createElement('div'); ss.className = 'ss';
-    ss.textContent = (x.note ? itemText(x) : '') + (st.s === 'run' ? ((x.note ? ' · ' : '') + T('schUntil', { t: fmtDT(st.end) })) : (st.s === 'wait' && st.next ? ((x.note ? ' · ' : '') + T('schNextAt', { t: fmtDT(st.next) })) : ''));
-    if (ss.textContent) i.appendChild(ss);
-    d.appendChild(i);
-    const mk = (txt, cls, fn) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'btn sm ' + cls; b.textContent = txt; b.onclick = fn; d.appendChild(b); };
+    const i = el('div', 'si'), tt = el('div', 'st', x.note ? x.note : itemText(x)); tt.appendChild(el('span', 'chip ' + lab[0], T(lab[1]))); i.appendChild(tt);
+    let s2 = (x.note ? itemText(x) : '') + (st.s === 'run' ? ((x.note ? ' · ' : '') + T('schUntil', { t: fmtDT(st.end) })) : (st.s === 'wait' && st.next ? ((x.note ? ' · ' : '') + T('schNextAt', { t: fmtDT(st.next) })) : ''));
+    if (s2) i.appendChild(el('div', 'ss', s2));
+    i.appendChild(el('div', 'ss', itemSum(x))); d.appendChild(i);
+    const mk = (txt, cls, fn) => { const b = el('button', 'btn sm ' + cls, txt); b.type = 'button'; b.onclick = fn; d.appendChild(b); };
     if (st.s === 'run') mk(T('schEndNow'), 'red', () => schEndNow(x));
-    if (st.s !== 'done') mk(T(x.on === false ? 'schResume' : 'schPause'), 'sec', async () => { try { await sref('items/' + x.id).update({ on: x.on === false }); } catch (e) { toast(T('saveFail'), true); } });
-    mk(T('schDelete'), 'sec', async () => { if (!(await askYes(T('schConfirmDel')))) return; try { await sref('items/' + x.id).remove(); toast(T('schDeleted')); } catch (e) { toast(T('saveFail'), true); } });
+    if (st.s !== 'done') mk(T('schEdit'), 'sec', () => schEdit(x));
+    if (st.s !== 'done') mk(T(x.on === false ? 'schResume' : 'schPause'), 'sec', async () => { try { await sref('items/' + x.id).update({ on: x.on === false }); logEv('m', x.on === false ? 'evSchResume' : 'evSchPause', { n: x.note || '' }); } catch (e) { toast(T('saveFail'), true); } });
+    mk(T('schDelete'), 'sec', async () => { if (!(await askYes(T('schConfirmDel')))) return; try { await sref('items/' + x.id).remove(); logEv('m', 'evSchDel', { n: x.note || '' }); toast(T('schDeleted')); } catch (e) { toast(T('saveFail'), true); } });
     box.appendChild(d);
   });
 }
-async function schAdd() {
-  const note = $('schNoteIn').value.trim().slice(0, 60); let it;
-  if (schType === 'once') {
+function renderSched() { if (!unlocked) return; if (!schInit) { schInit = true; sf = sfNew(); $('schS').value = sf.s; $('schE').value = sf.e; $('schSh').value = sf.sh; $('schEh').value = sf.eh; initSchedUi(); } renderSchedForm(); renderSchedList(); }
+function initSchedUi() {
+  document.querySelectorAll('#schType button').forEach(b => { b.onclick = () => { if (sf.id) return; sf.type = b.dataset.t; renderSchedForm(); }; });
+  $('schAddBtn').onclick = schSave; $('schCancelBtn').onclick = schReset;
+  const w = $('warnSel'); w.onchange = async () => { try { await sref('warn').set(+w.value); logEv('m', 'evWarn', { m: +w.value }); toast(T('saved')); } catch (e) { console.error(e); toast(T('saveFail'), true); } };
+}
+async function schSave() {
+  const note = $('schNoteIn').value.trim().slice(0, 60); sf.note = note;
+  const L = SYS.filter(s => sf.sys[s]); if (!L.length) { toast(T('schNeedSys'), true); return; }
+  let it;
+  if (sf.type === 'once') {
     const s = fromLocalVal($('schS').value), e = fromLocalVal($('schE').value);
     if (!s || !e) { toast(T('schNeedTime'), true); return; }
     if (e <= s) { toast(T('schBadTime'), true); return; }
     if (e <= MTS.now()) { toast(T('schPastEnd'), true); return; }
-    it = { type: 'once', start: s, end: e, on: true };
+    it = { type: 'once', start: s, end: e };
   } else {
     const sh = $('schSh').value, eh = $('schEh').value;
     if (!sh || !eh) { toast(T('schNeedTime'), true); return; }
-    if (schType === 'weekly' && !schSel.length) { toast(T('schNeedDays'), true); return; }
-    it = { type: schType, sh: sh, eh: eh, on: true }; if (schType === 'weekly') it.days = schSel.slice().sort().join(',');
+    if (sf.type === 'weekly' && !sf.days.length) { toast(T('schNeedDays'), true); return; }
+    it = { type: sf.type, sh: sh, eh: eh }; if (sf.type === 'weekly') it.days = sf.days.slice().sort().join(',');
   }
-  if (note) it.note = note; it.by = (account && (account.name || account.username)) || 'admin'; it.at = Date.now();
+  const sc = {}; SYS.forEach(s => sc[s] = !!sf.sys[s]);
+  it.on = sf.on !== false; it.sx = 1; it.scope = sc; it.services = Object.assign({}, sf.services); it.actions = cleanActionsOf(sf); it.bypass = sf.sys.admin ? keysOf(sf.bypass) : {};
+  if (note) it.note = note; it.by = who(); it.at = MTS.now();
   $('schAddBtn').disabled = true;
-  try { if (!cur) await writeState(false); await sref('items').push(it); $('schNoteIn').value = ''; toast(T('schAdded')); }
-  catch (e) { console.error(e); toast(T('saveFail'), true); }
+  try {
+    if (!cur || !cur.grp) await db.ref('maintenance/grp').set(grpMap());
+    if (sf.id) { await sref('items/' + sf.id).set(it); logEv('m', 'evSchEdit', { n: note, s: L.join(',') }); } else { await sref('items').push(it); logEv('m', 'evSchAdd', { n: note, s: L.join(',') }); }
+    toast(T('schAdded')); schReset();
+  } catch (e) { console.error(e); toast(T('saveFail'), true); }
   $('schAddBtn').disabled = false;
+}
+
+/* ---------- SETTING (messages) ---------- */
+let setDirty = false;
+function fillSet(force) {
+  if (!unlocked || !$('st_en')) return;
+  if (setDirty && !force) return;
+  ['en', 'km', 'zh'].forEach(l => {
+    if (document.activeElement !== $('st_' + l)) $('st_' + l).value = (cur && cur.message && cur.message[l]) || '';
+    if (document.activeElement !== $('sl_' + l)) $('sl_' + l).value = (lockCur && lockCur.messages && lockCur.messages[l]) || '';
+  });
+  const al = (cur && cur.align === 'center') ? 'center' : 'left';
+  document.querySelectorAll('#alignSeg button').forEach(b => { b.className = (b.dataset.a === al) ? 'sel-on' : ''; });
+  setAlign = al; setDirty = false; $('stDirty').textContent = ''; $('sgDirty').textContent = '';
+}
+let setAlign = 'left';
+function initSet() {
+  ['st_en', 'st_km', 'st_zh', 'sl_en', 'sl_km', 'sl_zh'].forEach(id => { $(id).oninput = () => { setDirty = true; (id[1] === 't' ? $('stDirty') : $('sgDirty')).textContent = T('unsaved'); }; });
+  document.querySelectorAll('#alignSeg button').forEach(b => { b.onclick = () => { setAlign = b.dataset.a; document.querySelectorAll('#alignSeg button').forEach(x => { x.className = (x.dataset.a === setAlign) ? 'sel-on' : ''; }); setDirty = true; $('stDirty').textContent = T('unsaved'); }; });
+  $('stSaveBar').onclick = async () => {
+    const msg = {}; ['en', 'km', 'zh'].forEach(l => msg[l] = $('st_' + l).value.trim());
+    try { await db.ref('maintenance').update({ message: msg, align: setAlign === 'center' ? 'center' : 'left', by: who(), at: MTS.now() }); logEv('m', 'evMsg'); setDirty = false; $('stDirty').textContent = ''; toast(T('saved')); } catch (e) { console.error(e); toast(T('saveFail'), true); }
+  };
+  $('stSaveLock').onclick = async () => {
+    const m = {}; ['en', 'km', 'zh'].forEach(l => m[l] = $('sl_' + l).value.trim());
+    try { await db.ref('systemLock').update({ messages: m, message: m.en || m.km || m.zh || '' }); if (lockForm) lockForm.messages = Object.assign({}, m); logEv('l', 'evLkMsg'); setDirty = false; $('sgDirty').textContent = ''; toast(T('saved')); } catch (e) { console.error(e); toast(T('saveFail'), true); }
+  };
+}
+
+/* ---------- CHECK STATUS ---------- */
+function renderStat() {
+  const box = $('stList'); if (!box || !unlocked) return; box.innerHTML = '';
+  const e = effNow(), t = MTS.now(), ac = MTS.act(cur, t), nx = MTS.next(cur, t);
+  const lockNames = { admin: 'adminLocked', hr: 'hrLocked', dept: 'deptLocked', emp: 'employeeLocked' };
+  SYS.forEach(S => {
+    const i = sysInfo(S), locked = !!(lockCur && lockCur[lockNames[S]]);
+    const c = el('section', 'card stc');
+    const hd = el('div', 'row sp'); hd.appendChild(el('h2', '', sysName(S)));
+    let cls, lab, line;
+    if (!i.on) { cls = 'off'; lab = T('chNormal'); line = T('chAllOpen', { n: i.total }); }
+    else if (i.closed.length === i.total) { cls = 'on'; lab = T('chMaint'); line = T('chAllClosed', { n: i.total }); }
+    else if (i.closed.length === 0) { cls = 'sch'; lab = T('chPartly'); line = T('chBar'); }
+    else { cls = 'sch'; lab = T('chPartly'); line = T('chSome', { o: i.open, n: i.total }); }
+    const pw = el('div', 'row'); pw.appendChild(el('span', 'pill ' + cls, lab)); if (locked) pw.appendChild(el('span', 'pill on', '🔒 ' + T('chLocked'))); hd.appendChild(pw); c.appendChild(hd);
+    c.appendChild(el('div', 'ss big', line));
+    if (i.on) c.appendChild(el('div', 'ss', i.manual ? T('chBy') : (ac ? T('chSch', { t: fmtDT(ac.end) }) : '')));
+    if (i.on && i.closed.length) {
+      const bx = el('div', 'tags'); const open = SERVICES.filter(x => SYSG[S].indexOf(x.group) >= 0 && i.closed.indexOf(x) < 0);
+      i.closed.forEach(x => bx.appendChild(el('span', 'tg c', x[lang] || x.en)));
+      open.forEach(x => bx.appendChild(el('span', 'tg o', x[lang] || x.en)));
+      c.appendChild(el('div', 'ss', T('chLegend'))); c.appendChild(bx);
+    }
+    box.appendChild(c);
+  });
+  const n = el('section', 'card'); n.appendChild(el('h2', '', T('chNextT'))); n.appendChild(el('p', 'sub', ac ? (T('schActive') + ' · ' + T('schUntil', { t: fmtDT(ac.end) })) : (nx ? T('chNext', { t: fmtDT(nx.start) }) : T('chNone')))); box.appendChild(n);
+}
+
+/* ---------- HISTORY ---------- */
+function renderHist() {
+  const box = $('hiList'); if (!box || !unlocked) return; box.innerHTML = '';
+  document.querySelectorAll('#hiChips button').forEach(b => { b.className = b.dataset.f === hiFilter ? 'sel' : ''; });
+  const rows = Object.keys(logData).map(k => logData[k]).filter(v => v && v.t && v.k && (hiFilter === 'all' || v.c === hiFilter)).sort((a, b) => b.t - a.t);
+  if (!rows.length) { box.appendChild(el('p', 'note', T('hiEmpty'))); return; }
+  rows.slice(0, 300).forEach(v => {
+    const r = el('div', 'hrow ' + (v.c === 'l' ? 'lk' : 'mt'));
+    const tp = el('div', 'hh'); tp.appendChild(el('span', 'tg ' + (v.c === 'l' ? 'l' : 'm'), T(v.c === 'l' ? 'hiLk' : 'hiMt'))); tp.appendChild(el('span', 'ht', fmtDT(v.t))); r.appendChild(tp);
+    r.appendChild(el('div', 'hx', evText(v))); r.appendChild(el('div', 'hb', T('hiBy', { b: v.by === 'auto' ? T('hiAuto') : (v.by || '-') })));
+    box.appendChild(r);
+  });
+  if (rows.length > 300) box.appendChild(el('p', 'note', T('hiMore', { n: rows.length })));
+}
+
+/* ---------- panel plumbing ---------- */
+function renderAll() { if (!unlocked) return; try { renderDash(); renderMM(); renderLock(); renderSched(); fillSet(false); renderStat(); renderHist(); } catch (e) { console.error(e); } }
+async function openPanel() {
+  await loadAccts();
+  $('loginBox').classList.add('hide'); $('panel').classList.remove('hide'); $('outBtn').classList.remove('hide'); document.body.classList.remove('isLogin'); setTimeout(setHH, 30);
+  try { db.ref('.info/serverTimeOffset').on('value', s => MTS.setOff(s.val())); } catch (e) { }
+  if (unsub) unsub();
+  const r = db.ref('maintenance');
+  const cb = (s) => { const v = s.val(); if (v) delete v.log; cur = v; if (!dirty || !form) form = fromData(cur); if (!cur && account && account.firebaseKey) form.bypassKeys[account.firebaseKey] = true; renderAll(); };
+  r.on('value', cb, () => { }); unsub = () => r.off('value', cb);
+  if (lockUnsub) lockUnsub();
+  const lr = db.ref('systemLock'); const lcb = (s) => { lockCur = s.val(); if (!lockDirty || !lockForm) lockForm = lkFrom(lockCur); renderAll(); };
+  lr.on('value', lcb, () => { }); lockUnsub = () => lr.off('value', lcb);
+  if (logUnsub) logUnsub();
+  const gr = db.ref('maintenance/log'); const gcb = (s) => { logData = s.val() || {}; pruneLog(); autoLog(); renderHist(); renderDash(); };
+  gr.on('value', gcb, () => { }); logUnsub = () => gr.off('value', gcb);
+  document.querySelectorAll('#mainTabs button').forEach(b => { b.onclick = () => showTab(b.dataset.tab); });
+  document.querySelectorAll('#hiChips button').forEach(b => { b.onclick = () => { hiFilter = b.dataset.f; renderHist(); }; });
+  $('lkApply').onclick = () => lkSave(false); $('lkUnlock').onclick = () => lkSave(true); $('mmSave').onclick = mmSave;
+  initSet(); schInit = false; showTab('dash');
 }
 function setHH() { const h = document.querySelector('.top'); document.documentElement.style.setProperty('--hh', ((h && h.offsetHeight) || 0) + 'px'); }
 window.addEventListener('resize', setHH); setTimeout(setHH, 50);
-setInterval(() => { if (unlocked) { renderOv(); renderSched(); } }, 20000);
+setInterval(() => { if (unlocked) { autoLog(); renderDash(); renderStat(); renderSchedList(); } }, 20000);
 
 /* always start logged out */
 (async () => { try { await auth.signOut(); } catch (e) {} try { await auth.signInAnonymously(); } catch (e) {} })();

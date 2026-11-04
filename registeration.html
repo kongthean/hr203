@@ -136,10 +136,11 @@ function act(raw,t){
  }
  return null;
 }
-function next(raw,t){
+function next(raw,t,ok){
  t=t==null?now():t;var its=items(raw),best=null;
  its.forEach(function(x){
   if(x.on===false)return;
+  if(ok&&!ok(itScope(raw,x)))return;
   occ(x,t).forEach(function(o){
    if(o[0]>t&&(!best||o[0]<best.start)){if(x.skipUntil&&o[0]<+x.skipUntil)return;best={item:x,start:o[0],end:o[1]};}
   });
@@ -147,7 +148,43 @@ function next(raw,t){
  return best;
 }
 function isOn(raw){return !!(raw&&(raw.on||act(raw)));}
-function chg(raw){var v=isOn(raw);if(LAST===null){LAST=v;return false;}if(v!==LAST){LAST=v;return true;}return false;}
+function nsc(sc){return {admin:sc?sc.admin===true:true,hr:sc?sc.hr===true:true,emp:sc?sc.emp===true:true,dept:sc?sc.dept===true:true};}
+var G2S={admin:['admin','hr'],apps:['admin','hr'],emp:['emp'],dept:['dept']},SYSL=['admin','hr','emp','dept'];
+function actAll(raw,t){
+ t=t==null?now():t;var out=[],its=items(raw);
+ its.forEach(function(x){
+  if(x.on===false)return;
+  var o=occ(x,t);
+  for(var j=0;j<o.length;j++){if(o[j][0]<=t&&t<o[j][1]){if(x.skipUntil&&t<+x.skipUntil)continue;out.push({item:x,start:o[j][0],end:o[j][1]});break;}}
+ });
+ return out;
+}
+function eff(raw){
+ if(!raw)return raw;
+ var all=actAll(raw).filter(function(a){return a.item.sx;});
+ if(!all.length){if(raw.on)return raw;var a0=act(raw);if(!a0)return raw;var e0=Object.assign({},raw);e0.on=true;return e0;}
+ if(!raw.grp){ if(raw.on)return raw; var a1=all[0],it1=a1.item,e1=Object.assign({},raw);e1.on=true;e1.scope=nsc(it1.scope);e1.services=it1.services||{};e1.actions=it1.actions||{};e1.bypassKeys=it1.bypass||{};return e1; }
+ var e=Object.assign({},raw);e.on=true;
+ e.scope=raw.on?nsc(raw.scope):{admin:false,hr:false,emp:false,dept:false};
+ e.services=Object.assign({},raw.services);e.actions=Object.assign({},raw.actions||{});e.bypassKeys=Object.assign({},raw.on?(raw.bypassKeys||{}):{});
+ all.forEach(function(a){
+  var it=a.item,sc=nsc(it.scope),nw={};
+  SYSL.forEach(function(S){if(sc[S]&&!e.scope[S]){nw[S]=true;}});
+  var newAny=Object.keys(nw).length;
+  Object.keys(it.services||{}).forEach(function(id){
+   var g=raw.grp[id],ss=G2S[g]||[];
+   if(!ss.some(function(S){return nw[S];}))return;
+   var covered=ss.some(function(S){return e.scope[S]===true;});
+   if(covered){if(it.services[id]==='closed'){e.services[id]='closed';}}
+   else{e.services[id]=it.services[id];if(it.actions&&it.actions[id])e.actions[id]=it.actions[id];else delete e.actions[id];}
+  });
+  Object.keys(nw).forEach(function(S){e.scope[S]=true;});
+  if(nw.admin||nw.hr){Object.keys(it.bypass||{}).forEach(function(k){e.bypassKeys[k]=true;});}
+ });
+ return e;
+}
+function itScope(raw,x){return x.sx?nsc(x.scope):raw.scope;}
+function chg(raw){var e=eff(raw),v=(e&&e.on)?JSON.stringify([e.scope,e.services,e.actions,e.bypassKeys]):'off';if(LAST===null){LAST=v;return false;}if(v!==LAST){LAST=v;return true;}return false;}
 function lang(){
  var l='';try{l=localStorage.getItem('appLang')||localStorage.getItem('tdLang')||localStorage.getItem('lang')||localStorage.getItem('language')||'';}catch(e){}
  l=String(l).toLowerCase().slice(0,2);if(l==='kh')l='km';
@@ -156,10 +193,10 @@ function lang(){
 }
 var W={en:'Maintenance starts at {t} (in {n} min). Please save your work.',km:'ការថែទាំនឹងចាប់ផ្តើមនៅម៉ោង {t} (ក្នុង {n} នាទី)។ សូមរក្សាទុកការងាររបស់អ្នក។',zh:'系统将于 {t} 开始维护（{n} 分钟后），请及时保存您的工作。'};
 function hhmm(ms){var d=new Date(ms+ZONE);return ('0'+d.getUTCHours()).slice(-2)+':'+('0'+d.getUTCMinutes()).slice(-2);}
-function tick(raw){
+function tick(raw,ok){
  try{
   var el=document.getElementById('mtsWarn'),t=now(),show=false,nx=null;
-  if(!isOn(raw)){nx=next(raw,t);var w=warnMin(raw);if(nx&&w>0&&nx.start-t<=w*60000&&dismissed!==String(nx.start))show=true;}
+  if(!isOn(raw)){nx=next(raw,t,ok);var w=warnMin(raw);if(nx&&w>0&&nx.start-t<=w*60000&&dismissed!==String(nx.start))show=true;}
   if(!show){if(el)el.remove();return;}
   if(!document.body)return;
   var n=Math.max(1,Math.ceil((nx.start-t)/60000)),txt=W[lang()].replace('{t}',hhmm(nx.start)).replace('{n}',n);
@@ -173,7 +210,7 @@ function tick(raw){
   el.querySelector('.mtsT').textContent=txt;
  }catch(e){}
 }
-window.MTS={act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
+window.MTS={eff:eff,act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
 })();
 </script>
 </head>
@@ -1122,7 +1159,7 @@ function renderResult(r) {
     var D = { en: ['Under maintenance', 'This page is temporarily unavailable. Please try again later.'], km: ['កំពុងថែទាំ', 'ទំព័រនេះមិនអាចប្រើបានបណ្តោះអាសន្ន។ សូមព្យាយាមម្តងទៀតពេលក្រោយ។'], zh: ['维护中', '此页面暂时不可用，请稍后再试。'] };
     function lang() { var l = ''; try { l = localStorage.getItem('tdLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} l = String(l).toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; if (!D[l]) { l = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; } return D[l] ? l : 'en'; }
     function applies(m) {
-      if (!m || !(m.on || MTS.act(m))) return false;
+      m = MTS.eff(m); if (!m || !m.on) return false;
       if (!(m.services && m.services[SVC] === 'closed')) return false;
       var sc = m.scope; if (!sc || SC === 'any') return true;
       return SC.split(',').some(function (k) { return sc[k] === true; });
@@ -1139,9 +1176,9 @@ function renderResult(r) {
     function start() {
       if (last) render(last);
       app.auth().signInAnonymously().catch(function () {}).then(function () {
-        app.database().ref('maintenance').on('value', function (s) { last = s.val(); try { localStorage.setItem('mtgCache', JSON.stringify(last)); } catch (e) {} render(last); }, function () {});
+        app.database().ref('maintenance').on('value', function (s) { last = s.val(); if (last) delete last.log; try { localStorage.setItem('mtgCache', JSON.stringify(last)); } catch (e) {} render(last); }, function () {});
         try { app.database().ref('.info/serverTimeOffset').on('value', function (s) { MTS.setOff(s.val()); }); } catch (e) {}
-        setInterval(function () { try { MTS.tick(last); if (MTS.chg(last)) render(last); } catch (e) {} }, 8000);
+        setInterval(function () { try { MTS.tick(last, function (sc) { return SC === 'any' || !sc || SC.split(',').some(function (k) { return sc[k] === true; }); }); if (MTS.chg(last)) render(last); } catch (e) {} }, 8000);
       });
     }
     if (document.body) start(); else document.addEventListener('DOMContentLoaded', start);

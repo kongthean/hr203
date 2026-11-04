@@ -536,10 +536,11 @@ function act(raw,t){
  }
  return null;
 }
-function next(raw,t){
+function next(raw,t,ok){
  t=t==null?now():t;var its=items(raw),best=null;
  its.forEach(function(x){
   if(x.on===false)return;
+  if(ok&&!ok(itScope(raw,x)))return;
   occ(x,t).forEach(function(o){
    if(o[0]>t&&(!best||o[0]<best.start)){if(x.skipUntil&&o[0]<+x.skipUntil)return;best={item:x,start:o[0],end:o[1]};}
   });
@@ -547,7 +548,43 @@ function next(raw,t){
  return best;
 }
 function isOn(raw){return !!(raw&&(raw.on||act(raw)));}
-function chg(raw){var v=isOn(raw);if(LAST===null){LAST=v;return false;}if(v!==LAST){LAST=v;return true;}return false;}
+function nsc(sc){return {admin:sc?sc.admin===true:true,hr:sc?sc.hr===true:true,emp:sc?sc.emp===true:true,dept:sc?sc.dept===true:true};}
+var G2S={admin:['admin','hr'],apps:['admin','hr'],emp:['emp'],dept:['dept']},SYSL=['admin','hr','emp','dept'];
+function actAll(raw,t){
+ t=t==null?now():t;var out=[],its=items(raw);
+ its.forEach(function(x){
+  if(x.on===false)return;
+  var o=occ(x,t);
+  for(var j=0;j<o.length;j++){if(o[j][0]<=t&&t<o[j][1]){if(x.skipUntil&&t<+x.skipUntil)continue;out.push({item:x,start:o[j][0],end:o[j][1]});break;}}
+ });
+ return out;
+}
+function eff(raw){
+ if(!raw)return raw;
+ var all=actAll(raw).filter(function(a){return a.item.sx;});
+ if(!all.length){if(raw.on)return raw;var a0=act(raw);if(!a0)return raw;var e0=Object.assign({},raw);e0.on=true;return e0;}
+ if(!raw.grp){ if(raw.on)return raw; var a1=all[0],it1=a1.item,e1=Object.assign({},raw);e1.on=true;e1.scope=nsc(it1.scope);e1.services=it1.services||{};e1.actions=it1.actions||{};e1.bypassKeys=it1.bypass||{};return e1; }
+ var e=Object.assign({},raw);e.on=true;
+ e.scope=raw.on?nsc(raw.scope):{admin:false,hr:false,emp:false,dept:false};
+ e.services=Object.assign({},raw.services);e.actions=Object.assign({},raw.actions||{});e.bypassKeys=Object.assign({},raw.on?(raw.bypassKeys||{}):{});
+ all.forEach(function(a){
+  var it=a.item,sc=nsc(it.scope),nw={};
+  SYSL.forEach(function(S){if(sc[S]&&!e.scope[S]){nw[S]=true;}});
+  var newAny=Object.keys(nw).length;
+  Object.keys(it.services||{}).forEach(function(id){
+   var g=raw.grp[id],ss=G2S[g]||[];
+   if(!ss.some(function(S){return nw[S];}))return;
+   var covered=ss.some(function(S){return e.scope[S]===true;});
+   if(covered){if(it.services[id]==='closed'){e.services[id]='closed';}}
+   else{e.services[id]=it.services[id];if(it.actions&&it.actions[id])e.actions[id]=it.actions[id];else delete e.actions[id];}
+  });
+  Object.keys(nw).forEach(function(S){e.scope[S]=true;});
+  if(nw.admin||nw.hr){Object.keys(it.bypass||{}).forEach(function(k){e.bypassKeys[k]=true;});}
+ });
+ return e;
+}
+function itScope(raw,x){return x.sx?nsc(x.scope):raw.scope;}
+function chg(raw){var e=eff(raw),v=(e&&e.on)?JSON.stringify([e.scope,e.services,e.actions,e.bypassKeys]):'off';if(LAST===null){LAST=v;return false;}if(v!==LAST){LAST=v;return true;}return false;}
 function lang(){
  var l='';try{l=localStorage.getItem('appLang')||localStorage.getItem('tdLang')||localStorage.getItem('lang')||localStorage.getItem('language')||'';}catch(e){}
  l=String(l).toLowerCase().slice(0,2);if(l==='kh')l='km';
@@ -556,10 +593,10 @@ function lang(){
 }
 var W={en:'Maintenance starts at {t} (in {n} min). Please save your work.',km:'ការថែទាំនឹងចាប់ផ្តើមនៅម៉ោង {t} (ក្នុង {n} នាទី)។ សូមរក្សាទុកការងាររបស់អ្នក។',zh:'系统将于 {t} 开始维护（{n} 分钟后），请及时保存您的工作。'};
 function hhmm(ms){var d=new Date(ms+ZONE);return ('0'+d.getUTCHours()).slice(-2)+':'+('0'+d.getUTCMinutes()).slice(-2);}
-function tick(raw){
+function tick(raw,ok){
  try{
   var el=document.getElementById('mtsWarn'),t=now(),show=false,nx=null;
-  if(!isOn(raw)){nx=next(raw,t);var w=warnMin(raw);if(nx&&w>0&&nx.start-t<=w*60000&&dismissed!==String(nx.start))show=true;}
+  if(!isOn(raw)){nx=next(raw,t,ok);var w=warnMin(raw);if(nx&&w>0&&nx.start-t<=w*60000&&dismissed!==String(nx.start))show=true;}
   if(!show){if(el)el.remove();return;}
   if(!document.body)return;
   var n=Math.max(1,Math.ceil((nx.start-t)/60000)),txt=W[lang()].replace('{t}',hhmm(nx.start)).replace('{n}',n);
@@ -573,7 +610,7 @@ function tick(raw){
   el.querySelector('.mtsT').textContent=txt;
  }catch(e){}
 }
-window.MTS={act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
+window.MTS={eff:eff,act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
 })();
 </script>
 </head>
@@ -2583,7 +2620,7 @@ function dpBellOpen() {
    a bar shows at the top; every closed service (menu tab / card) is faded and shows a popup; inside an open service
    single closed buttons are faded and show the same popup. Everybody can still log in. */
 const DMT_SVC = [["dept_master", "master", "dpTabMaster"], ["dept_leave", "leave", "dpTabLeave"], ["dept_att", "att", "dpTabAtt"], ["dept_check", "check", "dpTabCheck"], ["dept_shift", "shift", "navShiftRoster"], ["dept_makeup", "makeup", "navMakeup"], ["dept_attcal", "attcal", "navAttCal"], ["dept_cmp", "cmp", "dpTabCmp"], ["dept_req", "req", "dpTabReq"], ["dept_lf", "lf", "lfTitle"], ["dept_card", "card", "ccTitle"], ["dept_bell", "bell", "dpBellTitle"]], DMT_ACT = [["dept_card", "sign", "fn:ccDeptSign", "ccSign"], ["dept_card", "reject", "fn:ccDeptReject", "lfReject"], ["dept_lf", "new", "fn:lfNewOpen", "lfNew"], ["dept_lf", "edit", "fn:lfEditOpen", "lfEdit"], ["dept_lf", "sign", "fn:lfDeptSign", "lfSignDept"], ["dept_lf", "reject", "fn:lfDeptReject", "lfReject"], ["dept_lf", "print", "fn:lfPrint", "lfPrint"], ["dept_master", "export", "fn:dpExportMaster", "btnExport"], ["dept_master", "edit", "fn:dpEdit", "dpEditTitle"], ["dept_leave", "submit", "i:btnSubmitLeave", "btnSubmitLeave"], ["dept_att", "load", "i:btnLoadDept", "btnLoadDept"], ["dept_att", "submit", "fn:dpSaveAtt", "btnSubmitAtt"], ["dept_check", "check", "i:btnCheckDetails", "btnCheckDetails"], ["dept_shift", "check", "i:btnCheckShift", "btnCheckShift"], ["dept_shift", "editcell", "fn:dpShiftCell", "mtA_shift_editcell"], ["dept_shift", "export", "fn:dpGridExport|dpShiftTable", "btnExport"], ["dept_shift", "clear", "fn:dpClrOpen|'shift'", "navClr"], ["dept_makeup", "submit", "i:btnSubmitMakeup", "btnSubmitMakeup"], ["dept_makeup", "delete", "fn:dpMkDelete", "mtA_master_delete"], ["dept_makeup", "clear", "fn:dpClrOpen|'makeup'", "navClr"], ["dept_attcal", "export", "fn:dpGridExport|dpAcTable", "btnExport"], ["dept_attcal", "clear", "fn:dpClrOpen|'cal'", "navClr"], ["dept_cmp", "export", "fn:dpCmpExport", "btnExport"], ["dept_cmp", "print", "fn:dpCmpPrint", "rqPrint"], ["dept_cmp", "match", "fn:dpCmpMatch", "dpCmpMatch"], ["dept_req", "newedit", "fn:dpReqOpen|'edit'", "dpReqNewEdit"], ["dept_req", "newremove", "fn:dpReqOpen|'remove'", "dpReqNewRemove"], ["dept_req", "newgroup", "fn:dpReqOpen|'group'", "dpReqNewGroup"], ["dept_req", "newother", "fn:dpReqOpen|'other'", "dpReqNewOther"], ["dept_req", "cancel", "fn:dpReqCancel", "dpReqCancel"]];
-let mtData = null, mtReady = false;
+let mtData = null, mtRaw = null, mtReady = false;
 (function () {
     const st = document.createElement('style');
     st.textContent = '#mtBanner.mt-inline{position:relative;z-index:0;margin:8px 0;border-radius:10px;box-shadow:none;}#mtBanner{position:sticky;top:0;z-index:100001;display:flex;align-items:center;gap:12px;background:linear-gradient(100deg,#f97316,#fb9a4b);color:#fff;font-size:13px;font-weight:600;padding:10px 14px;line-height:1.4;border:2px solid rgba(255,255,255,.6);box-shadow:0 2px 8px rgba(0,0,0,.22);}' +
@@ -2602,7 +2639,7 @@ DMT_ACT.forEach(function (e) {
 const DMT_SEL = '[onclick],[onchange],' + Array.from(new Set(DMT_ACT.filter(function (e) { return e[2].indexOf('i:') === 0; }).map(function (e) { return '[data-i18n="' + e[2].slice(2) + '"]'; }))).join(',');
 function dmtLogged() { return typeof ctx !== 'undefined' && ctx && ctx.dept; }
 function dmtUnknown() { return !mtReady && dmtLogged(); }
-function dmtOn() { return !!(mtData && (mtData.on || MTS.act(mtData)) && (!mtData.scope || mtData.scope.dept === true)); }
+function dmtOn() { return !!(mtData && mtData.on && (!mtData.scope || mtData.scope.dept === true)); }
 function dmtSvcByTab(tab) { for (const s of DMT_SVC) if (s[1] === tab) return s[0]; return null; }
 function dmtMode(id) { if (!id || !dmtOn()) return 'open'; return (mtData.services && mtData.services[id]) === 'closed' ? 'closed' : 'open'; }
 function dmtMsg() { const m = mtData && mtData.message, v = m && m[currentLang]; return String(v || '').trim(); }
@@ -2695,12 +2732,12 @@ function dmtRefresh() {
     dmtBanner(); dmtApplyUI(); dmtActScan();
     try { const svc = dmtSvcByTab(curTab); if (svc && dmtMode(svc) === 'closed' && dmtLogged()) { dmtPopup(svc); dpTab('dash'); } } catch (e) {}
 }
-try { const c = JSON.parse(localStorage.getItem('mtCache') || 'null'); if (c && c.on) { mtData = c; } } catch (e) {}
+try { const c = JSON.parse(localStorage.getItem('mtCache') || 'null'); if (c && c.on) { mtRaw = c; mtData = MTS.eff(c); } } catch (e) {}
 function dmtStart() {
     if (dmtStart.done) return; dmtStart.done = true;
-    db.ref('maintenance').on('value', function (s) { mtData = s.val(); mtReady = true; try { localStorage.setItem('mtCache', JSON.stringify(mtData)); } catch (e) {} dmtRefresh(); }, function () { mtReady = true; });
+    db.ref('maintenance').on('value', function (s) { mtRaw = s.val(); if (mtRaw) delete mtRaw.log; mtData = MTS.eff(mtRaw); mtReady = true; try { localStorage.setItem('mtCache', JSON.stringify(mtRaw)); } catch (e) {} dmtRefresh(); }, function () { mtReady = true; });
     try { db.ref('.info/serverTimeOffset').on('value', function (s) { MTS.setOff(s.val()); }); } catch (e) {}
-    if (!window.__mtsT) window.__mtsT = setInterval(function () { try { MTS.tick(mtData); if (MTS.chg(mtData)) dmtRefresh(); } catch (e) {} }, 8000);
+    if (!window.__mtsT) window.__mtsT = setInterval(function () { try { mtData = MTS.eff(mtRaw); MTS.tick(mtRaw, function (sc) { return !sc || sc.dept === true; }); if (MTS.chg(mtRaw)) dmtRefresh(); } catch (e) {} }, 8000);
     setTimeout(function () { mtReady = true; dmtRefresh(); }, 6000);
 }
 
