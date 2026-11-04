@@ -22202,19 +22202,17 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
   setTimeout(scan, 800); window.frzScan = scan;
 })();
 </script>
-<style id="pgScrCss">.modal.pgScr{position:fixed!important;top:var(--pgTop,0px)!important;left:0!important;right:0!important;bottom:0!important;width:auto!important;height:auto!important;background:#f1f5f9!important;z-index:80!important;align-items:flex-start!important;justify-content:center!important;overflow-y:auto!important;overscroll-behavior:contain;padding:14px 14px 40px!important;box-sizing:border-box!important}
+<style id="pgScrCss">.modal.pgScr{position:fixed!important;top:var(--pgTop,0px)!important;left:0!important;right:0!important;bottom:0!important;width:auto!important;height:auto!important;background:#f1f5f9!important;z-index:80!important;display:flex!important;flex-direction:column!important;align-items:stretch!important;justify-content:flex-start!important;overflow-y:auto!important;overscroll-behavior:contain;padding:14px 10px 24px!important;box-sizing:border-box!important}
 .modal.pgScr.pgUnder{visibility:hidden!important}
-.modal.pgScr > .modal-content{max-width:1100px!important;width:100%!important;max-height:none!important;overflow:visible!important;box-sizing:border-box!important;box-shadow:0 1px 3px rgba(15,23,42,.10),0 8px 24px rgba(15,23,42,.06)!important}
-.modal.pgScr > .modal-content > .modal-header{position:static!important;margin:0 0 16px!important;padding:0 0 10px!important;border-radius:0!important;justify-content:flex-start!important;gap:12px;flex-wrap:wrap}
+.modal.pgScr > .modal-content{flex:none!important;max-width:none!important;width:100%!important;max-height:none!important;overflow:visible!important;box-sizing:border-box!important;border-radius:12px!important;box-shadow:0 1px 3px rgba(15,23,42,.10),0 8px 24px rgba(15,23,42,.06)!important}
+.modal.pgScr > .modal-content > .modal-header{position:static!important;margin:0 0 14px!important;padding:0!important;border:0!important;border-radius:0!important;justify-content:flex-start!important;gap:12px;flex-wrap:wrap}
 .modal.pgScr > .modal-content > .modal-header > h3,.modal.pgScr > .modal-content > .modal-header > h4{margin:0!important;flex:1 1 auto}
 .modal.pgScr .modal-header .modal-close{display:none!important}
-.pgBack{display:none;border:0;border-radius:8px;background:#e2e8f0;color:#0f172a;font:600 13px/1 inherit;font-family:inherit;padding:9px 14px;cursor:pointer;min-height:36px;white-space:nowrap}
-.pgBack:hover{background:#cbd5e1}
-.modal.pgScr .pgBack{display:inline-flex;align-items:center;gap:4px}
-@media (max-width:600px){.modal.pgScr{padding:8px 8px 40px!important}.modal.pgScr > .modal-content{padding:14px!important}}
+.modal.pgScr > .pgFoot{flex:none;margin-top:auto;padding-top:28px}
 .modal.pgScr #tdBody{max-height:none!important}
 #tab-certificates > h3,#tab-certificates > p{text-align:center}
 #tab-certificates > .dash-card{margin-left:auto!important;margin-right:auto!important}
+@media (max-width:600px){.modal.pgScr{padding:8px 8px 24px!important}.modal.pgScr > .modal-content{padding:14px!important}}
 </style>
 <script id="pgScrJs">(function(){
 if(window.__pgScr)return;window.__pgScr=1;
@@ -22225,22 +22223,20 @@ function top(){var s=document.getElementById('stickyTop'),b=0;if(s){var r=s.getB
 function closeFn(m){var c=m.querySelector(':scope > .modal-content > .modal-header .modal-close')||m.querySelector('.modal-close');return function(){if(c)c.click();else m.style.display='none';};}
 function backText(){try{var tr=window.translations,l=window.currentLang;if(tr&&tr[l]&&tr[l].lxBack)return tr[l].lxBack;}catch(e){}return 'Back';}
 function prep(m){
- if(m.querySelector('.pgBack'))return;
+ if(m.__pgPrep)return;m.__pgPrep=1;
  var mc=m.querySelector(':scope > .modal-content');if(!mc)return;
- var h=mc.querySelector(':scope > .modal-header');
- var b=document.createElement('button');b.type='button';b.className='pgBack';
- var hasI=false;try{hasI=!!(window.translations&&window.translations.en&&window.translations.en.lxBack);}catch(e){}
- b.innerHTML='&larr; <span'+(hasI?' data-i18n="lxBack"':'')+'>'+backText()+'</span>';
- b.onclick=function(e){e.stopPropagation();closeFn(m)();};
- if(!h){h=document.createElement('div');h.className='modal-header pgAuto';mc.insertBefore(h,mc.firstChild);}
- h.insertBefore(b,h.firstChild);
+ var f=document.querySelector('.hrft');
+ if(f){var c=f.cloneNode(true);c.classList.add('pgFoot');m.appendChild(c);}
  m.addEventListener('click',function(e){if(e.target===m)e.stopImmediatePropagation();},true);
 }
+var navSaved=null;
+function navOff(){if(navSaved)return;var a=document.querySelector('nav button.active');if(a){navSaved=a;a.classList.remove('active');}}
+function navOn(){if(!navSaved)return;if(!document.querySelector('nav button.active'))navSaved.classList.add('active');navSaved=null;}
 function save(id){try{if(id)sessionStorage.setItem('activeScreen',id);else sessionStorage.removeItem('activeScreen');}catch(e){}}
 function sync(m){
  var open=isOpen(m);
  if(open&&!m.classList.contains('pgScr')){
-  prep(m);top();
+  prep(m);top();navOff();
   stack.forEach(function(o){o.classList.add('pgUnder');});
   stack.push(m);m.classList.remove('pgUnder');m.classList.add('pgScr');
   try{m.scrollTop=0;}catch(e){}
@@ -22249,7 +22245,7 @@ function sync(m){
   m.classList.remove('pgScr','pgUnder');
   stack=stack.filter(function(o){return o!==m;});
   var p=stack[stack.length-1];
-  if(p){p.classList.remove('pgUnder');save(p.id);}else save(null);
+  if(p){p.classList.remove('pgUnder');save(p.id);}else{save(null);navOn();}
  }
 }
 function closeAll(){stack.slice().reverse().forEach(function(m){if(isOpen(m))closeFn(m)();});}
