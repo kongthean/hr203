@@ -822,10 +822,10 @@ function eff(raw){
  if(!raw)return raw;
  var all=actAll(raw).filter(function(a){return a.item.sx;});
  if(!all.length){if(raw.on)return raw;var a0=act(raw);if(!a0)return raw;var e0=Object.assign({},raw);e0.on=true;return e0;}
- if(!raw.grp){ if(raw.on)return raw; var a1=all[0],it1=a1.item,e1=Object.assign({},raw);e1.on=true;e1.scope=nsc(it1.scope);e1.services=it1.services||{};e1.actions=it1.actions||{};e1.bypassKeys=it1.bypass||{};return e1; }
+ if(!raw.grp){ if(raw.on)return raw; var a1=all[0],it1=a1.item,e1=Object.assign({},raw);e1.on=true;e1.scope=nsc(it1.scope);e1.services=it1.services||{};e1.actions=it1.actions||{};e1.bypassBy=it1.bypassBy||{admin:it1.bypass||{}};e1.bypassKeys=Object.assign({},e1.bypassBy.admin||it1.bypass||{});return e1; }
  var e=Object.assign({},raw);e.on=true;
  e.scope=raw.on?nsc(raw.scope):{admin:false,hr:false,emp:false,dept:false};
- e.services=Object.assign({},raw.services);e.actions=Object.assign({},raw.actions||{});e.bypassKeys=Object.assign({},raw.on?(raw.bypassKeys||{}):{});
+ e.services=Object.assign({},raw.services);e.actions=Object.assign({},raw.actions||{});var bb=raw.on?JSON.parse(JSON.stringify(raw.bypassBy||{admin:raw.bypassKeys||{}})):{};
  all.forEach(function(a){
   var it=a.item,sc=nsc(it.scope),nw={};
   SYSL.forEach(function(S){if(sc[S]&&!e.scope[S]){nw[S]=true;}});
@@ -838,8 +838,9 @@ function eff(raw){
    else{e.services[id]=it.services[id];if(it.actions&&it.actions[id])e.actions[id]=it.actions[id];else delete e.actions[id];}
   });
   Object.keys(nw).forEach(function(S){e.scope[S]=true;});
-  if(nw.admin||nw.hr){Object.keys(it.bypass||{}).forEach(function(k){e.bypassKeys[k]=true;});}
+  Object.keys(nw).forEach(function(S){var src=(it.bypassBy&&it.bypassBy[S])||(S==='admin'?it.bypass:null)||{};bb[S]=Object.assign({},src);});
  });
+ e.bypassBy=bb;e.bypassKeys=Object.assign({},bb.admin||{});
  return e;
 }
 function itScope(raw,x){return x.sx?nsc(x.scope):raw.scope;}
@@ -21715,9 +21716,14 @@ function mtIsOn() { return !!(mtData && mtData.on && mtScopeOk()); }
 /* only the Administration accounts ticked on the maintenance page keep full access (e.g. one account for testing) */
 function mtBypass() {
     try { if (sessionStorage.getItem('isLoggedIn') === 'true' && sessionStorage.getItem('loggedInRole') === 'admin' && viewerIsOwner()) return true; } catch (e) {}
-    if (!(mtData && mtData.bypassKeys) || sessionStorage.getItem('isLoggedIn') !== 'true' || sessionStorage.getItem('loggedInRole') !== 'admin') return false;
-    const a = window.__actorInfo;
-    return !!(a && a.type === 'staff' && a.role === 'admin' && a.key && mtData.bypassKeys[a.key] === true);
+    try {
+        const bb = mtData && mtData.bypassBy; if (!bb) return false;
+        const a = window.__actorInfo; if (!a || !a.key) return false;
+        let S = null;
+        if (a.type === 'staff' && sessionStorage.getItem('isLoggedIn') === 'true') S = (a.role === 'hr') ? 'hr' : 'admin';
+        else if (a.type === 'employee') S = 'emp';
+        return !!(S && bb[S] && bb[S][a.key] === true);
+    } catch (e) { return false; }
 }
 function mtMode(id) {
     if (!id || !mtIsOn() || mtBypass()) return 'open';

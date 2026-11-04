@@ -233,6 +233,83 @@ body.isLogin{background:linear-gradient(180deg,#131a30 0,#1a2342 330px,#f1f5f9 3
 .tl svg.i{width:30px;height:30px;stroke:#fff;stroke-width:1.9}
 .tl-mm{background:linear-gradient(135deg,#7f1d1d,#dc2626)}.tl-lock{background:linear-gradient(135deg,#8a4a0a,#d58a1c)}.tl-sched{background:linear-gradient(135deg,#0e5c78,#1a9bc0)}.tl-set{background:linear-gradient(135deg,#2b3550,#4a5875)}.tl-stat{background:linear-gradient(135deg,#0b5a40,#15936b)}.tl-hist{background:linear-gradient(135deg,#3b1f7a,#6d44c9)}
 main{max-width:none;padding:14px 10px}
+/* v9.3: compact, Administration-size */
+body{font-size:13.5px}
+.top{position:sticky;top:0;margin:0;border-radius:0 0 16px 16px;box-shadow:0 6px 18px rgba(8,14,32,.3)}
+.topBar{padding:9px 12px 9px 14px}
+.brandL .wm,.brandL .wm{font-size:23px}
+.lgBtn{height:34px;padding:0 10px;font-size:13px;border-radius:10px;gap:7px}
+.pwr{width:34px;height:34px;border-radius:10px;box-shadow:none}.pwr svg.i{width:16px;height:16px}
+.tabs{padding:4px;gap:4px;border-radius:0 0 16px 16px}
+.tabs button,.tabs button:nth-child(odd){padding:9px 2px;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-radius:9px}
+main{padding:10px}
+.card{padding:12px;border-radius:12px;margin-bottom:10px}
+.card h2{font-size:14px;margin-bottom:4px}
+.sub{font-size:12px;margin-bottom:8px}
+label{font-size:12px;margin:10px 0 4px}
+input[type=text],input[type=password],input[type=time],input[type=datetime-local],input[type=search],select,textarea{padding:8px 10px;font-size:13px;border-radius:9px;min-height:36px}
+input[type=datetime-local],input[type=time]{min-height:38px}
+.btn{padding:8px 14px;font-size:13px;border-radius:9px;box-shadow:none}
+.btn.sm{padding:6px 11px;font-size:12px}
+.btn.xs{padding:5px 10px;font-size:11.5px;border-radius:8px}
+.pill{padding:3px 10px;font-size:11.5px}
+.chips{gap:6px}.chips button{padding:6px 11px;font-size:12px;gap:5px;border-radius:18px}
+.chips button svg.i{width:14px;height:14px}
+.seg button{padding:7px 12px;font-size:12px}
+.savebar{bottom:8px;padding:8px 10px;border-radius:12px}
+.stgrid{gap:6px;margin-bottom:12px}.s{padding:8px 10px}.s b{font-size:10.5px}.s p{font-size:12.5px}
+.mmh{font-size:14px;margin-bottom:8px}
+.mgrid{gap:8px}
+.tl{min-height:82px;padding:8px 6px;gap:6px;font-size:12px;border-radius:13px;box-shadow:0 4px 10px rgba(15,23,42,.2)}
+.tl svg.i{width:24px;height:24px}
+@media(min-width:760px){.mgrid{gap:10px}.tl{min-height:90px;font-size:12.5px}}
+.hrow{padding:9px 12px;margin-bottom:8px}.hx{font-size:13px}
+.stc h2{font-size:14px}.stc .ss.big{font-size:13px}
+.sth .sti{width:28px;height:28px}
+.mmState{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;border-left:5px solid #16a34a}
+.mmState.on{border-color:#dc2626;background:#fef2f2}.mmState.some{border-color:#d97706;background:#fffbeb}
+.msN{font-size:15px;font-weight:800}.msP{font-size:12px;font-weight:700;color:#475569;margin-top:2px}
+.mmState.on .msP{color:#b91c1c}.mmState.off .msP{color:#15803d}
+.msB{display:flex;gap:8px;flex-wrap:wrap}
+.exTabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.exTabs button{display:inline-flex;align-items:center;gap:5px;border:1.5px solid #cbd5e1;background:#fff;color:#334155;border-radius:18px;padding:5px 10px;font-size:11.5px;font-weight:700;cursor:pointer}
+.exTabs button.sel{background:var(--navy);color:#fff;border-color:var(--navy)}
+.exTabs svg.i{width:13px;height:13px}
+.exHead{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;min-height:26px}
+.exCnt{font-size:12px;color:var(--mute);font-weight:700}
+.exQ,.svQ{margin-bottom:6px;width:100%}
+.exList{max-height:250px;overflow:auto;border:1px solid var(--line);border-radius:10px;-webkit-overflow-scrolling:touch}
+.exList .note{padding:10px}
+.exRow{display:flex;gap:10px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--line);margin:0;font-weight:500;cursor:pointer}
+.exRow:last-child{border-bottom:0}.exRow.on{background:#eff6ff}
+.exRow input{width:16px;height:16px;min-height:0;flex:none;accent-color:#0b1d3a;padding:0}
+.exTx{display:flex;flex-direction:column;min-width:0}.exTx b{font-size:13px;font-weight:600}.exTx small{font-size:11.5px;color:var(--mute)}
+.svTb{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.svTb .svQ{flex:1;min-width:140px;margin:0}
+.svF{display:inline-flex;border:1.5px solid #cbd5e1;border-radius:9px;overflow:hidden}
+.svF button{border:0;background:#fff;padding:7px 11px;font-size:12px;font-weight:600;color:#475569;cursor:pointer}
+.svF button+button{border-left:1.5px solid #cbd5e1}
+.svF button.sel{background:var(--navy);color:#fff}
+.svBulk{display:flex;align-items:center;gap:6px;margin:8px 0 2px;flex-wrap:wrap}
+.svCnt{flex:1;font-size:11.5px;color:var(--mute);min-width:140px}
+.gh{display:flex;width:100%;align-items:center;gap:8px;background:#f1f5f9;border:0;border-radius:9px;padding:8px 10px;margin-top:8px;font-size:11.5px;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.03em;cursor:pointer}
+.gh .gt{flex:1;text-align:left}.gh .gc{font-weight:700;color:#16a34a;text-transform:none;letter-spacing:0}.gh .gc.r{color:#dc2626}
+.gh .gv svg{width:14px;height:14px;transition:transform .15s}.gh.shut .gv svg{transform:rotate(-90deg)}
+.svr{display:flex;align-items:center;gap:8px;padding:7px 2px;border-bottom:1px solid var(--line)}
+.svr .nm{flex:1;min-width:0;font-size:13px;font-weight:500;line-height:1.3}
+.svr.c .nm{color:#b91c1c}
+.seg.sm button{padding:5px 10px;font-size:11.5px}
+.svr .exp{border:1.5px solid #cbd5e1;background:#fff;border-radius:8px;padding:4px 7px;display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;color:#475569;cursor:pointer}
+.exp svg.i{width:12px;height:12px}.exp.has{border-color:#dc2626;color:#b91c1c}.exp.o svg{transform:rotate(180deg)}
+.acts{background:#f8fafc;border-radius:10px;padding:6px 10px;margin:2px 0 6px}
+.acts .row{margin-bottom:4px}
+.sit{padding:10px 12px;margin-top:8px;gap:8px}
+.sbar{display:flex;gap:6px;flex-wrap:wrap;flex-basis:100%}
+.warnRow{display:flex;align-items:center;gap:10px;margin-top:10px;justify-content:space-between}
+.warnRow span{font-size:12.5px;font-weight:600}.warnRow select{width:auto;min-width:130px}
+.days button{min-width:42px;padding:7px 8px;font-size:12px}
+input[type=search]{-webkit-appearance:none;appearance:none}
+.svBulk{flex-wrap:nowrap}.svBulk .svCnt{min-width:0}
 </style>
 </head>
 <body class="isLogin"><!-- SPLASH-BEGIN --><style id="kbSplashCss">
@@ -299,26 +376,23 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
     <!-- MAINTENANCE MODE -->
     <div id="mmBox" class="hide">
-      <section class="card">
-        <h2 data-i="cMm"></h2>
-        <p class="sub" data-i="mmPick" style="margin-bottom:8px"></p>
-        <div class="chips" id="mmChips"></div>
+      <section class="card"><div class="chips" id="mmChips"></div></section>
+      <section class="card mmState off" id="mmState">
+        <div class="msL"><div class="msN" id="mmName"></div><div class="msP" id="mmPill"></div><div class="note" id="mmBy" style="margin-top:4px"></div></div>
+        <div class="msB" id="mmBtns"></div>
       </section>
       <section class="card">
-        <div class="row sp"><div><h2 id="mmName"></h2><span id="mmPill" class="pill off">-</span></div><div class="row" id="mmBtns"></div></div>
-        <p class="note" id="mmBy"></p>
-      </section>
-      <section class="card">
-        <h2 data-i="acctTitle"></h2>
-        <div id="mmExW"><p class="sub" data-i="acctSub"></p><div id="mmExList"></div></div>
-        <p class="sub hide" id="mmExNote" data-i="mmExNote"></p>
+        <h2 data-i="exTitle"></h2>
+        <p class="sub" id="mmExSub"></p>
+        <div class="exTabs hide" id="mmExTabs"></div>
+        <div id="mmExBox"></div>
       </section>
       <section class="card">
         <h2 data-i="svcTitle"></h2>
         <p class="sub" id="mmSvcSub"></p>
         <div id="mmSvc"></div>
       </section>
-      <div class="savebar"><button class="btn" id="mmSave" data-i="save"></button><span class="note" id="mmDirty" style="margin:0"></span></div>
+      <div class="savebar hide" id="mmSaveBar"><button class="btn" id="mmSave" data-i="save"></button><span class="note" id="mmDirty" style="margin:0"></span></div>
     </div>
 
     <!-- LOCK -->
@@ -346,14 +420,14 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
     <div id="schedBox" class="hide">
       <section class="card">
         <h2 data-i="cSc"></h2>
-        <p class="sub" data-i="schSub" style="margin-bottom:0"></p>
+        <p class="sub" data-i="schSub" style="margin:0"></p>
+        <div class="warnRow"><span data-i="schWarnTitle"></span><select id="warnSel"></select></div>
       </section>
       <section class="card">
-        <h2 data-i="schWarnTitle"></h2>
-        <p class="sub" data-i="schWarnSub"></p>
-        <select id="warnSel"></select>
+        <div class="row sp"><h2 data-i="schListTitle"></h2><button class="btn sm" id="schNewBtn" type="button" data-i="schNew"></button></div>
+        <div id="schList"></div>
       </section>
-      <section class="card" id="schFormCard">
+      <section class="card hide" id="schFormCard">
         <h2 id="schFormT" data-i="schAddTitle"></h2>
         <div class="seg" id="schType" style="margin-top:6px"><button type="button" data-t="once" data-i="schOnce"></button><button type="button" data-t="weekly" data-i="schWeek"></button><button type="button" data-t="daily" data-i="schDay"></button></div>
         <label data-i="schWhich"></label>
@@ -370,16 +444,12 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
           </div>
           <p class="note" data-i="schOvernight"></p>
         </div>
-        <div id="schExW"><label data-i="schExT"></label><div id="schExBox"></div></div>
+        <div id="schExW"><label data-i="exTitle"></label><p class="sub" id="schExSub" style="margin-bottom:6px"></p><div class="exTabs" id="schExTabs"></div><div id="schExBox"></div></div>
         <label data-i="schSvcT"></label>
         <p class="sub" data-i="schSvcSub" style="margin:0 0 6px"></p>
         <div id="schSvcBox"></div>
         <label data-i="schNote"></label><input type="text" id="schNoteIn" maxlength="60">
-        <div class="row" style="margin-top:14px"><button class="btn" id="schAddBtn" data-i="schSave"></button><button class="btn sec hide" id="schCancelBtn" data-i="schCancel"></button></div>
-      </section>
-      <section class="card">
-        <h2 data-i="schListTitle"></h2>
-        <div id="schList"></div>
+        <div class="row" style="margin-top:12px"><button class="btn" id="schAddBtn" data-i="schSave"></button><button class="btn sec" id="schCancelBtn" data-i="schCancel"></button></div>
       </section>
     </div>
 
@@ -489,10 +559,10 @@ function eff(raw){
  if(!raw)return raw;
  var all=actAll(raw).filter(function(a){return a.item.sx;});
  if(!all.length){if(raw.on)return raw;var a0=act(raw);if(!a0)return raw;var e0=Object.assign({},raw);e0.on=true;return e0;}
- if(!raw.grp){ if(raw.on)return raw; var a1=all[0],it1=a1.item,e1=Object.assign({},raw);e1.on=true;e1.scope=nsc(it1.scope);e1.services=it1.services||{};e1.actions=it1.actions||{};e1.bypassKeys=it1.bypass||{};return e1; }
+ if(!raw.grp){ if(raw.on)return raw; var a1=all[0],it1=a1.item,e1=Object.assign({},raw);e1.on=true;e1.scope=nsc(it1.scope);e1.services=it1.services||{};e1.actions=it1.actions||{};e1.bypassBy=it1.bypassBy||{admin:it1.bypass||{}};e1.bypassKeys=Object.assign({},e1.bypassBy.admin||it1.bypass||{});return e1; }
  var e=Object.assign({},raw);e.on=true;
  e.scope=raw.on?nsc(raw.scope):{admin:false,hr:false,emp:false,dept:false};
- e.services=Object.assign({},raw.services);e.actions=Object.assign({},raw.actions||{});e.bypassKeys=Object.assign({},raw.on?(raw.bypassKeys||{}):{});
+ e.services=Object.assign({},raw.services);e.actions=Object.assign({},raw.actions||{});var bb=raw.on?JSON.parse(JSON.stringify(raw.bypassBy||{admin:raw.bypassKeys||{}})):{};
  all.forEach(function(a){
   var it=a.item,sc=nsc(it.scope),nw={};
   SYSL.forEach(function(S){if(sc[S]&&!e.scope[S]){nw[S]=true;}});
@@ -505,8 +575,9 @@ function eff(raw){
    else{e.services[id]=it.services[id];if(it.actions&&it.actions[id])e.actions[id]=it.actions[id];else delete e.actions[id];}
   });
   Object.keys(nw).forEach(function(S){e.scope[S]=true;});
-  if(nw.admin||nw.hr){Object.keys(it.bypass||{}).forEach(function(k){e.bypassKeys[k]=true;});}
+  Object.keys(nw).forEach(function(S){var src=(it.bypassBy&&it.bypassBy[S])||(S==='admin'?it.bypass:null)||{};bb[S]=Object.assign({},src);});
  });
+ e.bypassBy=bb;e.bypassKeys=Object.assign({},bb.admin||{});
  return e;
 }
 function itScope(raw,x){return x.sx?nsc(x.scope):raw.scope;}
@@ -659,9 +730,9 @@ Object.assign(I18N.km, {tabOv:'ទិដ្ឋភាពទូទៅ', tabSched:'
 Object.assign(I18N.zh, {tabOv:'概览', tabSched:'定时计划', ovMaint:'维护', ovLock:'锁定', ovSched:'定时计划', ovGoLock:'锁定设置', ovGoSched:'管理计划', ovGoMaint:'打开维护设置', ovHowTitle:'运作方式', ovMtOff:'所有功能正常开放。', ovMtManual:'已开启（手动）。', ovMtSched:'按计划开启，持续到 {t}。', ovLkOff:'没有锁定任何系统。', ovLkOn:'已锁定：{l}', ovScNone:'还没有计划。', ovScRun:'正在运行，持续到 {t}。', ovScNext:'下一次：{t}',
   schActive:'运行中', schWaiting:'等待中', schDone:'已结束', schPaused:'已暂停', schTitle:'定时维护', schSub:'系统会在开始时间自动进入维护，并在结束时间自动恢复。维护内容（提示信息、系统和服务）使用“维护模式”页中的设置。所有时间均为柬埔寨时间。', schWarnTitle:'开始前提醒', schWarnSub:'维护开始前，用户会看到黄色提醒。', warnOff:'不提醒', warnMin:'提前 {n} 分钟', schAddTitle:'添加计划', schOnce:'单次', schWeek:'每周', schDay:'每天', schStart:'开始', schEnd:'结束', schFrom:'从', schTo:'到', schDays:'星期', schOvernight:'如果结束时间早于开始时间，则在次日结束。', schNote:'名称（可选）', schAdd:'添加计划', schListTitle:'已有计划', schEmpty:'暂无计划。', schEndNow:'立即结束', schPause:'暂停', schResume:'恢复', schDelete:'删除', schBadTime:'结束时间必须晚于开始时间。', schNeedDays:'请至少选择一天。', schNeedTime:'请填写时间。', schAdded:'已添加计划。', schDeleted:'已删除计划。', schReleased:'已恢复。', schConfirmDel:'删除此计划？', schEvery:'每 {d}', schDaily:'每天', schUntil:'持续到 {t}', schNextAt:'下一次：{t}', schPastEnd:'结束时间已过。', grpApps:'应用（独立页面）'});
 
-Object.assign(I18N.en, {"brandSub":"Maintenance","tabDash":"Dashboard","tabSet":"Setting","tabStat":"Check Status","tabHist":"History","cMm":"Maintenance Mode","cLk":"Lock System Mode","cSc":"Maintenance Schedule","dMmSub":"Turn maintenance on or off for each system","dLkSub":"Block a whole system until you unlock it","dScSub":"Start and stop maintenance by itself","dStSub":"Messages for the red bar and locked users","dChSub":"See if each system works normally","dHiSub":"Last 6 months of actions","sysAll":"All Systems","mmPick":"Choose a system","mainMenu":"Main Menu","stOn":"In maintenance","stOff":"Open (normal)","stSome":"Some systems in maintenance","mmOnFor":"Turn ON maintenance: {s}","mmOffFor":"Turn OFF maintenance: {s}","mmOnAll":"Turn ON all systems","mmOffAll":"Turn OFF all systems","mmConfirmOn":"Turn ON maintenance for: {s}?\nEveryone in these systems will see the red bar and the services you set below.","mmConfirmOff":"Turn OFF maintenance for: {s} and release everything?","mmExNote":"Only Administration accounts can keep full access. Set them in Administration or All Systems.","mmShared":"Administration and HR share the same services.","schWhich":"Systems for this maintenance","schSvcT":"Services during this maintenance","schSvcSub":"Choose which services are closed (maintenance) and which stay open.","schExT":"Accounts that keep full access","schSave":"Add schedule","schSaveEdit":"Save changes","schEditing":"Edit schedule","schCancel":"Cancel edit","schEdit":"Edit","schNeedSys":"Tick at least one system.","schNoSvc":"Pick a system first to see its services.","schSum":"{c} services closed · {x} exempt accounts","schLegacy":"All systems (uses current Maintenance Mode settings)","chCount":"{n} of {m} systems normal","chAllOk":"All systems normal","chNormal":"Normal","chMaint":"Under maintenance","chPartly":"Partly open","chAllOpen":"All {n} services are open.","chAllClosed":"All {n} services are closed.","chSome":"{o} of {n} services are still available.","chBar":"The red bar is shown, but all services are still open.","chBy":"Switched on by hand.","chSch":"Started by schedule, ends {t}.","chLocked":"Locked","chLegend":"Red = closed, green = still available","chNextT":"Next maintenance","chNext":"Next maintenance starts {t}.","chNone":"No schedule is waiting.","hiSub":"Maintenance and lock actions from the last 6 months. Older records are removed automatically.","hiAll":"All","hiMt":"Maintenance","hiLk":"Lock","hiEmpty":"No records yet.","hiBy":"by {b}","hiAuto":"automatic","hiMore":"Showing the latest 300 of {n} records.","evOn":"Maintenance ON: {s}","evOff":"Maintenance OFF: {s}","evSaveMt":"Maintenance settings saved: {s}","evAutoS":"Automatic start{n}: {s}","evAutoE":"Automatic end{n}","evSchAdd":"Schedule added{n}: {s}","evSchEdit":"Schedule changed{n}: {s}","evSchDel":"Schedule deleted{n}","evSchPause":"Schedule paused{n}","evSchResume":"Schedule resumed{n}","evSchEnd":"Schedule ended early{n}","evWarn":"Warning time set to {m} min","evMsg":"Red bar message changed","evLock":"Lock applied: {s}","evUnlock":"All systems unlocked","evLkMsg":"Locked-user message changed","sgBarT":"Message in the red bar (optional)","sgLockT":"Message shown to locked users (optional)","sgLockSub":"Leave empty to use the standard message.","lkMsgNote":"The message for locked users is set in Setting."});
-Object.assign(I18N.km, {"brandSub":"ការថែទាំ","tabDash":"ផ្ទាំងគ្រប់គ្រង","tabSet":"ការកំណត់","tabStat":"ពិនិត្យស្ថានភាព","tabHist":"ប្រវត្តិ","cMm":"ម៉ូដថែទាំ","cLk":"ម៉ូដចាក់សោប្រព័ន្ធ","cSc":"កាលវិភាគថែទាំ","dMmSub":"បើក ឬបិទការថែទាំសម្រាប់ប្រព័ន្ធនីមួយៗ","dLkSub":"ទប់ស្កាត់ប្រព័ន្ធទាំងមូលរហូតដល់អ្នកដោះសោ","dScSub":"ចាប់ផ្តើម និងបញ្ចប់ការថែទាំដោយស្វ័យប្រវត្តិ","dStSub":"សារសម្រាប់របារក្រហម និងអ្នកប្រើដែលត្រូវចាក់សោ","dChSub":"មើលថាតើប្រព័ន្ធនីមួយៗដំណើរការធម្មតាឬអត់","dHiSub":"សកម្មភាព ៦ ខែចុងក្រោយ","sysAll":"ប្រព័ន្ធទាំងអស់","mmPick":"ជ្រើសរើសប្រព័ន្ធ","mainMenu":"ម៉ឺនុយមេ","stOn":"កំពុងថែទាំ","stOff":"បើកធម្មតា","stSome":"ប្រព័ន្ធខ្លះកំពុងថែទាំ","mmOnFor":"បើកការថែទាំ៖ {s}","mmOffFor":"បិទការថែទាំ៖ {s}","mmOnAll":"បើកការថែទាំគ្រប់ប្រព័ន្ធ","mmOffAll":"បិទការថែទាំគ្រប់ប្រព័ន្ធ","mmConfirmOn":"បើកការថែទាំសម្រាប់៖ {s}?\nអ្នកប្រើក្នុងប្រព័ន្ធទាំងនេះនឹងឃើញរបារក្រហម និងសេវាកម្មដែលអ្នកបានកំណត់។","mmConfirmOff":"បិទការថែទាំសម្រាប់៖ {s} ហើយដោះលែងទាំងអស់?","mmExNote":"មានតែគណនី Administration ប៉ុណ្ណោះដែលអាចរក្សាសិទ្ធិពេញលេញ។ សូមកំណត់នៅ Administration ឬ ប្រព័ន្ធទាំងអស់។","mmShared":"Administration និង HR ប្រើសេវាកម្មដូចគ្នា។","schWhich":"ប្រព័ន្ធសម្រាប់ការថែទាំនេះ","schSvcT":"សេវាកម្មអំឡុងពេលថែទាំនេះ","schSvcSub":"ជ្រើសសេវាកម្មណាត្រូវបិទ (ថែទាំ) និងណានៅបើក។","schExT":"គណនីដែលរក្សាសិទ្ធិពេញលេញ","schSave":"បន្ថែមកាលវិភាគ","schSaveEdit":"រក្សាទុកការកែប្រែ","schEditing":"កែកាលវិភាគ","schCancel":"បោះបង់ការកែ","schEdit":"កែ","schNeedSys":"សូមធីកប្រព័ន្ធយ៉ាងហោចណាស់មួយ។","schNoSvc":"សូមជ្រើសប្រព័ន្ធមុន ដើម្បីមើលសេវាកម្ម។","schSum":"សេវាកម្មបិទ {c} · គណនីលើកលែង {x}","schLegacy":"ប្រព័ន្ធទាំងអស់ (ប្រើការកំណត់ម៉ូដថែទាំបច្ចុប្បន្ន)","chCount":"ប្រព័ន្ធធម្មតា {n} ក្នុងចំណោម {m}","chAllOk":"ប្រព័ន្ធទាំងអស់ធម្មតា","chNormal":"ធម្មតា","chMaint":"កំពុងថែទាំ","chPartly":"បើកមួយផ្នែក","chAllOpen":"សេវាកម្មទាំង {n} បើកទាំងអស់។","chAllClosed":"សេវាកម្មទាំង {n} បិទទាំងអស់។","chSome":"សេវាកម្ម {o} ក្នុងចំណោម {n} នៅតែប្រើបាន។","chBar":"របារក្រហមបង្ហាញ ប៉ុន្តែសេវាកម្មទាំងអស់នៅបើក។","chBy":"បើកដោយដៃ។","chSch":"ចាប់ផ្តើមតាមកាលវិភាគ បញ្ចប់ {t}។","chLocked":"បានចាក់សោ","chLegend":"ក្រហម = បិទ, បៃតង = នៅប្រើបាន","chNextT":"ការថែទាំបន្ទាប់","chNext":"ការថែទាំបន្ទាប់ចាប់ផ្តើម {t}។","chNone":"គ្មានកាលវិភាគកំពុងរង់ចាំទេ។","hiSub":"សកម្មភាពថែទាំ និងចាក់សោក្នុងរយៈពេល ៦ ខែចុងក្រោយ។ កំណត់ត្រាចាស់ត្រូវបានលុបដោយស្វ័យប្រវត្តិ។","hiAll":"ទាំងអស់","hiMt":"ការថែទាំ","hiLk":"ចាក់សោ","hiEmpty":"មិនទាន់មានកំណត់ត្រាទេ។","hiBy":"ដោយ {b}","hiAuto":"ស្វ័យប្រវត្តិ","hiMore":"បង្ហាញ ៣០០ ចុងក្រោយក្នុងចំណោម {n}។","evOn":"បើកការថែទាំ៖ {s}","evOff":"បិទការថែទាំ៖ {s}","evSaveMt":"បានរក្សាទុកការកំណត់ថែទាំ៖ {s}","evAutoS":"ចាប់ផ្តើមដោយស្វ័យប្រវត្តិ{n}៖ {s}","evAutoE":"បញ្ចប់ដោយស្វ័យប្រវត្តិ{n}","evSchAdd":"បានបន្ថែមកាលវិភាគ{n}៖ {s}","evSchEdit":"បានកែកាលវិភាគ{n}៖ {s}","evSchDel":"បានលុបកាលវិភាគ{n}","evSchPause":"បានផ្អាកកាលវិភាគ{n}","evSchResume":"បានបន្តកាលវិភាគ{n}","evSchEnd":"បានបញ្ចប់កាលវិភាគមុនពេល{n}","evWarn":"កំណត់ពេលព្រមាន {m} នាទី","evMsg":"បានកែសាររបារក្រហម","evLock":"បានចាក់សោ៖ {s}","evUnlock":"បានដោះសោគ្រប់ប្រព័ន្ធ","evLkMsg":"បានកែសារអ្នកប្រើដែលត្រូវចាក់សោ","sgBarT":"សាររបារក្រហម (ជម្រើស)","sgLockT":"សារដែលបង្ហាញដល់អ្នកប្រើដែលត្រូវចាក់សោ (ជម្រើស)","sgLockSub":"ទុកទទេ ដើម្បីប្រើសារស្តង់ដារ។","lkMsgNote":"សារសម្រាប់អ្នកប្រើដែលត្រូវចាក់សោ កំណត់នៅក្នុង ការកំណត់។"});
-Object.assign(I18N.zh, {"brandSub":"维护","tabDash":"控制台","tabSet":"设置","tabStat":"检查状态","tabHist":"历史记录","cMm":"维护模式","cLk":"锁定系统模式","cSc":"维护计划","dMmSub":"为每个系统开启或关闭维护","dLkSub":"在解锁前阻止整个系统","dScSub":"自动开始和结束维护","dStSub":"红色横幅与被锁用户的信息","dChSub":"查看各系统是否正常","dHiSub":"最近 6 个月的操作记录","sysAll":"所有系统","mmPick":"选择系统","mainMenu":"主菜单","stOn":"维护中","stOff":"正常开放","stSome":"部分系统维护中","mmOnFor":"开启维护：{s}","mmOffFor":"关闭维护：{s}","mmOnAll":"开启全部系统维护","mmOffAll":"关闭全部系统维护","mmConfirmOn":"为以下系统开启维护：{s}？\n这些系统的用户将看到红色横幅以及您设置的服务状态。","mmConfirmOff":"关闭以下系统的维护并全部恢复：{s}？","mmExNote":"只有管理员账户可以保留全部权限，请在“管理系统”或“所有系统”中设置。","mmShared":"管理系统和人事系统共用相同的服务。","schWhich":"本次维护的系统","schSvcT":"本次维护期间的服务","schSvcSub":"选择哪些服务关闭（维护），哪些保持开放。","schExT":"保留全部权限的账户","schSave":"添加计划","schSaveEdit":"保存修改","schEditing":"编辑计划","schCancel":"取消编辑","schEdit":"编辑","schNeedSys":"请至少勾选一个系统。","schNoSvc":"请先选择系统以查看其服务。","schSum":"关闭服务 {c} 项 · 豁免账户 {x} 个","schLegacy":"所有系统（使用当前维护模式设置）","chCount":"{m} 个系统中 {n} 个正常","chAllOk":"所有系统正常","chNormal":"正常","chMaint":"维护中","chPartly":"部分开放","chAllOpen":"全部 {n} 项服务均已开放。","chAllClosed":"全部 {n} 项服务均已关闭。","chSome":"{n} 项服务中仍有 {o} 项可用。","chBar":"已显示红色横幅，但所有服务仍然开放。","chBy":"手动开启。","chSch":"按计划开始，结束于 {t}。","chLocked":"已锁定","chLegend":"红色 = 已关闭，绿色 = 仍可用","chNextT":"下次维护","chNext":"下次维护开始于 {t}。","chNone":"没有等待中的计划。","hiSub":"最近 6 个月的维护与锁定操作记录，更早的记录会自动删除。","hiAll":"全部","hiMt":"维护","hiLk":"锁定","hiEmpty":"暂无记录。","hiBy":"操作人：{b}","hiAuto":"自动","hiMore":"显示最新 300 条，共 {n} 条。","evOn":"开启维护：{s}","evOff":"关闭维护：{s}","evSaveMt":"已保存维护设置：{s}","evAutoS":"自动开始{n}：{s}","evAutoE":"自动结束{n}","evSchAdd":"已添加计划{n}：{s}","evSchEdit":"已修改计划{n}：{s}","evSchDel":"已删除计划{n}","evSchPause":"已暂停计划{n}","evSchResume":"已恢复计划{n}","evSchEnd":"已提前结束计划{n}","evWarn":"警告时间设为 {m} 分钟","evMsg":"已修改红色横幅信息","evLock":"已锁定：{s}","evUnlock":"已解锁所有系统","evLkMsg":"已修改被锁用户信息","sgBarT":"红色横幅信息（可选）","sgLockT":"显示给被锁用户的信息（可选）","sgLockSub":"留空则使用标准信息。","lkMsgNote":"被锁用户的信息请在“设置”中填写。"});
+Object.assign(I18N.en, {"brandSub":"Maintenance","tabDash":"Dashboard","tabSet":"Setting","tabStat":"Check Status","tabHist":"History","cMm":"Maintenance Mode","cLk":"Lock System Mode","cSc":"Maintenance Schedule","dMmSub":"Turn maintenance on or off for each system","dLkSub":"Block a whole system until you unlock it","dScSub":"Start and stop maintenance by itself","dStSub":"Messages for the red bar and locked users","dChSub":"See if each system works normally","dHiSub":"Last 6 months of actions","sysAll":"All Systems","mmPick":"Choose a system","mainMenu":"Main Menu","stOn":"In maintenance","stOff":"Open (normal)","stSome":"Some systems in maintenance","mmOnFor":"Turn ON maintenance: {s}","mmOffFor":"Turn OFF maintenance: {s}","mmOnAll":"Turn ON all systems","mmOffAll":"Turn OFF all systems","mmConfirmOn":"Turn ON maintenance for: {s}?\nEveryone in these systems will see the red bar and the services you set below.","mmConfirmOff":"Turn OFF maintenance for: {s} and release everything?","mmExNote":"Only Administration accounts can keep full access. Set them in Administration or All Systems.","mmShared":"Administration and HR share the same services.","schWhich":"Systems for this maintenance","schSvcT":"Services during this maintenance","schSvcSub":"Choose which services are closed (maintenance) and which stay open.","schExT":"Accounts that keep full access","schSave":"Add schedule","schSaveEdit":"Save changes","schEditing":"Edit schedule","schCancel":"Cancel edit","schEdit":"Edit","schNeedSys":"Tick at least one system.","schNoSvc":"Pick a system first to see its services.","schSum":"{c} services closed · {x} exempt accounts","schLegacy":"All systems (uses current Maintenance Mode settings)","chCount":"{n} of {m} systems normal","chAllOk":"All systems normal","chNormal":"Normal","chMaint":"Under maintenance","chPartly":"Partly open","chAllOpen":"All {n} services are open.","chAllClosed":"All {n} services are closed.","chSome":"{o} of {n} services are still available.","chBar":"The red bar is shown, but all services are still open.","chBy":"Switched on by hand.","chSch":"Started by schedule, ends {t}.","chLocked":"Locked","chLegend":"Red = closed, green = still available","chNextT":"Next maintenance","chNext":"Next maintenance starts {t}.","chNone":"No schedule is waiting.","hiSub":"Maintenance and lock actions from the last 6 months. Older records are removed automatically.","hiAll":"All","hiMt":"Maintenance","hiLk":"Lock","hiEmpty":"No records yet.","hiBy":"by {b}","hiAuto":"automatic","hiMore":"Showing the latest 300 of {n} records.","evOn":"Maintenance ON: {s}","evOff":"Maintenance OFF: {s}","evSaveMt":"Maintenance settings saved: {s}","evAutoS":"Automatic start{n}: {s}","evAutoE":"Automatic end{n}","evSchAdd":"Schedule added{n}: {s}","evSchEdit":"Schedule changed{n}: {s}","evSchDel":"Schedule deleted{n}","evSchPause":"Schedule paused{n}","evSchResume":"Schedule resumed{n}","evSchEnd":"Schedule ended early{n}","evWarn":"Warning time set to {m} min","evMsg":"Red bar message changed","evLock":"Lock applied: {s}","evUnlock":"All systems unlocked","evLkMsg":"Locked-user message changed","sgBarT":"Message in the red bar (optional)","sgLockT":"Message shown to locked users (optional)","sgLockSub":"Leave empty to use the standard message.","lkMsgNote":"The message for locked users is set in Setting.","exTitle":"Accounts that keep full access","exSub":"Tick the {s} accounts that stay fully open during maintenance.","exSel":"{n} selected","exClear":"Clear","exSearch":"Search name or ID...","exEmpHint":"Type a name or ID to find employees.","exNone":"No accounts found.","exMore":"Showing the first 60. Type to narrow down.","svSearch":"Search service...","svNone":"No service matches.","grpClosed":"{c}/{n} closed","schNew":"+ New schedule","mmOnBtn":"Turn ON","mmOffBtn":"Turn OFF","shAll":"All","shAdmin":"Administration","shHr":"HR","shDept":"Department","shEmp":"Employee","svOpenAll":"Open all","svCloseAll":"Close all"});
+Object.assign(I18N.km, {"brandSub":"ការថែទាំ","tabDash":"ផ្ទាំងគ្រប់គ្រង","tabSet":"ការកំណត់","tabStat":"ពិនិត្យស្ថានភាព","tabHist":"ប្រវត្តិ","cMm":"ម៉ូដថែទាំ","cLk":"ម៉ូដចាក់សោប្រព័ន្ធ","cSc":"កាលវិភាគថែទាំ","dMmSub":"បើក ឬបិទការថែទាំសម្រាប់ប្រព័ន្ធនីមួយៗ","dLkSub":"ទប់ស្កាត់ប្រព័ន្ធទាំងមូលរហូតដល់អ្នកដោះសោ","dScSub":"ចាប់ផ្តើម និងបញ្ចប់ការថែទាំដោយស្វ័យប្រវត្តិ","dStSub":"សារសម្រាប់របារក្រហម និងអ្នកប្រើដែលត្រូវចាក់សោ","dChSub":"មើលថាតើប្រព័ន្ធនីមួយៗដំណើរការធម្មតាឬអត់","dHiSub":"សកម្មភាព ៦ ខែចុងក្រោយ","sysAll":"ប្រព័ន្ធទាំងអស់","mmPick":"ជ្រើសរើសប្រព័ន្ធ","mainMenu":"ម៉ឺនុយមេ","stOn":"កំពុងថែទាំ","stOff":"បើកធម្មតា","stSome":"ប្រព័ន្ធខ្លះកំពុងថែទាំ","mmOnFor":"បើកការថែទាំ៖ {s}","mmOffFor":"បិទការថែទាំ៖ {s}","mmOnAll":"បើកការថែទាំគ្រប់ប្រព័ន្ធ","mmOffAll":"បិទការថែទាំគ្រប់ប្រព័ន្ធ","mmConfirmOn":"បើកការថែទាំសម្រាប់៖ {s}?\nអ្នកប្រើក្នុងប្រព័ន្ធទាំងនេះនឹងឃើញរបារក្រហម និងសេវាកម្មដែលអ្នកបានកំណត់។","mmConfirmOff":"បិទការថែទាំសម្រាប់៖ {s} ហើយដោះលែងទាំងអស់?","mmExNote":"មានតែគណនី Administration ប៉ុណ្ណោះដែលអាចរក្សាសិទ្ធិពេញលេញ។ សូមកំណត់នៅ Administration ឬ ប្រព័ន្ធទាំងអស់។","mmShared":"Administration និង HR ប្រើសេវាកម្មដូចគ្នា។","schWhich":"ប្រព័ន្ធសម្រាប់ការថែទាំនេះ","schSvcT":"សេវាកម្មអំឡុងពេលថែទាំនេះ","schSvcSub":"ជ្រើសសេវាកម្មណាត្រូវបិទ (ថែទាំ) និងណានៅបើក។","schExT":"គណនីដែលរក្សាសិទ្ធិពេញលេញ","schSave":"បន្ថែមកាលវិភាគ","schSaveEdit":"រក្សាទុកការកែប្រែ","schEditing":"កែកាលវិភាគ","schCancel":"បោះបង់ការកែ","schEdit":"កែ","schNeedSys":"សូមធីកប្រព័ន្ធយ៉ាងហោចណាស់មួយ។","schNoSvc":"សូមជ្រើសប្រព័ន្ធមុន ដើម្បីមើលសេវាកម្ម។","schSum":"សេវាកម្មបិទ {c} · គណនីលើកលែង {x}","schLegacy":"ប្រព័ន្ធទាំងអស់ (ប្រើការកំណត់ម៉ូដថែទាំបច្ចុប្បន្ន)","chCount":"ប្រព័ន្ធធម្មតា {n} ក្នុងចំណោម {m}","chAllOk":"ប្រព័ន្ធទាំងអស់ធម្មតា","chNormal":"ធម្មតា","chMaint":"កំពុងថែទាំ","chPartly":"បើកមួយផ្នែក","chAllOpen":"សេវាកម្មទាំង {n} បើកទាំងអស់។","chAllClosed":"សេវាកម្មទាំង {n} បិទទាំងអស់។","chSome":"សេវាកម្ម {o} ក្នុងចំណោម {n} នៅតែប្រើបាន។","chBar":"របារក្រហមបង្ហាញ ប៉ុន្តែសេវាកម្មទាំងអស់នៅបើក។","chBy":"បើកដោយដៃ។","chSch":"ចាប់ផ្តើមតាមកាលវិភាគ បញ្ចប់ {t}។","chLocked":"បានចាក់សោ","chLegend":"ក្រហម = បិទ, បៃតង = នៅប្រើបាន","chNextT":"ការថែទាំបន្ទាប់","chNext":"ការថែទាំបន្ទាប់ចាប់ផ្តើម {t}។","chNone":"គ្មានកាលវិភាគកំពុងរង់ចាំទេ។","hiSub":"សកម្មភាពថែទាំ និងចាក់សោក្នុងរយៈពេល ៦ ខែចុងក្រោយ។ កំណត់ត្រាចាស់ត្រូវបានលុបដោយស្វ័យប្រវត្តិ។","hiAll":"ទាំងអស់","hiMt":"ការថែទាំ","hiLk":"ចាក់សោ","hiEmpty":"មិនទាន់មានកំណត់ត្រាទេ។","hiBy":"ដោយ {b}","hiAuto":"ស្វ័យប្រវត្តិ","hiMore":"បង្ហាញ ៣០០ ចុងក្រោយក្នុងចំណោម {n}។","evOn":"បើកការថែទាំ៖ {s}","evOff":"បិទការថែទាំ៖ {s}","evSaveMt":"បានរក្សាទុកការកំណត់ថែទាំ៖ {s}","evAutoS":"ចាប់ផ្តើមដោយស្វ័យប្រវត្តិ{n}៖ {s}","evAutoE":"បញ្ចប់ដោយស្វ័យប្រវត្តិ{n}","evSchAdd":"បានបន្ថែមកាលវិភាគ{n}៖ {s}","evSchEdit":"បានកែកាលវិភាគ{n}៖ {s}","evSchDel":"បានលុបកាលវិភាគ{n}","evSchPause":"បានផ្អាកកាលវិភាគ{n}","evSchResume":"បានបន្តកាលវិភាគ{n}","evSchEnd":"បានបញ្ចប់កាលវិភាគមុនពេល{n}","evWarn":"កំណត់ពេលព្រមាន {m} នាទី","evMsg":"បានកែសាររបារក្រហម","evLock":"បានចាក់សោ៖ {s}","evUnlock":"បានដោះសោគ្រប់ប្រព័ន្ធ","evLkMsg":"បានកែសារអ្នកប្រើដែលត្រូវចាក់សោ","sgBarT":"សាររបារក្រហម (ជម្រើស)","sgLockT":"សារដែលបង្ហាញដល់អ្នកប្រើដែលត្រូវចាក់សោ (ជម្រើស)","sgLockSub":"ទុកទទេ ដើម្បីប្រើសារស្តង់ដារ។","lkMsgNote":"សារសម្រាប់អ្នកប្រើដែលត្រូវចាក់សោ កំណត់នៅក្នុង ការកំណត់។","exTitle":"គណនីដែលរក្សាសិទ្ធិពេញលេញ","exSub":"ធីកគណនី {s} ដែលនៅតែប្រើបានពេញលេញអំឡុងពេលថែទាំ។","exSel":"បានជ្រើស {n}","exClear":"សម្អាត","exSearch":"ស្វែងរកឈ្មោះ ឬ ID...","exEmpHint":"វាយឈ្មោះ ឬ ID ដើម្បីរកបុគ្គលិក។","exNone":"រកមិនឃើញគណនី។","exMore":"បង្ហាញ ៦០ ដំបូង។ វាយដើម្បីរកឱ្យតូច។","svSearch":"ស្វែងរកសេវាកម្ម...","svNone":"គ្មានសេវាកម្មត្រូវគ្នា។","grpClosed":"បិទ {c}/{n}","schNew":"+ កាលវិភាគថ្មី","mmOnBtn":"បើកការថែទាំ","mmOffBtn":"បិទការថែទាំ","shAll":"ទាំងអស់","shAdmin":"រដ្ឋបាល","shHr":"HR","shDept":"នាយកដ្ឋាន","shEmp":"បុគ្គលិក","svOpenAll":"បើកទាំងអស់","svCloseAll":"បិទទាំងអស់"});
+Object.assign(I18N.zh, {"brandSub":"维护","tabDash":"控制台","tabSet":"设置","tabStat":"检查状态","tabHist":"历史记录","cMm":"维护模式","cLk":"锁定系统模式","cSc":"维护计划","dMmSub":"为每个系统开启或关闭维护","dLkSub":"在解锁前阻止整个系统","dScSub":"自动开始和结束维护","dStSub":"红色横幅与被锁用户的信息","dChSub":"查看各系统是否正常","dHiSub":"最近 6 个月的操作记录","sysAll":"所有系统","mmPick":"选择系统","mainMenu":"主菜单","stOn":"维护中","stOff":"正常开放","stSome":"部分系统维护中","mmOnFor":"开启维护：{s}","mmOffFor":"关闭维护：{s}","mmOnAll":"开启全部系统维护","mmOffAll":"关闭全部系统维护","mmConfirmOn":"为以下系统开启维护：{s}？\n这些系统的用户将看到红色横幅以及您设置的服务状态。","mmConfirmOff":"关闭以下系统的维护并全部恢复：{s}？","mmExNote":"只有管理员账户可以保留全部权限，请在“管理系统”或“所有系统”中设置。","mmShared":"管理系统和人事系统共用相同的服务。","schWhich":"本次维护的系统","schSvcT":"本次维护期间的服务","schSvcSub":"选择哪些服务关闭（维护），哪些保持开放。","schExT":"保留全部权限的账户","schSave":"添加计划","schSaveEdit":"保存修改","schEditing":"编辑计划","schCancel":"取消编辑","schEdit":"编辑","schNeedSys":"请至少勾选一个系统。","schNoSvc":"请先选择系统以查看其服务。","schSum":"关闭服务 {c} 项 · 豁免账户 {x} 个","schLegacy":"所有系统（使用当前维护模式设置）","chCount":"{m} 个系统中 {n} 个正常","chAllOk":"所有系统正常","chNormal":"正常","chMaint":"维护中","chPartly":"部分开放","chAllOpen":"全部 {n} 项服务均已开放。","chAllClosed":"全部 {n} 项服务均已关闭。","chSome":"{n} 项服务中仍有 {o} 项可用。","chBar":"已显示红色横幅，但所有服务仍然开放。","chBy":"手动开启。","chSch":"按计划开始，结束于 {t}。","chLocked":"已锁定","chLegend":"红色 = 已关闭，绿色 = 仍可用","chNextT":"下次维护","chNext":"下次维护开始于 {t}。","chNone":"没有等待中的计划。","hiSub":"最近 6 个月的维护与锁定操作记录，更早的记录会自动删除。","hiAll":"全部","hiMt":"维护","hiLk":"锁定","hiEmpty":"暂无记录。","hiBy":"操作人：{b}","hiAuto":"自动","hiMore":"显示最新 300 条，共 {n} 条。","evOn":"开启维护：{s}","evOff":"关闭维护：{s}","evSaveMt":"已保存维护设置：{s}","evAutoS":"自动开始{n}：{s}","evAutoE":"自动结束{n}","evSchAdd":"已添加计划{n}：{s}","evSchEdit":"已修改计划{n}：{s}","evSchDel":"已删除计划{n}","evSchPause":"已暂停计划{n}","evSchResume":"已恢复计划{n}","evSchEnd":"已提前结束计划{n}","evWarn":"警告时间设为 {m} 分钟","evMsg":"已修改红色横幅信息","evLock":"已锁定：{s}","evUnlock":"已解锁所有系统","evLkMsg":"已修改被锁用户信息","sgBarT":"红色横幅信息（可选）","sgLockT":"显示给被锁用户的信息（可选）","sgLockSub":"留空则使用标准信息。","lkMsgNote":"被锁用户的信息请在“设置”中填写。","exTitle":"保留全部权限的账户","exSub":"勾选在维护期间保持完全可用的账户：{s}。","exSel":"已选 {n} 个","exClear":"清除","exSearch":"搜索姓名或编号…","exEmpHint":"输入姓名或编号以查找员工。","exNone":"未找到账户。","exMore":"仅显示前 60 条，请输入关键词缩小范围。","svSearch":"搜索服务…","svNone":"没有匹配的服务。","grpClosed":"已关 {c}/{n}","schNew":"+ 新建计划","mmOnBtn":"开启维护","mmOffBtn":"关闭维护","shAll":"全部","shAdmin":"管理","shHr":"人事","shDept":"部门","shEmp":"员工","svOpenAll":"全部开放","svCloseAll":"全部关闭"});
 Object.assign(I18N.km, { schSub: 'ប្រព័ន្ធនឹងចូលម៉ូដថែទាំដោយខ្លួនឯងនៅម៉ោងចាប់ផ្តើម ហើយបើកវិញដោយខ្លួនឯងនៅម៉ោងបញ្ចប់។ សម្រាប់កាលវិភាគនីមួយៗ អ្នកជ្រើសរើសប្រព័ន្ធ គណនីដែលរក្សាសិទ្ធិពេញលេញ និងសេវាកម្មណាត្រូវបិទ។ ម៉ោងទាំងអស់ជាម៉ោងកម្ពុជា។' });
 Object.assign(I18N.zh, { schSub: '系统会在开始时间自动进入维护，并在结束时间自动恢复。每个计划可分别选择系统、保留全部权限的账户以及要关闭的服务。所有时间均为柬埔寨时间。' });
 Object.assign(I18N.en, { schSub: 'The system goes into maintenance by itself at the start time and opens again by itself at the end time. For each schedule you choose the systems, the accounts that keep full access, and which services close. All times are Cambodia time.' });
@@ -682,6 +753,7 @@ document.addEventListener('click', () => $('lgMenu').classList.add('hide'));
 const DOWN = { en: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'], km: ['អាទិត្យ', 'ច័ន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'], zh: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'] };
 const p2 = (n) => ('0' + n).slice(-2);
 const sysName = (k) => k === 'all' ? T('sysAll') : T(SYSN[k]);
+const sysShort = (k) => T(({ all: 'shAll', admin: 'shAdmin', hr: 'shHr', dept: 'shDept', emp: 'shEmp' })[k]);
 const namesOf = (arr) => arr.map(sysName).join(', ');
 const who = () => (account && (account.name || account.username)) || 'admin';
 const keysOf = (o) => Object.keys(o || {}).reduce((r, k) => { if (o[k]) r[k] = true; return r; }, {});
@@ -699,17 +771,35 @@ let curSys = 'all', screen = 'dash';
 let logData = {}, logUnsub = null, logPruned = false, hiFilter = 'all';
 const expanded = {};
 
-function emptyForm() { const s = {}; SERVICES.forEach(x => s[x.id] = 'closed'); return { services: s, actions: {}, bypassKeys: {} }; }
+const BYS = ['admin', 'hr', 'dept', 'emp'];
+const emptyBy = () => ({ admin: {}, hr: {}, dept: {}, emp: {} });
+function emptyForm() { const s = {}; SERVICES.forEach(x => s[x.id] = 'closed'); return { services: s, actions: {}, bypassBy: emptyBy() }; }
+function byFrom(d) { const b = emptyBy(); if (!d) return b; const src = d.bypassBy || {}; BYS.forEach(k => { b[k] = Object.assign({}, src[k] || {}); }); if (!d.bypassBy && d.bypassKeys) b.admin = Object.assign({}, d.bypassKeys); return b; }
+function cloneBy(b) { const o = emptyBy(); BYS.forEach(k => { o[k] = Object.assign({}, (b && b[k]) || {}); }); return o; }
+function cleanBy(b) { const o = {}; BYS.forEach(k => { o[k] = keysOf(b && b[k]); }); return o; }
 function fromData(d) {
   const f = emptyForm(); if (!d) return f;
   SERVICES.forEach(x => { f.services[x.id] = (d.services && d.services[x.id] === 'closed') ? 'closed' : 'open'; });
-  f.bypassKeys = Object.assign({}, (d.bypassBy && d.bypassBy.admin) || d.bypassKeys || {});
+  f.bypassBy = byFrom(d);
   if (d.actions) ACTIONS.forEach(a => { if (d.actions[a.s] && d.actions[a.s][a.id] === 'closed') { f.actions[a.s] = f.actions[a.s] || {}; f.actions[a.s][a.id] = 'closed'; } });
   return f;
 }
-let adminAccts = [];
+let adminAccts = [], acct = { admin: [], hr: [], dept: [], emp: [] }, empLoaded = false;
 async function loadAccts() {
-  try { const a = (await db.ref('accounts').once('value')).val() || {}; adminAccts = Object.keys(a).map(k => Object.assign({ key: k }, a[k])).filter(x => x.role === 'admin' && !x.disabled); } catch (e) { adminAccts = []; }
+  try {
+    const a = (await db.ref('accounts').once('value')).val() || {}; const all = Object.keys(a).map(k => Object.assign({ key: k }, a[k])).filter(x => !x.disabled);
+    adminAccts = all.filter(x => x.role === 'admin');
+    acct.admin = adminAccts.map(x => ({ key: x.key, name: x.name || x.username, sub: x.username }));
+    acct.hr = all.filter(x => x.role === 'hr').map(x => ({ key: x.key, name: x.name || x.username, sub: x.username }));
+  } catch (e) { adminAccts = []; }
+  try {
+    const org = (await db.ref('departments/_org').once('value')).val() || {}, d = (await db.ref('deptAcc').once('value')).val() || {};
+    acct.dept = Object.keys(d).filter(k => d[k] && !d[k].disabled).map(k => ({ key: k, name: d[k].name || d[k].username, sub: (d[k].username || '') + (d[k].dept && org[d[k].dept] && org[d[k].dept].name ? ' · ' + org[d[k].dept].name : '') }));
+  } catch (e) { acct.dept = []; }
+}
+async function loadEmps() {
+  if (empLoaded) return; empLoaded = true;
+  try { const e = (await db.ref('employees').once('value')).val() || {}; acct.emp = Object.keys(e).filter(k => e[k] && (!e[k].status || e[k].status === 'Active')).map(k => ({ key: k, name: e[k].name || e[k].id || k, sub: (e[k].id || '') + (e[k].department ? ' · ' + e[k].department : '') })); } catch (e) { acct.emp = []; }
 }
 function cleanActionsOf(st) { const o = {}; ACTIONS.forEach(a => { if (st.actions && st.actions[a.s] && st.actions[a.s][a.id] === 'closed' && st.services[a.s] !== 'closed') { o[a.s] = o[a.s] || {}; o[a.s][a.id] = 'closed'; } }); return o; }
 function toast(msg, bad) { const t = $('toast'); t.textContent = msg; t.className = 'toast' + (bad ? ' bad' : ''); clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.add('hide'), 3500); }
@@ -782,68 +872,103 @@ function sysInfo(S) {
   return { on: on, total: svcs.length, closed: closed, open: svcs.length - closed.length, manual: !!(cur && cur.on && (!cur.scope || cur.scope[S] === true)) };
 }
 
-/* ---------- generic: accounts check list + service editor ---------- */
-function exList(box, obj, onCh) {
+/* ---------- generic: accounts picker + service editor ---------- */
+const exQ = {};
+function exPicker(box, S, obj, onCh) {
   box.innerHTML = '';
-  if (!adminAccts.length) { box.appendChild(el('p', 'note', T('acctNoList'))); return; }
-  adminAccts.forEach(a => {
-    const lab = el('label', 'check'); const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!obj[a.key];
-    cb.onchange = () => { if (cb.checked) obj[a.key] = true; else delete obj[a.key]; onCh(); };
-    lab.appendChild(cb); lab.appendChild(el('span', '', (a.name || a.username) + ' (' + a.username + ') - ' + T('acctFull'))); box.appendChild(lab);
-  });
+  const list = acct[S] || [], sel = Object.keys(obj).filter(k => obj[k]);
+  const head = el('div', 'exHead'); head.appendChild(el('span', 'exCnt', T('exSel', { n: sel.length })));
+  if (sel.length) { const c = el('button', 'mini', T('exClear')); c.type = 'button'; c.onclick = () => { sel.forEach(k => delete obj[k]); onCh(); }; head.appendChild(c); }
+  box.appendChild(head);
+  const big = (S === 'emp');
+  const q = el('input', 'exQ'); q.type = 'search'; q.placeholder = T('exSearch'); q.value = exQ[S] || ''; box.appendChild(q);
+  const lst = el('div', 'exList'); box.appendChild(lst);
+  function paint() {
+    lst.innerHTML = '';
+    const needle = (exQ[S] || '').trim().toLowerCase();
+    const list = acct[S] || []; const known = {}; list.forEach(a => known[a.key] = 1);
+    let rows = list.filter(a => obj[a.key] || (!needle ? !big : ((a.name || '') + ' ' + (a.sub || '')).toLowerCase().indexOf(needle) >= 0));
+    sel.forEach(k => { if (!known[k]) rows.unshift({ key: k, name: k, sub: '' }); });
+    rows.sort((a, b) => (obj[b.key] ? 1 : 0) - (obj[a.key] ? 1 : 0));
+    if (big && !needle && !rows.length) { lst.appendChild(el('p', 'note', T('exEmpHint'))); return; }
+    if (!rows.length) { lst.appendChild(el('p', 'note', T(list.length || big ? 'exNone' : 'exNone'))); return; }
+    rows.slice(0, 60).forEach(a => {
+      const lab = el('label', 'exRow' + (obj[a.key] ? ' on' : '')); const cb = document.createElement('input'); cb.type = 'checkbox'; cb.checked = !!obj[a.key];
+      cb.onchange = () => { if (cb.checked) obj[a.key] = true; else delete obj[a.key]; onCh(); };
+      lab.appendChild(cb); const tx = el('span', 'exTx'); tx.appendChild(el('b', '', a.name)); if (a.sub) tx.appendChild(el('small', '', a.sub)); lab.appendChild(tx); lst.appendChild(lab);
+    });
+    if (rows.length > 60) lst.appendChild(el('p', 'note', T('exMore')));
+  }
+  q.oninput = () => { exQ[S] = q.value; paint(); };
+  paint();
+  if (big && !empLoaded) loadEmps().then(paint);
 }
+const svcQ = {}, svcF = {}, colG = {};
 function svcEditor(box, st, groups, onCh, pre) {
   box.innerHTML = '';
-  const list = SERVICES.filter(x => groups.indexOf(x.group) >= 0);
-  if (!list.length) { box.appendChild(el('p', 'note', T('schNoSvc'))); return; }
-  const top = el('div', 'row');
-  const bo = el('button', 'btn sec sm', T('allOpen')); bo.type = 'button'; bo.onclick = () => { list.forEach(x => { st.services[x.id] = 'open'; if (st.actions) delete st.actions[x.id]; }); onCh(); };
-  const bc = el('button', 'btn red sm', T('allClosed')); bc.type = 'button'; bc.onclick = () => { list.forEach(x => st.services[x.id] = 'closed'); onCh(); };
-  top.appendChild(bo); top.appendChild(bc); box.appendChild(top);
-  let nOpen = 0, nClosed = 0, nBtn = 0;
-  list.forEach(x => { if (st.services[x.id] === 'closed') nClosed++; else { nOpen++; const a = st.actions && st.actions[x.id]; if (a) nBtn += Object.keys(a).filter(k => a[k] === 'closed').length; } });
-  box.appendChild(el('div', 'count', T('counts', { a: nOpen, b: nBtn, c: nClosed })));
-  groups.forEach(g => {
-    const items = list.filter(x => x.group === g); if (!items.length) return;
-    box.appendChild(el('div', 'grp', GROUPS[g][lang] || GROUPS[g].en));
-    items.forEach(x => {
-      const row = el('div', 'svc'); row.appendChild(el('div', 'nm', x[lang] || x.en));
-      const acts = ACTIONS.filter(a => a.s === x.id), ek = pre + ':' + x.id;
-      if (acts.length) {
-        const ex = el('button', 'exp'); ex.type = 'button';
-        const n = st.services[x.id] === 'closed' ? acts.length : (st.actions && st.actions[x.id] ? Object.keys(st.actions[x.id]).filter(k => st.actions[x.id][k] === 'closed').length : 0);
-        ex.textContent = T('btnsLabel') + (n ? ' (' + T('btnsClosedN', { n: n }) + ')' : '') + (expanded[ek] ? ' ▴' : ' ▾');
-        ex.onclick = () => { expanded[ek] = !expanded[ek]; onCh(true); }; row.appendChild(ex);
-      }
-      const seg = el('div', 'seg');
-      [['open', 'sOpen'], ['closed', 'sClosed']].forEach(([m, k]) => {
-        const b = el('button', (st.services[x.id] === m ? 'sel-' + m : ''), T(k)); b.type = 'button';
-        b.onclick = () => { st.services[x.id] = m; onCh(); }; seg.appendChild(b);
-      });
-      row.appendChild(seg); box.appendChild(row);
-      if (acts.length && expanded[ek]) {
-        const ab = el('div', 'acts');
-        if (st.services[x.id] === 'closed') ab.appendChild(el('p', 'note', T('svcClosedNote')));
-        else {
-          const mk = (label, val) => { const b = el('button', 'mini', label); b.type = 'button'; b.onclick = () => { st.actions = st.actions || {}; if (val) { st.actions[x.id] = {}; acts.forEach(a => st.actions[x.id][a.id] = 'closed'); } else delete st.actions[x.id]; onCh(true); }; return b; };
-          ab.appendChild(mk(T('closeAllBtns'), true)); ab.appendChild(mk(T('openAllBtns'), false));
-          acts.forEach(a => {
-            const r2 = el('div', 'svc'); r2.appendChild(el('div', 'nm', a[lang] || a.en));
-            const sg = el('div', 'seg'), isC = !!(st.actions && st.actions[x.id] && st.actions[x.id][a.id] === 'closed');
-            [['open', 'sOpen'], ['closed', 'sClosed']].forEach(([m, k]) => {
-              const b = el('button', ((m === 'closed') === isC ? 'sel-' + m : ''), T(k)); b.type = 'button';
-              b.onclick = () => { st.actions = st.actions || {}; st.actions[x.id] = st.actions[x.id] || {}; if (m === 'closed') st.actions[x.id][a.id] = 'closed'; else delete st.actions[x.id][a.id]; onCh(true); };
-              sg.appendChild(b);
-            });
-            r2.appendChild(sg); ab.appendChild(r2);
-          });
+  const all = SERVICES.filter(x => groups.indexOf(x.group) >= 0);
+  if (!all.length) { box.appendChild(el('p', 'note', T('schNoSvc'))); return; }
+  const tb = el('div', 'svTb');
+  const q = el('input', 'svQ'); q.type = 'search'; q.placeholder = T('svSearch'); q.value = svcQ[pre] || ''; tb.appendChild(q);
+  const fl = el('div', 'svF');
+  [['all', 'hiAll'], ['open', 'sOpen'], ['closed', 'sClosed']].forEach(([k, tk]) => { const b = el('button', (svcF[pre] || 'all') === k ? 'sel' : '', T(tk)); b.type = 'button'; b.dataset.k = k; b.onclick = () => { svcF[pre] = k; fl.querySelectorAll('button').forEach(x => x.className = x.dataset.k === k ? 'sel' : ''); paint(); }; fl.appendChild(b); });
+  tb.appendChild(fl); box.appendChild(tb);
+  const bulk = el('div', 'svBulk'); const cnt = el('span', 'svCnt'); bulk.appendChild(cnt);
+  const bo = el('button', 'btn sec xs', T('svOpenAll')); bo.type = 'button'; bo.onclick = () => { all.forEach(x => { st.services[x.id] = 'open'; if (st.actions) delete st.actions[x.id]; }); onCh(); };
+  const bc = el('button', 'btn red xs', T('svCloseAll')); bc.type = 'button'; bc.onclick = () => { all.forEach(x => st.services[x.id] = 'closed'); onCh(); };
+  bulk.appendChild(bo); bulk.appendChild(bc); box.appendChild(bulk);
+  const rows = el('div', 'svRows'); box.appendChild(rows);
+  function paint() {
+    rows.innerHTML = '';
+    let nOpen = 0, nClosed = 0, nBtn = 0;
+    all.forEach(x => { if (st.services[x.id] === 'closed') nClosed++; else { nOpen++; const a = st.actions && st.actions[x.id]; if (a) nBtn += Object.keys(a).filter(k => a[k] === 'closed').length; } });
+    cnt.textContent = T('counts', { a: nOpen, b: nBtn, c: nClosed });
+    const needle = (svcQ[pre] || '').trim().toLowerCase(), fk = svcF[pre] || 'all';
+    groups.forEach(g => {
+      const items = all.filter(x => x.group === g); if (!items.length) return;
+      const cl = items.filter(x => st.services[x.id] === 'closed').length, ck = pre + ':g:' + g;
+      const gh = el('button', 'gh' + (colG[ck] ? ' shut' : '')); gh.type = 'button';
+      gh.appendChild(el('span', 'gt', GROUPS[g][lang] || GROUPS[g].en)); gh.appendChild(el('span', 'gc' + (cl ? ' r' : ''), T('grpClosed', { c: cl, n: items.length }))); const cv = el('span', 'gv'); cv.innerHTML = ic('caret'); gh.appendChild(cv);
+      gh.onclick = () => { colG[ck] = !colG[ck]; paint(); }; rows.appendChild(gh);
+      if (colG[ck]) return;
+      items.forEach(x => {
+        const isC = st.services[x.id] === 'closed';
+        if (fk === 'open' && isC) return; if (fk === 'closed' && !isC) return;
+        if (needle && ((x[lang] || x.en) + ' ' + x.en).toLowerCase().indexOf(needle) < 0) return;
+        const row = el('div', 'svr' + (isC ? ' c' : '')); row.appendChild(el('div', 'nm', x[lang] || x.en));
+        const acts = ACTIONS.filter(a => a.s === x.id), ek = pre + ':' + x.id;
+        const seg = el('div', 'seg sm');
+        [['open', 'sOpen'], ['closed', 'sClosed']].forEach(([m, k]) => { const b = el('button', (st.services[x.id] === m ? 'sel-' + m : ''), T(k)); b.type = 'button'; b.onclick = () => { st.services[x.id] = m; onCh(); }; seg.appendChild(b); });
+        row.appendChild(seg);
+        if (acts.length) {
+          const n = isC ? acts.length : (st.actions && st.actions[x.id] ? Object.keys(st.actions[x.id]).filter(k => st.actions[x.id][k] === 'closed').length : 0);
+          const ex = el('button', 'exp' + (n ? ' has' : '') + (expanded[ek] ? ' o' : ''), ''); ex.type = 'button'; ex.title = T('btnsLabel'); ex.innerHTML = '<span>' + (n || acts.length) + '</span>' + ic('caret');
+          ex.onclick = () => { expanded[ek] = !expanded[ek]; onCh(true); }; row.appendChild(ex);
         }
-        box.appendChild(ab);
-      }
+        rows.appendChild(row);
+        if (acts.length && expanded[ek]) {
+          const ab = el('div', 'acts');
+          if (isC) ab.appendChild(el('p', 'note', T('svcClosedNote')));
+          else {
+            const bar = el('div', 'row');
+            const mk = (label, val) => { const b = el('button', 'mini', label); b.type = 'button'; b.onclick = () => { st.actions = st.actions || {}; if (val) { st.actions[x.id] = {}; acts.forEach(a => st.actions[x.id][a.id] = 'closed'); } else delete st.actions[x.id]; onCh(true); }; return b; };
+            bar.appendChild(mk(T('closeAllBtns'), true)); bar.appendChild(mk(T('openAllBtns'), false)); ab.appendChild(bar);
+            acts.forEach(a => {
+              const r2 = el('div', 'svr'); r2.appendChild(el('div', 'nm', a[lang] || a.en));
+              const sg = el('div', 'seg sm'), isCA = !!(st.actions && st.actions[x.id] && st.actions[x.id][a.id] === 'closed');
+              [['open', 'sOpen'], ['closed', 'sClosed']].forEach(([m, k]) => { const b = el('button', ((m === 'closed') === isCA ? 'sel-' + m : ''), T(k)); b.type = 'button'; b.onclick = () => { st.actions = st.actions || {}; st.actions[x.id] = st.actions[x.id] || {}; if (m === 'closed') st.actions[x.id][a.id] = 'closed'; else delete st.actions[x.id][a.id]; onCh(true); }; sg.appendChild(b); });
+              r2.appendChild(sg); ab.appendChild(r2);
+            });
+          }
+          rows.appendChild(ab);
+        }
+      });
     });
-  });
+    if (!rows.querySelector('.svr') && !rows.querySelector('.gh.shut')) rows.appendChild(el('p', 'note', T('svNone')));
+  }
+  q.oninput = () => { svcQ[pre] = q.value; paint(); };
+  paint();
 }
-
 /* ---------- DASHBOARD ---------- */
 function renderDash() {
   const box = $('dashGrid'); if (!box || !unlocked) return; box.innerHTML = '';
@@ -869,12 +994,17 @@ function renderDash() {
 function curScope() { const sc = {}; SYS.forEach(s => sc[s] = !!(cur && cur.on && (!cur.scope || cur.scope[s] === true))); return sc; }
 const grpMap = () => SERVICES.reduce((o, x) => { o[x.id] = x.group; return o; }, {});
 async function mtWrite(scope) {
-  const bx = keysOf(form.bypassKeys);
-  await db.ref('maintenance').update({ on: SYS.some(s => scope[s]), scope: scope, bypassKeys: bx, bypassBy: { admin: bx }, services: Object.assign({}, form.services), actions: cleanActionsOf(form), grp: grpMap(), by: who(), at: MTS.now() });
+  const bb = cleanBy(form.bypassBy);
+  await db.ref('maintenance').update({ on: SYS.some(s => scope[s]), scope: scope, bypassKeys: bb.admin, bypassBy: bb, services: Object.assign({}, form.services), actions: cleanActionsOf(form), grp: grpMap(), by: who(), at: MTS.now() });
 }
 function mmMark(nd) { if (nd !== true) dirty = true; renderMM(); }
+let exSys = 'admin';
+function exTabs(box, active, setFn) {
+  box.innerHTML = '';
+  SYS.forEach(s => { const b = el('button', s === active ? 'sel' : '', ''); b.type = 'button'; b.innerHTML = ic(SYSI[s]) + '<span>' + sysShort(s) + '</span>'; b.onclick = () => setFn(s); box.appendChild(b); });
+}
 async function mmToggle(list, on) {
-  const noEx = on && list.indexOf('admin') >= 0 && !Object.keys(keysOf(form.bypassKeys)).length;
+  const noEx = on && list.indexOf('admin') >= 0 && !Object.keys(keysOf(form.bypassBy.admin)).length;
   if (!(await askYes(T(on ? 'mmConfirmOn' : 'mmConfirmOff', { s: namesOf(list) }) + (noEx ? '\n\n' + T('acctNone') : '')))) return;
   try {
     const sc = curScope(); list.forEach(s => sc[s] = on);
@@ -893,26 +1023,28 @@ function renderMM() {
   ['all'].concat(SYS).forEach(k => {
     const b = el('button', k === curSys ? 'sel' : '', ''); b.type = 'button';
     const isOn = k === 'all' ? SYS.some(s => sc[s]) : sc[k];
-    const cs = el('span'); cs.style.display = 'inline-flex'; cs.innerHTML = ic(SYSI[k]); b.appendChild(cs); b.appendChild(document.createTextNode(sysName(k))); b.appendChild(el('i', 'dot' + (isOn ? ' r' : '')));
-    b.onclick = () => { curSys = k; renderMM(); }; ch.appendChild(b);
+    b.innerHTML = ic(SYSI[k]) + '<span>' + sysShort(k) + '</span>'; b.appendChild(el('i', 'dot' + (isOn ? ' r' : '')));
+    b.onclick = () => { curSys = k; if (k !== 'all') exSys = k; renderMM(); }; ch.appendChild(b);
   });
   const L = curSys === 'all' ? SYS : [curSys], onN = L.filter(s => sc[s]).length;
-  const pill = $('mmPill'); pill.textContent = onN === L.length ? T('stOn') : (onN === 0 ? T('stOff') : T('stSome')); pill.className = 'pill ' + (onN === L.length ? 'on' : (onN === 0 ? 'off' : 'sch'));
+  const st = $('mmState'); st.className = 'card mmState ' + (onN === L.length ? 'on' : (onN === 0 ? 'off' : 'some'));
   $('mmName').textContent = sysName(curSys);
+  $('mmPill').textContent = onN === L.length ? T('stOn') : (onN === 0 ? T('stOff') : T('stSome'));
   const bt = $('mmBtns'); bt.innerHTML = '';
   if (curSys === 'all') {
-    const a = el('button', 'btn red sm', T('mmOnAll')); a.type = 'button'; a.onclick = () => mmToggle(SYS, true); bt.appendChild(a);
-    const b = el('button', 'btn green sm', T('mmOffAll')); b.type = 'button'; b.onclick = () => mmToggle(SYS, false); bt.appendChild(b);
+    const a = el('button', 'btn red', T('mmOnAll')); a.type = 'button'; a.onclick = () => mmToggle(SYS, true); bt.appendChild(a);
+    const b = el('button', 'btn green', T('mmOffAll')); b.type = 'button'; b.onclick = () => mmToggle(SYS, false); bt.appendChild(b);
   } else {
-    const on = !!sc[curSys]; const a = el('button', 'btn sm ' + (on ? 'green' : 'red'), T(on ? 'mmOffFor' : 'mmOnFor', { s: sysName(curSys) })); a.type = 'button'; a.onclick = () => mmToggle([curSys], !on); bt.appendChild(a);
+    const on = !!sc[curSys]; const a = el('button', 'btn ' + (on ? 'green' : 'red'), T(on ? 'mmOffBtn' : 'mmOnBtn')); a.type = 'button'; a.onclick = () => mmToggle([curSys], !on); bt.appendChild(a);
   }
   $('mmBy').textContent = cur && cur.at ? T('last', { by: cur.by || '-', at: new Date(cur.at).toLocaleString('en-GB', { timeZone: 'Asia/Phnom_Penh' }) }) : T('never');
-  const showEx = curSys === 'all' || curSys === 'admin';
-  $('mmExW').classList.toggle('hide', !showEx); $('mmExNote').classList.toggle('hide', showEx);
-  if (showEx) exList($('mmExList'), form.bypassKeys, mmMark);
-  $('mmSvcSub').textContent = (curSys === 'admin' || curSys === 'hr') ? T('svcSub') + ' ' + T('mmShared') : T('svcSub');
+  const es = curSys === 'all' ? exSys : curSys;
+  const tabs = $('mmExTabs'); tabs.classList.toggle('hide', curSys !== 'all'); if (curSys === 'all') exTabs(tabs, es, s => { exSys = s; renderMM(); });
+  $('mmExSub').textContent = T('exSub', { s: sysName(es) });
+  exPicker($('mmExBox'), es, form.bypassBy[es], mmMark);
   svcEditor($('mmSvc'), form, groupsFor(L), mmMark, 'mm');
-  $('mmDirty').textContent = dirty ? T('unsaved') : ''; $('mmSave').disabled = !dirty;
+  $('mmSvcSub').textContent = (curSys === 'admin' || curSys === 'hr') ? T('mmShared') : '';
+  $('mmDirty').textContent = dirty ? T('unsaved') : ''; $('mmSave').disabled = !dirty; $('mmSaveBar').classList.toggle('hide', !dirty);
 }
 
 /* ===== Lock System (separate from maintenance mode) ===== */
@@ -969,11 +1101,11 @@ async function lkSave(unlockAll) {
 
 
 /* ---------- SCHEDULE ---------- */
-let schInit = false, sf = null;
+let schInit = false, sf = null, sfOpen = false, sfExSys = 'admin';
 const sref = (p) => db.ref('maintenance/sched' + (p ? '/' + p : ''));
 function sfNew() {
   const f = fromData(cur), n = MTS.now(), s0 = Math.ceil((n + ZONE) / 3600000) * 3600000 - ZONE + 3600000;
-  return { id: null, on: true, type: 'once', days: [1], sys: { admin: true, hr: true, dept: true, emp: true }, services: f.services, actions: f.actions, bypass: Object.assign({}, f.bypassKeys), s: toLocalVal(s0), e: toLocalVal(s0 + 3600000), sh: '22:00', eh: '23:00', note: '' };
+  return { id: null, on: true, type: 'once', days: [1], sys: { admin: true, hr: true, dept: true, emp: true }, services: f.services, actions: f.actions, bypassBy: cloneBy(f.bypassBy), s: toLocalVal(s0), e: toLocalVal(s0 + 3600000), sh: '22:00', eh: '23:00', note: '' };
 }
 function tickStatus(x, t) {
   if (x.on === false) return { s: 'pause' };
@@ -993,7 +1125,8 @@ function itemText(x) {
 function itemSys(x) { if (!x.sx) return SYS; return SYS.filter(s => x.scope && x.scope[s] === true); }
 function itemSum(x) {
   if (!x.sx) return T('schLegacy');
-  const sv = x.services || {}, c = SERVICES.filter(s => sv[s.id] === 'closed').length, ex = Object.keys(x.bypass || {}).length;
+  const sv = x.services || {}, c = SERVICES.filter(s => sv[s.id] === 'closed').length, bb = x.bypassBy || { admin: x.bypass || {} };
+  const ex = BYS.reduce((n, k) => n + Object.keys(bb[k] || {}).length, 0);
   return namesOf(itemSys(x)) + ' · ' + T('schSum', { c: c, x: ex });
 }
 async function schEndNow(x) {
@@ -1001,16 +1134,17 @@ async function schEndNow(x) {
   try { if (x.type === 'once') await sref('items/' + x.id).update({ end: t }); else await sref('items/' + x.id).update({ skipUntil: st.end || t }); logEv('m', 'evSchEnd', { n: x.note || '' }); toast(T('schReleased')); }
   catch (e) { console.error(e); toast(T('saveFail'), true); }
 }
+function schShow(open) { sfOpen = open; $('schFormCard').classList.toggle('hide', !open); $('schNewBtn').classList.toggle('hide', open); }
 function schEdit(x) {
   const f = fromData(cur);
-  sf = { id: x.id, on: x.on !== false, type: x.type, days: String(x.days == null ? '' : x.days).split(',').filter(v => v !== '').map(Number), sys: {}, services: Object.assign({}, x.sx ? x.services : f.services), actions: JSON.parse(JSON.stringify((x.sx ? x.actions : f.actions) || {})), bypass: Object.assign({}, x.sx ? x.bypass : f.bypassKeys), s: x.type === 'once' ? toLocalVal(+x.start) : '', e: x.type === 'once' ? toLocalVal(+x.end) : '', sh: x.sh || '22:00', eh: x.eh || '23:00', note: x.note || '' };
+  sf = { id: x.id, on: x.on !== false, type: x.type, days: String(x.days == null ? '' : x.days).split(',').filter(v => v !== '').map(Number), sys: {}, services: Object.assign({}, x.sx ? x.services : f.services), actions: JSON.parse(JSON.stringify((x.sx ? x.actions : f.actions) || {})), bypassBy: x.sx ? byFrom({ bypassBy: x.bypassBy, bypassKeys: x.bypass }) : cloneBy(f.bypassBy), s: x.type === 'once' ? toLocalVal(+x.start) : '', e: x.type === 'once' ? toLocalVal(+x.end) : '', sh: x.sh || '22:00', eh: x.eh || '23:00', note: x.note || '' };
   SYS.forEach(s => sf.sys[s] = itemSys(x).indexOf(s) >= 0);
   SERVICES.forEach(s => { if (sf.services[s.id] !== 'closed') sf.services[s.id] = 'open'; });
   if (!sf.s) { const z = sfNew(); sf.s = z.s; sf.e = z.e; }
   $('schS').value = sf.s; $('schE').value = sf.e; $('schSh').value = sf.sh; $('schEh').value = sf.eh; $('schNoteIn').value = sf.note;
-  renderSchedForm(); $('schFormCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  schShow(true); renderSchedForm(); $('schFormCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
-function schReset() { sf = sfNew(); $('schS').value = sf.s; $('schE').value = sf.e; $('schSh').value = sf.sh; $('schEh').value = sf.eh; $('schNoteIn').value = ''; renderSchedForm(); }
+function schReset(open) { sf = sfNew(); $('schS').value = sf.s; $('schE').value = sf.e; $('schSh').value = sf.sh; $('schEh').value = sf.eh; $('schNoteIn').value = ''; schShow(!!open); renderSchedForm(); if (open) $('schFormCard').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 function renderSchedForm() {
   if (!unlocked || !sf) return;
   $('schFormT').textContent = T(sf.id ? 'schEditing' : 'schAddTitle');
@@ -1020,13 +1154,19 @@ function renderSchedForm() {
   [1, 2, 3, 4, 5, 6, 0].forEach(d => { const b = el('button', sf.days.indexOf(d) >= 0 ? 'sel' : '', DOWN[lang][d]); b.type = 'button'; b.onclick = () => { const i = sf.days.indexOf(d); if (i >= 0) sf.days.splice(i, 1); else sf.days.push(d); renderSchedForm(); }; dw.appendChild(b); });
   const sc = $('schSys'); sc.innerHTML = '';
   const allOn = SYS.every(s => sf.sys[s]);
-  const ba = el('button', allOn ? 'sel' : '', ''); ba.innerHTML = ic('globe') + ' ' + T('sysAll'); ba.type = 'button'; ba.onclick = () => { SYS.forEach(s => sf.sys[s] = !allOn); renderSchedForm(); }; sc.appendChild(ba);
-  SYS.forEach(s => { const b = el('button', sf.sys[s] ? 'sel' : '', ''); b.innerHTML = ic(SYSI[s]) + ' ' + sysName(s); b.type = 'button'; b.onclick = () => { sf.sys[s] = !sf.sys[s]; renderSchedForm(); }; sc.appendChild(b); });
+  const ba = el('button', allOn ? 'sel' : '', ''); ba.innerHTML = ic('globe') + '<span>' + sysShort('all') + '</span>'; ba.type = 'button'; ba.onclick = () => { SYS.forEach(s => sf.sys[s] = !allOn); renderSchedForm(); }; sc.appendChild(ba);
+  SYS.forEach(s => { const b = el('button', sf.sys[s] ? 'sel' : '', ''); b.innerHTML = ic(SYSI[s]) + '<span>' + sysShort(s) + '</span>'; b.type = 'button'; b.onclick = () => { sf.sys[s] = !sf.sys[s]; renderSchedForm(); }; sc.appendChild(b); });
   const L = SYS.filter(s => sf.sys[s]);
-  $('schExW').classList.toggle('hide', !sf.sys.admin);
-  if (sf.sys.admin) exList($('schExBox'), sf.bypass, renderSchedForm);
+  $('schExW').classList.toggle('hide', !L.length);
+  if (L.length) {
+    if (L.indexOf(sfExSys) < 0) sfExSys = L[0];
+    const tabs = $('schExTabs'); tabs.innerHTML = '';
+    L.forEach(s => { const b = el('button', s === sfExSys ? 'sel' : '', ''); b.type = 'button'; b.innerHTML = ic(SYSI[s]) + '<span>' + sysShort(s) + '</span>'; b.onclick = () => { sfExSys = s; renderSchedForm(); }; tabs.appendChild(b); });
+    $('schExSub').textContent = T('exSub', { s: sysName(sfExSys) });
+    exPicker($('schExBox'), sfExSys, sf.bypassBy[sfExSys], renderSchedForm);
+  }
   svcEditor($('schSvcBox'), sf, groupsFor(L), renderSchedForm, 'sf');
-  $('schAddBtn').textContent = T(sf.id ? 'schSaveEdit' : 'schSave'); $('schCancelBtn').classList.toggle('hide', !sf.id);
+  $('schAddBtn').textContent = T(sf.id ? 'schSaveEdit' : 'schSave'); $('schCancelBtn').classList.remove('hide');
 }
 function renderSchedList() {
   if (!unlocked || !$('schList')) return;
@@ -1047,18 +1187,19 @@ function renderSchedList() {
     let s2 = (x.note ? itemText(x) : '') + (st.s === 'run' ? ((x.note ? ' · ' : '') + T('schUntil', { t: fmtDT(st.end) })) : (st.s === 'wait' && st.next ? ((x.note ? ' · ' : '') + T('schNextAt', { t: fmtDT(st.next) })) : ''));
     if (s2) i.appendChild(el('div', 'ss', s2));
     i.appendChild(el('div', 'ss', itemSum(x))); d.appendChild(i);
-    const mk = (txt, cls, fn) => { const b = el('button', 'btn sm ' + cls, txt); b.type = 'button'; b.onclick = fn; d.appendChild(b); };
+    const bar = el('div', 'sbar');
+    const mk = (txt, cls, fn) => { const b = el('button', 'btn xs ' + cls, txt); b.type = 'button'; b.onclick = fn; bar.appendChild(b); };
     if (st.s === 'run') mk(T('schEndNow'), 'red', () => schEndNow(x));
     if (st.s !== 'done') mk(T('schEdit'), 'sec', () => schEdit(x));
     if (st.s !== 'done') mk(T(x.on === false ? 'schResume' : 'schPause'), 'sec', async () => { try { await sref('items/' + x.id).update({ on: x.on === false }); logEv('m', x.on === false ? 'evSchResume' : 'evSchPause', { n: x.note || '' }); } catch (e) { toast(T('saveFail'), true); } });
     mk(T('schDelete'), 'sec', async () => { if (!(await askYes(T('schConfirmDel')))) return; try { await sref('items/' + x.id).remove(); logEv('m', 'evSchDel', { n: x.note || '' }); toast(T('schDeleted')); } catch (e) { toast(T('saveFail'), true); } });
-    box.appendChild(d);
+    d.appendChild(bar); box.appendChild(d);
   });
 }
-function renderSched() { if (!unlocked) return; if (!schInit) { schInit = true; sf = sfNew(); $('schS').value = sf.s; $('schE').value = sf.e; $('schSh').value = sf.sh; $('schEh').value = sf.eh; initSchedUi(); } renderSchedForm(); renderSchedList(); }
+function renderSched() { if (!unlocked) return; if (!schInit) { schInit = true; sf = sfNew(); $('schS').value = sf.s; $('schE').value = sf.e; $('schSh').value = sf.sh; $('schEh').value = sf.eh; initSchedUi(); schShow(false); } if (sfOpen) renderSchedForm(); renderSchedList(); }
 function initSchedUi() {
   document.querySelectorAll('#schType button').forEach(b => { b.onclick = () => { if (sf.id) return; sf.type = b.dataset.t; renderSchedForm(); }; });
-  $('schAddBtn').onclick = schSave; $('schCancelBtn').onclick = schReset;
+  $('schAddBtn').onclick = schSave; $('schCancelBtn').onclick = () => schReset(false); $('schNewBtn').onclick = () => schReset(true);
   const w = $('warnSel'); w.onchange = async () => { try { await sref('warn').set(+w.value); logEv('m', 'evWarn', { m: +w.value }); toast(T('saved')); } catch (e) { console.error(e); toast(T('saveFail'), true); } };
 }
 async function schSave() {
@@ -1078,17 +1219,17 @@ async function schSave() {
     it = { type: sf.type, sh: sh, eh: eh }; if (sf.type === 'weekly') it.days = sf.days.slice().sort().join(',');
   }
   const sc = {}; SYS.forEach(s => sc[s] = !!sf.sys[s]);
-  it.on = sf.on !== false; it.sx = 1; it.scope = sc; it.services = Object.assign({}, sf.services); it.actions = cleanActionsOf(sf); it.bypass = sf.sys.admin ? keysOf(sf.bypass) : {};
+  const bb = cleanBy(sf.bypassBy); BYS.forEach(k => { if (!sf.sys[k]) bb[k] = {}; });
+  it.on = sf.on !== false; it.sx = 1; it.scope = sc; it.services = Object.assign({}, sf.services); it.actions = cleanActionsOf(sf); it.bypassBy = bb; it.bypass = bb.admin;
   if (note) it.note = note; it.by = who(); it.at = MTS.now();
   $('schAddBtn').disabled = true;
   try {
     if (!cur || !cur.grp) await db.ref('maintenance/grp').set(grpMap());
     if (sf.id) { await sref('items/' + sf.id).set(it); logEv('m', 'evSchEdit', { n: note, s: L.join(',') }); } else { await sref('items').push(it); logEv('m', 'evSchAdd', { n: note, s: L.join(',') }); }
-    toast(T('schAdded')); schReset();
+    toast(T('schAdded')); schReset(false);
   } catch (e) { console.error(e); toast(T('saveFail'), true); }
   $('schAddBtn').disabled = false;
 }
-
 /* ---------- SETTING (messages) ---------- */
 let setDirty = false;
 function fillSet(force) {
@@ -1167,7 +1308,7 @@ async function openPanel() {
   try { db.ref('.info/serverTimeOffset').on('value', s => MTS.setOff(s.val())); } catch (e) { }
   if (unsub) unsub();
   const r = db.ref('maintenance');
-  const cb = (s) => { const v = s.val(); if (v) delete v.log; cur = v; if (!dirty || !form) form = fromData(cur); if (!cur && account && account.firebaseKey) form.bypassKeys[account.firebaseKey] = true; renderAll(); };
+  const cb = (s) => { const v = s.val(); if (v) delete v.log; cur = v; if (!dirty || !form) form = fromData(cur); if (!cur && account && account.firebaseKey) form.bypassBy.admin[account.firebaseKey] = true; renderAll(); };
   r.on('value', cb, () => { }); unsub = () => r.off('value', cb);
   if (lockUnsub) lockUnsub();
   const lr = db.ref('systemLock'); const lcb = (s) => { lockCur = s.val(); if (!lockDirty || !lockForm) lockForm = lkFrom(lockCur); renderAll(); };
