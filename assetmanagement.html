@@ -974,7 +974,7 @@ async function TD_remember(found) {
       var k = actKey(); if (!k) return false;
       var bb = mm.bypassBy || {};
       if ((bb.admin && bb.admin[k] === true) || (bb.hr && bb.hr[k] === true)) return true;
-      return isOwner(k);
+      return false;
     }
     function applies(m) {
       m = MTS.eff(m); if (!m || !m.on) return false;
