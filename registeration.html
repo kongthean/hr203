@@ -189,7 +189,7 @@ function eff0(raw){
 function itScope(raw,x){return x.sx?nsc(x.scope):raw.scope;}
 function chg(raw){var e=eff(raw),v=(e&&e.on)?JSON.stringify([e.scope,e.services,e.actions,e.bypassKeys]):'off';if(LAST===null){LAST=v;return false;}if(v!==LAST){LAST=v;return true;}return false;}
 function lang(){
- var l='';try{l=localStorage.getItem('appLang')||localStorage.getItem('tdLang')||localStorage.getItem('lang')||localStorage.getItem('language')||'';}catch(e){}
+ var l='';try{l=localStorage.getItem('faScanLang')||localStorage.getItem('appLang')||localStorage.getItem('tdLang')||localStorage.getItem('lang')||localStorage.getItem('language')||'';}catch(e){}
  l=String(l).toLowerCase().slice(0,2);if(l==='kh')l='km';
  if(l!=='en'&&l!=='km'&&l!=='zh'){l=String(document.documentElement.lang||'en').toLowerCase().slice(0,2);if(l==='kh')l='km';}
  return (l==='km'||l==='zh')?l:'en';
@@ -203,6 +203,14 @@ var WD={en:'All services will go into maintenance soon. Please save your work.',
 var PAGE=(function(){var p=String(location.pathname||'').split('/').pop().toLowerCase().replace(/\.html?$/,'');return {'':'main',maintenance:'none',index:'main',system:'main',department:'dept','dept-app':'deptapp',todolist:'todo',payroll:'payroll',assetmanagement:'assets',registeration:'face'}[p]||'main';})();
 function gid(x){return document.getElementById(x);}
 function shown(e){try{return !!e&&getComputedStyle(e).display!=='none';}catch(x){return false;}}
+function inApp(){
+ try{
+  if(PAGE==='main'||PAGE==='dept')return shown(gid('adminApp'))||shown(gid('employeeApp'));
+  if(PAGE==='deptapp'){var t=gid('dpTabs');return !!(t&&t.getClientRects().length);}
+  if(PAGE==='todo'||PAGE==='payroll'||PAGE==='assets')return shown(gid('appView'));
+ }catch(e){}
+ return PAGE==='face';
+}
 function anchor(){
  try{
   if(PAGE==='main'||PAGE==='dept'){
@@ -247,9 +255,9 @@ function setBar(id,spec){
  }catch(e){}
 }
 function msg(m,fb){var l=lang(),v=m&&String(m[l]||'').trim();return v||fb;}
-var LASTRAW=null;
+var LASTRAW=null,LASTTK=null,LANGSEEN='';
 function blocked(){try{if(document.getElementById('mtGuardBar'))return true;var b=document.getElementById('mtBanner');return !!(b&&getComputedStyle(b).display!=='none');}catch(e){return false;}}
-setInterval(function(){try{var h=blocked(),e=document.getElementById('mtsNote');if(h&&e)setBar('mtsNote',null);else if(!h&&!e&&LASTRAW)noteShow(LASTRAW);}catch(x){}},1000);
+setInterval(function(){try{var lg=lang();if(LANGSEEN&&lg!==LANGSEEN&&LASTTK)tick(LASTTK[0],LASTTK[1]);LANGSEEN=lg;var h=blocked(),e=document.getElementById('mtsNote');if(h&&e)setBar('mtsNote',null);else if(!h&&!e&&LASTRAW)noteShow(LASTRAW);}catch(x){}},1000);
 function noteShow(raw){
  try{
   if(PAGE==='none')return;
@@ -272,7 +280,8 @@ function tick(raw,ok){
  try{
   var t=now(),show=false,nx=null;
   if(!isOn(raw)){nx=next(raw,t,ok);var w=warnMin(raw);if(nx&&w>0&&nx.start-t<=w*60000)show=true;}
-  if(show&&!document.getElementById('mtGuardBar'))setBar('mtsWarn',{col:COL.orange,icon:GEAR,text:msg(raw&&raw.message,WD[lang()]),center:raw&&raw.align==='center'});
+  LASTTK=[raw,ok];
+  if(show&&inApp()&&!document.getElementById('mtGuardBar'))setBar('mtsWarn',{col:COL.orange,icon:GEAR,text:msg(raw&&raw.message,WD[lang()]),center:raw&&raw.align==='center'});
   else setBar('mtsWarn',null);
   noteShow(raw);
  }catch(e){}
@@ -1226,7 +1235,7 @@ function renderResult(r) {
     if (!window.firebase) return;
     var app = null; try { app = firebase.app('mtg'); } catch (e) { app = firebase.initializeApp({ apiKey: "AIzaSyAFHtPZsYq8iAYZtKBYWDt7hVitMmHKt_s", authDomain: "annual-leave-1feda.firebaseapp.com", databaseURL: "https://annual-leave-1feda-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "annual-leave-1feda", appId: "1:989242956584:web:8ebe1333e38705600dce1d" }, 'mtg'); }
     var D = { en: ['Under maintenance', 'This page is temporarily unavailable. Please try again later.'], km: ['កំពុងថែទាំ', 'ទំព័រនេះមិនអាចប្រើបានបណ្តោះអាសន្ន។ សូមព្យាយាមម្តងទៀតពេលក្រោយ។'], zh: ['维护中', '此页面暂时不可用，请稍后再试。'] };
-    function lang() { var l = ''; try { l = localStorage.getItem('tdLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} l = String(l).toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; if (!D[l]) { l = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; } return D[l] ? l : 'en'; }
+    function lang() { var l = ''; try { l = localStorage.getItem('faScanLang') || localStorage.getItem('tdLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} l = String(l).toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; if (!D[l]) { l = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; } return D[l] ? l : 'en'; }
     var FACE = 1, ownerKey = null, ownerVal = false;
     function gid(x) { return document.getElementById(x); }
     function actKey() { try { return (typeof me !== 'undefined' && me) ? String(me) : ''; } catch (e) { return ''; } }
@@ -1247,25 +1256,25 @@ function renderResult(r) {
     function appShown() { if (FACE) return true; var a = gid('appView'); return !!(a && !a.classList.contains('hidden') && getComputedStyle(a).display !== 'none'); }
     function render(m) {
       var el = gid('mtGuard');
-      if (!applies(m)) {
+      if (!applies(m) || !appShown()) {
         if (el) el.remove(); MTS.bar('mtGuardBar', null);
-        if (FACE && window.__mtBlocked) { window.__mtBlocked = false; try { location.reload(); } catch (e) {} }
+        if (FACE && window.__mtBlocked && !applies(m)) { window.__mtBlocked = false; try { location.reload(); } catch (e) {} }
         return;
       }
       var mm = MTS.eff(m), l = lang(), msg = (mm.message && String(mm.message[l] || '').trim()) || D[l][1];
       MTS.bar('mtGuardBar', { col: '#f97316,#fb9a4b', icon: MTS.gear, text: msg, center: mm.align === 'center' });
-      if (appShown()) {
-        if (FACE) { window.__mtBlocked = true; try { document.querySelectorAll('video').forEach(function (v) { var st = v.srcObject; if (st && st.getTracks) st.getTracks().forEach(function (t) { t.stop(); }); v.srcObject = null; }); } catch (e) {} }
-        if (!el) { el = document.createElement('div'); el.id = 'mtGuard'; el.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(148,163,184,.55);'; el.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); }, true); document.body.appendChild(el); }
-      } else if (el) el.remove();
+      if (FACE) { window.__mtBlocked = true; try { document.querySelectorAll('video').forEach(function (v) { var st = v.srcObject; if (st && st.getTracks) st.getTracks().forEach(function (t) { t.stop(); }); v.srcObject = null; }); } catch (e) {} }
+      if (!el) { el = document.createElement('div'); el.id = 'mtGuard'; el.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); }, true); document.body.appendChild(el); }
+      var bar = gid('mtGuardBar'), tp = bar ? Math.round(bar.getBoundingClientRect().bottom + 6) : 0;
+      el.style.cssText = 'position:fixed;left:0;right:0;bottom:0;top:' + Math.max(0, tp) + 'px;z-index:100000;background:rgba(148,163,184,.55);';
     }
     var last = null; try { last = JSON.parse(localStorage.getItem('mtgCache') || 'null'); } catch (e) {}
     function start() {
       if (last) render(last);
+      setInterval(function () { try { render(last); } catch (e) {} }, 700);
       app.auth().signInAnonymously().catch(function () {}).then(function () {
         app.database().ref('maintenance').on('value', function (s) { last = s.val(); if (last) delete last.log; try { localStorage.setItem('mtgCache', JSON.stringify(last)); } catch (e) {} render(last); }, function () {});
         try { app.database().ref('.info/serverTimeOffset').on('value', function (s) { MTS.setOff(s.val()); }); } catch (e) {}
-        setInterval(function () { try { render(last); } catch (e) {} }, 700);
         setInterval(function () { try { MTS.tick(last, function (sc) { return SC === 'any' || !sc || SC.split(',').some(function (k) { return sc[k] === true; }); }); if (MTS.chg(last)) render(last); } catch (e) {} }, 8000);
       });
     }
