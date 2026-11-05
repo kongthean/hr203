@@ -289,14 +289,24 @@ function anchor(){
 function pageBg(){try{var c=getComputedStyle(document.body).backgroundColor;if(c&&c!=='transparent'&&!/rgba\(.*,\s*0\)$/.test(c))return c;}catch(e){}return '#f1f5f9';}
 function place(){
  try{
-  var els=['mtGuardBar','mtsWarn','mtsNote'].map(gid).filter(Boolean);if(!els.length||!document.body)return;
-  var a=anchor(),prev=null,stk=false,acc=0,bg=pageBg();
+  var els=['mtGuardBar','mtsWarn','mtsNote'].map(gid).filter(Boolean),sk=gid('mtsStack');
+  if(!els.length){if(sk)sk.remove();return;}
+  if(!document.body)return;
+  var a=anchor(),prev=null,bg=pageBg(),stk=false,acc=0;
   if(a){var cs=getComputedStyle(a);if(cs.position==='sticky'){stk=true;acc=a.offsetHeight+(parseFloat(cs.top)||0);}}
+  if(a&&stk){
+   if(!sk){sk=document.createElement('div');sk.id='mtsStack';}
+   if(a.nextElementSibling!==sk)a.insertAdjacentElement('afterend',sk);
+   sk.style.cssText='position:sticky;top:'+Math.round(acc)+'px;z-index:100001;background:'+bg+';padding:8px;display:flex;flex-direction:column;gap:8px;';
+   els.forEach(function(el){if(el.parentNode!==sk)sk.appendChild(el);el.style.position='relative';el.style.top='';el.style.margin='0';});
+   els.forEach(function(el){sk.appendChild(el);});
+   return;
+  }
+  if(sk){els.forEach(function(el){document.body.appendChild(el);});sk.remove();}
   els.forEach(function(el){
    if(a){
     var tg=prev||a;if(tg.nextElementSibling!==el)tg.insertAdjacentElement('afterend',el);
-    if(stk){el.style.position='sticky';el.style.top=Math.round(acc)+'px';el.style.margin='0';el.style.borderTopWidth='0';el.style.borderRadius=(prev?'0':'0 0 12px 12px');acc=acc+el.offsetHeight;el.style.boxShadow='0 8px 0 0 '+bg+',0 4px 10px rgba(0,0,0,.18)';}
-    else{el.style.position='relative';el.style.top='';el.style.marginTop='8px';}
+    el.style.position='relative';el.style.top='';el.style.marginTop='8px';
    }else{
     if(!prev){if(document.body.firstElementChild!==el)document.body.insertBefore(el,document.body.firstChild);}else if(prev.nextElementSibling!==el)prev.insertAdjacentElement('afterend',el);
     el.style.position='sticky';el.style.top='0';el.style.marginTop=(PAGE==='deptapp'&&els.indexOf(el)===0)?'56px':'8px';
