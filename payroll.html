@@ -295,9 +295,8 @@ function place(){
   els.forEach(function(el){
    if(a){
     var tg=prev||a;if(tg.nextElementSibling!==el)tg.insertAdjacentElement('afterend',el);
-    if(stk){el.style.position='sticky';el.style.top=Math.round(acc+8)+'px';acc=acc+8+el.offsetHeight;el.style.boxShadow='0 -8px 0 0 '+bg+',0 8px 0 0 '+bg+',0 2px 8px rgba(0,0,0,.22)';}
-    else{el.style.position='relative';el.style.top='';}
-    el.style.marginTop='8px';
+    if(stk){el.style.position='sticky';el.style.top=Math.round(acc)+'px';el.style.margin='0';el.style.borderTopWidth='0';el.style.borderRadius=(prev?'0':'0 0 12px 12px');acc=acc+el.offsetHeight;el.style.boxShadow='0 8px 0 0 '+bg+',0 4px 10px rgba(0,0,0,.18)';}
+    else{el.style.position='relative';el.style.top='';el.style.marginTop='8px';}
    }else{
     if(!prev){if(document.body.firstElementChild!==el)document.body.insertBefore(el,document.body.firstChild);}else if(prev.nextElementSibling!==el)prev.insertAdjacentElement('afterend',el);
     el.style.position='sticky';el.style.top='0';el.style.marginTop=(PAGE==='deptapp'&&els.indexOf(el)===0)?'56px':'8px';
