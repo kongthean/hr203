@@ -637,7 +637,7 @@ function place(){
   if(a&&stk){
    if(!sk){sk=document.createElement('div');sk.id='mtsStack';}
    if(a.nextElementSibling!==sk)a.insertAdjacentElement('afterend',sk);
-   sk.style.cssText='position:sticky;top:'+Math.round(acc)+'px;z-index:100001;background:'+bg+';padding:8px;display:flex;flex-direction:column;gap:8px;';
+   sk.style.cssText='position:sticky;top:'+Math.round(acc)+'px;z-index:100001;background:'+bg+';padding:8px 8px 0 8px;display:flex;flex-direction:column;gap:8px;';
    els.forEach(function(el){if(el.parentNode!==sk)sk.appendChild(el);el.style.position='relative';el.style.top='';el.style.margin='0';});
    els.forEach(function(el){sk.appendChild(el);});
    return;
