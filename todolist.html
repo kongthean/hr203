@@ -295,7 +295,7 @@ function place(){
   var els=['mtGuardBar','mtsWarn','mtsNote'].map(gid).filter(Boolean);if(!els.length||!document.body)return;
   var a=anchor(),prev=null;
   els.forEach(function(el){
-   if(a){var tg=prev||a;if(tg.nextElementSibling!==el)tg.insertAdjacentElement('afterend',el);el.style.position='relative';el.style.top='';el.style.marginTop='8px';}
+   if(a){var tg=prev||a;if(tg.nextElementSibling!==el)tg.insertAdjacentElement('afterend',el);var cs=getComputedStyle(a);if(!prev&&cs.position==='sticky'){el.style.position='sticky';el.style.top=Math.round(a.offsetHeight+(parseFloat(cs.top)||0))+'px';}else{el.style.position='relative';el.style.top='';}el.style.marginTop='8px';}
    else{if(!prev){if(document.body.firstElementChild!==el)document.body.insertBefore(el,document.body.firstChild);}else if(prev.nextElementSibling!==el)prev.insertAdjacentElement('afterend',el);el.style.position='sticky';el.style.top='0';el.style.marginTop=(PAGE==='deptapp'&&els.indexOf(el)===0)?'56px':'8px';}
    prev=el;
   });
@@ -1001,19 +1001,33 @@ document.addEventListener('visibilitychange', function () { if (!document.hidden
     }
     function appShown() { if (FACE) return true; var a = gid('appView'); return !!(a && !a.classList.contains('hidden') && getComputedStyle(a).display !== 'none'); }
     function render(m) {
-      var el = gid('mtGuard');
+      var old = gid('mtGuard'); if (old) old.remove();
       if (!applies(m) || !appShown()) {
-        if (el) el.remove(); MTS.bar('mtGuardBar', null);
+        MTS.bar('mtGuardBar', null); setBlock(false);
         if (FACE && window.__mtBlocked && !applies(m)) { window.__mtBlocked = false; try { location.reload(); } catch (e) {} }
         return;
       }
       var mm = MTS.eff(m), l = lang(), msg = (mm.message && String(mm.message[l] || '').trim()) || D[l][1];
       MTS.bar('mtGuardBar', { col: '#f97316,#fb9a4b', icon: MTS.gear, text: msg, center: mm.align === 'center' });
       if (FACE) { window.__mtBlocked = true; try { document.querySelectorAll('video').forEach(function (v) { var st = v.srcObject; if (st && st.getTracks) st.getTracks().forEach(function (t) { t.stop(); }); v.srcObject = null; }); } catch (e) {} }
-      if (!el) { el = document.createElement('div'); el.id = 'mtGuard'; el.addEventListener('click', function (e) { e.stopPropagation(); e.preventDefault(); }, true); document.body.appendChild(el); }
-      var bar = gid('mtGuardBar'), tp = bar ? Math.round(bar.getBoundingClientRect().bottom + 6) : 0;
-      el.style.cssText = 'position:fixed;left:0;right:0;bottom:0;top:' + Math.max(0, tp) + 'px;z-index:100000;background:rgba(148,163,184,.55);';
+      setBlock(true);
     }
+    function setBlock(on) {
+      var root = FACE ? document.querySelector('.app') : gid('appView');
+      document.body.classList.toggle('mtBlk', !!on);
+      if (!root) return;
+      Array.prototype.forEach.call(root.children, function (c) {
+        if (c.classList.contains('top') || c.id === 'mtGuardBar' || c.id === 'mtsWarn' || c.id === 'mtsNote') return;
+        if (on) c.setAttribute('inert', ''); else c.removeAttribute('inert');
+      });
+    }
+    (function () {
+      var st = document.createElement('style');
+      var X = ':not(.top):not(#mtGuardBar):not(#mtsWarn):not(#mtsNote)';
+      st.textContent = 'body.mtBlk #appView > ' + X + ',body.mtBlk .app > ' + X + '{pointer-events:none!important;}' +
+        'body.mtBlk #appView > ' + X + ' :is(button,input,select,textarea,a,[onclick],[role=button]),body.mtBlk .app > ' + X + ' :is(button,input,select,textarea,a,[onclick],[role=button]){opacity:.38!important;cursor:default!important;}';
+      document.head.appendChild(st);
+    })();
     var last = null; try { last = JSON.parse(localStorage.getItem('mtgCache') || 'null'); } catch (e) {}
     function start() {
       if (last) render(last);
