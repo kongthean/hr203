@@ -269,6 +269,18 @@
          border: 1px solid #cbd5e1; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); min-width: 130px; z-index: 200; overflow: hidden;
      }
      .lang-menu.show { display: block; }
+     /* v6.98: Global Search slides out next to its icon inside the top bar (was a centre pop-up) */
+     .gs-wrap { display: inline-flex; align-items: center; gap: 6px; position: relative; }
+     .gs-in { width: 0; opacity: 0; padding: 7px 0; border: 0; margin: 0; border-radius: 8px; font-size: 13px; background: #fff; color: #0f172a; outline: none; transition: width .25s ease, opacity .2s ease, padding .25s ease; box-sizing: border-box; }
+     #gsWrap .gs-in { width: 0; min-width: 0; padding: 0 !important; border: 0 !important; margin: 0 !important; opacity: 0; pointer-events: none; }
+     #gsWrap.open .gs-in { width: 230px; opacity: 1; padding: 7px 12px !important; pointer-events: auto; }
+     .gs-res { display: none; position: absolute; right: 0; top: calc(100% + 8px); width: min(380px, calc(100vw - 28px)); max-height: 60vh; overflow-y: auto; background: #fff; color: #0f172a; border: 1px solid #cbd5e1; border-radius: 10px; box-shadow: 0 8px 22px rgba(0,0,0,.22); padding: 4px 10px 8px; z-index: 300; }
+     .gs-wrap.open .gs-res:not(:empty) { display: block; }
+     @media (max-width: 600px) { #gsWrap.open .gs-in { width: 150px; } }
+     /* a menu or the search list that is open must show ABOVE the orange maintenance / notice bars */
+     #stickyTop:has(.lang-menu.show), #stickyTop:has(.gs-wrap.open) { z-index: 100003; }
+     #stickyTop .lang-menu.show, #gsWrap.open .gs-res { z-index: 100005; }
+
      .lang-option { display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: #1e293b; text-decoration: none; font-size: 12px; cursor: pointer; transition: background 0.15s; }
      .lang-option:hover { background: #f1f5f9; }
      .lang-option.active { font-weight: bold; background: #e2e8f0; }
@@ -1300,10 +1312,12 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          <span class="header-brand">Admin</span>
 
          <!-- v6.65: Global Search -->
-         <div class="lang-dropdown">
+         <div class="lang-dropdown gs-wrap" id="gsWrap">
+             <input type="text" class="gs-in" id="globalSearchInput" oninput="onGlobalSearchInput()" onkeydown="if(event.key==='Escape')closeGlobalSearch()" placeholder="Search employees or documents..." autocomplete="off">
              <button class="lang-btn" onclick="openGlobalSearch(event)" title="Search" id="globalSearchBtn">
                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px; height:16px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
              </button>
+             <div class="gs-res" id="globalSearchResults"></div>
          </div>
 
          <!-- Notification Bell -->
@@ -2156,18 +2170,6 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
  <!-- v6.65: GLOBAL SEARCH overlay - client-side filter over already-loaded employees[] and
       printFiles[], grouped results, live-filtered as you type. -->
- <div class="modal" id="globalSearchModal" onclick="if(event.target===this) closeGlobalSearch()">
-     <div class="modal-content" style="max-width: 480px;">
-         <div class="modal-header">
-             <h4 data-i18n="globalSearchTitle">Search</h4>
-             <button class="modal-close" onclick="closeGlobalSearch()">&times;</button>
-         </div>
-         <div class="form-group">
-             <input type="text" id="globalSearchInput" oninput="onGlobalSearchInput()" placeholder="Search employees or documents...">
-         </div>
-         <div id="globalSearchResults" style="max-height:400px; overflow-y:auto;"></div>
-     </div>
- </div>
 
  <!-- v6.56: EXPORT LEAVE REPORT MODAL - a printable month-end report, either "Available This
       Month" (remaining annual leave usable this month) or "Exceeded Hours" (hours used beyond
@@ -21712,23 +21714,38 @@ document.addEventListener('DOMContentLoaded', pgScan);
  /* ---------- 2. GLOBAL SEARCH (pure client-side filter over employees[]/printFiles[]) ---------- */
  function openGlobalSearch(e) {
      if (e) e.stopPropagation();
+     const w = document.getElementById('gsWrap');
+     if (!w) return;
+     if (w.classList.contains('open')) { closeGlobalSearch(); return; }
      closeAllMenus();
      const input = document.getElementById('globalSearchInput');
      if (input) input.value = '';
      const resultsEl = document.getElementById('globalSearchResults');
      if (resultsEl) resultsEl.innerHTML = '';
-     document.getElementById('globalSearchModal').style.display = 'flex';
-     setTimeout(function () { if (input) input.focus(); }, 50);
+     w.classList.add('open');
+     setTimeout(function () { if (input) input.focus(); }, 120);
  }
 
  function closeGlobalSearch() {
-     document.getElementById('globalSearchModal').style.display = 'none';
+     const w = document.getElementById('gsWrap');
+     if (w) w.classList.remove('open');
+     const input = document.getElementById('globalSearchInput'); if (input) input.blur();
+     const resultsEl = document.getElementById('globalSearchResults'); if (resultsEl) resultsEl.innerHTML = '';
  }
+ document.addEventListener('click', function (ev) { const w = document.getElementById('gsWrap'); if (w && w.classList.contains('open') && !w.contains(ev.target)) closeGlobalSearch(); });
+ document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') closeGlobalSearch(); });
 
+ /* keep the results list inside the screen (matters on a phone, where the icon is not at the far edge) */
+ function gsFit() {
+     const r = document.getElementById('globalSearchResults'); if (!r) return;
+     r.style.right = '0px';
+     const rc = r.getBoundingClientRect();
+     if (rc.width && rc.left < 8) r.style.right = (rc.left - 8) + 'px';
+ }
  let _globalSearchTimer = null;
  function onGlobalSearchInput() {
      if (_globalSearchTimer) clearTimeout(_globalSearchTimer);
-     _globalSearchTimer = setTimeout(runGlobalSearch, 200);
+     _globalSearchTimer = setTimeout(function () { runGlobalSearch(); gsFit(); }, 200);
  }
 
  function runGlobalSearch() {
