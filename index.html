@@ -4339,17 +4339,22 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
      if (isTextSubmitBtn) btnEl.innerHTML = t('btnSavingLabel');
      btnEl.disabled = true;
      let settled = false;
+     let timeoutId = null, warnId = null, hardId = null;
      const restore = () => {
          if (settled) return;
          settled = true;
+         clearTimeout(timeoutId); clearTimeout(warnId); clearTimeout(hardId);
          btnEl.disabled = false;
          btnEl.innerHTML = originalHtml;
      };
-     const timeoutId = setTimeout(() => {
-         if (settled) return;
-         restore();
-         showToast(false, t('toastSlowConnectionMsg'));
-     }, 20000);
+     /* v6.97: after 20 s the button now STAYS LOCKED and a red "Still saving - do not press again"
+        warning is repeated until the save really finishes (the normal "Saved" / "failed" message then
+        replaces it). Before, the button unlocked at 20 s while the save was still travelling, so a
+        second press saved the same entry twice. Only if nothing is confirmed after 3 minutes does it
+        unlock, with a message to check the records first. */
+     const stillSaving = () => { if (settled) return; showToast(false, t('toastSlowConnectionMsg')); warnId = setTimeout(stillSaving, 5000); };
+     timeoutId = setTimeout(stillSaving, 20000);
+     hardId = setTimeout(() => { if (settled) return; restore(); showToast(false, t('toastNotConfirmedMsg')); }, 180000);
      let result;
      try {
          result = fn();
@@ -5034,7 +5039,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          chooserAdminSub: "Manage employees & records",
          toastSuccess: "Success",
         toastFail: "Failed",
-        toastSlowConnectionMsg: "Taking too long - please check your internet connection and try again.",
+        toastSlowConnectionMsg: "Still saving... Do NOT press again. Please wait.",
+        toastNotConfirmedMsg: "Not confirmed yet. Check the records before trying again, so it is not saved twice.",
         empIdNotFound: "Employee ID not found",
          yesLabel: "Yes",
          noLabel: "No",
@@ -7473,7 +7479,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          chooserAdminSub: "គ្រប់គ្រងបុគ្គលិក និងកំណត់ត្រា",
          toastSuccess: "ជោគជ័យ",
          toastFail: "មិនជោគជ័យ",
-         toastSlowConnectionMsg: "ចំណាយពេលយូរពេក - សូមពិនិត្យការភ្ជាប់អ៊ីនធឺណិតរបស់អ្នក ហើយព្យាយាមម្តងទៀត។",
+         toastSlowConnectionMsg: "កំពុងរក្សាទុក... កុំចុចម្តងទៀត។ សូមរង់ចាំ។",
+         toastNotConfirmedMsg: "មិនទាន់បញ្ជាក់ទេ។ សូមពិនិត្យកំណត់ត្រាមុនពេលព្យាយាមម្តងទៀត ដើម្បីកុំឲ្យរក្សាទុកពីរដង។",
          empIdNotFound: "រកមិនឃើញអត្តលេខបុគ្គលិកទេ",
          yesLabel: "បាទ/ចាស",
          noLabel: "ទេ",
@@ -9874,7 +9881,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          chooserAdminSub: "管理员工与记录",
          toastSuccess: "成功",
          toastFail: "失败",
-         toastSlowConnectionMsg: "耗时过长 - 请检查您的网络连接后重试。",
+         toastSlowConnectionMsg: "仍在保存中…请勿再次点击，请稍候。",
+         toastNotConfirmedMsg: "尚未确认。请先检查记录再重试，以免重复保存。",
          empIdNotFound: "找不到该员工编号",
          yesLabel: "是",
          noLabel: "否",
@@ -16366,8 +16374,17 @@ function leaveSubmitCore(){
         const selectedDate = document.getElementById('leaveDate').value;
         const formEl = this;
 
+        /* v6.97: the dated leave log entries are now written in the SAME step as the totals (see hrWriteEmp's extra),
+           so the 8-hour-per-day check sees them at once even on a slow connection. Same values as before. */
+        const histExtra = {}, histNow = Date.now();
+        [[addAL, 'thMasterAnnualLeave'], [addSpecial, 'thMasterSpecialLeave'], [addMaternity, 'thMasterMaternityLeave'], [addTravel, 'thMasterTravelLeave'], [addSick, 'thMasterSickLeave'], [addOther, 'thMasterOtherLeave'], [addPersonal, 'thMasterPersonalLeave']].forEach(function (p) {
+            if (p[0] > 0) histExtra['leaveHistory/' + db.ref('leaveHistory').push().key] = { empId: id, empName: emp.name, leaveType: p[1], hours: p[0], date: selectedDate, timestamp: histNow };
+        });
+        const priorPersonalThisMonth = leaveHistory
+            .filter(function(h) { return h.empId === id && h.leaveType === 'thMasterPersonalLeave' && (h.date || '').slice(0, 7) === (selectedDate ? selectedDate.slice(0, 7) : ''); })
+            .reduce(function(sum, h) { return sum + (parseFloat(h.hours) || 0); }, 0);
         const lowerUps = window.__hrLower; window.__hrLower = null;
-        withBusyButton(submitBtn, () => hrWriteEmp(emp, selectedDate, updatePayload).then(() => {
+        withBusyButton(submitBtn, () => hrWriteEmp(emp, selectedDate, updatePayload, histExtra).then(() => {
             showToast(true);
             if (lowerUps) db.ref().update(lowerUps);
             try { logActivity('Leave entry', 'Leave', id, selectedDate, emp.name + ' | AL ' + addAL + ' Sp ' + addSpecial + ' Mat ' + addMaternity + ' Tr ' + addTravel + ' Pers ' + addPersonal + ' Sick ' + addSick + ' Oth ' + addOther + (lowerUps ? ' | attendance lowered' : '')); } catch (e) {}
@@ -16391,7 +16408,6 @@ function leaveSubmitCore(){
             ];
             entitlementTypes.forEach(function(item) {
                 if (item.addVal > 0) {
-                    db.ref('leaveHistory').push({ empId: id, empName: emp.name, leaveType: item.labelKey, hours: item.addVal, date: selectedDate, timestamp: Date.now() });
                     /* v6.96: also stores language-neutral kind/params so each employee sees this in
                        THEIR OWN language when they open it (see localizeNotif). message/description
                        stay as a fallback in the admin's language. */
@@ -16408,10 +16424,6 @@ function leaveSubmitCore(){
                 }
             });
             if (addPersonal > 0) {
-                db.ref('leaveHistory').push({ empId: id, empName: emp.name, leaveType: 'thMasterPersonalLeave', hours: addPersonal, date: selectedDate, timestamp: Date.now() });
-                const priorPersonalThisMonth = leaveHistory
-                    .filter(function(h) { return h.empId === id && h.leaveType === 'thMasterPersonalLeave' && (h.date || '').slice(0, 7) === monthKey; })
-                    .reduce(function(sum, h) { return sum + (h.hours || 0); }, 0);
                 const totalPersonalThisMonth = priorPersonalThisMonth + addPersonal;
                 const personalParams = { hours: addPersonal, total: totalPersonalThisMonth.toFixed(2), date: selectedDate || '' };
                 db.ref('notifications').push({
@@ -17766,14 +17778,15 @@ function hrReason(title) {
     });
 }
 /* write the running totals of an employee for an entry on `date`: open month = as before, later month = log only, confirmed month = fix its frozen sheet and Previous used */
-function hrWriteEmp(emp, date, payload) {
+function hrWriteEmp(emp, date, payload, extra) {
     var md = hrMode(date);
-    if (md === 'open') return db.ref('employees/' + emp.firebaseKey).update(payload);
-    if (md === 'future') return Promise.resolve();
+    if (md === 'open') { if (!extra) return db.ref('employees/' + emp.firebaseKey).update(payload); var ou = {}; Object.keys(payload).forEach(function (k) { ou['employees/' + emp.firebaseKey + '/' + k] = payload[k]; }); Object.keys(extra).forEach(function (k) { ou[k] = extra[k]; }); return db.ref().update(ou); }
+    if (md === 'future') return extra ? db.ref().update(extra) : Promise.resolve();
     var ym = String(date).slice(0, 7), ups = {}, dPrev = 0, reason = window.__hrR || ''; window.__hrR = null;
     Object.keys(payload).forEach(function (k) { var delta = (parseFloat(payload[k]) || 0) - (parseFloat(emp[k]) || 0), cur = parseFloat(((hrSheets[ym] || {})[emp.firebaseKey] || {})[k]) || 0; ups['monthSheets/' + ym + '/' + emp.firebaseKey + '/' + k] = Math.max(0, cur + delta); if (k === 'monthUsed') dPrev += delta; });
     if (dPrev) ups['employees/' + emp.firebaseKey + '/prevUsed'] = Math.max(0, (parseFloat(emp.prevUsed) || 0) + dPrev);
     try { logActivity('Closed month edit', 'Month', ym, hrYmName(ym), emp.id + ' ' + (emp.name || '') + ' | ' + JSON.stringify(payload) + ' | ' + reason); } catch (e) {}
+    if (extra) Object.keys(extra).forEach(function (k) { ups[k] = extra[k]; });
     return db.ref().update(ups);
 }
 function hrSetOpen(btn) { var v = (document.getElementById('hrOpenIn') || {}).value; if (!v) { showToast(false); return; } db.ref('meta/openMonth').set(v).then(function () { showToast(true); try { logActivity('Set open month', 'Month', v, hrYmName(v), ''); } catch (e) {} }).catch(function () { showToast(false); }); }
@@ -17987,7 +18000,7 @@ function hrAttInput(el) { var mx = parseFloat(el.getAttribute('data-max')); var 
             instead of adding, so the new hours would never actually sum into the total. */
          if (md === 'open') { updates['employees/' + key + '/workHours'] = (parseFloat(emp.workHours) || 0) + entry.work; updates['employees/' + key + '/otHours'] = (parseFloat(emp.otHours) || 0) + entry.ot; }
          else if (md === 'closed') { const ym0 = date.slice(0, 7), sn0 = ((hrSheets[ym0] || {})[key]) || {}; updates['monthSheets/' + ym0 + '/' + key + '/workHours'] = (parseFloat(sn0.workHours) || 0) + entry.work; updates['monthSheets/' + ym0 + '/' + key + '/otHours'] = (parseFloat(sn0.otHours) || 0) + entry.ot; try { logActivity('Closed month edit', 'Month', ym0, hrYmName(ym0), emp.id + ' work+' + entry.work + ' ot+' + entry.ot + ' | ' + attReason); } catch (e) {} }
-         historyEntries.push({ empId: emp.id, empName: emp.name, workHours: entry.work, otHours: entry.ot, date: date, timestamp: Date.now() });
+         { const hh = { empId: emp.id, empName: emp.name, workHours: entry.work, otHours: entry.ot, date: date, timestamp: Date.now() }; historyEntries.push(hh); updates['attendanceHistory/' + db.ref('attendanceHistory').push().key] = hh; }
          countUpdated++;
      });
 
@@ -17996,7 +18009,6 @@ function hrAttInput(el) { var mx = parseFloat(el.getAttribute('data-max')); var 
 
      withBusyButton(btnEl, () => db.ref().update(updates).then(() => {
          showToast(true);
-         historyEntries.forEach(function(h) { db.ref('attendanceHistory').push(h); });
          try { logActivity('Attendance entry', 'Attendance', date, date, countUpdated + ' employee(s)' + (attReason ? ' | ' + attReason : '')); } catch (e) {}
          loadAttendanceDeptTable(); /* refresh the boxes back to blank so the same batch can't be added twice by accident */
      }).catch(() => showToast(false)));
@@ -22402,11 +22414,10 @@ function lxRecord(btn) {
         const p = per[k];
         updates['employees/' + k + '/workHours'] = (parseFloat(p.emp.workHours) || 0) + p.work;
         updates['employees/' + k + '/otHours'] = (parseFloat(p.emp.otHours) || 0) + p.ot;
-        hist.push({ empId: p.emp.id, empName: p.emp.name, workHours: p.work, otHours: p.ot, nightH: p.night, absentH: p.absent, permH: p.perm, lateH: p.late, date: date, timestamp: Date.now() });
+        const hx = ({ empId: p.emp.id, empName: p.emp.name, workHours: p.work, otHours: p.ot, nightH: p.night, absentH: p.absent, permH: p.perm, lateH: p.late, date: date, timestamp: Date.now() }); hist.push(hx); updates['attendanceHistory/' + db.ref('attendanceHistory').push().key] = hx;
     });
     if (btn) btn.disabled = true;
     db.ref().update(updates).then(function () {
-        hist.forEach(function (x) { db.ref('attendanceHistory').push(x); });
         try { logActivity('Attendance Extract', 'Attendance', date, date, keys.length + ' employee(s)'); } catch (e) {}
         lxDupOk = '';
         lxRecMsg(fillTemplate(t('lxRecDone'), { n: keys.length, d: date }) + (missing ? ' ' + fillTemplate(t('lxRecMissing'), { m: missing }) : ''), false);
