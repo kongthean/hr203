@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script>try{var q=sessionStorage;if(q.getItem('activeView')!=='chooser'&&(q.getItem('isLoggedIn')==='true'||q.getItem('empLoggedInId')))document.documentElement.className+=' rf-skip';setTimeout(function(){document.documentElement.classList.remove('rf-skip')},6000)}catch(e){}</script><style>.rf-skip #chooserApp{display:none!important}</style>
+<script>try{var q=sessionStorage;if(q.getItem('activeView')!=='chooser'&&(q.getItem('isLoggedIn')==='true'||q.getItem('empLoggedInId')))document.documentElement.className+=' rf-skip'+((q.getItem('activeView')==='admin'||(!q.getItem('activeView')&&q.getItem('isLoggedIn')==='true'))?' rf-adm':'');setTimeout(function(){document.documentElement.classList.remove('rf-skip');document.documentElement.classList.remove('rf-adm')},6000)}catch(e){}</script><style>.rf-skip #chooserApp{display:none!important}.rf-adm #employeeApp{display:none!important}</style>
 <!-- PWA-BEGIN -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -3716,8 +3716,16 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         #tab-opshub.wzmode .oh-bar{display:none}
         #tab-opshub .wz-stick{position:sticky;top:0;z-index:20;background:#f1f5f9;padding-top:2px}#tab-opshub .wz-stick .oh-card{margin-bottom:8px}#tab-opshub .wz-top{margin-bottom:10px;box-shadow:0 4px 10px rgba(15,23,42,.08)}
         #tab-opshub .oh-chips .oh-chg{margin-right:6px}
-        #tab-opshub .r3cols.sm-one{display:block;max-width:560px}#tab-opshub .r3cols.sm-one .oh-card{max-width:none;margin-bottom:12px}
+        #tab-opshub .r3cols.sm-one{display:block;max-width:640px}#tab-opshub .r3cols.sm-one .oh-card{max-width:none;margin-bottom:12px}
         #tab-opshub .oh-card{margin-bottom:12px}
+        /* one size for every card and every box in the step pages */
+        #tab-opshub .wz .r3cols,#tab-opshub .wz .r2cols,#tab-opshub .wz .r3cols.sm-one{display:block;max-width:640px;margin-left:auto;margin-right:auto}
+        #tab-opshub .wz .r3cols .oh-card,#tab-opshub .wz .r2cols .oh-card,#tab-opshub .wz-body>.oh-card,#tab-opshub .wz-body>.r2-warn{width:100%;max-width:640px;box-sizing:border-box;margin-left:auto;margin-right:auto;margin-bottom:12px}
+        #tab-opshub .wz .r2-3{align-items:stretch}
+        #tab-opshub .wz .r2-3>div{display:flex;flex-direction:column;justify-content:flex-end}
+        #tab-opshub .wz .r2-l{text-align:center;line-height:1.25}
+        #tab-opshub .wz .r2i,#tab-opshub .wz .r2-fix{height:46px;min-height:46px;box-sizing:border-box}
+        #tab-opshub .wz .r4big .r2-fix{font-size:20px}
         #tab-opshub .oh-mnav{display:flex;align-items:center;justify-content:center;gap:18px;padding:10px 14px}
         #tab-opshub .oh-mnav .oh-chg{width:46px;height:42px;font-size:22px;line-height:1;padding:0}
         #tab-opshub .oh-mlbl{font-size:19px;font-weight:700;min-width:170px;text-align:center}
@@ -4854,7 +4862,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
      } else {
          showChooserView();
      }
-     document.documentElement.classList.remove('rf-skip');
+     document.documentElement.classList.remove('rf-skip'); document.documentElement.classList.remove('rf-adm');
      const rd = document.getElementById('reqDate');
      if (rd) rd.valueAsDate = new Date();
  });
