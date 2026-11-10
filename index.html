@@ -1477,6 +1477,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 <button id="nav-attcal" onclick="switchTab('tab-attcal', this)" data-i18n="navAttCal" style="display:none;">Leave &amp; Attendance Calendar</button>
 <button id="nav-printing" onclick="switchTab('tab-printing', this)" data-i18n="navPrinting" style="display:none;">Document Library</button>
 <button id="nav-auditlog" onclick="switchTab('tab-auditlog', this)" data-i18n="navAuditLog" style="display:none;">Activity Log</button>
+<button id="nav-opshub" onclick="switchTab('tab-opshub', this)" data-i18n="navOpsHub" style="display:none;">Operations Hub</button>
 <button id="nav-certificates" onclick="switchTab('tab-certificates', this)" data-i18n="navCertificates" style="display:none;">Certificates</button>
 <!-- v6.98: Face Attendance (admin-only, reachable from Main Menu) -->
 <button id="nav-faceatt" onclick="switchTab('tab-faceatt', this)" data-i18n="navFaceAtt" style="display:none;">Face Attendance</button>
@@ -1685,9 +1686,9 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 <button class="quick-btn admin-only" style="background:linear-gradient(135deg,#475569,#1e293b);" onclick="triggerNav('tab-auditlog', 'nav-auditlog')">
     <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8v4l3 3"/><circle cx="12" cy="12" r="9"/></svg></span><span class="quick-btn-label" data-i18n="navAuditLog">Activity Log</span>
 </button>
-<!-- v6.65: Employment Certificate generator (Admin+HR, not employee - not admin-only) -->
-<button class="quick-btn" style="background:linear-gradient(135deg,#065f46,#064e3b);" onclick="triggerNav('tab-certificates', 'nav-certificates')">
-    <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg></span><span class="quick-btn-label" data-i18n="navCertificates">Certificates</span>
+<!-- v8.00: Operations Hub (Administration only) - full-screen page for daily / monthly / stock reports -->
+<button class="quick-btn admin-only" style="background:linear-gradient(135deg,#0b1d3a,#24406e);" onclick="triggerNav('tab-opshub', 'nav-opshub')">
+    <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.5h7M17.5 14v7"/></svg></span><span class="quick-btn-label" data-i18n="navOpsHub">Operations Hub</span>
 </button>
 <!-- v7.72: Calendar menu (page 1) - Khmer lunar calendar, holidays, festivals, holy days -->
 <button class="quick-btn amber" onclick="triggerNav('tab-calendar', 'nav-calendar')">
@@ -1735,7 +1736,11 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
             <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v3M14 20h3M20 20h1"/></svg></span>
             <span class="quick-btn-label" id="amMenuLabel">Asset Manager</span>
         </button>
-     </div>
+     <!-- v6.65: Employment Certificate generator (Admin+HR, not employee - not admin-only) -->
+<button class="quick-btn" style="background:linear-gradient(135deg,#065f46,#064e3b);" onclick="triggerNav('tab-certificates', 'nav-certificates')">
+    <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/></svg></span><span class="quick-btn-label" data-i18n="navCertificates">Certificates</span>
+</button>
+</div>
      <div id="menuPager" style="display:flex; justify-content:center; gap:10px; margin:0 0 14px;">
          <button type="button" class="menu-dot on" id="menuDot1" onclick="menuPage(1)" aria-label="Page 1">1</button>
          <button type="button" class="menu-dot" id="menuDot2" onclick="menuPage(2)" aria-label="Page 2">2</button>
@@ -3637,6 +3642,37 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
      Employee role the same way the rest of #adminApp already is). Generates a printable
      Certificate of Employment in EN/KM/ZH via a print-styled new window, same technique as
      the Leave & Attendance Calendar PDF export. -->
+<!-- v8.00: OPERATIONS HUB (Administration only). Full-screen page: choose Department and Group, then Daily / Monthly / Stock / Other. -->
+<div id="tab-opshub" class="tab-panel" style="padding:0; background:transparent; border:0; box-shadow:none;">
+    <style>
+        #tab-opshub .oh-bar{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0b1d3a,#24406e);border-radius:16px;padding:12px 16px;color:#fff;margin-bottom:14px}
+        #tab-opshub .oh-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;background:rgba(255,255,255,.16);color:#fff;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;min-height:40px}
+        #tab-opshub .oh-ttl{flex:1;min-width:0;font-size:19px;font-weight:700;display:flex;align-items:center;gap:9px}
+        #tab-opshub .oh-ttl span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        #tab-opshub .oh-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+        #tab-opshub .oh-chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+        #tab-opshub .oh-chip{padding:6px 14px;border-radius:999px;background:#0b1d3a;color:#fff;font-size:13px;font-weight:700}
+        #tab-opshub .oh-lbl{font-size:13px;font-weight:700;color:#475569;margin:12px 0 6px}
+        #tab-opshub select{width:100%;box-sizing:border-box;min-height:46px;font-size:15px;border:1.5px solid #cbd5e1;border-radius:10px;padding:0 12px;background:#fff}
+        #tab-opshub .oh-go{margin-top:16px;width:100%;min-height:48px;border:0;border-radius:12px;background:linear-gradient(135deg,#064e3b,#15906b);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+        #tab-opshub .oh-chg{margin-left:auto;padding:7px 16px;border-radius:10px;border:1.5px solid #cbd5e1;background:#fff;font-size:13px;font-weight:700;color:#334155;cursor:pointer}
+        #tab-opshub .oh-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+        #tab-opshub .oh-tile{height:150px;border:0;border-radius:18px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(11,29,58,.22)}
+        #tab-opshub .oh-list{display:flex;flex-direction:column;gap:10px;max-width:760px}
+        #tab-opshub .oh-row{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;font:inherit}
+        #tab-opshub .oh-num{width:40px;height:40px;border-radius:11px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;flex:none}
+        #tab-opshub .oh-rn{flex:1;font-size:15px;font-weight:700;color:#0f172a}
+        #tab-opshub .oh-rs{font-size:12px;font-weight:700;color:#92400e;background:#fef3c7;border-radius:8px;padding:3px 9px}
+        #tab-opshub .oh-note{font-size:12px;color:#64748b;margin-top:12px}
+        #tab-opshub .oh-h{font-size:20px;font-weight:700;margin:4px 0 12px;color:#0f172a}
+    </style>
+    <div class="oh-bar">
+        <button type="button" class="oh-back" id="ohBackBtn" onclick="ohBack()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span id="ohBackTxt">Main Menu</span></button>
+        <div class="oh-ttl"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.5h7M17.5 14v7"/></svg><span id="ohTitle">Operations Hub</span></div>
+    </div>
+    <div id="ohBody"></div>
+</div>
+
 <div id="tab-certificates" class="tab-panel">
     <h3 data-i18n="certTabTitle">Employment Certificate</h3>
     <p style="font-size:11px; color:#64748b; margin-bottom:10px;" data-i18n="certTabSub">Generate a printable Certificate of Employment for an employee, for official use (banks, embassies, visas, etc).</p>
@@ -7083,6 +7119,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         /* v6.65: Nav labels for the 2 new tabs */
         navAuditLog: "Activity Log",
         navCertificates: "Certificates",
+        navOpsHub: "Operations Hub", ohChooseTitle: "Choose Department and Group", ohDept: "Department", ohGroup: "Group", ohSelect: "-- Choose --", ohContinue: "Continue", ohWorkingOn: "Working on", ohChange: "Change", ohMainMenu: "Main Menu", ohDaily: "Daily Reports", ohMonthly: "Monthly Report", ohStock: "Stock Report", ohOther: "Other", ohStockChoose: "Choose report to do", ohSoon: "Not built yet. It will be added step by step.", ohBack: "Back", ohNeedBoth: "Choose a Department and a Group first", ohNoDept: "No departments yet", ohR1: "RO Water Plant Consumables", ohR2: "Chemical Usage (Polymer+, NaOCl, Sugar)", ohR3: "PAC and NaOCl Yearly Table", ohR4: "Chemical Cost, Wastewater and Sludge", ohR5: "Cambodia Monthly Indicators", ohR6: "Chemical Optimization (Cambodia)", ohR7: "21-Plant Monthly Indicators", ohR8: "Remaining Stock at Month End", ohRNote: "Report names are placeholders. They will be confirmed one by one.",
         navConvertPhoto: "Extract",
         navCalendar: "Calendar", calSoon: "Coming soon", calComing: "Calendar is coming soon",
         convertPhotoSub: "Choose an Excel, Word (.docx) or PDF file from your device. Nothing is uploaded anywhere - it stays on this device and turns into picture(s) you can download.",
@@ -9492,6 +9529,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
         navAuditLog: "កំណត់ត្រាសកម្មភាព",
         navCertificates: "វិញ្ញាបនបត្រ",
+        navOpsHub: "មជ្ឈមណ្ឌលប្រតិបត្តិការ", ohChooseTitle: "ជ្រើសរើសនាយកដ្ឋាន និងក្រុម", ohDept: "នាយកដ្ឋាន", ohGroup: "ក្រុម", ohSelect: "-- ជ្រើសរើស --", ohContinue: "បន្ត", ohWorkingOn: "កំពុងធ្វើការលើ", ohChange: "ប្តូរ", ohMainMenu: "ម៉ឺនុយមេ", ohDaily: "របាយការណ៍ប្រចាំថ្ងៃ", ohMonthly: "របាយការណ៍ប្រចាំខែ", ohStock: "របាយការណ៍ស្តុក", ohOther: "ផ្សេងៗ", ohStockChoose: "ជ្រើសរើសរបាយការណ៍ដែលត្រូវធ្វើ", ohSoon: "មិនទាន់បង្កើតទេ។ នឹងបន្ថែមជាបណ្តើរៗ។", ohBack: "ត្រឡប់ក្រោយ", ohNeedBoth: "សូមជ្រើសរើសនាយកដ្ឋាន និងក្រុមជាមុនសិន", ohNoDept: "មិនទាន់មាននាយកដ្ឋានទេ", ohR1: "សម្ភារៈប្រើប្រាស់រោងចក្រទឹក RO", ohR2: "ការប្រើប្រាស់គីមី (Polymer+, NaOCl, ស្ករ)", ohR3: "តារាង PAC និង NaOCl ប្រចាំឆ្នាំ", ohR4: "តម្លៃគីមី ទឹកកខ្វក់ និងល្បាប់", ohR5: "សូចនាករប្រចាំខែកម្ពុជា", ohR6: "ការធ្វើឱ្យប្រសើរគីមី (កម្ពុជា)", ohR7: "សូចនាករប្រចាំខែរោងចក្រ ២១", ohR8: "ស្តុកនៅសល់ចុងខែ", ohRNote: "ឈ្មោះរបាយការណ៍ជាបណ្តោះអាសន្ន។ នឹងបញ្ជាក់ម្តងមួយៗ។",
         navConvertPhoto: "ស្រង់ចេញ",
         navCalendar: "ប្រតិទិន", calSoon: "ឆាប់ៗនេះ", calComing: "ប្រតិទិននឹងមកដល់ឆាប់ៗនេះ",
         convertPhotoSub: "ជ្រើសរើសឯកសារ Excel, Word (.docx) ឬ PDF ពីឧបករណ៍របស់អ្នក។ គ្មានអ្វីត្រូវបានផ្ទុកឡើងទៅកន្លែងណាឡើយ - វានៅតែស្ថិតនៅលើឧបករណ៍នេះ ហើយប្រែក្លាយទៅជារូបភាពដែលអ្នកអាចទាញយកបាន។",
@@ -11894,6 +11932,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
         navAuditLog: "活动日志",
         navCertificates: "证明书",
+        navOpsHub: "运营中心", ohChooseTitle: "选择部门和小组", ohDept: "部门", ohGroup: "小组", ohSelect: "-- 请选择 --", ohContinue: "继续", ohWorkingOn: "当前", ohChange: "更改", ohMainMenu: "主菜单", ohDaily: "每日报表", ohMonthly: "月度报表", ohStock: "库存报表", ohOther: "其他", ohStockChoose: "选择要做的报表", ohSoon: "尚未建立，将逐步添加。", ohBack: "返回", ohNeedBoth: "请先选择部门和小组", ohNoDept: "暂无部门", ohR1: "RO饮用水厂耗材", ohR2: "药剂使用量 (Polymer+、NaOCl、糖)", ohR3: "PAC 与 NaOCl 年度表", ohR4: "药剂费用、污水量与污泥", ohR5: "柬埔寨月度管理指标", ohR6: "药剂优化分析 (柬埔寨)", ohR7: "21个污水厂月度指标", ohR8: "月底剩余库存", ohRNote: "报表名称为暂定，将逐一确认。",
         navConvertPhoto: "提取",
         navCalendar: "日历", calSoon: "即将推出", calComing: "日历功能即将推出",
         convertPhotoSub: "从您的设备选择一个 Excel、Word (.docx) 或 PDF 文件。不会上传到任何地方 - 文件保留在此设备上，并转换成您可以下载的图片。",
@@ -13050,6 +13089,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
          faInitTab();
      }
      if(tabId === 'tab-export') xcInitTab();
+     if(tabId === 'tab-opshub') { if (typeof ohIsAdmin === 'function' && !ohIsAdmin()) { switchTab('tab-home', document.getElementById('nav-home')); return; } ohInit(); }
  }
  
  function triggerNav(tabId, navBtnId) {
@@ -21802,7 +21842,7 @@ const MT_SVC = [
     ['recdeleted', 'navRecentlyDeleted', 'fn', 'openRecentlyDeletedModal'], ['pending', 'navPendingApprovals', 'fn', 'openPendingApprovalsModal'],
     ['mgmt', 'navManagement', 'fn', 'openManagementModal'], ['devices', 'navDeviceLog', 'fn', 'openDeviceLogModal'],
     ['backup', 'navBackupNow', 'fn', 'openBackupLangModal'], ['notif', 'navManageNotif', 'fn', 'openManageNotifModal'],
-    ['audit', 'navAuditLog', 'tab', 'tab-auditlog'], ['cert', 'navCertificates', 'tab', 'tab-certificates'], ['convert', 'navConvertPhoto', 'fn', 'openConvertPhotoModal'],
+    ['audit', 'navAuditLog', 'tab', 'tab-auditlog'], ['cert', 'navCertificates', 'tab', 'tab-certificates'], ['ophub', 'navOpsHub', 'tab', 'tab-opshub'], ['convert', 'navConvertPhoto', 'fn', 'openConvertPhotoModal'],
     ['faceatt', 'navFaceAtt', 'tab', 'tab-faceatt'], ['export', 'navExport', 'tab', 'tab-export'],
     ['mse', 'navMSE', 'tab', 'tab-mse'], ['deptreq', 'navDeptReq', 'fn', 'openDeptReqModal'], ['deptiv', 'navDeptIv', 'fn', 'openDeptIvModal'], ['datectl', 'navDateCtl', 'fn', 'openDateCtl'], ['clr', 'navClr', 'fn', 'openClr'], ['deptacc', 'navDeptAcc', 'fn', 'openDeptAccModal'],
     ['lforms', 'lfStaffTitle', 'fn', 'openLfStaff'], ['cardcenter', 'ccCenter', 'fn', 'openCardCenter'], ['search', 'globalSearchTitle', 'fn', 'openGlobalSearch'], ['bell', 'notifTitle', 'fn', 'toggleNotifPanel'],
@@ -29391,5 +29431,81 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+<script>
+/* ================= v8.00: OPERATIONS HUB - Part 1 (the frame) =================
+   Administration only. Department = the top-level departments (dgOrg), Group = the groups inside it (departments[].parent).
+   Nothing is saved to the database in this part; the last choice is only remembered in this browser. No calculation is involved. */
+var ohSel = { dept: '', group: '' }, ohView = 'choose', ohReport = 0;
+function ohIsAdmin() { return sessionStorage.getItem('isLoggedIn') === 'true' && (sessionStorage.getItem('loggedInRole') || 'admin') === 'admin'; }
+function ohEsc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function ohSave() { try { localStorage.setItem('ohSel', JSON.stringify(ohSel)); } catch (e) {} }
+function ohLoad() { try { var v = JSON.parse(localStorage.getItem('ohSel') || 'null'); if (v && typeof v === 'object') ohSel = { dept: String(v.dept || ''), group: String(v.group || '') }; } catch (e) {} }
+function ohValid() {
+    if (!ohSel.dept || !ohSel.group) return false;
+    return dgOrg.some(function (o) { return o.name === ohSel.dept; }) && departments.some(function (g) { return g.parent === ohSel.dept && g.name === ohSel.group; });
+}
+function ohInit() { ohLoad(); ohView = ohValid() ? 'menu' : 'choose'; ohReport = 0; ohRender(); }
+function ohBack() {
+    if (ohView === 'soon' || ohView === 'report') { ohView = ohReport ? 'stock' : 'menu'; if (ohView === 'stock') ohReport = 0; }
+    else if (ohView === 'stock') ohView = 'menu';
+    else { switchTab('tab-home', document.getElementById('nav-home')); return; }
+    ohRender();
+}
+function ohGoStock() { ohView = 'stock'; ohReport = 0; ohRender(); }
+function ohGoSoon() { ohView = 'soon'; ohRender(); }
+function ohOpenReport(n) { ohReport = n; ohView = 'soon'; ohRender(); }
+function ohChange() { ohView = 'choose'; ohRender(); }
+function ohDeptChange(sel) { ohSel.dept = sel.value; ohSel.group = ''; ohRender(); }
+function ohGroupChange(sel) { ohSel.group = sel.value; }
+function ohContinue() {
+    var gs = document.getElementById('ohGrp'); if (gs) ohSel.group = gs.value;
+    if (!ohValid()) { showToast(false, t('ohNeedBoth')); return; }
+    ohSave(); ohView = 'menu'; ohRender();
+}
+function ohChips() {
+    return '<div class="oh-card oh-chips"><span style="font-size:13px;color:#64748b;font-weight:600">' + ohEsc(t('ohWorkingOn')) + '</span>' +
+        '<span class="oh-chip">' + ohEsc(t('ohDept')) + ': ' + ohEsc(ohSel.dept) + '</span><span class="oh-chip">' + ohEsc(t('ohGroup')) + ': ' + ohEsc(ohSel.group) + '</span>' +
+        '<button type="button" class="oh-chg" onclick="ohChange()">' + ohEsc(t('ohChange')) + '</button></div>';
+}
+var OH_COL = ['#7c3a05', '#25206b', '#0b4a47', '#0c4a5e', '#064e3b', '#6b0f2a', '#1e293b', '#7c3a05'];
+function ohRender() {
+    var body = document.getElementById('ohBody'); if (!body) return;
+    var bt = document.getElementById('ohBackTxt'), tt = document.getElementById('ohTitle');
+    var h = '';
+    if (ohView === 'choose') {
+        bt.textContent = t('ohMainMenu'); tt.textContent = t('navOpsHub');
+        if (!dgOrg.length) { h = '<div class="oh-card">' + ohEsc(t('ohNoDept')) + '</div>'; }
+        else {
+            var dOpts = '<option value="">' + ohEsc(t('ohSelect')) + '</option>' + dgOrg.map(function (o) { return '<option value="' + ohEsc(o.name) + '"' + (o.name === ohSel.dept ? ' selected' : '') + '>' + ohEsc(o.name) + '</option>'; }).join('');
+            var gOpts = '<option value="">' + ohEsc(t('ohSelect')) + '</option>' + departments.filter(function (g) { return ohSel.dept && g.parent === ohSel.dept; }).map(function (g) { return '<option value="' + ohEsc(g.name) + '"' + (g.name === ohSel.group ? ' selected' : '') + '>' + ohEsc(g.name) + '</option>'; }).join('');
+            h = '<div class="oh-card" style="max-width:560px"><div class="oh-h">' + ohEsc(t('ohChooseTitle')) + '</div>' +
+                '<div class="oh-lbl">' + ohEsc(t('ohDept')) + '</div><select id="ohDept" onchange="ohDeptChange(this)">' + dOpts + '</select>' +
+                '<div class="oh-lbl">' + ohEsc(t('ohGroup')) + '</div><select id="ohGrp" onchange="ohGroupChange(this)">' + gOpts + '</select>' +
+                '<button type="button" class="oh-go" onclick="ohContinue()">' + ohEsc(t('ohContinue')) + '</button></div>';
+        }
+    } else if (ohView === 'menu') {
+        bt.textContent = t('ohMainMenu'); tt.textContent = t('navOpsHub');
+        var tiles = [
+            ['ohDaily', 'linear-gradient(135deg,#0b4a47,#1b968c)', 'ohGoSoon()', '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 15l2.5 2.5L16 13"/>'],
+            ['ohMonthly', 'linear-gradient(135deg,#25206b,#5b57d1)', 'ohGoSoon()', '<path d="M5 3h10l4 4v14H5z"/><path d="M9 12h6M9 16h6M9 8h3"/>'],
+            ['ohStock', 'linear-gradient(135deg,#7c3a05,#d98a1a)', 'ohGoStock()', '<path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/>'],
+            ['ohOther', 'linear-gradient(135deg,#1e293b,#4b5d78)', 'ohGoSoon()', '<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>']
+        ];
+        h = ohChips() + '<div class="oh-tiles">' + tiles.map(function (x) {
+            return '<button type="button" class="oh-tile" style="background:' + x[1] + '" onclick="' + x[2] + '"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + x[3] + '</svg><span>' + ohEsc(t(x[0])) + '</span></button>';
+        }).join('') + '</div>';
+    } else if (ohView === 'stock') {
+        bt.textContent = t('navOpsHub'); tt.textContent = t('ohStock');
+        var rows = '';
+        for (var n = 1; n <= 8; n++) rows += '<button type="button" class="oh-row" onclick="ohOpenReport(' + n + ')"><span class="oh-num" style="background:' + OH_COL[n - 1] + '">' + n + '</span><span class="oh-rn">' + ohEsc(t('ohR' + n)) + '</span><span class="oh-rs">' + ohEsc(t('calSoon')) + '</span></button>';
+        h = ohChips() + '<div class="oh-h">' + ohEsc(t('ohStockChoose')) + '</div><div class="oh-list">' + rows + '</div><div class="oh-note">' + ohEsc(t('ohRNote')) + '</div>';
+    } else {
+        bt.textContent = t('ohBack'); tt.textContent = ohReport ? t('ohR' + ohReport) : t('navOpsHub');
+        h = ohChips() + '<div class="oh-card">' + ohEsc(t('ohSoon')) + '</div>';
+    }
+    body.innerHTML = h;
+}
+</script>
+
 </body>
 </html>
