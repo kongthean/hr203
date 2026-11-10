@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{var q=sessionStorage;if(q.getItem('activeView')!=='chooser'&&(q.getItem('isLoggedIn')==='true'||q.getItem('empLoggedInId')))document.documentElement.className+=' rf-skip';setTimeout(function(){document.documentElement.classList.remove('rf-skip')},6000)}catch(e){}</script><style>.rf-skip #chooserApp{display:none!important}</style>
 <!-- PWA-BEGIN -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -4853,6 +4854,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
      } else {
          showChooserView();
      }
+     document.documentElement.classList.remove('rf-skip');
      const rd = document.getElementById('reqDate');
      if (rd) rd.valueAsDate = new Date();
  });
@@ -12351,6 +12353,7 @@ function renderEmpShiftCalendar() {
      resetInactivityTimer();
      applyRoleGating();
      restoreActiveAdminTab();
+     try { if (typeof restoreActiveFn === 'function') setTimeout(restoreActiveFn, 0); } catch (e) {}
      try { kbStart(); } catch (e) {}
      try { shMarksStart(); } catch (e) {}
  }
@@ -12364,7 +12367,16 @@ function renderEmpShiftCalendar() {
      const panel = document.getElementById(savedTab);
      if (!panel || !panel.classList.contains('tab-panel')) return;
      const navBtn = document.getElementById('nav-' + savedTab.replace('tab-', ''));
-     switchTab(savedTab, navBtn);
+     let tries = 0;
+     const go = function () {
+         if (sessionStorage.getItem('activeAdminTab') !== savedTab) return;
+         let blocked = false; try { blocked = (typeof mtUnknown === 'function') && mtUnknown(); } catch (e) {}
+         if (blocked && tries++ < 60) { setTimeout(go, 150); return; }
+         const cur = document.querySelector('.tab-panel.active');
+         if (cur && cur.id !== 'tab-home') return;
+         switchTab(savedTab, navBtn);
+     };
+     go();
  }
 
  /* v6.00: HR and Administration share this exact screen/tabs. This hides the
@@ -29521,7 +29533,7 @@ function ohValid() {
     if (ohSel.group === OH_ALL) return true;
     return departments.some(function (g) { return g.name === ohSel.group && (ohSel.dept === OH_ALL || g.parent === ohSel.dept); });
 }
-function ohInit() { ohLoad(); if (!ohInit.n) { ohInit.n = 1; ohNamesLoad(); } ohView = ohValid() ? 'menu' : 'choose'; ohReport = 0; ohRender(); }
+function ohInit() { ohLoad(); if (!ohInit.n) { ohInit.n = 1; ohNamesLoad(); } ohView = ohValid() ? 'menu' : 'choose'; ohReport = 0; var sw = null; try { sw = sessionStorage.getItem('ohWzI'); } catch (e) {} if (ohValid() && sw !== null && typeof wzOpen === 'function') { ohGuideLoad(); wzOpen(+sw || 0); return; } ohRender(); }
 function ohBack() {
     if (ohView === 'soon' || ohView === 'report') { ohView = ohReport ? 'stock' : 'menu'; if (ohView === 'stock') { ohReport = 0; ohGuideLoad(); } }
     else if (ohView === 'defaults') { ohView = ohDef.back === 'wiz' ? 'wiz' : 'stock'; ohGuideLoad(); }
@@ -29618,7 +29630,7 @@ function ohRender() {
         bt.textContent = t('ohBack'); tt.textContent = ohReport ? ohName(ohReport) : t('navOpsHub');
         h = ohChips() + '<div class="oh-card">' + ohEsc(t('ohSoon')) + '</div>';
     }
-    body.innerHTML = h; var tp = document.getElementById('tab-opshub'); if (tp) tp.classList.toggle('wzmode', ohView === 'wiz');
+    body.innerHTML = h; var tp = document.getElementById('tab-opshub'); if (tp) tp.classList.toggle('wzmode', ohView === 'wiz'); try { if (ohView === 'wiz') sessionStorage.setItem('ohWzI', String(ohWz.i)); else if (ohView === 'menu' || ohView === 'choose') sessionStorage.removeItem('ohWzI'); } catch (e) {}
     wzAfterRender();
     if (ohView === 'report' && ohReport === 2 && typeof r2Refresh === 'function') r2Refresh();
     if (ohView === 'report' && ohReport === 3 && typeof r3Refresh === 'function') r3Refresh();
@@ -30544,6 +30556,47 @@ function wzAfterRender() {
     if (s.kind === 'r3' && typeof r3Refresh === 'function') r3Refresh();
     if (s.kind === 'm' && typeof ohMRefresh === 'function') ohMRefresh();
 }
+</script>
+
+<script>
+/* v8.07: a refresh puts you back where you were - the page (done before), the small window you had open, and the Operations Hub step. */
+(function () {
+    var NAMES = ['openRecentlyDeletedModal', 'openPendingApprovalsModal', 'openManagementModal', 'openDeviceLogModal', 'openManageNotifModal', 'openConvertPhotoModal', 'openDeptReqModal', 'openDeptIvModal', 'openDateCtl', 'openDeptAccModal', 'openLfStaff', 'openCardCenter', 'tdOpen', 'remOpen', 'trOpen', 'lkOpen', 'amOpen'];
+    var depth = 0, restoring = false, openedAt = 0;
+    function put(n) { try { sessionStorage.setItem('activeFn', n); } catch (e) {} openedAt = Date.now(); }
+    function clear() { try { sessionStorage.removeItem('activeFn'); } catch (e) {} }
+    function wrap() {
+        NAMES.forEach(function (n) {
+            var o = window[n]; if (typeof o !== 'function' || o.__rf) return;
+            var w = function () { var top = depth === 0; depth++; try { if (top && !restoring && sessionStorage.getItem('isLoggedIn') === 'true') put(n); return o.apply(this, arguments); } finally { depth--; } };
+            w.__rf = true; try { window[n] = w; } catch (e) {}
+        });
+    }
+    window.addEventListener('load', function () { setTimeout(wrap, 300); setTimeout(wrap, 2500); });
+    /* closing a window forgets it (so a refresh does not reopen a window you closed) */
+    document.addEventListener('click', function (e) {
+        if (!sessionStorage.getItem('activeFn') || Date.now() - openedAt < 700) return;
+        var el = e.target, hit = false;
+        for (var i = 0; el && i < 4 && !hit; i++, el = el.parentElement) {
+            var tx = (el.textContent || '').trim(), oc = (el.getAttribute && el.getAttribute('onclick')) || '', cl = (typeof el.className === 'string' ? el.className : '');
+            if (el.tagName === 'BUTTON' || el.tagName === 'SPAN' || el.tagName === 'A' || el.tagName === 'DIV') {
+                if (/^(×|✕|✖|x|close|cancel|back|បិទ|关闭|取消)$/i.test(tx) || /close|hide|cancel/i.test(oc) || /close/i.test(cl)) hit = true;
+            }
+        }
+        if (hit) clear();
+    }, true);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') clear(); }, true);
+    /* open the remembered window after a refresh */
+    window.restoreActiveFn = function () {
+        var n = null; try { n = sessionStorage.getItem('activeFn'); } catch (e) {} if (!n || NAMES.indexOf(n) < 0) return; var tries = 0;
+        (function go() {
+            var blocked = false; try { blocked = typeof mtUnknown === 'function' && mtUnknown(); } catch (e) {}
+            if ((blocked || typeof window[n] !== 'function') && tries++ < 80) { setTimeout(go, 150); return; }
+            if (typeof window[n] !== 'function' || sessionStorage.getItem('activeFn') !== n) return;
+            restoring = true; try { window[n](); openedAt = Date.now(); } catch (e) {} finally { restoring = false; }
+        })();
+    };
+})();
 </script>
 
 </body>
