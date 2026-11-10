@@ -3645,30 +3645,31 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 <!-- v8.00: OPERATIONS HUB (Administration only). Full-screen page: choose Department and Group, then Daily / Monthly / Stock / Other. -->
 <div id="tab-opshub" class="tab-panel" style="padding:0; background:transparent; border:0; box-shadow:none;">
     <style>
-        #tab-opshub .oh-bar{display:flex;align-items:center;gap:12px;background:linear-gradient(135deg,#0b1d3a,#24406e);border-radius:16px;padding:12px 16px;color:#fff;margin-bottom:14px}
-        #tab-opshub .oh-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;background:rgba(255,255,255,.16);color:#fff;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;min-height:40px}
-        #tab-opshub .oh-ttl{flex:1;min-width:0;font-size:19px;font-weight:700;display:flex;align-items:center;gap:9px}
+        #tab-opshub .oh-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;max-width:820px;margin:0 auto 14px;background:linear-gradient(135deg,#0b1d3a,#24406e);border-radius:16px;padding:12px 16px;color:#fff}
+        #tab-opshub .oh-back{justify-self:start;white-space:nowrap;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;background:rgba(255,255,255,.16);color:#fff;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;min-height:40px}
+        #tab-opshub .oh-ttl{min-width:0;font-size:19px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:9px;text-align:center}
         #tab-opshub .oh-ttl span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-        #tab-opshub .oh-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
-        #tab-opshub .oh-chips{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+        #tab-opshub .oh-card{max-width:820px;margin-left:auto;margin-right:auto;text-align:center;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+        #tab-opshub .oh-chips{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
         #tab-opshub .oh-chip{padding:6px 14px;border-radius:999px;background:#0b1d3a;color:#fff;font-size:13px;font-weight:700}
         #tab-opshub .oh-lbl{font-size:13px;font-weight:700;color:#475569;margin:12px 0 6px}
-        #tab-opshub select{width:100%;box-sizing:border-box;min-height:46px;font-size:15px;border:1.5px solid #cbd5e1;border-radius:10px;padding:0 12px;background:#fff}
+        #tab-opshub select{text-align:center;text-align-last:center;width:100%;box-sizing:border-box;min-height:46px;font-size:15px;border:1.5px solid #cbd5e1;border-radius:10px;padding:0 12px;background:#fff}
         #tab-opshub .oh-go{margin-top:16px;width:100%;min-height:48px;border:0;border-radius:12px;background:linear-gradient(135deg,#064e3b,#15906b);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
-        #tab-opshub .oh-chg{margin-left:auto;padding:7px 16px;border-radius:10px;border:1.5px solid #cbd5e1;background:#fff;font-size:13px;font-weight:700;color:#334155;cursor:pointer}
-        #tab-opshub .oh-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+        #tab-opshub .oh-chg{padding:7px 16px;border-radius:10px;border:1.5px solid #cbd5e1;background:#fff;font-size:13px;font-weight:700;color:#334155;cursor:pointer}
+        #tab-opshub .oh-tiles{max-width:820px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
         #tab-opshub .oh-tile{height:150px;border:0;border-radius:18px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(11,29,58,.22)}
-        #tab-opshub .oh-list{display:flex;flex-direction:column;gap:10px;max-width:760px}
-        #tab-opshub .oh-row{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;font:inherit}
+        #tab-opshub .oh-list{display:flex;flex-direction:column;gap:10px;max-width:760px;margin:0 auto}
+        #tab-opshub .oh-wrap{position:relative}#tab-opshub .oh-pen{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#334155;cursor:pointer;display:flex;align-items:center;justify-content:center}#tab-opshub .oh-row{display:flex;align-items:center;justify-content:center;padding-left:56px!important;padding-right:56px!important;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;font:inherit}
         #tab-opshub .oh-num{width:40px;height:40px;border-radius:11px;color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;flex:none}
-        #tab-opshub .oh-rn{flex:1;font-size:15px;font-weight:700;color:#0f172a}
+        #tab-opshub .oh-rn{font-size:15px;font-weight:700;color:#0f172a}
         #tab-opshub .oh-rs{font-size:12px;font-weight:700;color:#92400e;background:#fef3c7;border-radius:8px;padding:3px 9px}
-        #tab-opshub .oh-note{font-size:12px;color:#64748b;margin-top:12px}
-        #tab-opshub .oh-h{font-size:20px;font-weight:700;margin:4px 0 12px;color:#0f172a}
+        #tab-opshub .oh-note{text-align:center;font-size:12px;color:#64748b;margin-top:12px}
+        #tab-opshub .oh-h{text-align:center;font-size:20px;font-weight:700;margin:4px 0 12px;color:#0f172a}
     </style>
     <div class="oh-bar">
         <button type="button" class="oh-back" id="ohBackBtn" onclick="ohBack()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span id="ohBackTxt">Main Menu</span></button>
         <div class="oh-ttl"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex:none"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.5h7M17.5 14v7"/></svg><span id="ohTitle">Operations Hub</span></div>
+        <span></span>
     </div>
     <div id="ohBody"></div>
 </div>
@@ -7119,7 +7120,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         /* v6.65: Nav labels for the 2 new tabs */
         navAuditLog: "Activity Log",
         navCertificates: "Certificates",
-        navOpsHub: "Operations Hub", ohChooseTitle: "Choose Department and Group", ohDept: "Department", ohGroup: "Group", ohSelect: "-- Choose --", ohContinue: "Continue", ohWorkingOn: "Working on", ohChange: "Change", ohMainMenu: "Main Menu", ohDaily: "Daily Reports", ohMonthly: "Monthly Report", ohStock: "Stock Report", ohOther: "Other", ohStockChoose: "Choose report to do", ohSoon: "Not built yet. It will be added step by step.", ohBack: "Back", ohNeedBoth: "Choose a Department and a Group first", ohNoDept: "No departments yet", ohR1: "RO Water Plant Consumables", ohR2: "Chemical Usage (Polymer+, NaOCl, Sugar)", ohR3: "PAC and NaOCl Yearly Table", ohR4: "Chemical Cost, Wastewater and Sludge", ohR5: "Cambodia Monthly Indicators", ohR6: "Chemical Optimization (Cambodia)", ohR7: "21-Plant Monthly Indicators", ohR8: "Remaining Stock at Month End", ohRNote: "Report names are placeholders. They will be confirmed one by one.",
+        navOpsHub: "Operations Hub", ohChooseTitle: "Choose Department and Group", ohDept: "Department", ohGroup: "Group", ohSelect: "-- Choose --", ohContinue: "Continue", ohWorkingOn: "Working on", ohChange: "Change", ohMainMenu: "Main Menu", ohDaily: "Daily Reports", ohMonthly: "Monthly Report", ohStock: "Stock Report", ohOther: "Other", ohStockChoose: "Choose report to do", ohSoon: "Not built yet. It will be added step by step.", ohBack: "Back", ohNeedBoth: "Choose a Department and a Group first", ohNoDept: "No departments yet", ohR1: "RO Water Plant Consumables", ohR2: "Chemical Usage (Polymer+, NaOCl, Sugar)", ohR3: "PAC and NaOCl Yearly Table", ohR4: "Chemical Cost, Wastewater and Sludge", ohR5: "Cambodia Monthly Indicators", ohR6: "Chemical Optimization (Cambodia)", ohR7: "21-Plant Monthly Indicators", ohR8: "Remaining Stock at Month End", ohRNote: "Tap the pencil to rename a report.", ohAll: "All", ohRename: "Rename report", ohSavedLocal: "Saved on this device only (database did not accept it)",
         navConvertPhoto: "Extract",
         navCalendar: "Calendar", calSoon: "Coming soon", calComing: "Calendar is coming soon",
         convertPhotoSub: "Choose an Excel, Word (.docx) or PDF file from your device. Nothing is uploaded anywhere - it stays on this device and turns into picture(s) you can download.",
@@ -9529,7 +9530,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
         navAuditLog: "កំណត់ត្រាសកម្មភាព",
         navCertificates: "វិញ្ញាបនបត្រ",
-        navOpsHub: "មជ្ឈមណ្ឌលប្រតិបត្តិការ", ohChooseTitle: "ជ្រើសរើសនាយកដ្ឋាន និងក្រុម", ohDept: "នាយកដ្ឋាន", ohGroup: "ក្រុម", ohSelect: "-- ជ្រើសរើស --", ohContinue: "បន្ត", ohWorkingOn: "កំពុងធ្វើការលើ", ohChange: "ប្តូរ", ohMainMenu: "ម៉ឺនុយមេ", ohDaily: "របាយការណ៍ប្រចាំថ្ងៃ", ohMonthly: "របាយការណ៍ប្រចាំខែ", ohStock: "របាយការណ៍ស្តុក", ohOther: "ផ្សេងៗ", ohStockChoose: "ជ្រើសរើសរបាយការណ៍ដែលត្រូវធ្វើ", ohSoon: "មិនទាន់បង្កើតទេ។ នឹងបន្ថែមជាបណ្តើរៗ។", ohBack: "ត្រឡប់ក្រោយ", ohNeedBoth: "សូមជ្រើសរើសនាយកដ្ឋាន និងក្រុមជាមុនសិន", ohNoDept: "មិនទាន់មាននាយកដ្ឋានទេ", ohR1: "សម្ភារៈប្រើប្រាស់រោងចក្រទឹក RO", ohR2: "ការប្រើប្រាស់គីមី (Polymer+, NaOCl, ស្ករ)", ohR3: "តារាង PAC និង NaOCl ប្រចាំឆ្នាំ", ohR4: "តម្លៃគីមី ទឹកកខ្វក់ និងល្បាប់", ohR5: "សូចនាករប្រចាំខែកម្ពុជា", ohR6: "ការធ្វើឱ្យប្រសើរគីមី (កម្ពុជា)", ohR7: "សូចនាករប្រចាំខែរោងចក្រ ២១", ohR8: "ស្តុកនៅសល់ចុងខែ", ohRNote: "ឈ្មោះរបាយការណ៍ជាបណ្តោះអាសន្ន។ នឹងបញ្ជាក់ម្តងមួយៗ។",
+        navOpsHub: "មជ្ឈមណ្ឌលប្រតិបត្តិការ", ohChooseTitle: "ជ្រើសរើសនាយកដ្ឋាន និងក្រុម", ohDept: "នាយកដ្ឋាន", ohGroup: "ក្រុម", ohSelect: "-- ជ្រើសរើស --", ohContinue: "បន្ត", ohWorkingOn: "កំពុងធ្វើការលើ", ohChange: "ប្តូរ", ohMainMenu: "ម៉ឺនុយមេ", ohDaily: "របាយការណ៍ប្រចាំថ្ងៃ", ohMonthly: "របាយការណ៍ប្រចាំខែ", ohStock: "របាយការណ៍ស្តុក", ohOther: "ផ្សេងៗ", ohStockChoose: "ជ្រើសរើសរបាយការណ៍ដែលត្រូវធ្វើ", ohSoon: "មិនទាន់បង្កើតទេ។ នឹងបន្ថែមជាបណ្តើរៗ។", ohBack: "ត្រឡប់ក្រោយ", ohNeedBoth: "សូមជ្រើសរើសនាយកដ្ឋាន និងក្រុមជាមុនសិន", ohNoDept: "មិនទាន់មាននាយកដ្ឋានទេ", ohR1: "សម្ភារៈប្រើប្រាស់រោងចក្រទឹក RO", ohR2: "ការប្រើប្រាស់គីមី (Polymer+, NaOCl, ស្ករ)", ohR3: "តារាង PAC និង NaOCl ប្រចាំឆ្នាំ", ohR4: "តម្លៃគីមី ទឹកកខ្វក់ និងល្បាប់", ohR5: "សូចនាករប្រចាំខែកម្ពុជា", ohR6: "ការធ្វើឱ្យប្រសើរគីមី (កម្ពុជា)", ohR7: "សូចនាករប្រចាំខែរោងចក្រ ២១", ohR8: "ស្តុកនៅសល់ចុងខែ", ohRNote: "ចុចប៊ិចដើម្បីប្តូរឈ្មោះរបាយការណ៍។", ohAll: "ទាំងអស់", ohRename: "ប្តូរឈ្មោះរបាយការណ៍", ohSavedLocal: "បានរក្សាទុកតែលើឧបករណ៍នេះប៉ុណ្ណោះ",
         navConvertPhoto: "ស្រង់ចេញ",
         navCalendar: "ប្រតិទិន", calSoon: "ឆាប់ៗនេះ", calComing: "ប្រតិទិននឹងមកដល់ឆាប់ៗនេះ",
         convertPhotoSub: "ជ្រើសរើសឯកសារ Excel, Word (.docx) ឬ PDF ពីឧបករណ៍របស់អ្នក។ គ្មានអ្វីត្រូវបានផ្ទុកឡើងទៅកន្លែងណាឡើយ - វានៅតែស្ថិតនៅលើឧបករណ៍នេះ ហើយប្រែក្លាយទៅជារូបភាពដែលអ្នកអាចទាញយកបាន។",
@@ -11932,7 +11933,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
         navAuditLog: "活动日志",
         navCertificates: "证明书",
-        navOpsHub: "运营中心", ohChooseTitle: "选择部门和小组", ohDept: "部门", ohGroup: "小组", ohSelect: "-- 请选择 --", ohContinue: "继续", ohWorkingOn: "当前", ohChange: "更改", ohMainMenu: "主菜单", ohDaily: "每日报表", ohMonthly: "月度报表", ohStock: "库存报表", ohOther: "其他", ohStockChoose: "选择要做的报表", ohSoon: "尚未建立，将逐步添加。", ohBack: "返回", ohNeedBoth: "请先选择部门和小组", ohNoDept: "暂无部门", ohR1: "RO饮用水厂耗材", ohR2: "药剂使用量 (Polymer+、NaOCl、糖)", ohR3: "PAC 与 NaOCl 年度表", ohR4: "药剂费用、污水量与污泥", ohR5: "柬埔寨月度管理指标", ohR6: "药剂优化分析 (柬埔寨)", ohR7: "21个污水厂月度指标", ohR8: "月底剩余库存", ohRNote: "报表名称为暂定，将逐一确认。",
+        navOpsHub: "运营中心", ohChooseTitle: "选择部门和小组", ohDept: "部门", ohGroup: "小组", ohSelect: "-- 请选择 --", ohContinue: "继续", ohWorkingOn: "当前", ohChange: "更改", ohMainMenu: "主菜单", ohDaily: "每日报表", ohMonthly: "月度报表", ohStock: "库存报表", ohOther: "其他", ohStockChoose: "选择要做的报表", ohSoon: "尚未建立，将逐步添加。", ohBack: "返回", ohNeedBoth: "请先选择部门和小组", ohNoDept: "暂无部门", ohR1: "RO饮用水厂耗材", ohR2: "药剂使用量 (Polymer+、NaOCl、糖)", ohR3: "PAC 与 NaOCl 年度表", ohR4: "药剂费用、污水量与污泥", ohR5: "柬埔寨月度管理指标", ohR6: "药剂优化分析 (柬埔寨)", ohR7: "21个污水厂月度指标", ohR8: "月底剩余库存", ohRNote: "点击铅笔可重命名报表。", ohAll: "全部", ohRename: "重命名报表", ohSavedLocal: "仅保存在此设备",
         navConvertPhoto: "提取",
         navCalendar: "日历", calSoon: "即将推出", calComing: "日历功能即将推出",
         convertPhotoSub: "从您的设备选择一个 Excel、Word (.docx) 或 PDF 文件。不会上传到任何地方 - 文件保留在此设备上，并转换成您可以下载的图片。",
@@ -29435,6 +29436,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 /* ================= v8.00: OPERATIONS HUB - Part 1 (the frame) =================
    Administration only. Department = the top-level departments (dgOrg), Group = the groups inside it (departments[].parent).
    Nothing is saved to the database in this part; the last choice is only remembered in this browser. No calculation is involved. */
+var OH_ALL = '*';
 var ohSel = { dept: '', group: '' }, ohView = 'choose', ohReport = 0;
 function ohIsAdmin() { return sessionStorage.getItem('isLoggedIn') === 'true' && (sessionStorage.getItem('loggedInRole') || 'admin') === 'admin'; }
 function ohEsc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -29442,9 +29444,11 @@ function ohSave() { try { localStorage.setItem('ohSel', JSON.stringify(ohSel)); 
 function ohLoad() { try { var v = JSON.parse(localStorage.getItem('ohSel') || 'null'); if (v && typeof v === 'object') ohSel = { dept: String(v.dept || ''), group: String(v.group || '') }; } catch (e) {} }
 function ohValid() {
     if (!ohSel.dept || !ohSel.group) return false;
-    return dgOrg.some(function (o) { return o.name === ohSel.dept; }) && departments.some(function (g) { return g.parent === ohSel.dept && g.name === ohSel.group; });
+    if (ohSel.dept !== OH_ALL && !dgOrg.some(function (o) { return o.name === ohSel.dept; })) return false;
+    if (ohSel.group === OH_ALL) return true;
+    return departments.some(function (g) { return g.name === ohSel.group && (ohSel.dept === OH_ALL || g.parent === ohSel.dept); });
 }
-function ohInit() { ohLoad(); ohView = ohValid() ? 'menu' : 'choose'; ohReport = 0; ohRender(); }
+function ohInit() { ohLoad(); if (!ohInit.n) { ohInit.n = 1; ohNamesLoad(); } ohView = ohValid() ? 'menu' : 'choose'; ohReport = 0; ohRender(); }
 function ohBack() {
     if (ohView === 'soon' || ohView === 'report') { ohView = ohReport ? 'stock' : 'menu'; if (ohView === 'stock') ohReport = 0; }
     else if (ohView === 'stock') ohView = 'menu';
@@ -29455,7 +29459,8 @@ function ohGoStock() { ohView = 'stock'; ohReport = 0; ohRender(); }
 function ohGoSoon() { ohView = 'soon'; ohRender(); }
 function ohOpenReport(n) { ohReport = n; ohView = 'soon'; ohRender(); }
 function ohChange() { ohView = 'choose'; ohRender(); }
-function ohDeptChange(sel) { ohSel.dept = sel.value; ohSel.group = ''; ohRender(); }
+function ohDeptChange(sel) { ohSel.dept = sel.value; ohSel.group = (sel.value === OH_ALL) ? OH_ALL : ''; ohRender(); }
+function ohLbl(v) { return v === OH_ALL ? t('ohAll') : v; }
 function ohGroupChange(sel) { ohSel.group = sel.value; }
 function ohContinue() {
     var gs = document.getElementById('ohGrp'); if (gs) ohSel.group = gs.value;
@@ -29464,8 +29469,21 @@ function ohContinue() {
 }
 function ohChips() {
     return '<div class="oh-card oh-chips"><span style="font-size:13px;color:#64748b;font-weight:600">' + ohEsc(t('ohWorkingOn')) + '</span>' +
-        '<span class="oh-chip">' + ohEsc(t('ohDept')) + ': ' + ohEsc(ohSel.dept) + '</span><span class="oh-chip">' + ohEsc(t('ohGroup')) + ': ' + ohEsc(ohSel.group) + '</span>' +
+        '<span class="oh-chip">' + ohEsc(t('ohDept')) + ': ' + ohEsc(ohLbl(ohSel.dept)) + '</span><span class="oh-chip">' + ohEsc(t('ohGroup')) + ': ' + ohEsc(ohLbl(ohSel.group)) + '</span>' +
         '<button type="button" class="oh-chg" onclick="ohChange()">' + ohEsc(t('ohChange')) + '</button></div>';
+}
+var ohNames = {};
+function ohName(n) { return (ohNames[n] && String(ohNames[n]).trim()) || t('ohR' + n); }
+function ohNamesLoad() {
+    try { ohNames = JSON.parse(localStorage.getItem('ohNames') || '{}') || {}; } catch (e) { ohNames = {}; }
+    try { db.ref('opsHub/reportNames').on('value', function (s) { var v = s.val(); if (v && typeof v === 'object') { ohNames = v; try { localStorage.setItem('ohNames', JSON.stringify(v)); } catch (e) {} if (document.getElementById('tab-opshub').classList.contains('active')) ohRender(); } }, function () {}); } catch (e) {}
+}
+async function ohRename(n) {
+    var nn = await askText(t('ohRename'), ohName(n)); if (nn === null) return;
+    nn = String(nn).trim(); var nv = Object.assign({}, ohNames); if (nn && nn !== t('ohR' + n)) nv[n] = nn; else delete nv[n];
+    ohNames = nv; try { localStorage.setItem('ohNames', JSON.stringify(nv)); } catch (e) {}
+    ohRender();
+    try { db.ref('opsHub/reportNames').set(Object.keys(nv).length ? nv : null).then(function () { showToast(true); }).catch(function () { showToast(false, t('ohSavedLocal')); }); } catch (e) { showToast(false, t('ohSavedLocal')); }
 }
 var OH_COL = ['#7c3a05', '#25206b', '#0b4a47', '#0c4a5e', '#064e3b', '#6b0f2a', '#1e293b', '#7c3a05'];
 function ohRender() {
@@ -29476,8 +29494,9 @@ function ohRender() {
         bt.textContent = t('ohMainMenu'); tt.textContent = t('navOpsHub');
         if (!dgOrg.length) { h = '<div class="oh-card">' + ohEsc(t('ohNoDept')) + '</div>'; }
         else {
-            var dOpts = '<option value="">' + ohEsc(t('ohSelect')) + '</option>' + dgOrg.map(function (o) { return '<option value="' + ohEsc(o.name) + '"' + (o.name === ohSel.dept ? ' selected' : '') + '>' + ohEsc(o.name) + '</option>'; }).join('');
-            var gOpts = '<option value="">' + ohEsc(t('ohSelect')) + '</option>' + departments.filter(function (g) { return ohSel.dept && g.parent === ohSel.dept; }).map(function (g) { return '<option value="' + ohEsc(g.name) + '"' + (g.name === ohSel.group ? ' selected' : '') + '>' + ohEsc(g.name) + '</option>'; }).join('');
+            var dOpts = '<option value="">' + ohEsc(t('ohSelect')) + '</option><option value="' + OH_ALL + '"' + (ohSel.dept === OH_ALL ? ' selected' : '') + '>' + ohEsc(t('ohAll')) + '</option>' + dgOrg.map(function (o) { return '<option value="' + ohEsc(o.name) + '"' + (o.name === ohSel.dept ? ' selected' : '') + '>' + ohEsc(o.name) + '</option>'; }).join('');
+            var seen = {}, gl = departments.filter(function (g) { return ohSel.dept && (ohSel.dept === OH_ALL || g.parent === ohSel.dept) && g.name && !seen[g.name] && (seen[g.name] = 1); });
+            var gOpts = '<option value="">' + ohEsc(t('ohSelect')) + '</option>' + (ohSel.dept ? '<option value="' + OH_ALL + '"' + (ohSel.group === OH_ALL ? ' selected' : '') + '>' + ohEsc(t('ohAll')) + '</option>' : '') + gl.map(function (g) { return '<option value="' + ohEsc(g.name) + '"' + (g.name === ohSel.group ? ' selected' : '') + '>' + ohEsc(g.name) + '</option>'; }).join('');
             h = '<div class="oh-card" style="max-width:560px"><div class="oh-h">' + ohEsc(t('ohChooseTitle')) + '</div>' +
                 '<div class="oh-lbl">' + ohEsc(t('ohDept')) + '</div><select id="ohDept" onchange="ohDeptChange(this)">' + dOpts + '</select>' +
                 '<div class="oh-lbl">' + ohEsc(t('ohGroup')) + '</div><select id="ohGrp" onchange="ohGroupChange(this)">' + gOpts + '</select>' +
@@ -29497,10 +29516,10 @@ function ohRender() {
     } else if (ohView === 'stock') {
         bt.textContent = t('navOpsHub'); tt.textContent = t('ohStock');
         var rows = '';
-        for (var n = 1; n <= 8; n++) rows += '<button type="button" class="oh-row" onclick="ohOpenReport(' + n + ')"><span class="oh-num" style="background:' + OH_COL[n - 1] + '">' + n + '</span><span class="oh-rn">' + ohEsc(t('ohR' + n)) + '</span><span class="oh-rs">' + ohEsc(t('calSoon')) + '</span></button>';
+        for (var n = 1; n <= 8; n++) rows += '<div class="oh-wrap"><button type="button" class="oh-row" onclick="ohOpenReport(' + n + ')"><span class="oh-num" style="background:' + OH_COL[n - 1] + '">' + n + '</span><span class="oh-rn">' + ohEsc(ohName(n)) + '</span><span class="oh-rs">' + ohEsc(t('calSoon')) + '</span></button><button type="button" class="oh-pen" aria-label="' + ohEsc(t('ohRename')) + '" onclick="ohRename(' + n + ')"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button></div>';
         h = ohChips() + '<div class="oh-h">' + ohEsc(t('ohStockChoose')) + '</div><div class="oh-list">' + rows + '</div><div class="oh-note">' + ohEsc(t('ohRNote')) + '</div>';
     } else {
-        bt.textContent = t('ohBack'); tt.textContent = ohReport ? t('ohR' + ohReport) : t('navOpsHub');
+        bt.textContent = t('ohBack'); tt.textContent = ohReport ? ohName(ohReport) : t('navOpsHub');
         h = ohChips() + '<div class="oh-card">' + ohEsc(t('ohSoon')) + '</div>';
     }
     body.innerHTML = h;
