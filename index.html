@@ -12370,11 +12370,9 @@ function renderEmpShiftCalendar() {
      let tries = 0;
      const go = function () {
          if (sessionStorage.getItem('activeAdminTab') !== savedTab) return;
-         let blocked = false; try { blocked = (typeof mtUnknown === 'function') && mtUnknown(); } catch (e) {}
-         if (blocked && tries++ < 60) { setTimeout(go, 150); return; }
          const cur = document.querySelector('.tab-panel.active');
          if (cur && cur.id !== 'tab-home') return;
-         switchTab(savedTab, navBtn);
+         window.__rfGo = true; try { switchTab(savedTab, navBtn); } finally { window.__rfGo = false; }
      };
      go();
  }
@@ -21935,7 +21933,7 @@ const MT_SVC = [
 ];
 let mtData = null, mtRaw = null, mtModal = null, mtReady = false;
 /* until the maintenance state has arrived, a logged-in person cannot start any action (so nothing can be changed in the first moments) */
-function mtUnknown() { return !mtReady && (sessionStorage.getItem('isLoggedIn') === 'true' || !!sessionStorage.getItem('empLoggedInId')); }
+function mtUnknown() { return !window.__rfGo && !mtReady && (sessionStorage.getItem('isLoggedIn') === 'true' || !!sessionStorage.getItem('empLoggedInId')); }
 function mtSvc(id) { for (const s of MT_SVC) if (s[0] === id) return s; return null; }
 function mtSvcOfTab(tabId) { for (const s of MT_SVC) if (s[2] === 'tab' && s[3] === tabId) return s[0]; return null; }
 /* v7.57: the maintenance can be limited to some systems (scope: admin / hr / emp / dept). No scope saved = everybody, as before. */
@@ -30591,9 +30589,9 @@ function wzAfterRender() {
         var n = null; try { n = sessionStorage.getItem('activeFn'); } catch (e) {} if (!n || NAMES.indexOf(n) < 0) return; var tries = 0;
         (function go() {
             var blocked = false; try { blocked = typeof mtUnknown === 'function' && mtUnknown(); } catch (e) {}
-            if ((blocked || typeof window[n] !== 'function') && tries++ < 80) { setTimeout(go, 150); return; }
+            if (typeof window[n] !== 'function' && tries++ < 80) { setTimeout(go, 150); return; }
             if (typeof window[n] !== 'function' || sessionStorage.getItem('activeFn') !== n) return;
-            restoring = true; try { window[n](); openedAt = Date.now(); } catch (e) {} finally { restoring = false; }
+            restoring = true; window.__rfGo = true; try { window[n](); openedAt = Date.now(); } catch (e) {} finally { restoring = false; window.__rfGo = false; }
         })();
     };
 })();
