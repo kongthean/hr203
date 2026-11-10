@@ -29841,13 +29841,15 @@ function r3Load() {
         clearTimeout(tm); if (ver !== ohR3.ver || !ohR3.loading) return;
         ohR3.yd = yd || {}; ohR3.ee = ee || {};
         var prevRec = (py === y ? ohR3.yd : (pyd || {}))[pk];
+        var cur = ohR3.yd[key];
         if (draft) { ohR3.rec = draft.rec || {}; ohR3.w = typeof draft.w === 'number' ? draft.w : null; ohR3.draft = true; }
         else {
-            var cur = ohR3.yd[key];
             if (r3Has(cur) || (cur && cur.note)) ohR3.rec = Object.assign({}, cur);
+            var e = ohR3.ee[key]; ohR3.w = e && typeof e.sup === 'number' ? e.sup : null;
+        }
+        {
             var d3 = (ohR3.def || {}).r3 || {}, pr3 = r3Has(prevRec) ? r3Clean(prevRec) : {};
             ['pu', 'pp', 'nu', 'np'].forEach(function (f) { if (typeof ohR3.rec[f] === 'number') return; var used = (f === 'pu' || f === 'nu'), v = used ? (typeof d3[f] === 'number' ? d3[f] : pr3[f]) : (typeof pr3[f] === 'number' ? pr3[f] : d3[f]); if (typeof v === 'number') { ohR3.rec[f] = v; ohR3.copied = true; } });
-            var e = ohR3.ee[key]; ohR3.w = e && typeof e.sup === 'number' ? e.sup : null;
         }
         ohR3.loading = false; ohRender();
     }
@@ -30348,8 +30350,8 @@ function ohUApply(btn, all) {
    Nothing here changes any calculation. */
 var ohDefCache = { sc: '', v: null };
 function ohDefGet() {
-    var sc = ohScope(); if (ohDefCache.sc === sc && ohDefCache.v !== null) return Promise.resolve(ohDefCache.v);
-    return db.ref('opsHub/defaults/' + sc).once('value').then(function (s) { ohDefCache = { sc: sc, v: s.val() || {} }; return ohDefCache.v; }).catch(function () { return {}; });
+    var sc = ohScope();
+    return db.ref('opsHub/defaults/' + sc).once('value').then(function (s) { ohDefCache = { sc: sc, v: s.val() || {} }; return ohDefCache.v; }).catch(function () { return (ohDefCache.sc === sc && ohDefCache.v) || {}; });
 }
 var OH_DEF_SUGGEST = { r3: { pu: 120, nu: 0, np: 3.47 }, r4: { np: 3.47, pp: 9.5, sp: 1.3, spr: 0, sfee: 500 }, r1: { i1: 7.46, i2: 170, i3: 147, i4: 1, i5: 7.72, i6: 7.72, i7: 7.92 } };
 /* ---------- guide ---------- */
