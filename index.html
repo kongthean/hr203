@@ -3712,11 +3712,12 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         #tab-opshub .r4big{text-align:center}#tab-opshub .r4big .r2-fix{font-size:22px;font-weight:800;min-height:44px;display:flex;align-items:center;justify-content:center}
         #tab-opshub .r4tbl td,#tab-opshub .r4tbl th{font-size:14px;padding:6px 5px}
         @media(max-width:899px){#tab-opshub .wz-top{grid-template-columns:1fr}#tab-opshub .wz-tools{justify-content:center}#tab-opshub .wz-month{justify-content:center}#tab-opshub .wz-b{padding:0 14px}}
-        @media(min-width:900px){#tab-opshub .wz-main{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px;align-items:start}#tab-opshub .wz-list{display:block;position:sticky;top:150px}#tab-opshub .wz-pane{min-width:0}}
+        @media(min-width:900px){#tab-opshub .wz-main{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px;align-items:start}#tab-opshub .wz-list{display:block;position:sticky;top:calc(var(--wzTop,0px) + 150px)}#tab-opshub .wz-pane{min-width:0}}
         #tab-opshub.wzmode .oh-bar{display:none}
-        #tab-opshub .wz-stick{position:sticky;top:0;z-index:20;background:#f1f5f9;padding-top:2px}#tab-opshub .wz-stick .oh-card{margin-bottom:8px}#tab-opshub .wz-top{margin-bottom:10px;box-shadow:0 4px 10px rgba(15,23,42,.08)}
+        #tab-opshub .wz-stick{position:sticky;top:var(--wzTop,0px);z-index:85;background:#f1f5f9;padding-top:2px}#tab-opshub .wz-stick .oh-card{margin-bottom:8px}#tab-opshub .wz-top{margin-bottom:10px;box-shadow:0 4px 10px rgba(15,23,42,.08)}
         #tab-opshub .oh-chips .oh-chg{margin-right:6px}
         #tab-opshub .r3cols.sm-one{display:block;max-width:640px}#tab-opshub .r3cols.sm-one .oh-card{max-width:none;margin-bottom:12px}
+        #tab-opshub .r4blk{margin-bottom:14px}#tab-opshub .r4bt{font-size:13px;font-weight:800;color:#0b1d3a;text-align:left;margin:0 0 6px}#tab-opshub .r4blk .r2-tbl{width:100%;table-layout:fixed}#tab-opshub .r4blk .r2-tbl:not(.nl) th:first-child{width:38%}#tab-opshub .r4blk td,#tab-opshub .r4blk th{text-align:center}#tab-opshub .r4blk td.r2-d{text-align:left}
         #tab-opshub .oh-card{margin-bottom:12px}
         /* one size for every card and every box in the step pages */
         #tab-opshub .wz .r3cols,#tab-opshub .wz .r2cols,#tab-opshub .wz .r3cols.sm-one{display:block;max-width:640px;margin-left:auto;margin-right:auto}
@@ -30455,7 +30456,10 @@ function smSections(D) {
     S.push({ n: 3, head: ['PAC kg', 'USD/kg', 'USD', 'NaOCl kg', 'USD/kg', 'USD', t('r3Total'), 'USD/m³'], rows: [['', ].concat(r3row)], tsv: r3row.join('\t'), wide: 1 });
     /* 4 chemical cost */
     var a4 = [smF(f && f.n), smF(r4.np), smF(nc, 2), smF(f && f.p), smF(r4.pp), smF(pc, 2), smF(f && f.s), smF(r4.sp), smF(sc_, 2), smF(tot, 2), smF(tot, 2)], b4 = [smF(dose, 0), smF(e.wr), e.wr > 0 && dose != null ? smF(dose / e.wr, 6) : ''], c4 = [smF(r4.skg), smF(r4.spr), smF(r4.sfee)];
-    S.push({ n: 4, head: ['A', 'B', 'C'], rows: [['A (NaOCl | Polymer+ | ' + t('r2Sugar') + ' | K, L)'].concat([a4.join('  ')]), ['B (' + t('rmDose') + ' | ' + t('rmWr').split(' - ')[0] + ' | USD/m³)'].concat([b4.join('  ')]), ['C (' + t('rmSludge') + ' | ' + t('rmSludgeP') + ' | ' + t('rmFee') + ')'].concat([c4.join('  ')])], tsv: a4.join('\t') + '\n' + b4.join('\t') + '\n' + c4.join('\t'), list: 1 });
+    S.push({ n: 4, tsv: a4.join('\t') + '\n' + b4.join('\t') + '\n' + c4.join('\t'), blocks: [
+        { t: t('rmSheetA'), head: ['', t('rmUsage'), t('rmPrice'), t('rmCost')], rows: [['NaOCl', smF(f && f.n), smF(r4.np), smF(nc, 2)], ['Polymer+', smF(f && f.p), smF(r4.pp), smF(pc, 2)], [t('r2Sugar'), smF(f && f.s), smF(r4.sp), smF(sc_, 2)], [t('rmChemTotal') + ' (K, L)', '', '', smF(tot, 2)]] },
+        { t: t('rmSheetB'), nl: 1, head: [t('rmDose'), t('rmWr').split(' - ')[0], 'USD/m³'], rows: [[smF(dose, 0), smF(e.wr), e.wr > 0 && dose != null ? smF(dose / e.wr, 6) : '']] },
+        { t: t('rmSheetC'), nl: 1, head: [t('rmSludge'), t('rmSludgeP'), t('rmFee')], rows: [[smF(r4.skg), smF(r4.spr), smF(r4.sfee)]] }] });
     /* 5 / 7 indicators */
     var pp = per(f && f.p), ps = per(f && f.s), pn = per(f && f.n), ok = !!f;
     var ind = [e.ww == null ? '' : e.ww, r5.people == null ? '' : r5.people, dose == null ? '' : dose, r4.skg == null ? '' : r4.skg, Z, Z, Z, ok ? f.p : '', Z, ok ? f.s : '', ok ? f.n : '', Z, Z, Z, pp == null ? '' : smF(pp * 20, 6), Z, ps == null ? '' : smF(ps * 20, 6), pn == null ? '' : smF(pn * 20, 6), Z, Z, Z, r4.pp == null ? '' : r4.pp, Z, r4.sp == null ? '' : r4.sp, r4.np == null ? '' : r4.np].map(String);
@@ -30480,7 +30484,10 @@ function ohSumHtml() {
     S.forEach(function (s) {
         var title = s.title || (s.n + '. ' + ohName(s.n)), inner = '';
         var cell = function (v) { v = String(v == null ? '' : v); return v === '' ? '<td class="sm-e">-</td>' : '<td><button type="button" class="sm-v" data-v="' + encodeURIComponent(v) + '">' + ohEsc(v) + '</button></td>'; };
-        if (s.pair) inner = '<table class="r2-tbl"><tbody>' + s.rows.map(function (r) { return '<tr><td class="r2-d" style="text-align:left;width:auto">' + ohEsc(r[0]) + '</td>' + cell(r[1]) + '</tr>'; }).join('') + '</tbody></table>';
+        if (s.blocks) inner = s.blocks.map(function (b) {
+            return '<div class="r4blk"><div class="r4bt">' + ohEsc(b.t) + '</div><table class="r2-tbl' + (b.nl ? ' nl' : '') + '"><thead><tr>' + (b.nl ? '' : '<th></th>') + b.head.filter(function (x, k) { return b.nl || k > 0; }).map(function (x) { return '<th>' + ohEsc(x) + '</th>'; }).join('') + '</tr></thead><tbody>' + b.rows.map(function (r) { return '<tr>' + (b.nl ? '' : '<td class="r2-d" style="text-align:left;width:auto">' + ohEsc(r[0]) + '</td>') + r.slice(b.nl ? 0 : 1).map(cell).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+        }).join('');
+        else if (s.pair) inner = '<table class="r2-tbl"><tbody>' + s.rows.map(function (r) { return '<tr><td class="r2-d" style="text-align:left;width:auto">' + ohEsc(r[0]) + '</td>' + cell(r[1]) + '</tr>'; }).join('') + '</tbody></table>';
         else if (s.list) inner = '<table class="r2-tbl"><tbody>' + s.rows.map(function (r) { return '<tr><td class="r2-d" style="text-align:left;width:auto">' + ohEsc(r[0]) + '</td></tr><tr>' + '<td style="text-align:left;font-weight:700;word-break:break-all">' + ohEsc(r[1]) + '</td></tr>'; }).join('') + '</tbody></table>';
         else { var hd = s.head ? '<thead><tr>' + s.head.map(function (x) { return '<th>' + ohEsc(x) + '</th>'; }).join('') + '</tr></thead>' : ''; inner = '<div style="overflow-x:auto"><table class="r2-tbl">' + hd + '<tbody>' + s.rows.map(function (r) { return '<tr><td class="r2-d" style="text-align:left;width:auto">' + ohEsc(r[0]) + '</td>' + r.slice(1).map(cell).join('') + '</tr>'; }).join('') + '</tbody></table></div>'; }
         h += '<div class="oh-card ' + (s.hi ? 'r3full sm-hi' : '') + '"><div class="oh-h" style="font-size:16px">' + ohEsc(title) + '</div>' + inner + (s.note ? '<div class="oh-note">' + ohEsc(s.note) + '</div>' : '') +
@@ -30561,7 +30568,18 @@ function wzHtml() {
         '<div class="wz-bar"><button type="button" class="wz-b ghost" onclick="wzBack()">&lsaquo; ' + ohEsc(t('wzBack')) + '</button>' + (hasExp ? '<button type="button" class="wz-b ghost" onclick="wzExport()">' + ohEsc(t('r2Export')) + '</button>' : '') +
         '<button type="button" class="wz-b go" onclick="wzNext(this)">' + ohEsc(t(last ? 'wzFinish' : (s.kind === 'up' || s.nosave || s.kind === 'sum') ? 'wzNext' : 'wzSaveNext')) + ' &rsaquo;</button></div></div>';
 }
+/* the site has its own bar fixed at the top (title and menu). Our bar must stay just under it. */
+function wzStickTop() {
+    var tp = document.getElementById('tab-opshub'); if (!tp || !tp.classList.contains('active')) return; var off = 0;
+    ['stickyTop', 'ownerBar', 'mtBanner', 'mtsStack'].forEach(function (id) {
+        var e = document.getElementById(id); if (!e) return; var cs = getComputedStyle(e); if (cs.display === 'none' || (cs.position !== 'sticky' && cs.position !== 'fixed')) return;
+        var r = e.getBoundingClientRect(); if (r.height > 0 && r.top <= 2 && r.bottom > off) off = r.bottom;
+    });
+    tp.style.setProperty('--wzTop', Math.round(off) + 'px');
+}
+window.addEventListener('scroll', wzStickTop, { passive: true }); window.addEventListener('resize', wzStickTop);
 function wzAfterRender() {
+    wzStickTop();
     if (ohView !== 'wiz') return; var s = OH_WZ[ohWz.i];
     if (s.kind === 'r2' && typeof r2Refresh === 'function') r2Refresh();
     if (s.kind === 'r3' && typeof r3Refresh === 'function') r3Refresh();
