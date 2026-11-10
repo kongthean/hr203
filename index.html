@@ -3711,7 +3711,11 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         #tab-opshub .r4big{text-align:center}#tab-opshub .r4big .r2-fix{font-size:22px;font-weight:800;min-height:44px;display:flex;align-items:center;justify-content:center}
         #tab-opshub .r4tbl td,#tab-opshub .r4tbl th{font-size:14px;padding:6px 5px}
         @media(max-width:899px){#tab-opshub .wz-top{grid-template-columns:1fr}#tab-opshub .wz-tools{justify-content:center}#tab-opshub .wz-month{justify-content:center}#tab-opshub .wz-b{padding:0 14px}}
-        @media(min-width:900px){#tab-opshub .wz-main{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px;align-items:start}#tab-opshub .wz-list{display:block;position:sticky;top:8px}#tab-opshub .wz-pane{min-width:0}}
+        @media(min-width:900px){#tab-opshub .wz-main{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px;align-items:start}#tab-opshub .wz-list{display:block;position:sticky;top:84px}#tab-opshub .wz-pane{min-width:0}}
+        #tab-opshub.wzmode .oh-bar{display:none}
+        #tab-opshub .wz-top{position:sticky;top:0;z-index:20;box-shadow:0 4px 10px rgba(15,23,42,.08)}
+        #tab-opshub .oh-chips .oh-chg{margin-right:6px}
+        #tab-opshub .r3cols.sm-one{display:block;max-width:560px}#tab-opshub .r3cols.sm-one .oh-card{max-width:none;margin-bottom:12px}
         #tab-opshub .oh-card{margin-bottom:12px}
         #tab-opshub .oh-mnav{display:flex;align-items:center;justify-content:center;gap:18px;padding:10px 14px}
         #tab-opshub .oh-mnav .oh-chg{width:46px;height:42px;font-size:22px;line-height:1;padding:0}
@@ -29541,8 +29545,8 @@ function ohContinue() {
     if (!ohValid()) { showToast(false, t('ohNeedBoth')); return; }
     ohSave(); ohView = 'menu'; ohRender();
 }
-function ohChips() {
-    return '<div class="oh-card oh-chips"><span style="font-size:13px;color:#64748b;font-weight:600">' + ohEsc(t('ohWorkingOn')) + '</span>' +
+function ohChips(back) {
+    return '<div class="oh-card oh-chips">' + (back ? '<button type="button" class="oh-chg" onclick="ohBack()">&lsaquo; ' + ohEsc(t('ohBack')) + '</button>' : '') + '<span style="font-size:13px;color:#64748b;font-weight:600">' + ohEsc(t('ohWorkingOn')) + '</span>' +
         '<span class="oh-chip">' + ohEsc(t('ohDept')) + ': ' + ohEsc(ohLbl(ohSel.dept)) + '</span><span class="oh-chip">' + ohEsc(t('ohGroup')) + ': ' + ohEsc(ohLbl(ohSel.group)) + '</span>' +
         '<button type="button" class="oh-chg" onclick="ohChange()">' + ohEsc(t('ohChange')) + '</button></div>';
 }
@@ -29594,7 +29598,7 @@ function ohRender() {
         h = ohChips() + '<div id="ohUpCard">' + ohUHtml() + '</div>' + ohGuideHtml() + '<div class="oh-h">' + ohEsc(t('ohStockChoose')) + '</div><div class="oh-list">' + rows + '</div><div class="oh-note">' + ohEsc(t('ohRNote')) + '</div>';
     } else if (ohView === 'wiz') {
         bt.textContent = t('ohBack'); tt.textContent = t('ohStock');
-        h = ohChips() + wzHtml();
+        h = ohChips(1) + wzHtml();
     } else if (ohView === 'summary') {
         bt.textContent = t('ohBack'); tt.textContent = t('guSummary');
         h = ohChips() + ohSumHtml();
@@ -29614,7 +29618,7 @@ function ohRender() {
         bt.textContent = t('ohBack'); tt.textContent = ohReport ? ohName(ohReport) : t('navOpsHub');
         h = ohChips() + '<div class="oh-card">' + ohEsc(t('ohSoon')) + '</div>';
     }
-    body.innerHTML = h;
+    body.innerHTML = h; var tp = document.getElementById('tab-opshub'); if (tp) tp.classList.toggle('wzmode', ohView === 'wiz');
     wzAfterRender();
     if (ohView === 'report' && ohReport === 2 && typeof r2Refresh === 'function') r2Refresh();
     if (ohView === 'report' && ohReport === 3 && typeof r3Refresh === 'function') r3Refresh();
@@ -30234,7 +30238,7 @@ function ohUOut() {
         '</tbody></table></div>';
     if (!ohU.rows.length) h = '<div class="r2-warn">' + ohEsc(t('ruNoMonth')) + '</div>';
     if (ohU.checks && ohU.checks.length) h += '<div class="oh-h" style="font-size:14px;margin-top:10px">' + ohEsc(t('ruChecks')) + '</div>' + ohU.checks.map(function (c) { return '<div class="r2-warn" style="' + (c.ok ? 'background:#f0fdf4;border-color:#16a34a;color:#166534' : '') + '">' + (c.ok ? '✓ ' : '⚠ ') + ohEsc(c.text) + '</div>'; }).join('');
-    if (ohU.rows.length) h += '<div class="r2-act" style="margin-top:10px"><button type="button" class="oh-go" style="margin:0;max-width:260px" onclick="ohUApply(this,false)">' + ohEsc(t('ruApply')) + '</button>' + (ohU.ee ? '<button type="button" class="oh-chg" onclick="ohUApply(this,true)">' + ohEsc(t('ruApplyAll')) + '</button>' : '') + '</div>';
+    if (ohU.rows.length) h += '<div class="r2-act" style="margin-top:10px"><button type="button" class="oh-go" style="margin:0;max-width:260px" onclick="ohUApply(this,false)">' + ohEsc(t('ruApply')) + '</button>' + '</div>';
     return h;
 }
 function ohUNum(v) { if (typeof v === 'number') return v; if (v == null) return null; var x = parseFloat(String(v).replace(/,/g, '')); return isFinite(x) ? x : null; }
@@ -30447,9 +30451,9 @@ function ohCopy(text) {
 function ohSumHtml() {
     var ym = ohUYm(), nav = '<div class="oh-card oh-mnav"><button type="button" class="oh-chg" onclick="ohSumMonth(-1)">&lsaquo;</button><span class="oh-mlbl">' + ohEsc(r2MonthLabel(ym)) + '</span><button type="button" class="oh-chg" onclick="ohSumMonth(1)">&rsaquo;</button></div>';
     if (ohSum.loading || !ohSum.data) return nav + '<div class="oh-card">' + ohEsc(t('r2Loading')) + '</div>';
-    var D = ohSum.data, S = smSections(D), h = nav + '<div class="oh-note" style="margin:0 0 10px">' + ohEsc(t('smHint')) + '</div>';
+    var D = ohSum.data, S = smSections(D), h = nav + (ohView === 'wiz' ? '' : '<div class="oh-note" style="margin:0 0 10px">' + ohEsc(t('smHint')) + '</div>');
     if (!D.f) h += '<div class="r2-warn" style="max-width:var(--ohw);margin:0 auto 12px;text-align:center">' + ohEsc(t('rmR2Missing')) + '</div>';
-    h += '<div class="r3cols">';
+    h += '<div class="r3cols sm-one">';
     S.forEach(function (s) {
         var title = s.title || (s.n + '. ' + ohName(s.n)), inner = '';
         var cell = function (v) { v = String(v == null ? '' : v); return v === '' ? '<td class="sm-e">-</td>' : '<td><button type="button" class="sm-v" data-v="' + encodeURIComponent(v) + '">' + ohEsc(v) + '</button></td>'; };
