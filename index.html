@@ -1000,7 +1000,7 @@ window.MTS={bar:setBar,gear:GEAR,bell:INFO,noteShow:noteShow,eff:eff,act:act,nex
 @keyframes kbsBar{0%{opacity:0;transform:translateY(-1.1em) scaleY(.4)}60%{opacity:1;transform:translateY(.08em) scaleY(1.08)}100%{opacity:1;transform:none}}
 @keyframes kbsOut{to{opacity:0;transform:scale(1.06)}}
 @media (prefers-reduced-motion:reduce){#kbSplash .lg i{animation:none;opacity:1}#kbSplash .lg{animation:none}}
-</style><div id="kbSplash" aria-hidden="true"><div class="lg"><i class="h">H</i><i class="r">R</i><i class="bar"></i><i class="n1">2</i><i class="n2">0</i><i class="n3">3</i></div></div><script>(function(){var s=document.getElementById('kbSplash');if(!s)return;var done=false;function hide(){if(done)return;done=true;s.classList.add('out');setTimeout(function(){try{s.remove();var c=document.getElementById('kbSplashCss');if(c)c.remove();}catch(e){}},520);}
+</style><div id="kbSplash" aria-hidden="true"><div class="lg"><i class="h">H</i><i class="r">R</i><i class="bar"></i><i class="n1">2</i><i class="n2">0</i><i class="n3">3</i></div></div><script>(function(){var s=document.getElementById('kbSplash');if(!s)return;try{if(sessionStorage.getItem('splashSeen')==='1'){s.remove();return;}sessionStorage.setItem('splashSeen','1');}catch(e){}var done=false;function hide(){if(done)return;done=true;s.classList.add('out');setTimeout(function(){try{s.remove();var c=document.getElementById('kbSplashCss');if(c)c.remove();}catch(e){}},520);}
 var rm=false;try{rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
 setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener('touchstart',hide,{passive:true});})();</script><!-- SPLASH-END -->
 
