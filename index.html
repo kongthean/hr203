@@ -3645,18 +3645,18 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 <!-- v8.00: OPERATIONS HUB (Administration only). Full-screen page: choose Department and Group, then Daily / Monthly / Stock / Other. -->
 <div id="tab-opshub" class="tab-panel" style="padding:0; background:transparent; border:0; box-shadow:none;">
     <style>
-        #tab-opshub .oh-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;max-width:820px;margin:0 auto 14px;background:linear-gradient(135deg,#0b1d3a,#24406e);border-radius:16px;padding:12px 16px;color:#fff}
+        #tab-opshub .oh-bar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:12px;max-width:var(--ohw);margin:0 auto 14px;background:linear-gradient(135deg,#0b1d3a,#24406e);border-radius:16px;padding:12px 16px;color:#fff}
         #tab-opshub .oh-back{justify-self:start;white-space:nowrap;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;background:rgba(255,255,255,.16);color:#fff;border:0;border-radius:10px;padding:9px 12px;cursor:pointer;min-height:40px}
         #tab-opshub .oh-ttl{min-width:0;font-size:19px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:9px;text-align:center}
         #tab-opshub .oh-ttl span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-        #tab-opshub .oh-card{max-width:820px;margin-left:auto;margin-right:auto;text-align:center;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+        #tab-opshub .oh-card{max-width:var(--ohw);margin-left:auto;margin-right:auto;text-align:center;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:16px 18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
         #tab-opshub .oh-chips{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:14px}
         #tab-opshub .oh-chip{padding:6px 14px;border-radius:999px;background:#0b1d3a;color:#fff;font-size:13px;font-weight:700}
         #tab-opshub .oh-lbl{font-size:13px;font-weight:700;color:#475569;margin:12px 0 6px}
         #tab-opshub select{text-align:center;text-align-last:center;width:100%;box-sizing:border-box;min-height:46px;font-size:15px;border:1.5px solid #cbd5e1;border-radius:10px;padding:0 12px;background:#fff}
         #tab-opshub .oh-go{margin-top:16px;width:100%;min-height:48px;border:0;border-radius:12px;background:linear-gradient(135deg,#064e3b,#15906b);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
         #tab-opshub .oh-chg{padding:7px 16px;border-radius:10px;border:1.5px solid #cbd5e1;background:#fff;font-size:13px;font-weight:700;color:#334155;cursor:pointer}
-        #tab-opshub .oh-tiles{max-width:820px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+        #tab-opshub .oh-tiles{max-width:var(--ohw);margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
         #tab-opshub .oh-tile{height:150px;border:0;border-radius:18px;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 8px 20px rgba(11,29,58,.22)}
         #tab-opshub .oh-list{display:flex;flex-direction:column;gap:10px;max-width:760px;margin:0 auto}
         #tab-opshub .oh-wrap{position:relative}#tab-opshub .oh-pen{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#334155;cursor:pointer;display:flex;align-items:center;justify-content:center}#tab-opshub .oh-row{display:flex;align-items:center;justify-content:center;padding-left:56px!important;padding-right:56px!important;gap:14px;background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px 16px;cursor:pointer;text-align:left;width:100%;font:inherit}
@@ -3665,6 +3665,17 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         #tab-opshub .oh-rs{font-size:12px;font-weight:700;color:#92400e;background:#fef3c7;border-radius:8px;padding:3px 9px}
         #tab-opshub .oh-note{text-align:center;font-size:12px;color:#64748b;margin-top:12px}
         #tab-opshub .oh-h{text-align:center;font-size:20px;font-weight:700;margin:4px 0 12px;color:#0f172a}
+        #tab-opshub{--ohw:820px}
+        @media(min-width:900px){#tab-opshub{--ohw:1180px}}
+        #tab-opshub .r3cols,#tab-opshub .r2cols{max-width:var(--ohw);margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr);gap:0 14px;align-items:start}
+        #tab-opshub .r3cols .oh-card,#tab-opshub .r2cols .oh-card{max-width:none}
+        @media(min-width:900px){
+            #tab-opshub .r3cols{grid-template-columns:repeat(2,minmax(0,1fr))}#tab-opshub .r3cols .r3full{grid-column:1/-1}
+            #tab-opshub .r2cols{grid-template-columns:minmax(0,5fr) minmax(0,6fr);grid-template-rows:auto auto 1fr}
+            #tab-opshub .r2cols .cOpen{grid-column:1;grid-row:1}#tab-opshub .r2cols .cBuy{grid-column:1;grid-row:2}#tab-opshub .r2cols .cSum{grid-column:1;grid-row:3}
+            #tab-opshub .r2cols .cTbl{grid-column:2;grid-row:1/span 3;align-self:start}
+            #tab-opshub .oh-tile{height:190px}
+        }
         #tab-opshub .oh-card{margin-bottom:12px}
         #tab-opshub .oh-mnav{display:flex;align-items:center;justify-content:center;gap:18px;padding:10px 14px}
         #tab-opshub .oh-mnav .oh-chg{width:46px;height:42px;font-size:22px;line-height:1;padding:0}
@@ -3682,7 +3693,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         #tab-opshub .r2-buy{display:grid;grid-template-columns:70px 1fr 1fr 1fr 40px;gap:8px;align-items:end;margin-bottom:10px}
         #tab-opshub .r2-buy select{min-height:42px;font-size:14px;padding:0 4px}
         #tab-opshub .r2-x{height:42px;border:1px solid #fecaca;background:#fff;color:#b91c1c;border-radius:10px;font-size:22px;cursor:pointer}
-        #tab-opshub .r2-act{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;max-width:820px;margin:0 auto}
+        #tab-opshub .r2-act{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;max-width:var(--ohw);margin:0 auto}
         #tab-opshub .r2-act .oh-chg{min-height:48px;padding:0 22px}
         #tab-opshub .r2-warn{margin-top:10px;background:#fffbeb;border:1.5px solid #f59e0b;color:#92400e;border-radius:10px;padding:10px 12px;font-size:13.5px;font-weight:700}
     </style>
@@ -7140,7 +7151,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         /* v6.65: Nav labels for the 2 new tabs */
         navAuditLog: "Activity Log",
         navCertificates: "Certificates",
-        navOpsHub: "Operations Hub", ohChooseTitle: "Choose Department and Group", ohDept: "Department", ohGroup: "Group", ohSelect: "-- Choose --", ohContinue: "Continue", ohWorkingOn: "Working on", ohChange: "Change", ohMainMenu: "Main Menu", ohDaily: "Daily Reports", ohMonthly: "Monthly Report", ohStock: "Stock Report", ohOther: "Other", ohStockChoose: "Choose report to do", ohSoon: "Not built yet. It will be added step by step.", ohBack: "Back", ohNeedBoth: "Choose a Department and a Group first", ohNoDept: "No departments yet", ohR1: "RO Water Plant Consumables", ohR2: "Chemical Usage", ohR3: "PAC and NaOCl Yearly Table", ohR4: "Chemical Cost, Wastewater and Sludge", ohR5: "Cambodia Monthly Indicators", ohR6: "Chemical Optimization (Cambodia)", ohR7: "21-Plant Monthly Indicators", ohR8: "Remaining Stock at Month End", ohRNote: "Tap the pencil to rename a report.", ohAll: "All", ohRename: "Rename report", ohSavedLocal: "Saved on this device only (database did not accept it)", r2Open: "Stock left from last month (kg)", r2Open2: "Last month", r2Auto: "Filled automatically from last month", r2Type: "First month: type it once", r2Daily: "Used each day (kg)", r2Day: "Day", r2Poly: "Polymer+", r2Naocl: "NaOCl", r2Sugar: "Sugar", r2Bought: "New stock bought", r2AddBuy: "Add", r2Chem: "Chemical", r2Qty: "Amount", r2Unit: "Unit", r2Kg: "kg", r2Sack: "sack (50 kg)", r2Total: "Total", r2Close: "Stock left", r2BoughtL: "Bought", r2Used: "Used", r2Summary: "Month summary", r2Warn: "Used is more than the stock you had", r2Missing: "{n} box(es) still empty", r2Save: "Save", r2Export: "Export Excel", r2Saved: "Saved", r2SaveFail: "NOT saved to the database. Try again.", r2LoadFail: "Could not load from the database", r2Loading: "Loading...", r2Slow: "The database is slow. You can type now. Press Save when the connection is back.", r2NoBuy: "No new stock this month", r2Delete: "Delete", r2Draft: "You have unsaved changes on this device. Press Save.", r3Pac: "PAC", r3Naocl: "NaOCl", r3Usage: "Used (kg)", r3Price: "Unit price (USD/kg)", r3Cost: "Cost (USD)", r3Water: "Water supplied this month (m³)", r3WaterHint: "From the EE file, column \"供給工廠使用水量\" (water supplied to the factory)", r3Total: "Total cost (USD)", r3PerM3: "Cost per m³ of water (USD)", r3Copied: "Copied from last month. Check the numbers, then press Save.", r3CopyBtn: "Copy from last month", r3NoPrev: "No data last month to copy", r3Year: "Year table", r3Remark: "Remark", r3Month: "Month",
+        navOpsHub: "Operations Hub", ohChooseTitle: "Choose Department and Group", ohDept: "Department", ohGroup: "Group", ohSelect: "-- Choose --", ohContinue: "Continue", ohWorkingOn: "Working on", ohChange: "Change", ohMainMenu: "Main Menu", ohDaily: "Daily Reports", ohMonthly: "Monthly Report", ohStock: "Stock Report", ohOther: "Other", ohStockChoose: "Choose report to do", ohSoon: "Not built yet. It will be added step by step.", ohBack: "Back", ohNeedBoth: "Choose a Department and a Group first", ohNoDept: "No departments yet", ohR1: "RO Consumables", ohR2: "Chemical Usage", ohR3: "PAC and NaOCl", ohR4: "Chemical Cost", ohR5: "Cambodia Indicators", ohR6: "Chemical Optimization", ohR7: "21-Plant Indicators", ohR8: "Month-End Stock", ohRNote: "Tap the pencil to rename a report.", ohAll: "All", ohRename: "Rename report", ohSavedLocal: "Saved on this device only (database did not accept it)", r2Open: "Stock left from last month (kg)", r2Open2: "Last month", r2Auto: "Filled automatically from last month", r2Type: "First month: type it once", r2Daily: "Used each day (kg)", r2Day: "Day", r2Poly: "Polymer+", r2Naocl: "NaOCl", r2Sugar: "Sugar", r2Bought: "New stock bought", r2AddBuy: "Add", r2Chem: "Chemical", r2Qty: "Amount", r2Unit: "Unit", r2Kg: "kg", r2Sack: "sack (50 kg)", r2Total: "Total", r2Close: "Stock left", r2BoughtL: "Bought", r2Used: "Used", r2Summary: "Month summary", r2Warn: "Used is more than the stock you had", r2Missing: "{n} box(es) still empty", r2Save: "Save", r2Export: "Export Excel", r2Saved: "Saved", r2SaveFail: "NOT saved to the database. Try again.", r2LoadFail: "Could not load from the database", r2Loading: "Loading...", r2Slow: "The database is slow. You can type now. Press Save when the connection is back.", r2NoBuy: "No new stock this month", r2Delete: "Delete", r2Draft: "You have unsaved changes on this device. Press Save.", r3Pac: "PAC", r3Naocl: "NaOCl", r3Usage: "Used (kg)", r3Price: "Unit price (USD/kg)", r3Cost: "Cost (USD)", r3Water: "Water supplied this month (m³)", r3WaterHint: "From the EE file, column \"供給工廠使用水量\" (water supplied to the factory)", r3Total: "Total cost (USD)", r3PerM3: "Cost per m³ of water (USD)", r3Copied: "Copied from last month. Check the numbers, then press Save.", r3CopyBtn: "Copy from last month", r3NoPrev: "No data last month to copy", r3Year: "Year table", r3Remark: "Remark", r3Month: "Month", rmR2Missing: "Report 2 (Chemical Usage) is not saved for this month yet", rmOpenR2: "Open report 2", rmEe: "EE file numbers (type once, all reports use them)", rmEeNote: "Type it here once. Reports 3, 4, 5, 6 and 7 use the same number.", rmWw: "Wastewater total (m³) - EE column 污水月總處理量", rmWi: "Wastewater treated in the plant (m³) - EE column 污水月總處理量廠內水處理在", rmWr: "Wastewater reused (m³) - EE column (C) 汙水排放水回廠內使用水量", rmPeople: "People in the factory", rmWho: "Person in charge", rmDose: "Dosing cost (USD, rounded)", rmDosePer: "Dosing cost per m³ (USD)", rmSludge: "Sludge (kg)", rmSludgeP: "Unit price (USD/kg)", rmFee: "Fixed fee (USD)", rmSludgeNote: "Reminder: take these numbers from the 2026年1月～12月 抽污泥记录表.", rmUsage: "Used (kg)", rmPrice: "Price (USD/kg)", rmCost: "Cost (USD)", rmChemTotal: "Total of the 3 chemicals (USD)", rmRound: "Dosing cost = the 3 chemicals added up, rounded to a whole number.", rmSheetA: "A. Chemical cost", rmSheetB: "B. Wastewater and dosing cost", rmSheetC: "C. Sludge transport", rmInd: "Numbers for the Cambodia row", rmPerTon: "Used per ton of wastewater", rmPrev: "Last month used (kg)", rmStock: "Stock left at month end (kg)", rmUnused: "PAC, NaOH, POLYMER and POLYMER- are not used. They are filled automatically.", rmRo: "RO water made (m³)", rmPerRo: "Cost per m³ of RO water (USD)", rmQty: "Quantity", rmFromReg: "Quantity: take it from the manager chemical register. Price is copied from last month.", rmFromR2: "Used amounts come automatically from report 2.", rmFromR4: "These numbers come automatically from report 4 and the EE numbers.",
         navConvertPhoto: "Extract",
         navCalendar: "Calendar", calSoon: "Coming soon", calComing: "Calendar is coming soon",
         convertPhotoSub: "Choose an Excel, Word (.docx) or PDF file from your device. Nothing is uploaded anywhere - it stays on this device and turns into picture(s) you can download.",
@@ -9550,7 +9561,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
         navAuditLog: "កំណត់ត្រាសកម្មភាព",
         navCertificates: "វិញ្ញាបនបត្រ",
-        navOpsHub: "មជ្ឈមណ្ឌលប្រតិបត្តិការ", ohChooseTitle: "ជ្រើសរើសនាយកដ្ឋាន និងក្រុម", ohDept: "នាយកដ្ឋាន", ohGroup: "ក្រុម", ohSelect: "-- ជ្រើសរើស --", ohContinue: "បន្ត", ohWorkingOn: "កំពុងធ្វើការលើ", ohChange: "ប្តូរ", ohMainMenu: "ម៉ឺនុយមេ", ohDaily: "របាយការណ៍ប្រចាំថ្ងៃ", ohMonthly: "របាយការណ៍ប្រចាំខែ", ohStock: "របាយការណ៍ស្តុក", ohOther: "ផ្សេងៗ", ohStockChoose: "ជ្រើសរើសរបាយការណ៍ដែលត្រូវធ្វើ", ohSoon: "មិនទាន់បង្កើតទេ។ នឹងបន្ថែមជាបណ្តើរៗ។", ohBack: "ត្រឡប់ក្រោយ", ohNeedBoth: "សូមជ្រើសរើសនាយកដ្ឋាន និងក្រុមជាមុនសិន", ohNoDept: "មិនទាន់មាននាយកដ្ឋានទេ", ohR1: "សម្ភារៈប្រើប្រាស់រោងចក្រទឹក RO", ohR2: "ការប្រើប្រាស់គីមី (Polymer+, NaOCl, ស្ករ)", ohR3: "តារាង PAC និង NaOCl ប្រចាំឆ្នាំ", ohR4: "តម្លៃគីមី ទឹកកខ្វក់ និងល្បាប់", ohR5: "សូចនាករប្រចាំខែកម្ពុជា", ohR6: "ការធ្វើឱ្យប្រសើរគីមី (កម្ពុជា)", ohR7: "សូចនាករប្រចាំខែរោងចក្រ ២១", ohR8: "ស្តុកនៅសល់ចុងខែ", ohRNote: "ចុចប៊ិចដើម្បីប្តូរឈ្មោះរបាយការណ៍។", ohAll: "ទាំងអស់", ohRename: "ប្តូរឈ្មោះរបាយការណ៍", ohSavedLocal: "បានរក្សាទុកតែលើឧបករណ៍នេះប៉ុណ្ណោះ", r2Open: "ស្តុកនៅសល់ពីខែមុន (គីឡូ)", r2Open2: "ខែមុន", r2Auto: "បំពេញដោយស្វ័យប្រវត្តិពីខែមុន", r2Type: "ខែដំបូង៖ វាយបញ្ចូលម្តង", r2Daily: "ប្រើប្រាស់ក្នុងមួយថ្ងៃ (គីឡូ)", r2Day: "ថ្ងៃ", r2Poly: "Polymer+", r2Naocl: "NaOCl", r2Sugar: "ស្ករ", r2Bought: "ស្តុកថ្មីដែលបានទិញ", r2AddBuy: "បន្ថែម", r2Chem: "គីមី", r2Qty: "បរិមាណ", r2Unit: "ឯកតា", r2Kg: "គីឡូ", r2Sack: "បាវ (៥០ គីឡូ)", r2Total: "សរុប", r2Close: "ស្តុកនៅសល់", r2BoughtL: "បានទិញ", r2Used: "បានប្រើ", r2Summary: "សរុបប្រចាំខែ", r2Warn: "ការប្រើច្រើនជាងស្តុកដែលមាន", r2Missing: "នៅទទេ {n} ប្រអប់", r2Save: "រក្សាទុក", r2Export: "នាំចេញ Excel", r2Saved: "បានរក្សាទុក", r2SaveFail: "មិនបានរក្សាទុកក្នុងមូលដ្ឋានទិន្នន័យទេ។ សូមព្យាយាមម្តងទៀត។", r2LoadFail: "មិនអាចផ្ទុកពីមូលដ្ឋានទិន្នន័យ", r2Loading: "កំពុងផ្ទុក...", r2Slow: "មូលដ្ឋានទិន្នន័យយឺត។ អ្នកអាចវាយបានឥឡូវ។ ចុចរក្សាទុកពេលមានអ៊ីនធឺណិតវិញ។", r2NoBuy: "គ្មានស្តុកថ្មីក្នុងខែនេះ", r2Delete: "លុប", r2Draft: "អ្នកមានការផ្លាស់ប្តូរមិនទាន់រក្សាទុកលើឧបករណ៍នេះ។ សូមចុចរក្សាទុក។", r3Pac: "PAC", r3Naocl: "NaOCl", r3Usage: "ប្រើប្រាស់ (គីឡូ)", r3Price: "តម្លៃឯកតា (USD/គីឡូ)", r3Cost: "តម្លៃ (USD)", r3Water: "បរិមាណទឹកផ្គត់ផ្គង់ក្នុងខែនេះ (m³)", r3WaterHint: "ពីឯកសារ EE ជួរ \"供給工廠使用水量\" (ទឹកផ្គត់ផ្គង់ទៅរោងចក្រ)", r3Total: "តម្លៃសរុប (USD)", r3PerM3: "តម្លៃក្នុងមួយ m³ ទឹក (USD)", r3Copied: "បានចម្លងពីខែមុន។ សូមពិនិត្យលេខ រួចចុចរក្សាទុក។", r3CopyBtn: "ចម្លងពីខែមុន", r3NoPrev: "គ្មានទិន្នន័យខែមុនសម្រាប់ចម្លង", r3Year: "តារាងប្រចាំឆ្នាំ", r3Remark: "កំណត់ចំណាំ", r3Month: "ខែ",
+        navOpsHub: "មជ្ឈមណ្ឌលប្រតិបត្តិការ", ohChooseTitle: "ជ្រើសរើសនាយកដ្ឋាន និងក្រុម", ohDept: "នាយកដ្ឋាន", ohGroup: "ក្រុម", ohSelect: "-- ជ្រើសរើស --", ohContinue: "បន្ត", ohWorkingOn: "កំពុងធ្វើការលើ", ohChange: "ប្តូរ", ohMainMenu: "ម៉ឺនុយមេ", ohDaily: "របាយការណ៍ប្រចាំថ្ងៃ", ohMonthly: "របាយការណ៍ប្រចាំខែ", ohStock: "របាយការណ៍ស្តុក", ohOther: "ផ្សេងៗ", ohStockChoose: "ជ្រើសរើសរបាយការណ៍ដែលត្រូវធ្វើ", ohSoon: "មិនទាន់បង្កើតទេ។ នឹងបន្ថែមជាបណ្តើរៗ។", ohBack: "ត្រឡប់ក្រោយ", ohNeedBoth: "សូមជ្រើសរើសនាយកដ្ឋាន និងក្រុមជាមុនសិន", ohNoDept: "មិនទាន់មាននាយកដ្ឋានទេ", ohR1: "សម្ភារៈប្រើប្រាស់រោងចក្រទឹក RO", ohR2: "ការប្រើប្រាស់គីមី (Polymer+, NaOCl, ស្ករ)", ohR3: "តារាង PAC និង NaOCl ប្រចាំឆ្នាំ", ohR4: "តម្លៃគីមី ទឹកកខ្វក់ និងល្បាប់", ohR5: "សូចនាករប្រចាំខែកម្ពុជា", ohR6: "ការធ្វើឱ្យប្រសើរគីមី (កម្ពុជា)", ohR7: "សូចនាករប្រចាំខែរោងចក្រ ២១", ohR8: "ស្តុកនៅសល់ចុងខែ", ohRNote: "ចុចប៊ិចដើម្បីប្តូរឈ្មោះរបាយការណ៍។", ohAll: "ទាំងអស់", ohRename: "ប្តូរឈ្មោះរបាយការណ៍", ohSavedLocal: "បានរក្សាទុកតែលើឧបករណ៍នេះប៉ុណ្ណោះ", r2Open: "ស្តុកនៅសល់ពីខែមុន (គីឡូ)", r2Open2: "ខែមុន", r2Auto: "បំពេញដោយស្វ័យប្រវត្តិពីខែមុន", r2Type: "ខែដំបូង៖ វាយបញ្ចូលម្តង", r2Daily: "ប្រើប្រាស់ក្នុងមួយថ្ងៃ (គីឡូ)", r2Day: "ថ្ងៃ", r2Poly: "Polymer+", r2Naocl: "NaOCl", r2Sugar: "ស្ករ", r2Bought: "ស្តុកថ្មីដែលបានទិញ", r2AddBuy: "បន្ថែម", r2Chem: "គីមី", r2Qty: "បរិមាណ", r2Unit: "ឯកតា", r2Kg: "គីឡូ", r2Sack: "បាវ (៥០ គីឡូ)", r2Total: "សរុប", r2Close: "ស្តុកនៅសល់", r2BoughtL: "បានទិញ", r2Used: "បានប្រើ", r2Summary: "សរុបប្រចាំខែ", r2Warn: "ការប្រើច្រើនជាងស្តុកដែលមាន", r2Missing: "នៅទទេ {n} ប្រអប់", r2Save: "រក្សាទុក", r2Export: "នាំចេញ Excel", r2Saved: "បានរក្សាទុក", r2SaveFail: "មិនបានរក្សាទុកក្នុងមូលដ្ឋានទិន្នន័យទេ។ សូមព្យាយាមម្តងទៀត។", r2LoadFail: "មិនអាចផ្ទុកពីមូលដ្ឋានទិន្នន័យ", r2Loading: "កំពុងផ្ទុក...", r2Slow: "មូលដ្ឋានទិន្នន័យយឺត។ អ្នកអាចវាយបានឥឡូវ។ ចុចរក្សាទុកពេលមានអ៊ីនធឺណិតវិញ។", r2NoBuy: "គ្មានស្តុកថ្មីក្នុងខែនេះ", r2Delete: "លុប", r2Draft: "អ្នកមានការផ្លាស់ប្តូរមិនទាន់រក្សាទុកលើឧបករណ៍នេះ។ សូមចុចរក្សាទុក។", r3Pac: "PAC", r3Naocl: "NaOCl", r3Usage: "ប្រើប្រាស់ (គីឡូ)", r3Price: "តម្លៃឯកតា (USD/គីឡូ)", r3Cost: "តម្លៃ (USD)", r3Water: "បរិមាណទឹកផ្គត់ផ្គង់ក្នុងខែនេះ (m³)", r3WaterHint: "ពីឯកសារ EE ជួរ \"供給工廠使用水量\" (ទឹកផ្គត់ផ្គង់ទៅរោងចក្រ)", r3Total: "តម្លៃសរុប (USD)", r3PerM3: "តម្លៃក្នុងមួយ m³ ទឹក (USD)", r3Copied: "បានចម្លងពីខែមុន។ សូមពិនិត្យលេខ រួចចុចរក្សាទុក។", r3CopyBtn: "ចម្លងពីខែមុន", r3NoPrev: "គ្មានទិន្នន័យខែមុនសម្រាប់ចម្លង", r3Year: "តារាងប្រចាំឆ្នាំ", r3Remark: "កំណត់ចំណាំ", r3Month: "ខែ", rmR2Missing: "របាយការណ៍ទី ២ មិនទាន់រក្សាទុកសម្រាប់ខែនេះទេ", rmOpenR2: "បើករបាយការណ៍ទី ២", rmEe: "លេខពីឯកសារ EE (វាយម្តង ប្រើគ្រប់របាយការណ៍)", rmEeNote: "វាយនៅទីនេះម្តង។ របាយការណ៍ ៣ ៤ ៥ ៦ ៧ ប្រើលេខដូចគ្នា។", rmWw: "ទឹកកខ្វក់សរុប (m³) - EE 污水月總處理量", rmWi: "ទឹកកខ្វក់ដែលបានព្យាបាលក្នុងរោងចក្រ (m³) - EE 污水月總處理量廠內水處理在", rmWr: "ទឹកកខ្វក់ប្រើឡើងវិញ (m³) - EE (C) 汙水排放水回廠內使用水量", rmPeople: "ចំនួនមនុស្សក្នុងរោងចក្រ", rmWho: "អ្នកទទួលខុសត្រូវ", rmDose: "តម្លៃគីមី (USD បង្គត់)", rmDosePer: "តម្លៃគីមីក្នុង១ m³ (USD)", rmSludge: "ល្បាប់ (គីឡូ)", rmSludgeP: "តម្លៃឯកតា (USD/គីឡូ)", rmFee: "ថ្លៃថេរ (USD)", rmSludgeNote: "រំលឹក៖ យកលេខទាំងនេះពី 2026年1月～12月 抽污泥记录表។", rmUsage: "ប្រើ (គីឡូ)", rmPrice: "តម្លៃ (USD/គីឡូ)", rmCost: "ថ្លៃ (USD)", rmChemTotal: "សរុបគីមី ៣ (USD)", rmRound: "តម្លៃគីមី = គីមី ៣ បូកគ្នា បង្គត់ជាចំនួនគត់។", rmSheetA: "A. តម្លៃគីមី", rmSheetB: "B. ទឹកកខ្វក់ និងតម្លៃគីមី", rmSheetC: "C. ដឹកជញ្ជូនល្បាប់", rmInd: "លេខសម្រាប់ជួរកម្ពុជា", rmPerTon: "ប្រើក្នុងមួយតោនទឹកកខ្វក់", rmPrev: "ខែមុនប្រើ (គីឡូ)", rmStock: "ស្តុកនៅសល់ចុងខែ (គីឡូ)", rmUnused: "PAC NaOH POLYMER POLYMER- មិនប្រើ។ បំពេញដោយស្វ័យប្រវត្តិ។", rmRo: "ទឹក RO ផលិតបាន (m³)", rmPerRo: "តម្លៃក្នុង១ m³ ទឹក RO (USD)", rmQty: "បរិមាណ", rmFromReg: "បរិមាណ៖ យកពីសៀវភៅចុះបញ្ជីគីមីរបស់អ្នកគ្រប់គ្រង។ តម្លៃចម្លងពីខែមុន។", rmFromR2: "បរិមាណប្រើមកពីរបាយការណ៍ទី ២ ដោយស្វ័យប្រវត្តិ។", rmFromR4: "លេខទាំងនេះមកពីរបាយការណ៍ទី ៤ និងលេខ EE ដោយស្វ័យប្រវត្តិ។",
         navConvertPhoto: "ស្រង់ចេញ",
         navCalendar: "ប្រតិទិន", calSoon: "ឆាប់ៗនេះ", calComing: "ប្រតិទិននឹងមកដល់ឆាប់ៗនេះ",
         convertPhotoSub: "ជ្រើសរើសឯកសារ Excel, Word (.docx) ឬ PDF ពីឧបករណ៍របស់អ្នក។ គ្មានអ្វីត្រូវបានផ្ទុកឡើងទៅកន្លែងណាឡើយ - វានៅតែស្ថិតនៅលើឧបករណ៍នេះ ហើយប្រែក្លាយទៅជារូបភាពដែលអ្នកអាចទាញយកបាន។",
@@ -11953,7 +11964,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
         navAuditLog: "活动日志",
         navCertificates: "证明书",
-        navOpsHub: "运营中心", ohChooseTitle: "选择部门和小组", ohDept: "部门", ohGroup: "小组", ohSelect: "-- 请选择 --", ohContinue: "继续", ohWorkingOn: "当前", ohChange: "更改", ohMainMenu: "主菜单", ohDaily: "每日报表", ohMonthly: "月度报表", ohStock: "库存报表", ohOther: "其他", ohStockChoose: "选择要做的报表", ohSoon: "尚未建立，将逐步添加。", ohBack: "返回", ohNeedBoth: "请先选择部门和小组", ohNoDept: "暂无部门", ohR1: "RO饮用水厂耗材", ohR2: "药剂使用量 (Polymer+、NaOCl、糖)", ohR3: "PAC 与 NaOCl 年度表", ohR4: "药剂费用、污水量与污泥", ohR5: "柬埔寨月度管理指标", ohR6: "药剂优化分析 (柬埔寨)", ohR7: "21个污水厂月度指标", ohR8: "月底剩余库存", ohRNote: "点击铅笔可重命名报表。", ohAll: "全部", ohRename: "重命名报表", ohSavedLocal: "仅保存在此设备", r2Open: "上月剩余库存 (公斤)", r2Open2: "上月", r2Auto: "自动从上月带入", r2Type: "第一个月：输入一次", r2Daily: "每日使用量 (公斤)", r2Day: "日", r2Poly: "Polymer+", r2Naocl: "NaOCl", r2Sugar: "糖", r2Bought: "新入库", r2AddBuy: "添加", r2Chem: "药剂", r2Qty: "数量", r2Unit: "单位", r2Kg: "公斤", r2Sack: "袋 (50公斤)", r2Total: "合计", r2Close: "剩余库存", r2BoughtL: "入库", r2Used: "使用", r2Summary: "本月汇总", r2Warn: "使用量超过现有库存", r2Missing: "还有 {n} 个空格", r2Save: "保存", r2Export: "导出 Excel", r2Saved: "已保存", r2SaveFail: "未保存到数据库，请重试。", r2LoadFail: "无法从数据库加载", r2Loading: "加载中...", r2Slow: "数据库较慢。现在可以输入，网络恢复后请按保存。", r2NoBuy: "本月无新入库", r2Delete: "删除", r2Draft: "此设备上有未保存的更改，请按保存。", r3Pac: "PAC", r3Naocl: "NaOCl", r3Usage: "使用量 (公斤)", r3Price: "单价 (USD/公斤)", r3Cost: "费用 (USD)", r3Water: "本月供给水量 (m³)", r3WaterHint: "来自EE文件，栏位\"供給工廠使用水量\"（供给工厂使用水量）", r3Total: "合计费用 (USD)", r3PerM3: "每吨水费用 (USD)", r3Copied: "已从上月复制。请检查数字，然后按保存。", r3CopyBtn: "复制上月", r3NoPrev: "上月无数据可复制", r3Year: "年度表", r3Remark: "备注", r3Month: "月份",
+        navOpsHub: "运营中心", ohChooseTitle: "选择部门和小组", ohDept: "部门", ohGroup: "小组", ohSelect: "-- 请选择 --", ohContinue: "继续", ohWorkingOn: "当前", ohChange: "更改", ohMainMenu: "主菜单", ohDaily: "每日报表", ohMonthly: "月度报表", ohStock: "库存报表", ohOther: "其他", ohStockChoose: "选择要做的报表", ohSoon: "尚未建立，将逐步添加。", ohBack: "返回", ohNeedBoth: "请先选择部门和小组", ohNoDept: "暂无部门", ohR1: "RO饮用水厂耗材", ohR2: "药剂使用量 (Polymer+、NaOCl、糖)", ohR3: "PAC 与 NaOCl 年度表", ohR4: "药剂费用、污水量与污泥", ohR5: "柬埔寨月度管理指标", ohR6: "药剂优化分析 (柬埔寨)", ohR7: "21个污水厂月度指标", ohR8: "月底剩余库存", ohRNote: "点击铅笔可重命名报表。", ohAll: "全部", ohRename: "重命名报表", ohSavedLocal: "仅保存在此设备", r2Open: "上月剩余库存 (公斤)", r2Open2: "上月", r2Auto: "自动从上月带入", r2Type: "第一个月：输入一次", r2Daily: "每日使用量 (公斤)", r2Day: "日", r2Poly: "Polymer+", r2Naocl: "NaOCl", r2Sugar: "糖", r2Bought: "新入库", r2AddBuy: "添加", r2Chem: "药剂", r2Qty: "数量", r2Unit: "单位", r2Kg: "公斤", r2Sack: "袋 (50公斤)", r2Total: "合计", r2Close: "剩余库存", r2BoughtL: "入库", r2Used: "使用", r2Summary: "本月汇总", r2Warn: "使用量超过现有库存", r2Missing: "还有 {n} 个空格", r2Save: "保存", r2Export: "导出 Excel", r2Saved: "已保存", r2SaveFail: "未保存到数据库，请重试。", r2LoadFail: "无法从数据库加载", r2Loading: "加载中...", r2Slow: "数据库较慢。现在可以输入，网络恢复后请按保存。", r2NoBuy: "本月无新入库", r2Delete: "删除", r2Draft: "此设备上有未保存的更改，请按保存。", r3Pac: "PAC", r3Naocl: "NaOCl", r3Usage: "使用量 (公斤)", r3Price: "单价 (USD/公斤)", r3Cost: "费用 (USD)", r3Water: "本月供给水量 (m³)", r3WaterHint: "来自EE文件，栏位\"供給工廠使用水量\"（供给工厂使用水量）", r3Total: "合计费用 (USD)", r3PerM3: "每吨水费用 (USD)", r3Copied: "已从上月复制。请检查数字，然后按保存。", r3CopyBtn: "复制上月", r3NoPrev: "上月无数据可复制", r3Year: "年度表", r3Remark: "备注", r3Month: "月份", rmR2Missing: "本月尚未保存报表2（药剂使用量）", rmOpenR2: "打开报表2", rmEe: "EE文件数字（只输入一次，所有报表共用）", rmEeNote: "在此输入一次。报表3、4、5、6、7使用同一个数字。", rmWw: "污水总处理量 (m³) - EE栏位 污水月總處理量", rmWi: "厂内处理污水量 (m³) - EE栏位 污水月總處理量廠內水處理在", rmWr: "污水回用量 (m³) - EE栏位 (C) 汙水排放水回廠內使用水量", rmPeople: "厂区人数", rmWho: "负责同仁", rmDose: "投药费用 (USD，取整)", rmDosePer: "每吨污水投药费 (USD)", rmSludge: "污泥 (公斤)", rmSludgeP: "单价 (USD/公斤)", rmFee: "固定费用 (USD)", rmSludgeNote: "提醒：这些数字请从 2026年1月～12月 抽污泥记录表 取得。", rmUsage: "使用量 (公斤)", rmPrice: "单价 (USD/公斤)", rmCost: "费用 (USD)", rmChemTotal: "三种药剂合计 (USD)", rmRound: "投药费用 = 三种药剂相加，取整数。", rmSheetA: "A. 药品费用", rmSheetB: "B. 污水量与投药费用", rmSheetC: "C. 污泥运输", rmInd: "柬埔寨一行的数字", rmPerTon: "每吨污水用量", rmPrev: "上月使用量 (公斤)", rmStock: "月底剩余库存 (公斤)", rmUnused: "PAC、NaOH、POLYMER、POLYMER- 未使用，自动填入。", rmRo: "RO水量 (m³)", rmPerRo: "每吨RO水费用 (USD)", rmQty: "数量", rmFromReg: "数量：请从主管的药品登记表取得。单价从上月复制。", rmFromR2: "使用量自动来自报表2。", rmFromR4: "这些数字自动来自报表4和EE数字。",
         navConvertPhoto: "提取",
         navCalendar: "日历", calSoon: "即将推出", calComing: "日历功能即将推出",
         convertPhotoSub: "从您的设备选择一个 Excel、Word (.docx) 或 PDF 文件。不会上传到任何地方 - 文件保留在此设备上，并转换成您可以下载的图片。",
@@ -29478,7 +29489,8 @@ function ohBack() {
 function ohGoStock() { ohView = 'stock'; ohReport = 0; ohRender(); }
 function ohGoSoon() { ohView = 'soon'; ohRender(); }
 function ohOpenReport(n) { ohReport = n; if (n === 2) { ohView = 'report'; r2Open(); return; }
-    if (n === 3) { ohView = 'report'; r3Open(); return; } ohView = 'soon'; ohRender(); }
+    if (n === 3) { ohView = 'report'; r3Open(); return; }
+    if (OHM_SPEC[n]) { ohView = 'report'; ohMOpen(n); return; } ohView = 'soon'; ohRender(); }
 function ohChange() { ohView = 'choose'; ohRender(); }
 function ohDeptChange(sel) { ohSel.dept = sel.value; ohSel.group = (sel.value === OH_ALL) ? OH_ALL : ''; ohRender(); }
 function ohLbl(v) { return v === OH_ALL ? t('ohAll') : v; }
@@ -29545,6 +29557,9 @@ function ohRender() {
     } else if (ohView === 'report' && ohReport === 3) {
         bt.textContent = t('ohBack'); tt.textContent = ohName(3);
         h = ohChips() + r3Html();
+    } else if (ohView === 'report' && OHM_SPEC[ohReport]) {
+        bt.textContent = t('ohBack'); tt.textContent = ohName(ohReport);
+        h = ohChips() + ohMHtml();
     } else {
         bt.textContent = t('ohBack'); tt.textContent = ohReport ? ohName(ohReport) : t('navOpsHub');
         h = ohChips() + '<div class="oh-card">' + ohEsc(t('ohSoon')) + '</div>';
@@ -29552,6 +29567,7 @@ function ohRender() {
     body.innerHTML = h;
     if (ohView === 'report' && ohReport === 2 && typeof r2Refresh === 'function') r2Refresh();
     if (ohView === 'report' && ohReport === 3 && typeof r3Refresh === 'function') r3Refresh();
+    if (ohView === 'report' && OHM_SPEC[ohReport] && typeof ohMRefresh === 'function') ohMRefresh();
 }
 </script>
 
@@ -29621,17 +29637,18 @@ function r2Html() {
     var ym = ohR2.ym;
     var nav = '<div class="oh-card oh-mnav"><button type="button" class="oh-chg" onclick="r2SetMonth(-1)" aria-label="prev">&lsaquo;</button><span class="oh-mlbl">' + ohEsc(r2MonthLabel(ym)) + '</span><button type="button" class="oh-chg" onclick="r2SetMonth(1)" aria-label="next">&rsaquo;</button></div>';
     if (!ohR2.doc) return nav + '<div class="oh-card">' + ohEsc(t('r2Loading')) + '</div>';
-    var doc = ohR2.doc, n = r2Days(ym), i, h = nav;
-    h += '<div class="oh-card"><div class="oh-h" style="font-size:16px">' + ohEsc(t('r2Open')) + '</div><div class="r2-3">' + R2C.map(function (c) {
+    var doc = ohR2.doc, n = r2Days(ym), i, h = nav + '<div class="r2cols">';
+    h += '<div class="oh-card cOpen"><div class="oh-h" style="font-size:16px">' + ohEsc(t('r2Open')) + '</div><div class="r2-3">' + R2C.map(function (c) {
         return '<div><div class="r2-l">' + ohEsc(r2Name(c)) + '</div>' + (doc.auto ? '<div class="r2-fix" id="r2o_' + c + '">' + r2F(doc.o[c] || 0) + '</div>' : '<input class="r2i r2o" data-c="' + c + '" inputmode="decimal" autocomplete="off" placeholder="0" value="' + (typeof doc.o[c] === 'number' ? r2F(doc.o[c]) : '') + '">') + '</div>';
     }).join('') + '</div><div class="oh-note">' + ohEsc(t(doc.auto ? 'r2Auto' : 'r2Type')) + '</div></div>';
-    h += '<div class="oh-card"><div class="oh-h" style="font-size:16px">' + ohEsc(t('r2Daily')) + '</div><div style="overflow-x:auto"><table class="r2-tbl"><thead><tr><th>' + ohEsc(t('r2Day')) + '</th>' + R2C.map(function (c) { return '<th>' + ohEsc(r2Name(c)) + '</th>'; }).join('') + '</tr></thead><tbody>';
+    h += '<div class="oh-card cTbl"><div class="oh-h" style="font-size:16px">' + ohEsc(t('r2Daily')) + '</div><div style="overflow-x:auto"><table class="r2-tbl"><thead><tr><th>' + ohEsc(t('r2Day')) + '</th>' + R2C.map(function (c) { return '<th>' + ohEsc(r2Name(c)) + '</th>'; }).join('') + '</tr></thead><tbody>';
     for (i = 1; i <= n; i++) h += '<tr><td class="r2-d">' + i + '</td>' + R2C.map(function (c) { var v = doc.d[i] && doc.d[i][c]; return '<td><input class="r2i r2c" data-r="' + i + '" data-c="' + c + '" inputmode="decimal" enterkeyhint="next" autocomplete="off" value="' + (typeof v === 'number' ? r2F(v) : '') + '"></td>'; }).join('') + '</tr>';
     h += '</tbody><tfoot><tr><td class="r2-d">' + ohEsc(t('r2Total')) + '</td>' + R2C.map(function (c) { return '<td class="r2-sum" id="r2t_' + c + '">0</td>'; }).join('') + '</tr></tfoot></table></div><div class="oh-note" id="r2Miss"></div></div>';
-    h += '<div class="oh-card"><div class="oh-h" style="font-size:16px">' + ohEsc(t('r2Bought')) + '</div><div id="r2Buys">' + r2BuysHtml() + '</div><button type="button" class="oh-chg" style="margin-top:10px" onclick="r2AddBuy()">+ ' + ohEsc(t('r2AddBuy')) + '</button></div>';
-    h += '<div class="oh-card"><div class="oh-h" style="font-size:16px">' + ohEsc(t('r2Summary')) + '</div><div style="overflow-x:auto"><table class="r2-tbl"><thead><tr><th></th><th>' + ohEsc(t('r2Open2')) + '</th><th>' + ohEsc(t('r2BoughtL')) + '</th><th>' + ohEsc(t('r2Used')) + '</th><th>' + ohEsc(t('r2Close')) + '</th></tr></thead><tbody>' + R2C.map(function (c) {
+    h += '<div class="oh-card cBuy"><div class="oh-h" style="font-size:16px">' + ohEsc(t('r2Bought')) + '</div><div id="r2Buys">' + r2BuysHtml() + '</div><button type="button" class="oh-chg" style="margin-top:10px" onclick="r2AddBuy()">+ ' + ohEsc(t('r2AddBuy')) + '</button></div>';
+    h += '<div class="oh-card cSum"><div class="oh-h" style="font-size:16px">' + ohEsc(t('r2Summary')) + '</div><div style="overflow-x:auto"><table class="r2-tbl"><thead><tr><th></th><th>' + ohEsc(t('r2Open2')) + '</th><th>' + ohEsc(t('r2BoughtL')) + '</th><th>' + ohEsc(t('r2Used')) + '</th><th>' + ohEsc(t('r2Close')) + '</th></tr></thead><tbody>' + R2C.map(function (c) {
         return '<tr><td class="r2-d" style="text-align:left">' + ohEsc(r2Name(c)) + '</td><td id="r2s_o' + c + '"></td><td id="r2s_b' + c + '"></td><td id="r2s_u' + c + '"></td><td class="r2-sum" id="r2s_c' + c + '"></td></tr>';
     }).join('') + '</tbody></table></div><div class="r2-warn" id="r2Warn" style="display:none"></div></div>';
+    h += '</div>';
     h += '<div class="r2-act"><button type="button" class="oh-chg" onclick="r2Export()">' + ohEsc(t('r2Export')) + '</button><button type="button" class="oh-go" style="margin:0;max-width:260px" onclick="r2Save(this)">' + ohEsc(t('r2Save')) + '</button></div>' + (ohR2.draft ? '<div class="oh-note" id="r2Draft">' + ohEsc(t('r2Draft')) + '</div>' : '');
     return h;
 }
@@ -29780,13 +29797,15 @@ function r3Html() {
     if (ohR3.loading) return nav + '<div class="oh-card">' + ohEsc(t('r2Loading')) + '</div>';
     var h = nav;
     if (ohR3.copied) h += '<div class="r2-warn" style="max-width:820px;margin:0 auto 12px;text-align:center" id="r3Copied">' + ohEsc(t('r3Copied')) + '</div>';
+    h += '<div class="r3cols">';
     [['p', 'r3Pac'], ['n', 'r3Naocl']].forEach(function (c) {
         h += '<div class="oh-card"><div class="oh-h" style="font-size:16px">' + ohEsc(t(c[1])) + '</div><div class="r2-3">' + r3In(c[0] + 'u', t('r3Usage')) + r3In(c[0] + 'p', t('r3Price')) +
             '<div><div class="r2-l">' + ohEsc(t('r3Cost')) + '</div><div class="r2-fix" id="r3c_' + c[0] + '">0</div></div></div></div>';
     });
     h += '<div class="oh-card"><div class="oh-h" style="font-size:16px">' + ohEsc(t('r3Water')) + '</div><div style="max-width:300px;margin:0 auto"><input class="r2i r3w" inputmode="decimal" autocomplete="off" value="' + (typeof ohR3.w === 'number' ? String(ohR3.w) : '') + '"></div><div class="oh-note">' + ohEsc(t('r3WaterHint')) + '</div></div>';
     h += '<div class="oh-card"><div class="r2-3" style="grid-template-columns:repeat(2,minmax(0,1fr))"><div><div class="r2-l">' + ohEsc(t('r3Total')) + '</div><div class="r2-fix" id="r3tot">0</div></div><div><div class="r2-l">' + ohEsc(t('r3PerM3')) + '</div><div class="r2-fix" id="r3per">-</div></div></div></div>';
-    h += '<div class="oh-card"><div class="r2-l">' + ohEsc(t('r3Remark')) + '</div><input class="r2i r3n" style="text-align:left" autocomplete="off" value="' + ohEsc(ohR3.rec.note || '') + '"></div>';
+    h += '<div class="oh-card r3full"><div class="r2-l">' + ohEsc(t('r3Remark')) + '</div><input class="r2i r3n" style="text-align:left" autocomplete="off" value="' + ohEsc(ohR3.rec.note || '') + '"></div>';
+    h += '</div>';
     h += '<div class="r2-act"><button type="button" class="oh-chg" onclick="r3CopyPrev()">' + ohEsc(t('r3CopyBtn')) + '</button><button type="button" class="oh-chg" onclick="r3Export()">' + ohEsc(t('r2Export')) + '</button><button type="button" class="oh-go" style="margin:0;max-width:260px" onclick="r3Save(this)">' + ohEsc(t('r2Save')) + '</button></div>';
     h += (ohR3.draft ? '<div class="oh-note" id="r3Draft">' + ohEsc(t('r2Draft')) + '</div>' : '');
     h += '<div class="oh-card" style="margin-top:14px"><div class="oh-h" style="font-size:16px">' + ohEsc(t('r3Year')) + ' ' + ohEsc(r3Y(ym)) + '</div><div style="overflow-x:auto" id="r3Tbl"></div></div>';
@@ -29864,6 +29883,270 @@ function r3Export() {
         else if (el.classList.contains('r3w')) { ohR3.w = r2Num(el.value); }
         else { ohR3.rec.note = el.value; }
         r3SaveDraft(); r3Refresh();
+    });
+})();
+</script>
+
+<script>
+/* ================= v8.03: OPERATIONS HUB - Reports 1, 4, 5, 6, 7, 8 =================
+   One shared set of numbers per month, so you type each number ONCE and every report uses it:
+     opsHub/r2/<scope>/<YYYY-MM>          Report 2 (daily usage, stock)               -> usage per chemical, stock left
+     opsHub/ee/<scope>/<YYYY>/mMM         EE file water numbers {sup, ww, wi, wr}     -> typed once, used by reports 3, 4, 5, 6, 7
+     opsHub/r4/<scope>/<YYYY>/mMM         prices and sludge {pp, sp, np, skg, spr, sfee}
+     opsHub/r5/<scope>/<YYYY>/mMM         people {people, who}
+     opsHub/r1/<scope>/<YYYY-MM>          RO water plant consumables {i:{i1:{q,p}...}, ro}
+   Rule used everywhere (same as your Excel files):  cost = usage x price;  dosing cost = ROUND(NaOCl cost + Polymer+ cost + sugar cost);  cost per m3 = cost / water;
+   usage per ton = usage / (in-plant treated wastewater) x 20  (the EE file formula).   Nothing else in the website is changed. */
+var ohM = { id: 0, ym: '', rec: {}, yd: {}, f: null, fp: null, loading: false, ver: 0, draft: false, dirty: {}, copied: false, busy: false };
+var OHM_SPEC = {
+    1: { st: [] }, 4: { st: ['ee', 'r4'], r2: 1 }, 5: { st: ['ee', 'r4', 'r5'], r2: 1 }, 6: { st: ['ee', 'r4'], r2: 1 },
+    7: { st: ['ee', 'r4', 'r5'], r2: 1, r2p: 1 }, 8: { st: [], r2: 1 }
+};
+var OHM_CARRY = { r4: ['pp', 'sp', 'np', 'spr', 'sfee'], r5: ['who'] };
+var R1_ITEMS = [['i1', '短瀘芯', 'Short filter', 'pcs'], ['i2', '瀘芯 0.2mm', 'Filter 0.2mm', 'pcs'], ['i3', '瀘芯 1mm', 'Filter 1mm', 'pcs'], ['i4', '鹽 ( NaCI )', 'Salt (NaCl)', 'kg'], ['i5', '無機清洗劑 RCW - B15', 'Inorganic cleaner RCW-B15', 'kg'], ['i6', '有機清洗劑 RCW - A54', 'Organic cleaner RCW-A54', 'kg'], ['i7', '抑垢劑 TSW-01', 'Scale inhibitor TSW-01', 'kg']];
+function ohStP(k, y) { return 'opsHub/' + k + '/' + ohScope() + '/' + y; }
+function ohMy() { return ohM.ym.split('-')[0]; }
+function ohMk(ym) { return 'm' + ('0' + (+ym.split('-')[1])).slice(-2); }
+function ohMDraftKey() { return 'ohM:' + ohM.id + ':' + ohScope() + ':' + ohM.ym; }
+function ohMSaveDraft() { try { localStorage.setItem(ohMDraftKey(), JSON.stringify({ rec: ohM.rec, dirty: ohM.dirty })); ohM.draft = true; } catch (e) {} }
+function ohR2Facts(v, ym) {
+    if (!v || !v.d) return null;
+    var doc = r2Norm(v), r = r2Calc(doc, ym);
+    return { p: r.p.used, n: r.n.used, s: r.s.used, cp: r.p.close, cn: r.n.close, cs: r.s.close, empties: r2Empties(doc, ym) };
+}
+function ohMOpen(id) {
+    if (!ohM.ym) { var l = ''; try { l = localStorage.getItem('ohR2ym') || ''; } catch (e) {} var d = new Date(); ohM.ym = /^\d{4}-\d{2}$/.test(l) ? l : r2Shift(d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2), -1); }
+    ohM.id = id; ohMLoad();
+}
+function ohMSetMonth(k) { ohM.ym = r2Shift(ohM.ym, k); try { localStorage.setItem('ohR2ym', ohM.ym); } catch (e) {} ohMLoad(); }
+function ohMLoad() {
+    var ym = ohM.ym, y = ohMy(), mk = ohMk(ym), prev = r2Shift(ym, -1), py = prev.split('-')[0], pk = ohMk(prev), spec = OHM_SPEC[ohM.id], ver = ++ohM.ver;
+    ohM.loading = true; ohM.rec = {}; ohM.dirty = {}; ohM.yd = {}; ohM.f = null; ohM.fp = null; ohM.copied = false; ohM.draft = false;
+    var draft = null; try { draft = JSON.parse(localStorage.getItem(ohMDraftKey()) || 'null'); } catch (e) {}
+    var jobs = [], tags = [];
+    spec.st.forEach(function (k) { jobs.push(db.ref(ohStP(k, y)).once('value')); tags.push(['yd', k]); if (OHM_CARRY[k] && py !== y) { jobs.push(db.ref(ohStP(k, py)).once('value')); tags.push(['pyd', k]); } });
+    if (spec.r2) { jobs.push(db.ref('opsHub/r2/' + ohScope() + '/' + ym).once('value')); tags.push(['r2']); }
+    if (spec.r2p) { jobs.push(db.ref('opsHub/r2/' + ohScope() + '/' + prev).once('value')); tags.push(['r2p']); }
+    if (ohM.id === 1) { jobs.push(db.ref('opsHub/r1/' + ohScope() + '/' + ym).once('value')); tags.push(['r1']); jobs.push(db.ref('opsHub/r1/' + ohScope() + '/' + prev).once('value')); tags.push(['r1p']); }
+    var tm = setTimeout(function () { if (ver === ohM.ver && ohM.loading) { fin([]); showToast(false, t('r2Slow')); } }, 6000);
+    function fin(res) {
+        clearTimeout(tm); if (ver !== ohM.ver || !ohM.loading) return;
+        var pyd = {}, r1 = null, r1p = null;
+        res.forEach(function (v, i) {
+            var g = tags[i]; if (g[0] === 'yd') ohM.yd[g[1]] = v || {}; else if (g[0] === 'pyd') pyd[g[1]] = v || {};
+            else if (g[0] === 'r2') ohM.f = ohR2Facts(v, ym); else if (g[0] === 'r2p') ohM.fp = ohR2Facts(v, prev); else if (g[0] === 'r1') r1 = v; else if (g[0] === 'r1p') r1p = v;
+        });
+        if (draft) { ohM.rec = draft.rec || {}; ohM.dirty = draft.dirty || {}; ohM.draft = true; }
+        else {
+            spec.st.forEach(function (k) {
+                var rec = Object.assign({}, (ohM.yd[k] || {})[mk] || {}), carry = OHM_CARRY[k] || [], pr = (py === y ? (ohM.yd[k] || {}) : (pyd[k] || {}))[pk] || {};
+                carry.forEach(function (f) { if ((rec[f] === undefined || rec[f] === '') && pr[f] !== undefined) { rec[f] = pr[f]; (ohM.dirty[k] = ohM.dirty[k] || {})[f] = 1; ohM.copied = true; } });
+                ohM.rec[k] = rec;
+            });
+            if (ohM.id === 1) {
+                var rec1 = JSON.parse(JSON.stringify(r1 || {})); rec1.i = rec1.i || {};
+                R1_ITEMS.forEach(function (it) { var c = rec1.i[it[0]] = rec1.i[it[0]] || {}; var pp = ((r1p || {}).i || {})[it[0]] || {}; if (c.p === undefined && pp.p !== undefined) { c.p = pp.p; ohM.copied = true; } });
+                ohM.rec.r1 = rec1; ohM.dirty.r1 = { all: 1 };
+            }
+        }
+        spec.st.forEach(function (k) { ohM.rec[k] = ohM.rec[k] || {}; });
+        if (ohM.id === 1 && !ohM.rec.r1) ohM.rec.r1 = { i: {} };
+        ohM.loading = false; ohRender();
+    }
+    ohRender();
+    Promise.all(jobs).then(function (r) { fin(r.map(function (s) { return s.val(); })); }).catch(function () { fin([]); showToast(false, t('r2LoadFail')); });
+}
+var OHM_HDR = {"r5": ["10月份污水總處理量 (噸)", "10月份廠區人數 (人)", "10月份污水廠投藥總費用 (USD)", "10月份污泥總處理統計 (公斤)", "10月份PAC 藥劑使用量 (公斤)", "10月份NAOH 藥劑使用量 (公斤)", "10月份POLYMER 藥劑使用量 (公斤)", "10月份POLYMER+ 藥劑使用量 (公斤)", "10月份POLYMER- 藥劑使用量 (公斤)", "10月份碳源(糖,澱粉) 藥劑使用量 (公斤)", "10月份NACLO 藥劑使用量 (公斤)", "10月份處理一噸污水 所需的 PAC藥劑是多少 (公斤)", "10月份處理一噸污水 所需的NAOH藥劑是多少 (公斤)", "10月份處理一噸污水 所需的 POLYMER 藥劑是多少(公斤)", "10月份處理一噸污水 所需的 POLYMER+ 藥劑是多少(公斤)", "10月份處理一噸污水 所需的POLYMER-藥劑是多少(公斤)", "10月份處理一噸污水 所需的碳源(糖,澱粉)藥劑是多少(公斤)", "10月份處理一噸污水 所需的NACLO藥劑是多少 (公斤)", "10月份PAC藥劑每公斤 最新單價價格 (USD)", "10月份NAOH藥劑每公斤 最新單價價格 (USD)", "10月份POLYMER 藥劑每公斤 最新單價價格 (USD)", "10月份POLYMER+ 藥劑每公斤 最新單價價格 (USD)", "10月份POLYMER-藥劑每公斤 最新單價價格 (USD)", "10月份碳源(糖,澱粉)藥劑每公斤 最新單價價格 (USD)", "10月份NACLO藥劑每公斤 最新單價價格 (USD)"], "r5t": "柬浦寨水廠10月份管理指標數據收集", "r5pre": ["地區", "序號", "廠別", "負責同仁"], "r7": ["10月份污水總處理量 (噸)", "10月份廠區人數 (人)", "10月份污水廠投藥總費用 (USD)", "10月份污泥總處理統計 (公斤)", "10月份PAC 藥劑使用量 (公斤)", "10月份NAOH(液鹼) 藥劑使用量 (公斤)", "10月份POLYMER 藥劑使用量 (公斤)", "10月份POLYMER+ 藥劑使用量 (公斤)", "10月份POLYMER- 藥劑使用量 (公斤)", "10月份碳源(糖,澱粉) 藥劑使用量 (公斤)", "10月份NACLO(漂白水) 藥劑使用量 (公斤)", "10月份處理一噸污水 所需的 PAC藥劑是多少 (公斤)", "10月份處理一噸污水 所需的NAOH(液鹼)藥劑是多少 (公斤)", "10月份處理一噸污水 所需的 POLYMER 藥劑是多少(公斤)", "10月份處理一噸污水 所需的 POLYMER+ 藥劑是多少(公斤)", "10月份處理一噸污水 所需的POLYMER-藥劑是多少(公斤)", "10月份處理一噸污水 所需的碳源(糖,澱粉)藥劑是多少(公斤)", "10月份處理一噸污水所需的NACLO(漂白水)藥劑是多少 (公斤)", "10月份PAC藥劑每公斤 最新單價價格 (USD)", "10月份NAOH(液鹼)藥劑每公斤最新單價價格 (USD)", "10月份POLYMER 藥劑每公斤 最新單價價格 (USD)", "10月份POLYMER+ 藥劑每公斤 最新單價價格 (USD)", "10月份POLYMER-藥劑每公斤 最新單價價格 (USD)", "10月份碳源(糖,澱粉)藥劑每公斤 最新單價價格 (USD)", "10月份NACLO(漂白水)藥劑每公斤最新單價價格 (USD)", "9月份PAC 藥劑使用量 (公斤)", "9月份NAOH 藥劑使用量 (公斤)", "9月份POLYMER 藥劑使用量 (公斤)", "9月份POLYMER+ 藥劑使用量 (公斤)", "9月份POLYMER- 藥劑使用量 (公斤)", "9月份碳源(糖,澱粉) 藥劑使用量 (公斤)", "9月份NACLO 藥劑使用量 (公斤)"], "r7t": "海外21個污水廠10月管理指標數據收集2026/10/01", "r8": ["至10月30日PAC 藥劑剩餘庫存量 (公斤)", "至10月30日NAOH 藥劑剩餘庫存量 (公斤)", "至10月30日POLYMER 藥劑剩餘庫存量 (公斤)", "至10月30日POLYMER+ 藥劑剩餘庫存量 (公斤)", "至10月30日POLYMER- 藥劑剩餘庫存量 (公斤)", "至10月30日碳源(糖) 藥劑剩餘庫存量 (公斤)", "至10月30日碳源(澱粉) 藥劑剩餘庫存量 (公斤)", "至10月30日NACLO 藥劑剩餘庫存量 (公斤)", "9月份PAC 藥劑使用量 (公斤)", "9月份NAOH 藥劑使用量 (公斤)", "9月份POLYMER 藥劑使用量 (公斤)", "9月份POLYMER+ 藥劑使用量 (公斤)", "9月份POLYMER- 藥劑使用量 (公斤)", "9月份碳源(糖,澱粉) 藥劑使用量 (公斤)", "9月份NACLO 藥劑使用量 (公斤)"], "r8t": "海外21個污水廠10月份藥劑剩餘庫存量數據收集2026/10/01 更新  ", "r6": ["汙水處理量(M3)", "PAC ( Kg )", "NaOH(液鹼) (kg)", "POLYMER ( Kg )", "POLYMER+ ( Kg )", "POLYMER- ( Kg )", "碳源(糖)(KG)", "碳源(澱粉)(KG)", "NAOCL(次氯酸鈉.漂白水) ( Kg )", "每月藥劑總成本(USD)", "汙水處理成本(USD/M3)"]};
+function ohMNav() { return '<div class="oh-card oh-mnav"><button type="button" class="oh-chg" onclick="ohMSetMonth(-1)" aria-label="prev">&lsaquo;</button><span class="oh-mlbl">' + ohEsc(r2MonthLabel(ohM.ym)) + '</span><button type="button" class="oh-chg" onclick="ohMSetMonth(1)" aria-label="next">&rsaquo;</button></div>'; }
+function ohV(k, f) { var r = (ohM.rec[k] || {}); return r[f]; }
+function ohIn(k, f, label, o) { o = o || {}; var v = ohV(k, f); return '<div><div class="r2-l">' + ohEsc(label) + '</div><input class="r2i ohf" data-s="' + k + '" data-f="' + f + '"' + (o.i ? ' data-i="' + o.i + '"' : '') + (o.text ? ' data-t="1" style="text-align:left"' : '') + (o.ph ? ' placeholder="' + ohEsc(o.ph) + '"' : '') + ' inputmode="' + (o.text ? 'text' : 'decimal') + '" autocomplete="off" value="' + ohEsc(v === undefined ? '' : v) + '"></div>'; }
+function ohAuto(id, label, val) { return '<div><div class="r2-l">' + ohEsc(label) + '</div><div class="r2-fix" id="c_' + id + '">' + ohEsc(val == null ? '-' : val) + '</div></div>'; }
+function ohCard(title, inner, cls) { return '<div class="oh-card ' + (cls || '') + '">' + (title ? '<div class="oh-h" style="font-size:16px">' + ohEsc(title) + '</div>' : '') + inner + '</div>'; }
+function ohG(n, inner) { return '<div class="r2-3" style="grid-template-columns:repeat(' + n + ',minmax(0,1fr))">' + inner + '</div>'; }
+function ohGoR2() { ohR2.ym = ohM.ym; ohReport = 2; ohOpenReport(2); }
+function ohWarnR2() { return (OHM_SPEC[ohM.id].r2 && !ohM.f) ? '<div class="r2-warn" style="max-width:var(--ohw);margin:0 auto 12px;text-align:center">' + ohEsc(t('rmR2Missing')) + ' <button type="button" class="oh-chg" style="margin-left:8px" onclick="ohGoR2()">' + ohEsc(t('rmOpenR2')) + '</button></div>' : ''; }
+function ohN(x, d) { if (x == null || !isFinite(x)) return '-'; var k = Math.pow(10, d == null ? 2 : d); return String(Math.round(x * k) / k); }
+function ohR4Calc() {
+    var f = ohM.f || { p: 0, n: 0, s: 0 }, r4 = ohM.rec.r4 || {}, ee = ohM.rec.ee || {};
+    var c = { nc: r2R(f.n * (r4.np || 0)), pc: r2R(f.p * (r4.pp || 0)), sc: r2R(f.s * (r4.sp || 0)) };
+    c.tot = r2R(c.nc + c.pc + c.sc); c.dose = Math.round(c.tot); c.per = ee.wr > 0 ? c.dose / ee.wr : null; return c;
+}
+function ohInd() {
+    var f = ohM.f || { p: 0, n: 0, s: 0 }, ee = ohM.rec.ee || {}, r4 = ohM.rec.r4 || {}, r5 = ohM.rec.r5 || {}, c = ohR4Calc(), wi = ee.wi;
+    var per = function (u) { return wi > 0 ? Math.round(u / wi * 20 * 1e9) / 1e9 : null; };
+    return { ww: ee.ww, people: r5.people, who: r5.who || '包慈航', dose: c.dose, skg: r4.skg, p: f.p, s: f.s, n: f.n, perp: per(f.p), pers: per(f.s), pern: per(f.n), pp: r4.pp, sp: r4.sp, np: r4.np };
+}
+function ohEeCard(fs) {
+    var L = { ww: t('rmWw'), wi: t('rmWi'), wr: t('rmWr') };
+    return ohCard(t('rmEe'), ohG(fs.length > 1 ? Math.min(fs.length, 3) : 1, fs.map(function (f) { return ohIn('ee', f, L[f]); }).join('')) + '<div class="oh-note">' + ohEsc(t('rmEeNote')) + '</div>');
+}
+function ohMHtml() {
+    var id = ohM.id, h = ohMNav();
+    if (ohM.loading) return h + '<div class="oh-card">' + ohEsc(t('r2Loading')) + '</div>';
+    h += ohWarnR2();
+    if (ohM.copied) h += '<div class="r2-warn" style="max-width:var(--ohw);margin:0 auto 12px;text-align:center" id="ohCopied">' + ohEsc(t('r3Copied')) + '</div>';
+    var body = '';
+    var chem = function (name, key, pk) { return '<tr><td class="r2-d" style="text-align:left">' + ohEsc(name) + '</td><td id="c_u' + key + '">-</td><td style="min-width:90px"><input class="r2i ohf" data-s="r4" data-f="' + pk + '" inputmode="decimal" autocomplete="off" value="' + ohEsc(ohV('r4', pk) === undefined ? '' : ohV('r4', pk)) + '"></td><td class="r2-sum" id="c_c' + key + '">0</td></tr>'; };
+    if (id === 4) {
+        body += '<div class="r3cols">' +
+            ohCard(t('rmSheetA'), '<div style="overflow-x:auto"><table class="r2-tbl"><thead><tr><th></th><th>' + ohEsc(t('rmUsage')) + '</th><th>' + ohEsc(t('rmPrice')) + '</th><th>' + ohEsc(t('rmCost')) + '</th></tr></thead><tbody>' + chem('NaOCl', 'n', 'np') + chem('Polymer+', 'p', 'pp') + chem(t('r2Sugar'), 's', 'sp') + '</tbody><tfoot><tr><td class="r2-d" style="text-align:left">' + ohEsc(t('rmChemTotal')) + '</td><td></td><td></td><td class="r2-sum" id="c_tot">0</td></tr></tfoot></table></div><div class="oh-note">' + ohEsc(t('rmFromR2')) + '</div>') +
+            ohCard(t('rmSheetB'), ohG(3, ohAuto('dose', t('rmDose'), '-') + ohIn('ee', 'wr', t('rmWr')) + ohAuto('per', t('rmDosePer'), '-')) + '<div class="oh-note">' + ohEsc(t('rmRound')) + '</div>') +
+            ohCard(t('rmSheetC'), ohG(3, ohIn('r4', 'skg', t('rmSludge')) + ohIn('r4', 'spr', t('rmSludgeP')) + ohIn('r4', 'sfee', t('rmFee'))) + '<div class="oh-note">' + ohEsc(t('rmSludgeNote')) + '</div>') + '</div>';
+    } else if (id === 5 || id === 7) {
+        body += '<div class="r3cols">' + ohEeCard(['ww', 'wi']) + ohCard('', ohG(2, ohIn('r5', 'people', t('rmPeople')) + ohIn('r5', 'who', t('rmWho'), { text: 1, ph: '包慈航' })));
+        body += ohCard(t('rmInd'), '<div style="overflow-x:auto"><table class="r2-tbl"><thead><tr><th></th><th>' + ohEsc(t('rmUsage')) + '</th><th>' + ohEsc(t('rmPerTon')) + '</th><th>' + ohEsc(t('rmPrice')) + '</th>' + (id === 7 ? '<th>' + ohEsc(t('rmPrev')) + '</th>' : '') + '</tr></thead><tbody>' +
+            [['p', 'Polymer+', 'pp'], ['s', t('r2Sugar'), 'sp'], ['n', 'NaOCl', 'np']].map(function (x) { return '<tr><td class="r2-d" style="text-align:left">' + ohEsc(x[1]) + '</td><td id="c_u' + x[0] + '">-</td><td id="c_t' + x[0] + '">-</td><td id="c_q' + x[0] + '">-</td>' + (id === 7 ? '<td id="c_v' + x[0] + '">-</td>' : '') + '</tr>'; }).join('') + '</tbody></table></div><div class="oh-note">' + ohEsc(t('rmUnused')) + '</div>', 'r3full');
+        body += ohCard('', ohG(3, ohAuto('dose', t('rmDose'), '-') + ohAuto('skg', t('rmSludge'), '-') + ohAuto('ww2', t('rmWw'), '-')) + '<div class="oh-note">' + ohEsc(t('rmFromR4')) + '</div>', 'r3full') + '</div>';
+    } else if (id === 6) {
+        body += '<div class="r3cols">' + ohEeCard(['ww']) + ohCard('', ohG(3, ohAuto('up', 'Polymer+', '-') + ohAuto('us', t('r2Sugar'), '-') + ohAuto('un', 'NaOCl', '-'))) +
+            ohCard('', ohG(2, ohAuto('dose', t('rmDose'), '-') + ohAuto('perw', t('rmDosePer'), '-')) + '<div class="oh-note">' + ohEsc(t('rmFromR4')) + '</div>', 'r3full') + '</div>';
+    } else if (id === 8) {
+        body += '<div class="r3cols">' + ohCard(t('rmStock'), ohG(3, ohAuto('sp', 'Polymer+', '-') + ohAuto('ss', t('r2Sugar'), '-') + ohAuto('sn', 'NaOCl', '-')) + '<div class="oh-note">' + ohEsc(t('rmFromR2')) + '</div>', 'r3full') + '</div>';
+    } else if (id === 1) {
+        var rows = R1_ITEMS.map(function (it) {
+            var i = ohM.rec.r1.i[it[0]] || {};
+            return '<tr><td class="r2-d" style="text-align:left;width:auto;min-width:150px">' + ohEsc(it[1]) + '<div class="oh-note" style="margin:0;text-align:left">' + ohEsc(it[2]) + ' (' + it[3] + ')</div></td><td style="min-width:80px"><input class="r2i ohf" data-s="r1" data-i="' + it[0] + '" data-f="q" inputmode="decimal" autocomplete="off" value="' + ohEsc(i.q === undefined ? '' : i.q) + '"></td><td style="min-width:80px"><input class="r2i ohf" data-s="r1" data-i="' + it[0] + '" data-f="p" inputmode="decimal" autocomplete="off" value="' + ohEsc(i.p === undefined ? '' : i.p) + '"></td><td class="r2-sum" id="c_' + it[0] + '">0</td></tr>';
+        }).join('');
+        body += '<div class="r3cols">' + ohCard('', '<div style="overflow-x:auto"><table class="r2-tbl"><thead><tr><th></th><th>' + ohEsc(t('rmQty')) + '</th><th>' + ohEsc(t('rmPrice')) + '</th><th>' + ohEsc(t('rmCost')) + '</th></tr></thead><tbody>' + rows + '</tbody><tfoot><tr><td class="r2-d" style="text-align:left">' + ohEsc(t('r2Total')) + ' (USD)</td><td></td><td></td><td class="r2-sum" id="c_rtot">0</td></tr></tfoot></table></div><div class="oh-note">' + ohEsc(t('rmFromReg')) + '</div>', 'r3full') +
+            ohCard('', ohG(2, ohIn('r1', 'ro', t('rmRo')) + ohAuto('rper', t('rmPerRo'), '-')), 'r3full') + '</div>';
+    }
+    h += body;
+    h += '<div class="r2-act"><button type="button" class="oh-chg" onclick="ohMExport()">' + ohEsc(t('r2Export')) + '</button><button type="button" class="oh-go" style="margin:0;max-width:260px" onclick="ohMSave(this)">' + ohEsc(t('r2Save')) + '</button></div>';
+    if (ohM.draft) h += '<div class="oh-note" id="ohDraft">' + ohEsc(t('r2Draft')) + '</div>';
+    return h;
+}
+function ohMVals() {
+    var id = ohM.id, o = {}, f = ohM.f || {}, c = ohR4Calc(), s;
+    if (id === 4) { o.un = ohN(f.n); o.up = ohN(f.p); o.us = ohN(f.s); o.cn = ohN(c.nc); o.cp = ohN(c.pc); o.cs = ohN(c.sc); o.tot = ohN(c.tot); o.dose = ohN(c.dose, 0); o.per = c.per == null ? '-' : ohN(c.per, 6); }
+    if (id === 5 || id === 7) {
+        var d = ohInd(), pv = ohM.fp || {};
+        o.up = ohN(d.p); o.us = ohN(d.s); o.un = ohN(d.n); o.tp = ohN(d.perp, 6); o.ts = ohN(d.pers, 6); o.tn = ohN(d.pern, 6); o.qp = d.pp == null ? '-' : String(d.pp); o.qs = d.sp == null ? '-' : String(d.sp); o.qn = d.np == null ? '-' : String(d.np);
+        o.vp = ohN(pv.p); o.vs = ohN(pv.s); o.vn = ohN(pv.n); o.dose = ohN(d.dose, 0); o.skg = d.skg == null ? '-' : String(d.skg); o.ww2 = d.ww == null ? '-' : String(d.ww);
+    }
+    if (id === 6) { var ee = ohM.rec.ee || {}; o.up = ohN(f.p); o.us = ohN(f.s); o.un = ohN(f.n); o.dose = ohN(c.dose, 0); o.perw = ee.ww > 0 ? ohN(c.dose / ee.ww, 6) : '-'; }
+    if (id === 8) { o.sp = ohN(f.cp); o.ss = ohN(f.cs); o.sn = ohN(f.cn); }
+    if (id === 1) {
+        var tot = 0; R1_ITEMS.forEach(function (it) { var i = ohM.rec.r1.i[it[0]] || {}, v = r2R((i.q || 0) * (i.p || 0)); tot += v; o[it[0]] = ohN(v); }); tot = r2R(tot);
+        o.rtot = ohN(tot); var ro = ohM.rec.r1.ro; o.rper = ro > 0 ? ohN(tot / ro, 6) : '-';
+    }
+    return o;
+}
+function ohMRefresh() {
+    if (ohM.loading) return; var o = ohMVals();
+    Object.keys(o).forEach(function (k) { var e = document.getElementById('c_' + k); if (e) e.textContent = o[k]; });
+}
+function ohMSave(btn) {
+    var spec = OHM_SPEC[ohM.id], y = ohMy(), mk = ohMk(ohM.ym), up = {};
+    spec.st.forEach(function (k) { var d = ohM.dirty[k]; if (!d) return; Object.keys(d).forEach(function (f) { var v = (ohM.rec[k] || {})[f]; up[ohStP(k, y) + '/' + mk + '/' + f] = (v === undefined || v === '' || v === null) ? null : v; }); });
+    if (ohM.id === 1) {
+        var r = ohM.rec.r1, out = { i: {} }; R1_ITEMS.forEach(function (it) { var i = r.i[it[0]] || {}, o = {}; if (typeof i.q === 'number') o.q = i.q; if (typeof i.p === 'number') o.p = i.p; if (Object.keys(o).length) out.i[it[0]] = o; });
+        if (typeof r.ro === 'number') out.ro = r.ro; if (!Object.keys(out.i).length) delete out.i;
+        up['opsHub/r1/' + ohScope() + '/' + ohM.ym] = Object.keys(out).length ? out : null;
+    }
+    if (!Object.keys(up).length) { showToast(true, t('r2Saved')); return; }
+    withBusyButton(btn, function () {
+        return db.ref().update(up).then(function () {
+            try { localStorage.removeItem(ohMDraftKey()); } catch (e) {} ohM.draft = false; ohM.copied = false; ohM.dirty = {};
+            ['ohDraft', 'ohCopied'].forEach(function (i) { var e = document.getElementById(i); if (e) e.remove(); });
+            showToast(true, t('r2Saved')); try { logActivity('Operations Hub saved', 'Report', ohName(ohM.id), ohM.ym, ''); } catch (e) {}
+        }).catch(function () { showToast(false, t('r2SaveFail')); });
+    });
+}
+/* ---------- Excel: the whole year, same columns as your files ---------- */
+function ohYearLoad() {
+    var y = ohMy(), sc = ohScope(), jobs = [], m;
+    for (m = 1; m <= 12; m++) jobs.push(db.ref('opsHub/r2/' + sc + '/' + y + '-' + ('0' + m).slice(-2)).once('value'));
+    ['ee', 'r4', 'r5'].forEach(function (k) { jobs.push(db.ref(ohStP(k, y)).once('value')); });
+    for (m = 1; m <= 12; m++) jobs.push(db.ref('opsHub/r1/' + sc + '/' + y + '-' + ('0' + m).slice(-2)).once('value'));
+    return Promise.all(jobs).then(function (r) {
+        var docs = { ee: r[12].val() || {}, r4: r[13].val() || {}, r5: r[14].val() || {} }, cur = ohMk(ohM.ym), months = [], last = {};
+        for (var m = 1; m <= 12; m++) {
+            var mk = 'm' + ('0' + m).slice(-2), ym = y + '-' + ('0' + m).slice(-2), isCur = mk === cur;
+            var f = isCur ? ohM.f : ohR2Facts(r[m - 1].val(), ym);
+            var rec = function (k) { return Object.assign({}, docs[k][mk] || {}, isCur ? (ohM.rec[k] || {}) : {}); };
+            var r4 = rec('r4'); ['pp', 'sp', 'np', 'spr', 'sfee'].forEach(function (k) { if (r4[k] === undefined) { if (last[k] !== undefined) r4[k] = last[k]; } else last[k] = r4[k]; });
+            var one = { m: m, mk: mk, ym: ym, f: f, ee: rec('ee'), r4: r4, r5: rec('r5'), r1: isCur && ohM.id === 1 ? ohM.rec.r1 : (r[15 + m - 1 + 0 - 0 + 0] && r[15 + m - 1].val()) || null };
+            var cc = { nc: f ? r2R(f.n * (r4.np || 0)) : 0, pc: f ? r2R(f.p * (r4.pp || 0)) : 0, sc: f ? r2R(f.s * (r4.sp || 0)) : 0 }; cc.tot = r2R(cc.nc + cc.pc + cc.sc); cc.dose = f ? Math.round(cc.tot) : null; one.c = cc;
+            months.push(one);
+        }
+        return months;
+    });
+}
+function ohHd(s, m, p, d) { return String(s).replace(/^10月份/, m + '月份').replace(/^9月份/, p + '月份').replace('至10月30日', '至' + m + '月' + d + '日').replace('10月份', m + '月份'); }
+function ohMExport() {
+    var id = ohM.id, y = ohMy(), wb = XLSX.utils.book_new(), H = OHM_HDR;
+    ohYearLoad().then(function (M) {
+        var Z = '未使用', has = function (x) { return x.f || Object.keys(x.ee).length; };
+        if (id === 4) {
+            var nA = '柬埔寨寶成藥品統計-' + y, nB = '柬埔寨寶成-污水量與污水投藥費用分析-' + y, nC = '柬埔寨寶成-污泥運統計表-' + y;
+            var A = [['柬埔寨寶成-' + y + '年污水場化學藥品、污水量和運污泥統計表 WWTP'], ['A.藥品統計： Pemakaian obat:'], ['月份', 'NAOCL  次氯酸納 10%', null, null, 'Polymer+ 陽性', null, null, '白砂糖', null, null, '藥品費用合計 Total Biaya  pemakaian obat'], [null, '使用量 Kg', '單價 USD/Kg', '費用 USD', '使用量 Kg', '單價 USD/Kg', '費用 USD', '使用量 Kg', '單價 USD/Kg', '費用 USD', '費用 USD', '合计USD']];
+            var B = [['B.污水量、污水投藥費用分析：'], ['月份', '柬埔寨寶成'], [null, '污水投藥費 USD', '污水進水量 M³', '每噸污水投藥費 USD/M³']], C = [['C.環境公司運載污泥（' + y + '年）'], ['月份', '柬埔寨寶成'], [null, '數量 Kg', '單價 USD/Kg', '固定費用 USD']];
+            M.forEach(function (x) {
+                var f = x.f, mm = ('0' + x.m).slice(-2);
+                A.push([mm, f ? f.n : null, f ? x.r4.np : null, null, f ? f.p : null, f ? x.r4.pp : null, null, f ? f.s : null, f ? x.r4.sp : null, null, null, null]);
+                B.push([mm, null, x.ee.wr === undefined ? null : x.ee.wr, null]); C.push([mm, x.r4.skg === undefined ? null : x.r4.skg, x.r4.skg === undefined ? null : (x.r4.spr || 0), x.r4.skg === undefined ? null : (x.r4.sfee || 0)]);
+            });
+            A.push(['合計']); B.push(['合計']); C.push(['合計']);
+            var wa = XLSX.utils.aoa_to_sheet(A), wbs = XLSX.utils.aoa_to_sheet(B), wc = XLSX.utils.aoa_to_sheet(C);
+            M.forEach(function (x, i) {
+                var ra = 5 + i, rb = 4 + i; if (!x.f) return;
+                wa['D' + ra] = { t: 'n', f: 'B' + ra + '*C' + ra, v: x.c.nc }; wa['G' + ra] = { t: 'n', f: 'E' + ra + '*F' + ra, v: x.c.pc }; wa['J' + ra] = { t: 'n', f: 'H' + ra + '*I' + ra, v: x.c.sc };
+                wa['K' + ra] = { t: 'n', f: 'D' + ra + '+G' + ra + '+J' + ra, v: x.c.tot }; wa['L' + ra] = { t: 'n', f: 'D' + ra + '+G' + ra + '+J' + ra, v: x.c.tot };
+                wbs['B' + rb] = { t: 'n', f: "ROUND('" + nA + "'!K" + ra + ',0)', v: x.c.dose };
+                if (x.ee.wr > 0) wbs['D' + rb] = { t: 'n', f: 'B' + rb + '/C' + rb, v: x.c.dose / x.ee.wr };
+            });
+            ['B', 'D', 'E', 'G', 'H', 'J', 'K', 'L'].forEach(function (col) { wa[col + '17'] = { t: 'n', f: 'SUM(' + col + '5:' + col + '16)', v: 0 }; });
+            ['B', 'C'].forEach(function (col) { wbs[col + '16'] = { t: 'n', f: 'SUM(' + col + '4:' + col + '15)', v: 0 }; }); wbs['D16'] = { t: 'n', f: 'B16/C16', v: 0 };
+            ['B', 'C', 'D'].forEach(function (col) { wc[col + '16'] = { t: 'n', f: 'SUM(' + col + '4:' + col + '15)', v: 0 }; });
+            XLSX.utils.book_append_sheet(wb, wa, nA.slice(0, 31)); XLSX.utils.book_append_sheet(wb, wbs, nB.slice(0, 31)); XLSX.utils.book_append_sheet(wb, wc, nC.slice(0, 31));
+            XLSX.writeFile(wb, 'Cost_Wastewater_Sludge_' + y + '.xlsx'); return;
+        }
+        if (id === 6) {
+            var R = [['柬埔寨污水廠每月藥劑最佳化分析表' + y + '年'], ['地區', '項次', '廠別(位置)', '負責同仁', '時間', null, '每月總用量'], [null, null, null, null, null, null].concat(H.r6)];
+            M.forEach(function (x, i) { var f = x.f; R.push([i === 0 ? '柬埔寨' : null, i === 0 ? 1 : null, i === 0 ? '寶成(一期污水廠)' : null, i === 0 ? '包慈航' : null, i === 0 ? y + '年' : null, x.m + '月', x.ee.ww === undefined ? null : x.ee.ww, f ? 0 : null, f ? 0 : null, f ? 0 : null, f ? f.p : null, f ? 0 : null, f ? f.s : null, f ? 0 : null, f ? f.n : null, f ? x.c.dose : null, null]); });
+            var w6 = XLSX.utils.aoa_to_sheet(R); M.forEach(function (x, i) { if (x.f && x.ee.ww > 0) w6['Q' + (4 + i)] = { t: 'n', f: 'P' + (4 + i) + '/G' + (4 + i), v: x.c.dose / x.ee.ww }; });
+            XLSX.utils.book_append_sheet(wb, w6, '柬埔寨'); XLSX.writeFile(wb, 'Chemical_Optimization_' + y + '.xlsx'); return;
+        }
+        if (id === 1) {
+            var T = [['2026年-柬埔寨寶成-RO飲用水廠耗材和使用藥品統計表'.replace('2026', y)], ['次序', '名稱', '單位']], T2 = ['', '', '']; for (var q = 1; q <= 12; q++) { T[1].push(q, null, null); T2.push('數量', '單價', '小計'); } T.push(T2);
+            R1_ITEMS.forEach(function (it, k) { var row = [k + 1, it[1], it[3] === 'pcs' ? '支' : '公斤']; M.forEach(function (x) { var i = ((x.r1 || {}).i || {})[it[0]] || {}; row.push(i.q === undefined ? null : i.q, i.p === undefined ? null : i.p, null); }); T.push(row); });
+            T.push(['合計', null, 'USD']); T.push(['RO 水量', null, 'M³']); T.push(['自制水耗材單價', null, 'USD/M³']);
+            var w1 = XLSX.utils.aoa_to_sheet(T), c3 = function (m, k) { return XLSX.utils.encode_col(3 + (m - 1) * 3 + k); };
+            M.forEach(function (x) { var m = x.m, tot = 0; R1_ITEMS.forEach(function (it, k) { var r = 4 + k, i = ((x.r1 || {}).i || {})[it[0]] || {}; if (i.q !== undefined || i.p !== undefined) { var v = r2R((i.q || 0) * (i.p || 0)); tot += v; w1[c3(m, 2) + r] = { t: 'n', f: c3(m, 0) + r + '*' + c3(m, 1) + r, v: v }; } });
+                var tr = 4 + R1_ITEMS.length; if (x.r1) { w1[c3(m, 0) + tr] = { t: 'n', f: 'SUM(' + c3(m, 2) + '4:' + c3(m, 2) + (tr - 1) + ')', v: r2R(tot) }; if (x.r1.ro !== undefined) { w1[c3(m, 0) + (tr + 1)] = { t: 'n', v: x.r1.ro }; if (x.r1.ro > 0) w1[c3(m, 0) + (tr + 2)] = { t: 'n', f: c3(m, 0) + tr + '/' + c3(m, 0) + (tr + 1), v: tot / x.r1.ro }; } } });
+            XLSX.utils.book_append_sheet(wb, w1, 'RO ' + y); XLSX.writeFile(wb, 'RO_Consumables_' + y + '.xlsx'); return;
+        }
+        /* 5, 7, 8: one sheet per month, the Cambodia row */
+        M.forEach(function (x) {
+            var m = x.m, p = m === 1 ? 12 : m - 1, d = new Date(+y, m, 0).getDate(), f = x.f || {}, ee = x.ee, r4 = x.r4, r5 = x.r5, wi = ee.wi, per = function (u) { return wi > 0 ? Math.round(u / wi * 20 * 1e9) / 1e9 : null; };
+            var pf = M[(m + 10) % 12].f || {};
+            var rows, name;
+            if (id === 8) {
+                name = y + '年' + ('0' + m).slice(-2) + '月' + d + '日';
+                rows = [[ohHd(H.r8t, m, p, d).replace(/2026\/10\/01/, y + '/' + ('0' + m).slice(-2) + '/01')], ['地區', '序號', '廠別', '負責同仁'].concat([1, 2, 3, 4, 5, 6, 7, 8, 19, 20, 21, 22, 23, 24, 25]).concat(['連結網址', '備註']), [null, null, null, null].concat(H.r8.map(function (s) { return ohHd(s, m, p, d); }))];
+                var W = '無使用'; rows.push(['柬埔寨', 20, '寶成(一期污水廠)', '包慈航', W, W, W, x.f ? f.cp : null, W, x.f ? f.cs : null, W, x.f ? f.cn : null]);
+            } else {
+                var is7 = id === 7, nh = is7 ? 32 : 25;
+                name = (is7 ? y + '年' : '') + m + '月';
+                var hdr = (is7 ? H.r7 : H.r5).map(function (s) { return ohHd(s, m, p, d); });
+                var data = [x.f || Object.keys(ee).length ? ee.ww : null, r5.people === undefined ? null : r5.people, x.f ? x.c.dose : null, r4.skg === undefined ? null : r4.skg, Z, Z, Z, x.f ? f.p : null, Z, x.f ? f.s : null, x.f ? f.n : null, Z, Z, Z, x.f ? per(f.p) : null, Z, x.f ? per(f.s) : null, x.f ? per(f.n) : null, Z, Z, Z, r4.pp === undefined ? null : r4.pp, Z, r4.sp === undefined ? null : r4.sp, r4.np === undefined ? null : r4.np];
+                if (is7) data = data.concat(['無使用', '無使用', '無使用', x.f ? (pf.p === undefined ? null : pf.p) : null, '無使用', pf.s === undefined ? null : pf.s, pf.n === undefined ? null : pf.n]);
+                var nums = []; for (var q = 1; q <= (is7 ? 25 : 25); q++) nums.push(q);
+                rows = [[(is7 ? H.r7t.replace('10月', m + '月').replace('2026/10/01', y + '/' + ('0' + m).slice(-2) + '/01') : H.r5t.replace('10月份', m + '月份'))], ['地區', '序號', '廠別', '負責同仁'].concat(nums).concat(['連結網址', '備註']), [null, null, null, null].concat(hdr), ['柬埔寨', 20, '寶成(一期污水廠)', r5.who || '包慈航'].concat(data).concat(['柬埔寨工程部'])];
+            }
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(rows), name.slice(0, 31));
+        });
+        XLSX.writeFile(wb, (id === 5 ? 'Cambodia_Indicators_' : id === 7 ? '21_Plants_Indicators_' : 'Stock_Month_End_') + y + '.xlsx');
+    }).catch(function (e) { console.error(e); showToast(false, t('r2LoadFail')); });
+}
+(function () {
+    var b = document.getElementById('ohBody'); if (!b || b.__rm) return; b.__rm = 1;
+    b.addEventListener('input', function (e) {
+        var el = e.target; if (!el.classList || !el.classList.contains('ohf')) return;
+        var s = el.dataset.s, f = el.dataset.f, v = el.dataset.t ? el.value : r2Num(el.value); if (v === '') v = null;
+        if (s === 'r1' && el.dataset.i) { var it = ohM.rec.r1.i[el.dataset.i] = ohM.rec.r1.i[el.dataset.i] || {}; if (v === null) delete it[f]; else it[f] = v; }
+        else { var rec = ohM.rec[s] = ohM.rec[s] || {}; if (v === null) delete rec[f]; else rec[f] = v; (ohM.dirty[s] = ohM.dirty[s] || {})[f] = 1; }
+        ohMSaveDraft(); ohMRefresh();
     });
 })();
 </script>
