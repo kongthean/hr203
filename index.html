@@ -29615,34 +29615,60 @@ function elExport() {
 </script>
 
 <script>
-/* ================= v8.20: FRESH THEME =================
-   Classic stays the default. The choice is saved in this browser. Fresh is only a new look (CSS) plus a small
-   "Needs your attention" card on the Dashboard. It changes no data and no calculation. */
+/* ================= v8.30: FRESH THEME (dashboard look) =================
+   Classic stays the default. The choice is saved in this browser. Fresh is a new look: white top bar, grouped left menu,
+   a new Overview page and a phone bottom menu. It only READS data the site already has. It changes no data and no calculation. */
 (function () {
   var KEY = 'uiTheme';
   function get() { try { return localStorage.getItem(KEY) === 'fresh' ? 'fresh' : 'classic'; } catch (e) { return 'classic'; } }
-  function ico(d) { return "url(\"data:image/svg+xml;utf8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="' + d + '"/></svg>') + "\")"; }
-  var IC = {
-    'nav-home': 'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
-    'nav-master': 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',
-    'nav-leave': 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',
-    'nav-att': 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2',
-    'nav-query': 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5',
-    'nav-add': 'M12 5v14M5 12h14'
+  function sv(d, sz) { return '<svg class="fr-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:' + (sz || 18) + 'px;height:' + (sz || 18) + 'px"><path d="' + d + '"/></svg>'; }
+  var P = {
+    home: 'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
+    emp: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',
+    grid: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',
+    add: 'M12 5v14M5 12h14',
+    user: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+    clock: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2',
+    cal: 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4',
+    shift: 'M3 12h4l3-8 4 16 3-8h4',
+    rep: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
+    hub: 'M12 2l9 5v10l-9 5-9-5V7zM12 12l9-5M12 12v10M12 12L3 7',
+    pay: 'M2 7h20v12H2zM2 11h20M6 15h3',
+    ok: 'M9 12l2 2 4-4M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z',
+    cog: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19 12a7 7 0 0 0-.1-1.2l2-1.6-2-3.4-2.4 1a7 7 0 0 0-2-1.2L14 3h-4l-.5 2.6a7 7 0 0 0-2 1.2l-2.4-1-2 3.4 2 1.6A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.6 2 3.4 2.4-1a7 7 0 0 0 2 1.2L10 21h4l.5-2.6a7 7 0 0 0 2-1.2l2.4 1 2-3.4-2-1.6c.1-.4.1-.8.1-1.2z',
+    more: 'M5 12h.01M12 12h.01M19 12h.01',
+    off: 'M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM18 8l5 5M23 8l-5 5',
+    exp: 'M12 3v12M7 10l5 5 5-5M4 20h16'
   };
-  var mask = Object.keys(IC).map(function (k) { return 'html.fresh #adminApp nav #' + k + '::before{-webkit-mask-image:' + ico(IC[k]) + ';mask-image:' + ico(IC[k]) + '}'; }).join('\n');
+  /* sidebar groups: [label key, items]. item = [key, icon, tab, nav, fn, adminOnly] */
+  var GROUPS = [
+    ['gOv', [['dash', 'home', 'tab-home', 'nav-home']]],
+    ['gPe', [['emp', 'emp', 'tab-employee', 'nav-employee'], ['mst', 'grid', 'tab-master', 'nav-master'], ['add', 'add', 'tab-add', 'nav-add']]],
+    ['gTi', [['att', 'clock', 'tab-att', 'nav-att'], ['lea', 'cal', 'tab-leave', 'nav-leave'], ['shf', 'shift', 'tab-shift', 'nav-shift']]],
+    ['gRe', [['mon', 'rep', 'tab-monthly', 'nav-monthly'], ['hub', 'hub', 'tab-opshub', 'nav-opshub', null, 1], ['pay', 'pay', null, null, 'payOpen', 1]]],
+    ['gAd', [['pen', 'ok', null, null, 'openPendingApprovalsModal', 1], ['mgt', 'cog', null, null, 'openManagementModal', 1]]]
+  ];
   var CSS = [
-    'html.fresh body{background:#f4f7fb;color:#0f172a}',
-    'html.fresh #adminApp #stickyTop{background:#f4f7fb}',
-    'html.fresh #adminApp .header{background:linear-gradient(135deg,#0f766e,#0d9488);border-radius:16px;box-shadow:0 6px 18px rgba(15,118,110,.22);margin-bottom:12px}',
-    'html.fresh #adminApp .header .lang-btn{border-radius:12px}',
+    'html.fresh body{background:#f5f7fb;color:#0f172a}',
+    'html.fresh #adminApp #stickyTop{background:#f5f7fb}',
     'html.fresh #adminApp .tab-panel{background:transparent}',
-    /* big number cards */
+    /* top bar */
+    'html.fresh #adminApp .header{background:#fff;color:#0f172a;border:1px solid #e5eaf2;border-radius:14px;box-shadow:0 1px 3px rgba(15,23,42,.05);margin-bottom:12px;padding:10px 14px}',
+    'html.fresh #adminApp .header h2{color:#0f172a}',
+    'html.fresh #adminApp .header-brand{color:#0f172a;font-weight:700;font-size:13px;text-align:right;line-height:1.2}',
+    'html.fresh #adminApp .header .lang-btn{background:#fff;color:#0f172a;border:1px solid #e2e8f0;border-radius:10px}',
+    'html.fresh #adminApp .header .lang-btn[title="Power"]{background:#fff!important;color:#dc2626;border-color:#fecaca}',
+    'html.fresh #adminApp .header .hrLogo{display:none}',
+    'html.fresh #adminApp .header h2{display:none}',
+    'html.fresh #adminApp .header .gs-in{border:1px solid #e2e8f0;background:#f8fafc}',
+    'html.fresh #adminApp .header .header-right{width:100%}',
+    'html.fresh #adminApp .header #gsWrap{margin-right:auto}',
+    /* old top menu is replaced by #frSide (wide) and #frBot (phone) */
+    'html.fresh #adminApp nav{display:none}',
+    /* menu tiles / cards */
     'html.fresh #adminApp .stat-card{background:#fff;border:1px solid #e5eaf2;border-top-width:4px;border-radius:16px;padding:14px 16px;box-shadow:0 2px 8px rgba(15,23,42,.05)}',
     'html.fresh #adminApp .stat-card h4{font-size:11px;color:#64748b;letter-spacing:.3px}',
     'html.fresh #adminApp .stat-card div{font-size:26px;font-weight:700;line-height:1.15}',
-    'html.fresh #adminApp .stat-card:hover{box-shadow:0 8px 20px rgba(15,23,42,.1)}',
-    /* menu tiles: soft white cards with a coloured icon */
     'html.fresh #adminApp .quick-btn{background:#fff!important;color:#0f172a!important;border:1px solid #e5eaf2;border-radius:16px;box-shadow:0 2px 8px rgba(15,23,42,.05)!important}',
     'html.fresh #adminApp .quick-btn::after{display:none}',
     'html.fresh #adminApp .quick-btn:hover{box-shadow:0 8px 20px rgba(15,23,42,.12)!important;transform:translateY(-2px)}',
@@ -29650,63 +29676,213 @@ function elExport() {
     'html.fresh #adminApp .quick-btn.teal .quick-btn-icon{color:#0f766e}html.fresh #adminApp .quick-btn.green .quick-btn-icon{color:#059669}html.fresh #adminApp .quick-btn.amber .quick-btn-icon{color:#b45309}',
     'html.fresh #adminApp .quick-btn.purple .quick-btn-icon{color:#7e22ce}html.fresh #adminApp .quick-btn.indigo .quick-btn-icon{color:#4f46e5}html.fresh #adminApp .quick-btn.slate .quick-btn-icon{color:#475569}',
     'html.fresh #adminApp .quick-btn.cyan .quick-btn-icon{color:#0e7490}html.fresh #adminApp .quick-btn.red .quick-btn-icon,html.fresh #adminApp .quick-btn.rose .quick-btn-icon{color:#be123c}',
-    /* Operations Hub inside Fresh */
     'html.fresh #tab-opshub .oh-card{border-radius:16px;border-color:#e5eaf2}',
     '#frDd .fr-ic{width:16px;height:16px;flex:none}',
     '#frMenu .lang-option .fr-ck{margin-left:auto;color:#0f766e;font-weight:800}',
     'html.fresh .dash-card:has(#dashNeedsAttentionBody){display:none}',
-    /* attention card */
-    '#frAttn{display:none}',
-    'html.fresh #frAttn.has{display:block;background:#fff;border:1px solid #e5eaf2;border-radius:16px;padding:14px 16px;margin:0 0 14px;box-shadow:0 2px 8px rgba(15,23,42,.05)}',
-    '#frAttn h4{margin:0 0 8px;font-size:15px;color:#0f172a}',
-    '#frAttn .fr-row{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 10px;border:1px solid #eef2f7;border-radius:12px;margin-top:8px;cursor:pointer;background:#fbfdff;width:100%;text-align:left;font:inherit;color:#0f172a}',
+    /* home page: old pieces hidden unless opened */
+    '#frDash,#frSide,#frBot{display:none}',
+    'html.fresh #tab-home > h3{display:none}',
+    'html.fresh #tab-home > .stats-grid{display:none}',
+    'html.fresh #tab-home.fr-nums > .stats-grid{display:grid}',
+    'html.fresh #tab-home:not(.fr-menu) .fr-mm{display:none!important}',
+    'html.fresh #frDash{display:block}',
+    '#frDash .fr-h{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:4px 0 14px}',
+    '#frDash .fr-h h2{margin:0;font-size:24px;font-weight:800;color:#0f172a}',
+    '#frDash .fr-h p{margin:2px 0 0;color:#64748b;font-size:13px}',
+    '#frDash .fr-hb{display:flex;gap:8px;flex-wrap:wrap}',
+    '#frDash .fr-b{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;color:#0f172a;font:inherit;font-weight:700;font-size:14px;cursor:pointer}',
+    '#frDash .fr-b.pri{background:#0f766e;border-color:#0f766e;color:#fff}',
+    '#frDash .fr-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}',
+    '#frDash .fr-card{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e5eaf2;border-radius:16px;padding:14px 16px;cursor:pointer;text-align:left;font:inherit;color:#0f172a;box-shadow:0 2px 8px rgba(15,23,42,.04)}',
+    '#frDash .fr-card:hover{box-shadow:0 8px 20px rgba(15,23,42,.1)}',
+    '#frDash .fr-ci{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}',
+    '#frDash .fr-cl{font-size:12px;color:#64748b;font-weight:600}',
+    '#frDash .fr-cn{font-size:26px;font-weight:800;line-height:1.1}',
+    '#frDash .fr-two{display:grid;grid-template-columns:1.6fr 1fr;gap:12px;margin-bottom:14px;align-items:stretch}',
+    '#frDash .fr-box{background:#fff;border:1px solid #e5eaf2;border-radius:16px;padding:14px 16px;box-shadow:0 2px 8px rgba(15,23,42,.04);min-width:0}',
+    '#frDash .fr-box h4{margin:0;font-size:15px;color:#0f172a}',
+    '#frDash .fr-box small{color:#64748b;font-size:12px}',
+    '#frDash .fr-ch{display:flex;align-items:flex-end;gap:6px;height:190px;margin-top:12px}',
+    '#frDash .fr-col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}',
+    '#frDash .fr-bar{width:100%;max-width:34px;border-radius:6px 6px 0 0;background:#cbd5e1;min-height:3px}',
+    '#frDash .fr-col.now .fr-bar{background:#0f2a4a}',
+    '#frDash .fr-col.fut .fr-bar{background:#e8edf4}',
+    '#frDash .fr-v{font-size:10px;color:#64748b;margin-bottom:3px;white-space:nowrap}',
+    '#frDash .fr-m{font-size:11px;color:#64748b;margin-top:5px}',
+    '#frDash .fr-qa{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:10px}',
+    '#frDash .fr-q{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:78px;background:#fff;border:1px solid #e5eaf2;border-radius:14px;font:inherit;font-weight:700;font-size:13px;color:#0f172a;cursor:pointer;padding:8px 4px;text-align:center}',
+    '#frDash .fr-q:hover{box-shadow:0 6px 16px rgba(15,23,42,.1)}',
+    '#frDash .fr-q .fr-ic{color:#0f766e}',
+    '#frDash .fr-tg{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}',
+    '#frDash .fr-tg button{height:36px;padding:0 14px;border-radius:999px;border:1px solid #e2e8f0;background:#fff;font:inherit;font-weight:700;font-size:13px;color:#334155;cursor:pointer}',
+    '#frDash .fr-tg button.on{background:#e6f6f4;border-color:#99d8d0;color:#0f766e}',
+    /* attention rows */
+    '#frAttn .fr-row{display:flex;align-items:center;gap:10px;min-height:42px;padding:0 6px;border:0;border-top:1px solid #eef2f7;cursor:pointer;background:transparent;width:100%;text-align:left;font:inherit;color:#0f172a}',
+    '#frAttn .fr-row:first-of-type{border-top:0}',
     '#frAttn .fr-dot{width:10px;height:10px;border-radius:50%;flex:none}',
-    '#frAttn .fr-t{flex:1;font-weight:600}',
-    '#frAttn .fr-n{font-weight:800;color:#0f766e}',
+    '#frAttn .fr-t{flex:1;font-weight:600;font-size:14px}',
+    '#frAttn .fr-open{color:#0f766e;font-weight:700;font-size:13px}',
     '#frAttn .fr-tag{font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;background:#f1f5f9;color:#475569}',
-    /* wide screens: left menu */
+    '#frAttn .fr-none{color:#64748b;font-size:13px;padding:12px 4px}',
+    /* wide screens: grouped left menu */
     '@media (min-width:1024px){',
     'html.fresh #adminApp{padding-left:236px}',
-    'html.fresh #adminApp nav{position:fixed;left:0;top:0;bottom:0;width:224px;z-index:95;flex-direction:column;flex-wrap:nowrap;gap:4px;background:#fff;border-right:1px solid #e5eaf2;border-radius:0;box-shadow:none;padding:78px 12px 14px;overflow:auto;margin:0}',
-    'html.fresh #adminApp nav::before{content:"HR203";position:absolute;left:24px;top:24px;font-weight:800;font-size:20px;letter-spacing:.5px;color:#0f766e}',
-    'html.fresh #adminApp nav button{flex:none;min-width:0;display:flex;align-items:center;gap:12px;min-height:44px;padding:0 12px;border-radius:12px;color:#334155;text-align:left;font-size:14px;font-weight:600;white-space:normal}',
-    'html.fresh #adminApp nav button::before{content:"";width:20px;height:20px;flex:none;background:currentColor;-webkit-mask:center/contain no-repeat;mask:center/contain no-repeat}',
-    'html.fresh #adminApp nav button.active{background:#e6f6f4;color:#0f766e}',
-    'html.fresh #adminApp nav button:hover:not(.active){background:#f1f5f9;color:#0f172a}',
+    'html.fresh #frSide{display:flex;position:fixed;left:0;top:0;bottom:0;width:224px;z-index:95;flex-direction:column;gap:2px;background:#fff;border-right:1px solid #e5eaf2;padding:18px 12px 14px;overflow:auto}',
+    '#frSide .fr-logo{font-weight:800;font-size:22px;letter-spacing:.5px;color:#0f766e;padding:2px 10px 12px}',
+    '#frSide .fr-gl{font-size:11px;font-weight:800;letter-spacing:.8px;color:#94a3b8;padding:12px 12px 4px}',
+    '#frSide button{display:flex;align-items:center;gap:12px;min-height:42px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:#334155;font:inherit;font-size:14px;font-weight:600;text-align:left;cursor:pointer;width:100%}',
+    '#frSide button:hover{background:#f1f5f9;color:#0f172a}',
+    '#frSide button.on{background:#e6f6f4;color:#0f766e}',
+    'html.fresh #adminApp .header .gs-in{width:300px!important;opacity:1!important;padding:8px 14px!important;pointer-events:auto!important;border-radius:10px}',
+    'html.fresh #adminApp .header #globalSearchBtn{display:none}',
     '}',
     /* phone and tablet: bottom menu */
     '@media (max-width:1023px){',
     'html.fresh #adminApp{padding-bottom:86px}',
-    'html.fresh #adminApp nav{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:95;flex-wrap:nowrap;overflow-x:auto;background:#fff;border-top:1px solid #e5eaf2;border-radius:0;box-shadow:0 -4px 14px rgba(15,23,42,.08);padding:6px 6px calc(8px + env(safe-area-inset-bottom));margin:0}',
-    'html.fresh #adminApp nav button{flex:1 1 0;min-width:0;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:2px 2px;border-radius:10px;color:#64748b;font-size:10px;font-weight:600;white-space:normal;line-height:1.15}',
-    'html.fresh #adminApp nav button::before{content:"";width:22px;height:22px;background:currentColor;-webkit-mask:center/contain no-repeat;mask:center/contain no-repeat}',
-    'html.fresh #adminApp nav button.active{background:transparent;color:#0f766e}',
-    '}',
-    mask
+    'html.fresh #frBot{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:95;background:#fff;border-top:1px solid #e5eaf2;box-shadow:0 -4px 14px rgba(15,23,42,.08);padding:6px 6px calc(8px + env(safe-area-inset-bottom))}',
+    '#frBot button{flex:1 1 0;min-width:0;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:2px;border:0;border-radius:10px;background:transparent;color:#64748b;font:inherit;font-size:10px;font-weight:700;cursor:pointer}',
+    '#frBot button.on{color:#0f766e}',
+    '#frDash .fr-cards{grid-template-columns:repeat(2,1fr)}',
+    '#frDash .fr-two{grid-template-columns:1fr}',
+    '#frDash .fr-qa{grid-template-columns:repeat(3,1fr)}',
+    '#frDash .fr-h h2{font-size:20px}',
+    '#frDash .fr-card{padding:12px}#frDash .fr-cn{font-size:22px}',
+    '}'
   ].join('\n');
   var st = document.createElement('style'); st.id = 'freshCss'; st.textContent = CSS; document.head.appendChild(st);
 
   var TX = {
-    en: { classic: 'Classic', fresh: 'Fresh', attn: 'Needs your attention', pend: 'Pending approvals', exc: 'Over monthly limit', ren: 'Leave renews this month', theme: 'Theme' },
-    km: { classic: 'ធម្មតា', fresh: 'ថ្មី', attn: 'ត្រូវការការយកចិត្តទុកដាក់', pend: 'រង់ចាំការអនុម័ត', exc: 'លើសកម្រិតប្រចាំខែ', ren: 'ច្បាប់ឆ្នាំបន្តខែនេះ', theme: 'រចនាបថ' },
-    zh: { classic: '经典', fresh: '清新', attn: '需要您处理', pend: '待审批', exc: '超出本月额度', ren: '本月年假更新', theme: '主题' }
+    en: { classic: 'Classic', fresh: 'Fresh', attn: 'Needs your attention', pend: 'Pending approvals', exc: 'Over monthly limit', ren: 'Leave renews this month', open: 'Open', none: 'Nothing needs your attention.',
+      gOv: 'OVERVIEW', gPe: 'PEOPLE', gTi: 'TIME', gRe: 'REPORTS', gAd: 'ADMIN',
+      dash: 'Dashboard', emp: 'Employee', mst: 'Master Sheet', add: 'Add Employee', att: 'Attendance', lea: 'Leave Records', shf: 'Shift Roster', mon: 'Monthly Report', hub: 'Operations Hub', pay: 'Payroll', pen: 'Pending Approvals', mgt: 'Management',
+      ov: 'Overview', exp: 'Export', addB: '+ Add Employee', tStaff: 'Total staff', tOff: 'On leave today', tPend: 'Pending approvals', tRes: 'Resigned this year',
+      chart: 'Leave taken, by month', unit: 'hours', qa: 'Quick actions', allNum: 'All numbers', allMenu: 'All menu',
+      bHome: 'Home', bPeople: 'People', bLeave: 'Leave', bRep: 'Reports', bMore: 'More',
+      mo: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], loc: 'en-GB' },
+    km: { classic: 'ធម្មតា', fresh: 'ថ្មី', attn: 'ត្រូវការការយកចិត្តទុកដាក់', pend: 'រង់ចាំការអនុម័ត', exc: 'លើសកម្រិតប្រចាំខែ', ren: 'ច្បាប់ឆ្នាំបន្តខែនេះ', open: 'បើក', none: 'គ្មានអ្វីត្រូវការយកចិត្តទុកដាក់ទេ។',
+      gOv: 'ទិដ្ឋភាពទូទៅ', gPe: 'បុគ្គលិក', gTi: 'ពេលវេលា', gRe: 'របាយការណ៍', gAd: 'រដ្ឋបាល',
+      dash: 'ផ្ទាំងព័ត៌មាន', emp: 'បុគ្គលិក', mst: 'តារាងមេ', add: 'បន្ថែមបុគ្គលិក', att: 'វត្តមាន', lea: 'កំណត់ត្រាច្បាប់', shf: 'តារាងវេន', mon: 'របាយការណ៍ប្រចាំខែ', hub: 'មជ្ឈមណ្ឌលប្រតិបត្តិការ', pay: 'ប្រាក់ខែ', pen: 'រង់ចាំការអនុម័ត', mgt: 'ការគ្រប់គ្រង',
+      ov: 'ទិដ្ឋភាពទូទៅ', exp: 'នាំចេញ', addB: '+ បន្ថែមបុគ្គលិក', tStaff: 'បុគ្គលិកសរុប', tOff: 'ឈប់សម្រាកថ្ងៃនេះ', tPend: 'រង់ចាំការអនុម័ត', tRes: 'ឈប់ពីការងារឆ្នាំនេះ',
+      chart: 'ច្បាប់ដែលបានឈប់ តាមខែ', unit: 'ម៉ោង', qa: 'ចូលរហ័ស', allNum: 'លេខទាំងអស់', allMenu: 'ម៉ឺនុយទាំងអស់',
+      bHome: 'ទំព័រដើម', bPeople: 'បុគ្គលិក', bLeave: 'ច្បាប់', bRep: 'របាយការណ៍', bMore: 'ផ្សេងៗ',
+      mo: ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'], loc: 'km-KH' },
+    zh: { classic: '经典', fresh: '清新', attn: '需要您处理', pend: '待审批', exc: '超出本月额度', ren: '本月年假更新', open: '打开', none: '暂无需要处理的事项。',
+      gOv: '概览', gPe: '人员', gTi: '考勤', gRe: '报表', gAd: '管理',
+      dash: '仪表板', emp: '员工', mst: '总表', add: '添加员工', att: '考勤', lea: '请假记录', shf: '排班表', mon: '月报表', hub: '运营中心', pay: '工资', pen: '待审批', mgt: '管理',
+      ov: '概览', exp: '导出', addB: '+ 添加员工', tStaff: '员工总数', tOff: '今日请假', tPend: '待审批', tRes: '今年离职',
+      chart: '每月请假时数', unit: '小时', qa: '快捷操作', allNum: '全部数字', allMenu: '全部菜单',
+      bHome: '首页', bPeople: '员工', bLeave: '请假', bRep: '报表', bMore: '更多',
+      mo: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'], loc: 'zh-CN' }
   };
   function L() { var l = 'en'; try { if (typeof currentLang !== 'undefined' && TX[currentLang]) l = currentLang; } catch (e) {} return TX[l]; }
-  function apply(th) { document.documentElement.classList.toggle('fresh', th === 'fresh'); try { localStorage.setItem(KEY, th); } catch (e) {} paint(); attn(true); }
   function esc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function isAdm() { try { return (sessionStorage.getItem('loggedInRole') || 'admin') === 'admin'; } catch (e) { return true; } }
+  function apply(th) { document.documentElement.classList.toggle('fresh', th === 'fresh'); try { localStorage.setItem(KEY, th); } catch (e) {} paint(); refresh(true); }
   function paint() {
     var m = document.getElementById('frMenu'); if (!m) return; var th = get(), x = L();
     var cur = document.getElementById('frCur'); if (cur) cur.textContent = th === 'fresh' ? x.fresh : x.classic;
     m.innerHTML = ['classic', 'fresh'].map(function (k) { return '<div class="lang-option' + (th === k ? ' active' : '') + '" data-th="' + k + '">' + x[k] + (th === k ? '<span class="fr-ck">&#10003;</span>' : '') + '</div>'; }).join('');
   }
   function num(id) { var e = document.getElementById(id); return e ? parseFloat(String(e.textContent).replace(/,/g, '')) || 0 : 0; }
+
+  /* ---- go to a place ---- */
+  function go(tab, nav, fn) {
+    if (fn) { if (typeof window[fn] === 'function') window[fn](); return; }
+    if (typeof triggerNav === 'function') triggerNav(tab, nav);
+    sync();
+  }
+  function showMenu() {
+    go('tab-home', 'nav-home');
+    var h = document.getElementById('tab-home'); if (!h) return;
+    h.classList.add('fr-menu'); tg();
+    setTimeout(function () { var m = document.getElementById('menuPage1'); if (m && m.scrollIntoView) m.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 80);
+  }
+
+  /* ---- left menu + phone menu ---- */
+  function buildNav() {
+    var x = L(), adm = isAdm();
+    var s = document.getElementById('frSide');
+    if (!s) { s = document.createElement('div'); s.id = 'frSide'; document.body.appendChild(s); s.addEventListener('click', onNav); }
+    var html = '<div class="fr-logo">HR203</div>';
+    GROUPS.forEach(function (g) {
+      var items = g[1].filter(function (i) { return !i[5] || adm; });
+      if (!items.length) return;
+      html += '<div class="fr-gl">' + esc(x[g[0]]) + '</div>';
+      items.forEach(function (i) { html += '<button type="button" data-k="' + i[0] + '" data-t="' + (i[2] || '') + '" data-n="' + (i[3] || '') + '" data-f="' + (i[4] || '') + '">' + sv(P[i[1]], 20) + '<span>' + esc(x[i[0]]) + '</span></button>'; });
+    });
+    s.innerHTML = html;
+    var b = document.getElementById('frBot');
+    if (!b) { b = document.createElement('div'); b.id = 'frBot'; document.body.appendChild(b); b.addEventListener('click', onNav); }
+    b.innerHTML = [['bHome', 'home', 'tab-home', 'nav-home', ''], ['bPeople', 'emp', 'tab-employee', 'nav-employee', ''], ['bLeave', 'cal', 'tab-leave', 'nav-leave', ''], ['bRep', 'rep', 'tab-monthly', 'nav-monthly', ''], ['bMore', 'more', '', '', 'more']].map(function (i) {
+      return '<button type="button" data-t="' + i[2] + '" data-n="' + i[3] + '" data-f="' + i[4] + '">' + sv(P[i[1]], 22) + '<span>' + esc(x[i[0]]) + '</span></button>';
+    }).join('');
+    sync();
+  }
+  function onNav(ev) {
+    var b = ev.target.closest && ev.target.closest('button'); if (!b) return;
+    var f = b.getAttribute('data-f');
+    if (f === 'more') { showMenu(); return; }
+    go(b.getAttribute('data-t'), b.getAttribute('data-n'), f || null);
+  }
+  function sync() {
+    var act = ''; var p = document.querySelector('#adminApp .tab-panel.active'); if (p) act = p.id;
+    ['frSide', 'frBot'].forEach(function (id) {
+      var r = document.getElementById(id); if (!r) return;
+      Array.prototype.forEach.call(r.querySelectorAll('button'), function (b) { b.classList.toggle('on', !!act && b.getAttribute('data-t') === act); });
+    });
+  }
+
+  /* ---- Overview page ---- */
+  function cambodiaNow() { return new Date(Date.now() + 7 * 3600 * 1000); }
+  function todayStr() { return cambodiaNow().toISOString().slice(0, 10); }
+  function offToday() {
+    try { var t = todayStr(), seen = {}; (leaveHistory || []).forEach(function (h) { if (h.date === t && (parseFloat(h.hours) || 0) > 0) seen[h.empId] = 1; }); return Object.keys(seen).length; } catch (e) { return 0; }
+  }
+  function resignedThisYear() {
+    try {
+      var y = String(cambodiaNow().getUTCFullYear());
+      return employees.filter(function (e) { return e.status === 'Resigned' && String(e.resignedDate || '').indexOf(y) !== -1; }).length;
+    } catch (e) { return num('statResignedStaff'); }
+  }
+  function monthHours() {
+    var a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], y = String(cambodiaNow().getUTCFullYear());
+    try { (leaveHistory || []).forEach(function (h) { var d = String(h.date || ''); if (d.slice(0, 4) === y) { var m = parseInt(d.slice(5, 7), 10) - 1; if (m >= 0 && m < 12) a[m] += parseFloat(h.hours) || 0; } }); } catch (e) {}
+    return a;
+  }
+  function tg() {
+    var h = document.getElementById('tab-home'), d = document.getElementById('frDash'); if (!h || !d) return;
+    Array.prototype.forEach.call(d.querySelectorAll('.fr-tg button'), function (b) { b.classList.toggle('on', h.classList.contains(b.getAttribute('data-c'))); });
+  }
+  var dashKey = '';
+  function dash(force) {
+    var d = document.getElementById('frDash'); if (!d) return;
+    var x = L(), cn = cambodiaNow(), nums = [employees.length, offToday(), num('statPendingApprovals'), resignedThisYear()];
+    var mh = monthHours();
+    var key = nums.join(',') + '|' + mh.join(',') + '|' + (typeof currentLang !== 'undefined' ? currentLang : '') + '|' + todayStr() + '|' + isAdm();
+    if (!force && key === dashKey) return; dashKey = key;
+    var dateTxt = ''; try { dateTxt = new Date().toLocaleDateString(x.loc, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Phnom_Penh' }); } catch (e) { dateTxt = todayStr(); }
+    var cur = cn.getUTCMonth(), mx = Math.max.apply(null, mh.concat([1]));
+    var cards = [['tStaff', nums[0], '#e0f2fe', '#0369a1', P.emp, 'tab-employee', 'nav-employee', ''], ['tOff', nums[1], '#fef3c7', '#b45309', P.off, 'tab-attcal', 'nav-attcal', ''], ['tPend', nums[2], '#ffe4e6', '#be123c', P.ok, '', '', 'openPendingApprovalsModal'], ['tRes', nums[3], '#f1f5f9', '#475569', P.user, 'tab-employee', 'nav-employee', '']];
+    var qa = [['add', 'add', 'tab-add', 'nav-add', '', 0], ['att', 'clock', 'tab-att', 'nav-att', '', 0], ['lea', 'cal', 'tab-leave', 'nav-leave', '', 0], ['mon', 'rep', 'tab-monthly', 'nav-monthly', '', 0], ['hub', 'hub', 'tab-opshub', 'nav-opshub', '', 1], ['pay', 'pay', '', '', 'payOpen', 1]].filter(function (q) { return !q[5] || isAdm(); });
+    var qaNames = { add: x.add, att: x.att, lea: x.lea, mon: x.mon, hub: x.hub, pay: x.pay };
+    d.innerHTML =
+      '<div class="fr-h"><div><h2>' + esc(x.ov) + '</h2><p>' + esc(dateTxt) + '</p></div><div class="fr-hb"><button type="button" class="fr-b" data-t="tab-export" data-n="nav-export">' + sv(P.exp, 16) + esc(x.exp) + '</button><button type="button" class="fr-b pri" data-t="tab-add" data-n="nav-add">' + esc(x.addB) + '</button></div></div>' +
+      '<div class="fr-cards">' + cards.map(function (c) { return '<button type="button" class="fr-card" data-t="' + c[5] + '" data-n="' + c[6] + '" data-f="' + c[7] + '"><span class="fr-ci" style="background:' + c[2] + ';color:' + c[3] + '">' + sv(c[4], 22) + '</span><span><span class="fr-cl">' + esc(x[c[0]]) + '</span><br><span class="fr-cn">' + c[1] + '</span></span></button>'; }).join('') + '</div>' +
+      '<div class="fr-two"><div class="fr-box"><h4>' + esc(x.chart) + '</h4><small>' + esc(x.unit) + ' · ' + cn.getUTCFullYear() + '</small><div class="fr-ch">' +
+      mh.map(function (v, i) { var cls = i === cur ? ' now' : (i > cur ? ' fut' : ''); var hgt = i > cur ? 8 : Math.max(3, Math.round(v / mx * 140)); return '<div class="fr-col' + cls + '"><span class="fr-v">' + (i > cur ? '' : (Math.round(v * 10) / 10)) + '</span><div class="fr-bar" style="height:' + hgt + 'px"></div><span class="fr-m">' + esc(x.mo[i]) + '</span></div>'; }).join('') +
+      '</div></div><div class="fr-box" id="frAttn"></div></div>' +
+      '<div class="fr-box"><h4>' + esc(x.qa) + '</h4><div class="fr-qa">' + qa.map(function (q) { return '<button type="button" class="fr-q" data-t="' + q[2] + '" data-n="' + q[3] + '" data-f="' + q[4] + '">' + sv(P[q[1]], 22) + esc(qaNames[q[0]]) + '</button>'; }).join('') + '</div></div>' +
+      '<div class="fr-tg"><button type="button" data-c="fr-nums">' + esc(x.allNum) + '</button><button type="button" data-c="fr-menu">' + esc(x.allMenu) + '</button></div>';
+    tg(); attn(true);
+  }
   var lastKey = '';
   function attn(force) {
     var box = document.getElementById('frAttn'); if (!box) return;
     var key = num('statPendingApprovals') + '|' + num('statExceeded') + '|' + (typeof employees !== 'undefined' ? employees.length : 0) + '|' + (typeof currentLang !== 'undefined' ? currentLang : '');
-    if (!force && key === lastKey) return; lastKey = key;
+    if (!force && key === lastKey && box.innerHTML) return; lastKey = key;
     var x = L(), rows = [], more = 0, p = num('statPendingApprovals');
-    if (p > 0) rows.push({ c: '#e11d48', t: x.pend, n: p, a: 'pend' });
+    if (p > 0) rows.push({ c: '#e11d48', t: x.pend + ' (' + p + ')', a: 'pend' });
     try {
       if (typeof employees !== 'undefined' && typeof computeQueryData === 'function') {
         var today = new Date(), ex = [], rn = [];
@@ -29715,13 +29891,16 @@ function elExport() {
           if (qd.allowedThisMonth < 0) ex.push(emp);
           if (sp.length === 3 && parseInt(sp[0], 10) === today.getFullYear() && parseInt(sp[1], 10) - 1 === today.getMonth()) rn.push(emp);
         });
-        var add = function (list, c, tag) { list.forEach(function (e) { if (rows.length < 8) rows.push({ c: c, t: (e.name || '') + ' (' + e.id + ')', tag: tag, a: 'emp', id: e.id }); else more++; }); };
+        var add = function (list, c, tag) { list.forEach(function (e) { if (rows.length < 7) rows.push({ c: c, t: (e.name || '') + ' (' + e.id + ')', tag: tag, a: 'emp', id: e.id }); else more++; }); };
         add(ex, '#f59e0b', x.exc); add(rn, '#3b5bdb', x.ren);
       }
     } catch (e) {}
-    box.classList.toggle('has', rows.length > 0);
-    box.innerHTML = rows.length ? '<h4>' + esc(x.attn) + '</h4>' + rows.map(function (r) { return '<button type="button" class="fr-row" data-a="' + r.a + '" data-id="' + esc(r.id || '') + '"><span class="fr-dot" style="background:' + r.c + '"></span><span class="fr-t">' + esc(r.t) + '</span>' + (r.tag ? '<span class="fr-tag">' + esc(r.tag) + '</span>' : '') + (r.n ? '<span class="fr-n">' + r.n + '</span>' : '') + '</button>'; }).join('') + (more ? '<div style="margin-top:8px;font-size:12px;color:#64748b">+' + more + '</div>' : '') : '';
+    box.innerHTML = '<h4>' + esc(x.attn) + '</h4>' + (rows.length ? rows.map(function (r) { return '<button type="button" class="fr-row" data-a="' + r.a + '" data-id="' + esc(r.id || '') + '"><span class="fr-dot" style="background:' + r.c + '"></span><span class="fr-t">' + esc(r.t) + '</span>' + (r.tag ? '<span class="fr-tag">' + esc(r.tag) + '</span>' : '') + '<span class="fr-open">' + esc(x.open) + '</span></button>'; }).join('') + (more ? '<div style="margin-top:8px;font-size:12px;color:#64748b">+' + more + '</div>' : '') : '<div class="fr-none">' + esc(x.none) + '</div>');
   }
+  function refresh(force) { try { if (document.getElementById('frDash')) { buildNavIfNeeded(force); dash(force); } } catch (e) {} sync(); }
+  var navKey = '';
+  function buildNavIfNeeded(force) { var k = (typeof currentLang !== 'undefined' ? currentLang : '') + '|' + isAdm(); if (force || k !== navKey) { navKey = k; buildNav(); } }
+
   function build() {
     var ld = document.getElementById('langMenu'); var host = ld && ld.parentNode;
     if (host && !document.getElementById('frDd')) {
@@ -29732,19 +29911,39 @@ function elExport() {
       paint();
     }
     var h = document.getElementById('tab-home');
-    if (h && !document.getElementById('frAttn')) {
-      var a = document.createElement('div'); a.id = 'frAttn'; var h3 = h.querySelector('h3'); if (h3) h3.parentNode.insertBefore(a, h3.nextSibling); else h.insertBefore(a, h.firstChild);
-      a.addEventListener('click', function (ev) {
-        var r = ev.target.closest && ev.target.closest('.fr-row'); if (!r) return;
-        if (r.getAttribute('data-a') === 'pend') { if (typeof openPendingApprovalsModal === 'function') openPendingApprovalsModal(); }
-        else if (typeof openCheckDetailsForEmployee === 'function') openCheckDetailsForEmployee(r.getAttribute('data-id'));
+    if (h && !document.getElementById('frDash')) {
+      var d = document.createElement('div'); d.id = 'frDash'; h.insertBefore(d, h.firstChild);
+      /* tag the old Main Menu pieces so Fresh can fold them away */
+      var mb = document.getElementById('moFilterBtn'); if (mb && mb.parentNode) mb.parentNode.classList.add('fr-mm');
+      ['menuPage1', 'menuPage2', 'menuPager'].forEach(function (id) { var e = document.getElementById(id); if (e) e.classList.add('fr-mm'); });
+      d.addEventListener('click', function (ev) {
+        var t = ev.target;
+        var r = t.closest && t.closest('.fr-row');
+        if (r) {
+          if (r.getAttribute('data-a') === 'pend') { if (typeof openPendingApprovalsModal === 'function') openPendingApprovalsModal(); }
+          else if (typeof openCheckDetailsForEmployee === 'function') openCheckDetailsForEmployee(r.getAttribute('data-id'));
+          return;
+        }
+        var tgl = t.closest && t.closest('.fr-tg button');
+        if (tgl) { h.classList.toggle(tgl.getAttribute('data-c')); tg(); return; }
+        var b = t.closest && t.closest('button[data-t],button[data-f]');
+        if (b) go(b.getAttribute('data-t'), b.getAttribute('data-n'), b.getAttribute('data-f') || null);
       });
+      var hdr = document.querySelector('#adminApp .header-brand');
+      dash(true); buildNav();
     }
   }
   document.documentElement.classList.toggle('fresh', get() === 'fresh');
   build(); paint();
-  setInterval(function () { build(); if (document.documentElement.classList.contains('fresh')) { var h = document.getElementById('tab-home'); if (h && h.classList.contains('active') && !document.hidden) attn(); } }, 3000);
-  try { var o = window.setLanguage; if (typeof o === 'function') window.setLanguage = function () { var r = o.apply(this, arguments); try { paint(); attn(true); } catch (e) {} return r; }; } catch (e) {}
+  /* the search box stays visible on a wide screen; typing opens the result list */
+  document.addEventListener('focusin', function (ev) {
+    if (ev.target && ev.target.id === 'globalSearchInput' && document.documentElement.classList.contains('fresh')) { var w = document.getElementById('gsWrap'); if (w) w.classList.add('open'); }
+  });
+  setInterval(function () {
+    build();
+    if (document.documentElement.classList.contains('fresh')) { var h = document.getElementById('tab-home'); if (!document.hidden) { buildNavIfNeeded(false); if (h && h.classList.contains('active')) dash(false); sync(); } }
+  }, 1500);
+  try { var o = window.setLanguage; if (typeof o === 'function') window.setLanguage = function () { var r = o.apply(this, arguments); try { paint(); refresh(true); } catch (e) {} return r; }; } catch (e) {}
 })();
 </script>
 
