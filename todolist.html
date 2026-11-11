@@ -1369,6 +1369,7 @@ async function TD_remember(found) {
   var PT = { gm: ['Good Morning!', 'អរុណសួស្តី!', '早上好！'], ga: ['Good Afternoon!', 'សួស្តីរសៀល!', '下午好！'], ge: ['Good Evening!', 'សាយណ្ហសួស្តី!', '晚上好！'],
     prT: ['My Profile', 'ប្រវត្តិរូបរបស់ខ្ញុំ', '我的资料'], prUp: ['Upload new photo', 'ផ្ទុករូបថតថ្មី', '上传新照片'], prRm: ['Remove photo', 'លុបរូបថត', '删除照片'], prName: ['Display name', 'ឈ្មោះបង្ហាញ', '显示名称'],
     prShown: ['Shown on the card as', 'បង្ហាញលើកាតជា', '卡片上显示为'], prSave: ['Save', 'រក្សាទុក', '保存'], prCancel: ['Cancel', 'បោះបង់', '取消'],
+    crT: ['Drag to move, slide to zoom', 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', '拖动移动，滑动缩放'], crOk: ['Use this photo', 'ប្រើរូបថតនេះ', '使用此照片'],
     prErr: ['Could not save. Ask the administrator to publish the new Firebase rules.', 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។', '无法保存。请让管理员发布新的 Firebase 规则。'] };
   function PL(k) { return PT[k][lg()] || PT[k][0]; }
   var prof = null, profPath = '', profUid = '', profBusy = false, profRef = null, defName = '';
@@ -1411,6 +1412,50 @@ async function TD_remember(found) {
     };
     r.onerror = function () { cb(null); }; r.readAsDataURL(file);
   }
+  function cropPick(file, tx, cb) {
+    var r = new FileReader();
+    r.onload = function () {
+      var im = new Image();
+      im.onerror = function () { cb(null); };
+      im.onload = function () {
+        var V = Math.min(260, Math.max(180, Math.floor(window.innerWidth * 0.7))), W = im.naturalWidth, H = im.naturalHeight;
+        var cover = Math.max(V / W, V / H), contain = Math.min(V / W, V / H), s = cover, ox = (V - W * s) / 2, oy = (V - H * s) / 2;
+        var o = document.createElement('div'); o.id = 'frCrop';
+        o.style.cssText = 'position:fixed;inset:0;z-index:99995;background:rgba(15,23,42,.6);display:flex;align-items:center;justify-content:center;padding:16px';
+        o.innerHTML = '<div style="background:#fff;border-radius:16px;padding:18px;max-width:340px;width:100%;box-sizing:border-box;text-align:center;font:14px Arial,sans-serif;color:#0f172a"><div style="font-weight:700;font-size:16px;margin-bottom:12px">' + tx.t + '</div>' +
+          '<div id="crV" style="position:relative;width:' + V + 'px;height:' + V + 'px;margin:0 auto;overflow:hidden;border-radius:50%;background:#fff;border:3px solid #0f172a;box-sizing:content-box;touch-action:none;cursor:grab"><img id="crI" alt="" draggable="false" src="' + r.result + '" style="position:absolute;left:0;top:0;max-width:none;user-select:none;-webkit-user-drag:none;transform-origin:0 0;pointer-events:none"></div>' +
+          '<input id="crS" type="range" min="0" max="100" value="0" style="width:' + V + 'px;margin:14px 0 4px"><div style="margin-top:10px"><button type="button" id="crOk" style="border:0;border-radius:9px;padding:9px 14px;font:inherit;font-weight:700;background:#1d4ed8;color:#fff;cursor:pointer;margin-right:6px">' + tx.ok + '</button><button type="button" id="crCx" style="border:0;border-radius:9px;padding:9px 14px;font:inherit;font-weight:700;background:#e2e8f0;color:#334155;cursor:pointer">' + tx.c + '</button></div></div>';
+        document.body.appendChild(o);
+        var q = function (id) { return document.getElementById(id); }, img = q('crI'), v = q('crV'), sl = q('crS');
+        var maxS = cover * 4;
+        function pos() { img.style.width = (W * s) + 'px'; img.style.height = (H * s) + 'px'; img.style.left = ox + 'px'; img.style.top = oy + 'px'; sl.value = Math.round((s - contain) / (maxS - contain) * 100); }
+        function zoom(ns, cx, cy) { ns = Math.max(contain, Math.min(maxS, ns)); ox = cx - (cx - ox) * (ns / s); oy = cy - (cy - oy) * (ns / s); s = ns; pos(); }
+        pos();
+        var pts = {}, last = null;
+        v.addEventListener('pointerdown', function (e) { try { v.setPointerCapture(e.pointerId); } catch (x) {} pts[e.pointerId] = { x: e.clientX, y: e.clientY }; last = null; v.style.cursor = 'grabbing'; });
+        v.addEventListener('pointermove', function (e) {
+          var p = pts[e.pointerId]; if (!p) return; var ids = Object.keys(pts);
+          if (ids.length >= 2) {
+            var a = pts[ids[0]], b = pts[ids[1]], d0 = Math.hypot(a.x - b.x, a.y - b.y);
+            p.x = e.clientX; p.y = e.clientY; var d1 = Math.hypot(a.x - b.x, a.y - b.y);
+            if (last && d0 > 0) { var rc = v.getBoundingClientRect(); zoom(s * (d1 / last), (a.x + b.x) / 2 - rc.left, (a.y + b.y) / 2 - rc.top); } last = d1;
+          } else { ox += e.clientX - p.x; oy += e.clientY - p.y; p.x = e.clientX; p.y = e.clientY; pos(); }
+        });
+        var up = function (e) { delete pts[e.pointerId]; last = null; v.style.cursor = 'grab'; };
+        v.addEventListener('pointerup', up); v.addEventListener('pointercancel', up);
+        v.addEventListener('wheel', function (e) { e.preventDefault(); var rc = v.getBoundingClientRect(); zoom(s * (e.deltaY < 0 ? 1.08 : 1 / 1.08), e.clientX - rc.left, e.clientY - rc.top); }, { passive: false });
+        sl.addEventListener('input', function () { zoom(contain + (maxS - contain) * (sl.value / 100), V / 2, V / 2); });
+        q('crCx').onclick = function () { o.remove(); };
+        q('crOk').onclick = function () {
+          var S = 160, k = S / V, c = document.createElement('canvas'); c.width = S; c.height = S; var cx = c.getContext('2d');
+          cx.fillStyle = '#fff'; cx.fillRect(0, 0, S, S); cx.drawImage(im, ox * k, oy * k, W * s * k, H * s * k);
+          o.remove(); cb(c.toDataURL('image/jpeg', 0.85));
+        };
+      };
+      im.src = r.result;
+    };
+    r.onerror = function () { cb(null); }; r.readAsDataURL(file);
+  }
   function openProf() {
     if (document.getElementById('frProf')) return;
     var photo = (prof && prof.photo) || '', nm = (prof && prof.name) || baseName();
@@ -1423,7 +1468,7 @@ async function TD_remember(found) {
     var showLast = function () { var p = q('prNm').value.trim().split(/\s+/); q('prLast').textContent = p[p.length - 1] || ''; };
     showLast(); q('prNm').addEventListener('input', showLast);
     q('prUp').onclick = function () { q('prFile').click(); };
-    q('prFile').onchange = function () { var f = this.files && this.files[0]; if (!f) return; shrink(f, function (d) { if (d) { photo = d; q('prAv').innerHTML = '<img alt="" src="' + d + '">'; } }); };
+    q('prFile').onchange = function () { var f = this.files && this.files[0]; this.value = ''; if (!f) return; cropPick(f, { t: PL('crT'), ok: PL('crOk'), c: PL('prCancel') }, function (d) { if (d) { photo = d; q('prAv').innerHTML = '<img alt="" src="' + d + '">'; } }); };
     q('prRm').onclick = function () { photo = ''; q('prAv').innerHTML = AVSVG; };
     q('prCx').onclick = function () { o.remove(); };
     o.addEventListener('click', function (ev) { if (ev.target === o) o.remove(); });
