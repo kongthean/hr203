@@ -1089,5 +1089,135 @@ async function TD_remember(found) {
   document.addEventListener('DOMContentLoaded', function () { mount(); paint(); });
 })();
 </script>
+<script id="themeShell">
+/* HR203 Fresh shell: left menu + title strip + number cards + phone bottom menu. It only calls buttons/functions that already exist
+   and reads data the page already has. No data and no calculation changes. */
+(function () {
+  var C = {
+  root: '#appView', wrap: '.wrap',
+  labels: {
+    gAd: ['ACCOUNT', 'គណនី', '账户'],
+    title: ['Asset Manager', 'គ្រប់គ្រងទ្រព្យសម្បត្តិ', '资产管理'], gScan: ['SCAN', 'ស្កេន', '扫描'],
+    normal: ['Normal scan', 'ស្កេនធម្មតា', '普通扫描'], rounds: ['Rounds scan', 'ស្កេនជុំ', '巡检扫描']
+  },
+  groups: [
+    ['gOv', [{ k: 'dash', ic: 'home', go: function () { goHome(); } }]],
+    ['gScan', [{ k: 'normal', ic: 'scan', go: function () { goNormal(); } }, { k: 'rounds', ic: 'check', go: function () { goSetup(); } }]],
+    ['gAd', [{ k: 'out', ic: 'out', go: function () { doSignOut(); } }]]
+  ],
+  bottom: [{ k: 'dash', ic: 'home', go: function () { goHome(); } }, { k: 'normal', ic: 'scan', go: function () { goNormal(); } }, { k: 'rounds', ic: 'check', go: function () { goSetup(); } }, { k: 'out', ic: 'out', go: function () { doSignOut(); } }],
+  active: function () { try { return screen === 'home' ? 'dash' : (screen === 'setup' || roundsOn) ? 'rounds' : 'normal'; } catch (e) { return 'dash'; } },
+  title: function () { return T('title'); },
+  css: 'html.fresh.fr-in #homeBox .tile{border-radius:16px;border:1px solid #e5eaf2;box-shadow:0 2px 8px rgba(15,23,42,.05)}'
+};
+  var P = {
+    home: 'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z', emp: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',
+    grid: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z', add: 'M12 5v14M5 12h14', user: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+    clock: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2', cal: 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4', shift: 'M3 12h4l3-8 4 16 3-8h4', rep: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
+    pay: 'M2 7h20v12H2zM2 11h20M6 15h3', ok: 'M9 12l2 2 4-4M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z', cog: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z',
+    more: 'M5 12h.01M12 12h.01M19 12h.01', exp: 'M12 3v12M7 10l5 5 5-5M4 20h16', imp: 'M12 21V9M7 14l5-5 5 5M4 4h16', search: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5',
+    scan: 'M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 8h3v3H8zM13 13h3v3h-3z', list: 'M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01',
+    check: 'M5 12.5l4.5 4.5L19 7.5', file: 'M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8zM14 3v5h5M9 13h6M9 17h4', lock: 'M6 11h12v10H6zM8 11V7a4 4 0 0 1 8 0v4', panel: 'M3 5h18v14H3zM9 5v14',
+    send: 'M22 2L11 13M22 2l-7 20-4-9-9-4z', book: 'M4 4h12a3 3 0 0 1 3 3v13H7a3 3 0 0 1-3-3zM4 17a3 3 0 0 1 3-3h12', out: 'M9 21H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4M16 17l5-5-5-5M21 12H9'
+  };
+  function sv(k, z) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:' + (z || 18) + 'px;height:' + (z || 18) + 'px;flex:none"><path d="' + (P[k] || P.grid) + '"/></svg>'; }
+  function esc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function lg() { var l = 'en'; try { if (typeof lang !== 'undefined') l = lang; } catch (e) {} return l === 'km' ? 1 : l === 'zh' ? 2 : 0; }
+  function T(k) { var a = C.labels[k] || COMMON[k]; return a ? (a[lg()] || a[0]) : k; }
+  var COMMON = { allNum: ['All numbers', 'លេខទាំងអស់', '全部数字'], gOv: ['OVERVIEW', 'ទិដ្ឋភាពទូទៅ', '概览'], dash: ['Dashboard', 'ផ្ទាំងព័ត៌មាន', '仪表板'], bHome: ['Home', 'ទំព័រដើម', '首页'], bMore: ['More', 'ផ្សេងៗ', '更多'], out: ['Sign out', 'ចាកចេញ', '退出'], set: ['Settings', 'ការកំណត់', '设置'] };
+  var CSS = [
+    'html.fresh{--frw:224px}html.fresh.fr-col{--frw:68px}',
+    '#frSide,#frBot,#frHead{display:none}',
+    'html.fresh.fr-in #frHead{display:block}',
+    '#frHead .fr-h{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 0 14px}',
+    '#frHead h2{margin:0;font-size:24px;font-weight:800;color:#0f172a}#frHead p{margin:2px 0 0;color:#64748b;font-size:13px}',
+    '#frHead .fr-hb{display:flex;gap:8px;flex-wrap:wrap}',
+    '#frHead .fr-b{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;color:#0f172a;font:inherit;font-weight:700;font-size:14px;cursor:pointer}',
+    '#frHead .fr-b.pri{background:#0f766e;border-color:#0f766e;color:#fff}',
+    '#frHead .fr-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}',
+    '#frHead .fr-tg{margin:0 0 10px}#frHead .fr-tg button{height:36px;padding:0 14px;border-radius:999px;border:1px solid #e2e8f0;background:#fff;font:inherit;font-weight:700;font-size:13px;color:#334155;cursor:pointer}#frHead .fr-tg button.on{background:#e6f6f4;border-color:#99d8d0;color:#0f766e}',
+    '#frSide .fr-svg svg,#frBot .fr-svg svg{width:100%;height:100%}',
+    '#frHead .fr-card{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e5eaf2;border-radius:16px;padding:14px 16px;text-align:left;color:#0f172a;box-shadow:0 2px 8px rgba(15,23,42,.04);min-width:0}',
+    '#frHead .fr-ci{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}',
+    '#frHead .fr-cl{font-size:12px;color:#64748b;font-weight:600}#frHead .fr-cn{font-size:24px;font-weight:800;line-height:1.1;overflow-wrap:anywhere}',
+    '@media (min-width:1024px){',
+    'html.fresh.fr-in body{padding-left:var(--frw)}',
+    'html.fresh.fr-in #frSide{display:flex;position:fixed;left:0;top:0;bottom:0;width:var(--frw);z-index:40;flex-direction:column;gap:2px;background:#fff;border-right:1px solid #e5eaf2;padding:18px 12px 14px;overflow:auto;scrollbar-width:none}',
+    '#frSide::-webkit-scrollbar{display:none}',
+    '#frSide .fr-top{padding:2px 4px 12px 10px}#frSide .fr-lg{color:#0b1d3a;font-size:26px}',
+    '#frSide .fr-gl{font-size:11px;font-weight:800;letter-spacing:.8px;color:#94a3b8;padding:12px 12px 4px}',
+    '#frSide button{display:flex;align-items:center;gap:12px;min-height:40px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:#334155;font:inherit;font-size:14px;font-weight:600;text-align:left;cursor:pointer;width:100%}',
+    '#frSide button:hover{background:#f1f5f9;color:#0f172a}#frSide button.on{background:#e6f6f4;color:#0f766e}',
+    '#frSide .fr-bot{margin-top:auto;border-top:1px solid #e5eaf2;padding-top:8px;display:flex;justify-content:flex-end}#frSide button.fr-tgl{width:38px;min-height:38px;padding:0;justify-content:center;flex:none;color:#475569}',
+    'html.fr-col #frSide{padding-left:8px;padding-right:8px}html.fr-col #frSide .fr-lg,html.fr-col #frSide button span{display:none}html.fr-col #frSide .fr-top{display:none}html.fr-col #frSide{padding-top:18px}',
+    'html.fr-col #frSide .fr-gl{font-size:0;padding:0;margin:8px 12px;border-top:1px solid #e5eaf2;height:0}html.fr-col #frSide button{justify-content:center;padding:0}html.fr-col #frSide .fr-bot{justify-content:center}',
+    'html.fresh.fr-in .top .hrLogo,html.fresh.fr-in .top h1{display:none!important}html.fresh.fr-in .top{justify-content:flex-end}',
+    'html.fresh.fr-in .wrap{max-width:1180px!important}',
+    'html.fresh.fr-in .modal.pgScr{left:var(--frw)!important}',
+    '}',
+    '@media (max-width:1023px){',
+    'html.fresh.fr-in body{padding-bottom:84px}',
+    'html.fresh.fr-in #frBot{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid #e5eaf2;box-shadow:0 -4px 14px rgba(15,23,42,.08);padding:6px 6px calc(8px + env(safe-area-inset-bottom))}',
+    '#frBot button{flex:1 1 0;min-width:0;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:2px;border:0;border-radius:10px;background:transparent;color:#64748b;font:inherit;font-size:10px;font-weight:700;cursor:pointer}#frBot button.on{color:#0f766e}',
+    '#frHead .fr-cards{grid-template-columns:repeat(2,1fr)}#frHead h2{font-size:20px}#frHead .fr-card{padding:12px}#frHead .fr-cn{font-size:20px}',
+    '}',
+    C.fold ? 'html.fresh.fr-in ' + C.fold + '{display:none}html.fresh.fr-in.fr-nums ' + C.fold + '{display:grid}' : '',
+    C.css || ''
+  ].join('\n');
+  var st = document.createElement('style'); st.id = 'shellCss'; st.textContent = CSS; (document.head || document.documentElement).appendChild(st);
+  function inApp() { var r = document.querySelector(C.root); return !!r && !r.classList.contains('hidden') && r.getClientRects().length > 0; }
+  function isFresh() { return document.documentElement.classList.contains('fresh'); }
+  function run(a) { try { if (typeof a === 'function') a(); else if (typeof a === 'string') { var e = document.querySelector(a); if (e) e.click(); } } catch (e) { console.error(e); } }
+  function G() { return typeof C.groups === 'function' ? C.groups() : C.groups; }
+  function BT() { return typeof C.bottom === 'function' ? C.bottom() : C.bottom; }
+  function items() { return G().reduce(function (a, g) { return a.concat(g[1]); }, []); }
+  function ico(i, z) { return i.svg ? '<span style="display:inline-flex;width:' + z + 'px;height:' + z + 'px;flex:none" class="fr-svg">' + i.svg + '</span>' : sv(i.ic, z); }
+  function lab(i) { return i.t || T(i.k); }
+  var navKey = '';
+  function build() {
+    var key = lg() + '|' + (C.key ? C.key() : '');
+    if (key === navKey && document.getElementById('frSide')) return; navKey = key;
+    var s = document.getElementById('frSide'); if (!s) { s = document.createElement('div'); s.id = 'frSide'; document.body.appendChild(s); s.addEventListener('click', onNav); }
+    var h = '<div class="fr-top"><span class="hrLogo fr-lg" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span></div>';
+    G().forEach(function (g) {
+      var its = g[1].filter(function (i) { return !i.show || i.show(); }); if (!its.length) return;
+      h += '<div class="fr-gl">' + esc(T(g[0])) + '</div>';
+      its.forEach(function (i) { h += '<button type="button" data-k="' + esc(i.k) + '" title="' + esc(lab(i)) + '">' + ico(i, 20) + '<span>' + esc(lab(i)) + '</span></button>'; });
+    });
+    h += '<div class="fr-bot"><button type="button" class="fr-tgl" data-k="__col" title="">' + sv('panel', 20) + '</button></div>';
+    s.innerHTML = h;
+    var b = document.getElementById('frBot'); if (!b) { b = document.createElement('div'); b.id = 'frBot'; document.body.appendChild(b); b.addEventListener('click', onNav); }
+    b.innerHTML = BT().map(function (i) { return '<button type="button" data-k="' + esc(i.k) + '">' + ico(i, 22) + '<span>' + esc(lab(i)) + '</span></button>'; }).join('');
+    mark();
+  }
+  function onNav(ev) {
+    var b = ev.target.closest && ev.target.closest('button'); if (!b) return; var k = b.getAttribute('data-k');
+    if (k === '__col') { var d = document.documentElement; d.classList.toggle('fr-col'); try { localStorage.setItem('frCol', d.classList.contains('fr-col') ? '1' : '0'); } catch (e) {} return; }
+    var it = items().concat(BT()).filter(function (i) { return i.k === k; })[0]; if (!it) return;
+    run(it.go); C.cur = k; mark(); setTimeout(refresh, 150);
+  }
+  function mark() { var cur = (C.active && C.active()) || C.cur || G()[0][1][0].k; if (!Array.isArray(cur)) cur = [cur]; ['frSide', 'frBot'].forEach(function (id) { var r = document.getElementById(id); if (!r) return; Array.prototype.forEach.call(r.querySelectorAll('button[data-k]'), function (b) { b.classList.toggle('on', cur.indexOf(b.getAttribute('data-k')) >= 0); }); }); }
+  var headKey = '';
+  function head() {
+    var wrap = document.querySelector(C.wrap); if (!wrap) return;
+    var h = document.getElementById('frHead'); if (!h) { h = document.createElement('div'); h.id = 'frHead'; wrap.insertBefore(h, wrap.firstChild); h.addEventListener('click', function (ev) { var f = ev.target.closest && ev.target.closest('button[data-fold]'); if (f) { document.documentElement.classList.toggle('fr-nums'); headKey = ''; head(); return; } var b = ev.target.closest && ev.target.closest('button[data-i]'); if (!b) return; var it = (C.btns || [])[+b.getAttribute('data-i')]; if (it) { run(it.go); setTimeout(refresh, 150); } }); }
+    else if (h.parentNode !== wrap) wrap.insertBefore(h, wrap.firstChild);
+    var cards = []; try { cards = (C.cards && C.cards()) || []; } catch (e) {}
+    var l = ['en-GB', 'km-KH', 'zh-CN'][lg()], dt = ''; try { dt = new Date().toLocaleDateString(l, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Phnom_Penh' }); } catch (e) {}
+    var sub = C.sub ? (C.sub() || '') : '';
+    var btns = (C.btns || []).filter(function (b) { return !b.show || b.show(); });
+    var key = document.documentElement.classList.contains('fr-nums') + '|' + lg() + '|' + dt + '|' + sub + '|' + JSON.stringify(cards) + '|' + (C.title ? C.title() : T('title')) + '|' + btns.map(function (b) { return b.label ? b.label() : T(b.k); }).join(',');
+    if (key === headKey) return; headKey = key;
+    var CL = [['#e0f2fe', '#0369a1'], ['#fef3c7', '#b45309'], ['#ffe4e6', '#be123c'], ['#f1f5f9', '#475569']];
+    var fold = C.fold ? '<div class="fr-tg"><button type="button" data-fold="1" class="' + (document.documentElement.classList.contains('fr-nums') ? 'on' : '') + '">' + esc(T('allNum')) + '</button></div>' : '';
+    h.innerHTML = '<div class="fr-h"><div><h2>' + esc(C.title ? C.title() : T('title')) + '</h2><p>' + esc(dt + (sub ? ' · ' + sub : '')) + '</p></div><div class="fr-hb">' +
+      btns.map(function (b, i) { return '<button type="button" class="fr-b' + (b.pri ? ' pri' : '') + '" data-i="' + (C.btns || []).indexOf(b) + '">' + (b.ic ? sv(b.ic, 16) : '') + esc(b.label ? b.label() : T(b.k)) + '</button>'; }).join('') + '</div></div>' +
+      (cards.length ? '<div class="fr-cards">' + cards.map(function (c, i) { var col = c.col || CL[i % 4]; return '<div class="fr-card"><span class="fr-ci" style="background:' + col[0] + ';color:' + col[1] + '">' + sv(c.ic || 'grid', 22) + '</span><span><span class="fr-cl">' + esc(c.l) + '</span><br><span class="fr-cn">' + esc(c.v) + '</span></span></div>'; }).join('') + '</div>' : '') + fold;
+  }
+  function refresh() { try { var on = isFresh() && inApp(); document.documentElement.classList.toggle('fr-in', on); if (!on) return; build(); head(); mark(); } catch (e) {} }
+  try { if (localStorage.getItem('frCol') === '1') document.documentElement.classList.add('fr-col'); } catch (e) {}
+  setInterval(refresh, 700); document.addEventListener('DOMContentLoaded', refresh); refresh();
+})();
+</script>
 </body>
 </html>

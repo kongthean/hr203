@@ -29631,7 +29631,8 @@ function elExport() {
     var u = null; try { u = localStorage.getItem('uiTheme.' + s) || localStorage.getItem(KEY); } catch (e) {}
     return u === 'fresh' || u === 'classic' ? u : def;
   }
-  function sync2() { var d = document.documentElement; d.classList.toggle('fr-locked', !!forced()); d.classList.toggle('fresh', get() === 'fresh'); }
+  function inApp() { var a = document.getElementById('adminApp'); return !!a && getComputedStyle(a).display !== 'none'; }
+  function sync2() { var d = document.documentElement; d.classList.toggle('fr-in', inApp()); d.classList.toggle('fr-locked', !!forced()); d.classList.toggle('fresh', get() === 'fresh'); }
   function sv(d, sz) { return '<svg class="fr-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:' + (sz || 18) + 'px;height:' + (sz || 18) + 'px"><path d="' + d + '"/></svg>'; }
   var P = {
     home: 'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
@@ -29699,6 +29700,9 @@ function elExport() {
     '#frMenu .lang-option .fr-ck{margin-left:auto;color:#0f766e;font-weight:800}',
     'html.fresh .dash-card:has(#dashNeedsAttentionBody){display:none}',
     /* home page: old pieces hidden unless opened */
+    'html.fresh #chooserApp .header{background:#fff!important;color:#0f172a!important;border-bottom:1px solid #e5eaf2;box-shadow:0 4px 14px rgba(15,23,42,.05)!important}',
+    'html.fresh #chooserApp .header h2,html.fresh #chooserApp .header span{color:#0f172a!important}',
+    'html.fresh #chooserApp .header .lang-btn{background:#fff!important;color:#0f172a!important;border:1px solid #e2e8f0!important;border-radius:10px}',
     '#frDash,#frSide,#frBot,#frSi{display:none}',
     '#frSi{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#64748b;pointer-events:none;z-index:2}',
     'html.fr-locked #frDd{display:none!important}',
@@ -29749,7 +29753,7 @@ function elExport() {
     '@media (min-width:1024px){',
     'html.fresh{--frw:224px}html.fresh.fr-col{--frw:68px}',
     'html.fresh #adminApp{padding-left:calc(var(--frw) + 12px)}',
-    'html.fresh #frSide{display:flex;position:fixed;left:0;top:0;bottom:0;width:var(--frw);z-index:40;flex-direction:column;gap:2px;background:#fff;border-right:1px solid #e5eaf2;padding:18px 12px 14px;overflow:auto}',
+    'html.fresh.fr-in #frSide{display:flex;position:fixed;left:0;top:0;bottom:0;width:var(--frw);z-index:40;flex-direction:column;gap:2px;background:#fff;border-right:1px solid #e5eaf2;padding:18px 12px 14px;overflow:auto}',
     '#frSide .fr-top{display:flex;align-items:center;padding:2px 4px 12px 10px}',
     '#frSide .fr-bot{margin-top:auto;border-top:1px solid #e5eaf2;padding-top:8px;display:flex;justify-content:flex-end}',
     '#frSide .fr-lg{color:#0b1d3a;font-size:26px}',
@@ -29776,7 +29780,7 @@ function elExport() {
     /* phone and tablet: bottom menu */
     '@media (max-width:1023px){',
     'html.fresh #adminApp{padding-bottom:86px}',
-    'html.fresh #frBot{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid #e5eaf2;box-shadow:0 -4px 14px rgba(15,23,42,.08);padding:6px 6px calc(8px + env(safe-area-inset-bottom))}',
+    'html.fresh.fr-in #frBot{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:40;background:#fff;border-top:1px solid #e5eaf2;box-shadow:0 -4px 14px rgba(15,23,42,.08);padding:6px 6px calc(8px + env(safe-area-inset-bottom))}',
     '#frBot button{flex:1 1 0;min-width:0;min-height:50px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:2px;border:0;border-radius:10px;background:transparent;color:#64748b;font:inherit;font-size:10px;font-weight:700;cursor:pointer}',
     '#frBot button.on{color:#0f766e}',
     '#frDash .fr-cards{grid-template-columns:repeat(2,1fr)}',
@@ -29845,7 +29849,7 @@ function elExport() {
       var items = g[1].filter(function (i) { return !i[5] || adm; });
       if (!items.length) return;
       html += '<div class="fr-gl">' + esc(x[g[0]]) + '</div>';
-      items.forEach(function (i) { html += '<button type="button" data-k="' + i[0] + '" data-t="' + (i[2] || '') + '" data-n="' + (i[3] || '') + '" data-f="' + (i[4] || '') + '" title="' + esc(x[i[0]]) + '">' + sv(P[i[1]], 20) + '<span>' + esc(x[i[0]]) + '</span></button>'; });
+      items.forEach(function (i) { html += '<button type="button" data-k="' + i[0] + '" data-t="' + (i[2] || '') + '" data-n="' + (i[3] || '') + '" data-f="' + (i[4] || '') + '" data-adm="' + (i[5] ? 1 : 0) + '" title="' + esc(x[i[0]]) + '">' + sv(P[i[1]], 20) + '<span>' + esc(x[i[0]]) + '</span></button>'; });
     });
     html += '<div class="fr-bot"><button type="button" class="fr-tgl" data-f="collapse" title="">' + sv(P.panel, 20) + '</button></div>';
     s.innerHTML = html;
@@ -29858,6 +29862,7 @@ function elExport() {
   }
   function onNav(ev) {
     var b = ev.target.closest && ev.target.closest('button'); if (!b) return;
+    if (b.getAttribute('data-adm') === '1' && !isAdm()) return;
     var f = b.getAttribute('data-f');
     if (f === 'more') { showMenu(); return; }
     if (f === 'collapse') { var d = document.documentElement; d.classList.toggle('fr-col'); try { localStorage.setItem('frCol', d.classList.contains('fr-col') ? '1' : '0'); } catch (e) {} return; }
@@ -30004,6 +30009,9 @@ function elExport() {
   document.addEventListener('focusin', function (ev) {
     if (ev.target && ev.target.id === 'globalSearchInput' && document.documentElement.classList.contains('fresh')) { var w = document.getElementById('gsWrap'); if (w) w.classList.add('open'); }
   });
+  setInterval(function () { try { sync2(); } catch (e) {} }, 400);
+  /* when the role changes (Admin <-> HR) rebuild the menu at once, so HR never sees admin-only items */
+  try { var ar = window.applyRoleGating; if (typeof ar === 'function') window.applyRoleGating = function () { var r = ar.apply(this, arguments); try { sync2(); buildNav(); dash(true); } catch (e) {} return r; }; } catch (e) {}
   setInterval(function () {
     sync2(); build(); repage();
     if (document.documentElement.classList.contains('fresh')) { var h = document.getElementById('tab-home'); if (!document.hidden) { buildNavIfNeeded(false); if (h && h.classList.contains('active')) dash(false); sync(); } }
