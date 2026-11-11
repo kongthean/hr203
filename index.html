@@ -27852,6 +27852,10 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
 #tab-attcal .dg-bar > .dg-clear, #tab-attcal .acExp { align-self: flex-end; }
 #tab-attcal .dg-bar select, #tab-attcal .form-group input, #tab-attcal .dg-bar > .dg-clear, #tab-attcal .acExp { height: 36px !important; min-height: 36px !important; box-sizing: border-box; }
 #tab-attcal .acExp { white-space: nowrap; padding-top: 0 !important; padding-bottom: 0 !important; }
+/* shift roster: Department / Group box has the same height as the Month, Day and Search boxes */
+#tab-shift .dg-bar { margin: 0 !important; padding: 0 10px !important; height: 36px; box-sizing: border-box; align-items: center !important; flex-wrap: nowrap !important; }
+#tab-shift .dg-bar select { height: 28px; box-sizing: border-box; padding: 0 8px !important; }
+#tab-shift .dg-bar .dg-clear { height: 28px !important; padding: 0 12px !important; }
 </style>
 <script id="frzJs">
 (function () {
@@ -29539,13 +29543,12 @@ function elHtml() {
     var mo = Object.keys(months).sort(), mopt = mo.map(function (m) { return '<option value="' + m + '"' + (m === elec.ym ? ' selected' : '') + '>' + ohEsc(m) + '</option>'; }).join('');
     var wk = [[1, '1-7'], [8, '8-14'], [15, '15-21'], [22, '22-28'], [29, '29-' + (new Date(Date.UTC(+elec.ym.slice(0, 4), +elec.ym.slice(5), 0)).getUTCDate())]];
     var curS = +elec.from.slice(8), inp = 'style="min-height:38px;padding:0 8px;border:1.5px solid #cbd5e1;border-radius:10px;font:inherit"';
-    h += '<div class="oh-card" style="max-width:1100px;margin:0 auto 12px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end">' +
+    h += '<div class="oh-card" style="max-width:1100px;margin:0 auto 12px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end;justify-content:center">' +
         '<div><div class="oh-lbl">' + ohEsc(t('elMonth')) + '</div><select ' + inp + ' onchange="elMonth(this.value)">' + mopt + '</select></div>' +
-        '<div><div class="oh-lbl">' + ohEsc(t('elWeek')) + '</div><div style="display:flex;gap:6px;flex-wrap:wrap">' + wk.map(function (w) { var on = elec.from.slice(0, 7) === elec.ym && curS === w[0]; return '<button type="button" class="oh-chg" style="' + (on ? 'background:#0f766e;color:#fff;border-color:#0f766e' : '') + '" onclick="elWeek(' + w[0] + ')">' + w[1] + '</button>'; }).join('') + '</div></div>' +
         '<div><div class="oh-lbl">' + ohEsc(t('elFrom')) + '</div><input type="date" ' + inp + ' value="' + elec.from + '" onchange="elSet(\'from\',this.value)"></div>' +
         '<div><div class="oh-lbl">' + ohEsc(t('elTo')) + '</div><input type="date" ' + inp + ' value="' + elec.to + '" onchange="elSet(\'to\',this.value)"></div>' +
         '<div><div class="oh-lbl">' + ohEsc(t('elPrice')) + '</div><input type="number" step="0.001" min="0" ' + inp + ' style="width:90px" value="' + elec.price + '" onchange="elSet(\'price\',this.value)"></div>' +
-        '<div><div class="oh-lbl">' + ohEsc(t('elJump')) + '</div><input type="number" step="0.5" min="1.5" ' + inp + ' style="width:80px" value="' + elec.x + '" onchange="elSet(\'x\',this.value)"></div></div>';
+        '</div>';
     var a = elAnalyze(), sc = a.red ? ['#fee2e2', '#991b1b'] : (a.org ? ['#fef3c7', '#92400e'] : ['#dcfce7', '#166534']);
     var sum = a.red || a.org ? t('elSumBad').replace('{r}', a.red).replace('{o}', a.org) : t('elSumOk');
     if (!a.days.length) sum = t('elNone');
@@ -29580,7 +29583,7 @@ function elHtml() {
             h += '</table></div>';
         });
         h += detH;
-        h += '<div style="max-width:1100px;margin:0 auto 20px"><button type="button" class="oh-go" style="max-width:420px" onclick="elExport()">' + ohEsc(t('elExport')) + '</button></div>';
+        h += '<div style="max-width:1100px;margin:0 auto 20px;display:flex;justify-content:center"><button type="button" class="oh-go" style="max-width:420px" onclick="elExport()">' + ohEsc(t('elExport')) + '</button></div>';
     }
     return h;
 }
