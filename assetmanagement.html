@@ -1127,7 +1127,8 @@ async function TD_remember(found) {
   var COMMON = { allNum: ['All numbers', 'លេខទាំងអស់', '全部数字'], gOv: ['OVERVIEW', 'ទិដ្ឋភាពទូទៅ', '概览'], dash: ['Dashboard', 'ផ្ទាំងព័ត៌មាន', '仪表板'], bHome: ['Home', 'ទំព័រដើម', '首页'], bMore: ['More', 'ផ្សេងៗ', '更多'], out: ['Sign out', 'ចាកចេញ', '退出'], set: ['Settings', 'ការកំណត់', '设置'] };
   var CSS = [
     'html.fresh{--frw:224px}html.fresh.fr-col{--frw:68px}',
-    '#frHead .fr-me{display:inline-flex;align-items:center;gap:14px;padding:2px 14px 2px 2px;margin:2px 0 10px;border:0;background:transparent;font:inherit;color:#0f172a;cursor:pointer;text-align:left;border-radius:40px}#frHead .fr-me:hover{background:#eef3fb}',
+    '#frHead .fr-me{display:inline-flex;align-items:center;gap:14px;padding:2px 14px 2px 2px;margin:2px 0 10px;border:0;background:transparent;font:inherit;color:#0f172a;cursor:pointer;text-align:left;border-radius:40px}',
+    '#frHead .fr-me:hover,#frHead .fr-me:focus,#frHead .fr-me:active{background:transparent!important;box-shadow:none!important;filter:none!important;transform:none!important;outline:none}',
     '#frHead .fr-av,#frProf .fr-av{width:48px;height:48px;border-radius:50%;flex:none;background:#c9d0da;border:3px solid #fff;box-shadow:0 0 0 1px #d5dce6,0 2px 6px rgba(15,23,42,.18);overflow:hidden;display:flex;align-items:center;justify-content:center;box-sizing:border-box}#frHead .fr-av img,#frProf .fr-av img{width:100%;height:100%;object-fit:cover;display:block}',
     '#frHead .fr-me small{display:block;font-size:13px;color:#475569}#frHead .fr-me strong{display:block;font-size:20px;line-height:1.2}#frHead .fr-sep{height:1px;background:#e2e8f0;margin:2px 0 14px}',
     '#frProf{position:fixed;inset:0;z-index:99990;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;padding:16px}',
