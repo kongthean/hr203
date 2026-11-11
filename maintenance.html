@@ -493,6 +493,12 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         <div id="ntPrev"></div>
         <div class="row" style="margin-top:14px"><button class="btn" id="ntSave" data-i="save"></button><span class="note" id="ntDirty" style="margin:0"></span></div>
       </section>
+      <section class="card" id="thCard">
+        <h2 data-i="thT"></h2>
+        <p class="sub" data-i="thSub"></p>
+        <div class="seg" id="thSeg"><button type="button" data-v="" data-i="thFree"></button><button type="button" data-v="classic" data-i="thClassic"></button><button type="button" data-v="fresh" data-i="thFresh"></button></div>
+        <p class="note" id="thNow"></p>
+      </section>
     </div>
 
     <!-- CHECK STATUS -->
@@ -1493,6 +1499,31 @@ setInterval(() => { if (unlocked) { autoLog(); renderDash(); renderStat(); rende
 (async () => { try { await auth.signOut(); } catch (e) {} try { await auth.signInAnonymously(); } catch (e) {} })();
 renderLang();
 
+</script>
+<script>
+(function(){
+  var TH={en:{thT:"Site theme (Classic / Fresh)",thSub:"Choose which look everybody sees. Use this if you want to go back to the default (Classic) look for all users.",thFree:"Each person chooses",thClassic:"Everyone: Classic",thFresh:"Everyone: Fresh",thNowT:"Now: ",thSaved:"Saved"},
+  km:{thT:"រចនាបថគេហទំព័រ (ធម្មតា / ថ្មី)",thSub:"ជ្រើសរើសរចនាបថដែលអ្នកទាំងអស់ឃើញ។ ប្រើនៅពេលចង់ត្រឡប់ទៅរចនាបថដើម (ធម្មតា) សម្រាប់អ្នកប្រើទាំងអស់។",thFree:"ម្នាក់ៗជ្រើសរើសខ្លួនឯង",thClassic:"ទាំងអស់៖ ធម្មតា",thFresh:"ទាំងអស់៖ ថ្មី",thNowT:"បច្ចុប្បន្ន៖ ",thSaved:"បានរក្សាទុក"},
+  zh:{thT:"网站主题（经典 / 清新）",thSub:"选择所有人看到的外观。想让所有用户恢复默认（经典）外观时使用。",thFree:"各人自选",thClassic:"所有人：经典",thFresh:"所有人：清新",thNowT:"当前：",thSaved:"已保存"}};
+  ['en','km','zh'].forEach(function(l){ Object.assign(I18N[l], TH[l]); });
+  var cur='';
+  function paint(){
+    var l=(typeof lang!=='undefined'&&TH[lang])?lang:'en';
+    Array.prototype.forEach.call(document.querySelectorAll('#thSeg button'),function(b){ b.className=(b.dataset.v===cur)?'sel-on':''; });
+    var n=document.getElementById('thNow'); if(n){ var k=cur==='classic'?'thClassic':cur==='fresh'?'thFresh':'thFree'; n.textContent=TH[l].thNowT+TH[l][k]; }
+  }
+  document.getElementById('thSeg').addEventListener('click',function(ev){
+    var b=ev.target.closest('button'); if(!b) return;
+    var v=b.dataset.v;
+    var ref=db.ref('uiTheme');
+    var done=function(){ var l=(typeof lang!=='undefined'&&TH[lang])?lang:'en'; toast(TH[l].thSaved); };
+    var fail=function(e){ toast(String(e&&e.message||e),true); };
+    if(v) ref.set({force:v,by:(typeof who==='function'?who():''),at:Date.now()}).then(done,fail); else ref.remove().then(done,fail);
+  });
+  db.ref('uiTheme').on('value',function(sn){ var d=sn.val(); cur=(d&&(d.force==='classic'||d.force==='fresh'))?d.force:''; paint(); });
+  try{ if(typeof renderLang==='function') renderLang(); }catch(e){}
+  setInterval(paint,2000);
+})();
 </script>
 </body>
 </html>
