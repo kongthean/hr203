@@ -3578,10 +3578,9 @@ body.dpOwnMode #dpOwnBar{display:flex}
 (function () {
   var C = {
   root: '#dpApp', wrap: '#tab-dash',
-  fold: '#tab-dash > .stats-grid',
   me: { pt: 26, pb: 12, name: function () { var e = document.querySelector('#dpAccName'); return (e && e.textContent) || ''; } },
   labels: {
-    gAd: ['ACCOUNT', 'គណនី', '账户'], gMenu: ['MENU', 'ម៉ឺនុយ', '菜单'], req: ['Requests', 'សំណើ', '申请'], more: ['More', 'ផ្សេងៗ', '更多'] },
+    gAd: ['ACCOUNT', 'គណនី', '账户'], num: ['All numbers', 'លេខទាំងអស់', '全部数字'], back: ['Back to Dashboard', 'ត្រឡប់ទៅផ្ទាំងព័ត៌មាន', '返回仪表板'], gMenu: ['MENU', 'ម៉ឺនុយ', '菜单'], req: ['Requests', 'សំណើ', '申请'], more: ['More', 'ផ្សេងៗ', '更多'] },
   title: function () { var e = document.querySelector('#dpDeptName'); return (e && e.textContent) || 'Department'; },
   sub: function () { var e = document.querySelector('#dpAccName'); return (e && e.textContent) || ''; },
   key: function () { return document.querySelectorAll('#tab-dash .quick-actions .quick-btn').length + '|' + (document.getElementById('dpDeptName') || {}).textContent; },
@@ -3596,6 +3595,7 @@ body.dpOwnMode #dpOwnBar{display:flex}
     var rq = document.querySelector('.dp-tab[data-tab=req]');
     var hasReq = its.some(function (x) { return /req|request|សំណើ|申请/i.test(x.t) && x.t.length < 20 && its.length; });
     if (rq && !hasReq) its.push({ k: 'req', t: (rq.firstElementChild ? rq.firstElementChild.textContent : rq.textContent).trim(), ic: 'send', go: function () { dpTab('req'); } });
+    its.push({ k: 'num', ic: 'nums', go: function () { dpTab('frnum'); if (typeof renderDash === 'function') renderDash(); window.scrollTo(0, 0); } });
     out.push(['gMenu', its]);
     return out;
   },
@@ -3605,17 +3605,35 @@ body.dpOwnMode #dpOwnBar{display:flex}
     o.push({ k: 'req', ic: 'send', t: (document.querySelector('.dp-tab[data-tab=req]') || {}).textContent ? document.querySelector('.dp-tab[data-tab=req]').firstElementChild.textContent.trim() : 'Requests', go: function () { dpTab('req'); } });
     return o;
   },
-  active: function () { var a = document.querySelector('.dp-tab.active'); var t = a && a.getAttribute('data-tab'); if (t === 'dash') return 'dash'; if (t === 'req') return 'req'; var m = ['master', 'leave', 'att', 'check', 'shift', 'makeup']; var qs = document.querySelectorAll('#tab-dash .quick-actions .quick-btn'); for (var n = 0; n < qs.length; n++) { var oc = qs[n].getAttribute('onclick') || ''; if (t && oc.indexOf("'" + t + "'") > -1) return 'q' + n; } return 'dash'; },
+  active: function () { if (document.querySelector('#tab-frnum.active')) return 'num'; var a = document.querySelector('.dp-tab.active'); var t = a && a.getAttribute('data-tab'); if (t === 'dash') return 'dash'; if (t === 'req') return 'req'; var m = ['master', 'leave', 'att', 'check', 'shift', 'makeup']; var qs = document.querySelectorAll('#tab-dash .quick-actions .quick-btn'); for (var n = 0; n < qs.length; n++) { var oc = qs[n].getAttribute('onclick') || ''; if (t && oc.indexOf("'" + t + "'") > -1) return 'q' + n; } return 'dash'; },
+  tick: function (fresh) {
+    var dash = document.getElementById('tab-dash'); if (!dash || !dash.parentNode) return;
+    var pn = document.getElementById('tab-frnum');
+    if (!pn) {
+      pn = document.createElement('div'); pn.id = 'tab-frnum'; pn.className = 'tab-panel';
+      pn.innerHTML = '<div class="frPgh"><button type="button" class="frBk"></button><b></b></div><div class="frPgb" id="frNumBody"></div>';
+      dash.parentNode.insertBefore(pn, dash.nextSibling);
+      pn.querySelector('.frBk').addEventListener('click', function () { dpTab('dash'); window.scrollTo(0, 0); });
+    }
+    pn.querySelector('.frBk').textContent = '← ' + T('back'); pn.querySelector('b').textContent = T('num');
+    var body = document.getElementById('frNumBody'); window.__frMk = window.__frMk || [];
+    if (fresh) {
+      Array.prototype.slice.call(dash.querySelectorAll(':scope > .stats-grid')).forEach(function (g) { var m = document.createComment('fr'); dash.insertBefore(m, g); window.__frMk.push([g, m]); body.appendChild(g); });
+    } else if (window.__frMk.length) {
+      window.__frMk.forEach(function (mk) { if (mk[1].parentNode) { mk[1].parentNode.insertBefore(mk[0], mk[1]); mk[1].remove(); } }); window.__frMk = [];
+      if (pn.classList.contains('active')) dpTab('dash');
+    }
+  },
   cards: function () {
     function v(id) { var e = document.getElementById(id); return e ? e.textContent : '0'; }
     function l(id) { var e = document.getElementById(id); var h = e && e.parentNode && e.parentNode.querySelector('h4'); return h ? h.textContent : id; }
     return [{ l: l('dst_total'), v: v('dst_total'), ic: 'emp' }, { l: l('dst_month'), v: v('dst_month'), ic: 'cal' }, { l: l('dst_exc'), v: v('dst_exc'), ic: 'clock' }, { l: l('dst_pend'), v: v('dst_pend'), ic: 'ok' }];
   },
-  css: 'html.fresh.fr-in #dpApp .header .header-right,html.fresh.fr-in #employeeApp .header .header-right{margin-left:auto;justify-content:flex-end}html.fresh.fr-in #dpApp .header .hrLogo,html.fresh.fr-in #dpApp .header > div:nth-child(2){display:none!important}html.fresh.fr-in .dp-tabs{display:none}html.fresh.fr-in #tab-dash > h3,html.fresh.fr-in #tab-dash > .dp-note{display:none}html.fresh.fr-in #tab-dash > h4{display:none}html.fresh.fr-in #tab-dash > .quick-actions{display:none}'
+  css: 'html.fresh.fr-in #dpApp .header .header-right,html.fresh.fr-in #employeeApp .header .header-right{margin-left:auto;justify-content:flex-end}html.fresh.fr-in #dpApp .header .hrLogo,html.fresh.fr-in #dpApp .header > div:nth-child(2){display:none!important}html.fresh.fr-in .dp-tabs{display:none}html.fresh.fr-in #tab-dash > h3,html.fresh.fr-in #tab-dash > .dp-note{display:none}html.fresh.fr-in #tab-dash > h4{display:block;font-size:15px;margin:16px 0 8px;color:#0f172a}html.fresh.fr-in #tab-dash > .quick-actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-start}html.fresh.fr-in #tab-dash .quick-actions .quick-btn{background:#fff!important;color:#0f172a!important;border:1px solid #e5eaf2!important;box-shadow:0 2px 8px rgba(15,23,42,.05)!important;border-radius:16px!important;width:96px!important;min-width:96px!important;max-width:96px!important;min-height:78px!important;padding:6px 2px!important}html.fresh.fr-in #tab-dash .quick-actions .quick-btn .quick-btn-icon{color:#3b5bdb!important}html.fresh.fr-in #tab-dash .quick-actions .quick-btn .quick-btn-label{color:#0f172a!important;font-size:10.5px!important;letter-spacing:-.15px;word-break:normal;overflow-wrap:normal}html.fresh.fr-in .frPgh{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e5eaf2;border-radius:14px;padding:10px 14px;margin:0 0 12px}html.fresh.fr-in .frPgh .frBk{height:36px;padding:0 14px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;color:#0f172a;font:inherit;font-weight:700;font-size:13px;cursor:pointer}html.fresh.fr-in .frPgh b{font-size:17px;color:#0f172a}html.fresh.fr-in #tab-frnum{background:transparent;box-shadow:none;padding:0}html.fresh.fr-in .frPgb{background:#fff;border:1px solid #e5eaf2;border-radius:16px;padding:14px 16px}html.fresh.fr-in .frPgb .stats-grid{display:grid!important;margin-bottom:12px}'
 };
   var P = {
     home: 'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z', emp: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',
-    grid: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z', add: 'M12 5v14M5 12h14', user: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
+    grid: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z', nums: 'M4 9h16M4 15h16M10 3L8 21M16 3l-2 18', add: 'M12 5v14M5 12h14', user: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
     clock: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2', cal: 'M4 6h16v14H4zM4 10h16M8 3v4M16 3v4', shift: 'M3 12h4l3-8 4 16 3-8h4', rep: 'M4 20V10M10 20V4M16 20v-7M22 20H2',
     pay: 'M2 7h20v12H2zM2 11h20M6 15h3', ok: 'M9 12l2 2 4-4M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z', cog: 'M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z',
     more: 'M5 12h.01M12 12h.01M19 12h.01', exp: 'M12 3v12M7 10l5 5 5-5M4 20h16', imp: 'M12 21V9M7 14l5-5 5 5M4 4h16', search: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zM21 21l-5-5',
@@ -3843,7 +3861,7 @@ body.dpOwnMode #dpOwnBar{display:flex}
       btns.map(function (b, i) { return '<button type="button" class="fr-b' + (b.pri ? ' pri' : '') + '" data-i="' + (C.btns || []).indexOf(b) + '">' + (b.ic ? sv(b.ic, 16) : '') + esc(b.label ? b.label() : T(b.k)) + '</button>'; }).join('') + '</div></div>' +
       (cards.length ? '<div class="fr-cards">' + cards.map(function (c, i) { var col = c.col || CL[i % 4]; return '<div class="fr-card"><span class="fr-ci" style="background:' + col[0] + ';color:' + col[1] + '">' + sv(c.ic || 'grid', 22) + '</span><span><span class="fr-cl">' + esc(c.l) + '</span><br><span class="fr-cn">' + esc(c.v) + '</span></span></div>'; }).join('') + '</div>' : '') + fold;
   }
-  function refresh() { try { var on = isFresh() && inApp(); document.documentElement.classList.toggle('fr-in', on); if (!on) return; profInit(); build(); head(); mark(); } catch (e) {} }
+  function refresh() { try { var on = isFresh() && inApp(); document.documentElement.classList.toggle('fr-in', on); try { if (C.tick && inApp()) C.tick(isFresh()); } catch (x) {} if (!on) return; profInit(); build(); head(); mark(); } catch (e) {} }
   try { if (localStorage.getItem('frCol') === '1') document.documentElement.classList.add('fr-col'); } catch (e) {}
   setInterval(refresh, 700); document.addEventListener('DOMContentLoaded', refresh); refresh();
 })();

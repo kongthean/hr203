@@ -29632,12 +29632,15 @@ function elExport() {
     return u === 'fresh' || u === 'classic' ? u : def;
   }
   function inApp() { var a = document.getElementById('adminApp'); return !!a && getComputedStyle(a).display !== 'none'; }
-  function sync2() { var d = document.documentElement; d.classList.toggle('fr-in', inApp()); d.classList.toggle('fr-locked', !!forced()); d.classList.toggle('fresh', get() === 'fresh'); }
+  var placed = null, marks = [];
+  function sync2() { var d = document.documentElement; d.classList.toggle('fr-in', inApp()); d.classList.toggle('fr-locked', !!forced()); d.classList.toggle('fresh', get() === 'fresh'); try { var fo = get() === 'fresh'; if (fo !== placed && typeof place === 'function' && document.getElementById('tab-home')) { placed = fo; place(fo); } } catch (e) {} }
   function sv(d, sz) { return '<svg class="fr-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:' + (sz || 18) + 'px;height:' + (sz || 18) + 'px"><path d="' + d + '"/></svg>'; }
   var P = {
     home: 'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
     emp: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM22 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8',
     grid: 'M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z',
+    stat: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM16 11l2 2 4-4',
+    nums: 'M4 9h16M4 15h16M10 3L8 21M16 3l-2 18',
     add: 'M12 5v14M5 12h14',
     user: 'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z',
     clock: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2',
@@ -29657,9 +29660,9 @@ function elExport() {
   /* sidebar groups: [label key, items]. item = [key, icon, tab, nav, fn, adminOnly] */
   var GROUPS = [
     ['gOv', [['dash', 'home', 'tab-home', 'nav-home']]],
-    ['gPe', [['emp', 'emp', 'tab-employee', 'nav-employee'], ['mst', 'grid', 'tab-master', 'nav-master'], ['add', 'add', 'tab-add', 'nav-add']]],
+    ['gPe', [['emp', 'emp', 'tab-employee', 'nav-employee'], ['mst', 'grid', 'tab-master', 'nav-master'], ['add', 'add', 'tab-add', 'nav-add'], ['sta', 'stat', 'tab-fr-emps', 'nav-fr-emps']]],
     ['gTi', [['att', 'clock', 'tab-att', 'nav-att'], ['lea', 'cal', 'tab-leave', 'nav-leave'], ['shf', 'shift', 'tab-shift', 'nav-shift']]],
-    ['gRe', [['mon', 'rep', 'tab-monthly', 'nav-monthly'], ['hub', 'hub', 'tab-opshub', 'nav-opshub', null, 1], ['pay', 'pay', null, null, 'payOpen', 1]]],
+    ['gRe', [['mon', 'rep', 'tab-monthly', 'nav-monthly'], ['hub', 'hub', 'tab-opshub', 'nav-opshub', null, 1], ['pay', 'pay', null, null, 'payOpen', 1], ['num', 'nums', 'tab-fr-nums', 'nav-fr-nums']]],
     ['gAd', [['pen', 'ok', null, null, 'openPendingApprovalsModal', 1], ['mgt', 'cog', null, null, 'openManagementModal', 1]]]
   ];
   var CSS = [
@@ -29710,7 +29713,6 @@ function elExport() {
     'html.fresh #tab-home > h3{display:none}',
     'html.fresh #tab-home > .stats-grid{display:none}',
     'html.fresh #tab-home.fr-nums > .stats-grid{display:grid}',
-    'html.fresh #tab-home:not(.fr-menu) .fr-mm{display:none!important}',
     'html.fresh #frDash{display:block}',
     '#frDash .fr-h{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:4px 0 14px}',
     '#frDash .fr-h h2{margin:0;font-size:15px;font-weight:700;color:#0f172a}',
@@ -29752,6 +29754,14 @@ function elExport() {
     '#frDash .fr-q{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:78px;background:#fff;border:1px solid #e5eaf2;border-radius:14px;font:inherit;font-weight:700;font-size:13px;color:#0f172a;cursor:pointer;padding:8px 4px;text-align:center}',
     '#frDash .fr-q:hover{box-shadow:0 6px 16px rgba(15,23,42,.1)}',
     '#frDash .fr-q .fr-ic{color:#3b5bdb}',
+    '#tab-fr-nums,#tab-fr-emps{display:none}#tab-fr-nums.active,#tab-fr-emps.active{display:block}',
+    '.fr-pgh{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid #e5eaf2;border-radius:14px;padding:10px 14px;margin:0 0 12px;box-shadow:0 1px 3px rgba(15,23,42,.05)}',
+    '.fr-pgh .fr-bk{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;color:#0f172a;font:inherit;font-weight:700;font-size:13px;cursor:pointer}',
+    '.fr-pgh b{font-size:17px;color:#0f172a}',
+    '.fr-pgb{background:#fff;border:1px solid #e5eaf2;border-radius:16px;padding:14px 16px;box-shadow:0 2px 8px rgba(15,23,42,.04)}',
+    '.fr-pgb .stats-grid{display:grid!important;margin-bottom:12px}.fr-pgb .dash-card{margin:0!important;border:0;box-shadow:none;padding:0}',
+    '#frTwoUp{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:0 0 14px;align-items:start}#frTwoUp > .dash-card{margin:0!important;min-width:0}',
+    '@media (max-width:900px){#frTwoUp{grid-template-columns:1fr}}',
     '#frDash .fr-tg{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}',
     '#frDash .fr-tg button{height:36px;padding:0 14px;border-radius:999px;border:1px solid #e2e8f0;background:#fff;font:inherit;font-weight:700;font-size:13px;color:#334155;cursor:pointer}',
     '#frDash .fr-tg button.on{background:#e8eef5;border-color:#9fb4cc;color:#123a5c}',
@@ -29823,7 +29833,7 @@ function elExport() {
     en: { classic: 'Classic', fresh: 'Fresh', attn: 'Needs your attention', pend: 'Pending approvals', exc: 'Over monthly limit', ren: 'Leave renews this month', open: 'Open', none: 'Nothing needs your attention.',
       gOv: 'OVERVIEW', gPe: 'PEOPLE', gTi: 'TIME', gRe: 'REPORTS', gAd: 'ADMIN',
       dash: 'Dashboard', emp: 'Employee', mst: 'Master Sheet', add: 'Add Employee', qry: 'Check Record', att: 'Attendance', lea: 'Leave Records', shf: 'Shift Roster', mon: 'Monthly Report', hub: 'Operations Hub', pay: 'Payroll', pen: 'Pending Approvals', mgt: 'Management',
-      gm: 'Good Morning!', ga: 'Good Afternoon!', ge: 'Good Evening!', prT: 'My Profile', prUp: 'Upload new photo', prRm: 'Remove photo', prName: 'Display name', prShown: 'Shown on the card as', crT: 'Drag to move, slide to zoom', crOk: 'Use this photo', seeAll: 'See all', prSave: 'Save', prCancel: 'Cancel', prErr: 'Could not save. Ask the administrator to publish the new Firebase rules.',
+      gm: 'Good Morning!', ga: 'Good Afternoon!', ge: 'Good Evening!', prT: 'My Profile', prUp: 'Upload new photo', prRm: 'Remove photo', prName: 'Display name', prShown: 'Shown on the card as', crT: 'Drag to move, slide to zoom', crOk: 'Use this photo', seeAll: 'See all', sta: 'Employee Status', num: 'All numbers', back: 'Back to Dashboard', prSave: 'Save', prCancel: 'Cancel', prErr: 'Could not save. Ask the administrator to publish the new Firebase rules.',
       ov: 'Overview', exp: 'Export', addB: '+ Add Employee', tStaff: 'Total staff', tOff: 'On leave today', tPend: 'Pending approvals', tRes: 'Resigned this year',
       chart: 'Leave taken, by month', unit: 'hours', qa: 'Quick actions', allNum: 'All numbers', allMenu: 'All menu',
       bHome: 'Home', bPeople: 'People', bLeave: 'Leave', bRep: 'Reports', bMore: 'More',
@@ -29831,7 +29841,7 @@ function elExport() {
     km: { classic: 'ធម្មតា', fresh: 'ថ្មី', attn: 'ត្រូវការការយកចិត្តទុកដាក់', pend: 'រង់ចាំការអនុម័ត', exc: 'លើសកម្រិតប្រចាំខែ', ren: 'ច្បាប់ឆ្នាំបន្តខែនេះ', open: 'បើក', none: 'គ្មានអ្វីត្រូវការយកចិត្តទុកដាក់ទេ។',
       gOv: 'ទិដ្ឋភាពទូទៅ', gPe: 'បុគ្គលិក', gTi: 'ពេលវេលា', gRe: 'របាយការណ៍', gAd: 'រដ្ឋបាល',
       dash: 'ផ្ទាំងព័ត៌មាន', emp: 'បុគ្គលិក', mst: 'តារាងមេ', add: 'បន្ថែមបុគ្គលិក', qry: 'ពិនិត្យកំណត់ត្រា', att: 'វត្តមាន', lea: 'កំណត់ត្រាច្បាប់', shf: 'តារាងវេន', mon: 'របាយការណ៍ប្រចាំខែ', hub: 'មជ្ឈមណ្ឌលប្រតិបត្តិការ', pay: 'ប្រាក់ខែ', pen: 'រង់ចាំការអនុម័ត', mgt: 'ការគ្រប់គ្រង',
-      gm: 'អរុណសួស្តី!', ga: 'ទិវាសួស្តី!', ge: 'សាយណ្ហសួស្តី!', prT: 'ប្រវត្តិរូបរបស់ខ្ញុំ', prUp: 'ផ្ទុករូបថតថ្មី', prRm: 'លុបរូបថត', prName: 'ឈ្មោះបង្ហាញ', prShown: 'បង្ហាញលើកាតជា', crT: 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', crOk: 'ប្រើរូបថតនេះ', seeAll: 'មើលទាំងអស់', prSave: 'រក្សាទុក', prCancel: 'បោះបង់', prErr: 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។',
+      gm: 'អរុណសួស្តី!', ga: 'ទិវាសួស្តី!', ge: 'សាយណ្ហសួស្តី!', prT: 'ប្រវត្តិរូបរបស់ខ្ញុំ', prUp: 'ផ្ទុករូបថតថ្មី', prRm: 'លុបរូបថត', prName: 'ឈ្មោះបង្ហាញ', prShown: 'បង្ហាញលើកាតជា', crT: 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', crOk: 'ប្រើរូបថតនេះ', seeAll: 'មើលទាំងអស់', sta: 'ស្ថានភាពបុគ្គលិក', num: 'លេខទាំងអស់', back: 'ត្រឡប់ទៅផ្ទាំងព័ត៌មាន', prSave: 'រក្សាទុក', prCancel: 'បោះបង់', prErr: 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។',
       ov: 'ទិដ្ឋភាពទូទៅ', exp: 'នាំចេញ', addB: '+ បន្ថែមបុគ្គលិក', tStaff: 'បុគ្គលិកសរុប', tOff: 'ឈប់សម្រាកថ្ងៃនេះ', tPend: 'រង់ចាំការអនុម័ត', tRes: 'ឈប់ពីការងារឆ្នាំនេះ',
       chart: 'ច្បាប់ដែលបានឈប់ តាមខែ', unit: 'ម៉ោង', qa: 'ចូលរហ័ស', allNum: 'លេខទាំងអស់', allMenu: 'ម៉ឺនុយទាំងអស់',
       bHome: 'ទំព័រដើម', bPeople: 'បុគ្គលិក', bLeave: 'ច្បាប់', bRep: 'របាយការណ៍', bMore: 'ផ្សេងៗ',
@@ -29839,7 +29849,7 @@ function elExport() {
     zh: { classic: '经典', fresh: '清新', attn: '需要您处理', pend: '待审批', exc: '超出本月额度', ren: '本月年假更新', open: '打开', none: '暂无需要处理的事项。',
       gOv: '概览', gPe: '人员', gTi: '考勤', gRe: '报表', gAd: '管理',
       dash: '仪表板', emp: '员工', mst: '总表', add: '添加员工', qry: '查询记录', att: '考勤', lea: '请假记录', shf: '排班表', mon: '月报表', hub: '运营中心', pay: '工资', pen: '待审批', mgt: '管理',
-      gm: '早上好！', ga: '下午好！', ge: '晚上好！', prT: '我的资料', prUp: '上传新照片', prRm: '删除照片', prName: '显示名称', prShown: '卡片上显示为', crT: '拖动移动，滑动缩放', crOk: '使用此照片', seeAll: '查看全部', prSave: '保存', prCancel: '取消', prErr: '无法保存。请让管理员发布新的 Firebase 规则。',
+      gm: '早上好！', ga: '下午好！', ge: '晚上好！', prT: '我的资料', prUp: '上传新照片', prRm: '删除照片', prName: '显示名称', prShown: '卡片上显示为', crT: '拖动移动，滑动缩放', crOk: '使用此照片', seeAll: '查看全部', sta: '员工状态', num: '全部数字', back: '返回仪表板', prSave: '保存', prCancel: '取消', prErr: '无法保存。请让管理员发布新的 Firebase 规则。',
       ov: '概览', exp: '导出', addB: '+ 添加员工', tStaff: '员工总数', tOff: '今日请假', tPend: '待审批', tRes: '今年离职',
       chart: '每月请假时数', unit: '小时', qa: '快捷操作', allNum: '全部数字', allMenu: '全部菜单',
       bHome: '首页', bPeople: '员工', bLeave: '请假', bRep: '报表', bMore: '更多',
@@ -30070,9 +30080,46 @@ function elExport() {
       mh.map(function (v, i) { var cls = i === cur ? ' now' : (i > cur ? ' fut' : ''); var hgt = i > cur ? 8 : Math.max(3, Math.round(v / mx * 140)); return '<div class="fr-col' + cls + '"><span class="fr-v">' + (i > cur ? '' : (Math.round(v * 10) / 10)) + '</span><div class="fr-bar" style="height:' + hgt + 'px"></div><span class="fr-m">' + esc(x.mo[i]) + '</span></div>'; }).join('') +
       '</div></div><div class="fr-box" id="frAttn"></div></div>' +
       '<div class="fr-box"><h4>' + esc(x.qa) + '</h4><div class="fr-qa">' + qa.map(function (q) { return '<button type="button" class="fr-q" data-t="' + q[2] + '" data-n="' + q[3] + '" data-f="' + q[4] + '">' + sv(P[q[1]], 22) + esc(qaNames[q[0]]) + '</button>'; }).join('') + '</div></div>' +
-      '<div class="fr-tg"><button type="button" data-c="fr-nums">' + esc(x.allNum) + '</button><button type="button" data-c="fr-menu">' + esc(x.allMenu) + '</button></div>';
+      '';
     tg(); attn(true);
   }
+  /* ---- Fresh pages: All numbers, Employee Status (full pages), and Who's Off | Birthdays side by side ---- */
+  function ensurePages() {
+    var home = document.getElementById('tab-home'); if (!home || document.getElementById('tab-fr-nums')) return;
+    [['tab-fr-nums', 'nav-fr-nums', 'frNumsBody', 'num'], ['tab-fr-emps', 'nav-fr-emps', 'frEmpsBody', 'sta']].forEach(function (d) {
+      var pn = document.createElement('div'); pn.id = d[0]; pn.className = 'tab-panel';
+      pn.innerHTML = '<div class="fr-pgh"><button type="button" class="fr-bk" data-bk="1"></button><b></b></div><div class="fr-pgb" id="' + d[2] + '"></div>';
+      home.parentNode.insertBefore(pn, home.nextSibling);
+      pn.querySelector('.fr-bk').addEventListener('click', function () { go('tab-home', 'nav-home'); });
+      var nb = document.createElement('button'); nb.id = d[1]; nb.style.display = 'none'; nb.setAttribute('onclick', "switchTab('" + d[0] + "', this)");
+      var nh = document.getElementById('nav-home'); if (nh && nh.parentNode) nh.parentNode.appendChild(nb);
+    });
+  }
+  function pgText() {
+    var x = L();
+    [['tab-fr-nums', 'num'], ['tab-fr-emps', 'sta']].forEach(function (d) {
+      var pn = document.getElementById(d[0]); if (!pn) return;
+      pn.querySelector('.fr-bk').textContent = '← ' + x.back; pn.querySelector('b').textContent = x[d[1]];
+    });
+  }
+  function mv(node, target) { if (!node || node.parentNode === target) return; var m = document.createComment('fr'); node.parentNode.insertBefore(m, node); marks.push([node, m]); target.appendChild(node); }
+  function place(on) {
+    ensurePages(); var home = document.getElementById('tab-home'); if (!home || !document.getElementById('frNumsBody')) return;
+    if (on) {
+      Array.prototype.slice.call(home.querySelectorAll(':scope > .stats-grid')).forEach(function (g) { mv(g, document.getElementById('frNumsBody')); });
+      var st = home.querySelector(':scope > .dash-card:has(#dashSummaryTable)'); if (st) mv(st, document.getElementById('frEmpsBody'));
+      var w = home.querySelector(':scope > .dash-card:has(#dashWhosOffBody)'), b = home.querySelector(':scope > .dash-card:has(#dashBirthdaysBody)');
+      if (w && b && !document.getElementById('frTwoUp')) { var t = document.createElement('div'); t.id = 'frTwoUp'; var m1 = document.createComment('fr2'); w.parentNode.insertBefore(m1, w); marks.push([t, m1]); w.parentNode.insertBefore(t, w); t.appendChild(w); t.appendChild(b); }
+      pgText();
+    } else {
+      var tu = document.getElementById('frTwoUp');
+      if (tu) { var wasHome = null; marks.forEach(function (mk) { if (mk[0] === tu) wasHome = mk[1]; });
+        if (wasHome && wasHome.parentNode) { while (tu.firstChild) wasHome.parentNode.insertBefore(tu.firstChild, wasHome); } tu.remove(); marks = marks.filter(function (mk) { return mk[0] !== tu; }); }
+      marks.forEach(function (mk) { if (mk[1].parentNode) { mk[1].parentNode.insertBefore(mk[0], mk[1]); mk[1].remove(); } }); marks = [];
+      var a = document.querySelector('#tab-fr-nums.active, #tab-fr-emps.active'); if (a) go('tab-home', 'nav-home');
+    }
+  }
+  try { var swo = window.switchTab; if (typeof swo === 'function') window.switchTab = function (id) { var r = swo.apply(this, arguments); try { if (id === 'tab-fr-nums' || id === 'tab-fr-emps') { if (typeof updateDashboardStats === 'function') updateDashboardStats(); if (typeof renderDashboardCharts === 'function') renderDashboardCharts(); } } catch (e) {} return r; }; } catch (e) {}
   var lastKey = '', attnRows = [];
   function openAll() {
     if (document.getElementById('frAll')) return; var x = L(); attn(true);
