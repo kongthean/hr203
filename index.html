@@ -29761,6 +29761,12 @@ function elExport() {
     '#frAttn .fr-t{flex:1;font-weight:600;font-size:14px}',
     '#frAttn .fr-open{color:#0f766e;font-weight:700;font-size:13px}',
     '#frAttn .fr-tag{font-size:11px;font-weight:700;border-radius:999px;padding:2px 8px;background:#f1f5f9;color:#475569}',
+    '#frAttn .fr-all{display:block;width:100%;height:38px;margin-top:8px;border-radius:10px;border:1px solid #cfe3df;background:#e6f6f4;color:#0f766e;font:inherit;font-weight:700;font-size:13px;cursor:pointer}',
+    '#frAll{position:fixed;inset:0;z-index:9400;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;padding:16px}',
+    '#frAll .pc{background:#fff;border-radius:16px;width:100%;max-width:480px;max-height:80vh;display:flex;flex-direction:column;padding:16px;box-shadow:0 12px 40px rgba(0,0,0,.3);color:#0f172a}',
+    '#frAll .ph{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:16px}#frAll .px{border:0;background:transparent;font-size:18px;color:#64748b;cursor:pointer;padding:4px 8px}',
+    '#frAll .ps{overflow-y:auto;min-height:0}#frAll .fr-gh{font-size:11px;font-weight:800;letter-spacing:.6px;color:#94a3b8;margin:12px 0 2px;text-transform:uppercase}',
+    '#frAll .fr-row{display:flex;align-items:center;gap:10px;min-height:42px;padding:0 6px;border:0;border-top:1px solid #eef2f7;cursor:pointer;background:transparent;width:100%;text-align:left;font:inherit;color:#0f172a}#frAll .fr-dot{width:10px;height:10px;border-radius:50%;flex:none}#frAll .fr-t{flex:1;font-weight:600;font-size:14px}#frAll .fr-open{color:#0f766e;font-weight:700;font-size:13px}',
     '#frAttn .fr-none{color:#64748b;font-size:13px;padding:12px 4px}',
     /* wide screens: grouped left menu */
     '@media (min-width:1024px){',
@@ -29816,7 +29822,7 @@ function elExport() {
     en: { classic: 'Classic', fresh: 'Fresh', attn: 'Needs your attention', pend: 'Pending approvals', exc: 'Over monthly limit', ren: 'Leave renews this month', open: 'Open', none: 'Nothing needs your attention.',
       gOv: 'OVERVIEW', gPe: 'PEOPLE', gTi: 'TIME', gRe: 'REPORTS', gAd: 'ADMIN',
       dash: 'Dashboard', emp: 'Employee', mst: 'Master Sheet', add: 'Add Employee', qry: 'Check Record', att: 'Attendance', lea: 'Leave Records', shf: 'Shift Roster', mon: 'Monthly Report', hub: 'Operations Hub', pay: 'Payroll', pen: 'Pending Approvals', mgt: 'Management',
-      gm: 'Good Morning!', ga: 'Good Afternoon!', ge: 'Good Evening!', prT: 'My Profile', prUp: 'Upload new photo', prRm: 'Remove photo', prName: 'Display name', prShown: 'Shown on the card as', crT: 'Drag to move, slide to zoom', crOk: 'Use this photo', prSave: 'Save', prCancel: 'Cancel', prErr: 'Could not save. Ask the administrator to publish the new Firebase rules.',
+      gm: 'Good Morning!', ga: 'Good Afternoon!', ge: 'Good Evening!', prT: 'My Profile', prUp: 'Upload new photo', prRm: 'Remove photo', prName: 'Display name', prShown: 'Shown on the card as', crT: 'Drag to move, slide to zoom', crOk: 'Use this photo', seeAll: 'See all', prSave: 'Save', prCancel: 'Cancel', prErr: 'Could not save. Ask the administrator to publish the new Firebase rules.',
       ov: 'Overview', exp: 'Export', addB: '+ Add Employee', tStaff: 'Total staff', tOff: 'On leave today', tPend: 'Pending approvals', tRes: 'Resigned this year',
       chart: 'Leave taken, by month', unit: 'hours', qa: 'Quick actions', allNum: 'All numbers', allMenu: 'All menu',
       bHome: 'Home', bPeople: 'People', bLeave: 'Leave', bRep: 'Reports', bMore: 'More',
@@ -29824,7 +29830,7 @@ function elExport() {
     km: { classic: 'ធម្មតា', fresh: 'ថ្មី', attn: 'ត្រូវការការយកចិត្តទុកដាក់', pend: 'រង់ចាំការអនុម័ត', exc: 'លើសកម្រិតប្រចាំខែ', ren: 'ច្បាប់ឆ្នាំបន្តខែនេះ', open: 'បើក', none: 'គ្មានអ្វីត្រូវការយកចិត្តទុកដាក់ទេ។',
       gOv: 'ទិដ្ឋភាពទូទៅ', gPe: 'បុគ្គលិក', gTi: 'ពេលវេលា', gRe: 'របាយការណ៍', gAd: 'រដ្ឋបាល',
       dash: 'ផ្ទាំងព័ត៌មាន', emp: 'បុគ្គលិក', mst: 'តារាងមេ', add: 'បន្ថែមបុគ្គលិក', qry: 'ពិនិត្យកំណត់ត្រា', att: 'វត្តមាន', lea: 'កំណត់ត្រាច្បាប់', shf: 'តារាងវេន', mon: 'របាយការណ៍ប្រចាំខែ', hub: 'មជ្ឈមណ្ឌលប្រតិបត្តិការ', pay: 'ប្រាក់ខែ', pen: 'រង់ចាំការអនុម័ត', mgt: 'ការគ្រប់គ្រង',
-      gm: 'អរុណសួស្តី!', ga: 'សួស្តីរសៀល!', ge: 'សាយណ្ហសួស្តី!', prT: 'ប្រវត្តិរូបរបស់ខ្ញុំ', prUp: 'ផ្ទុករូបថតថ្មី', prRm: 'លុបរូបថត', prName: 'ឈ្មោះបង្ហាញ', prShown: 'បង្ហាញលើកាតជា', crT: 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', crOk: 'ប្រើរូបថតនេះ', prSave: 'រក្សាទុក', prCancel: 'បោះបង់', prErr: 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។',
+      gm: 'អរុណសួស្តី!', ga: 'សួស្តីរសៀល!', ge: 'សាយណ្ហសួស្តី!', prT: 'ប្រវត្តិរូបរបស់ខ្ញុំ', prUp: 'ផ្ទុករូបថតថ្មី', prRm: 'លុបរូបថត', prName: 'ឈ្មោះបង្ហាញ', prShown: 'បង្ហាញលើកាតជា', crT: 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', crOk: 'ប្រើរូបថតនេះ', seeAll: 'មើលទាំងអស់', prSave: 'រក្សាទុក', prCancel: 'បោះបង់', prErr: 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។',
       ov: 'ទិដ្ឋភាពទូទៅ', exp: 'នាំចេញ', addB: '+ បន្ថែមបុគ្គលិក', tStaff: 'បុគ្គលិកសរុប', tOff: 'ឈប់សម្រាកថ្ងៃនេះ', tPend: 'រង់ចាំការអនុម័ត', tRes: 'ឈប់ពីការងារឆ្នាំនេះ',
       chart: 'ច្បាប់ដែលបានឈប់ តាមខែ', unit: 'ម៉ោង', qa: 'ចូលរហ័ស', allNum: 'លេខទាំងអស់', allMenu: 'ម៉ឺនុយទាំងអស់',
       bHome: 'ទំព័រដើម', bPeople: 'បុគ្គលិក', bLeave: 'ច្បាប់', bRep: 'របាយការណ៍', bMore: 'ផ្សេងៗ',
@@ -29832,7 +29838,7 @@ function elExport() {
     zh: { classic: '经典', fresh: '清新', attn: '需要您处理', pend: '待审批', exc: '超出本月额度', ren: '本月年假更新', open: '打开', none: '暂无需要处理的事项。',
       gOv: '概览', gPe: '人员', gTi: '考勤', gRe: '报表', gAd: '管理',
       dash: '仪表板', emp: '员工', mst: '总表', add: '添加员工', qry: '查询记录', att: '考勤', lea: '请假记录', shf: '排班表', mon: '月报表', hub: '运营中心', pay: '工资', pen: '待审批', mgt: '管理',
-      gm: '早上好！', ga: '下午好！', ge: '晚上好！', prT: '我的资料', prUp: '上传新照片', prRm: '删除照片', prName: '显示名称', prShown: '卡片上显示为', crT: '拖动移动，滑动缩放', crOk: '使用此照片', prSave: '保存', prCancel: '取消', prErr: '无法保存。请让管理员发布新的 Firebase 规则。',
+      gm: '早上好！', ga: '下午好！', ge: '晚上好！', prT: '我的资料', prUp: '上传新照片', prRm: '删除照片', prName: '显示名称', prShown: '卡片上显示为', crT: '拖动移动，滑动缩放', crOk: '使用此照片', seeAll: '查看全部', prSave: '保存', prCancel: '取消', prErr: '无法保存。请让管理员发布新的 Firebase 规则。',
       ov: '概览', exp: '导出', addB: '+ 添加员工', tStaff: '员工总数', tOff: '今日请假', tPend: '待审批', tRes: '今年离职',
       chart: '每月请假时数', unit: '小时', qa: '快捷操作', allNum: '全部数字', allMenu: '全部菜单',
       bHome: '首页', bPeople: '员工', bLeave: '请假', bRep: '报表', bMore: '更多',
@@ -30066,12 +30072,29 @@ function elExport() {
       '<div class="fr-tg"><button type="button" data-c="fr-nums">' + esc(x.allNum) + '</button><button type="button" data-c="fr-menu">' + esc(x.allMenu) + '</button></div>';
     tg(); attn(true);
   }
-  var lastKey = '';
+  var lastKey = '', attnRows = [];
+  function openAll() {
+    if (document.getElementById('frAll')) return; var x = L(); attn(true);
+    var o = document.createElement('div'); o.id = 'frAll';
+    var grp = [[x.pend, 'pend'], [x.exc, 'e1'], [x.ren, 'e2']], h = '';
+    var rowH = function (r) { return '<button type="button" class="fr-row" data-a="' + r.a + '" data-id="' + esc(r.id || '') + '"><span class="fr-dot" style="background:' + r.c + '"></span><span class="fr-t">' + esc(r.t) + '</span><span class="fr-open">' + esc(x.open) + '</span></button>'; };
+    var pr = attnRows.filter(function (r) { return r.a === 'pend'; }), a1 = attnRows.filter(function (r) { return r.tag === x.exc; }), a2 = attnRows.filter(function (r) { return r.tag === x.ren; });
+    h += pr.map(rowH).join(''); if (a1.length) h += '<div class="fr-gh">' + esc(x.exc) + ' (' + a1.length + ')</div>' + a1.map(rowH).join(''); if (a2.length) h += '<div class="fr-gh">' + esc(x.ren) + ' (' + a2.length + ')</div>' + a2.map(rowH).join('');
+    o.innerHTML = '<div class="pc"><div class="ph"><b>' + esc(x.attn) + ' (' + attnRows.length + ')</b><button type="button" class="px" aria-label="Close">&#10005;</button></div><div class="ps">' + h + '</div></div>';
+    document.body.appendChild(o);
+    var close = function () { o.remove(); };
+    o.addEventListener('click', function (ev) {
+      if (ev.target === o || (ev.target.closest && ev.target.closest('.px'))) { close(); return; }
+      var r = ev.target.closest && ev.target.closest('.fr-row'); if (!r) return; close();
+      if (r.getAttribute('data-a') === 'pend') { if (typeof openPendingApprovalsModal === 'function') openPendingApprovalsModal(); }
+      else if (typeof openCheckDetailsForEmployee === 'function') openCheckDetailsForEmployee(r.getAttribute('data-id'));
+    });
+  }
   function attn(force) {
     var box = document.getElementById('frAttn'); if (!box) return;
     var key = num('statPendingApprovals') + '|' + num('statExceeded') + '|' + (typeof employees !== 'undefined' ? employees.length : 0) + '|' + (typeof currentLang !== 'undefined' ? currentLang : '');
     if (!force && key === lastKey && box.innerHTML) return; lastKey = key;
-    var x = L(), rows = [], more = 0, p = num('statPendingApprovals');
+    var x = L(), rows = [], p = num('statPendingApprovals'); attnRows = rows;
     if (p > 0) rows.push({ c: '#e11d48', t: x.pend + ' (' + p + ')', a: 'pend' });
     try {
       if (typeof employees !== 'undefined' && typeof computeQueryData === 'function') {
@@ -30081,11 +30104,12 @@ function elExport() {
           if (qd.allowedThisMonth < 0) ex.push(emp);
           if (sp.length === 3 && parseInt(sp[0], 10) === today.getFullYear() && parseInt(sp[1], 10) - 1 === today.getMonth()) rn.push(emp);
         });
-        var add = function (list, c, tag) { list.forEach(function (e) { if (rows.length < 7) rows.push({ c: c, t: (e.name || '') + ' (' + e.id + ')', tag: tag, a: 'emp', id: e.id }); else more++; }); };
+        var add = function (list, c, tag) { list.forEach(function (e) { rows.push({ c: c, t: (e.name || '') + ' (' + e.id + ')', tag: tag, a: 'emp', id: e.id }); }); };
         add(ex, '#f59e0b', x.exc); add(rn, '#3b5bdb', x.ren);
       }
     } catch (e) {}
-    box.innerHTML = '<h4>' + esc(x.attn) + '</h4>' + (rows.length ? rows.map(function (r) { return '<button type="button" class="fr-row" data-a="' + r.a + '" data-id="' + esc(r.id || '') + '"><span class="fr-dot" style="background:' + r.c + '"></span><span class="fr-t">' + esc(r.t) + '</span>' + (r.tag ? '<span class="fr-tag">' + esc(r.tag) + '</span>' : '') + '<span class="fr-open">' + esc(x.open) + '</span></button>'; }).join('') + (more ? '<div style="margin-top:8px;font-size:12px;color:#64748b">+' + more + '</div>' : '') : '<div class="fr-none">' + esc(x.none) + '</div>');
+    var rowH = function (r) { return '<button type="button" class="fr-row" data-a="' + r.a + '" data-id="' + esc(r.id || '') + '"><span class="fr-dot" style="background:' + r.c + '"></span><span class="fr-t">' + esc(r.t) + '</span>' + (r.tag ? '<span class="fr-tag">' + esc(r.tag) + '</span>' : '') + '<span class="fr-open">' + esc(x.open) + '</span></button>'; };
+    box.innerHTML = '<h4>' + esc(x.attn) + '</h4>' + (rows.length ? rows.slice(0, 6).map(rowH).join('') + (rows.length > 6 ? '<button type="button" class="fr-all" data-all="1">' + esc(x.seeAll) + ' (' + rows.length + ')</button>' : '') : '<div class="fr-none">' + esc(x.none) + '</div>');
   }
   function refresh(force) { try { if (document.getElementById('frDash')) { buildNavIfNeeded(force); dash(force); } } catch (e) {} sync(); }
   var navKey = '';
@@ -30111,6 +30135,7 @@ function elExport() {
       d.addEventListener('click', function (ev) {
         var t = ev.target;
         if (t.closest && t.closest('.fr-me')) { openProf(); return; }
+        if (t.closest && t.closest('.fr-all')) { openAll(); return; }
         var r = t.closest && t.closest('.fr-row');
         if (r) {
           if (r.getAttribute('data-a') === 'pend') { if (typeof openPendingApprovalsModal === 'function') openPendingApprovalsModal(); }
