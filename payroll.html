@@ -1664,6 +1664,16 @@ async function TD_remember(found) {
   var COMMON = { allNum: ['All numbers', 'លេខទាំងអស់', '全部数字'], gOv: ['OVERVIEW', 'ទិដ្ឋភាពទូទៅ', '概览'], dash: ['Dashboard', 'ផ្ទាំងព័ត៌មាន', '仪表板'], bHome: ['Home', 'ទំព័រដើម', '首页'], bMore: ['More', 'ផ្សេងៗ', '更多'], out: ['Sign out', 'ចាកចេញ', '退出'], set: ['Settings', 'ការកំណត់', '设置'] };
   var CSS = [
     'html.fresh{--frw:224px}html.fresh.fr-col{--frw:68px}',
+    '#frHead .fr-me{display:inline-flex;align-items:center;gap:14px;padding:2px 14px 2px 2px;margin:2px 0 10px;border:0;background:transparent;font:inherit;color:#0f172a;cursor:pointer;text-align:left;border-radius:40px}#frHead .fr-me:hover{background:#eef3fb}',
+    '#frHead .fr-av,#frProf .fr-av{width:56px;height:56px;border-radius:50%;flex:none;background:#c9d0da;border:3px solid #0f172a;overflow:hidden;display:flex;align-items:center;justify-content:center;box-sizing:border-box}#frHead .fr-av img,#frProf .fr-av img{width:100%;height:100%;object-fit:cover;display:block}',
+    '#frHead .fr-me small{display:block;font-size:13px;color:#475569}#frHead .fr-me strong{display:block;font-size:20px;line-height:1.2}#frHead .fr-sep{height:1px;background:#e2e8f0;margin:2px 0 14px}',
+    '#frProf{position:fixed;inset:0;z-index:99990;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;padding:16px}',
+    '#frProf .pc{background:#fff;border-radius:16px;width:100%;max-width:360px;padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.3);font-size:14px;color:#0f172a;text-align:left}',
+    '#frProf h3{margin:0 0 12px;font-size:17px}#frProf label{display:block;color:#64748b;font-size:12px;margin:12px 0 4px}',
+    '#frProf .pr{display:flex;align-items:center;gap:14px}#frProf .fr-av{width:72px;height:72px}',
+    '#frProf input[type=text]{width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:9px;padding:9px 11px;font:inherit}',
+    '#frProf .pb{display:inline-block;border:0;border-radius:9px;padding:9px 14px;font:inherit;font-weight:700;cursor:pointer;background:#1d4ed8;color:#fff;margin:0 6px 6px 0}#frProf .pb.g{background:#e2e8f0;color:#334155}',
+    '#frProf .pe{color:#be123c;font-size:12px;margin-top:8px}',
     '#frSide,#frBot,#frHead{display:none}',
     'html.fresh.fr-in #frHead{display:block}',
     '#frHead .fr-h{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:6px 0 14px}',
@@ -1734,6 +1744,75 @@ async function TD_remember(found) {
     run(it.go); C.cur = k; mark(); setTimeout(refresh, 150);
   }
   function mark() { var cur = (C.active && C.active()) || C.cur || G()[0][1][0].k; if (!Array.isArray(cur)) cur = [cur]; ['frSide', 'frBot'].forEach(function (id) { var r = document.getElementById(id); if (!r) return; Array.prototype.forEach.call(r.querySelectorAll('button[data-k]'), function (b) { b.classList.toggle('on', cur.indexOf(b.getAttribute('data-k')) >= 0); }); }); }
+  /* ---- My profile (photo + display name). Staff accounts: accounts/<key>/profile. Others: profiles/<uid>. ---- */
+  var PT = { gm: ['Good Morning!', 'អរុណសួស្តី!', '早上好！'], ga: ['Good Afternoon!', 'សួស្តីរសៀល!', '下午好！'], ge: ['Good Evening!', 'សាយណ្ហសួស្តី!', '晚上好！'],
+    prT: ['My Profile', 'ប្រវត្តិរូបរបស់ខ្ញុំ', '我的资料'], prUp: ['Upload new photo', 'ផ្ទុករូបថតថ្មី', '上传新照片'], prRm: ['Remove photo', 'លុបរូបថត', '删除照片'], prName: ['Display name', 'ឈ្មោះបង្ហាញ', '显示名称'],
+    prShown: ['Shown on the card as', 'បង្ហាញលើកាតជា', '卡片上显示为'], prSave: ['Save', 'រក្សាទុក', '保存'], prCancel: ['Cancel', 'បោះបង់', '取消'],
+    prErr: ['Could not save. Ask the administrator to publish the new Firebase rules.', 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។', '无法保存。请让管理员发布新的 Firebase 规则。'] };
+  function PL(k) { return PT[k][lg()] || PT[k][0]; }
+  var prof = null, profPath = '', profUid = '', profBusy = false, profRef = null, defName = '';
+  var AVSVG = '<svg viewBox="0 0 24 24" width="30" height="30" fill="#0f172a"><circle cx="12" cy="8" r="4.2"/><path d="M3.6 21c0-4.4 3.5-6.6 8.4-6.6s8.4 2.2 8.4 6.6z"/></svg>';
+  function nowCam() { return new Date(Date.now() + 7 * 3600 * 1000); }
+  function baseName() { var n = ''; try { n = (C.me && C.me.name && C.me.name()) || ''; } catch (e) {} if (!n) n = defName; if (!n) { try { n = sessionStorage.getItem('loggedInAccountName') || ''; } catch (e) {} } return String(n || ''); }
+  function lastName() { var n = (prof && prof.name) || baseName(); var p = String(n).trim().split(/\s+/); return p[p.length - 1] || ''; }
+  function avHtml() { return (prof && prof.photo) ? '<img alt="" src="' + esc(prof.photo) + '">' : '<svg viewBox="0 0 24 24" width="30" height="30" fill="#0f172a"><circle cx="12" cy="8" r="4.2"/><path d="M3.6 21c0-4.4 3.5-6.6 8.4-6.6s8.4 2.2 8.4 6.6z"/></svg>'; }
+  function meHtml() {
+    var h = nowCam().getUTCHours(), g = h < 12 ? PL('gm') : (h < 18 ? PL('ga') : PL('ge')), n = lastName();
+    return '<button type="button" class="fr-me" data-me="1"><span class="fr-av">' + avHtml() + '</span><span><small>' + esc(g) + '</small><strong>' + esc(n) + '</strong></span></button><div class="fr-sep"></div>';
+  }
+  function profInit() {
+    try {
+      var u = firebase.auth().currentUser;
+      if (!u) { if (profUid) { try { if (profRef) profRef.off(); } catch (e) {} profRef = null; profUid = ''; profPath = ''; prof = null; defName = ''; headKey = ''; } return; }
+      if (u.uid === profUid || profBusy) return;
+      try { if (profRef) profRef.off(); } catch (e) {} profRef = null; prof = null; profPath = ''; defName = ''; profBusy = true;
+      var uid = u.uid;
+      db.ref('staff/' + uid).once('value').then(function (s) {
+        var st = s.val(); profBusy = false; profUid = uid;
+        if (st && st.key) { profPath = 'accounts/' + st.key + '/profile'; defName = st.name || ''; } else { profPath = 'profiles/' + uid; }
+        try { var c = localStorage.getItem('frProf_' + profPath); if (c) prof = JSON.parse(c); } catch (e) {}
+        var pp = profPath; profRef = db.ref(pp);
+        profRef.on('value', function (sn) { prof = sn.val() || null; try { localStorage.setItem('frProf_' + pp, JSON.stringify(prof)); } catch (e) {} headKey = ''; try { refresh(); } catch (e) {} }, function () {});
+        headKey = ''; try { refresh(); } catch (e) {}
+      }).catch(function () { profBusy = false; });
+    } catch (e) { profBusy = false; }
+  }
+  function shrink(file, cb) {
+    var r = new FileReader();
+    r.onload = function () {
+      var im = new Image();
+      im.onload = function () {
+        var S = 160, c = document.createElement('canvas'); c.width = S; c.height = S; var cx = c.getContext('2d');
+        var m = Math.min(im.width, im.height), sx = (im.width - m) / 2, sy = (im.height - m) / 2;
+        cx.fillStyle = '#fff'; cx.fillRect(0, 0, S, S); cx.drawImage(im, sx, sy, m, m, 0, 0, S, S); cb(c.toDataURL('image/jpeg', 0.8));
+      };
+      im.onerror = function () { cb(null); }; im.src = r.result;
+    };
+    r.onerror = function () { cb(null); }; r.readAsDataURL(file);
+  }
+  function openProf() {
+    if (document.getElementById('frProf')) return;
+    var photo = (prof && prof.photo) || '', nm = (prof && prof.name) || baseName();
+    var o = document.createElement('div'); o.id = 'frProf';
+    o.innerHTML = '<div class="pc"><h3>' + esc(PL('prT')) + '</h3><div class="pr"><span class="fr-av" id="prAv">' + avHtml().replace(/<img[^>]*>/, photo ? '<img alt="" src="' + esc(photo) + '">' : '') + '</span><div><button type="button" class="pb" id="prUp">' + esc(PL('prUp')) + '</button><button type="button" class="pb g" id="prRm">' + esc(PL('prRm')) + '</button></div></div>' +
+      '<input type="file" id="prFile" accept="image/*" style="display:none"><label>' + esc(PL('prName')) + '</label><input type="text" id="prNm" maxlength="60" value="' + esc(nm) + '"><label>' + esc(PL('prShown')) + '</label><div id="prLast" style="font-weight:700"></div>' +
+      '<div class="pe" id="prErr" style="display:none">' + esc(PL('prErr')) + '</div><div style="margin-top:14px"><button type="button" class="pb" id="prSv">' + esc(PL('prSave')) + '</button><button type="button" class="pb g" id="prCx">' + esc(PL('prCancel')) + '</button></div></div>';
+    document.body.appendChild(o);
+    var q = function (id) { return document.getElementById(id); };
+    var showLast = function () { var p = q('prNm').value.trim().split(/\s+/); q('prLast').textContent = p[p.length - 1] || ''; };
+    showLast(); q('prNm').addEventListener('input', showLast);
+    q('prUp').onclick = function () { q('prFile').click(); };
+    q('prFile').onchange = function () { var f = this.files && this.files[0]; if (!f) return; shrink(f, function (d) { if (d) { photo = d; q('prAv').innerHTML = '<img alt="" src="' + d + '">'; } }); };
+    q('prRm').onclick = function () { photo = ''; q('prAv').innerHTML = AVSVG; };
+    q('prCx').onclick = function () { o.remove(); };
+    o.addEventListener('click', function (ev) { if (ev.target === o) o.remove(); });
+    q('prSv').onclick = function () {
+      if (!profPath) { q('prErr').style.display = 'block'; return; }
+      var v = { photo: photo || null, name: q('prNm').value.trim() || null, at: Date.now() };
+      db.ref(profPath).set(v).then(function () { o.remove(); }).catch(function () { q('prErr').style.display = 'block'; });
+    };
+  }
+  document.addEventListener('click', function (ev) { if (ev.target.closest && ev.target.closest('#frHead .fr-me')) openProf(); });
   var headKey = '';
   function head() {
     var wrap = document.querySelector(C.wrap); if (!wrap) return;
@@ -1743,15 +1822,15 @@ async function TD_remember(found) {
     var l = ['en-GB', 'km-KH', 'zh-CN'][lg()], dt = ''; try { dt = new Date().toLocaleDateString(l, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Phnom_Penh' }); } catch (e) {}
     var sub = C.sub ? (C.sub() || '') : '';
     var btns = (C.btns || []).filter(function (b) { return !b.show || b.show(); });
-    var key = document.documentElement.classList.contains('fr-nums') + '|' + lg() + '|' + dt + '|' + sub + '|' + JSON.stringify(cards) + '|' + (C.title ? C.title() : T('title')) + '|' + btns.map(function (b) { return b.label ? b.label() : T(b.k); }).join(',');
+    var key = document.documentElement.classList.contains('fr-nums') + '|' + lg() + '|' + dt + '|' + sub + '|' + JSON.stringify(cards) + '|' + (C.title ? C.title() : T('title')) + '|' + nowCam().getUTCHours() + '|' + lastName() + '|' + ((prof && prof.photo) ? prof.photo.length : 0) + '|' + btns.map(function (b) { return b.label ? b.label() : T(b.k); }).join(',');
     if (key === headKey) return; headKey = key;
     var CL = [['#e0f2fe', '#0369a1'], ['#fef3c7', '#b45309'], ['#ffe4e6', '#be123c'], ['#f1f5f9', '#475569']];
     var fold = C.fold ? '<div class="fr-tg"><button type="button" data-fold="1" class="' + (document.documentElement.classList.contains('fr-nums') ? 'on' : '') + '">' + esc(T('allNum')) + '</button></div>' : '';
-    h.innerHTML = '<div class="fr-h"><div><h2>' + esc(C.title ? C.title() : T('title')) + '</h2><p>' + esc(dt + (sub ? ' · ' + sub : '')) + '</p></div><div class="fr-hb">' +
+    h.innerHTML = meHtml() + '<div class="fr-h"><div><h2>' + esc(C.title ? C.title() : T('title')) + '</h2><p>' + esc(dt + (sub ? ' · ' + sub : '')) + '</p></div><div class="fr-hb">' +
       btns.map(function (b, i) { return '<button type="button" class="fr-b' + (b.pri ? ' pri' : '') + '" data-i="' + (C.btns || []).indexOf(b) + '">' + (b.ic ? sv(b.ic, 16) : '') + esc(b.label ? b.label() : T(b.k)) + '</button>'; }).join('') + '</div></div>' +
       (cards.length ? '<div class="fr-cards">' + cards.map(function (c, i) { var col = c.col || CL[i % 4]; return '<div class="fr-card"><span class="fr-ci" style="background:' + col[0] + ';color:' + col[1] + '">' + sv(c.ic || 'grid', 22) + '</span><span><span class="fr-cl">' + esc(c.l) + '</span><br><span class="fr-cn">' + esc(c.v) + '</span></span></div>'; }).join('') + '</div>' : '') + fold;
   }
-  function refresh() { try { var on = isFresh() && inApp(); document.documentElement.classList.toggle('fr-in', on); if (!on) return; build(); head(); mark(); } catch (e) {} }
+  function refresh() { try { var on = isFresh() && inApp(); document.documentElement.classList.toggle('fr-in', on); if (!on) return; profInit(); build(); head(); mark(); } catch (e) {} }
   try { if (localStorage.getItem('frCol') === '1') document.documentElement.classList.add('fr-col'); } catch (e) {}
   setInterval(refresh, 700); document.addEventListener('DOMContentLoaded', refresh); refresh();
 })();

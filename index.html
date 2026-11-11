@@ -29712,8 +29712,21 @@ function elExport() {
     'html.fresh #tab-home:not(.fr-menu) .fr-mm{display:none!important}',
     'html.fresh #frDash{display:block}',
     '#frDash .fr-h{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:4px 0 14px}',
-    '#frDash .fr-h h2{margin:0;font-size:24px;font-weight:800;color:#0f172a}',
+    '#frDash .fr-h h2{margin:0;font-size:15px;font-weight:700;color:#0f172a}',
     '#frDash .fr-h p{margin:2px 0 0;color:#64748b;font-size:13px}',
+    '#frDash .fr-me{display:inline-flex;align-items:center;gap:14px;padding:2px 14px 2px 2px;margin:2px 0 10px;border:0;background:transparent;font:inherit;color:#0f172a;cursor:pointer;text-align:left;border-radius:40px}',
+    '#frDash .fr-me:hover{background:#eef3fb}',
+    '#frDash .fr-sep{height:1px;background:#e2e8f0;margin:2px 0 14px}',
+    '#frDash .fr-av{width:56px;height:56px;border-radius:50%;flex:none;background:#c9d0da;border:3px solid #0f172a;overflow:hidden;display:flex;align-items:center;justify-content:center;box-sizing:border-box}',
+    '#frDash .fr-av img{width:100%;height:100%;object-fit:cover;display:block}',
+    '#frDash .fr-me small{display:block;font-size:13px;color:#475569}#frDash .fr-me strong{display:block;font-size:20px;line-height:1.2}',
+    '#frProf{position:fixed;inset:0;z-index:9500;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;padding:16px}',
+    '#frProf .pc{background:#fff;border-radius:16px;width:100%;max-width:360px;padding:18px;box-shadow:0 12px 40px rgba(0,0,0,.3);font-size:14px;color:#0f172a}',
+    '#frProf h3{margin:0 0 12px;font-size:17px}#frProf label{display:block;color:#64748b;font-size:12px;margin:12px 0 4px}',
+    '#frProf .pr{display:flex;align-items:center;gap:14px}#frProf .fr-av{width:72px;height:72px;border-radius:50%;flex:none;background:#c9d0da;border:3px solid #0f172a;overflow:hidden;display:flex;align-items:center;justify-content:center;box-sizing:border-box}#frProf .fr-av img{width:100%;height:100%;object-fit:cover;display:block}',
+    '#frProf input[type=text]{width:100%;box-sizing:border-box;border:1px solid #cbd5e1;border-radius:9px;padding:9px 11px;font:inherit}',
+    '#frProf .pb{display:inline-block;border:0;border-radius:9px;padding:9px 14px;font:inherit;font-weight:700;cursor:pointer;background:#1d4ed8;color:#fff;margin:0 6px 6px 0}#frProf .pb.g{background:#e2e8f0;color:#334155}',
+    '#frProf .pe{color:#be123c;font-size:12px;margin-top:8px}',
     '#frDash .fr-hb{display:flex;gap:8px;flex-wrap:wrap}',
     '#frDash .fr-b{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;color:#0f172a;font:inherit;font-weight:700;font-size:14px;cursor:pointer}',
     '#frDash .fr-b.pri{background:#0f766e;border-color:#0f766e;color:#fff}',
@@ -29786,7 +29799,6 @@ function elExport() {
     '#frDash .fr-cards{grid-template-columns:repeat(2,1fr)}',
     '#frDash .fr-two{grid-template-columns:1fr}',
     '#frDash .fr-qa{grid-template-columns:repeat(3,1fr)}',
-    '#frDash .fr-h h2{font-size:20px}',
     '#frDash .fr-card{padding:12px}#frDash .fr-cn{font-size:22px}',
     '}'
   ].join('\n');
@@ -29796,6 +29808,7 @@ function elExport() {
     en: { classic: 'Classic', fresh: 'Fresh', attn: 'Needs your attention', pend: 'Pending approvals', exc: 'Over monthly limit', ren: 'Leave renews this month', open: 'Open', none: 'Nothing needs your attention.',
       gOv: 'OVERVIEW', gPe: 'PEOPLE', gTi: 'TIME', gRe: 'REPORTS', gAd: 'ADMIN',
       dash: 'Dashboard', emp: 'Employee', mst: 'Master Sheet', add: 'Add Employee', qry: 'Check Record', att: 'Attendance', lea: 'Leave Records', shf: 'Shift Roster', mon: 'Monthly Report', hub: 'Operations Hub', pay: 'Payroll', pen: 'Pending Approvals', mgt: 'Management',
+      gm: 'Good Morning!', ga: 'Good Afternoon!', ge: 'Good Evening!', prT: 'My Profile', prUp: 'Upload new photo', prRm: 'Remove photo', prName: 'Display name', prShown: 'Shown on the card as', prSave: 'Save', prCancel: 'Cancel', prErr: 'Could not save. Ask the administrator to publish the new Firebase rules.',
       ov: 'Overview', exp: 'Export', addB: '+ Add Employee', tStaff: 'Total staff', tOff: 'On leave today', tPend: 'Pending approvals', tRes: 'Resigned this year',
       chart: 'Leave taken, by month', unit: 'hours', qa: 'Quick actions', allNum: 'All numbers', allMenu: 'All menu',
       bHome: 'Home', bPeople: 'People', bLeave: 'Leave', bRep: 'Reports', bMore: 'More',
@@ -29803,6 +29816,7 @@ function elExport() {
     km: { classic: 'ធម្មតា', fresh: 'ថ្មី', attn: 'ត្រូវការការយកចិត្តទុកដាក់', pend: 'រង់ចាំការអនុម័ត', exc: 'លើសកម្រិតប្រចាំខែ', ren: 'ច្បាប់ឆ្នាំបន្តខែនេះ', open: 'បើក', none: 'គ្មានអ្វីត្រូវការយកចិត្តទុកដាក់ទេ។',
       gOv: 'ទិដ្ឋភាពទូទៅ', gPe: 'បុគ្គលិក', gTi: 'ពេលវេលា', gRe: 'របាយការណ៍', gAd: 'រដ្ឋបាល',
       dash: 'ផ្ទាំងព័ត៌មាន', emp: 'បុគ្គលិក', mst: 'តារាងមេ', add: 'បន្ថែមបុគ្គលិក', qry: 'ពិនិត្យកំណត់ត្រា', att: 'វត្តមាន', lea: 'កំណត់ត្រាច្បាប់', shf: 'តារាងវេន', mon: 'របាយការណ៍ប្រចាំខែ', hub: 'មជ្ឈមណ្ឌលប្រតិបត្តិការ', pay: 'ប្រាក់ខែ', pen: 'រង់ចាំការអនុម័ត', mgt: 'ការគ្រប់គ្រង',
+      gm: 'អរុណសួស្តី!', ga: 'សួស្តីរសៀល!', ge: 'សាយណ្ហសួស្តី!', prT: 'ប្រវត្តិរូបរបស់ខ្ញុំ', prUp: 'ផ្ទុករូបថតថ្មី', prRm: 'លុបរូបថត', prName: 'ឈ្មោះបង្ហាញ', prShown: 'បង្ហាញលើកាតជា', prSave: 'រក្សាទុក', prCancel: 'បោះបង់', prErr: 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។',
       ov: 'ទិដ្ឋភាពទូទៅ', exp: 'នាំចេញ', addB: '+ បន្ថែមបុគ្គលិក', tStaff: 'បុគ្គលិកសរុប', tOff: 'ឈប់សម្រាកថ្ងៃនេះ', tPend: 'រង់ចាំការអនុម័ត', tRes: 'ឈប់ពីការងារឆ្នាំនេះ',
       chart: 'ច្បាប់ដែលបានឈប់ តាមខែ', unit: 'ម៉ោង', qa: 'ចូលរហ័ស', allNum: 'លេខទាំងអស់', allMenu: 'ម៉ឺនុយទាំងអស់',
       bHome: 'ទំព័រដើម', bPeople: 'បុគ្គលិក', bLeave: 'ច្បាប់', bRep: 'របាយការណ៍', bMore: 'ផ្សេងៗ',
@@ -29810,6 +29824,7 @@ function elExport() {
     zh: { classic: '经典', fresh: '清新', attn: '需要您处理', pend: '待审批', exc: '超出本月额度', ren: '本月年假更新', open: '打开', none: '暂无需要处理的事项。',
       gOv: '概览', gPe: '人员', gTi: '考勤', gRe: '报表', gAd: '管理',
       dash: '仪表板', emp: '员工', mst: '总表', add: '添加员工', qry: '查询记录', att: '考勤', lea: '请假记录', shf: '排班表', mon: '月报表', hub: '运营中心', pay: '工资', pen: '待审批', mgt: '管理',
+      gm: '早上好！', ga: '下午好！', ge: '晚上好！', prT: '我的资料', prUp: '上传新照片', prRm: '删除照片', prName: '显示名称', prShown: '卡片上显示为', prSave: '保存', prCancel: '取消', prErr: '无法保存。请让管理员发布新的 Firebase 规则。',
       ov: '概览', exp: '导出', addB: '+ 添加员工', tStaff: '员工总数', tOff: '今日请假', tPend: '待审批', tRes: '今年离职',
       chart: '每月请假时数', unit: '小时', qa: '快捷操作', allNum: '全部数字', allMenu: '全部菜单',
       bHome: '首页', bPeople: '员工', bLeave: '请假', bRep: '报表', bMore: '更多',
@@ -29912,19 +29927,84 @@ function elExport() {
       } else if (paged) { paged = false; if (typeof window.moReapply === 'function') window.moReapply(); }
     } catch (e) {}
   }
+  /* ---- My profile (photo + display name). Stored in the person's own account record: accounts/<key>/profile ---- */
+  var prof = null, profKey = '', profUid = '', profBusy = false, profRef = null;
+  var AVSVG = '<svg viewBox="0 0 24 24" width="30" height="30" fill="#0f172a"><circle cx="12" cy="8" r="4.2"/><path d="M3.6 21c0-4.4 3.5-6.6 8.4-6.6s8.4 2.2 8.4 6.6z"/></svg>';
+  function lastName() {
+    var n = (prof && prof.name) || ''; if (!n) { try { n = sessionStorage.getItem('loggedInAccountName') || ''; } catch (e) {} }
+    var p = String(n).trim().split(/\s+/); return p[p.length - 1] || '';
+  }
+  function avHtml() { return (prof && prof.photo) ? '<img alt="" src="' + esc(prof.photo) + '">' : AVSVG; }
+  function meHtml() {
+    var x = L(), h = cambodiaNow().getUTCHours(), g = h < 12 ? x.gm : (h < 18 ? x.ga : x.ge);
+    return '<button type="button" class="fr-me" data-me="1"><span class="fr-av">' + avHtml() + '</span><span><small>' + esc(g) + '</small><strong>' + esc(lastName()) + '</strong></span></button>';
+  }
+  function profInit() {
+    try {
+      var u = firebase.auth().currentUser;
+      if (!u) { if (profUid) { try { if (profRef) profRef.off(); } catch (e) {} profRef = null; profUid = ''; profKey = ''; prof = null; } return; }
+      if (u.uid === profUid || profBusy) return;
+      try { if (profRef) profRef.off(); } catch (e) {} profRef = null; prof = null; profKey = ''; profBusy = true;
+      var uid = u.uid;
+      db.ref('staff/' + uid + '/key').once('value').then(function (s) {
+        profBusy = false; var k = s.val(); if (!k) return;
+        profUid = uid; profKey = k;
+        try { var c = localStorage.getItem('frProf_' + k); if (c) prof = JSON.parse(c); } catch (e) {}
+        profRef = db.ref('accounts/' + k + '/profile');
+        profRef.on('value', function (sn) { prof = sn.val() || null; try { localStorage.setItem('frProf_' + k, JSON.stringify(prof)); } catch (e) {} try { refresh(true); } catch (e) {} }, function () {});
+        try { refresh(true); } catch (e) {}
+      }).catch(function () { profBusy = false; });
+    } catch (e) { profBusy = false; }
+  }
+  function shrink(file, cb) {
+    var r = new FileReader();
+    r.onload = function () {
+      var im = new Image();
+      im.onload = function () {
+        var S = 160, c = document.createElement('canvas'); c.width = S; c.height = S; var cx = c.getContext('2d');
+        var m = Math.min(im.width, im.height), sx = (im.width - m) / 2, sy = (im.height - m) / 2;
+        cx.fillStyle = '#fff'; cx.fillRect(0, 0, S, S); cx.drawImage(im, sx, sy, m, m, 0, 0, S, S);
+        cb(c.toDataURL('image/jpeg', 0.8));
+      };
+      im.onerror = function () { cb(null); }; im.src = r.result;
+    };
+    r.onerror = function () { cb(null); }; r.readAsDataURL(file);
+  }
+  function openProf() {
+    var x = L(); if (document.getElementById('frProf')) return;
+    var photo = (prof && prof.photo) || '', nm = (prof && prof.name) || ''; if (!nm) { try { nm = sessionStorage.getItem('loggedInAccountName') || ''; } catch (e) {} }
+    var o = document.createElement('div'); o.id = 'frProf';
+    o.innerHTML = '<div class="pc"><h3>' + esc(x.prT) + '</h3><div class="pr"><span class="fr-av" id="prAv">' + (photo ? '<img alt="" src="' + esc(photo) + '">' : AVSVG) + '</span><div><button type="button" class="pb" id="prUp">' + esc(x.prUp) + '</button><button type="button" class="pb g" id="prRm">' + esc(x.prRm) + '</button></div></div>' +
+      '<input type="file" id="prFile" accept="image/*" style="display:none"><label>' + esc(x.prName) + '</label><input type="text" id="prNm" maxlength="60" value="' + esc(nm) + '"><label>' + esc(x.prShown) + '</label><div id="prLast" style="font-weight:700"></div>' +
+      '<div class="pe" id="prErr" style="display:none">' + esc(x.prErr) + '</div><div style="margin-top:14px"><button type="button" class="pb" id="prSv">' + esc(x.prSave) + '</button><button type="button" class="pb g" id="prCx">' + esc(x.prCancel) + '</button></div></div>';
+    document.body.appendChild(o);
+    var q = function (id) { return document.getElementById(id); };
+    var showLast = function () { var p = q('prNm').value.trim().split(/\s+/); q('prLast').textContent = p[p.length - 1] || ''; };
+    showLast(); q('prNm').addEventListener('input', showLast);
+    q('prUp').onclick = function () { q('prFile').click(); };
+    q('prFile').onchange = function () { var f = this.files && this.files[0]; if (!f) return; shrink(f, function (d) { if (d) { photo = d; q('prAv').innerHTML = '<img alt="" src="' + d + '">'; } }); };
+    q('prRm').onclick = function () { photo = ''; q('prAv').innerHTML = AVSVG; };
+    q('prCx').onclick = function () { o.remove(); };
+    o.addEventListener('click', function (ev) { if (ev.target === o) o.remove(); });
+    q('prSv').onclick = function () {
+      if (!profKey) { q('prErr').style.display = 'block'; return; }
+      var v = { photo: photo || null, name: q('prNm').value.trim() || null, at: Date.now() };
+      db.ref('accounts/' + profKey + '/profile').set(v).then(function () { o.remove(); }).catch(function () { q('prErr').style.display = 'block'; });
+    };
+  }
   var dashKey = '';
   function dash(force) {
     var d = document.getElementById('frDash'); if (!d) return;
     var x = L(), cn = cambodiaNow(), nums = [employees.length, offToday(), num('statPendingApprovals'), resignedThisYear()];
     var mh = monthHours();
-    var key = nums.join(',') + '|' + mh.join(',') + '|' + (typeof currentLang !== 'undefined' ? currentLang : '') + '|' + todayStr() + '|' + isAdm();
+    var key = nums.join(',') + '|' + mh.join(',') + '|' + (typeof currentLang !== 'undefined' ? currentLang : '') + '|' + todayStr() + '|' + isAdm() + '|' + cn.getUTCHours() + '|' + lastName() + '|' + ((prof && prof.photo) ? prof.photo.length : 0);
     if (!force && key === dashKey) return; dashKey = key;
     var dateTxt = ''; try { dateTxt = new Date().toLocaleDateString(x.loc, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Phnom_Penh' }); } catch (e) { dateTxt = todayStr(); }
     var cur = cn.getUTCMonth(), mx = Math.max.apply(null, mh.concat([1]));
     var cards = [['tStaff', nums[0], '#e0f2fe', '#0369a1', P.emp, 'tab-employee', 'nav-employee', ''], ['tOff', nums[1], '#fef3c7', '#b45309', P.off, 'tab-attcal', 'nav-attcal', ''], ['tPend', nums[2], '#ffe4e6', '#be123c', P.ok, '', '', 'openPendingApprovalsModal'], ['tRes', nums[3], '#f1f5f9', '#475569', P.user, 'tab-employee', 'nav-employee', '']];
     var qa = [['add', 'add', 'tab-add', 'nav-add', '', 0], ['qry', 'search', 'tab-query', 'nav-query', '', 0], ['att', 'clock', 'tab-att', 'nav-att', '', 0], ['lea', 'cal', 'tab-leave', 'nav-leave', '', 0], ['mon', 'rep', 'tab-monthly', 'nav-monthly', '', 0], ['hub', 'hub', 'tab-opshub', 'nav-opshub', '', 1], ['pay', 'pay', '', '', 'payOpen', 1]].filter(function (q) { return !q[5] || isAdm(); });
     var qaNames = { qry: x.qry, add: x.add, att: x.att, lea: x.lea, mon: x.mon, hub: x.hub, pay: x.pay };
-    d.innerHTML =
+    d.innerHTML = meHtml() + '<div class="fr-sep"></div>' +
       '<div class="fr-h"><div><h2>' + esc(x.ov) + '</h2><p>' + esc(dateTxt) + '</p></div><div class="fr-hb"><button type="button" class="fr-b" data-t="tab-export" data-n="nav-export">' + sv(P.exp, 16) + esc(x.exp) + '</button><button type="button" class="fr-b pri" data-t="tab-add" data-n="nav-add">' + esc(x.addB) + '</button></div></div>' +
       '<div class="fr-cards">' + cards.map(function (c) { return '<button type="button" class="fr-card" data-t="' + c[5] + '" data-n="' + c[6] + '" data-f="' + c[7] + '"><span class="fr-ci" style="background:' + c[2] + ';color:' + c[3] + '">' + sv(c[4], 22) + '</span><span><span class="fr-cl">' + esc(x[c[0]]) + '</span><br><span class="fr-cn">' + c[1] + '</span></span></button>'; }).join('') + '</div>' +
       '<div class="fr-two"><div class="fr-box"><h4>' + esc(x.chart) + '</h4><small>' + esc(x.unit) + ' · ' + cn.getUTCFullYear() + '</small><div class="fr-ch">' +
@@ -29978,6 +30058,7 @@ function elExport() {
       ['menuPage1', 'menuPage2', 'menuPager'].forEach(function (id) { var e = document.getElementById(id); if (e) e.classList.add('fr-mm'); });
       d.addEventListener('click', function (ev) {
         var t = ev.target;
+        if (t.closest && t.closest('.fr-me')) { openProf(); return; }
         var r = t.closest && t.closest('.fr-row');
         if (r) {
           if (r.getAttribute('data-a') === 'pend') { if (typeof openPendingApprovalsModal === 'function') openPendingApprovalsModal(); }
@@ -30013,7 +30094,7 @@ function elExport() {
   /* when the role changes (Admin <-> HR) rebuild the menu at once, so HR never sees admin-only items */
   try { var ar = window.applyRoleGating; if (typeof ar === 'function') window.applyRoleGating = function () { var r = ar.apply(this, arguments); try { sync2(); buildNav(); dash(true); } catch (e) {} return r; }; } catch (e) {}
   setInterval(function () {
-    sync2(); build(); repage();
+    sync2(); build(); repage(); profInit();
     if (document.documentElement.classList.contains('fresh')) { var h = document.getElementById('tab-home'); if (!document.hidden) { buildNavIfNeeded(false); if (h && h.classList.contains('active')) dash(false); sync(); } }
   }, 1500);
   try { var o = window.setLanguage; if (typeof o === 'function') window.setLanguage = function () { var r = o.apply(this, arguments); try { paint(); refresh(true); } catch (e) {} return r; }; } catch (e) {}
