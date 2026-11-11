@@ -29621,8 +29621,17 @@ function elExport() {
    a new Overview page and a phone bottom menu. It only READS data the site already has. It changes no data and no calculation. */
 (function () {
   var KEY = 'uiTheme';
-  function forced() { try { var v = localStorage.getItem('uiForce'); return v === 'classic' || v === 'fresh' ? v : ''; } catch (e) { return ''; } }
-  function get() { var f = forced(); if (f) return f; try { return localStorage.getItem(KEY) === 'fresh' ? 'fresh' : 'classic'; } catch (e) { return 'classic'; } }
+  /* Default look per system comes from Maintenance > Theme (saved in uiCfg). A person's own choice is kept per system. */
+  function sysId() { try { return sessionStorage.getItem('loggedInRole') === 'hr' ? 'hr' : 'admin'; } catch (e) { return 'admin'; } }
+  function cfg() { try { return JSON.parse(localStorage.getItem('uiCfg') || '{}') || {}; } catch (e) { return {}; } }
+  function forced() { var c = cfg()[sysId()]; return c && c.lock ? (c.def === 'fresh' ? 'fresh' : 'classic') : ''; }
+  function get() {
+    var s = sysId(), c = cfg()[s] || {}, def = c.def === 'fresh' ? 'fresh' : 'classic';
+    if (c.lock) return def;
+    var u = null; try { u = localStorage.getItem('uiTheme.' + s) || localStorage.getItem(KEY); } catch (e) {}
+    return u === 'fresh' || u === 'classic' ? u : def;
+  }
+  function sync2() { var d = document.documentElement; d.classList.toggle('fr-locked', !!forced()); d.classList.toggle('fresh', get() === 'fresh'); }
   function sv(d, sz) { return '<svg class="fr-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:' + (sz || 18) + 'px;height:' + (sz || 18) + 'px"><path d="' + d + '"/></svg>'; }
   var P = {
     home: 'M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z',
@@ -29785,7 +29794,7 @@ function elExport() {
   function L() { var l = 'en'; try { if (typeof currentLang !== 'undefined' && TX[currentLang]) l = currentLang; } catch (e) {} return TX[l]; }
   function esc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function isAdm() { try { return (sessionStorage.getItem('loggedInRole') || 'admin') === 'admin'; } catch (e) { return true; } }
-  function apply(th) { document.documentElement.classList.toggle('fresh', th === 'fresh'); try { localStorage.setItem(KEY, th); } catch (e) {} paint(); refresh(true); repage(); }
+  function apply(th) { try { localStorage.setItem('uiTheme.' + sysId(), th); } catch (e) {} sync2(); paint(); refresh(true); repage(); }
   function paint() {
     var m = document.getElementById('frMenu'); if (!m) return; var th = get(), x = L();
     var cur = document.getElementById('frCur'); if (cur) cur.textContent = th === 'fresh' ? x.fresh : x.classic;
@@ -29957,17 +29966,15 @@ function elExport() {
       dash(true); buildNav();
     }
   }
-  document.documentElement.classList.toggle('fr-locked', !!forced());
-  document.documentElement.classList.toggle('fresh', get() === 'fresh');
+  sync2();
   build(); paint();
-  /* Maintenance can set one look for everybody (path uiTheme). Cached so there is no flash on the next start. */
+  /* Maintenance > Theme: default look (and lock) for each system. Cached so there is no flash on the next start. */
   try {
     if (typeof db !== 'undefined') db.ref('uiTheme').on('value', function (sn) {
-      var d = sn.val(), f = d && (d.force === 'classic' || d.force === 'fresh') ? d.force : '';
-      try { if (f) localStorage.setItem('uiForce', f); else localStorage.removeItem('uiForce'); } catch (e) {}
-      document.documentElement.classList.toggle('fr-locked', !!f);
-      document.documentElement.classList.toggle('fresh', get() === 'fresh');
-      try { paint(); refresh(true); repage(); } catch (e) {}
+      var d = sn.val() || {}, o = {};
+      Object.keys(d).forEach(function (k) { if (k.charAt(0) !== '_' && d[k]) o[k] = { def: d[k].def === 'fresh' ? 'fresh' : 'classic', lock: d[k].lock === true }; });
+      try { localStorage.setItem('uiCfg', JSON.stringify(o)); } catch (e) {}
+      sync2(); try { paint(); refresh(true); repage(); } catch (e) {}
     });
   } catch (e) {}
   /* the search box stays visible on a wide screen; typing opens the result list */
@@ -29975,7 +29982,7 @@ function elExport() {
     if (ev.target && ev.target.id === 'globalSearchInput' && document.documentElement.classList.contains('fresh')) { var w = document.getElementById('gsWrap'); if (w) w.classList.add('open'); }
   });
   setInterval(function () {
-    build(); repage();
+    sync2(); build(); repage();
     if (document.documentElement.classList.contains('fresh')) { var h = document.getElementById('tab-home'); if (!document.hidden) { buildNavIfNeeded(false); if (h && h.classList.contains('active')) dash(false); sync(); } }
   }, 1500);
   try { var o = window.setLanguage; if (typeof o === 'function') window.setLanguage = function () { var r = o.apply(this, arguments); try { paint(); refresh(true); } catch (e) {} return r; }; } catch (e) {}

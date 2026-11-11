@@ -1323,5 +1323,47 @@ function renderResult(r) {
 
 
 <!-- HRFT-PUSH-BEGIN --><script>(function(){var q=0;function run(){q=0;try{var f=[].slice.call(document.querySelectorAll('.hrft'));f.forEach(function(e){e.style.paddingTop='';});var vis=f.filter(function(e){return e.getClientRects().length&&!e.closest('.login-card,#loginOverlay,#loginBox,#loginView');});if(!vis.length)return;var el=vis[vis.length-1],r=el.getBoundingClientRect(),mb=r.bottom,n=el;while(n&&n!==document.body){var sb=n.nextElementSibling;while(sb){var ps=getComputedStyle(sb).position;if(ps!=='fixed'&&ps!=='absolute'&&sb.getClientRects().length&&!/^(SCRIPT|STYLE)$/.test(sb.tagName)){var q2=sb.getBoundingClientRect();if(q2.height>0&&q2.bottom>mb)mb=q2.bottom;}sb=sb.nextElementSibling;}n=n.parentElement;}var cs=getComputedStyle(document.body),below=(mb-r.bottom)+(parseFloat(cs.paddingBottom)||0)+(parseFloat(cs.marginBottom)||0),gap=Math.floor(window.innerHeight-(r.bottom+below));if(gap>0)el.style.paddingTop=(14+gap)+'px';}catch(e){}}function sch(){if(!q)q=requestAnimationFrame(run);}window.addEventListener('load',sch);window.addEventListener('resize',sch);try{new MutationObserver(sch).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class','hidden']});}catch(e){}setInterval(sch,1500);sch();})();</script><!-- HRFT-PUSH-END -->
+<script id="themeCore">
+/* HR203 theme: Classic / Fresh. The default per system is set in Maintenance (Theme). Users can switch themselves unless it is locked.
+   Only the look changes. No data and no calculation. */
+(function () {
+  var SYSF = function(){return "face"};
+  var MOUNT = ".top";
+  var CSS = "html.fresh{--bg1:#0f766e;--bg2:#0d9488;--accent:#0f766e}\nhtml.fr-locked .thBtn{display:none!important}\n.thBtn{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:10px;height:34px;padding:0 10px}";
+  var st = document.createElement('style'); st.id = 'themeCss'; st.textContent = CSS; (document.head || document.documentElement).appendChild(st);
+  function cfg() { try { return JSON.parse(localStorage.getItem('uiCfg') || '{}') || {}; } catch (e) { return {}; } }
+  function sys() { try { return SYSF(); } catch (e) { return 'admin'; } }
+  function locked() { var c = cfg()[sys()]; return !!(c && c.lock); }
+  function theme() {
+    var s = sys(), c = cfg()[s] || {}, def = c.def === 'fresh' ? 'fresh' : 'classic';
+    if (c.lock) return def;
+    var u = null; try { u = localStorage.getItem('uiTheme.' + s); } catch (e) {}
+    return u === 'fresh' || u === 'classic' ? u : def;
+  }
+  function paint() {
+    var d = document.documentElement, f = theme() === 'fresh';
+    d.classList.toggle('fresh', f); d.classList.toggle('fr-locked', locked());
+    Array.prototype.forEach.call(document.querySelectorAll('.thBtn'), function (b) { b.textContent = f ? 'Classic' : 'Fresh'; b.style.display = locked() ? 'none' : ''; });
+  }
+  function mount() {
+    Array.prototype.forEach.call(document.querySelectorAll(MOUNT), function (host) {
+      if (host.querySelector('.thBtn')) return;
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'thBtn iconBtn lang-btn'; b.title = 'Theme';
+      b.style.cssText = 'cursor:pointer;margin:0 4px;white-space:nowrap';
+      b.onclick = function () { var n = theme() === 'fresh' ? 'classic' : 'fresh'; try { localStorage.setItem('uiTheme.' + sys(), n); } catch (e) {} paint(); };
+      var ref = host.querySelector('.lang-dropdown,.iconBtn,button'); if (ref && ref.parentNode === host) host.insertBefore(b, ref); else host.insertBefore(b, host.firstChild);
+      paint();
+    });
+  }
+  var hooked = false;
+  function hook() {
+    if (hooked || typeof db === 'undefined') return; hooked = true;
+    try { db.ref('uiTheme').on('value', function (sn) { var d = sn.val() || {}, o = {}; Object.keys(d).forEach(function (k) { if (k.charAt(0) !== '_' && d[k]) o[k] = { def: d[k].def === 'fresh' ? 'fresh' : 'classic', lock: d[k].lock === true }; }); try { localStorage.setItem('uiCfg', JSON.stringify(o)); } catch (e) {} paint(); }); } catch (e) {}
+  }
+  paint();
+  setInterval(function () { mount(); hook(); paint(); }, 1000);
+  document.addEventListener('DOMContentLoaded', function () { mount(); paint(); });
+})();
+</script>
 </body>
 </html>
