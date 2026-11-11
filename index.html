@@ -29750,13 +29750,14 @@ function elExport() {
     'html.fresh{--frw:224px}html.fresh.fr-col{--frw:68px}',
     'html.fresh #adminApp{padding-left:calc(var(--frw) + 12px)}',
     'html.fresh #frSide{display:flex;position:fixed;left:0;top:0;bottom:0;width:var(--frw);z-index:40;flex-direction:column;gap:2px;background:#fff;border-right:1px solid #e5eaf2;padding:18px 12px 14px;overflow:auto}',
-    '#frSide .fr-top{display:flex;align-items:center;justify-content:space-between;padding:2px 4px 12px 10px}',
+    '#frSide .fr-top{display:flex;align-items:center;padding:2px 4px 12px 10px}',
+    '#frSide .fr-bot{margin-top:auto;border-top:1px solid #e5eaf2;padding-top:8px;display:flex}',
     '#frSide .fr-lg{color:#0b1d3a;font-size:26px}',
     '#frSide button.fr-tgl{width:38px;min-height:38px;padding:0;justify-content:center;flex:none;color:#475569}',
     'html.fr-col #frSide{padding-left:8px;padding-right:8px}',
     'html.fr-col #frSide .fr-lg,html.fr-col #frSide button span,html.fr-col #frSide .fr-gl{display:none}',
     'html.fr-col #frSide .fr-gl{display:block;font-size:0;padding:0;margin:8px 12px;border-top:1px solid #e5eaf2;height:0}',
-    'html.fr-col #frSide .fr-top{justify-content:center;padding:2px 0 12px}',
+    'html.fr-col #frSide .fr-top{display:none}html.fr-col #frSide{padding-top:18px}html.fr-col #frSide .fr-bot{justify-content:center}',
     'html.fr-col #frSide button{justify-content:center;padding:0}',
     '#frSide .fr-gl{font-size:11px;font-weight:800;letter-spacing:.8px;color:#94a3b8;padding:12px 12px 4px}',
     '#frSide button{display:flex;align-items:center;gap:12px;min-height:42px;padding:0 12px;border:0;border-radius:10px;background:transparent;color:#334155;font:inherit;font-size:14px;font-weight:600;text-align:left;cursor:pointer;width:100%}',
@@ -29839,13 +29840,14 @@ function elExport() {
     var x = L(), adm = isAdm();
     var s = document.getElementById('frSide');
     if (!s) { s = document.createElement('div'); s.id = 'frSide'; document.body.appendChild(s); s.addEventListener('click', onNav); }
-    var html = '<div class="fr-top"><span class="hrLogo fr-lg" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span><button type="button" class="fr-tgl" data-f="collapse" title="">' + sv(P.panel, 20) + '</button></div>';
+    var html = '<div class="fr-top"><span class="hrLogo fr-lg" role="img" aria-label="HR203"><i>H</i><i>R</i><s></s><i>2</i><i>0</i><i>3</i></span></div>';
     GROUPS.forEach(function (g) {
       var items = g[1].filter(function (i) { return !i[5] || adm; });
       if (!items.length) return;
       html += '<div class="fr-gl">' + esc(x[g[0]]) + '</div>';
       items.forEach(function (i) { html += '<button type="button" data-k="' + i[0] + '" data-t="' + (i[2] || '') + '" data-n="' + (i[3] || '') + '" data-f="' + (i[4] || '') + '" title="' + esc(x[i[0]]) + '">' + sv(P[i[1]], 20) + '<span>' + esc(x[i[0]]) + '</span></button>'; });
     });
+    html += '<div class="fr-bot"><button type="button" class="fr-tgl" data-f="collapse" title="">' + sv(P.panel, 20) + '</button></div>';
     s.innerHTML = html;
     var b = document.getElementById('frBot');
     if (!b) { b = document.createElement('div'); b.id = 'frBot'; document.body.appendChild(b); b.addEventListener('click', onNav); }
