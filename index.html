@@ -29713,7 +29713,7 @@ function elExport() {
     '#frMmPg button{width:34px;height:34px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;color:#0f172a;font-size:20px;line-height:1;cursor:pointer}',
     '#frMmPg i{width:8px;height:8px;border-radius:50%;background:#cbd5e1;cursor:pointer}#frMmPg i.on{width:20px;border-radius:5px;background:#123a5c}',
     '#frMmPg b{margin-left:8px;font-size:12px;color:#64748b}',
-    'html.fr-mmp #menuPage2{display:flex!important}html.fr-mmp #menuPager{display:none!important}',
+    'html.fr-mmp #menuPage1,html.fr-mmp #menuPage2{display:flex!important}html.fr-mmp #menuPager{display:none!important}',
     'html.fr-mmp .quick-btn.fr-hid{display:none!important}html.fr-mmp .fr-mm.fr-empty{display:none!important}',
     'html.fresh #kbFab{width:46px;height:46px;border-radius:16px;background:linear-gradient(135deg,#3b5bdb,#123a5c);box-shadow:0 6px 16px rgba(18,58,92,.35)}',
     'html.fresh #kbFab svg{display:none}',
@@ -30127,7 +30127,7 @@ function elExport() {
     var dateTxt = ''; try { dateTxt = new Date().toLocaleDateString(x.loc, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Phnom_Penh' }); } catch (e) { dateTxt = todayStr(); }
     var cur = cn.getUTCMonth(), mx = Math.max.apply(null, mh.concat([1]));
     var cards = [['tStaff', nums[0], '#e0f2fe', '#0369a1', P.emp, 'tab-employee', 'nav-employee', ''], ['tOff', nums[1], '#fef3c7', '#b45309', P.off, 'tab-attcal', 'nav-attcal', ''], ['tPend', nums[2], '#ffe4e6', '#be123c', P.ok, '', '', 'openPendingApprovalsModal'], ['tRes', nums[3], '#f1f5f9', '#475569', P.user, 'tab-employee', 'nav-employee', '']];
-    var qa = [['qry', 'search', 'tab-query', 'nav-query', '', 0], ['att', 'clock', 'tab-att', 'nav-att', '', 0], ['lea', 'cal', 'tab-leave', 'nav-leave', '', 0], ['mon', 'rep', 'tab-monthly', 'nav-monthly', '', 0], ['hub', 'hub', 'tab-opshub', 'nav-opshub', '', 1]].filter(function (q) { return !q[5] || isAdm(); });
+    var qa = [['add', 'add', 'tab-add', 'nav-add', '', 0], ['qry', 'search', 'tab-query', 'nav-query', '', 0], ['att', 'clock', 'tab-att', 'nav-att', '', 0], ['lea', 'cal', 'tab-leave', 'nav-leave', '', 0], ['mon', 'rep', 'tab-monthly', 'nav-monthly', '', 0], ['hub', 'hub', 'tab-opshub', 'nav-opshub', '', 1]].filter(function (q) { return !q[5] || isAdm(); });
     var qaNames = { qry: x.qry, add: x.add, att: x.att, lea: x.lea, mon: x.mon, hub: x.hub, pay: x.pay };
     d.innerHTML = meHtml() + '<div class="fr-sep"></div>' +
       '<div class="fr-h"><div><h2>' + esc(x.ov) + '</h2><p>' + esc(dateTxt) + '</p></div></div>' +
