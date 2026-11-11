@@ -1367,7 +1367,7 @@ async function TD_remember(found) {
   }
   function mark() { var cur = (C.active && C.active()) || C.cur || G()[0][1][0].k; if (!Array.isArray(cur)) cur = [cur]; ['frSide', 'frBot'].forEach(function (id) { var r = document.getElementById(id); if (!r) return; Array.prototype.forEach.call(r.querySelectorAll('button[data-k]'), function (b) { b.classList.toggle('on', cur.indexOf(b.getAttribute('data-k')) >= 0); }); }); }
   /* ---- My profile (photo + display name). Staff accounts: accounts/<key>/profile. Others: profiles/<uid>. ---- */
-  var PT = { gm: ['Good Morning!', 'អរុណសួស្តី!', '早上好！'], ga: ['Good Afternoon!', 'សួស្តីរសៀល!', '下午好！'], ge: ['Good Evening!', 'សាយណ្ហសួស្តី!', '晚上好！'],
+  var PT = { gm: ['Good Morning!', 'អរុណសួស្តី!', '早上好！'], ga: ['Good Afternoon!', 'ទិវាសួស្តី!', '下午好！'], ge: ['Good Evening!', 'សាយណ្ហសួស្តី!', '晚上好！'],
     prT: ['My Profile', 'ប្រវត្តិរូបរបស់ខ្ញុំ', '我的资料'], prUp: ['Upload new photo', 'ផ្ទុករូបថតថ្មី', '上传新照片'], prRm: ['Remove photo', 'លុបរូបថត', '删除照片'], prName: ['Display name', 'ឈ្មោះបង្ហាញ', '显示名称'],
     prShown: ['Shown on the card as', 'បង្ហាញលើកាតជា', '卡片上显示为'], prSave: ['Save', 'រក្សាទុក', '保存'], prCancel: ['Cancel', 'បោះបង់', '取消'],
     crT: ['Drag to move, slide to zoom', 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', '拖动移动，滑动缩放'], crOk: ['Use this photo', 'ប្រើរូបថតនេះ', '使用此照片'],
