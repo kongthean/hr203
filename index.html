@@ -21293,6 +21293,18 @@ function dgInstall() {
             sp.appendChild(gsel); nb.insertBefore(sp, nb.querySelector('.dg-clear') || null);
             if (fg) fg.remove();
         }
+        /* date + Show Employees on the same line too */
+        const dIn = document.getElementById('attDate'), sBtn = form.querySelector('button[type=submit]');
+        if (dIn) {
+            const dfg = dIn.closest('.form-group');
+            const sp2 = document.createElement('span'); sp2.style.cssText = 'display:inline-flex; align-items:center; gap:8px; flex-wrap:nowrap;';
+            sp2.innerHTML = '<label style="margin:0; font-size:12px; font-weight:700; white-space:nowrap;" data-i18n="lblAttDate">Date</label>';
+            dIn.style.cssText = 'padding:6px 8px; border:1px solid #cbd5e1; border-radius:8px; font-size:12px; width:auto; margin:0;';
+            sp2.appendChild(dIn); nb.insertBefore(sp2, nb.querySelector('.dg-clear') || null);
+            if (dfg) dfg.remove();
+        }
+        if (sBtn) { sBtn.style.cssText = 'width:auto; padding:7px 18px; margin:0; font-size:12px;'; nb.insertBefore(sBtn, nb.querySelector('.dg-clear') || null); }
+        form.style.maxWidth = '900px';
     } }
     dgFillAll();
 }
@@ -29781,7 +29793,7 @@ function elExport() {
     '#frDash .fr-hb{display:flex;gap:8px;flex-wrap:wrap}',
     '#frDash .fr-b{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 14px;border-radius:10px;border:1px solid #e2e8f0;background:#fff;color:#0f172a;font:inherit;font-weight:700;font-size:14px;cursor:pointer}',
     '#frDash .fr-b.pri{background:#123a5c;border-color:#123a5c;color:#fff}',
-    '#frDash .fr-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}',
+    '#frDash .fr-cards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:14px}',
     '#frDash .fr-card{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #e5eaf2;border-radius:16px;padding:14px 16px;cursor:pointer;text-align:left;font:inherit;color:#0f172a;box-shadow:0 2px 8px rgba(15,23,42,.04)}',
     '#frDash .fr-card:hover{box-shadow:0 8px 20px rgba(15,23,42,.1)}',
     '#frDash .fr-ci{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex:none}',
@@ -29883,7 +29895,7 @@ function elExport() {
       gOv: 'OVERVIEW', gPe: 'PEOPLE', gTi: 'TIME', gRe: 'REPORTS', gAd: 'ADMIN',
       dash: 'Dashboard', emp: 'Employee', mst: 'Master Sheet', add: 'Add Employee', qry: 'Check Record', att: 'Attendance', lea: 'Leave Records', shf: 'Shift Roster', mon: 'Monthly Report', hub: 'Operations Hub', pay: 'Payroll', pen: 'Pending Approvals', mgt: 'Management',
       gm: 'Good Morning!', ga: 'Good Afternoon!', ge: 'Good Evening!', prT: 'My Profile', prUp: 'Upload new photo', prRm: 'Remove photo', prName: 'Display name', prShown: 'Shown on the card as', crT: 'Drag to move, slide to zoom', crOk: 'Use this photo', seeAll: 'See all', sta: 'Employee Status', num: 'All numbers', back: 'Back to Dashboard', prSave: 'Save', prCancel: 'Cancel', prErr: 'Could not save. Ask the administrator to publish the new Firebase rules.',
-      ov: 'Overview', exp: 'Export', addB: '+ Add Employee', tStaff: 'Total staff', tOff: 'On leave today', tPend: 'Pending approvals', tRes: 'Resigned this year',
+      ov: 'Overview', exp: 'Export', addB: '+ Add Employee', tStaff: 'Total staff', tOff: 'On leave today', tOffY: 'On leave yesterday', tPend: 'Pending approvals', tRes: 'Resigned this year',
       chart: 'Leave taken, by month', unit: 'hours', qa: 'Quick actions', allNum: 'All numbers', allMenu: 'All menu',
       bHome: 'Home', bPeople: 'People', bLeave: 'Leave', bRep: 'Reports', bMore: 'More',
       mo: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], loc: 'en-GB' },
@@ -29891,7 +29903,7 @@ function elExport() {
       gOv: 'ទិដ្ឋភាពទូទៅ', gPe: 'បុគ្គលិក', gTi: 'ពេលវេលា', gRe: 'របាយការណ៍', gAd: 'រដ្ឋបាល',
       dash: 'ផ្ទាំងព័ត៌មាន', emp: 'បុគ្គលិក', mst: 'តារាងមេ', add: 'បន្ថែមបុគ្គលិក', qry: 'ពិនិត្យកំណត់ត្រា', att: 'វត្តមាន', lea: 'កំណត់ត្រាច្បាប់', shf: 'តារាងវេន', mon: 'របាយការណ៍ប្រចាំខែ', hub: 'មជ្ឈមណ្ឌលប្រតិបត្តិការ', pay: 'ប្រាក់ខែ', pen: 'រង់ចាំការអនុម័ត', mgt: 'ការគ្រប់គ្រង',
       gm: 'អរុណសួស្តី!', ga: 'ទិវាសួស្តី!', ge: 'សាយណ្ហសួស្តី!', prT: 'ប្រវត្តិរូបរបស់ខ្ញុំ', prUp: 'ផ្ទុករូបថតថ្មី', prRm: 'លុបរូបថត', prName: 'ឈ្មោះបង្ហាញ', prShown: 'បង្ហាញលើកាតជា', crT: 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', crOk: 'ប្រើរូបថតនេះ', seeAll: 'មើលទាំងអស់', sta: 'ស្ថានភាពបុគ្គលិក', num: 'លេខទាំងអស់', back: 'ត្រឡប់ទៅផ្ទាំងព័ត៌មាន', prSave: 'រក្សាទុក', prCancel: 'បោះបង់', prErr: 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។',
-      ov: 'ទិដ្ឋភាពទូទៅ', exp: 'នាំចេញ', addB: '+ បន្ថែមបុគ្គលិក', tStaff: 'បុគ្គលិកសរុប', tOff: 'ឈប់សម្រាកថ្ងៃនេះ', tPend: 'រង់ចាំការអនុម័ត', tRes: 'ឈប់ពីការងារឆ្នាំនេះ',
+      ov: 'ទិដ្ឋភាពទូទៅ', exp: 'នាំចេញ', addB: '+ បន្ថែមបុគ្គលិក', tStaff: 'បុគ្គលិកសរុប', tOff: 'ឈប់សម្រាកថ្ងៃនេះ', tOffY: 'ឈប់សម្រាកម្សិលមិញ', tPend: 'រង់ចាំការអនុម័ត', tRes: 'ឈប់ពីការងារឆ្នាំនេះ',
       chart: 'ច្បាប់ដែលបានឈប់ តាមខែ', unit: 'ម៉ោង', qa: 'ចូលរហ័ស', allNum: 'លេខទាំងអស់', allMenu: 'ម៉ឺនុយទាំងអស់',
       bHome: 'ទំព័រដើម', bPeople: 'បុគ្គលិក', bLeave: 'ច្បាប់', bRep: 'របាយការណ៍', bMore: 'ផ្សេងៗ',
       mo: ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'], loc: 'km-KH' },
@@ -29899,7 +29911,7 @@ function elExport() {
       gOv: '概览', gPe: '人员', gTi: '考勤', gRe: '报表', gAd: '管理',
       dash: '仪表板', emp: '员工', mst: '总表', add: '添加员工', qry: '查询记录', att: '考勤', lea: '请假记录', shf: '排班表', mon: '月报表', hub: '运营中心', pay: '工资', pen: '待审批', mgt: '管理',
       gm: '早上好！', ga: '下午好！', ge: '晚上好！', prT: '我的资料', prUp: '上传新照片', prRm: '删除照片', prName: '显示名称', prShown: '卡片上显示为', crT: '拖动移动，滑动缩放', crOk: '使用此照片', seeAll: '查看全部', sta: '员工状态', num: '全部数字', back: '返回仪表板', prSave: '保存', prCancel: '取消', prErr: '无法保存。请让管理员发布新的 Firebase 规则。',
-      ov: '概览', exp: '导出', addB: '+ 添加员工', tStaff: '员工总数', tOff: '今日请假', tPend: '待审批', tRes: '今年离职',
+      ov: '概览', exp: '导出', addB: '+ 添加员工', tStaff: '员工总数', tOff: '今日请假', tOffY: '昨日请假', tPend: '待审批', tRes: '今年离职',
       chart: '每月请假时数', unit: '小时', qa: '快捷操作', allNum: '全部数字', allMenu: '全部菜单',
       bHome: '首页', bPeople: '员工', bLeave: '请假', bRep: '报表', bMore: '更多',
       mo: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'], loc: 'zh-CN' }
@@ -29970,6 +29982,9 @@ function elExport() {
   function todayStr() { return cambodiaNow().toISOString().slice(0, 10); }
   function offToday() {
     try { var t = todayStr(), seen = {}; (leaveHistory || []).forEach(function (h) { if (h.date === t && (parseFloat(h.hours) || 0) > 0) seen[h.empId] = 1; }); return Object.keys(seen).length; } catch (e) { return 0; }
+  }
+  function offYest() {
+    try { var t = new Date(Date.now() + 7 * 3600 * 1000 - 86400000).toISOString().slice(0, 10), seen = {}; (leaveHistory || []).forEach(function (h) { if (h.date === t && (parseFloat(h.hours) || 0) > 0) seen[h.empId] = 1; }); return Object.keys(seen).length; } catch (e) { return 0; }
   }
   function resignedThisYear() {
     try {
@@ -30273,13 +30288,13 @@ function elExport() {
   var dashKey = '';
   function dash(force) {
     var d = document.getElementById('frDash'); if (!d) return;
-    var x = L(), cn = cambodiaNow(), nums = [employees.length, offToday(), num('statPendingApprovals'), resignedThisYear()];
+    var x = L(), cn = cambodiaNow(), nums = [employees.length, offToday(), num('statPendingApprovals'), resignedThisYear(), offYest()];
     var mh = monthHours();
     var key = nums.join(',') + '|' + mh.join(',') + '|' + (typeof currentLang !== 'undefined' ? currentLang : '') + '|' + todayStr() + '|' + isAdm() + '|' + cn.getUTCHours() + '|' + lastName() + '|' + ((prof && prof.photo) ? prof.photo.length : 0);
     if (!force && key === dashKey) return; dashKey = key;
     var dateTxt = ''; try { dateTxt = new Date().toLocaleDateString(x.loc, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Phnom_Penh' }); } catch (e) { dateTxt = todayStr(); }
     var cur = cn.getUTCMonth(), mx = Math.max.apply(null, mh.concat([1]));
-    var cards = [['tStaff', nums[0], '#e0f2fe', '#0369a1', P.emp, 'tab-employee', 'nav-employee', ''], ['tOff', nums[1], '#fef3c7', '#b45309', P.off, 'tab-attcal', 'nav-attcal', ''], ['tPend', nums[2], '#ffe4e6', '#be123c', P.ok, '', '', 'openPendingApprovalsModal'], ['tRes', nums[3], '#f1f5f9', '#475569', P.user, 'tab-employee', 'nav-employee', '']];
+    var cards = [['tStaff', nums[0], '#e0f2fe', '#0369a1', P.emp, 'tab-employee', 'nav-employee', ''], ['tOff', nums[1], '#fef3c7', '#b45309', P.off, 'tab-attcal', 'nav-attcal', ''], ['tOffY', nums[4], '#ffedd5', '#c2410c', P.off, 'tab-attcal', 'nav-attcal', ''], ['tPend', nums[2], '#ffe4e6', '#be123c', P.ok, '', '', 'openPendingApprovalsModal'], ['tRes', nums[3], '#f1f5f9', '#475569', P.user, 'tab-employee', 'nav-employee', '']];
     var qa = [['add', 'add', 'tab-add', 'nav-add', '', 0], ['qry', 'search', 'tab-query', 'nav-query', '', 0], ['att', 'clock', 'tab-att', 'nav-att', '', 0], ['lea', 'cal', 'tab-leave', 'nav-leave', '', 0], ['mon', 'rep', 'tab-monthly', 'nav-monthly', '', 0], ['hub', 'hub', 'tab-opshub', 'nav-opshub', '', 1]].filter(function (q) { return !q[5] || isAdm(); });
     var qaNames = { qry: x.qry, add: x.add, att: x.att, lea: x.lea, mon: x.mon, hub: x.hub, pay: x.pay };
     d.innerHTML = meHtml() + '<div class="fr-sep"></div>' +
