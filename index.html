@@ -29720,15 +29720,16 @@ function elExport() {
     '.fr-mc.quick-btn:hover,.fr-mc.quick-btn:active,.fr-mc.quick-btn:focus{box-shadow:none!important;transform:none!important;filter:none!important;outline:none!important;background:#f8fafc!important;border-color:#e5eaf2!important}#frAllMenu .mg .fr-mc.quick-btn:hover,#frAllMenu .mg .fr-mc.quick-btn:active{background:#fff!important}',
     '#frDash .fr-q:hover,#frDash .fr-q:active,#frDash .fr-q:focus{box-shadow:none!important;transform:none!important;outline:none!important;background:#fff!important}#frDash .fr-q{-webkit-tap-highlight-color:transparent}',
     '.fr-mc.quick-btn::before,.fr-mc.quick-btn::after{display:none!important}',
-    '.fr-mc .notif-badge{top:-6px!important;right:-4px!important}',
+    '.fr-mc .fr-bd{background:#dc2626;color:#fff;border-radius:10px;min-width:18px;height:18px;padding:0 5px;font-size:11px;font-weight:700;line-height:18px;text-align:center;flex:0 0 auto}',
+    '#frAllMenu .mg .fr-mc .fr-bd{position:absolute;top:6px;right:8px}',
     '#frDash .fr-hd{display:flex;flex-direction:column;align-items:center;gap:4px;margin:10px auto 0;border:0;background:none;cursor:pointer;color:#64748b;font:inherit;font-size:11px;font-weight:600;padding:4px 20px}',
     '#frDash .fr-hd i{display:block;width:54px;height:6px;border-radius:4px;background:#123a5c;animation:frj 1.4s ease-in-out infinite}',
     '@keyframes frj{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}',
     '#frAllMenu{position:fixed;inset:0;z-index:9300;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center}',
     '#frAllMenu .mc{background:#fff;width:100%;max-width:1000px;border-radius:22px 22px 0 0;padding:16px 20px 22px;box-shadow:0 -10px 30px rgba(15,23,42,.2);max-height:88vh;overflow-y:auto;animation:frup .22s ease-out}',
     '@keyframes frup{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}',
-    '#frAllMenu .mh{display:flex;align-items:center;gap:10px;margin-bottom:12px}#frAllMenu .mh b{font-size:17px;color:#0f172a}#frAllMenu .mh span{font-size:12px;color:#64748b;background:#eef2f7;border-radius:10px;padding:2px 8px}#frAllMenu .mx{margin-left:auto;border:0;background:#f1f5f9;border-radius:50%;width:34px;height:34px;font-size:22px;line-height:1;cursor:pointer;color:#0f172a}',
-    '#frAllMenu .mg{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}',
+    '#frAllMenu .mh{display:flex;align-items:center;gap:10px;margin-bottom:12px}#frAllMenu .mh b{font-size:17px;color:#0f172a}#frAllMenu .mx{margin-left:auto;border:0;background:#f1f5f9;border-radius:50%;width:34px;height:34px;font-size:22px;line-height:1;cursor:pointer;color:#0f172a}',
+    '#frAllMenu .mg{display:grid;grid-template-columns:repeat(8,1fr);grid-auto-rows:78px;gap:10px;min-height:254px;align-content:start}',
     '#frAllMenu .mg .fr-mc.quick-btn{flex-direction:column!important;height:78px!important;min-height:78px!important;padding:6px 4px!important;gap:5px;justify-content:center;background:#fff!important;box-shadow:none!important;border-radius:14px!important}',
     '#frAllMenu .mg .fr-mc .quick-btn-label{font-size:11px!important;white-space:normal;text-align:center;line-height:1.15}',
     '#frAllMenu .mp{display:flex;justify-content:center;gap:8px;margin-top:16px}#frAllMenu .mp button{width:36px;height:36px;border-radius:50%;border:1px solid #e2e8f0;background:#fff;color:#0f172a;font-weight:700;cursor:pointer}#frAllMenu .mp button.on{background:#123a5c;color:#fff;border-color:#123a5c}',
@@ -30020,6 +30021,9 @@ function elExport() {
   function cloneOf(b, i) {
     var c = b.cloneNode(true); c.removeAttribute('id'); c.removeAttribute('onclick'); c.setAttribute('data-mi', i); c.classList.add('fr-mc');
     Array.prototype.forEach.call(c.querySelectorAll('[id]'), function (e) { e.removeAttribute('id'); });
+    var ob = b.querySelector('[class*="badge"]');
+    Array.prototype.forEach.call(c.querySelectorAll('[class*="badge"]'), function (e) { e.remove(); });
+    if (ob) { var tx = (ob.textContent || '').trim(); if (getComputedStyle(ob).display !== 'none' && tx && tx !== '0') { var bd = document.createElement('span'); bd.className = 'fr-bd'; bd.textContent = tx; c.appendChild(bd); } }
     return c;
   }
   var menuSrc = [];
@@ -30028,7 +30032,7 @@ function elExport() {
       var row = document.getElementById('frRow'); if (!row) return;
       var fresh = document.documentElement.classList.contains('fresh'); if (!fresh) return;
       var its = menuItems(); menuSrc = its;
-      var sig = its.map(function (b) { return b.textContent.replace(/\s+/g, ' ').trim(); }).join('|') + '#' + document.documentElement.lang;
+      var sig = its.map(function (b) { var q = b.querySelector('[class*="badge"]'); return b.textContent.replace(/\s+/g, ' ').trim() + (q && getComputedStyle(q).display !== 'none' ? '!' : ''); }).join('|') + '#' + document.documentElement.lang;
       if (row.getAttribute('data-s') !== sig) {
         row.setAttribute('data-s', sig); row.innerHTML = '';
         its.forEach(function (b, i) { row.appendChild(cloneOf(b, i)); });
@@ -30050,7 +30054,7 @@ function elExport() {
     var mob = window.matchMedia('(max-width:1023px)').matches, per = mob ? 9 : 24, its = menuItems(), n = Math.max(1, Math.ceil(its.length / per)), cur = 0, x = L();
     var o = document.createElement('div'); o.id = 'frAllMenu'; document.body.appendChild(o);
     function draw() {
-      var h = '<div class="mc"><div class="mh"><b>' + esc(x.allMenu) + '</b><span>' + its.length + '</span><button type="button" class="mx" aria-label="Close">&times;</button></div><div class="mg"></div>';
+      var h = '<div class="mc"><div class="mh"><b>' + esc(x.allMenu) + '</b><button type="button" class="mx" aria-label="Close">&times;</button></div><div class="mg"></div>';
       if (n > 1) { h += '<div class="mp">'; for (var i = 0; i < n; i++) h += '<button type="button" class="' + (i === cur ? 'on' : '') + '" data-p="' + i + '">' + (i + 1) + '</button>'; h += '</div>'; }
       o.innerHTML = h + '</div>';
       var g = o.querySelector('.mg'); its.slice(cur * per, cur * per + per).forEach(function (b, i) { g.appendChild(cloneOf(b, cur * per + i)); });
