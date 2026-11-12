@@ -29623,6 +29623,45 @@ function elExport() {
 </script>
 
 <script>
+/* v9.3 Fresh theme access gate: owner only until released in Maintenance > Theme */
+(function () {
+  if (window.__uiGate) return;
+  var AK = 'uiAcc', OK = 'uiOwnerOK';
+  var DEF = { en: 'The new Fresh look is coming soon.', km: 'រចនាបថថ្មី Fresh នឹងមកដល់ឆាប់ៗនេះ។', zh: '全新 Fresh 外观即将推出。' };
+  function acc() { try { return JSON.parse(localStorage.getItem(AK) || 'null') || {}; } catch (e) { return {}; } }
+  function owner() { try { return localStorage.getItem(OK) === '1'; } catch (e) { return false; } }
+  function lng() { var l = 'en'; try { l = window.currentLang || window.lang || localStorage.getItem('lang') || localStorage.getItem('appLang') || document.documentElement.lang || 'en'; } catch (e) {} l = String(l).slice(0, 2); return DEF[l] ? l : 'en'; }
+  function note() { var a = acc(), l = lng(); return (a.note && a.note[l]) || DEF[l]; }
+  function changed() { try { window.dispatchEvent(new Event('uigate')); } catch (e) {} }
+  function toast() {
+    try {
+      var o = document.getElementById('uiSoon'); if (o) o.remove();
+      o = document.createElement('div'); o.id = 'uiSoon'; o.textContent = note();
+      o.style.cssText = 'position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#0f172a;color:#fff;padding:12px 18px;border-radius:12px;font:600 14px Arial,sans-serif;z-index:2147483200;box-shadow:0 8px 24px rgba(15,23,42,.3);max-width:86vw;text-align:center';
+      document.body.appendChild(o); setTimeout(function () { try { o.remove(); } catch (e) {} }, 3200);
+    } catch (e) {}
+  }
+  window.__uiGate = { ok: function () { return acc().mode === 'all' || owner(); }, note: note, toast: toast };
+  var hooked = false, n = 0;
+  function hook() {
+    if (hooked) return true;
+    if (typeof db === 'undefined' || typeof firebase === 'undefined') return false;
+    hooked = true;
+    try { db.ref('uiTheme/_access').on('value', function (sn) { var v = sn.val() || {}; try { localStorage.setItem(AK, JSON.stringify({ mode: v.mode === 'all' ? 'all' : 'owner', note: v.note || null })); } catch (e) {} changed(); }, function () {}); } catch (e) {}
+    try {
+      firebase.auth().onAuthStateChanged(function (u) {
+        var set = function (v) { try { localStorage.setItem(OK, v ? '1' : '0'); } catch (e) {} changed(); };
+        if (!u) { set(false); return; }
+        db.ref('staff/' + u.uid + '/owner').once('value').then(function (s) { set(s.val() === true); }, function () { set(false); });
+      });
+    } catch (e) {}
+    return true;
+  }
+  var iv = setInterval(function () { if (hook() || ++n > 150) clearInterval(iv); }, 200);
+})();
+
+</script>
+<script>
 /* ================= v8.30: FRESH THEME (dashboard look) =================
    Classic stays the default. The choice is saved in this browser. Fresh is a new look: white top bar, grouped left menu,
    a new Overview page and a phone bottom menu. It only READS data the site already has. It changes no data and no calculation. */
@@ -29632,7 +29671,9 @@ function elExport() {
   function sysId() { try { return sessionStorage.getItem('loggedInRole') === 'hr' ? 'hr' : 'admin'; } catch (e) { return 'admin'; } }
   function cfg() { try { return JSON.parse(localStorage.getItem('uiCfg') || '{}') || {}; } catch (e) { return {}; } }
   function forced() { var c = cfg()[sysId()]; return c && c.lock ? (c.def === 'fresh' ? 'fresh' : 'classic') : ''; }
+  function gOk() { return !window.__uiGate || window.__uiGate.ok(); }
   function get() {
+    if (!gOk()) return 'classic';
     var s = sysId(), c = cfg()[s] || {}, def = c.def === 'fresh' ? 'fresh' : 'classic';
     if (c.lock) return def;
     var u = null; try { u = localStorage.getItem('uiTheme.' + s) || localStorage.getItem(KEY); } catch (e) {}
@@ -29719,6 +29760,7 @@ function elExport() {
     'html.fresh .fr-stk{position:sticky;top:calc(var(--frstk,70px) - 14px);margin-top:-14px;z-index:60;background:#f5f7fb;padding-top:20px}',
     'html.fresh .fr-mm{display:none!important}',
     '#frDash .fr-pins{padding:14px}#frDash .fr-pins .fr-qa{margin-top:0;grid-template-columns:repeat(6,1fr)}',
+    '.lang-option.fr-soon{opacity:.7}.fr-st{margin-left:8px;background:#e0f2fe;color:#0369a1;border-radius:20px;font-size:10px;font-weight:700;padding:1px 7px}',
     '#frDash .fr-sepl{height:1px;background:#e5eaf2;margin:14px 0 12px}',
     '#frDash .fr-rowS{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;cursor:grab;-webkit-overflow-scrolling:touch}',
     '#frDash .fr-rowS::-webkit-scrollbar{display:none}',
@@ -29731,8 +29773,8 @@ function elExport() {
     '.fr-mc.quick-btn::before,.fr-mc.quick-btn::after{display:none!important}',
     '.fr-mc .fr-bd{background:#dc2626;color:#fff;border-radius:10px;min-width:18px;height:18px;padding:0 5px;font-size:11px;font-weight:700;line-height:18px;text-align:center;flex:0 0 auto}',
     '#frAllMenu .mg .fr-mc .fr-bd{position:absolute;top:6px;right:8px}',
-    '#frDash .fr-hd{display:flex;flex-direction:column;align-items:center;gap:4px;margin:10px auto 0;border:0;background:none;cursor:pointer;color:#64748b;font:inherit;font-size:11px;font-weight:600;padding:4px 20px}',
-    '#frDash .fr-hd i{display:block;width:54px;height:6px;border-radius:4px;background:#123a5c;animation:frj 1.4s ease-in-out infinite}',
+    '#frDash .fr-hd{display:flex;flex-direction:column;align-items:center;gap:4px;margin:6px auto 0;border:0;background:none;cursor:pointer;padding:10px 36px}',
+    '#frDash .fr-hd i{display:block;width:36px;height:4px;border-radius:4px;background:#94a3b8;animation:frj 1.4s ease-in-out infinite}',
     '@keyframes frj{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}',
     '#frAllMenu{position:fixed;inset:0;z-index:9300;background:rgba(15,23,42,.45);display:flex;align-items:flex-end;justify-content:center}',
     '#frAllMenu .mc{background:#fff;width:100%;max-width:1000px;border-radius:22px 22px 0 0;padding:16px 20px 22px;box-shadow:0 -10px 30px rgba(15,23,42,.2);max-height:88vh;overflow-y:auto;animation:frup .22s ease-out}',
@@ -29847,7 +29889,7 @@ function elExport() {
     'html.fresh #frDash .fr-h{margin:2px 0 8px}',
     'html.fresh #frDash .fr-card{padding:8px 14px}html.fresh #frDash .fr-cards{gap:10px;margin-bottom:10px}',
     'html.fresh #frDash .fr-two{gap:10px;margin-bottom:10px}html.fresh #frDash .fr-box{padding:10px 14px}',
-    'html.fresh #frDash .fr-ch{height:clamp(70px,calc(100vh - 582px),190px);margin-top:6px}html.fresh #frDash .fr-pins{padding:10px 14px}html.fresh #frDash .fr-sepl{margin:10px 0 8px}html.fresh #frDash .fr-hd{margin-top:4px;padding:2px 20px}',
+    'html.fresh #frDash .fr-ch{height:clamp(70px,calc(100vh - 582px),190px);margin-top:6px}html.fresh #frDash .fr-pins{padding:10px 14px}html.fresh #frDash .fr-sepl{margin:10px 0 8px}html.fresh #frDash .fr-hd{margin-top:2px;padding:8px 36px}',
     'html.fresh #frDash .fr-q{min-height:60px;padding:6px 4px;gap:4px}html.fresh #frDash .fr-qa{margin-top:6px}',
     '}',
     'html.fresh #adminApp{padding-left:calc(var(--frw) + 12px)}',
@@ -29895,7 +29937,7 @@ function elExport() {
       gOv: 'OVERVIEW', gPe: 'PEOPLE', gTi: 'TIME', gRe: 'REPORTS', gAd: 'ADMIN',
       dash: 'Dashboard', emp: 'Employee', mst: 'Master Sheet', add: 'Add Employee', qry: 'Check Record', att: 'Attendance', lea: 'Leave Records', shf: 'Shift Roster', mon: 'Monthly Report', hub: 'Operations Hub', pay: 'Payroll', pen: 'Pending Approvals', mgt: 'Management',
       gm: 'Good Morning!', ga: 'Good Afternoon!', ge: 'Good Evening!', prT: 'My Profile', prUp: 'Upload new photo', prRm: 'Remove photo', prName: 'Display name', prShown: 'Shown on the card as', crT: 'Drag to move, slide to zoom', crOk: 'Use this photo', seeAll: 'See all', sta: 'Employee Status', num: 'All numbers', back: 'Back to Dashboard', prSave: 'Save', prCancel: 'Cancel', prErr: 'Could not save. Ask the administrator to publish the new Firebase rules.',
-      ov: 'Overview', exp: 'Export', addB: '+ Add Employee', tStaff: 'Total staff', tOff: 'On leave today', tOffY: 'On leave yesterday', tPend: 'Pending approvals', tRes: 'Resigned this year',
+      ov: 'Overview', exp: 'Export', addB: '+ Add Employee', tStaff: 'Total staff', soon: 'Coming soon', tOff: 'On leave today', tOffY: 'On leave yesterday', tPend: 'Pending approvals', tRes: 'Resigned this year',
       chart: 'Leave taken, by month', unit: 'hours', qa: 'Quick actions', allNum: 'All numbers', allMenu: 'All menu',
       bHome: 'Home', bPeople: 'People', bLeave: 'Leave', bRep: 'Reports', bMore: 'More',
       mo: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], loc: 'en-GB' },
@@ -29903,7 +29945,7 @@ function elExport() {
       gOv: 'ទិដ្ឋភាពទូទៅ', gPe: 'បុគ្គលិក', gTi: 'ពេលវេលា', gRe: 'របាយការណ៍', gAd: 'រដ្ឋបាល',
       dash: 'ផ្ទាំងព័ត៌មាន', emp: 'បុគ្គលិក', mst: 'តារាងមេ', add: 'បន្ថែមបុគ្គលិក', qry: 'ពិនិត្យកំណត់ត្រា', att: 'វត្តមាន', lea: 'កំណត់ត្រាច្បាប់', shf: 'តារាងវេន', mon: 'របាយការណ៍ប្រចាំខែ', hub: 'មជ្ឈមណ្ឌលប្រតិបត្តិការ', pay: 'ប្រាក់ខែ', pen: 'រង់ចាំការអនុម័ត', mgt: 'ការគ្រប់គ្រង',
       gm: 'អរុណសួស្តី!', ga: 'ទិវាសួស្តី!', ge: 'សាយណ្ហសួស្តី!', prT: 'ប្រវត្តិរូបរបស់ខ្ញុំ', prUp: 'ផ្ទុករូបថតថ្មី', prRm: 'លុបរូបថត', prName: 'ឈ្មោះបង្ហាញ', prShown: 'បង្ហាញលើកាតជា', crT: 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', crOk: 'ប្រើរូបថតនេះ', seeAll: 'មើលទាំងអស់', sta: 'ស្ថានភាពបុគ្គលិក', num: 'លេខទាំងអស់', back: 'ត្រឡប់ទៅផ្ទាំងព័ត៌មាន', prSave: 'រក្សាទុក', prCancel: 'បោះបង់', prErr: 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។',
-      ov: 'ទិដ្ឋភាពទូទៅ', exp: 'នាំចេញ', addB: '+ បន្ថែមបុគ្គលិក', tStaff: 'បុគ្គលិកសរុប', tOff: 'ឈប់សម្រាកថ្ងៃនេះ', tOffY: 'ឈប់សម្រាកម្សិលមិញ', tPend: 'រង់ចាំការអនុម័ត', tRes: 'ឈប់ពីការងារឆ្នាំនេះ',
+      ov: 'ទិដ្ឋភាពទូទៅ', exp: 'នាំចេញ', addB: '+ បន្ថែមបុគ្គលិក', tStaff: 'បុគ្គលិកសរុប', soon: 'ឆាប់ៗនេះ', tOff: 'ឈប់សម្រាកថ្ងៃនេះ', tOffY: 'ឈប់សម្រាកម្សិលមិញ', tPend: 'រង់ចាំការអនុម័ត', tRes: 'ឈប់ពីការងារឆ្នាំនេះ',
       chart: 'ច្បាប់ដែលបានឈប់ តាមខែ', unit: 'ម៉ោង', qa: 'ចូលរហ័ស', allNum: 'លេខទាំងអស់', allMenu: 'ម៉ឺនុយទាំងអស់',
       bHome: 'ទំព័រដើម', bPeople: 'បុគ្គលិក', bLeave: 'ច្បាប់', bRep: 'របាយការណ៍', bMore: 'ផ្សេងៗ',
       mo: ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'], loc: 'km-KH' },
@@ -29911,7 +29953,7 @@ function elExport() {
       gOv: '概览', gPe: '人员', gTi: '考勤', gRe: '报表', gAd: '管理',
       dash: '仪表板', emp: '员工', mst: '总表', add: '添加员工', qry: '查询记录', att: '考勤', lea: '请假记录', shf: '排班表', mon: '月报表', hub: '运营中心', pay: '工资', pen: '待审批', mgt: '管理',
       gm: '早上好！', ga: '下午好！', ge: '晚上好！', prT: '我的资料', prUp: '上传新照片', prRm: '删除照片', prName: '显示名称', prShown: '卡片上显示为', crT: '拖动移动，滑动缩放', crOk: '使用此照片', seeAll: '查看全部', sta: '员工状态', num: '全部数字', back: '返回仪表板', prSave: '保存', prCancel: '取消', prErr: '无法保存。请让管理员发布新的 Firebase 规则。',
-      ov: '概览', exp: '导出', addB: '+ 添加员工', tStaff: '员工总数', tOff: '今日请假', tOffY: '昨日请假', tPend: '待审批', tRes: '今年离职',
+      ov: '概览', exp: '导出', addB: '+ 添加员工', tStaff: '员工总数', soon: '即将推出', tOff: '今日请假', tOffY: '昨日请假', tPend: '待审批', tRes: '今年离职',
       chart: '每月请假时数', unit: '小时', qa: '快捷操作', allNum: '全部数字', allMenu: '全部菜单',
       bHome: '首页', bPeople: '员工', bLeave: '请假', bRep: '报表', bMore: '更多',
       mo: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'], loc: 'zh-CN' }
@@ -29919,11 +29961,11 @@ function elExport() {
   function L() { var l = 'en'; try { if (typeof currentLang !== 'undefined' && TX[currentLang]) l = currentLang; } catch (e) {} return TX[l]; }
   function esc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function isAdm() { try { return (sessionStorage.getItem('loggedInRole') || 'admin') === 'admin'; } catch (e) { return true; } }
-  function apply(th) { try { localStorage.setItem('uiTheme.' + sysId(), th); } catch (e) {} sync2(); paint(); refresh(true); repage(); icons(); menuRow(); stick(); mmPaging(); }
+  function apply(th) { if (th === 'fresh' && !gOk()) { try { window.__uiGate.toast(); } catch (e) {} return; } try { localStorage.setItem('uiTheme.' + sysId(), th); } catch (e) {} sync2(); paint(); refresh(true); repage(); icons(); menuRow(); stick(); mmPaging(); }
   function paint() {
     var m = document.getElementById('frMenu'); if (!m) return; var th = get(), x = L();
     var cur = document.getElementById('frCur'); if (cur) cur.textContent = th === 'fresh' ? x.fresh : x.classic;
-    m.innerHTML = ['classic', 'fresh'].map(function (k) { return '<div class="lang-option' + (th === k ? ' active' : '') + '" data-th="' + k + '">' + x[k] + (th === k ? '<span class="fr-ck">&#10003;</span>' : '') + '</div>'; }).join('');
+    m.innerHTML = ['classic', 'fresh'].map(function (k) { var lk = k === 'fresh' && !gOk(); return '<div class="lang-option' + (th === k ? ' active' : '') + (lk ? ' fr-soon' : '') + '" data-th="' + k + '">' + (lk ? '&#128274; ' : '') + x[k] + (lk ? '<span class="fr-st">' + (x.soon || 'Coming soon') + '</span>' : '') + (th === k ? '<span class="fr-ck">&#10003;</span>' : '') + '</div>'; }).join('');
   }
   function num(id) { var e = document.getElementById(id); return e ? parseFloat(String(e.textContent).replace(/,/g, '')) || 0 : 0; }
 
@@ -30303,7 +30345,7 @@ function elExport() {
       '<div class="fr-two"><div class="fr-box"><h4>' + esc(x.chart) + '</h4><small>' + esc(x.unit) + ' · ' + cn.getUTCFullYear() + '</small><div class="fr-ch">' +
       mh.map(function (v, i) { var cls = i === cur ? ' now' : (i > cur ? ' fut' : ''); var hgt = i > cur ? 8 : Math.max(3, Math.round(v / mx * 140)); return '<div class="fr-col' + cls + '"><span class="fr-v">' + (i > cur ? '' : (Math.round(v * 10) / 10)) + '</span><div class="fr-bar" style="height:' + hgt + 'px"></div><span class="fr-m">' + esc(x.mo[i]) + '</span></div>'; }).join('') +
       '</div></div><div class="fr-box" id="frAttn"></div></div>' +
-      '<div class="fr-box fr-pins"><div class="fr-qa">' + qa.map(function (q) { return '<button type="button" class="fr-q" data-t="' + q[2] + '" data-n="' + q[3] + '" data-f="' + q[4] + '">' + sv(P[q[1]], 22) + esc(qaNames[q[0]]) + '</button>'; }).join('') + '</div><div class="fr-sepl"></div><div class="fr-rowS" id="frRow"></div><button type="button" class="fr-hd" id="frHd" aria-label="' + esc(x.allMenu) + '"><i></i><span>' + esc(x.allMenu) + '</span></button></div>' +
+      '<div class="fr-box fr-pins"><div class="fr-qa">' + qa.map(function (q) { return '<button type="button" class="fr-q" data-t="' + q[2] + '" data-n="' + q[3] + '" data-f="' + q[4] + '">' + sv(P[q[1]], 22) + esc(qaNames[q[0]]) + '</button>'; }).join('') + '</div><div class="fr-sepl"></div><div class="fr-rowS" id="frRow"></div><button type="button" class="fr-hd" id="frHd" aria-label="' + esc(x.allMenu) + '"><i></i></button></div>' +
       '';
     tg(); attn(true); try { menuRow(); icons(); } catch (e) {}
   }
@@ -30423,6 +30465,7 @@ function elExport() {
       dash(true); buildNav();
     }
   }
+  try { window.addEventListener('uigate', function () { try { sync2(); paint(); refresh(true); repage(); icons(); menuRow(); } catch (e) {} }); } catch (e) {}
   try { if (localStorage.getItem('frCol') === '1') document.documentElement.classList.add('fr-col'); } catch (e) {}
   sync2();
   build(); paint(); try { topMe(); } catch (e) {}
