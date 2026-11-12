@@ -1346,5 +1346,41 @@ async function TD_remember(found) {
   setInterval(refresh, 700); document.addEventListener('DOMContentLoaded', refresh); refresh();
 })();
 </script>
+<script>
+/* Esc closes the top-most pop-up (v9.2) */
+(function () {
+  if (window.__escAll) return; window.__escAll = 1;
+  var IDS = ['umZoom', 'frAll', 'frProf', 'setBox'];
+  function vis(e) { var cs = getComputedStyle(e); if (cs.display === 'none' || cs.visibility === 'hidden') return false; var r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; }
+  function z(e) { var v = parseInt(getComputedStyle(e).zIndex, 10); return isNaN(v) ? 0 : v; }
+  function pick() {
+    var c = [], i = 0;
+    document.querySelectorAll('.modal').forEach(function (m) { if (vis(m)) c.push([z(m), i++, m]); });
+    IDS.forEach(function (id) { var m = document.getElementById(id); if (m && vis(m)) c.push([z(m) + 1000000, i++, m]); });
+    Array.prototype.forEach.call(document.body.children, function (e) {
+      if (e.id === 'kbSplash' || e.id === 'umZoom' || /^fr(Side|Bot|AllMenu)$/.test(e.id) || e.classList.contains('modal') || IDS.indexOf(e.id) > -1) return;
+      var cs = getComputedStyle(e); if (cs.position !== 'fixed' || z(e) < 10000 || !vis(e)) return;
+      var r = e.getBoundingClientRect(); if (r.width < innerWidth - 4 || r.height < innerHeight - 4) return;
+      c.push([z(e), i++, e]);
+    });
+    if (!c.length) return null;
+    c.sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; });
+    return c[c.length - 1][2];
+  }
+  function closeEl(m) {
+    if (IDS.indexOf(m.id) > -1 || !m.classList.contains('modal')) { m.remove(); return; }
+    var b = m.querySelector(':scope > .modal-content > .modal-header .modal-close') || m.querySelector('.modal-close');
+    if (!b) { var bs = m.querySelectorAll('button'); for (var i = 0; i < bs.length; i++) { if (/close|cancel|hide|dismiss/i.test(bs[i].getAttribute('onclick') || '')) { b = bs[i]; break; } } }
+    if (b) b.click(); else m.style.display = 'none';
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || e.defaultPrevented) return;
+    if (document.querySelector('#gsWrap.open, .lang-menu.show')) return;
+    if (document.getElementById('frAllMenu')) return;
+    var m = pick(); if (!m) return;
+    closeEl(m); e.preventDefault();
+  });
+})();
+</script>
 </body>
 </html>

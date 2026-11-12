@@ -2788,27 +2788,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;"><h3 data-i18n="shiftTitle">Shift Roster</h3><button type="button" class="quick-btn slate" style="width:auto; min-width:auto; min-height:auto; padding:7px 14px; font-size:12px; flex-direction:row; gap:6px;" onclick="openClr('shift')" data-i18n="navClr">Clear Old Data</button></div>
      <p style="font-size:11px; color:#64748b; margin-bottom:10px;" data-i18n="shiftSub">Assign daily shift types to employees</p>
 
-     <!-- SHIFT CHECK (v6.18) - a lookup, not an assignment form: enter an Employee ID + date
-          and see that day's shift with a plain-language note on its work/rest hours (or that
-          it's a rest day). Assigning/changing a shift itself now happens directly in the
-          Monthly Shift Calendar grid below, so this replaces the old separate "Assign Shift"
-          form and the flat list/search that used to sit under it. -->
-     <div class="dash-card" style="margin-bottom:16px;">
-         <h4 data-i18n="shiftCheckTitle">Shift Check</h4>
-         <p style="font-size:11px; color:#64748b; margin-bottom:10px;" data-i18n="shiftCheckSub">Enter an Employee ID and date to see that day's shift.</p>
-         <form style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:flex-end;" onsubmit="event.preventDefault(); checkShift();">
-             <div class="form-group" style="min-width:160px; margin-bottom:0;">
-                 <label data-i18n="lblEmpId">Employee ID</label>
-                 <input type="text" id="shiftCheckEmpId" placeholder="e.g. 200001" required>
-             </div>
-             <div class="form-group" style="min-width:160px; margin-bottom:0;">
-                 <label data-i18n="shiftDate">Date</label>
-                 <input type="date" id="shiftCheckDate" required>
-             </div>
-             <button type="submit" class="btn-submit" style="width:auto; padding:8px 20px; margin-top:0;" data-i18n="btnCheckShift">Check</button>
-         </form>
-         <div id="shiftCheckResult" style="display:none; margin-top:14px;"></div>
-     </div>
+
 
      <!-- MONTHLY SHIFT CALENDAR (v6.17, editing changed to type-directly in v6.18) - a
           calendar-style grid (employee rows x day-of-month columns, like a paper attendance
@@ -21301,7 +21281,19 @@ function dgInstall() {
         if (/^(master|monthly|monthlyAL)SearchInput$/.test(s[0])) { const tp = inp.closest('.tab-panel'), mb = tp && tp.querySelector('.hrMB'); if (mb) { mb.style.marginLeft = 'auto'; mb.style.marginBottom = '0'; nb.appendChild(mb); } }
     });
     const att = document.getElementById('tab-att');
-    if (att && !att.querySelector('.dg-bar')) { const form = att.querySelector('form'); if (form) form.insertBefore(dgMake(false), form.firstChild); }
+    if (att && !att.querySelector('.dg-bar')) { const form = att.querySelector('form'); if (form) {
+        const nb = dgMake(false); form.insertBefore(nb, form.firstChild);
+        /* v9.2: the Group picker sits in the same bar, on the same line as Department */
+        const gsel = document.getElementById('attDeptSelect');
+        if (gsel) {
+            const fg = gsel.closest('.form-group');
+            const sp = document.createElement('span'); sp.style.cssText = 'display:inline-flex; align-items:center; gap:8px; flex-wrap:nowrap;';
+            sp.innerHTML = '<label style="margin:0; font-size:12px; font-weight:700; white-space:nowrap;" data-i18n="tblDepartment">Group</label>';
+            gsel.style.cssText = 'padding:6px 8px; border:1px solid #cbd5e1; border-radius:8px; font-size:12px; max-width:200px; width:auto; margin:0;';
+            sp.appendChild(gsel); nb.insertBefore(sp, nb.querySelector('.dg-clear') || null);
+            if (fg) fg.remove();
+        }
+    } }
     dgFillAll();
 }
 /* ---------- Departments tab: manage departments + assign every group to a department ---------- */
@@ -30557,6 +30549,41 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     document.querySelectorAll('.quick-btn[data-man="1"] .quick-btn-label, .fr-mc[data-man="1"] .quick-btn-label').forEach(function (e) { if (e.textContent !== u.t) e.textContent = u.t; });
   }
   setInterval(function () { try { ensure(); var p = document.getElementById('tab-fr-manual'); if (p && p.__l !== L()) paint(true); label(); } catch (e) {} }, 800);
+})();
+
+/* Esc closes the top-most pop-up (v9.2) */
+(function () {
+  if (window.__escAll) return; window.__escAll = 1;
+  var IDS = ['umZoom', 'frAll', 'frProf', 'setBox'];
+  function vis(e) { var cs = getComputedStyle(e); if (cs.display === 'none' || cs.visibility === 'hidden') return false; var r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0; }
+  function z(e) { var v = parseInt(getComputedStyle(e).zIndex, 10); return isNaN(v) ? 0 : v; }
+  function pick() {
+    var c = [], i = 0;
+    document.querySelectorAll('.modal').forEach(function (m) { if (vis(m)) c.push([z(m), i++, m]); });
+    IDS.forEach(function (id) { var m = document.getElementById(id); if (m && vis(m)) c.push([z(m) + 1000000, i++, m]); });
+    Array.prototype.forEach.call(document.body.children, function (e) {
+      if (e.id === 'kbSplash' || e.id === 'umZoom' || /^fr(Side|Bot|AllMenu)$/.test(e.id) || e.classList.contains('modal') || IDS.indexOf(e.id) > -1) return;
+      var cs = getComputedStyle(e); if (cs.position !== 'fixed' || z(e) < 10000 || !vis(e)) return;
+      var r = e.getBoundingClientRect(); if (r.width < innerWidth - 4 || r.height < innerHeight - 4) return;
+      c.push([z(e), i++, e]);
+    });
+    if (!c.length) return null;
+    c.sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; });
+    return c[c.length - 1][2];
+  }
+  function closeEl(m) {
+    if (IDS.indexOf(m.id) > -1 || !m.classList.contains('modal')) { m.remove(); return; }
+    var b = m.querySelector(':scope > .modal-content > .modal-header .modal-close') || m.querySelector('.modal-close');
+    if (!b) { var bs = m.querySelectorAll('button'); for (var i = 0; i < bs.length; i++) { if (/close|cancel|hide|dismiss/i.test(bs[i].getAttribute('onclick') || '')) { b = bs[i]; break; } } }
+    if (b) b.click(); else m.style.display = 'none';
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Escape' || e.defaultPrevented) return;
+    if (document.querySelector('#gsWrap.open, .lang-menu.show')) return;
+    if (document.getElementById('frAllMenu')) return;
+    var m = pick(); if (!m) return;
+    closeEl(m); e.preventDefault();
+  });
 })();
 
 </script>
