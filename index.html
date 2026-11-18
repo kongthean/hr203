@@ -2765,7 +2765,6 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
                          <input type="text" id="newName" placeholder="e.g. Sok Heng" required>
                      </div>
                      <div class="form-group"><label>English name</label><input type="text" id="newNameEn" placeholder="e.g. Kong Thean"></div>
-                     <div class="form-group"><label>Chinese name 中文姓名</label><input type="text" id="newNameZh"></div>
                      <div class="form-group">
                          <label data-i18n="tblSex">Sex</label>
                          <select id="newSex" required>
@@ -3953,7 +3952,6 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
              <div class="form-group"><label data-i18n="lblEmpId">Employee ID</label><input type="text" id="editId" required></div>
              <div class="form-group"><label data-i18n="lblFullName">Full Name</label><input type="text" id="editName" required></div>
              <div class="form-group"><label>English name</label><input type="text" id="editNameEn"></div>
-             <div class="form-group"><label>Chinese name 中文姓名</label><input type="text" id="editNameZh"></div>
              <div class="form-group"><label data-i18n="tblSex">Sex</label>
                  <select id="editSex"><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select>
              </div>
@@ -14404,7 +14402,7 @@ function shMarkRemove() {
      }
 
      tbody.innerHTML = rows.map(emp => {
-         let cells = '<td><b>' + emp.id + '</b></td><td style="text-align:left; white-space:nowrap;">' + emp.name + '</td>';
+         let cells = '<td><b>' + emp.id + '</b></td><td style="text-align:left; white-space:nowrap;">' + nmCell(emp, 'wrap') + '</td>';
          for (let d = dFrom; d <= dTo; d++) {
              const dateStr = year + '-' + String(month).padStart(2, '0') + '-' + String(d).padStart(2, '0');
              const dow = new Date(year, month - 1, d).getDay();
@@ -14806,7 +14804,7 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
              'thMasterTravelLeave', 'thMasterSickLeave', 'thMasterOtherLeave', 'thMasterPersonalLeave'];
 
          tbody.innerHTML = rows.map(emp => {
-             let cells = '<td><b>' + emp.id + '</b></td><td style="text-align:left; white-space:nowrap;">' + emp.name + '</td>';
+             let cells = '<td><b>' + emp.id + '</b></td><td style="text-align:left; white-space:nowrap;">' + nmCell(emp, 'wrap') + '</td>';
              let totalAnnual = 0, totalPersonal = 0;
              for (let d = 1; d <= daysInMonth; d++) {
                  const dateStr = monthPrefix + '-' + String(d).padStart(2, '0');
@@ -14874,7 +14872,7 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
          const totalsByEmp = {};
 
          tbody.innerHTML = rows.map(emp => {
-             let cells = '<td><b>' + emp.id + '</b></td><td style="text-align:left; white-space:nowrap;">' + emp.name + '</td>';
+             let cells = '<td><b>' + emp.id + '</b></td><td style="text-align:left; white-space:nowrap;">' + nmCell(emp, 'wrap') + '</td>';
              let totalWork = 0, totalOT = 0;
              for (let d = 1; d <= daysInMonth; d++) {
                  const dateStr = monthPrefix + '-' + String(d).padStart(2, '0');
@@ -15844,7 +15842,7 @@ function openEmployeeDetailModal(index) {
      document.getElementById('editIndex').value = emp.firebaseKey;
      document.getElementById('editId').value = emp.id;
      document.getElementById('editName').value = emp.name;
-     document.getElementById('editNameEn').value = emp.nameEn || ''; document.getElementById('editNameZh').value = emp.nameZh || '';
+     document.getElementById('editNameEn').value = emp.nameEn || '';
      document.getElementById('editSex').value = emp.sex || 'Male';
      document.getElementById('editDob').value = emp.dob || '';
      document.getElementById('editPob').value = emp.pob || '';
@@ -15935,7 +15933,6 @@ function openEmployeeDetailModal(index) {
          id: document.getElementById('editId').value,
          name: document.getElementById('editName').value,
          nameEn: (document.getElementById('editNameEn').value || '').trim(),
-         nameZh: (document.getElementById('editNameZh').value || '').trim(),
          sex: document.getElementById('editSex').value,
          dob: document.getElementById('editDob').value,
          pob: document.getElementById('editPob').value,
@@ -16019,7 +16016,6 @@ function openEmployeeDetailModal(index) {
          id: newEmpId,
          name: newEmpName,
          nameEn: (document.getElementById('newNameEn').value || '').trim(),
-         nameZh: (document.getElementById('newNameZh').value || '').trim(),
          sex: document.getElementById('newSex').value,
          dob: document.getElementById('newDob').value,
          pob: document.getElementById('newPob').value,
@@ -16708,7 +16704,7 @@ function hrAttInput(el) { var mx = parseFloat(el.getAttribute('data-max')); var 
              var info = !has ? '<div class="chkNote">' + escapeHtmlText(t('chkNoShift')) + '</div>' : (hrType(emp.id, date) === 'H' ? '<div class="chkNote">' + escapeHtmlText(t('chkRestDay')) + '</div>' : (d.work || d.ot || d.leave) ? '<div class="chkNote ok">' + escapeHtmlText(fillTemplate(t('chkAlready'), { w: hrFmt(d.work), o: hrFmt(d.ot), l: hrFmt(d.leave) })) + '</div>' : '');
              return '<tr' + (!has ? ' class="chkOff"' : '') + '>' +
                  '<td><b>' + emp.id + '</b></td>' +
-                 '<td style="text-align:left; white-space:nowrap;">' + emp.name + info + '</td>' +
+                 '<td style="text-align:left; white-space:nowrap;">' + nmCell(emp, 'line') + info + '</td>' +
                  '<td><input type="number" step="0.5" min="0" max="' + rm.work + '" data-max="' + rm.work + '" oninput="hrAttInput(this)" placeholder="' + (lockW ? '-' : '0.00') + '" ' + (lockW ? 'disabled ' : '') + 'style="width:90px; text-align:center;" class="att-batch-input" data-emp-key="' + emp.firebaseKey + '" data-field="work"></td>' +
                  '<td><input type="number" step="0.5" min="0" max="' + rm.ot + '" data-max="' + rm.ot + '" oninput="hrAttInput(this)" placeholder="' + (lockO ? '-' : '0.00') + '" ' + (lockO ? 'disabled ' : '') + 'style="width:90px; text-align:center;" class="att-batch-input" data-emp-key="' + emp.firebaseKey + '" data-field="ot"></td>' +
              '</tr>';
@@ -28134,7 +28130,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
   function rev(l) { if (REV[l]) return REV[l]; var m = {}; keys().forEach(function (k) { var a = T(k, l), km = T(k, 'km'); if (typeof a === 'string' && typeof km === 'string' && a && km && a !== km && a.length < 70 && !m[a]) m[a] = km; }); return REV[l] = m; }
   NM.bi = function (txt) { if (NM.lang === 'km' || typeof txt !== 'string') return txt; var km = rev(NM.lang)[txt]; return km ? km + '\n' + txt : txt; };
   function byId(id) { var s = String(id == null ? '' : id).trim(); if (!s) return null; for (var i = 0; i < employees.length; i++) if (String(employees[i].id).trim() === s) return employees[i]; return null; }
-  NM.other = function (e, lang) { lang = lang || NM.lang; return lang === 'zh' ? (e.nameZh || '') : lang === 'en' ? (e.nameEn || '') : ''; };
+  NM.other = function (e, lang) { lang = lang || NM.lang; return lang === 'km' ? '' : (e.nameEn || ''); };
   NM.nameVal = function (e, layout, lang) { layout = layout || NM.layout; lang = lang || NM.lang; var k = e.name || ''; if (lang === 'km' || layout === 'two') return k; var o = NM.other(e, lang); return o ? k + '\n' + o : k; };
   NM.nameHtml = function (e, layout, lang) { var E = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }; layout = layout || NM.layout; lang = lang || NM.lang; var o = NM.other(e, lang); if (lang === 'km' || layout === 'two' || !o) return E(e.name || ''); return E(e.name || '') + '<br>' + E(o); };
   NM.titleHtml = function (kmTxt, otherTxt) { var E = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }; return NM.lang === 'km' || !otherTxt || otherTxt === kmTxt ? E(kmTxt) : E(kmTxt) + '<br>' + E(otherTxt); };
@@ -28231,23 +28227,22 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
         if (!e) { var nm = (r.cells[ni].textContent || '').trim(); for (var q = 0; q < employees.length; q++) if (String(employees[q].name || '').trim() === nm) { e = employees[q]; break; } }
         var td = document.createElement('td'); td.className = 'nmEn'; td.textContent = e ? (e.nameEn || '') : ''; r.insertBefore(td, r.cells[ni].nextSibling); r.setAttribute('data-nm', '1');
       });
+      if (t.__nmN !== tr.cells.length) { t.__nmN = tr.cells.length; if (window.frzScan) { var w = t.closest('.table-responsive'); if (t._frz) t._frz.sig = ''; try { window.frzScan(); } catch (e) {} } }
+      if (!t.__nmOb && t.tBodies[0]) { t.__nmOb = 1; var pend = false; new MutationObserver(function () { if (pend) return; pend = true; requestAnimationFrame(function () { pend = false; try { pass(); } catch (e) {} }); }).observe(t.tBodies[0], { childList: true }); }
     });
   }
-  setInterval(function () { try { pass(); } catch (e) {} }, 600);
+  setInterval(function () { try { pass(); } catch (e) {} }, 200);
 })();
 /* ===== Check Record: name next to the ID, e.g. គង់ ធាន Kong Thean ===== */
 window.nmFull = function (e) { return e ? ((e.name || '') + (e.nameEn ? ' ' + e.nameEn : '')) : ''; };
-(function () {
-  setInterval(function () {
-    try {
-      var inp = document.getElementById('chkEmpId'); if (!inp || document.getElementById('chkEmpName')) return;
-      var g = document.createElement('div'); g.className = 'form-group'; g.innerHTML = '<label>Name ឈ្មោះ</label><input type="text" id="chkEmpName" readonly placeholder="-" style="background:#f8fafc">';
-      inp.parentNode.parentNode.insertBefore(g, inp.parentNode.nextSibling);
-      var f = function () { var v = String(inp.value || '').trim(), e = null; for (var i = 0; i < employees.length; i++) if (String(employees[i].id).trim() === v) { e = employees[i]; break; } document.getElementById('chkEmpName').value = e ? window.nmFull(e) : ''; };
-      inp.addEventListener('input', f); inp.addEventListener('change', f);
-    } catch (e) {}
-  }, 800);
-})();
+window.nmCell = function (e, mode) {
+  var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var n = esc(e && e.name), en = e && e.nameEn ? esc(e.nameEn) : '';
+  if (!en) return n;
+  if (mode === 'line') return n + ' ' + en;
+  var l = (typeof currentLang === 'string') ? currentLang : 'en';
+  return l === 'km' ? n : n + '<br><span style="font-weight:400;color:#475569">' + en + '</span>';
+};
 /* ===== all other exports and prints ===== */
 (function () {
   var depth = 0;
@@ -28335,7 +28330,7 @@ window.nmCopyEn = async function () {
     var k = (th.getAttribute('data-i18n') || '').toLowerCase(), tx = (th.textContent || '').trim().toLowerCase();
     if (k === 'tblactions' || tx === 'actions') return 'act';
     if (k === 'tblid' || tx === 'id' || tx === 'employee id') return 'id';
-    if (k === 'tblname' || tx === 'name') return 'name';
+    if (k === 'tblname' || tx === 'name' || th.getAttribute('data-nmk') === '1') return 'name';
     return '';
   }
   function cellKey(c) {

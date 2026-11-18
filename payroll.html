@@ -1980,7 +1980,7 @@ if(!Object.getOwnPropertyDescriptor(window,'currentLang')){try{Object.defineProp
   function rev(l) { if (REV[l]) return REV[l]; var m = {}; keys().forEach(function (k) { var a = T(k, l), km = T(k, 'km'); if (typeof a === 'string' && typeof km === 'string' && a && km && a !== km && a.length < 70 && !m[a]) m[a] = km; }); return REV[l] = m; }
   NM.bi = function (txt) { if (NM.lang === 'km' || typeof txt !== 'string') return txt; var km = rev(NM.lang)[txt]; return km ? km + '\n' + txt : txt; };
   function byId(id) { var s = String(id == null ? '' : id).trim(); if (!s) return null; for (var i = 0; i < employees.length; i++) if (String(employees[i].id).trim() === s) return employees[i]; return null; }
-  NM.other = function (e, lang) { lang = lang || NM.lang; return lang === 'zh' ? (e.nameZh || '') : lang === 'en' ? (e.nameEn || '') : ''; };
+  NM.other = function (e, lang) { lang = lang || NM.lang; return lang === 'km' ? '' : (e.nameEn || ''); };
   NM.nameVal = function (e, layout, lang) { layout = layout || NM.layout; lang = lang || NM.lang; var k = e.name || ''; if (lang === 'km' || layout === 'two') return k; var o = NM.other(e, lang); return o ? k + '\n' + o : k; };
   NM.nameHtml = function (e, layout, lang) { var E = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }; layout = layout || NM.layout; lang = lang || NM.lang; var o = NM.other(e, lang); if (lang === 'km' || layout === 'two' || !o) return E(e.name || ''); return E(e.name || '') + '<br>' + E(o); };
   NM.titleHtml = function (kmTxt, otherTxt) { var E = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }; return NM.lang === 'km' || !otherTxt || otherTxt === kmTxt ? E(kmTxt) : E(kmTxt) + '<br>' + E(otherTxt); };
@@ -2077,23 +2077,22 @@ if(!Object.getOwnPropertyDescriptor(window,'currentLang')){try{Object.defineProp
         if (!e) { var nm = (r.cells[ni].textContent || '').trim(); for (var q = 0; q < employees.length; q++) if (String(employees[q].name || '').trim() === nm) { e = employees[q]; break; } }
         var td = document.createElement('td'); td.className = 'nmEn'; td.textContent = e ? (e.nameEn || '') : ''; r.insertBefore(td, r.cells[ni].nextSibling); r.setAttribute('data-nm', '1');
       });
+      if (t.__nmN !== tr.cells.length) { t.__nmN = tr.cells.length; if (window.frzScan) { var w = t.closest('.table-responsive'); if (t._frz) t._frz.sig = ''; try { window.frzScan(); } catch (e) {} } }
+      if (!t.__nmOb && t.tBodies[0]) { t.__nmOb = 1; var pend = false; new MutationObserver(function () { if (pend) return; pend = true; requestAnimationFrame(function () { pend = false; try { pass(); } catch (e) {} }); }).observe(t.tBodies[0], { childList: true }); }
     });
   }
-  setInterval(function () { try { pass(); } catch (e) {} }, 600);
+  setInterval(function () { try { pass(); } catch (e) {} }, 200);
 })();
 /* ===== Check Record: name next to the ID, e.g. គង់ ធាន Kong Thean ===== */
 window.nmFull = function (e) { return e ? ((e.name || '') + (e.nameEn ? ' ' + e.nameEn : '')) : ''; };
-(function () {
-  setInterval(function () {
-    try {
-      var inp = document.getElementById('chkEmpId'); if (!inp || document.getElementById('chkEmpName')) return;
-      var g = document.createElement('div'); g.className = 'form-group'; g.innerHTML = '<label>Name ឈ្មោះ</label><input type="text" id="chkEmpName" readonly placeholder="-" style="background:#f8fafc">';
-      inp.parentNode.parentNode.insertBefore(g, inp.parentNode.nextSibling);
-      var f = function () { var v = String(inp.value || '').trim(), e = null; for (var i = 0; i < employees.length; i++) if (String(employees[i].id).trim() === v) { e = employees[i]; break; } document.getElementById('chkEmpName').value = e ? window.nmFull(e) : ''; };
-      inp.addEventListener('input', f); inp.addEventListener('change', f);
-    } catch (e) {}
-  }, 800);
-})();
+window.nmCell = function (e, mode) {
+  var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var n = esc(e && e.name), en = e && e.nameEn ? esc(e.nameEn) : '';
+  if (!en) return n;
+  if (mode === 'line') return n + ' ' + en;
+  var l = (typeof currentLang === 'string') ? currentLang : 'en';
+  return l === 'km' ? n : n + '<br><span style="font-weight:400;color:#475569">' + en + '</span>';
+};
 /* ===== all other exports and prints ===== */
 (function () {
   var depth = 0;
@@ -2166,6 +2165,7 @@ window.nmCopyEn = async function () {
   if (!n) { showToast(false, 'No English names found in Personal Information'); return; }
   try { await db.ref().update(up); showToast(true, n + ' English names copied'); } catch (e) { showToast(false); }
 };
+
 </script>
 </body>
 </html>

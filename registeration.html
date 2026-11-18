@@ -1203,7 +1203,7 @@ function nmEnsure(id) {
   return Promise.race([done, new Promise(function (r) { setTimeout(r, 1500); })]);
 }
 function nmWhoHtml(name, id) {
-  var c = nmCache[String(id)] || {}, o = lang === 'en' ? c.en : (lang === 'zh' ? c.zh : '');
+  var c = nmCache[String(id)] || {}, o = lang === 'km' ? '' : c.en;
   return escapeHtml(name) + (o ? '<br>' + escapeHtml(o) : '');
 }
 function showResult(r) { nmEnsure(r && r.id).then(function () { showResult0(r); }); }
