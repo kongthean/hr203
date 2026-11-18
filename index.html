@@ -23605,7 +23605,7 @@ var PG_SIZE = 20, PG_SIZE_ALL = 20, PG_IDS = ["dashSummaryTable", "masterTable",
 function pgBody(id) { var el = document.getElementById(id); if (!el) return null; return el.tagName === 'TBODY' ? el : el.querySelector('tbody'); }
 function pgGo(id, n) { pgPage[id] = n; pgApply(id); }
 function pgApply(id) {
-    var PG_SIZE = (id === 'shiftCalendarTable' || id === 'attCalTable') ? 10 : window.PG_SIZE_ALL;
+    var PG_SIZE = (id === 'shiftCalendarTable' || id === 'attCalTable' || id === 'masterTable' || id === 'monthlyALTable' || id === 'monthlyReportTable' || id === 'employeeTable') ? 10 : window.PG_SIZE_ALL;
     var tb = pgBody(id); if (!tb) return;
     var rows = Array.prototype.filter.call(tb.children, function (r) { return r.tagName === 'TR' && r.style.display !== 'none'; });
     Array.prototype.forEach.call(tb.children, function (r) { if (r.classList) r.classList.remove('pg-hide'); });
@@ -27845,7 +27845,7 @@ th.srt:not([data-srt])::after { content: " \21C5"; font-size: 10px; color: #94a3
 th.srt:hover { background-color: #e2e8f0 !important; }
 th.srt[data-srt="asc"]::after { content: " \25B2"; font-size: 9px; color: #2563eb; }
 th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563eb; }
-#pg_shiftCalendarTable, #pg_attCalTable { padding-right: 76px; margin-top: 10px; } /* keep the page numbers clear of the chat button */
+#pg_shiftCalendarTable, #pg_attCalTable, #pg_masterTable, #pg_monthlyALTable, #pg_monthlyReportTable, #pg_employeeTable { padding-right: 76px; margin-top: 10px; } /* keep the page numbers clear of the chat button */
 /* one-day view fits the page */
 table.master-tbl.tbl-wide.tbl-one { min-width: 0; width: auto; }
 table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; padding-right: 22px; }
