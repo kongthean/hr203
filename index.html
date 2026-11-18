@@ -2081,14 +2081,17 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
     <div class="mhRow">
       <div class="form-group"><label class="mhL" data-k="hcDate">Health check date</label><input type="date" id="hcDate" onchange="hcRender(1)"></div>
       <div class="form-group"><label class="mhL" data-k="every">Check every (years)</label><input type="number" id="hcEvery" min="1" max="20" value="2" style="width:90px" oninput="hcRender(1)"></div>
+      <div class="form-group"><label class="mhL" data-k="planDay">Planned check day</label><input type="date" id="hcPlan"></div>
+      <div class="form-group"><label>&nbsp;</label><div style="display:flex;gap:8px;align-items:center;min-height:38px"><b id="hcSelCount">0</b> <span class="mhL" data-k="selected">selected</span> <button type="button" class="quick-btn green mhSm" onclick="hcAddCart()"><span class="mhL" data-k="addCart">Add selected to cart</span></button></div></div>
+      <div class="form-group"><label class="mhL" data-k="dept">Department</label><select id="hcDept" onchange="hcDeptChg()"></select></div>
+      <div class="form-group"><label class="mhL" data-k="group">Group</label><select id="hcGrp" onchange="hcRender(1)"></select></div>
       <div class="form-group"><label style="display:flex;gap:6px;align-items:center;margin:0 0 8px"><input type="checkbox" id="hcAll" onchange="hcRender(1)"> <span class="mhL" data-k="showAll">Show all employees (to enter last check dates)</span></label></div>
     </div>
     <div class="mhNote mhL" data-k="rule">Due when the check year minus the last check year is 2 or more.</div>
-    <h4 class="mhH mhL" data-k="step1">1. Due employees (tick, then add to cart)</h4>
-    <div id="hcGroups"></div>
-    <div class="mhInfo"><span class="mhL" data-k="planDay">Planned check day</span> <input type="date" id="hcPlan" style="padding:5px 8px;border:1px solid #cbd5e1;border-radius:6px"> <b id="hcSelCount">0</b> <span class="mhL" data-k="selected">selected</span> <button type="button" class="quick-btn green mhSm" onclick="hcAddCart()"><span class="mhL" data-k="addCart">Add selected to cart</span></button></div>
     <h4 class="mhH mhL" data-k="step2">2. Cart (waiting for the health check)</h4>
     <div id="hcCart"></div>
+    <h4 class="mhH mhL" data-k="step1">1. Due employees (tick, then add to cart)</h4>
+    <div id="hcGroups"></div>
   </div>
 </div>
  <div id="tab-employee" class="tab-panel">
@@ -27906,7 +27909,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
 #tab-shift .dg-bar select { height: 28px; box-sizing: border-box; padding: 0 8px !important; }
 #tab-shift .dg-bar .dg-clear { height: 28px !important; padding: 0 12px !important; }
 </style>
-<style id="mhCss">#hcPlan{width:170px!important;min-width:0!important}.hcRowE input[type=date]{width:100%!important;min-width:0!important}/* Call Meeting + Health Check pages (Employee menu) */
+<style id="mhCss">#hcPlan{width:170px!important;min-width:0!important}.hcRowE input[type=date]{width:100%!important;min-width:0!important}#hcDept,#hcGrp{min-width:150px}/* Call Meeting + Health Check pages (Employee menu) */
 .mhTop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
 .mhBack,.mhSm{width:auto!important;min-width:auto!important;min-height:auto!important;padding:6px 14px!important;font-size:12px!important;flex-direction:row!important;gap:6px!important}
 .mhRow{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px}
@@ -27929,7 +27932,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
 <script id="mhJs">
 (function () {
   var S = {
-    en: { back: 'Employee', mtName: 'Meeting title', date: 'Date', addEmp: 'Add employee (ID or name)', step1: '1. Due employees (tick, then add to cart)', step2: '2. Cart (waiting for the health check)', planDay: 'Planned check day', selected: 'selected', addCart: 'Add selected to cart', done: 'Health check completed', rem: 'Remove', cartEmpty: 'Cart is empty', askDay: 'Health check day (YYYY-MM-DD)', badDay: 'Wrong date', planned: 'planned', pickDept: 'Choose department to list its employees', selAll: 'Select all', selNone: 'Select none', every: 'Check every (years)', showAll: 'Show all employees (to enter last check dates)', last: 'Last health check', since: 'Years since', markAll: 'Mark all listed as checked on the check date', marked: 'Marked as checked', confirmMark: 'Mark every listed employee as checked on this date?', add: 'Add', people: 'people', clear: 'Clear list', print: 'Print sheet', name: 'Name', dept: 'Department', zhTitle: 'Department names in Chinese (type once, used on every printed sheet)', hcDate: 'Health check date', years: 'Years of work (tap one or more)', rule: 'Due when (check year \u2212 last health check year) is the number of years above (2). If an employee has no last check date, the join year is used. Tick people, add them to the cart, and after the check tap Health check completed in the cart.', joined: 'Joined', yrs: 'Years', mtT: 'Call Meeting', hcT: 'Health Check', btnMt: 'Call Meeting', btnHc: 'Health Check', allDept: 'Choose department', none: 'No employees', noPop: 'Allow pop-ups to print', saved: 'Saved' },
+    en: { back: 'Employee', mtName: 'Meeting title', date: 'Date', addEmp: 'Add employee (ID or name)', step1: '2. Due employees (tick, then add to cart)', step2: '1. Cart (waiting for the health check)', planDay: 'Planned check day', selected: 'selected', addCart: 'Add selected to cart', done: 'Health check completed', rem: 'Remove', cartEmpty: 'Cart is empty', askDay: 'Health check day (YYYY-MM-DD)', badDay: 'Wrong date', planned: 'planned', group: 'Group', allOpt: 'All', pickDept: 'Choose department to list its employees', selAll: 'Select all', selNone: 'Select none', every: 'Check every (years)', showAll: 'Show all employees (to enter last check dates)', last: 'Last health check', since: 'Years since', markAll: 'Mark all listed as checked on the check date', marked: 'Marked as checked', confirmMark: 'Mark every listed employee as checked on this date?', add: 'Add', people: 'people', clear: 'Clear list', print: 'Print sheet', name: 'Name', dept: 'Department', zhTitle: 'Department names in Chinese (type once, used on every printed sheet)', hcDate: 'Health check date', years: 'Years of work (tap one or more)', rule: 'Due when (check year \u2212 last health check year) is the number of years above (2). If an employee has no last check date, the join year is used. Tick people, add them to the cart, and after the check tap Health check completed in the cart.', joined: 'Joined', yrs: 'Years', mtT: 'Call Meeting', hcT: 'Health Check', btnMt: 'Call Meeting', btnHc: 'Health Check', allDept: 'Choose department', none: 'No employees', noPop: 'Allow pop-ups to print', saved: 'Saved' },
     km: { back: 'បុគ្គលិក', mtName: 'ចំណងជើងប្រជុំ', date: 'កាលបរិច្ឆេទ', addEmp: 'បន្ថែមបុគ្គលិក (អត្តលេខ ឬឈ្មោះ)', pickDept: 'ជ្រើសរើសនាយកដ្ឋាន', selAll: 'ជ្រើសទាំងអស់', selNone: 'ដកទាំងអស់', every: 'ពិនិត្យរៀងរាល់ (ឆ្នាំ)', showAll: 'បង្ហាញបុគ្គលិកទាំងអស់', last: 'ពិនិត្យសុខភាពចុងក្រោយ', since: 'ឆ្នាំចាប់ពីពេលនោះ', markAll: 'កត់ត្រាថាបានពិនិត្យ', marked: 'បានកត់ត្រា', confirmMark: 'កត់ត្រាបុគ្គលិកទាំងអស់ក្នុងបញ្ជី?', add: 'បន្ថែម', people: 'នាក់', clear: 'សម្អាតបញ្ជី', print: 'បោះពុម្ពតារាង', name: 'ឈ្មោះ', dept: 'នាយកដ្ឋាន', zhTitle: 'ឈ្មោះនាយកដ្ឋានជាភាសាចិន (វាយម្តង ប្រើគ្រប់តារាង)', hcDate: 'ថ្ងៃពិនិត្យសុខភាព', years: 'ឆ្នាំធ្វើការ (ចុចមួយ ឬច្រើន)', rule: 'ដល់ពេលពិនិត្យ នៅពេល (ឆ្នាំពិនិត្យ \u2212 ឆ្នាំពិនិត្យចុងក្រោយ) ស្មើ ឬលើសចំនួនឆ្នាំខាងលើ។ បើមិនមានកាលបរិច្ឆេទ យកឆ្នាំចូលធ្វើការ។', joined: 'ចូលធ្វើការ', yrs: 'ឆ្នាំ', mtT: 'កោះប្រជុំ', hcT: 'ពិនិត្យសុខភាព', btnMt: 'កោះប្រជុំ', btnHc: 'ពិនិត្យសុខភាព', allDept: 'ជ្រើសរើសនាយកដ្ឋាន', none: 'គ្មានបុគ្គលិក', noPop: 'សូមអនុញ្ញាត pop-up', saved: 'បានរក្សាទុក' },
     zh: { back: '员工', mtName: '会议名称', date: '日期', addEmp: '添加员工（工号或姓名）', orAddDept: '或添加整个部门', add: '添加', people: '人', clear: '清空列表', print: '打印表格', name: '姓名', dept: '部门', zhTitle: '部门中文名（输入一次，每张表都使用）', hcDate: '体检日期', years: '工龄（可多选）', rule: '工龄 = 体检年份 − 入职年份。', joined: '入职', yrs: '年', mtT: '召集会议', hcT: '健康体检', btnMt: '召集会议', btnHc: '健康体检', allDept: '选择部门', none: '没有员工', noPop: '请允许弹窗以打印', saved: '已保存' }
   };
@@ -28008,10 +28011,20 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
   function yOf(s) { var m = /^(\d{4})/.exec(String(s || '').trim()); return m ? parseInt(m[1], 10) : null; }
   function gName(e) { var p = parentOf(e); return p || (e.department || '-'); }
   function gLabel(e) { var z = zhDept(e), n = gName(e); return z && z !== n ? z + ' / ' + n : n; }
+  function hcPass(e) { var d = document.getElementById('hcDept').value, g = document.getElementById('hcGrp').value; if (d && parentOf(e) !== d) return false; if (g && (e.department || '') !== g) return false; return true; }
+  var fSig = '';
+  function hcFilters() {
+    var D = document.getElementById('hcDept'), G = document.getElementById('hcGrp'); if (!D || !G) return;
+    var os = orgs(), gs = (typeof departments !== 'undefined' ? departments : []), sig = JSON.stringify([os.map(function (o) { return o.name; }), gs.map(function (g) { return [g.name, g.parent]; }), D.value]);
+    if (sig === fSig) return; fSig = sig; var dv = D.value, gv = G.value;
+    D.innerHTML = '<option value="">' + E(L('allOpt')) + '</option>' + os.map(function (o) { return '<option value="' + E(o.name) + '">' + E(o.name) + (o.zh ? ' / ' + E(o.zh) : '') + '</option>'; }).join(''); D.value = dv;
+    G.innerHTML = '<option value="">' + E(L('allOpt')) + '</option>' + gs.filter(function (g) { return !D.value || g.parent === D.value; }).map(function (g) { return '<option value="' + E(g.name) + '">' + E(g.name) + '</option>'; }).join(''); G.value = gv;
+  }
+  window.hcDeptChg = function () { document.getElementById('hcGrp').value = ''; fSig = ''; hcFilters(); hcRender(1); };
   function hcDue() {
     var d = document.getElementById('hcDate').value || today(), y = parseInt(d.slice(0, 4), 10), every = Math.max(1, parseInt(document.getElementById('hcEvery').value, 10) || 2), all = document.getElementById('hcAll').checked, out = [];
     emps().forEach(function (e) {
-      if (e.status === 'Resigned' || e.healthPlan) return;
+      if (e.status === 'Resigned' || e.healthPlan || !hcPass(e)) return;
       var j = (typeof mlParse === 'function') ? mlParse(e.joinDate) : null, ly = yOf(e.lastHealthCheck), base = ly != null ? ly : (j ? j.y : null);
       if (base == null) return;
       var n = y - base, due = n >= every;
@@ -28022,8 +28035,8 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
   }
   function groupBy(list, keyf) { var g = {}, order = []; list.forEach(function (x) { var k = keyf(x); if (!g[k]) { g[k] = []; order.push(k); } g[k].push(x); }); return order.sort().map(function (k) { return { k: k, items: g[k] }; }); }
   function hcRender(force) {
-    var due = hcDue(), cart = emps().filter(function (e) { return e.status !== 'Resigned' && e.healthPlan; });
-    var sig = JSON.stringify([due.map(function (x) { return [x.e.firebaseKey, x.n, x.e.lastHealthCheck || '']; }), cart.map(function (e) { return [e.firebaseKey, e.healthPlan]; }), Object.keys(hSel).filter(function (k) { return hSel[k]; }), document.getElementById('hcAll').checked, L('step1')]);
+    hcFilters(); var due = hcDue(), cart = emps().filter(function (e) { return e.status !== 'Resigned' && e.healthPlan && hcPass(e); });
+    var sig = JSON.stringify([due.map(function (x) { return [x.e.firebaseKey, x.n, x.e.lastHealthCheck || '']; }), cart.map(function (e) { return [e.firebaseKey, e.healthPlan]; }), Object.keys(hSel).filter(function (k) { return hSel[k]; }), document.getElementById('hcAll').checked, L('step1'), document.getElementById('hcDept').value, document.getElementById('hcGrp').value]);
     if (!force && sig === hSig) return; hSig = sig;
     var G = document.getElementById('hcGroups');
     G.innerHTML = groupBy(due, function (x) { return gLabel(x.e); }).map(function (g, gi) {
