@@ -27883,7 +27883,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
         w.classList.add('frz', 'frzOn');
         var r1 = tb.tHead && tb.tHead.rows[0]; if (r1 && r1.offsetHeight) tb.style.setProperty('--h1', r1.offsetHeight + 'px');
         var top = w.getBoundingClientRect().top, pn = w.closest('.tab-panel'), below = pn ? Math.max(0, pn.getBoundingClientRect().bottom - w.getBoundingClientRect().bottom) : 28;
-        var hh = Math.max(240, Math.round(window.innerHeight - Math.max(0, top) - 20));
+        var hh = Math.max(240, Math.round(window.innerHeight - 190)); /* leave room for the page buttons under the table */
         w.style.setProperty('--frzH', hh + 'px');
       });
     } catch (e) {}
@@ -27891,6 +27891,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
   setInterval(run, 500); window.addEventListener('resize', run); document.addEventListener('scroll', run, true);
 })();
 </script>
+<style>#tab-shift .table-responsive.frzOn,#tab-attcal .table-responsive.frzOn{margin-bottom:12px}</style>
 <script id="frzJs">
 (function () {
   /* FRZ: frozen table headings + frozen ID/Name columns + click-to-sort headings. View only: nothing stored changes. */
