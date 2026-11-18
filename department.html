@@ -21499,7 +21499,7 @@ function pgScan() { PG_IDS.forEach(pgAttach); }
 /* typing in a search box or changing a month/department box (outside the tables) goes back to page 1 */
 ['input', 'change'].forEach(function (ev) {
     document.addEventListener(ev, function (e) {
-        var el = e.target; if (!el || !el.closest || el.closest('table')) return;
+        var el = e.target; if (!el || !el.closest || el.closest('table') || el.closest('.modal')) return;
         PG_IDS.forEach(function (id) { pgPage[id] = 1; if (pgSeen[id]) pgSoon(id); });
     });
 });
