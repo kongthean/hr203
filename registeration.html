@@ -1191,7 +1191,23 @@ async function processScan(m) {
 }
 
 function escapeHtml(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
-function showResult(r) {
+
+/* name style: Khmer + English or Khmer + Chinese (wrapped) */
+var nmCache = {};
+function nmEnsure(id) {
+  id = String(id == null ? '' : id); if (!id || nmCache[id]) return Promise.resolve();
+  var done = db.ref('employees').orderByChild('id').equalTo(id).once('value').then(function (sn) {
+    var v = sn.val() || {}, k = Object.keys(v)[0], o = k ? v[k] : {};
+    nmCache[id] = { en: o.nameEn || '', zh: o.nameZh || '' };
+  }).catch(function () { nmCache[id] = { en: '', zh: '' }; });
+  return Promise.race([done, new Promise(function (r) { setTimeout(r, 1500); })]);
+}
+function nmWhoHtml(name, id) {
+  var c = nmCache[String(id)] || {}, o = lang === 'en' ? c.en : (lang === 'zh' ? c.zh : '');
+  return escapeHtml(name) + (o ? '<br>' + escapeHtml(o) : '');
+}
+function showResult(r) { nmEnsure(r && r.id).then(function () { showResult0(r); }); }
+function showResult0(r) {
   mode = 'result'; lastResult = r;
   setStatus(null);
   $('cam').classList.remove('found');
@@ -1208,7 +1224,7 @@ function renderResult(r) {
     el.className = 'result ok';
     const label = r.kind === 'out' ? tr('kind_checkout') : tr('kind_checkin');
     const extra = '';
-    html = '<div class="big">&#10003;</div><div class="who">' + escapeHtml(r.name) + ' (' + escapeHtml(r.id) + ')</div>' +
+    html = '<div class="big">&#10003;</div><div class="who">' + nmWhoHtml(r.name, r.id) + ' (' + escapeHtml(r.id) + ')</div>' +
       '<div class="kind">' + escapeHtml(label) + '</div>' +
       '<div class="line">' + escapeHtml(tr('recorded')) + ' &middot; ' + escapeHtml(tr('at')) + ' ' + escapeHtml(r.time) + (extra ? '<br>' + escapeHtml(extra) : '') + '</div>' +
       (r.photo ? '<img alt="" src="' + r.photo + '">' : '') +
@@ -1216,7 +1232,7 @@ function renderResult(r) {
   } else {
     const soft = (r.code === 'cardNoCode' || r.code === 'dayOff' || r.code === 'restTime' || r.code === 'noWindow' || r.code === 'tooEarly' || r.code === 'repeat' || r.code.indexOf('already') === 0);
     el.className = 'result ' + (soft ? 'warn' : 'bad');
-    html = '<div class="big">' + (soft ? '!' : '&#10007;') + '</div><div class="who">' + escapeHtml(r.name) + ' (' + escapeHtml(r.id) + ')</div>' +
+    html = '<div class="big">' + (soft ? '!' : '&#10007;') + '</div><div class="who">' + nmWhoHtml(r.name, r.id) + ' (' + escapeHtml(r.id) + ')</div>' +
       '<div class="line">' + escapeHtml(r.code === 'saveFailed' ? tr('saveFailed') : tr('r_' + r.code, r.params)) + '</div>';
   }
   el.innerHTML = '<div class="card"><button class="xbtn" data-close="1" aria-label="' + escapeHtml(tr('close')) + '">&times;</button>' + html +
@@ -1323,6 +1339,44 @@ function renderResult(r) {
 
 
 <!-- HRFT-PUSH-BEGIN --><script>(function(){var q=0;function run(){q=0;try{var f=[].slice.call(document.querySelectorAll('.hrft'));f.forEach(function(e){e.style.paddingTop='';});var vis=f.filter(function(e){return e.getClientRects().length&&!e.closest('.login-card,#loginOverlay,#loginBox,#loginView');});if(!vis.length)return;var el=vis[vis.length-1],r=el.getBoundingClientRect(),mb=r.bottom,n=el;while(n&&n!==document.body){var sb=n.nextElementSibling;while(sb){var ps=getComputedStyle(sb).position;if(ps!=='fixed'&&ps!=='absolute'&&sb.getClientRects().length&&!/^(SCRIPT|STYLE)$/.test(sb.tagName)){var q2=sb.getBoundingClientRect();if(q2.height>0&&q2.bottom>mb)mb=q2.bottom;}sb=sb.nextElementSibling;}n=n.parentElement;}var cs=getComputedStyle(document.body),below=(mb-r.bottom)+(parseFloat(cs.paddingBottom)||0)+(parseFloat(cs.marginBottom)||0),gap=Math.floor(window.innerHeight-(r.bottom+below));if(gap>0)el.style.paddingTop=(14+gap)+'px';}catch(e){}}function sch(){if(!q)q=requestAnimationFrame(run);}window.addEventListener('load',sch);window.addEventListener('resize',sch);try{new MutationObserver(sch).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class','hidden']});}catch(e){}setInterval(sch,1500);sch();})();</script><!-- HRFT-PUSH-END -->
+<script id="uiGateJs">
+/* v9.3 Fresh theme access gate: owner only until released in Maintenance > Theme */
+(function () {
+  if (window.__uiGate) return;
+  var AK = 'uiAcc', OK = 'uiOwnerOK';
+  var DEF = { en: 'The new Fresh look is coming soon.', km: 'រចនាបថថ្មី Fresh នឹងមកដល់ឆាប់ៗនេះ។', zh: '全新 Fresh 外观即将推出。' };
+  function acc() { try { return JSON.parse(localStorage.getItem(AK) || 'null') || {}; } catch (e) { return {}; } }
+  function owner() { try { return localStorage.getItem(OK) === '1'; } catch (e) { return false; } }
+  function lng() { var l = 'en'; try { l = window.currentLang || window.lang || localStorage.getItem('lang') || localStorage.getItem('appLang') || document.documentElement.lang || 'en'; } catch (e) {} l = String(l).slice(0, 2); return DEF[l] ? l : 'en'; }
+  function note() { var a = acc(), l = lng(); return (a.note && a.note[l]) || DEF[l]; }
+  function changed() { try { window.dispatchEvent(new Event('uigate')); } catch (e) {} }
+  function toast() {
+    try {
+      var o = document.getElementById('uiSoon'); if (o) o.remove();
+      o = document.createElement('div'); o.id = 'uiSoon'; o.textContent = note();
+      o.style.cssText = 'position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#0f172a;color:#fff;padding:12px 18px;border-radius:12px;font:600 14px Arial,sans-serif;z-index:2147483200;box-shadow:0 8px 24px rgba(15,23,42,.3);max-width:86vw;text-align:center';
+      document.body.appendChild(o); setTimeout(function () { try { o.remove(); } catch (e) {} }, 3200);
+    } catch (e) {}
+  }
+  window.__uiGate = { ok: function () { return acc().mode === 'all' || owner(); }, note: note, toast: toast };
+  var hooked = false, n = 0;
+  function hook() {
+    if (hooked) return true;
+    if (typeof db === 'undefined' || typeof firebase === 'undefined') return false;
+    hooked = true;
+    try { db.ref('uiTheme/_access').on('value', function (sn) { var v = sn.val() || {}; try { localStorage.setItem(AK, JSON.stringify({ mode: v.mode === 'all' ? 'all' : 'owner', note: v.note || null })); } catch (e) {} changed(); }, function () {}); } catch (e) {}
+    try {
+      firebase.auth().onAuthStateChanged(function (u) {
+        var set = function (v) { try { localStorage.setItem(OK, v ? '1' : '0'); } catch (e) {} changed(); };
+        if (!u) { set(false); return; }
+        db.ref('staff/' + u.uid + '/owner').once('value').then(function (s) { set(s.val() === true); }, function () { set(false); });
+      });
+    } catch (e) {}
+    return true;
+  }
+  var iv = setInterval(function () { if (hook() || ++n > 150) clearInterval(iv); }, 200);
+})();
+</script>
 <script id="themeCore">
 /* HR203 theme: Classic / Fresh. The default per system is set in Maintenance (Theme). Users can switch themselves unless it is locked.
    Only the look changes. No data and no calculation. */
@@ -1334,7 +1388,9 @@ function renderResult(r) {
   function cfg() { try { return JSON.parse(localStorage.getItem('uiCfg') || '{}') || {}; } catch (e) { return {}; } }
   function sys() { try { return SYSF(); } catch (e) { return 'admin'; } }
   function locked() { var c = cfg()[sys()]; return !!(c && c.lock); }
+  function gOk() { return !window.__uiGate || window.__uiGate.ok(); }
   function theme() {
+    if (!gOk()) return 'classic';
     var s = sys(), c = cfg()[s] || {}, def = c.def === 'fresh' ? 'fresh' : 'classic';
     if (c.lock) return def;
     var u = null; try { u = localStorage.getItem('uiTheme.' + s); } catch (e) {}
@@ -1343,18 +1399,19 @@ function renderResult(r) {
   function paint() {
     var d = document.documentElement, f = theme() === 'fresh';
     d.classList.toggle('fresh', f); d.classList.toggle('fr-locked', locked());
-    Array.prototype.forEach.call(document.querySelectorAll('.thBtn'), function (b) { b.textContent = f ? 'Classic' : 'Fresh'; b.style.display = locked() ? 'none' : ''; });
+    Array.prototype.forEach.call(document.querySelectorAll('.thBtn'), function (b) { b.textContent = f ? 'Classic' : (gOk() ? 'Fresh' : '\uD83D\uDD12 Fresh \u00b7 Soon'); b.style.display = locked() ? 'none' : ''; });
   }
   function mount() {
     Array.prototype.forEach.call(document.querySelectorAll(MOUNT), function (host) {
       if (host.querySelector('.thBtn')) return;
       var b = document.createElement('button'); b.type = 'button'; b.className = 'thBtn iconBtn lang-btn'; b.title = 'Theme';
       b.style.cssText = 'cursor:pointer;margin:0 4px;white-space:nowrap';
-      b.onclick = function () { var n = theme() === 'fresh' ? 'classic' : 'fresh'; try { localStorage.setItem('uiTheme.' + sys(), n); } catch (e) {} paint(); };
+      b.onclick = function () { if (!gOk()) { try { window.__uiGate.toast(); } catch (e) {} return; } var n = theme() === 'fresh' ? 'classic' : 'fresh'; try { localStorage.setItem('uiTheme.' + sys(), n); } catch (e) {} paint(); };
       var ref = host.querySelector('.lang-dropdown,.iconBtn,button'); if (ref && ref.parentNode === host) host.insertBefore(b, ref); else host.insertBefore(b, host.firstChild);
       paint();
     });
   }
+  try { window.addEventListener('uigate', function () { paint(); }); } catch (e) {}
   var hooked = false;
   function hook() {
     if (hooked || typeof db === 'undefined') return; hooked = true;

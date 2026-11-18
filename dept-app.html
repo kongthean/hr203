@@ -29,6 +29,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Department System</title>
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>(function(){var o=window.XLSX,s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js";s.onload=function(){if(!(window.XLSX&&window.XLSX.utils&&window.XLSX.writeFile)&&o)window.XLSX=o;};s.onerror=function(){if(o)window.XLSX=o;};document.head.appendChild(s);})();</script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
@@ -2094,7 +2095,7 @@ function dpRenderMaster() {
             const ready = !!book[e0.firebaseKey];
             html += '<tr><td style="white-space:nowrap;"><button class="btn-view" onclick="dpOpenCheck(\'' + k + '\')" title="' + esc(t('btnCheckDetails')) + '">🔍</button>' +
                 (ready ? '<button class="btn-edit" onclick="dpEdit(\'' + k + '\')" title="' + esc(t('dpEditTitle')) + '">✏️</button>' : '') + '</td>' +
-                '<td><b>' + esc(e.id) + '</b></td><td>' + esc(e.name) + '</td><td>' + esc(e.department || '-') + '</td><td>' + esc(e.joinDate) + '</td><td>' + Math.floor(Math.max(0, twm) / 12) + '</td>' +
+                '<td><b>' + esc(e.id) + '</b></td><td>' + esc(nmFull(e)) + '</td><td>' + esc(e.department || '-') + '</td><td>' + esc(e.joinDate) + '</td><td>' + Math.floor(Math.max(0, twm) / 12) + '</td>' +
                 '<td>' + fmt(e.entitled) + '</td><td>' + esc(st) + '</td><td>' + esc(en) + '</td><td>' + esc(yr) + '</td><td><b>' + rem + '</b></td><td>' + fmt(e.entitled) + '</td>' +
                 '<td>' + fmt(e.carried) + '</td><td>' + fmt(e.prevUsed) + '</td><td>' + fmt(e.monthUsed) + '</td><td><b>' + used.toFixed(2) + '</b></td>' +
                 '<td style="color:' + (num(e.exceeded) > 0 ? '#dc2626' : '#64748b') + '; font-weight:bold;">' + fmt(e.exceeded) + '</td>' +
@@ -2116,7 +2117,7 @@ function dpEdit(key) {
     const e0 = emps.find(function (x) { return x.firebaseKey === key; }); if (!e0 || !book[key]) return;
     const e = view(e0), cyc = computeLeaveCycle(e.joinDate, new Date());
     $('dpEditKey').value = key;
-    $('dpEditInfo').textContent = ': ' + (e.name || '') + ' (' + (e.id || '') + ')';
+    $('dpEditInfo').textContent = ': ' + nmFull(e) + ' (' + (e.id || '') + ')';
     $('dpEditGrid').innerHTML = EDIT_FIELDS.map(function (f) {
         const v = f[2] === 'n' ? num(e[f[0]]) : (e[f[0]] || '');
         return '<div class="form-group"><label>' + esc(t(f[1])) + '</label><input ' + (f[2] === 'n' ? 'type="number" step="0.5"' : 'type="text"') + ' id="dpE_' + f[0] + '" value="' + esc(v) + '"></div>';
@@ -3530,6 +3531,44 @@ body.dpOwnMode #dpOwnBar{display:flex}
 
 
 <!-- HRFT-PUSH-BEGIN --><script>(function(){var q=0;function run(){q=0;try{var f=[].slice.call(document.querySelectorAll('.hrft'));f.forEach(function(e){e.style.paddingTop='';});var vis=f.filter(function(e){return e.getClientRects().length&&!e.closest('.login-card,#loginOverlay,#loginBox,#loginView');});if(!vis.length)return;var el=vis[vis.length-1],r=el.getBoundingClientRect(),mb=r.bottom,n=el;while(n&&n!==document.body){var sb=n.nextElementSibling;while(sb){var ps=getComputedStyle(sb).position;if(ps!=='fixed'&&ps!=='absolute'&&sb.getClientRects().length&&!/^(SCRIPT|STYLE)$/.test(sb.tagName)){var q2=sb.getBoundingClientRect();if(q2.height>0&&q2.bottom>mb)mb=q2.bottom;}sb=sb.nextElementSibling;}n=n.parentElement;}var cs=getComputedStyle(document.body),below=(mb-r.bottom)+(parseFloat(cs.paddingBottom)||0)+(parseFloat(cs.marginBottom)||0),gap=Math.floor(window.innerHeight-(r.bottom+below));if(gap>0)el.style.paddingTop=(14+gap)+'px';}catch(e){}}function sch(){if(!q)q=requestAnimationFrame(run);}window.addEventListener('load',sch);window.addEventListener('resize',sch);try{new MutationObserver(sch).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class','hidden']});}catch(e){}setInterval(sch,1500);sch();})();</script><!-- HRFT-PUSH-END -->
+<script id="uiGateJs">
+/* v9.3 Fresh theme access gate: owner only until released in Maintenance > Theme */
+(function () {
+  if (window.__uiGate) return;
+  var AK = 'uiAcc', OK = 'uiOwnerOK';
+  var DEF = { en: 'The new Fresh look is coming soon.', km: 'រចនាបថថ្មី Fresh នឹងមកដល់ឆាប់ៗនេះ។', zh: '全新 Fresh 外观即将推出。' };
+  function acc() { try { return JSON.parse(localStorage.getItem(AK) || 'null') || {}; } catch (e) { return {}; } }
+  function owner() { try { return localStorage.getItem(OK) === '1'; } catch (e) { return false; } }
+  function lng() { var l = 'en'; try { l = window.currentLang || window.lang || localStorage.getItem('lang') || localStorage.getItem('appLang') || document.documentElement.lang || 'en'; } catch (e) {} l = String(l).slice(0, 2); return DEF[l] ? l : 'en'; }
+  function note() { var a = acc(), l = lng(); return (a.note && a.note[l]) || DEF[l]; }
+  function changed() { try { window.dispatchEvent(new Event('uigate')); } catch (e) {} }
+  function toast() {
+    try {
+      var o = document.getElementById('uiSoon'); if (o) o.remove();
+      o = document.createElement('div'); o.id = 'uiSoon'; o.textContent = note();
+      o.style.cssText = 'position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#0f172a;color:#fff;padding:12px 18px;border-radius:12px;font:600 14px Arial,sans-serif;z-index:2147483200;box-shadow:0 8px 24px rgba(15,23,42,.3);max-width:86vw;text-align:center';
+      document.body.appendChild(o); setTimeout(function () { try { o.remove(); } catch (e) {} }, 3200);
+    } catch (e) {}
+  }
+  window.__uiGate = { ok: function () { return acc().mode === 'all' || owner(); }, note: note, toast: toast };
+  var hooked = false, n = 0;
+  function hook() {
+    if (hooked) return true;
+    if (typeof db === 'undefined' || typeof firebase === 'undefined') return false;
+    hooked = true;
+    try { db.ref('uiTheme/_access').on('value', function (sn) { var v = sn.val() || {}; try { localStorage.setItem(AK, JSON.stringify({ mode: v.mode === 'all' ? 'all' : 'owner', note: v.note || null })); } catch (e) {} changed(); }, function () {}); } catch (e) {}
+    try {
+      firebase.auth().onAuthStateChanged(function (u) {
+        var set = function (v) { try { localStorage.setItem(OK, v ? '1' : '0'); } catch (e) {} changed(); };
+        if (!u) { set(false); return; }
+        db.ref('staff/' + u.uid + '/owner').once('value').then(function (s) { set(s.val() === true); }, function () { set(false); });
+      });
+    } catch (e) {}
+    return true;
+  }
+  var iv = setInterval(function () { if (hook() || ++n > 150) clearInterval(iv); }, 200);
+})();
+</script>
 <script id="themeCore">
 /* HR203 theme: Classic / Fresh. The default per system is set in Maintenance (Theme). Users can switch themselves unless it is locked.
    Only the look changes. No data and no calculation. */
@@ -3541,7 +3580,9 @@ body.dpOwnMode #dpOwnBar{display:flex}
   function cfg() { try { return JSON.parse(localStorage.getItem('uiCfg') || '{}') || {}; } catch (e) { return {}; } }
   function sys() { try { return SYSF(); } catch (e) { return 'admin'; } }
   function locked() { var c = cfg()[sys()]; return !!(c && c.lock); }
+  function gOk() { return !window.__uiGate || window.__uiGate.ok(); }
   function theme() {
+    if (!gOk()) return 'classic';
     var s = sys(), c = cfg()[s] || {}, def = c.def === 'fresh' ? 'fresh' : 'classic';
     if (c.lock) return def;
     var u = null; try { u = localStorage.getItem('uiTheme.' + s); } catch (e) {}
@@ -3550,18 +3591,19 @@ body.dpOwnMode #dpOwnBar{display:flex}
   function paint() {
     var d = document.documentElement, f = theme() === 'fresh';
     d.classList.toggle('fresh', f); d.classList.toggle('fr-locked', locked());
-    Array.prototype.forEach.call(document.querySelectorAll('.thBtn'), function (b) { b.textContent = f ? 'Classic' : 'Fresh'; b.style.display = locked() ? 'none' : ''; });
+    Array.prototype.forEach.call(document.querySelectorAll('.thBtn'), function (b) { b.textContent = f ? 'Classic' : (gOk() ? 'Fresh' : '\uD83D\uDD12 Fresh \u00b7 Soon'); b.style.display = locked() ? 'none' : ''; });
   }
   function mount() {
     Array.prototype.forEach.call(document.querySelectorAll(MOUNT), function (host) {
       if (host.querySelector('.thBtn')) return;
       var b = document.createElement('button'); b.type = 'button'; b.className = 'thBtn iconBtn lang-btn'; b.title = 'Theme';
       b.style.cssText = 'cursor:pointer;margin:0 4px;white-space:nowrap';
-      b.onclick = function () { var n = theme() === 'fresh' ? 'classic' : 'fresh'; try { localStorage.setItem('uiTheme.' + sys(), n); } catch (e) {} paint(); };
+      b.onclick = function () { if (!gOk()) { try { window.__uiGate.toast(); } catch (e) {} return; } var n = theme() === 'fresh' ? 'classic' : 'fresh'; try { localStorage.setItem('uiTheme.' + sys(), n); } catch (e) {} paint(); };
       var ref = host.querySelector('.lang-dropdown,.iconBtn,button'); if (ref && ref.parentNode === host) host.insertBefore(b, ref); else host.insertBefore(b, host.firstChild);
       paint();
     });
   }
+  try { window.addEventListener('uigate', function () { paint(); }); } catch (e) {}
   var hooked = false;
   function hook() {
     if (hooked || typeof db === 'undefined') return; hooked = true;
@@ -3901,6 +3943,216 @@ body.dpOwnMode #dpOwnBar{display:flex}
     closeEl(m); e.preventDefault();
   });
 })();
+</script>
+<script id="nmShim">
+(function(){window.translations={en:I18N.en||{},km:I18N.km||{},zh:I18N.zh||{}};window.tLang=function(k,l){var d=I18N[l]||I18N.en;return d[k]||I18N.en[k]||'';};})();
+</script>
+<script id="nmJs">
+(function () {
+  /* ===== NM: names + titles for every print and export =====
+     language km  : Khmer only (titles and names)
+     language en/zh: every title shows Khmer + the language below it; names are one wrapped column (Khmer over English/Chinese) or two columns */
+  var NM = window.NM = { on: false, lang: 'km', layout: 'one' };
+  var NAMEKEYS = null, IDKEYS = null, REV = {};
+  function T(k, l) { try { return tLang(k, l); } catch (e) { return ''; } }
+  function keys() { return Object.keys(translations.en || {}); }
+  function nameSet(l) { var s = {}; keys().forEach(function (k) { var en = translations.en[k]; if (en === 'Name' || en === 'Full Name' || en === 'Employee Name') { var v = T(k, l); if (v) s[v] = 1; } }); s['Name'] = 1; s['Employee Name'] = 1; return s; }
+  function idSet(l) { var s = {}; keys().forEach(function (k) { var en = translations.en[k]; if (en === 'ID' || en === 'Employee ID' || en === 'Emp ID') { var v = T(k, l); if (v) s[v] = 1; } }); s['ID'] = 1; s['Employee ID'] = 1; return s; }
+  function rev(l) { if (REV[l]) return REV[l]; var m = {}; keys().forEach(function (k) { var a = T(k, l), km = T(k, 'km'); if (typeof a === 'string' && typeof km === 'string' && a && km && a !== km && a.length < 70 && !m[a]) m[a] = km; }); return REV[l] = m; }
+  NM.bi = function (txt) { if (NM.lang === 'km' || typeof txt !== 'string') return txt; var km = rev(NM.lang)[txt]; return km ? km + '\n' + txt : txt; };
+  function byId(id) { var s = String(id == null ? '' : id).trim(); if (!s) return null; for (var i = 0; i < employees.length; i++) if (String(employees[i].id).trim() === s) return employees[i]; return null; }
+  NM.other = function (e, lang) { lang = lang || NM.lang; return lang === 'zh' ? (e.nameZh || '') : lang === 'en' ? (e.nameEn || '') : ''; };
+  NM.nameVal = function (e, layout, lang) { layout = layout || NM.layout; lang = lang || NM.lang; var k = e.name || ''; if (lang === 'km' || layout === 'two') return k; var o = NM.other(e, lang); return o ? k + '\n' + o : k; };
+  NM.nameHtml = function (e, layout, lang) { var E = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }; layout = layout || NM.layout; lang = lang || NM.lang; var o = NM.other(e, lang); if (lang === 'km' || layout === 'two' || !o) return E(e.name || ''); return E(e.name || '') + '<br>' + E(o); };
+  NM.titleHtml = function (kmTxt, otherTxt) { var E = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }; return NM.lang === 'km' || !otherTxt || otherTxt === kmTxt ? E(kmTxt) : E(kmTxt) + '<br>' + E(otherTxt); };
+  NM.otherHdr = function () { return NM.lang === 'zh' ? '中文姓名' : 'English name'; };
+  NM.otherHdrBi = function () { return NM.lang === 'zh' ? 'ឈ្មោះចិន\n中文姓名' : 'ឈ្មោះអង់គ្លេស\n' + 'English name'; };
+  NM.begin = function (lang, layout) { NM.on = true; NM.lang = lang || 'en'; NM.layout = layout || 'one'; NAMEKEYS = nameSet(NM.lang); IDKEYS = idSet(NM.lang); };
+  NM.end = function () { NM.on = false; };
+
+  /* ---- array-of-arrays ---- */
+  NM.aoa = function (aoa) {
+    try {
+      if (!NM.on || !aoa || !aoa.length) return { a: aoa, ins: -1 };
+      var h = -1, nc = -1, ic = -1, lim = Math.min(aoa.length, 10), r, c;
+      for (r = 0; r < lim && h < 0; r++) { var row = aoa[r] || []; for (c = 0; c < row.length; c++) { var tx = String(row[c] == null ? '' : row[c]).trim(); if (NAMEKEYS[tx]) { for (var c2 = 0; c2 < row.length; c2++) { if (IDKEYS[String(row[c2] == null ? '' : row[c2]).trim()]) ic = c2; } nc = c; h = r; break; } } }
+      if (h < 0) return { a: aoa, ins: -1 };
+      var two = NM.layout === 'two' && NM.lang !== 'km', out = [];
+      for (r = 0; r < aoa.length; r++) {
+        var src = (aoa[r] || []).slice();
+        if (r === h) {            /* heading row: Khmer + language below */
+          for (c = 0; c < src.length; c++) if (typeof src[c] === 'string') src[c] = NM.bi(src[c].trim()) === src[c].trim() ? src[c] : NM.bi(src[c].trim());
+          if (two && src.length > nc) src.splice(nc + 1, 0, NM.otherHdrBi());
+        } else if (r > h) {                       /* data rows */
+          var e = ic >= 0 ? byId(src[ic]) : null;
+          if (e) { src[nc] = NM.nameVal(e); if (two) src.splice(nc + 1, 0, NM.other(e)); }
+          else if (two && src.length > nc) src.splice(nc + 1, 0, '');
+        } else if (two && src.length > nc) src.splice(nc + 1, 0, '');
+        out.push(src);
+      }
+      return { a: out, ins: two ? nc + 1 : -1 };
+    } catch (e) { return { a: aoa, ins: -1 }; }
+  };
+  /* ---- array of objects (keys are the heading texts) ---- */
+  NM.json = function (rows) {
+    try {
+      if (!NM.on || !rows || !rows.length) return { a: rows, ins: -1 };
+      var ks = Object.keys(rows[0]), nk = null, ik = null; ks.forEach(function (k) { if (NAMEKEYS[k.trim()]) nk = k; if (IDKEYS[k.trim()]) ik = k; });
+      if (!nk) return { a: rows, ins: -1 };
+      var two = NM.layout === 'two' && NM.lang !== 'km', okey = NM.otherHdrBi();
+      var out = rows.map(function (o) { var n = {}, e = ik ? byId(o[ik]) : null; Object.keys(o).forEach(function (k) { var nkk = NM.bi(k.trim()); n[nkk === k.trim() ? k : nkk] = (k === nk && e) ? NM.nameVal(e) : o[k]; if (k === nk && two) n[okey] = e ? NM.other(e) : ''; }); return n; });
+      return { a: out, ins: two ? ks.indexOf(nk) + 1 : -1 };
+    } catch (e) { return { a: rows, ins: -1 }; }
+  };
+  function wrapCells(ws) { try { Object.keys(ws).forEach(function (a) { if (a.charAt(0) === '!') return; var c = ws[a]; if (c && typeof c.v === 'string' && c.v.indexOf('\n') >= 0) { c.s = Object.assign({}, c.s || {}, { alignment: { wrapText: true, vertical: 'center', horizontal: 'center' } }); } }); } catch (e) {} }
+  function install() {
+    if (typeof XLSX === 'undefined' || XLSX.__nm) return false; XLSX.__nm = 1;
+    var oa = XLSX.utils.aoa_to_sheet, oj = XLSX.utils.json_to_sheet, ow = XLSX.writeFile;
+    XLSX.utils.aoa_to_sheet = function (a, o) { if (!NM.on) return oa.apply(this, arguments); var r = NM.aoa(a), ws = oa.call(this, r.a, o); ws.__nmIns = r.ins; wrapCells(ws); return ws; };
+    XLSX.utils.json_to_sheet = function (a, o) { if (!NM.on) return oj.apply(this, arguments); var r = NM.json(a), ws = oj.call(this, r.a, o); ws.__nmIns = r.ins; wrapCells(ws); return ws; };
+    XLSX.writeFile = function (wb) {
+      try { Object.keys(wb.Sheets || {}).forEach(function (n) { var ws = wb.Sheets[n], i = ws.__nmIns; if (i >= 0 && !ws.__nmFix) { ws.__nmFix = 1; if (ws['!cols']) { var cc = ws['!cols'].slice(); cc.splice(i, 0, { wch: 22 }); ws['!cols'] = cc; } if (ws['!merges']) ws['!merges'] = ws['!merges'].map(function (m) { var x = JSON.parse(JSON.stringify(m)); if (x.s.c >= i) x.s.c++; if (x.e.c >= i) x.e.c++; else if (x.e.c >= i - 0 && x.s.c < i && x.e.c >= i) x.e.c++; return x; }); } }); } catch (e) {}
+      return ow.apply(this, arguments);
+    };
+    return true;
+  }
+  var tries = 0, iv = setInterval(function () { if (install() || ++tries > 40) clearInterval(iv); }, 500);
+  /* export dialog: Name layout box + run the export with NM switched on */
+  function dlg() {
+    var m = document.getElementById('exportLangModal'); if (!m || document.getElementById('nmLayoutBox')) return;
+    var sel = document.getElementById('exportLangModalSelect'); if (!sel) return;
+    var d = document.createElement('div'); d.id = 'nmLayoutBox'; d.className = 'form-group';
+    d.innerHTML = '<label>Name layout (English / 中文 only)</label><select id="nmLayout"><option value="one">One column: Khmer, with English / 中文 below (wrapped)</option><option value="two">Two columns: Khmer name + English / 中文 name</option></select>';
+    sel.parentNode.parentNode.insertBefore(d, sel.parentNode.nextSibling);
+    try { var s = localStorage.getItem('nmLayout'); if (s) document.getElementById('nmLayout').value = s; } catch (e) {}
+    sel.onchange = function () { d.style.display = sel.value === 'km' ? 'none' : ''; }; sel.onchange();
+  }
+  setInterval(dlg, 700);
+  var oc = window.confirmExportLangModal;
+  if (typeof oc === 'function') window.confirmExportLangModal = function () {
+    var s = document.getElementById('exportLangModalSelect'), l = document.getElementById('nmLayout'); var lang = s ? s.value : 'en', lay = l ? l.value : 'one';
+    try { localStorage.setItem('nmLayout', lay); } catch (e) {}
+    return NM.run(lang, lay, oc, this, arguments);
+  };
+})();
+/* ===== screen tables: "Khmer name" + new "English name" column (Master Sheet, Monthly Report, Employee, Monthly Annual Leave) ===== */
+(function () {
+  var TBL = ['masterTable', 'monthlyReportTable', 'monthlyALTable', 'employeeTable'];
+  var LK = { en: 'Khmer name', km: 'ឈ្មោះខ្មែរ', zh: '高棉文姓名' }, LE = { en: 'English name', km: 'ឈ្មោះអង់គ្លេស', zh: '英文姓名' };
+  function lg() { return (typeof currentLang === 'string' && LK[currentLang]) ? currentLang : 'en'; }
+  function byId(id) { var s = String(id == null ? '' : id).trim(); for (var i = 0; i < employees.length; i++) if (String(employees[i].id).trim() === s) return employees[i]; return null; }
+  function pass() {
+    TBL.forEach(function (id) {
+      var t = document.getElementById(id); if (!t || !t.tHead || !t.tHead.rows[0] || t.offsetParent === null && !t.tBodies[0]) return;
+      var tr = t.tHead.rows[0], ths = Array.prototype.slice.call(tr.cells), ni = -1, ii = -1, has = -1, i;
+      for (i = 0; i < ths.length; i++) { var k = ths[i].getAttribute('data-i18n'); if (ths[i].classList.contains('nmEn')) has = i; if (k === 'tblName' || ths[i].getAttribute('data-nmk') === '1') ni = i; if (k === 'tblId') ii = i; }
+      if (ni < 0) return;
+      var th = ths[ni]; th.removeAttribute('data-i18n'); th.setAttribute('data-nmk', '1'); if (th.textContent !== LK[lg()]) th.textContent = LK[lg()];
+      if (has < 0) { var nh = th.cloneNode(false); nh.className = th.className + ' nmEn'; nh.removeAttribute('rowspan'); nh.textContent = LE[lg()]; th.parentNode.insertBefore(nh, th.nextSibling); has = ni + 1; }
+      else if (ths[has].textContent !== LE[lg()]) ths[has].textContent = LE[lg()];
+      var N = tr.cells.length - 1;
+      Array.prototype.forEach.call(t.tBodies[0].rows, function (r) {
+        if (r.getAttribute('data-nm') === '1') { var cur = r.querySelector('td.nmEn'); if (cur && r.cells[has] !== cur) { r.removeChild(cur); r.insertBefore(cur, r.cells[has] || null); } return; }
+        if (r.cells.length !== N) { return; }
+        var e = ii >= 0 ? byId(r.cells[ii].textContent) : null;
+        if (!e) { var nm = (r.cells[ni].textContent || '').trim(); for (var q = 0; q < employees.length; q++) if (String(employees[q].name || '').trim() === nm) { e = employees[q]; break; } }
+        var td = document.createElement('td'); td.className = 'nmEn'; td.textContent = e ? (e.nameEn || '') : ''; r.insertBefore(td, r.cells[ni].nextSibling); r.setAttribute('data-nm', '1');
+      });
+    });
+  }
+  setInterval(function () { try { pass(); } catch (e) {} }, 600);
+})();
+/* ===== Check Record: name next to the ID, e.g. គង់ ធាន Kong Thean ===== */
+window.nmFull = function (e) { return e ? ((e.name || '') + (e.nameEn ? ' ' + e.nameEn : '')) : ''; };
+(function () {
+  setInterval(function () {
+    try {
+      var inp = document.getElementById('chkEmpId'); if (!inp || document.getElementById('chkEmpName')) return;
+      var g = document.createElement('div'); g.className = 'form-group'; g.innerHTML = '<label>Name ឈ្មោះ</label><input type="text" id="chkEmpName" readonly placeholder="-" style="background:#f8fafc">';
+      inp.parentNode.parentNode.insertBefore(g, inp.parentNode.nextSibling);
+      var f = function () { var v = String(inp.value || '').trim(), e = null; for (var i = 0; i < employees.length; i++) if (String(employees[i].id).trim() === v) { e = employees[i]; break; } document.getElementById('chkEmpName').value = e ? window.nmFull(e) : ''; };
+      inp.addEventListener('input', f); inp.addEventListener('change', f);
+    } catch (e) {}
+  }, 800);
+})();
+/* ===== all other exports and prints ===== */
+(function () {
+  var depth = 0;
+  NM.layoutNow = function () { var l = ''; try { l = localStorage.getItem('nmLayout') || ''; } catch (e) {} return l === 'two' ? 'two' : 'one'; };
+  NM.run = function (lang, layout, fn, ctx, args) {
+    var first = depth === 0; depth++; if (first) NM.begin(lang, layout || NM.layoutNow());
+    var done = function () { depth--; if (depth === 0) NM.end(); }, r;
+    try { r = fn.apply(ctx, args); } catch (e) { done(); throw e; }
+    if (r && typeof r.then === 'function') { r.then(done, done); } else { setTimeout(done, 0); }
+    return r;
+  };
+  /* ---- HTML (print windows): same rules applied to the tables in the page text ---- */
+  function txt(el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); }
+  function setBi(el) { var t = txt(el), b = NM.bi(t); if (b !== t) el.innerHTML = b.split('\n').map(function (x) { return x.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }).join('<br>'); }
+  NM.htmlTx = function (html) {
+    try {
+      if (!NM.on) return html;
+      var nameS = {}, idS = {}; (function () { var n = {}, i = {}; var ks = Object.keys(translations.en || {}); ks.forEach(function (k) { var en = translations.en[k], v = tLang(k, NM.lang); if (en === 'Name' || en === 'Full Name' || en === 'Employee Name') n[v] = 1; if (en === 'ID' || en === 'Employee ID' || en === 'Emp ID') i[v] = 1; }); n.Name = 1; i.ID = 1; i['Employee ID'] = 1; nameS = n; idS = i; })();
+      var doc = new DOMParser().parseFromString(html, 'text/html'), two = NM.layout === 'two' && NM.lang !== 'km', changed = false;
+      if (NM.lang !== 'km') doc.querySelectorAll('h1,h2,h3,h4,caption').forEach(setBi);
+      doc.querySelectorAll('table').forEach(function (tb) {
+        var rows = Array.prototype.slice.call(tb.rows), hi = -1, nc = -1, ic = -1, i, c;
+        for (i = 0; i < Math.min(rows.length, 6) && hi < 0; i++) { var cs = rows[i].cells; for (c = 0; c < cs.length; c++) if (nameS[txt(cs[c]).split(' ')[0] === txt(cs[c]) ? txt(cs[c]) : txt(cs[c])]) { hi = i; nc = c; break; } }
+        if (hi < 0) return; var hc = rows[hi].cells;
+        for (c = 0; c < hc.length; c++) if (idS[txt(hc[c])]) ic = c;
+        var n = hc.length;
+        for (c = 0; c < hc.length; c++) if (NM.lang !== 'km') setBi(hc[c]);
+        if (two) { var th = doc.createElement(hc[nc].tagName.toLowerCase()); th.innerHTML = NM.otherHdrBi().split('\n').join('<br>'); hc[nc].parentNode.insertBefore(th, hc[nc].nextSibling); }
+        for (i = hi + 1; i < rows.length; i++) {
+          var cs2 = rows[i].cells; if (cs2.length !== n) { if (two && cs2.length > nc) { var ex = doc.createElement('td'); cs2[nc].parentNode.insertBefore(ex, cs2[nc].nextSibling); } continue; }
+          var e = null, id = ic >= 0 ? txt(cs2[ic]) : ''; for (var q = 0; q < employees.length; q++) if (String(employees[q].id).trim() === id) { e = employees[q]; break; }
+          if (e) { cs2[nc].innerHTML = NM.nameHtml(e); if (two) { var td = doc.createElement('td'); td.textContent = NM.other(e); cs2[nc].parentNode.insertBefore(td, cs2[nc].nextSibling); } }
+          else if (two) { var td2 = doc.createElement('td'); cs2[nc].parentNode.insertBefore(td2, cs2[nc].nextSibling); }
+        }
+        changed = true;
+      });
+      return changed ? '<!doctype html>' + doc.documentElement.outerHTML : html;
+    } catch (e) { return html; }
+  };
+  var ow = window.open;
+  window.open = function () {
+    var w = ow.apply(this, arguments);
+    try { if (NM.on && w && w.document && !w.__nm) { w.__nm = 1; var d = w.document, dw = d.write.bind(d); d.write = function () { var a = Array.prototype.slice.call(arguments).map(function (x) { return (typeof x === 'string' && x.indexOf('<table') >= 0) ? NM.htmlTx(x) : x; }); return dw.apply(null, a); }; } } catch (e) {}
+    return w;
+  };
+  /* ---- wrap the entry points (each keeps its own behaviour; only the names and titles change) ---- */
+  function cur() { return (typeof currentLang === 'string') ? currentLang : 'en'; }
+  function val(id) { var e = document.getElementById(id); return e ? e.value : ''; }
+  var W = [['exportLeaveReport', function (a) { return a[1]; }], ['exportRenewalList', function (a) { return a[1]; }], ['faExportReportExcel', function () { return val('faExportLang'); }], ['faExportReportPdf', function () { return val('faExportLang'); }], ['xcExport', function () { return val('xcLang'); }], ['exportAttCalToPDF', cur], ['msExport', cur], ['lxRecord', cur], ['payExport', cur], ['paySlips', cur], ['rqPrint', cur], ['faExportReportWord', function () { return val('faExportLang'); }]];
+  function wrapAll() { W.forEach(function (p) { var f = window[p[0]]; if (typeof f !== 'function' || f.__nmw) return; var g = function () { var l = p[1](arguments) || cur(); return NM.run(l, null, f, this, arguments); }; g.__nmw = 1; window[p[0]] = g; }); }
+  wrapAll(); setInterval(wrapAll, 1500);
+  /* dialog: confirmExportLangModal goes through the same helper */
+  /* layout box inside the attendance + extract dialogs */
+  setInterval(function () {
+    ['faExportLang', 'xcLang'].forEach(function (id) {
+      var s = document.getElementById(id); if (!s || document.getElementById('nmL_' + id)) return;
+      var d = document.createElement('div'); d.style.cssText = 'margin-top:6px'; d.innerHTML = '<select id="nmL_' + id + '" title="Name layout" style="padding:6px 8px;border:1px solid #cbd5e1;border-radius:8px"><option value="one">Name: one column (wrapped)</option><option value="two">Name: two columns</option></select>';
+      s.parentNode.insertBefore(d, s.nextSibling); var x = document.getElementById('nmL_' + id); try { x.value = localStorage.getItem('nmLayout') || 'one'; } catch (e) {} x.onchange = function () { try { localStorage.setItem('nmLayout', x.value); } catch (e) {} };
+    });
+  }, 1000);
+})();
+/* ===== one-time copy of English names saved in Personal Information ===== */
+window.nmCopyEn = async function () {
+  var list = employees.filter(function (e) { return !e.nameEn; });
+  if (!list.length) { showToast(true); return; }
+  var ok = true; try { ok = await showConfirm('Copy English names from Personal Information for ' + list.length + ' employees without one? (reads one small value per employee, once)'); } catch (e) {} if (!ok) return;
+  var up = {}, n = 0, i = 0;
+  async function worker() { while (i < list.length) { var e = list[i++]; try { var s = await db.ref('empDocs/' + e.firebaseKey + '/_info/f/nameEn').once('value'), v = String(s.val() || '').trim(); if (v) { up['employees/' + e.firebaseKey + '/nameEn'] = v; n++; } } catch (x) {} } }
+  await Promise.all([worker(), worker(), worker(), worker(), worker(), worker()]);
+  if (!n) { showToast(false, 'No English names found in Personal Information'); return; }
+  try { await db.ref().update(up); showToast(true, n + ' English names copied'); } catch (e) { showToast(false); }
+};
+
+</script>
+<script id="nmDept">
+(function(){var L=['dpExportMaster','dpCmpExport','dpCmpPrint','dpReqPrint','dpGridExport'];
+function w(){L.forEach(function(n){var f=window[n];if(typeof f!=='function'||f.__nmw)return;var g=function(){return NM.run(currentLang,null,f,this,arguments);};g.__nmw=1;window[n]=g;});}
+w();setInterval(w,1500);})();
 </script>
 </body>
 </html>

@@ -31,6 +31,7 @@
  <title>HR203</title>
  <!-- XLSX Library for Exporting to Excel -->
  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+<script>(function(){var o=window.XLSX,s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js";s.onload=function(){if(!(window.XLSX&&window.XLSX.utils&&window.XLSX.writeFile)&&o)window.XLSX=o;};s.onerror=function(){if(o)window.XLSX=o;};document.head.appendChild(s);})();</script>
  <!-- v6.67: mammoth.js - converts an uploaded .docx file's content to HTML so it can be loaded
       into the Document Library's Word-like editor (CKEditor 5, see v6.68 below). Also reused by
       the v6.93 Convert to Photo feature to turn an uploaded .docx into HTML before it's
@@ -2401,6 +2402,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
                          <label data-i18n="lblFullName">Full Name</label>
                          <input type="text" id="newName" placeholder="e.g. Sok Heng" required>
                      </div>
+                     <div class="form-group"><label>English name</label><input type="text" id="newNameEn" placeholder="e.g. Kong Thean"></div>
+                     <div class="form-group"><label>Chinese name 中文姓名</label><input type="text" id="newNameZh"></div>
                      <div class="form-group">
                          <label data-i18n="tblSex">Sex</label>
                          <select id="newSex" required>
@@ -3366,6 +3369,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         <div class="modal-header"><h4 data-i18n="dgEditTitle">Edit Department</h4><button class="modal-close" onclick="closeDgEdit()">&times;</button></div>
         <div style="display:flex; gap:8px; align-items:flex-end; flex-wrap:wrap; margin-bottom:16px;">
             <div class="form-group" style="flex:1; min-width:220px; margin-bottom:0;"><label data-i18n="dgEditName">Department name</label><input type="text" id="dgEditName"></div>
+            <div class="form-group" style="flex:1; min-width:160px; margin-bottom:0;"><label>Chinese name 中文</label><input type="text" id="dgEditZh"></div>
             <button type="button" class="btn-submit" style="width:auto; padding:8px 16px; margin-top:0;" onclick="dgEditSaveName(this)" data-i18n="dgSaveName">Save name</button>
         </div>
         <h4 style="margin-bottom:8px; color:#334155;"><span data-i18n="dgGroupsIn">Groups in this department</span> (<span id="dgEditCount">0</span>)</h4>
@@ -3378,7 +3382,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
             <button type="button" class="btn-submit" style="width:auto; padding:8px 16px; margin-top:0; background:#0d9488;" onclick="dgGroupAttach(this)" data-i18n="dgAttach">Add to this department</button>
         </div>
         <input type="text" id="dgEditSearch" oninput="dgEditRender()" autocomplete="off" style="width:100%; padding:8px 10px; border:1px solid #cbd5e1; border-radius:8px; margin-bottom:10px;">
-        <div class="table-responsive" style="max-height:44vh; overflow-y:auto;"><table class="master-tbl" id="dgEditTable"><thead><tr><th data-i18n="tblActions">Actions</th><th data-i18n="deptColName">Group Name</th><th data-i18n="deptColCount">Employees Assigned</th></tr></thead><tbody></tbody></table></div>
+        <div class="table-responsive" style="max-height:44vh; overflow-y:auto;"><table class="master-tbl" id="dgEditTable"><thead><tr><th data-i18n="tblActions">Actions</th><th data-i18n="deptColName">Group Name</th><th>Chinese name 中文</th><th data-i18n="deptColCount">Employees Assigned</th></tr></thead><tbody></tbody></table></div>
     </div>
 </div>
 
@@ -3445,6 +3449,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          <div class="grid-3">
              <div class="form-group"><label data-i18n="lblEmpId">Employee ID</label><input type="text" id="editId" required></div>
              <div class="form-group"><label data-i18n="lblFullName">Full Name</label><input type="text" id="editName" required></div>
+             <div class="form-group"><label>English name</label><input type="text" id="editNameEn"></div>
+             <div class="form-group"><label>Chinese name 中文姓名</label><input type="text" id="editNameZh"></div>
              <div class="form-group"><label data-i18n="tblSex">Sex</label>
                  <select id="editSex"><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select>
              </div>
@@ -9759,7 +9765,7 @@ function computeQueryData(emp, queryDate, todayHours) {
      document.getElementById('cdTitleInfo').innerText = ': ' + (emp.name || '-') + ' (' + (emp.id || '-') + ')';
      renderCheckDetailsShift(emp.id, queryDateStr || cdLocalDateStr(new Date()));
      document.getElementById('cdId').innerText = emp.id || '-';
-     document.getElementById('cdName').innerText = emp.name || '-';
+     document.getElementById('cdName').innerText = nmFull(emp) || '-';
      document.getElementById('cdDept').innerText = emp.department || '-';
      document.getElementById('cdJoin').innerText = emp.joinDate || '-';
      document.getElementById('cdYears').innerText = workYears;
@@ -9846,6 +9852,8 @@ function computeQueryData(emp, queryDate, todayHours) {
              loginUsername: data[key].loginUsername || '',
              loginPassword: data[key].loginPassword || '',
              status: data[key].status || 'Active',
+             nameEn: data[key].nameEn || '',
+             nameZh: data[key].nameZh || '',
              resignedDate: data[key].resignedDate || '',
              workHours: data[key].workHours || 0,
              otHours: data[key].otHours || 0,
@@ -9876,7 +9884,7 @@ function computeQueryData(emp, queryDate, todayHours) {
  let departments = [];
  db.ref('departments').on('value', (snapshot) => {
      const data = snapshot.val();
-     const _dgd = data || {}; dgOrg = Object.keys(_dgd._org || {}).map(k => ({ key: k, name: (_dgd._org[k] && _dgd._org[k].name) || '' })); departments = Object.keys(_dgd).filter(k => k.charAt(0) !== '_').map(key => ({ firebaseKey: key, name: (_dgd[key] && _dgd[key].name) || '', parent: (_dgd[key] && _dgd[key].parent) || '' }));
+     const _dgd = data || {}; dgOrg = Object.keys(_dgd._org || {}).map(k => ({ key: k, name: (_dgd._org[k] && _dgd._org[k].name) || '', zh: (_dgd._org[k] && _dgd._org[k].zh) || '' })); departments = Object.keys(_dgd).filter(k => k.charAt(0) !== '_').map(key => ({ firebaseKey: key, name: (_dgd[key] && _dgd[key].name) || '', parent: (_dgd[key] && _dgd[key].parent) || '', zh: (_dgd[key] && _dgd[key].zh) || '' }));
      if (departments.length === 0 && !data) {
          // Seed with generic placeholders the first time this feature is used, so the dropdowns aren't empty.
          ['Department 1', 'Department 2', 'Department 3'].forEach(name => db.ref('departments').push({ name }));
@@ -12784,6 +12792,7 @@ function openEmployeeDetailModal(index) {
      document.getElementById('editIndex').value = emp.firebaseKey;
      document.getElementById('editId').value = emp.id;
      document.getElementById('editName').value = emp.name;
+     document.getElementById('editNameEn').value = emp.nameEn || ''; document.getElementById('editNameZh').value = emp.nameZh || '';
      document.getElementById('editSex').value = emp.sex || 'Male';
      document.getElementById('editDob').value = emp.dob || '';
      document.getElementById('editPob').value = emp.pob || '';
@@ -12869,6 +12878,8 @@ function openEmployeeDetailModal(index) {
      const updatedData = {
          id: document.getElementById('editId').value,
          name: document.getElementById('editName').value,
+         nameEn: (document.getElementById('editNameEn').value || '').trim(),
+         nameZh: (document.getElementById('editNameZh').value || '').trim(),
          sex: document.getElementById('editSex').value,
          dob: document.getElementById('editDob').value,
          pob: document.getElementById('editPob').value,
@@ -12946,6 +12957,8 @@ function openEmployeeDetailModal(index) {
      const emp = {
          id: newEmpId,
          name: newEmpName,
+         nameEn: (document.getElementById('newNameEn').value || '').trim(),
+         nameZh: (document.getElementById('newNameZh').value || '').trim(),
          sex: document.getElementById('newSex').value,
          dob: document.getElementById('newDob').value,
          pob: document.getElementById('newPob').value,
@@ -19201,7 +19214,7 @@ function dgEditOrg() { return dgOrg.find(function (o) { return o.key === dgEditK
 function dgOpenEdit(i) {
     const o = dgOrg[i]; if (!o) return;
     dgEditKey = o.key;
-    document.getElementById('dgEditName').value = o.name; document.getElementById('dgEditSearch').value = ''; document.getElementById('dgEditNewGroup').value = '';
+    document.getElementById('dgEditName').value = o.name; document.getElementById('dgEditZh').value = o.zh || ''; document.getElementById('dgEditSearch').value = ''; document.getElementById('dgEditNewGroup').value = '';
     dgEditRender(); document.getElementById('dgEditModal').style.display = 'flex';
 }
 function closeDgEdit() { document.getElementById('dgEditModal').style.display = 'none'; dgEditKey = ''; }
@@ -19213,8 +19226,8 @@ function dgEditRender() {
     document.getElementById('dgEditCount').textContent = all.length;
     document.querySelector('#dgEditTable tbody').innerHTML = gs.map(function (g) {
         const n = employees.filter(function (e) { return e.department === g.name; }).length, k = dgEsc(g.firebaseKey), nm = String(g.name).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
-        return '<tr><td style="white-space:nowrap;"><button class="btn-edit" onclick="editDepartment(\'' + k + '\', \'' + dgEsc(nm) + '\')" title="Edit">' + ICON_EDIT + '</button> <button class="btn-view" onclick="dgGroupOut(\'' + k + '\')" title="' + dgEsc(t('dgRemoveFromDept')) + '">&#8856;</button> <button class="btn-delete" onclick="deleteDepartment(\'' + k + '\', ' + n + ', this)" title="Delete">' + ICON_DELETE + '</button></td><td><b>' + dgEsc(g.name) + '</b></td><td>' + n + '</td></tr>';
-    }).join('') || '<tr><td colspan="3" style="text-align:center; color:#94a3b8;">' + dgEsc(all.length ? t('rqNone') : t('dgNoGroupsIn')) + '</td></tr>';
+        return '<tr><td style="white-space:nowrap;"><button class="btn-edit" onclick="editDepartment(\'' + k + '\', \'' + dgEsc(nm) + '\')" title="Edit">' + ICON_EDIT + '</button> <button class="btn-view" onclick="dgGroupOut(\'' + k + '\')" title="' + dgEsc(t('dgRemoveFromDept')) + '">&#8856;</button> <button class="btn-delete" onclick="deleteDepartment(\'' + k + '\', ' + n + ', this)" title="Delete">' + ICON_DELETE + '</button></td><td><b>' + dgEsc(g.name) + '</b></td><td><input type="text" value="' + dgEsc(g.zh || '') + '" style="width:120px;padding:4px 6px;border:1px solid #cbd5e1;border-radius:6px" onchange="dgGroupZh(\'' + k + '\', this)"></td><td>' + n + '</td></tr>';
+    }).join('') || '<tr><td colspan="4" style="text-align:center; color:#94a3b8;">' + dgEsc(all.length ? t('rqNone') : t('dgNoGroupsIn')) + '</td></tr>';
     const un = departments.filter(function (g) { return !g.parent; }), sel = document.getElementById('dgEditAttach'), cur = sel.value;
     sel.innerHTML = un.map(function (g) { return '<option value="' + dgEsc(g.firebaseKey) + '">' + dgEsc(g.name) + '</option>'; }).join(''); if (cur) sel.value = cur;
     document.getElementById('dgEditAttachBox').style.display = un.length ? 'flex' : 'none';
@@ -19222,13 +19235,15 @@ function dgEditRender() {
 }
 async function dgEditSaveName(btnEl) {
     const o = dgEditOrg(); if (!o) return;
-    const name = document.getElementById('dgEditName').value.trim(); if (!name || name === o.name) return;
-    if (dgOrg.some(function (x) { return x.key !== o.key && x.name.toLowerCase() === name.toLowerCase(); })) { showToast(false, t('dgOrgDup')); return; }
-    const up = {}; up['departments/_org/' + o.key + '/name'] = name;
-    departments.forEach(function (g) { if (g.parent === o.name) up['departments/' + g.firebaseKey + '/parent'] = name; });
+    const name = document.getElementById('dgEditName').value.trim(), zh = document.getElementById('dgEditZh').value.trim(); if (!name) return;
+    if (name === o.name && zh === (o.zh || '')) return;
+    if (name !== o.name && dgOrg.some(function (x) { return x.key !== o.key && x.name.toLowerCase() === name.toLowerCase(); })) { showToast(false, t('dgOrgDup')); return; }
+    const up = {}; up['departments/_org/' + o.key + '/zh'] = zh || null;
+    if (name !== o.name) { up['departments/_org/' + o.key + '/name'] = name; departments.forEach(function (g) { if (g.parent === o.name) up['departments/' + g.firebaseKey + '/parent'] = name; }); }
     const old = o.name;
     withBusyButton(btnEl, function () { return db.ref().update(up).then(function () { if (dgSel.dept === old) { dgSel.dept = name; dgSave(); } showToast(true); try { logActivity('Department renamed', 'Department', name, old + ' > ' + name, ''); } catch (e) {} }).catch(function () { showToast(false); }); });
 }
+function dgGroupZh(key, inp) { db.ref('departments/' + key + '/zh').set(inp.value.trim() || null).then(function () { showToast(true); }).catch(function () { showToast(false); }); }
 function dgGroupAdd(btnEl) {
     const o = dgEditOrg(); if (!o) return;
     const inp = document.getElementById('dgEditNewGroup'), name = inp.value.trim();
@@ -19501,7 +19516,7 @@ function msDetail(idx) {
     const S = function (id, v) { const el = document.getElementById(id); if (el) el.innerText = v; };
     S('cdTitleInfo', ': ' + (emp.name || '-') + ' (' + (emp.id || '-') + ')'); S('cdQueryShift', '');
     const sh = document.getElementById('cdQueryShift'); if (sh) sh.textContent = t('msViewOnlyTag') + ' - ' + dgOrgNameOf(msKey);
-    S('cdId', emp.id || '-'); S('cdName', emp.name || '-'); S('cdDept', emp.department || '-'); S('cdJoin', emp.joinDate || '-'); S('cdYears', qd.workYears); S('cdEntitled', f(emp.entitled));
+    S('cdId', emp.id || '-'); S('cdName', nmFull(emp) || '-'); S('cdDept', emp.department || '-'); S('cdJoin', emp.joinDate || '-'); S('cdYears', qd.workYears); S('cdEntitled', f(emp.entitled));
     S('cdStart', qd.startStr || '-'); S('cdEnd', qd.endStr || '-'); S('cdRenewal', qd.renewalMonths); S('cdYearRange', qd.yearRangeStr || '-'); S('cdMonths', qd.monthsOfService); S('cdTotalAL', f(emp.entitled));
     S('cdTotalUsed', qd.totalUsed.toFixed(2)); S('cdCurrentMonthUsed', f(emp.monthUsed)); S('cdRemainingTotal', qd.newLeft.toFixed(2)); S('cdCarried', qd.oldLeft.toFixed(2));
     S('cdAllowedThisMonth', qd.allowedThisMonth.toFixed(2)); S('cdRemAfterToday', qd.remAfterToday.toFixed(2)); S('cdAvailCarried', hasC ? t('txtAvailable') : t('txtUnavailable'));
@@ -22526,6 +22541,44 @@ function init(){
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
 })();
 </script>
+<script id="uiGateJs">
+/* v9.3 Fresh theme access gate: owner only until released in Maintenance > Theme */
+(function () {
+  if (window.__uiGate) return;
+  var AK = 'uiAcc', OK = 'uiOwnerOK';
+  var DEF = { en: 'The new Fresh look is coming soon.', km: 'រចនាបថថ្មី Fresh នឹងមកដល់ឆាប់ៗនេះ។', zh: '全新 Fresh 外观即将推出。' };
+  function acc() { try { return JSON.parse(localStorage.getItem(AK) || 'null') || {}; } catch (e) { return {}; } }
+  function owner() { try { return localStorage.getItem(OK) === '1'; } catch (e) { return false; } }
+  function lng() { var l = 'en'; try { l = window.currentLang || window.lang || localStorage.getItem('lang') || localStorage.getItem('appLang') || document.documentElement.lang || 'en'; } catch (e) {} l = String(l).slice(0, 2); return DEF[l] ? l : 'en'; }
+  function note() { var a = acc(), l = lng(); return (a.note && a.note[l]) || DEF[l]; }
+  function changed() { try { window.dispatchEvent(new Event('uigate')); } catch (e) {} }
+  function toast() {
+    try {
+      var o = document.getElementById('uiSoon'); if (o) o.remove();
+      o = document.createElement('div'); o.id = 'uiSoon'; o.textContent = note();
+      o.style.cssText = 'position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:#0f172a;color:#fff;padding:12px 18px;border-radius:12px;font:600 14px Arial,sans-serif;z-index:2147483200;box-shadow:0 8px 24px rgba(15,23,42,.3);max-width:86vw;text-align:center';
+      document.body.appendChild(o); setTimeout(function () { try { o.remove(); } catch (e) {} }, 3200);
+    } catch (e) {}
+  }
+  window.__uiGate = { ok: function () { return acc().mode === 'all' || owner(); }, note: note, toast: toast };
+  var hooked = false, n = 0;
+  function hook() {
+    if (hooked) return true;
+    if (typeof db === 'undefined' || typeof firebase === 'undefined') return false;
+    hooked = true;
+    try { db.ref('uiTheme/_access').on('value', function (sn) { var v = sn.val() || {}; try { localStorage.setItem(AK, JSON.stringify({ mode: v.mode === 'all' ? 'all' : 'owner', note: v.note || null })); } catch (e) {} changed(); }, function () {}); } catch (e) {}
+    try {
+      firebase.auth().onAuthStateChanged(function (u) {
+        var set = function (v) { try { localStorage.setItem(OK, v ? '1' : '0'); } catch (e) {} changed(); };
+        if (!u) { set(false); return; }
+        db.ref('staff/' + u.uid + '/owner').once('value').then(function (s) { set(s.val() === true); }, function () { set(false); });
+      });
+    } catch (e) {}
+    return true;
+  }
+  var iv = setInterval(function () { if (hook() || ++n > 150) clearInterval(iv); }, 200);
+})();
+</script>
 <script id="themeCore">
 /* HR203 theme: Classic / Fresh. The default per system is set in Maintenance (Theme). Users can switch themselves unless it is locked.
    Only the look changes. No data and no calculation. */
@@ -22537,7 +22590,9 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   function cfg() { try { return JSON.parse(localStorage.getItem('uiCfg') || '{}') || {}; } catch (e) { return {}; } }
   function sys() { try { return SYSF(); } catch (e) { return 'admin'; } }
   function locked() { var c = cfg()[sys()]; return !!(c && c.lock); }
+  function gOk() { return !window.__uiGate || window.__uiGate.ok(); }
   function theme() {
+    if (!gOk()) return 'classic';
     var s = sys(), c = cfg()[s] || {}, def = c.def === 'fresh' ? 'fresh' : 'classic';
     if (c.lock) return def;
     var u = null; try { u = localStorage.getItem('uiTheme.' + s); } catch (e) {}
@@ -22546,18 +22601,19 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   function paint() {
     var d = document.documentElement, f = theme() === 'fresh';
     d.classList.toggle('fresh', f); d.classList.toggle('fr-locked', locked());
-    Array.prototype.forEach.call(document.querySelectorAll('.thBtn'), function (b) { b.textContent = f ? 'Classic' : 'Fresh'; b.style.display = locked() ? 'none' : ''; });
+    Array.prototype.forEach.call(document.querySelectorAll('.thBtn'), function (b) { b.textContent = f ? 'Classic' : (gOk() ? 'Fresh' : '\uD83D\uDD12 Fresh \u00b7 Soon'); b.style.display = locked() ? 'none' : ''; });
   }
   function mount() {
     Array.prototype.forEach.call(document.querySelectorAll(MOUNT), function (host) {
       if (host.querySelector('.thBtn')) return;
       var b = document.createElement('button'); b.type = 'button'; b.className = 'thBtn iconBtn lang-btn'; b.title = 'Theme';
       b.style.cssText = 'cursor:pointer;margin:0 4px;white-space:nowrap';
-      b.onclick = function () { var n = theme() === 'fresh' ? 'classic' : 'fresh'; try { localStorage.setItem('uiTheme.' + sys(), n); } catch (e) {} paint(); };
+      b.onclick = function () { if (!gOk()) { try { window.__uiGate.toast(); } catch (e) {} return; } var n = theme() === 'fresh' ? 'classic' : 'fresh'; try { localStorage.setItem('uiTheme.' + sys(), n); } catch (e) {} paint(); };
       var ref = host.querySelector('.lang-dropdown,.iconBtn,button'); if (ref && ref.parentNode === host) host.insertBefore(b, ref); else host.insertBefore(b, host.firstChild);
       paint();
     });
   }
+  try { window.addEventListener('uigate', function () { paint(); }); } catch (e) {}
   var hooked = false;
   function hook() {
     if (hooked || typeof db === 'undefined') return; hooked = true;
@@ -22837,6 +22893,207 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
   try { if (localStorage.getItem('frCol') === '1') document.documentElement.classList.add('fr-col'); } catch (e) {}
   setInterval(refresh, 700); document.addEventListener('DOMContentLoaded', refresh); refresh();
 })();
+</script>
+<script id="nmJs">
+(function () {
+  /* ===== NM: names + titles for every print and export =====
+     language km  : Khmer only (titles and names)
+     language en/zh: every title shows Khmer + the language below it; names are one wrapped column (Khmer over English/Chinese) or two columns */
+  var NM = window.NM = { on: false, lang: 'km', layout: 'one' };
+  var NAMEKEYS = null, IDKEYS = null, REV = {};
+  function T(k, l) { try { return tLang(k, l); } catch (e) { return ''; } }
+  function keys() { return Object.keys(translations.en || {}); }
+  function nameSet(l) { var s = {}; keys().forEach(function (k) { var en = translations.en[k]; if (en === 'Name' || en === 'Full Name' || en === 'Employee Name') { var v = T(k, l); if (v) s[v] = 1; } }); s['Name'] = 1; s['Employee Name'] = 1; return s; }
+  function idSet(l) { var s = {}; keys().forEach(function (k) { var en = translations.en[k]; if (en === 'ID' || en === 'Employee ID' || en === 'Emp ID') { var v = T(k, l); if (v) s[v] = 1; } }); s['ID'] = 1; s['Employee ID'] = 1; return s; }
+  function rev(l) { if (REV[l]) return REV[l]; var m = {}; keys().forEach(function (k) { var a = T(k, l), km = T(k, 'km'); if (typeof a === 'string' && typeof km === 'string' && a && km && a !== km && a.length < 70 && !m[a]) m[a] = km; }); return REV[l] = m; }
+  NM.bi = function (txt) { if (NM.lang === 'km' || typeof txt !== 'string') return txt; var km = rev(NM.lang)[txt]; return km ? km + '\n' + txt : txt; };
+  function byId(id) { var s = String(id == null ? '' : id).trim(); if (!s) return null; for (var i = 0; i < employees.length; i++) if (String(employees[i].id).trim() === s) return employees[i]; return null; }
+  NM.other = function (e, lang) { lang = lang || NM.lang; return lang === 'zh' ? (e.nameZh || '') : lang === 'en' ? (e.nameEn || '') : ''; };
+  NM.nameVal = function (e, layout, lang) { layout = layout || NM.layout; lang = lang || NM.lang; var k = e.name || ''; if (lang === 'km' || layout === 'two') return k; var o = NM.other(e, lang); return o ? k + '\n' + o : k; };
+  NM.nameHtml = function (e, layout, lang) { var E = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }; layout = layout || NM.layout; lang = lang || NM.lang; var o = NM.other(e, lang); if (lang === 'km' || layout === 'two' || !o) return E(e.name || ''); return E(e.name || '') + '<br>' + E(o); };
+  NM.titleHtml = function (kmTxt, otherTxt) { var E = function (s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }; return NM.lang === 'km' || !otherTxt || otherTxt === kmTxt ? E(kmTxt) : E(kmTxt) + '<br>' + E(otherTxt); };
+  NM.otherHdr = function () { return NM.lang === 'zh' ? '中文姓名' : 'English name'; };
+  NM.otherHdrBi = function () { return NM.lang === 'zh' ? 'ឈ្មោះចិន\n中文姓名' : 'ឈ្មោះអង់គ្លេស\n' + 'English name'; };
+  NM.begin = function (lang, layout) { NM.on = true; NM.lang = lang || 'en'; NM.layout = layout || 'one'; NAMEKEYS = nameSet(NM.lang); IDKEYS = idSet(NM.lang); };
+  NM.end = function () { NM.on = false; };
+
+  /* ---- array-of-arrays ---- */
+  NM.aoa = function (aoa) {
+    try {
+      if (!NM.on || !aoa || !aoa.length) return { a: aoa, ins: -1 };
+      var h = -1, nc = -1, ic = -1, lim = Math.min(aoa.length, 10), r, c;
+      for (r = 0; r < lim && h < 0; r++) { var row = aoa[r] || []; for (c = 0; c < row.length; c++) { var tx = String(row[c] == null ? '' : row[c]).trim(); if (NAMEKEYS[tx]) { for (var c2 = 0; c2 < row.length; c2++) { if (IDKEYS[String(row[c2] == null ? '' : row[c2]).trim()]) ic = c2; } nc = c; h = r; break; } } }
+      if (h < 0) return { a: aoa, ins: -1 };
+      var two = NM.layout === 'two' && NM.lang !== 'km', out = [];
+      for (r = 0; r < aoa.length; r++) {
+        var src = (aoa[r] || []).slice();
+        if (r === h) {            /* heading row: Khmer + language below */
+          for (c = 0; c < src.length; c++) if (typeof src[c] === 'string') src[c] = NM.bi(src[c].trim()) === src[c].trim() ? src[c] : NM.bi(src[c].trim());
+          if (two && src.length > nc) src.splice(nc + 1, 0, NM.otherHdrBi());
+        } else if (r > h) {                       /* data rows */
+          var e = ic >= 0 ? byId(src[ic]) : null;
+          if (e) { src[nc] = NM.nameVal(e); if (two) src.splice(nc + 1, 0, NM.other(e)); }
+          else if (two && src.length > nc) src.splice(nc + 1, 0, '');
+        } else if (two && src.length > nc) src.splice(nc + 1, 0, '');
+        out.push(src);
+      }
+      return { a: out, ins: two ? nc + 1 : -1 };
+    } catch (e) { return { a: aoa, ins: -1 }; }
+  };
+  /* ---- array of objects (keys are the heading texts) ---- */
+  NM.json = function (rows) {
+    try {
+      if (!NM.on || !rows || !rows.length) return { a: rows, ins: -1 };
+      var ks = Object.keys(rows[0]), nk = null, ik = null; ks.forEach(function (k) { if (NAMEKEYS[k.trim()]) nk = k; if (IDKEYS[k.trim()]) ik = k; });
+      if (!nk) return { a: rows, ins: -1 };
+      var two = NM.layout === 'two' && NM.lang !== 'km', okey = NM.otherHdrBi();
+      var out = rows.map(function (o) { var n = {}, e = ik ? byId(o[ik]) : null; Object.keys(o).forEach(function (k) { var nkk = NM.bi(k.trim()); n[nkk === k.trim() ? k : nkk] = (k === nk && e) ? NM.nameVal(e) : o[k]; if (k === nk && two) n[okey] = e ? NM.other(e) : ''; }); return n; });
+      return { a: out, ins: two ? ks.indexOf(nk) + 1 : -1 };
+    } catch (e) { return { a: rows, ins: -1 }; }
+  };
+  function wrapCells(ws) { try { Object.keys(ws).forEach(function (a) { if (a.charAt(0) === '!') return; var c = ws[a]; if (c && typeof c.v === 'string' && c.v.indexOf('\n') >= 0) { c.s = Object.assign({}, c.s || {}, { alignment: { wrapText: true, vertical: 'center', horizontal: 'center' } }); } }); } catch (e) {} }
+  function install() {
+    if (typeof XLSX === 'undefined' || XLSX.__nm) return false; XLSX.__nm = 1;
+    var oa = XLSX.utils.aoa_to_sheet, oj = XLSX.utils.json_to_sheet, ow = XLSX.writeFile;
+    XLSX.utils.aoa_to_sheet = function (a, o) { if (!NM.on) return oa.apply(this, arguments); var r = NM.aoa(a), ws = oa.call(this, r.a, o); ws.__nmIns = r.ins; wrapCells(ws); return ws; };
+    XLSX.utils.json_to_sheet = function (a, o) { if (!NM.on) return oj.apply(this, arguments); var r = NM.json(a), ws = oj.call(this, r.a, o); ws.__nmIns = r.ins; wrapCells(ws); return ws; };
+    XLSX.writeFile = function (wb) {
+      try { Object.keys(wb.Sheets || {}).forEach(function (n) { var ws = wb.Sheets[n], i = ws.__nmIns; if (i >= 0 && !ws.__nmFix) { ws.__nmFix = 1; if (ws['!cols']) { var cc = ws['!cols'].slice(); cc.splice(i, 0, { wch: 22 }); ws['!cols'] = cc; } if (ws['!merges']) ws['!merges'] = ws['!merges'].map(function (m) { var x = JSON.parse(JSON.stringify(m)); if (x.s.c >= i) x.s.c++; if (x.e.c >= i) x.e.c++; else if (x.e.c >= i - 0 && x.s.c < i && x.e.c >= i) x.e.c++; return x; }); } }); } catch (e) {}
+      return ow.apply(this, arguments);
+    };
+    return true;
+  }
+  var tries = 0, iv = setInterval(function () { if (install() || ++tries > 40) clearInterval(iv); }, 500);
+  /* export dialog: Name layout box + run the export with NM switched on */
+  function dlg() {
+    var m = document.getElementById('exportLangModal'); if (!m || document.getElementById('nmLayoutBox')) return;
+    var sel = document.getElementById('exportLangModalSelect'); if (!sel) return;
+    var d = document.createElement('div'); d.id = 'nmLayoutBox'; d.className = 'form-group';
+    d.innerHTML = '<label>Name layout (English / 中文 only)</label><select id="nmLayout"><option value="one">One column: Khmer, with English / 中文 below (wrapped)</option><option value="two">Two columns: Khmer name + English / 中文 name</option></select>';
+    sel.parentNode.parentNode.insertBefore(d, sel.parentNode.nextSibling);
+    try { var s = localStorage.getItem('nmLayout'); if (s) document.getElementById('nmLayout').value = s; } catch (e) {}
+    sel.onchange = function () { d.style.display = sel.value === 'km' ? 'none' : ''; }; sel.onchange();
+  }
+  setInterval(dlg, 700);
+  var oc = window.confirmExportLangModal;
+  if (typeof oc === 'function') window.confirmExportLangModal = function () {
+    var s = document.getElementById('exportLangModalSelect'), l = document.getElementById('nmLayout'); var lang = s ? s.value : 'en', lay = l ? l.value : 'one';
+    try { localStorage.setItem('nmLayout', lay); } catch (e) {}
+    return NM.run(lang, lay, oc, this, arguments);
+  };
+})();
+/* ===== screen tables: "Khmer name" + new "English name" column (Master Sheet, Monthly Report, Employee, Monthly Annual Leave) ===== */
+(function () {
+  var TBL = ['masterTable', 'monthlyReportTable', 'monthlyALTable', 'employeeTable'];
+  var LK = { en: 'Khmer name', km: 'ឈ្មោះខ្មែរ', zh: '高棉文姓名' }, LE = { en: 'English name', km: 'ឈ្មោះអង់គ្លេស', zh: '英文姓名' };
+  function lg() { return (typeof currentLang === 'string' && LK[currentLang]) ? currentLang : 'en'; }
+  function byId(id) { var s = String(id == null ? '' : id).trim(); for (var i = 0; i < employees.length; i++) if (String(employees[i].id).trim() === s) return employees[i]; return null; }
+  function pass() {
+    TBL.forEach(function (id) {
+      var t = document.getElementById(id); if (!t || !t.tHead || !t.tHead.rows[0] || t.offsetParent === null && !t.tBodies[0]) return;
+      var tr = t.tHead.rows[0], ths = Array.prototype.slice.call(tr.cells), ni = -1, ii = -1, has = -1, i;
+      for (i = 0; i < ths.length; i++) { var k = ths[i].getAttribute('data-i18n'); if (ths[i].classList.contains('nmEn')) has = i; if (k === 'tblName' || ths[i].getAttribute('data-nmk') === '1') ni = i; if (k === 'tblId') ii = i; }
+      if (ni < 0) return;
+      var th = ths[ni]; th.removeAttribute('data-i18n'); th.setAttribute('data-nmk', '1'); if (th.textContent !== LK[lg()]) th.textContent = LK[lg()];
+      if (has < 0) { var nh = th.cloneNode(false); nh.className = th.className + ' nmEn'; nh.removeAttribute('rowspan'); nh.textContent = LE[lg()]; th.parentNode.insertBefore(nh, th.nextSibling); has = ni + 1; }
+      else if (ths[has].textContent !== LE[lg()]) ths[has].textContent = LE[lg()];
+      var N = tr.cells.length - 1;
+      Array.prototype.forEach.call(t.tBodies[0].rows, function (r) {
+        if (r.getAttribute('data-nm') === '1') { var cur = r.querySelector('td.nmEn'); if (cur && r.cells[has] !== cur) { r.removeChild(cur); r.insertBefore(cur, r.cells[has] || null); } return; }
+        if (r.cells.length !== N) { return; }
+        var e = ii >= 0 ? byId(r.cells[ii].textContent) : null;
+        if (!e) { var nm = (r.cells[ni].textContent || '').trim(); for (var q = 0; q < employees.length; q++) if (String(employees[q].name || '').trim() === nm) { e = employees[q]; break; } }
+        var td = document.createElement('td'); td.className = 'nmEn'; td.textContent = e ? (e.nameEn || '') : ''; r.insertBefore(td, r.cells[ni].nextSibling); r.setAttribute('data-nm', '1');
+      });
+    });
+  }
+  setInterval(function () { try { pass(); } catch (e) {} }, 600);
+})();
+/* ===== Check Record: name next to the ID, e.g. គង់ ធាន Kong Thean ===== */
+window.nmFull = function (e) { return e ? ((e.name || '') + (e.nameEn ? ' ' + e.nameEn : '')) : ''; };
+(function () {
+  setInterval(function () {
+    try {
+      var inp = document.getElementById('chkEmpId'); if (!inp || document.getElementById('chkEmpName')) return;
+      var g = document.createElement('div'); g.className = 'form-group'; g.innerHTML = '<label>Name ឈ្មោះ</label><input type="text" id="chkEmpName" readonly placeholder="-" style="background:#f8fafc">';
+      inp.parentNode.parentNode.insertBefore(g, inp.parentNode.nextSibling);
+      var f = function () { var v = String(inp.value || '').trim(), e = null; for (var i = 0; i < employees.length; i++) if (String(employees[i].id).trim() === v) { e = employees[i]; break; } document.getElementById('chkEmpName').value = e ? window.nmFull(e) : ''; };
+      inp.addEventListener('input', f); inp.addEventListener('change', f);
+    } catch (e) {}
+  }, 800);
+})();
+/* ===== all other exports and prints ===== */
+(function () {
+  var depth = 0;
+  NM.layoutNow = function () { var l = ''; try { l = localStorage.getItem('nmLayout') || ''; } catch (e) {} return l === 'two' ? 'two' : 'one'; };
+  NM.run = function (lang, layout, fn, ctx, args) {
+    var first = depth === 0; depth++; if (first) NM.begin(lang, layout || NM.layoutNow());
+    var done = function () { depth--; if (depth === 0) NM.end(); }, r;
+    try { r = fn.apply(ctx, args); } catch (e) { done(); throw e; }
+    if (r && typeof r.then === 'function') { r.then(done, done); } else { setTimeout(done, 0); }
+    return r;
+  };
+  /* ---- HTML (print windows): same rules applied to the tables in the page text ---- */
+  function txt(el) { return (el.textContent || '').replace(/\s+/g, ' ').trim(); }
+  function setBi(el) { var t = txt(el), b = NM.bi(t); if (b !== t) el.innerHTML = b.split('\n').map(function (x) { return x.replace(/[&<>]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]; }); }).join('<br>'); }
+  NM.htmlTx = function (html) {
+    try {
+      if (!NM.on) return html;
+      var nameS = {}, idS = {}; (function () { var n = {}, i = {}; var ks = Object.keys(translations.en || {}); ks.forEach(function (k) { var en = translations.en[k], v = tLang(k, NM.lang); if (en === 'Name' || en === 'Full Name' || en === 'Employee Name') n[v] = 1; if (en === 'ID' || en === 'Employee ID' || en === 'Emp ID') i[v] = 1; }); n.Name = 1; i.ID = 1; i['Employee ID'] = 1; nameS = n; idS = i; })();
+      var doc = new DOMParser().parseFromString(html, 'text/html'), two = NM.layout === 'two' && NM.lang !== 'km', changed = false;
+      if (NM.lang !== 'km') doc.querySelectorAll('h1,h2,h3,h4,caption').forEach(setBi);
+      doc.querySelectorAll('table').forEach(function (tb) {
+        var rows = Array.prototype.slice.call(tb.rows), hi = -1, nc = -1, ic = -1, i, c;
+        for (i = 0; i < Math.min(rows.length, 6) && hi < 0; i++) { var cs = rows[i].cells; for (c = 0; c < cs.length; c++) if (nameS[txt(cs[c]).split(' ')[0] === txt(cs[c]) ? txt(cs[c]) : txt(cs[c])]) { hi = i; nc = c; break; } }
+        if (hi < 0) return; var hc = rows[hi].cells;
+        for (c = 0; c < hc.length; c++) if (idS[txt(hc[c])]) ic = c;
+        var n = hc.length;
+        for (c = 0; c < hc.length; c++) if (NM.lang !== 'km') setBi(hc[c]);
+        if (two) { var th = doc.createElement(hc[nc].tagName.toLowerCase()); th.innerHTML = NM.otherHdrBi().split('\n').join('<br>'); hc[nc].parentNode.insertBefore(th, hc[nc].nextSibling); }
+        for (i = hi + 1; i < rows.length; i++) {
+          var cs2 = rows[i].cells; if (cs2.length !== n) { if (two && cs2.length > nc) { var ex = doc.createElement('td'); cs2[nc].parentNode.insertBefore(ex, cs2[nc].nextSibling); } continue; }
+          var e = null, id = ic >= 0 ? txt(cs2[ic]) : ''; for (var q = 0; q < employees.length; q++) if (String(employees[q].id).trim() === id) { e = employees[q]; break; }
+          if (e) { cs2[nc].innerHTML = NM.nameHtml(e); if (two) { var td = doc.createElement('td'); td.textContent = NM.other(e); cs2[nc].parentNode.insertBefore(td, cs2[nc].nextSibling); } }
+          else if (two) { var td2 = doc.createElement('td'); cs2[nc].parentNode.insertBefore(td2, cs2[nc].nextSibling); }
+        }
+        changed = true;
+      });
+      return changed ? '<!doctype html>' + doc.documentElement.outerHTML : html;
+    } catch (e) { return html; }
+  };
+  var ow = window.open;
+  window.open = function () {
+    var w = ow.apply(this, arguments);
+    try { if (NM.on && w && w.document && !w.__nm) { w.__nm = 1; var d = w.document, dw = d.write.bind(d); d.write = function () { var a = Array.prototype.slice.call(arguments).map(function (x) { return (typeof x === 'string' && x.indexOf('<table') >= 0) ? NM.htmlTx(x) : x; }); return dw.apply(null, a); }; } } catch (e) {}
+    return w;
+  };
+  /* ---- wrap the entry points (each keeps its own behaviour; only the names and titles change) ---- */
+  function cur() { return (typeof currentLang === 'string') ? currentLang : 'en'; }
+  function val(id) { var e = document.getElementById(id); return e ? e.value : ''; }
+  var W = [['exportLeaveReport', function (a) { return a[1]; }], ['exportRenewalList', function (a) { return a[1]; }], ['faExportReportExcel', function () { return val('faExportLang'); }], ['faExportReportPdf', function () { return val('faExportLang'); }], ['xcExport', function () { return val('xcLang'); }], ['exportAttCalToPDF', cur], ['msExport', cur], ['lxRecord', cur], ['payExport', cur], ['paySlips', cur], ['rqPrint', cur], ['faExportReportWord', function () { return val('faExportLang'); }]];
+  function wrapAll() { W.forEach(function (p) { var f = window[p[0]]; if (typeof f !== 'function' || f.__nmw) return; var g = function () { var l = p[1](arguments) || cur(); return NM.run(l, null, f, this, arguments); }; g.__nmw = 1; window[p[0]] = g; }); }
+  wrapAll(); setInterval(wrapAll, 1500);
+  /* dialog: confirmExportLangModal goes through the same helper */
+  /* layout box inside the attendance + extract dialogs */
+  setInterval(function () {
+    ['faExportLang', 'xcLang'].forEach(function (id) {
+      var s = document.getElementById(id); if (!s || document.getElementById('nmL_' + id)) return;
+      var d = document.createElement('div'); d.style.cssText = 'margin-top:6px'; d.innerHTML = '<select id="nmL_' + id + '" title="Name layout" style="padding:6px 8px;border:1px solid #cbd5e1;border-radius:8px"><option value="one">Name: one column (wrapped)</option><option value="two">Name: two columns</option></select>';
+      s.parentNode.insertBefore(d, s.nextSibling); var x = document.getElementById('nmL_' + id); try { x.value = localStorage.getItem('nmLayout') || 'one'; } catch (e) {} x.onchange = function () { try { localStorage.setItem('nmLayout', x.value); } catch (e) {} };
+    });
+  }, 1000);
+})();
+/* ===== one-time copy of English names saved in Personal Information ===== */
+window.nmCopyEn = async function () {
+  var list = employees.filter(function (e) { return !e.nameEn; });
+  if (!list.length) { showToast(true); return; }
+  var ok = true; try { ok = await showConfirm('Copy English names from Personal Information for ' + list.length + ' employees without one? (reads one small value per employee, once)'); } catch (e) {} if (!ok) return;
+  var up = {}, n = 0, i = 0;
+  async function worker() { while (i < list.length) { var e = list[i++]; try { var s = await db.ref('empDocs/' + e.firebaseKey + '/_info/f/nameEn').once('value'), v = String(s.val() || '').trim(); if (v) { up['employees/' + e.firebaseKey + '/nameEn'] = v; n++; } } catch (x) {} } }
+  await Promise.all([worker(), worker(), worker(), worker(), worker(), worker()]);
+  if (!n) { showToast(false, 'No English names found in Personal Information'); return; }
+  try { await db.ref().update(up); showToast(true, n + ' English names copied'); } catch (e) { showToast(false); }
+};
 </script>
 </body>
 </html>
