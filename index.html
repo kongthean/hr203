@@ -2067,9 +2067,10 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
     </div>
     <div class="mhRow">
       <div class="form-group" style="flex:1;min-width:220px;position:relative;"><label class="mhL" data-k="addEmp">Add employee (ID or name)</label><input type="text" id="mhSearch" autocomplete="off" oninput="mhFind()"><div id="mhHits" class="mhHits"></div></div>
-      <div class="form-group"><label class="mhL" data-k="orAddDept">Or add a whole department</label><div style="display:flex;gap:6px;"><select id="mhDeptSel"></select><button type="button" class="quick-btn slate mhSm" onclick="mhAddDept()"><span class="mhL" data-k="add">Add</span></button></div></div>
+      <div class="form-group"><label class="mhL" data-k="pickDept">Choose department to list its employees</label><select id="mhDeptSel" onchange="mhDeptList()"></select></div>
     </div>
-    <div class="mhInfo"><span id="mhCount">0</span> <span class="mhL" data-k="people">people</span> <button type="button" class="quick-btn slate mhSm" onclick="mhClear()"><span class="mhL" data-k="clear">Clear list</span></button> <button type="button" class="quick-btn green mhSm" onclick="mhPrintMeeting()">&#128424; <span class="mhL" data-k="print">Print sheet</span></button></div>
+    <div id="mhDeptBox" class="mhDeptBox" style="display:none"><div class="mhDeptHd"><b id="mhDeptName"></b> <button type="button" class="quick-btn slate mhSm" onclick="mhDeptAll(true)"><span class="mhL" data-k="selAll">Select all</span></button> <button type="button" class="quick-btn slate mhSm" onclick="mhDeptAll(false)"><span class="mhL" data-k="selNone">Select none</span></button></div><div id="mhDeptList" class="mhDeptList"></div></div>
+    <div class="mhInfo"><span id="mhCount">0</span> <span class="mhL" data-k="people">people</span> <button type="button" class="quick-btn slate mhSm" onclick="mhClear()"><span class="mhL" data-k="clear">Clear list</span></button> <button type="button" class="quick-btn green mhSm" onclick="mhPrintMeeting()"><span class="mhL" data-k="print">Print sheet</span></button></div>
     <div class="table-responsive"><table class="master-tbl" id="mhTbl"><thead><tr><th>No</th><th>ID</th><th class="mhL" data-k="name">Name</th><th class="mhL" data-k="dept">Department</th><th></th></tr></thead><tbody></tbody></table></div>
     <details class="mhZh"><summary class="mhL" data-k="zhTitle">Department names in Chinese (type once, used on every printed sheet)</summary><div id="mhZhBox"></div></details>
   </div>
@@ -2079,11 +2080,12 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
   <div class="dash-card">
     <div class="mhRow">
       <div class="form-group"><label class="mhL" data-k="hcDate">Health check date</label><input type="date" id="hcDate" onchange="hcRender()"></div>
-      <div class="form-group" style="flex:1;"><label class="mhL" data-k="years">Years of work (tap one or more)</label><div id="hcYears" class="mhChips"></div></div>
+      <div class="form-group"><label class="mhL" data-k="every">Check every (years)</label><input type="number" id="hcEvery" min="1" max="20" value="2" style="width:90px" oninput="hcRender()"></div>
+      <div class="form-group"><label style="display:flex;gap:6px;align-items:center;margin:0 0 8px"><input type="checkbox" id="hcAll" onchange="hcRender()"> <span class="mhL" data-k="showAll">Show all employees (to enter last check dates)</span></label></div>
     </div>
-    <div class="mhNote mhL" data-k="rule">Years of work = health check year &minus; join year. Joined 20 Nov 2024 &rarr; in 2026 that is 2 years (no need to wait for the day).</div>
-    <div class="mhInfo"><b id="hcCount">0</b> <span class="mhL" data-k="people">people</span> <button type="button" class="quick-btn green mhSm" onclick="hcPrint()">&#128424; <span class="mhL" data-k="print">Print sheet</span></button></div>
-    <div class="table-responsive"><table class="master-tbl" id="hcTbl"><thead><tr><th>No</th><th>ID</th><th class="mhL" data-k="name">Name</th><th class="mhL" data-k="dept">Department</th><th class="mhL" data-k="joined">Joined</th><th class="mhL" data-k="yrs">Years</th></tr></thead><tbody></tbody></table></div>
+    <div class="mhNote mhL" data-k="rule">Due when: (check year &minus; last check year) is 2 or more. If an employee has no last check date, the join year is used. After the check, tap Mark checked so the next list is correct.</div>
+    <div class="mhInfo"><b id="hcCount">0</b> <span class="mhL" data-k="people">people</span> <button type="button" class="quick-btn green mhSm" onclick="hcPrint()"><span class="mhL" data-k="print">Print sheet</span></button> <button type="button" class="quick-btn purple mhSm" onclick="hcMark()"><span class="mhL" data-k="markAll">Mark all listed as checked on the check date</span></button></div>
+    <div class="table-responsive"><table class="master-tbl" id="hcTbl"><thead><tr><th>No</th><th>ID</th><th class="mhL" data-k="name">Name</th><th class="mhL" data-k="dept">Department</th><th class="mhL" data-k="joined">Joined</th><th class="mhL" data-k="last">Last health check</th><th class="mhL" data-k="since">Years since</th></tr></thead><tbody></tbody></table></div>
   </div>
 </div>
  <div id="tab-employee" class="tab-panel">
@@ -12581,6 +12583,7 @@ function escapeHtmlText(s) {
              loginUsername: data[key].loginUsername || '',
              loginPassword: data[key].loginPassword || '',
              status: data[key].status || 'Active',
+             lastHealthCheck: data[key].lastHealthCheck || '',
              resignedDate: data[key].resignedDate || '',
              workHours: data[key].workHours || 0,
              otHours: data[key].otHours || 0,
@@ -27911,12 +27914,14 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
 .mhNote{background:#f0f9ff;border:1px solid #bae6fd;color:#0c4a6e;border-radius:8px;padding:8px 12px;font-size:12px;margin-bottom:8px}
 .mhZh{margin-top:14px;font-size:12px}.mhZh summary{cursor:pointer;font-weight:700;color:#334155}
 .mhZhRow{display:flex;gap:8px;align-items:center;margin:6px 0}.mhZhRow span{min-width:180px}.mhZhRow input{padding:5px 8px;border:1px solid #cbd5e1;border-radius:6px;width:160px}
+.mhDeptBox{border:1px solid #e2e8f0;border-radius:10px;padding:10px;margin:8px 0;background:#f8fafc}.mhDeptHd{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.mhDeptList{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:4px 12px;max-height:280px;overflow:auto}.mhDeptList label{display:flex;gap:8px;align-items:center;padding:5px 6px;border-radius:6px;cursor:pointer;font-size:13px;margin:0}.mhDeptList label:hover{background:#f0fdfa}
 </style>
 <script id="mhJs">
 (function () {
   var S = {
-    en: { back: 'Employee', mtName: 'Meeting title', date: 'Date', addEmp: 'Add employee (ID or name)', orAddDept: 'Or add a whole department', add: 'Add', people: 'people', clear: 'Clear list', print: 'Print sheet', name: 'Name', dept: 'Department', zhTitle: 'Department names in Chinese (type once, used on every printed sheet)', hcDate: 'Health check date', years: 'Years of work (tap one or more)', rule: 'Years of work = health check year − join year. Joined 20 Nov 2024 → in 2026 that is 2 years (no need to wait for the day).', joined: 'Joined', yrs: 'Years', mtT: 'Call Meeting', hcT: 'Health Check', btnMt: 'Call Meeting', btnHc: 'Health Check', allDept: 'Choose department', none: 'No employees', noPop: 'Allow pop-ups to print', saved: 'Saved' },
-    km: { back: 'បុគ្គលិក', mtName: 'ចំណងជើងប្រជុំ', date: 'កាលបរិច្ឆេទ', addEmp: 'បន្ថែមបុគ្គលិក (អត្តលេខ ឬឈ្មោះ)', orAddDept: 'ឬបន្ថែមទាំងនាយកដ្ឋាន', add: 'បន្ថែម', people: 'នាក់', clear: 'សម្អាតបញ្ជី', print: 'បោះពុម្ពតារាង', name: 'ឈ្មោះ', dept: 'នាយកដ្ឋាន', zhTitle: 'ឈ្មោះនាយកដ្ឋានជាភាសាចិន (វាយម្តង ប្រើគ្រប់តារាង)', hcDate: 'ថ្ងៃពិនិត្យសុខភាព', years: 'ឆ្នាំធ្វើការ (ចុចមួយ ឬច្រើន)', rule: 'ឆ្នាំធ្វើការ = ឆ្នាំពិនិត្យ − ឆ្នាំចូលធ្វើការ។', joined: 'ចូលធ្វើការ', yrs: 'ឆ្នាំ', mtT: 'កោះប្រជុំ', hcT: 'ពិនិត្យសុខភាព', btnMt: 'កោះប្រជុំ', btnHc: 'ពិនិត្យសុខភាព', allDept: 'ជ្រើសរើសនាយកដ្ឋាន', none: 'គ្មានបុគ្គលិក', noPop: 'សូមអនុញ្ញាត pop-up', saved: 'បានរក្សាទុក' },
+    en: { back: 'Employee', mtName: 'Meeting title', date: 'Date', addEmp: 'Add employee (ID or name)', pickDept: 'Choose department to list its employees', selAll: 'Select all', selNone: 'Select none', every: 'Check every (years)', showAll: 'Show all employees (to enter last check dates)', last: 'Last health check', since: 'Years since', markAll: 'Mark all listed as checked on the check date', marked: 'Marked as checked', confirmMark: 'Mark every listed employee as checked on this date?', add: 'Add', people: 'people', clear: 'Clear list', print: 'Print sheet', name: 'Name', dept: 'Department', zhTitle: 'Department names in Chinese (type once, used on every printed sheet)', hcDate: 'Health check date', years: 'Years of work (tap one or more)', rule: 'Due when (check year \u2212 last health check year) is the number of years above (2). If an employee has no last check date, the join year is used. After the check, tap Mark all listed as checked, so the next list is correct.', joined: 'Joined', yrs: 'Years', mtT: 'Call Meeting', hcT: 'Health Check', btnMt: 'Call Meeting', btnHc: 'Health Check', allDept: 'Choose department', none: 'No employees', noPop: 'Allow pop-ups to print', saved: 'Saved' },
+    km: { back: 'បុគ្គលិក', mtName: 'ចំណងជើងប្រជុំ', date: 'កាលបរិច្ឆេទ', addEmp: 'បន្ថែមបុគ្គលិក (អត្តលេខ ឬឈ្មោះ)', pickDept: 'ជ្រើសរើសនាយកដ្ឋាន', selAll: 'ជ្រើសទាំងអស់', selNone: 'ដកទាំងអស់', every: 'ពិនិត្យរៀងរាល់ (ឆ្នាំ)', showAll: 'បង្ហាញបុគ្គលិកទាំងអស់', last: 'ពិនិត្យសុខភាពចុងក្រោយ', since: 'ឆ្នាំចាប់ពីពេលនោះ', markAll: 'កត់ត្រាថាបានពិនិត្យ', marked: 'បានកត់ត្រា', confirmMark: 'កត់ត្រាបុគ្គលិកទាំងអស់ក្នុងបញ្ជី?', add: 'បន្ថែម', people: 'នាក់', clear: 'សម្អាតបញ្ជី', print: 'បោះពុម្ពតារាង', name: 'ឈ្មោះ', dept: 'នាយកដ្ឋាន', zhTitle: 'ឈ្មោះនាយកដ្ឋានជាភាសាចិន (វាយម្តង ប្រើគ្រប់តារាង)', hcDate: 'ថ្ងៃពិនិត្យសុខភាព', years: 'ឆ្នាំធ្វើការ (ចុចមួយ ឬច្រើន)', rule: 'ដល់ពេលពិនិត្យ នៅពេល (ឆ្នាំពិនិត្យ \u2212 ឆ្នាំពិនិត្យចុងក្រោយ) ស្មើ ឬលើសចំនួនឆ្នាំខាងលើ។ បើមិនមានកាលបរិច្ឆេទ យកឆ្នាំចូលធ្វើការ។', joined: 'ចូលធ្វើការ', yrs: 'ឆ្នាំ', mtT: 'កោះប្រជុំ', hcT: 'ពិនិត្យសុខភាព', btnMt: 'កោះប្រជុំ', btnHc: 'ពិនិត្យសុខភាព', allDept: 'ជ្រើសរើសនាយកដ្ឋាន', none: 'គ្មានបុគ្គលិក', noPop: 'សូមអនុញ្ញាត pop-up', saved: 'បានរក្សាទុក' },
     zh: { back: '员工', mtName: '会议名称', date: '日期', addEmp: '添加员工（工号或姓名）', orAddDept: '或添加整个部门', add: '添加', people: '人', clear: '清空列表', print: '打印表格', name: '姓名', dept: '部门', zhTitle: '部门中文名（输入一次，每张表都使用）', hcDate: '体检日期', years: '工龄（可多选）', rule: '工龄 = 体检年份 − 入职年份。', joined: '入职', yrs: '年', mtT: '召集会议', hcT: '健康体检', btnMt: '召集会议', btnHc: '健康体检', allDept: '选择部门', none: '没有员工', noPop: '请允许弹窗以打印', saved: '已保存' }
   };
   function L(k) { var l = (typeof currentLang === 'string' && S[currentLang]) ? currentLang : 'en'; return (S[l] && S[l][k]) || S.en[k] || k; }
@@ -27957,9 +27962,18 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
     box.style.display = 'block';
   };
   window.mhAdd = function (k) { if (sel.indexOf(k) < 0) sel.push(k); document.getElementById('mhSearch').value = ''; document.getElementById('mhHits').style.display = 'none'; var e = emps().filter(function (x) { return x.firebaseKey === k; })[0]; if (e) loadEn(e, mtRender); mtRender(); };
-  window.mhAddDept = function () { var v = document.getElementById('mhDeptSel').value; if (!v) return; emps().filter(function (e) { return e.status !== 'Resigned' && parentOf(e) === v; }).forEach(function (e) { if (sel.indexOf(e.firebaseKey) < 0) { sel.push(e.firebaseKey); loadEn(e, mtRender); } }); mtRender(); };
-  window.mhDel = function (k) { sel = sel.filter(function (x) { return x !== k; }); mtRender(); };
-  window.mhClear = function () { sel = []; mtRender(); };
+  window.mhDeptList = function () {
+    var v = document.getElementById('mhDeptSel').value, box = document.getElementById('mhDeptBox'), lst = document.getElementById('mhDeptList');
+    if (!v) { box.style.display = 'none'; return; }
+    var l = emps().filter(function (e) { return e.status !== 'Resigned' && parentOf(e) === v; }).sort(function (a, b) { return String(a.id).localeCompare(String(b.id), undefined, { numeric: true }); });
+    document.getElementById('mhDeptName').textContent = v + ' (' + l.length + ')';
+    lst.innerHTML = l.map(function (e) { return '<label><input type="checkbox" data-k="' + E(e.firebaseKey) + '"' + (sel.indexOf(e.firebaseKey) >= 0 ? ' checked' : '') + ' onchange="mhTick(this)"> <b>' + E(e.id) + '</b> ' + E(e.name) + '</label>'; }).join('') || '<span style="color:#94a3b8">' + E(L('none')) + '</span>';
+    box.style.display = 'block';
+  };
+  window.mhTick = function (cb) { var k = cb.getAttribute('data-k'); if (cb.checked) { if (sel.indexOf(k) < 0) { sel.push(k); var e = emps().filter(function (x) { return x.firebaseKey === k; })[0]; if (e) loadEn(e, mtRender); } } else sel = sel.filter(function (x) { return x !== k; }); mtRender(); };
+  window.mhDeptAll = function (on) { document.querySelectorAll('#mhDeptList input[type=checkbox]').forEach(function (cb) { if (cb.checked !== on) { cb.checked = on; mhTick(cb); } }); };
+  window.mhDel = function (k) { sel = sel.filter(function (x) { return x !== k; }); mtRender(); var c = document.querySelector('#mhDeptList input[data-k="' + k + '"]'); if (c) c.checked = false; };
+  window.mhClear = function () { sel = []; mtRender(); document.querySelectorAll('#mhDeptList input').forEach(function (c) { c.checked = false; }); };
   function selEmps() { return sel.map(function (k) { return emps().filter(function (e) { return e.firebaseKey === k; })[0]; }).filter(Boolean); }
   function mtRender() {
     var tb = document.querySelector('#mhTbl tbody'); if (!tb) return; var list = selEmps();
@@ -27979,25 +27993,37 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
     openPrint(ttl || L('mtT'), (ttl ? '<h1>' + E(ttl) + '</h1>' : '') + (dt ? '<h2>' + E(dt) + '</h2>' : '') + '<table><thead><tr><th>序号 / No</th><th>ID</th><th>姓名 / Name</th><th>部门</th><th>签名</th></tr></thead><tbody>' + rows + '</tbody></table>');
   };
 
-  /* ---------- Health Check ---------- */
-  var yrs = [1];
-  function hcInit() { var d = document.getElementById('hcDate'); if (d && !d.value) d.value = today(); var c = document.getElementById('hcYears'); if (c && !c.firstChild) { var h = ''; for (var i = 1; i <= 10; i++) h += '<button type="button" data-y="' + i + '" onclick="hcTog(' + i + ')">' + i + '</button>'; c.innerHTML = h; } hcRender(); lang(); }
-  window.hcTog = function (n) { var i = yrs.indexOf(n); if (i >= 0) yrs.splice(i, 1); else yrs.push(n); hcRender(); };
+  /* ---------- Health Check: every N years (default 2); base = last check year, or the join year when never recorded ---------- */
+  function hcInit() { var d = document.getElementById('hcDate'); if (d && !d.value) d.value = today(); hcRender(); lang(); }
+  function yOf(s) { var m = /^(\d{4})/.exec(String(s || '').trim()); return m ? parseInt(m[1], 10) : null; }
   function hcList() {
-    var d = document.getElementById('hcDate').value || today(), y = parseInt(d.slice(0, 4), 10), out = [];
-    emps().forEach(function (e) { if (e.status === 'Resigned') return; var j = (typeof mlParse === 'function') ? mlParse(e.joinDate) : null; if (!j) return; var n = y - j.y; if (n >= 1 && yrs.indexOf(n) >= 0) out.push({ e: e, n: n, j: e.joinDate }); });
+    var d = document.getElementById('hcDate').value || today(), y = parseInt(d.slice(0, 4), 10), every = Math.max(1, parseInt(document.getElementById('hcEvery').value, 10) || 2), all = document.getElementById('hcAll').checked, out = [];
+    emps().forEach(function (e) {
+      if (e.status === 'Resigned') return;
+      var j = (typeof mlParse === 'function') ? mlParse(e.joinDate) : null, ly = yOf(e.lastHealthCheck), base = ly != null ? ly : (j ? j.y : null);
+      if (base == null) return;
+      var n = y - base, due = n >= every;
+      if (due || all) out.push({ e: e, n: n, due: due, last: e.lastHealthCheck || '' });
+    });
     out.sort(function (a, b) { return String(a.e.id).localeCompare(String(b.e.id), undefined, { numeric: true }); });
     return out;
   }
   function hcRender() {
-    document.querySelectorAll('#hcYears button').forEach(function (b) { b.classList.toggle('on', yrs.indexOf(+b.getAttribute('data-y')) >= 0); });
-    var l = hcList(); document.getElementById('hcCount').textContent = l.length;
-    document.querySelector('#hcTbl tbody').innerHTML = l.map(function (x, i) { return '<tr><td>' + (i + 1) + '</td><td><b>' + E(x.e.id) + '</b></td><td>' + E(x.e.name) + '</td><td>' + E(zhDept(x.e)) + '</td><td>' + E(x.j) + '</td><td>' + x.n + '</td></tr>'; }).join('') || '<tr><td colspan="6" style="text-align:center;color:#94a3b8">-</td></tr>';
+    var l = hcList(), due = l.filter(function (x) { return x.due; }).length, all = document.getElementById('hcAll').checked;
+    document.getElementById('hcCount').textContent = due;
+    document.querySelector('#hcTbl tbody').innerHTML = l.map(function (x, i) { return '<tr' + (x.due ? '' : ' style="opacity:.55"') + '><td>' + (i + 1) + '</td><td><b>' + E(x.e.id) + '</b></td><td>' + E(x.e.name) + '</td><td>' + E(zhDept(x.e)) + '</td><td>' + E(x.e.joinDate || '') + '</td><td><input type="date" value="' + E(String(x.last).replace(/\./g, '-')) + '" data-k="' + E(x.e.firebaseKey) + '" onchange="hcSetLast(this)" style="padding:3px 6px;border:1px solid #cbd5e1;border-radius:6px"></td><td>' + x.n + '</td></tr>'; }).join('') || '<tr><td colspan="7" style="text-align:center;color:#94a3b8">-</td></tr>';
   }
   window.hcRender = hcRender;
+  window.hcSetLast = function (inp) { var k = inp.getAttribute('data-k'), v = inp.value || ''; try { db.ref('employees/' + k + '/lastHealthCheck').set(v || null).then(function () { showToast(true, L('saved')); }).catch(function () { showToast(false); }); } catch (e) { showToast(false); } };
+  window.hcMark = async function () {
+    var l = hcList().filter(function (x) { return x.due; }), d = document.getElementById('hcDate').value; if (!l.length || !d) { showToast(false, L('none')); return; }
+    var ok = true; try { ok = await showConfirm(L('confirmMark')); } catch (e) {} if (!ok) return;
+    var up = {}; l.forEach(function (x) { up['employees/' + x.e.firebaseKey + '/lastHealthCheck'] = d; });
+    try { db.ref().update(up).then(function () { showToast(true, L('marked')); }).catch(function () { showToast(false); }); } catch (e) { showToast(false); }
+  };
   function kh(n) { return String(n).replace(/\d/g, function (d) { return '០១២៣៤៥៦៧៨៩'.charAt(+d); }); }
   window.hcPrint = function () {
-    var l = hcList(); if (!l.length) { showToast(false, L('none')); return; }
+    var l = hcList().filter(function (x) { return x.due; }); if (!l.length) { showToast(false, L('none')); return; }
     var d = document.getElementById('hcDate').value, p = d.split('-'), y = p[0], m = parseInt(p[1], 10), dd = parseInt(p[2], 10);
     var rows = l.map(function (x, i) { return '<tr style="height:12mm"><td style="width:8%">' + (i + 1) + '</td><td style="width:16%">' + E(x.e.id) + '</td><td style="width:30%">' + E(x.e.name) + '</td><td style="width:23%"></td><td></td></tr>'; }).join('');
     openPrint('Health check', '<h1>តារាងទទួលឯកសារសម្រាប់ពិនិត្យសុខភាពថ្ងៃទី ' + kh(dd) + ' ឆ្នាំ ' + kh(y) + '</h1><h2>' + y + '年' + m + '月' + dd + '日健康体检资料接收登记表</h2><table><thead><tr><th>ល.រ<br>序号</th><th>អត្តលេខ<br>员工ID</th><th>ឈ្មោះ<br>姓名</th><th>ឯកសារត្រូវបានទទួល<br>已收资料</th><th>សម្គាល់<br>备注</th></tr></thead><tbody>' + rows + '</tbody></table>');
@@ -28008,10 +28034,10 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
     var t = document.getElementById('tab-employee'); if (!t || document.getElementById('mhBtns')) return;
     var host = t.querySelector('button.quick-btn.green'); if (!host) return;
     var d = document.createElement('div'); d.id = 'mhBtns'; d.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;align-items:center;';
-    d.innerHTML = '<button type="button" class="quick-btn purple mhSm" onclick="triggerNav(\'tab-meeting\',\'nav-meeting\')">&#128227; <span id="mhBtnMt">Call Meeting</span></button><button type="button" class="quick-btn amber mhSm" onclick="triggerNav(\'tab-health\',\'nav-health\')">&#129658; <span id="mhBtnHc">Health Check</span></button>';
+    d.innerHTML = '<button type="button" class="quick-btn purple mhSm" onclick="triggerNav(\'tab-meeting\',\'nav-meeting\')"><span id="mhBtnMt">Call Meeting</span></button><button type="button" class="quick-btn amber mhSm" onclick="triggerNav(\'tab-health\',\'nav-health\')"><span id="mhBtnHc">Health Check</span></button>';
     host.parentNode.insertBefore(d, host); d.appendChild(host); lang();
   }
-  setInterval(function () { try { addButtons(); var m = document.getElementById('tab-meeting'), h = document.getElementById('tab-health'); if (m && m.classList.contains('active')) { if (!m._i) { m._i = 1; mtInit(); } else { var s = document.getElementById('mhDeptSel'); if (s && s.options.length - 1 !== orgs().length) mtInit(); zhBox(); } } else if (m) m._i = 0; if (h && h.classList.contains('active')) { if (!h._i) { h._i = 1; hcInit(); } else hcRender(); } else if (h) h._i = 0; lang(); } catch (e) {} }, 700);
+  setInterval(function () { try { addButtons(); var m = document.getElementById('tab-meeting'), h = document.getElementById('tab-health'); if (m && m.classList.contains('active')) { if (!m._i) { m._i = 1; mtInit(); } else { var s = document.getElementById('mhDeptSel'); if (s && s.options.length - 1 !== orgs().length) mtInit(); zhBox(); } } else if (m) m._i = 0; if (h && h.classList.contains('active')) { if (!h._i) { h._i = 1; hcInit(); } else if (!(document.activeElement && document.activeElement.closest && document.activeElement.closest('#hcTbl'))) hcRender(); } else if (h) h._i = 0; lang(); } catch (e) {} }, 700);
   document.addEventListener('click', function (e) { var b = document.getElementById('mhHits'); if (b && !e.target.closest('#mhSearch,#mhHits')) b.style.display = 'none'; });
 })();
 </script>
