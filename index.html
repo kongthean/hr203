@@ -14313,6 +14313,7 @@ function shMarkRemove() {
      }
      const onlyDay = daySelEl ? (parseInt(daySelEl.value, 10) || 0) : 0;
      const dFrom = onlyDay || 1, dTo = onlyDay || daysInMonth;
+     table.classList.toggle('tbl-one', !!onlyDay); /* one day = a small table that fits the page */
 
      const searchTerm = (document.getElementById('shiftCalSearchInput') ? document.getElementById('shiftCalSearchInput').value : '').toLowerCase();
      const rows = employees
@@ -27845,6 +27846,12 @@ th.srt:not([data-srt])::after { content: " \21C5"; font-size: 10px; color: #94a3
 th.srt:hover { background-color: #e2e8f0 !important; }
 th.srt[data-srt="asc"]::after { content: " \25B2"; font-size: 9px; color: #2563eb; }
 th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563eb; }
+/* v9.4: one-day view fits the page; Shift Roster and Leave & Attendance Calendar keep their two heading rows (ID, Name, dates) in view while scrolling */
+table.master-tbl.tbl-wide.tbl-one { min-width: 0; width: auto; }
+table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; padding-right: 22px; }
+#shiftCalendarTable > thead > tr:nth-child(2) > th, #attCalTable > thead > tr:nth-child(2) > th { top: calc(var(--h1, 34px) - 1px) !important; }
+#shiftCalendarTable > thead > tr > th, #attCalTable > thead > tr > th { position: sticky; top: 0; z-index: 4; }
+#shiftCalendarTable > thead > tr:first-child > th:nth-child(-n+2), #attCalTable > thead > tr:first-child > th:nth-child(-n+2) { background-color: #f1f5f9; }
 /* attendance page: Department, Group, Date and Show Employees on one line */
 #tab-att > form { max-width: 1000px !important; }
 #tab-att > form .dg-bar { display: contents !important; }
@@ -27865,6 +27872,25 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
 #tab-shift .dg-bar select { height: 28px; box-sizing: border-box; padding: 0 8px !important; }
 #tab-shift .dg-bar .dg-clear { height: 28px !important; padding: 0 12px !important; }
 </style>
+<script id="calFrzJs">
+(function () {
+  var IDS = ['shiftCalendarTable', 'attCalTable'];
+  function run() {
+    try {
+      IDS.forEach(function (id) {
+        var tb = document.getElementById(id); if (!tb || tb.offsetParent === null) return;
+        var w = tb.closest('.table-responsive'); if (!w) return;
+        w.classList.add('frz', 'frzOn');
+        var r1 = tb.tHead && tb.tHead.rows[0]; if (r1 && r1.offsetHeight) tb.style.setProperty('--h1', r1.offsetHeight + 'px');
+        var top = w.getBoundingClientRect().top, pn = w.closest('.tab-panel'), below = pn ? Math.max(0, pn.getBoundingClientRect().bottom - w.getBoundingClientRect().bottom) : 28;
+        var hh = Math.max(240, Math.round(window.innerHeight - Math.max(0, top) - 20));
+        w.style.setProperty('--frzH', hh + 'px');
+      });
+    } catch (e) {}
+  }
+  setInterval(run, 500); window.addEventListener('resize', run); document.addEventListener('scroll', run, true);
+})();
+</script>
 <script id="frzJs">
 (function () {
   /* FRZ: frozen table headings + frozen ID/Name columns + click-to-sort headings. View only: nothing stored changes. */
