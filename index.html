@@ -2458,7 +2458,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 .tdSDate{display:inline-block;font-size:11px;font-weight:700;padding:1px 7px;border-radius:99px;background:#f1f5f9;color:#475569;margin-right:6px;}.tdSDate.over{background:#fee2e2;color:#b91c1c;}.tdSDate.today{background:#fef3c7;color:#b45309;}.tdSDate.active{background:#dbeafe;color:#1d4ed8;}.tdXRow{display:flex;flex-direction:column;gap:6px;margin-bottom:8px;padding:8px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;position:relative;}.tdXRow input,.tdXRow textarea{width:100%;box-sizing:border-box;}.tdXRow textarea{resize:vertical;min-height:38px;}.tdXTop{display:flex;gap:8px;align-items:stretch;}.tdXTop input{flex:1;min-width:0;width:auto !important;}.tdXDel{flex:0 0 auto;width:44px;border:1px solid #fecaca;background:#fef2f2;border-radius:10px;color:#dc2626;cursor:pointer;padding:0 !important;min-height:0 !important;font-size:22px;line-height:1;display:flex;align-items:center;justify-content:center;margin:0 !important;}.tdXDel:hover{background:#fee2e2;}
 .tdXBox{margin-top:8px;border:1px solid #fde68a;background:#fffbeb;border-radius:10px;padding:8px 10px;font-size:13px;line-height:1.45;}.tdXBox div+div{margin-top:6px;}.tdXBox small{display:block;white-space:pre-wrap;color:#78350f;}
 .tdSD{display:flex;flex-direction:column;flex:1 1 150px;max-width:210px;}.tdSD select{width:100%;box-sizing:border-box;padding:8px 6px;}.hrMB{display:block;margin:0 0 8px}.hrMB .hrMBbox{display:inline-flex!important}.hrMBbox{background:transparent;border:0;border-radius:0;padding:0;margin:0;font-size:12px}.hrMBbox b{font-size:12px;font-weight:700}.hrMBbox select{padding:6px 8px!important;border:1px solid #cbd5e1!important;border-radius:8px!important;background:#fff!important;font-size:12px!important;width:auto!important;min-width:180px;max-width:none!important;flex:0 0 auto}.hrMBbox b{white-space:nowrap}.hrMBbox .quick-btn{padding:4px 9px!important;font-size:11px!important;min-height:0!important;height:auto!important;line-height:1.2!important;white-space:nowrap}.hrFrozen{background:#e0f2fe;color:#075985;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700}.mrSug{font-size:11px;color:#64748b;margin-top:2px}
-.mrBox{width:90px!important;height:34px!important;box-sizing:border-box!important;text-align:center;font-size:14px;padding:4px 6px!important}.mrSug.diff{color:#b45309;font-weight:700;cursor:pointer;text-decoration:underline}tr.mrRed td{background:#fef2f2}.chkNote{font-size:11px;font-weight:700;color:#b91c1c;margin-top:2px}.chkNote.ok{color:#475569;font-weight:600}tr.chkOff td{background:#e2e8f0;color:#94a3b8}tr.chkOff input{background:#cbd5e1;cursor:not-allowed}.tdSWaitL{flex:1 1 100%;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#334155;}.tdSWaitL input{width:20px;height:20px;margin:0;flex:none;}.tdSNote{flex:1 1 100%;font-size:12px;font-weight:700;line-height:1.35;border-radius:8px;padding:6px 9px;}.tdSNote:empty{display:none;}.tdSNote.r{background:#fef2f2;color:#b91c1c;}.tdSNote.g{background:#f0fdf4;color:#15803d;}.tdSNote.a{background:#fffbeb;color:#b45309;}.tdSNote.n{background:#f1f5f9;color:#475569;}#tdSteps.noDate .tdSNote{display:none;}
+.mrBox{width:90px!important;height:34px!important;box-sizing:border-box!important;text-align:center;font-size:14px;padding:4px 6px!important}.mrSug.diff{color:#b45309;font-weight:700;cursor:pointer;text-decoration:underline}tr.mrRed td{background:#fff}.chkNote{font-size:11px;font-weight:700;color:#b91c1c;margin-top:2px}.chkNote.ok{color:#475569;font-weight:600}tr.chkOff td{background:#e2e8f0;color:#94a3b8}tr.chkOff input{background:#cbd5e1;cursor:not-allowed}.tdSWaitL{flex:1 1 100%;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#334155;}.tdSWaitL input{width:20px;height:20px;margin:0;flex:none;}.tdSNote{flex:1 1 100%;font-size:12px;font-weight:700;line-height:1.35;border-radius:8px;padding:6px 9px;}.tdSNote:empty{display:none;}.tdSNote.r{background:#fef2f2;color:#b91c1c;}.tdSNote.g{background:#f0fdf4;color:#15803d;}.tdSNote.a{background:#fffbeb;color:#b45309;}.tdSNote.n{background:#f1f5f9;color:#475569;}#tdSteps.noDate .tdSNote{display:none;}
 .tdSTx{position:relative;flex:1 1 100%;min-width:0;}.tdSTx textarea{width:100%;padding-right:44px !important;}
 .tdSPick{position:absolute;right:5px;top:5px;width:32px;height:30px;border:1px solid #cbd5e1;background:#f1f5f9;border-radius:8px;cursor:pointer;font-size:13px;color:#334155;padding:0 !important;min-height:0 !important;}
 .tdPhPop{position:absolute;left:0;right:0;top:calc(100% + 4px);z-index:30;background:#fff;border:1px solid #cbd5e1;border-radius:12px;box-shadow:0 10px 30px rgba(15,23,42,.22);padding:8px;max-height:320px;overflow:auto;}
@@ -12083,7 +12083,7 @@ function checkMyShift() {
     const s = shifts.find(x => x.empId === empId && x.date === date);
     if (!s) {
         resultBox.innerHTML = '<div class="dash-card" style="background:#f8fafc; text-align:left;">' +
-            '<p style="margin:0 0 6px 0;"><b>' + emp.name + '</b> (' + emp.id + ') - ' + date + '</p>' +
+            '<p style="margin:0 0 6px 0;"><b>' + nmFull(emp) + '</b> (' + emp.id + ') - ' + date + '</p>' +
             '<p style="margin:0; color:#94a3b8;">' + t('shiftCheckNoRecord') + '</p></div>';
         return;
     }
@@ -12092,7 +12092,7 @@ function checkMyShift() {
         ? meta.time
         : (t('shiftCheckWorkHours') + ': ' + meta.time + '<br>' + t('shiftCheckRestHours') + ': ' + meta.brk);
     resultBox.innerHTML = '<div class="dash-card" style="background:#f0fdf4; text-align:left;">' +
-        '<p style="margin:0 0 6px 0;"><b>' + emp.name + '</b> (' + emp.id + ') - ' + date + '</p>' +
+        '<p style="margin:0 0 6px 0;"><b>' + nmFull(emp) + '</b> (' + emp.id + ') - ' + date + '</p>' +
         '<p style="margin:0 0 6px 0;">' + t('shiftType') + ': <b>' + s.type + '</b></p>' +
         '<p style="margin:0;">' + note + '</p></div>';
 }
@@ -12182,7 +12182,7 @@ function renderEmpShiftCalendar() {
          const idField = document.getElementById('reqEmpId');
          const nameField = document.getElementById('reqName');
          if (idField) idField.value = found.id;
-         if (nameField) nameField.value = found.name;
+         if (nameField) nameField.value = nmFull(found);
          renderEmpNotifBadge();
          renderMyRequests();
          const empShiftCalMonthInput = document.getElementById('empShiftCalMonth');
@@ -12510,7 +12510,7 @@ function computeQueryData(emp, queryDate, todayHours) {
      const hasCarried = qd.oldLeft > 0;
      const exceedsMonthlyLimit = allowedThisMonth < 0;
 
-     document.getElementById('cdTitleInfo').innerText = ': ' + (emp.name || '-') + ' (' + (emp.id || '-') + ')';
+     document.getElementById('cdTitleInfo').innerText = ': ' + (nmFull(emp) || '-') + ' (' + (emp.id || '-') + ')';
      renderCheckDetailsShift(emp.id, queryDateStr || cdLocalDateStr(new Date()));
      document.getElementById('cdId').innerText = emp.id || '-';
      document.getElementById('cdName').innerText = nmFull(emp) || '-';
@@ -13125,7 +13125,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
          dashBody.innerHTML += `
              <tr>
                  <td><b>${e.id}</b></td>
-                 <td>${e.name}</td>
+                 <td>${nmFull(e)}</td>
                  <td>${e.sex || 'Male'}</td>
                  <td>${e.joinDate}</td>
                  <td>${workYears}</td>
@@ -13216,14 +13216,14 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
      if (renewingThisMonth.length > 0) {
          html += `<h4 style="font-size:13px; color:#334155; margin:6px 0;">${t('dashRenewalThisMonth')}</h4><ul style="list-style:none; padding:0; margin:0 0 10px 0;">`;
          renewingThisMonth.forEach(emp => {
-             html += `<li style="padding:6px 8px; border-radius:6px; cursor:pointer;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background=''" onclick="openCheckDetailsForEmployee('${emp.id}')"><b>${emp.name}</b> (${emp.id})</li>`;
+             html += `<li style="padding:6px 8px; border-radius:6px; cursor:pointer;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background=''" onclick="openCheckDetailsForEmployee('${emp.id}')"><b>${nmFull(emp)}</b> (${emp.id})</li>`;
          });
          html += `</ul>`;
      }
      if (exceedingLimit.length > 0) {
          html += `<h4 style="font-size:13px; color:#dc2626; margin:6px 0;">${t('dashExceededLimit')}</h4><ul style="list-style:none; padding:0; margin:0;">`;
          exceedingLimit.forEach(emp => {
-             html += `<li style="padding:6px 8px; border-radius:6px; cursor:pointer;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background=''" onclick="openCheckDetailsForEmployee('${emp.id}')"><b>${emp.name}</b> (${emp.id})</li>`;
+             html += `<li style="padding:6px 8px; border-radius:6px; cursor:pointer;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background=''" onclick="openCheckDetailsForEmployee('${emp.id}')"><b>${nmFull(emp)}</b> (${emp.id})</li>`;
          });
          html += `</ul>`;
      }
@@ -13308,7 +13308,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
 
      function rowFor(entry) {
          const yearsTxt = entry.isAnniv ? ' - ' + fillTemplate(t('dashAnniversaryYears'), { years: entry.years }) : '';
-         return `<li style="padding:4px 8px;"><b>${entry.emp.name}</b> (${entry.emp.id}) - ${t(entry.labelKey)}${yearsTxt}</li>`;
+         return `<li style="padding:4px 8px;"><b>${nmFull(entry.emp)}</b> (${entry.emp.id}) - ${t(entry.labelKey)}${yearsTxt}</li>`;
      }
 
      let html = '';
@@ -13357,7 +13357,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
                      ${isAdminRole ? `<button class="btn-delete" onclick="confirmDelete('${emp.firebaseKey}', '${jsq(emp.name)}', this)" title="Delete Employee">${ICON_DELETE}</button>` : ''}
                  </td>
                  <td><b>${escapeHtmlText(emp.id)}</b></td>
-                 <td>${escapeHtmlText(emp.name)}</td>
+                 <td>${escapeHtmlText(nmFull(emp))}</td>
                  <td>${(typeof dgParentOf === 'function' ? dgParentOf(emp.department) : '') || '-'}</td>
                  <td>${emp.department || '-'}</td>
                  <td>${emp.joinDate}</td>
@@ -13413,7 +13413,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
                      <button class="btn-delete" onclick="confirmDelete('${emp.firebaseKey}', '${jsq(emp.name)}', this)" title="Delete Employee">${ICON_DELETE}</button>
                  </td>
                  <td><b>${escapeHtmlText(emp.id)}</b></td>
-                 <td>${escapeHtmlText(emp.name)}</td>
+                 <td>${escapeHtmlText(nmFull(emp))}</td>
                  <td>${(typeof dgParentOf === 'function' ? dgParentOf(emp.department) : '') || '-'}</td>
                  <td>${emp.department || '-'}</td>
                  <td>${emp.joinDate}</td>
@@ -13465,7 +13465,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
                      ${isAdminRole ? `<button class="btn-delete" onclick="confirmDelete('${emp.firebaseKey}', '${jsq(emp.name)}', this)" title="Delete Employee">${ICON_DELETE}</button>` : ''}
                  </td>
                  <td><b>${escapeHtmlText(emp.id)}</b></td>
-                 <td>${escapeHtmlText(emp.name)}</td>
+                 <td>${escapeHtmlText(nmFull(emp))}</td>
                  <td>${(typeof dgParentOf === 'function' ? dgParentOf(emp.department) : '') || '-'}</td>
                  <td>${emp.department || '-'}</td>
                  <td>${emp.joinDate}</td>
@@ -13518,7 +13518,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
                      ${isAdminRole ? `<button class="btn-delete" onclick="confirmDelete('${emp.firebaseKey}', '${jsq(emp.name)}', this)" title="Delete Employee">${ICON_DELETE}</button>` : ''}
                  </td>
                  <td><b>${escapeHtmlText(emp.id)}</b></td>
-                 <td>${escapeHtmlText(emp.name)}</td>
+                 <td>${escapeHtmlText(nmFull(emp))}</td>
                  <td>${escapeHtmlText(emp.sex || 'Male')}</td>
                  <td>${escapeHtmlText(emp.dob || '-')}</td>
                  <td>${escapeHtmlText(emp.pob || '-')}</td>
@@ -13850,19 +13850,19 @@ db.ref('makeupRecords').on('value', (snapshot) => {
 function onMakeupEmpIdInput() {
     const idVal = document.getElementById('makeupEmpId').value.trim();
     const found = employees.find(e => e.id === idVal);
-    document.getElementById('makeupEmpName').value = found ? found.name : '';
+    document.getElementById('makeupEmpName').value = found ? nmFull(found) : '';
 }
 
 function onMakeupEmpNameInput() {
     const nameVal = document.getElementById('makeupEmpName').value.trim().toLowerCase();
     if (!nameVal) { document.getElementById('makeupEmpId').value = ''; return; }
-    const found = employees.find(e => (e.name || '').toLowerCase() === nameVal);
+    const found = employees.find(e => (e.name || '').toLowerCase() === nameVal || nmFull(e).toLowerCase() === nameVal);
     if (found) document.getElementById('makeupEmpId').value = found.id;
 }
 
 function saveMakeupRecord(btnEl) {
     const id = document.getElementById('makeupEmpId').value.trim();
-    const name = document.getElementById('makeupEmpName').value.trim();
+    const name = (function () { var f = employees.find(function (e) { return e.id === id; }); return f ? f.name : document.getElementById('makeupEmpName').value.trim(); })();
     const date = document.getElementById('makeupDate').value;
     const timeFrom = document.getElementById('makeupTimeFrom').value;
     const timeTo = document.getElementById('makeupTimeTo').value;
@@ -14267,7 +14267,7 @@ async function acctApprove(k, btn) {
      const s = shifts.find(x => x.empId === empId && x.date === date);
      if (!s) {
          resultBox.innerHTML = '<div class="dash-card" style="background:#f8fafc; text-align:left;">' +
-             '<p style="margin:0 0 6px 0;"><b>' + emp.name + '</b> (' + emp.id + ') - ' + date + '</p>' +
+             '<p style="margin:0 0 6px 0;"><b>' + nmFull(emp) + '</b> (' + emp.id + ') - ' + date + '</p>' +
              '<p style="margin:0; color:#94a3b8;">' + t('shiftCheckNoRecord') + '</p></div>';
          return;
      }
@@ -14277,7 +14277,7 @@ async function acctApprove(k, btn) {
          ? meta.time
          : (t('shiftCheckWorkHours') + ': ' + meta.time + '<br>' + t('shiftCheckRestHours') + ': ' + meta.brk);
      resultBox.innerHTML = '<div class="dash-card" style="background:#f0fdf4; text-align:left;">' +
-         '<p style="margin:0 0 6px 0;"><b>' + emp.name + '</b> (' + emp.id + ') - ' + date + '</p>' +
+         '<p style="margin:0 0 6px 0;"><b>' + nmFull(emp) + '</b> (' + emp.id + ') - ' + date + '</p>' +
          '<p style="margin:0 0 6px 0;">' + t('shiftType') + ': <b>' + s.type + '</b></p>' +
          '<p style="margin:0;">' + note + '</p></div>';
  }
@@ -14853,7 +14853,7 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
          if (rows.length === 1) {
              const emp = rows[0];
              const tot = totalsByEmp[emp.id];
-             descBox.innerHTML = fillTemplate(t('attCalDescLeave'), { name: emp.name, id: emp.id, month: monthVal, annual: formatCalHours(tot.totalAnnual), personal: formatCalHours(tot.totalPersonal) });
+             descBox.innerHTML = fillTemplate(t('attCalDescLeave'), { name: nmFull(emp), id: emp.id, month: monthVal, annual: formatCalHours(tot.totalAnnual), personal: formatCalHours(tot.totalPersonal) });
              descBox.style.display = 'block';
          } else {
              descBox.style.display = 'none';
@@ -14896,7 +14896,7 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
          if (rows.length === 1) {
              const emp = rows[0];
              const tot = totalsByEmp[emp.id];
-             descBox.innerHTML = fillTemplate(t('attCalDescAtt'), { name: emp.name, id: emp.id, month: monthVal, work: formatCalHours(tot.totalWork), ot: formatCalHours(tot.totalOT) });
+             descBox.innerHTML = fillTemplate(t('attCalDescAtt'), { name: nmFull(emp), id: emp.id, month: monthVal, work: formatCalHours(tot.totalWork), ot: formatCalHours(tot.totalOT) });
              descBox.style.display = 'block';
          } else {
              descBox.style.display = 'none';
@@ -14926,7 +14926,7 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
      const modal = document.getElementById('acEditModal');
      modal.dataset.empId = empId;
      modal.dataset.date = dateStr;
-     document.getElementById('acEditTitleInfo').innerText = ': ' + (emp.name || '-') + ' (' + emp.id + ') - ' + dateStr;
+     document.getElementById('acEditTitleInfo').innerText = ': ' + (nmFull(emp) || '-') + ' (' + emp.id + ') - ' + dateStr;
      renderAttCalEditList();
      modal.style.display = 'flex';
  }
@@ -15750,7 +15750,7 @@ function dvLeaveSec(emp) {
         [dvItem(t('thMasterPersonalLeave'), dvF(emp.leavePersonal)), dvItem(t('thMasterSickLeave'), dvF(emp.leaveSick)), dvItem(t('thMasterOtherLeave'), dvF(emp.leaveOther))]);
 }
 function dvOpen(titleKey, emp, html, isEmployee) {
-    document.getElementById('viewModalTitle').innerText = t(titleKey) + ': ' + emp.name + ' (' + emp.id + ')';
+    document.getElementById('viewModalTitle').innerText = t(titleKey) + ': ' + nmFull(emp) + ' (' + emp.id + ')';
     document.getElementById('viewModalBody').innerHTML = html;
     if (typeof cfShowSeeBtn === 'function') cfShowSeeBtn(!!isEmployee);
     if (isEmployee) cf.detailKey = emp.firebaseKey;
@@ -16268,13 +16268,13 @@ function openEmployeeDetailModal(index) {
  function onLeaveEmpIdInput() {
      const idVal = document.getElementById('leaveEmpId').value.trim();
      const found = employees.find(e => e.id === idVal);
-     document.getElementById('leaveEmpName').value = found ? found.name : '';
+     document.getElementById('leaveEmpName').value = found ? nmFull(found) : '';
  }
 
  function onLeaveEmpNameInput() {
      const nameVal = document.getElementById('leaveEmpName').value.trim().toLowerCase();
      if (!nameVal) { document.getElementById('leaveEmpId').value = ''; return; }
-     const found = employees.find(e => (e.name || '').toLowerCase() === nameVal);
+     const found = employees.find(e => (e.name || '').toLowerCase() === nameVal || nmFull(e).toLowerCase() === nameVal);
      if (found) document.getElementById('leaveEmpId').value = found.id;
  }
 
@@ -16657,7 +16657,7 @@ function mrWorkChange(key, el) {
 }
 function mrCheckMonth() {
     var rows = [];
-    employees.forEach(function (e) { var p = mrProblems(e); if (p.length) rows.push('<div style="padding:8px 10px;border:1px solid #fecaca;background:#fef2f2;border-radius:8px;margin-bottom:6px;"><b>' + escapeHtmlText(e.id + ' ' + (e.name || '')) + '</b><div style="font-size:12px;color:#991b1b;">' + p.map(escapeHtmlText).join('<br>') + '</div></div>'); });
+    employees.forEach(function (e) { var p = mrProblems(e); if (p.length) rows.push('<div style="padding:8px 10px;border:1px solid #fecaca;background:#fef2f2;border-radius:8px;margin-bottom:6px;"><b>' + escapeHtmlText(e.id + ' ' + (nmFull(e) || '')) + '</b><div style="font-size:12px;color:#991b1b;">' + p.map(escapeHtmlText).join('<br>') + '</div></div>'); });
     var d = document.createElement('div'); d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100002;display:flex;align-items:center;justify-content:center;padding:16px;';
     d.innerHTML = '<div style="background:#fff;border-radius:14px;padding:16px;max-width:520px;width:100%;max-height:80vh;display:flex;flex-direction:column;"><div style="font-weight:700;margin-bottom:8px;">' + escapeHtmlText(fillTemplate(t('mrCheckTitle'), { m: hrYmName(mrYm()) })) + '</div><div style="overflow:auto;flex:1;">' + (rows.length ? rows.join('') : '<div style="padding:10px;color:#15803d;font-weight:700;">' + escapeHtmlText(t('mrCheckOk')) + '</div>') + '</div><div style="text-align:right;margin-top:10px;"><button type="button" class="quick-btn" id="mrCkClose">' + escapeHtmlText(t('mrClose')) + '</button></div></div>';
     document.body.appendChild(d); d.querySelector('#mrCkClose').onclick = function () { d.remove(); };
@@ -16861,7 +16861,7 @@ function hrAttInput(el) { var mx = parseFloat(el.getAttribute('data-max')); var 
      withBusyButton(submitBtn, () => db.ref('requests').push(payload).then(() => {
          formEl.reset();
          document.getElementById('reqEmpId').value = loggedInEmp.id;
-         document.getElementById('reqName').value = loggedInEmp.name;
+         document.getElementById('reqName').value = nmFull(loggedInEmp);
          document.getElementById('reqMethod').value = 'System';
          document.getElementById('reqDate').valueAsDate = new Date();
          document.getElementById('reqContactGroup').style.display = 'none';
@@ -16990,7 +16990,7 @@ function hrAttInput(el) { var mx = parseFloat(el.getAttribute('data-max')); var 
      html += sorted.map(r => `
          <div class="detail-item" style="flex-direction:column; align-items:flex-start; gap:6px; margin-bottom:10px;">
              <div style="display:flex; justify-content:space-between; width:100%;">
-                 <span class="lbl">${r.name || '-'} (${r.empId || '-'})</span>
+                 <span class="lbl">${nmById(r.empId, r.name) || '-'} (${r.empId || '-'})</span>
                  <span class="val" style="color:${r.status === 'processed' ? '#15803d' : '#d97706'};">${r.status === 'processed' ? t('statusProcessed') : t('statusPending')}</span>
              </div>
              ${r.timestamp ? `<div style="font-size:10px; color:#94a3b8;">${t('lblNotifReceivedAt')}: ${formatNotifReceivedAt(r.timestamp)}</div>` : ''}
@@ -17544,14 +17544,14 @@ async function notifyShiftCalendarReady() {
 function onCardReadyEmpIdInput() {
     const idVal = document.getElementById('cardReadyEmpId').value.trim();
     const found = employees.find(e => e.id === idVal);
-    document.getElementById('cardReadyEmpName').value = found ? found.name : '';
+    document.getElementById('cardReadyEmpName').value = found ? nmFull(found) : '';
     document.getElementById('cardReadyDepartment').value = found ? (found.department || '') : '';
 }
 
 function onCardReadyEmpNameInput() {
     const nameVal = document.getElementById('cardReadyEmpName').value.trim().toLowerCase();
     if (!nameVal) { document.getElementById('cardReadyEmpId').value = ''; return; }
-    const found = employees.find(e => (e.name || '').toLowerCase() === nameVal);
+    const found = employees.find(e => (e.name || '').toLowerCase() === nameVal || nmFull(e).toLowerCase() === nameVal);
     if (found) {
         document.getElementById('cardReadyEmpId').value = found.id;
         document.getElementById('cardReadyDepartment').value = found.department || '';
@@ -18197,7 +18197,7 @@ function faFillEmpList() {
     const dl = faEl('faEmpList');
     if (!dl) return;
     dl.innerHTML = employees.slice().sort(function (a, b) { return faSortById(a.id, b.id); })
-        .map(function (e) { return '<option value="' + faEsc(e.id) + '">' + faEsc(e.name) + '</option>'; }).join('');
+        .map(function (e) { return '<option value="' + faEsc(e.id) + '">' + faEsc(nmFull(e)) + '</option>'; }).join('');
 }
 
 function faCopyScanLink() {
@@ -18402,7 +18402,7 @@ function faStopCamera() {
 function faOnEnrollIdInput() {
     const id = faEl('faEnrollEmpId').value.trim();
     const emp = employees.find(function (e) { return e.id === id; });
-    faEl('faEnrollEmpName').value = emp ? emp.name : '';
+    faEl('faEnrollEmpName').value = emp ? nmFull(emp) : '';
     if (emp && faTemplates[id]) faSetEnrollStatus('faAlreadyEnrolled', false);
     else if (!faStream) faSetEnrollStatus(null);
 }
@@ -18832,7 +18832,7 @@ function lvPendRender() {
     var th = 'style="padding:8px 10px; text-align:left;"';
     list.innerHTML = '<div class="table-responsive"><table class="master-tbl" style="width:100%;"><thead><tr><th ' + th + '>' + escapeHtmlText(t('tblId')) + '</th><th ' + th + '>' + escapeHtmlText(t('tblName')) + '</th><th ' + th + '>' + escapeHtmlText(t('lvPendColDate')) + '</th><th ' + th + '>' + escapeHtmlText(t('lvPendColHours')) + '</th>' + (admin ? '<th></th>' : '') + '</tr></thead><tbody>' +
         items.map(function (it, i) {
-            return '<tr class="lv-pend-row" style="cursor:pointer;" onclick="lvPendPick(' + i + ')"><td><b>' + escapeHtmlText(it.id) + '</b></td><td style="text-align:left;">' + escapeHtmlText(it.name) + '</td><td>' + it.ds.replace(/-/g, '.') + '</td><td>' + faNum(it.rem) + '</td>' +
+            return '<tr class="lv-pend-row" style="cursor:pointer;" onclick="lvPendPick(' + i + ')"><td><b>' + escapeHtmlText(it.id) + '</b></td><td style="text-align:left;">' + escapeHtmlText(nmById(it.id, it.name)) + '</td><td>' + it.ds.replace(/-/g, '.') + '</td><td>' + faNum(it.rem) + '</td>' +
                 (admin ? '<td><button type="button" class="quick-btn slate" style="padding:0 10px !important; min-height:30px !important; font-size:11px !important;" onclick="event.stopPropagation(); lvPendDismiss(' + i + ')">' + escapeHtmlText(t('lvPendNoNeed')) + '</button></td>' : '') + '</tr>';
         }).join('') + '</tbody></table></div>';
     window.lvPendShown = items;
@@ -19002,7 +19002,7 @@ function faBuildReportHtml(rows, opts) {
         const s = r.sum;
         if (s.workMin !== null) totWork += s.workMin;
         totNight += s.nightMin || 0; totLeave += s.leaveHours || 0; totOt += s.otHours || 0;
-        return '<tr><td style="text-align:center;">' + (i + 1) + '</td><td>' + faEsc(r.id) + '</td><td>' + faEsc(r.name) + '</td>' +
+        return '<tr><td style="text-align:center;">' + (i + 1) + '</td><td>' + faEsc(r.id) + '</td><td>' + faEsc(nmById(r.id, r.name)) + '</td>' +
             '<td style="text-align:center; white-space:nowrap;">' + faEsc(s.timesCompact || ((s.checkIn || '') + (s.checkOut ? ',' + s.checkOut : '')).replace(/:/g, '')) + '</td>' +
             '<td style="text-align:center;">' + faHours(s.workMin) + '</td><td style="text-align:center;">' + (s.workMin === null ? '' : faHours(s.nightMin)) + '</td>' +
             '<td style="text-align:center;">' + (s.leaveHours ? faNum(s.leaveHours) : '') + '</td><td style="text-align:center;">' + (s.otHours ? faNum(s.otHours) : '') + '</td>' +
@@ -20938,7 +20938,7 @@ function renderNotifications() {
         items.push({ kind: BELL_TYPE[r.type] || 'other', status: r.status === 'processed' ? 'processed' : 'pending', isNew: isNew, ts: r.timestamp || 0, html: `
          <div class="detail-item" style="flex-direction:column; align-items:flex-start; gap:6px; margin-bottom:10px;${isNew ? ' border-left:4px solid #ef4444;' : ''}">
              <div style="display:flex; justify-content:space-between; width:100%;">
-                 <span class="lbl">${r.name || '-'} (${r.empId || '-'})${isNew ? newTag : ''}</span>
+                 <span class="lbl">${nmById(r.empId, r.name) || '-'} (${r.empId || '-'})${isNew ? newTag : ''}</span>
                  <span class="val" style="color:${r.status === 'processed' ? '#15803d' : '#d97706'};">${r.status === 'processed' ? t('statusProcessed') : t('statusPending')}</span>
              </div>
              ${r.timestamp ? `<div style="font-size:10px; color:#94a3b8;">${t('lblNotifReceivedAt')}: ${formatNotifReceivedAt(r.timestamp)}</div>` : ''}
@@ -21109,7 +21109,7 @@ function lxRender() {
         '<div style="overflow:auto; max-height:58vh; border:1px solid #e2e8f0; border-radius:8px;"><table style="border-collapse:collapse; width:100%; font-size:12px;"><thead><tr>' + th('lxColId') + th('lxColName') + th('lxColPaper') + th('lxColTimes') + LX_COLS.map(function (c) { return th(c[1]); }).join('') + '</tr></thead><tbody>';
     lxRows.forEach(function (r, i) {
         const emp = lxEmp(r.id);
-        const sys = emp ? escapeHtmlText(emp.name || '') : '<span style="color:#dc2626;">' + escapeHtmlText(t('lxNotInSystem')) + '</span>';
+        const sys = emp ? escapeHtmlText(nmFull(emp) || '') : '<span style="color:#dc2626;">' + escapeHtmlText(t('lxNotInSystem')) + '</span>';
         const paper = escapeHtmlText([r.nameKh, r.nameEn, r.nameZh].filter(Boolean).join(' / '));
         const inp = function (c) { return '<td style="' + td + '"><input type="number" step="0.5" min="0" value="' + r[c[0]] + '" onchange="lxEdit(' + i + ',\'' + c[0] + '\',this.value)" style="width:62px; padding:3px 5px; border:1px solid #cbd5e1; border-radius:5px;' + (c[2] ? ' font-weight:800; color:' + c[2] + ';' : '') + '"></td>'; };
         h += '<tr><td style="' + td + ' font-weight:700;">' + escapeHtmlText(r.id) + '</td><td style="' + td + '">' + sys + '</td><td style="' + td + '">' + paper + '</td><td style="' + td + ' white-space:nowrap;">' + escapeHtmlText(r.times) + '</td>' + LX_COLS.map(inp).join('') + '</tr>';
@@ -21718,7 +21718,7 @@ function msRenderTable() {
         if (bf) { const m0 = msMerge(e0); if (!m0._has || !balOk(bf, m0.carried, m0.exceeded)) return; }
         n++;
         const e = msMerge(e0);
-        if (!e._has) { html += '<tr><td></td><td><b>' + dgEsc(e.id) + '</b></td><td>' + dgEsc(e.name) + '</td><td>' + dgEsc(e.department || '-') + '</td><td colspan="23" style="color:#b45309;">' + dgEsc(t('msNotStarted')) + '</td></tr>'; return; }
+        if (!e._has) { html += '<tr><td></td><td><b>' + dgEsc(e.id) + '</b></td><td>' + dgEsc(nmFull(e)) + '</td><td>' + dgEsc(e.department || '-') + '</td><td colspan="23" style="color:#b45309;">' + dgEsc(t('msNotStarted')) + '</td></tr>'; return; }
         try {
             const jp = (e.joinDate || '').split('.'), join = jp.length === 3 ? new Date(jp[0], jp[1] - 1, jp[2]) : null;
             const twm = join ? (now.getFullYear() - join.getFullYear()) * 12 + (now.getMonth() - join.getMonth()) : 0;
@@ -21726,7 +21726,7 @@ function msRenderTable() {
             const rem = (st && en) ? getRemainingCycleMonths(st, en, now) : 0;
             const used = (parseFloat(e.prevUsed) || 0) + (parseFloat(e.monthUsed) || 0) - (parseFloat(e.exceeded) || 0), remaining = (parseFloat(e.entitled) || 0) - used + (parseFloat(e.carried) || 0);
             const f = function (v) { return (parseFloat(v) || 0).toFixed(2); };
-            html += '<tr><td><button class="btn-view" onclick="msDetail(' + idx + ')" title="View">' + ICON_VIEW + '</button></td><td><b>' + dgEsc(e.id) + '</b></td><td>' + dgEsc(e.name) + '</td><td>' + dgEsc(e.department || '-') + '</td><td>' + dgEsc(e.joinDate) + '</td><td>' + Math.floor(Math.max(0, twm) / 12) + '</td>' +
+            html += '<tr><td><button class="btn-view" onclick="msDetail(' + idx + ')" title="View">' + ICON_VIEW + '</button></td><td><b>' + dgEsc(e.id) + '</b></td><td>' + dgEsc(nmFull(e)) + '</td><td>' + dgEsc(e.department || '-') + '</td><td>' + dgEsc(e.joinDate) + '</td><td>' + Math.floor(Math.max(0, twm) / 12) + '</td>' +
                 '<td>' + f(e.entitled) + '</td><td>' + dgEsc(st) + '</td><td>' + dgEsc(en) + '</td><td>' + dgEsc(yr) + '</td><td><b>' + rem + '</b></td><td>' + f(e.entitled) + '</td><td>' + alSplit(e).old.toFixed(2) + '</td><td>' + f(e.prevUsed) + '</td><td>' + f(e.monthUsed) + '</td><td><b>' + used.toFixed(2) + '</b></td>' +
                 '<td style="color:' + (e.exceeded > 0 ? '#dc2626' : '#64748b') + '; font-weight:bold;">' + f(e.exceeded) + '</td><td style="color:' + (remaining < 0 ? '#dc2626' : '#15803d') + '; font-weight:bold;">' + alSplit(e).neu.toFixed(2) + '</td>' +
                 '<td>' + f(e.workHours) + '</td><td>' + f(e.otHours) + '</td><td>' + f(e.leaveAL) + '</td><td>' + f(e.leaveSpecial) + '</td><td>' + f(e.leaveMaternity) + '</td><td>' + f(e.leaveTravel) + '</td><td>' + f(e.leavePersonal) + '</td><td>' + f(e.leaveSick) + '</td><td>' + f(e.leaveOther) + '</td><td>' + dgEsc(e.remarks || '-') + '</td></tr>';
@@ -22420,7 +22420,7 @@ function lfAutoDays() {
 function lfNewOpen(opts) { /* opts: {emp:{...}|null, employees:[...] , rep:bool} */
     var c = lfCtx(), rep = c.role === 'dept';
     var pick = '';
-    if (rep) pick = '<option value="">' + lfE(t('lfFPick')) + '</option>' + (c.employees ? c.employees() : []).map(function (e) { return '<option value="' + lfE(e.firebaseKey) + '">' + lfE(e.id) + ' - ' + lfE(e.name) + ' (' + lfE(e.department) + ')</option>'; }).join('');
+    if (rep) pick = '<option value="">' + lfE(t('lfFPick')) + '</option>' + (c.employees ? c.employees() : []).map(function (e) { return '<option value="' + lfE(e.firebaseKey) + '">' + lfE(e.id) + ' - ' + lfE(nmFull(e)) + ' (' + lfE(e.department) + ')</option>'; }).join('');
     else if (!c.group) { lfDlg({ title: t('lfTitle'), html: '<p>' + lfE(t('lfNoDept')) + '</p>', buttons: [{ t: t('lfOk') }] }); return; }
     var d = lfDlg({ id: '', title: rep ? t('lfNewForEmp') : t('lfNew'), w: 640, html: (rep ? '' : '<p style="font-size:14px"><b>' + lfE(c.empId) + '</b> - ' + lfE(c.empName) + ' / ' + lfE(c.group) + '</p>') + lfEditorHtml({}, { pickEmp: pick }), buttons: [{ t: t('lfCancel'), cls: 's' }, { t: t('lfSubmit'), cls: 'g', close: false, fn: function () { lfNewSubmit(rep); } }] });
     ['lfeFromD', 'lfeToD'].forEach(function (id) { var e = document.getElementById(id); if (e) e.addEventListener('change', lfAutoDays); });
@@ -23612,7 +23612,7 @@ function ccCardsDraw() {
     var rows = Object.keys(CC.cards.staff).map(function (k) { return Object.assign({ key: k }, CC.cards.staff[k]); }).filter(function (c) { return !q || (String(c.empId || '') + ' ' + (c.name || '')).toLowerCase().indexOf(q) >= 0; }).sort(function (a, b2) { return (b2.at || 0) - (a.at || 0); });
     if (!rows.length) { b.innerHTML = '<p style="text-align:center;color:#94a3b8">' + ccE(t('ccNone')) + '</p>'; return; }
     b.innerHTML = '<table class="master-tbl" style="width:100%"><thead><tr><th>' + ccE(t('ccFId')) + '</th><th>' + ccE(t('ccFName')) + '</th><th>' + ccE(t('ccCNo')) + '</th><th>' + ccE(t('ccStyle')) + '</th><th>' + ccE(t('ccCStatus')) + '</th><th></th></tr></thead><tbody>' + rows.map(function (c) {
-        return '<tr><td><b>' + ccE(c.empId) + '</b></td><td>' + ccE(c.name) + '</td><td style="white-space:nowrap">' + ccE(ccMask(c.no)) + '</td><td>' + ccE(c.sty ? ccStyName(c.sty) : '-') + '</td><td>' + ccE(t(st[c.state] || 'ccStMade')) + '</td><td><button type="button" class="lf-b" style="padding:5px 10px;font-size:12px;background:#dc2626;color:#fff" onclick="ccRemoveCard(\'' + c.key + '\')">' + ccE(t('ccRemove')) + '</button></td></tr>';
+        return '<tr><td><b>' + ccE(c.empId) + '</b></td><td>' + ccE(nmById(c.empId, c.name)) + '</td><td style="white-space:nowrap">' + ccE(ccMask(c.no)) + '</td><td>' + ccE(c.sty ? ccStyName(c.sty) : '-') + '</td><td>' + ccE(t(st[c.state] || 'ccStMade')) + '</td><td><button type="button" class="lf-b" style="padding:5px 10px;font-size:12px;background:#dc2626;color:#fff" onclick="ccRemoveCard(\'' + c.key + '\')">' + ccE(t('ccRemove')) + '</button></td></tr>';
     }).join('') + '</tbody></table>';
 }
 /* ---------- Card colours (Administration): switch on / off, add new ---------- */
@@ -23983,7 +23983,7 @@ document.addEventListener('DOMContentLoaded', pgScan);
          html += '<h4 style="font-size:12px; color:#334155; margin:8px 0 4px;">' + t('globalSearchEmployeesGroup') + '</h4>';
          html += empMatches.map(emp =>
              '<div style="display:flex; align-items:center; gap:8px; padding:8px; border-radius:6px; cursor:pointer;" onmouseover="this.style.background=\'#f1f5f9\'" onmouseout="this.style.background=\'\'" onclick="onGlobalSearchEmployeeClick(\'' + emp.id + '\')">' +
-             ICON_VIEW + '<span><b>' + escapePrintText(emp.name) + '</b> (' + escapePrintText(emp.id) + ')</span></div>'
+             ICON_VIEW + '<span><b>' + escapePrintText(nmFull(emp)) + '</b> (' + escapePrintText(emp.id) + ')</span></div>'
          ).join('');
      }
      resultsEl.innerHTML = html;
@@ -24238,14 +24238,14 @@ document.addEventListener('DOMContentLoaded', pgScan);
  function onCertEmpIdInput() {
      const idVal = document.getElementById('certEmpId').value.trim();
      const found = employees.find(e => e.id === idVal);
-     document.getElementById('certEmpName').value = found ? found.name : '';
+     document.getElementById('certEmpName').value = found ? nmFull(found) : '';
      restoreCertCompanyName();
  }
 
  function onCertEmpNameInput() {
      const nameVal = document.getElementById('certEmpName').value.trim().toLowerCase();
      if (!nameVal) { document.getElementById('certEmpId').value = ''; return; }
-     const found = employees.find(e => (e.name || '').toLowerCase() === nameVal);
+     const found = employees.find(e => (e.name || '').toLowerCase() === nameVal || nmFull(e).toLowerCase() === nameVal);
      if (found) document.getElementById('certEmpId').value = found.id;
  }
 
@@ -25195,7 +25195,7 @@ function payRender() {
         var r = pay.rows[k], e = payEmp(r.empId), c = payCalc(r, st, payAutoPersonal(r.empId, pay.month));
         tg += c.gross; tn += c.net; ta += c.adv;
         var chip = c.paper === null ? '<span class="payChip g">' + escapeHtmlText(t('payNoPaper')) + '</span>' : (Math.abs(c.diff) < 0.005 ? '<span class="payChip ok">' + escapeHtmlText(t('payMatch')) + '</span>' : '<span class="payChip bad">' + escapeHtmlText(fillTemplate(t('payDiff'), { d: payM(c.diff) })) + '</span>');
-        return '<div class="remRow" style="cursor:pointer;" onclick="payEdit(\'' + k + '\')"><div class="remT">' + escapeHtmlText((e && e.name) || r.name || '') + ' <span style="color:#64748b;font-weight:400;">(' + escapeHtmlText(r.empId || '') + ')</span></div>' +
+        return '<div class="remRow" style="cursor:pointer;" onclick="payEdit(\'' + k + '\')"><div class="remT">' + escapeHtmlText((e && nmFull(e)) || r.name || '') + ' <span style="color:#64748b;font-weight:400;">(' + escapeHtmlText(r.empId || '') + ')</span></div>' +
             '<div class="remS">' + escapeHtmlText(t('payGross')) + ' ' + payM(c.gross) + ' · ' + escapeHtmlText(t('payAdvance')) + ' ' + payM(c.adv) + '</div>' +
             '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;"><b style="font-size:15px;color:#0f172a;">' + escapeHtmlText(t('payNet')) + ' ' + payM(c.net) + '</b>' + chip + '</div></div>';
     }).join('');
@@ -25231,7 +25231,7 @@ function payEdit(key) {
     var r = pay.rows[key]; if (!r) return;
     pay.editKey = key; pay.delAsk = false;
     var e = payEmp(r.empId), auto = payAutoPersonal(r.empId, pay.month), st = paySt();
-    document.getElementById('payEditHead').innerText = ((e && e.name) || r.name || '') + ' (' + r.empId + ') - ' + pay.month;
+    document.getElementById('payEditHead').innerText = ((e && nmFull(e)) || r.name || '') + ' (' + r.empId + ') - ' + pay.month;
     document.getElementById('payEditForm').innerHTML = PAY_SECS.map(function (sec) {
         return '<div style="font-weight:700;font-size:12px;color:#123a5c;margin:12px 0 6px;text-transform:uppercase;">' + escapeHtmlText(t(sec[0])) + '</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
             sec[1].map(function (f) {
@@ -25389,7 +25389,7 @@ function trRender() {
         var months = i.status === 'training' ? '<select onchange="trSetMonths(\'' + k + '\',this.value)">' + [1, 2, 3, 4, 5, 6].map(function (m) { return '<option value="' + m + '"' + (m === i.months ? ' selected' : '') + '>' + m + '</option>'; }).join('') + '</select>' : '-';
         var act = i.state === 'ready' ? '<button class="kbBtn" onclick="trConfirm(\'' + k + '\')">' + escapeHtmlText(t('trSigned')) + '</button>' :
             '<select onchange="trSetStatus(\'' + k + '\',this.value)"><option value="training"' + (i.status === 'training' ? ' selected' : '') + '>' + escapeHtmlText(t('trStTraining')) + '</option><option value="full"' + (i.status === 'full' ? ' selected' : '') + '>' + escapeHtmlText(t('trStFull')) + '</option></select>';
-        return '<tr><td>' + escapeHtmlText(e.id) + '</td><td>' + escapeHtmlText(e.name || '') + '</td><td>' + escapeHtmlText(e.department || '') + '</td><td>' + escapeHtmlText(e.joinDate || '') + '</td><td>' + months + '</td><td>' + escapeHtmlText(i.end || '-') + '</td><td>' + left + '</td><td>' + badge + '</td><td>' + (isNaN(i.base) ? '' : '$' + i.base.toFixed(2)) + '</td><td>' + act + '</td></tr>';
+        return '<tr><td>' + escapeHtmlText(e.id) + '</td><td>' + escapeHtmlText(nmFull(e) || '') + '</td><td>' + escapeHtmlText(e.department || '') + '</td><td>' + escapeHtmlText(e.joinDate || '') + '</td><td>' + months + '</td><td>' + escapeHtmlText(i.end || '-') + '</td><td>' + left + '</td><td>' + badge + '</td><td>' + (isNaN(i.base) ? '' : '$' + i.base.toFixed(2)) + '</td><td>' + act + '</td></tr>';
     }).join('');
     document.getElementById('trBody').innerHTML = h || '<tr><td colspan="10" style="text-align:center;padding:18px;color:#64748b;">' + escapeHtmlText(t('trEmpty')) + '</td></tr>';
     document.getElementById('trMore').innerText = more ? fillTemplate(t('trMore'), { n: tr.limit }) : '';
@@ -25520,7 +25520,7 @@ function paySlipBlock(k) {
     var r = pay.rows[k], e = payEmp(r.empId), st = paySt(), c = payCalc(r, st, payAutoPersonal(r.empId, pay.month)), esc = escapeHtmlText;
     var L = function (lab, v, b) { return '<tr' + (b ? ' class="b"' : '') + '><td>' + esc(t(lab)) + '</td><td class="n">' + v + '</td></tr>'; };
     var add = function (lab, x) { return payN(x) ? L(lab, payM(payN(x))) : ''; };
-    var h = '<div class="slip"><h2>' + esc(t('paySlipTitle')) + ' - ' + esc(pay.month) + '</h2><div class="who"><b>' + esc((e && e.name) || r.name || '') + '</b> (' + esc(r.empId) + ') &nbsp; ' + esc((e && e.department) || '') + '</div><table>' +
+    var h = '<div class="slip"><h2>' + esc(t('paySlipTitle')) + ' - ' + esc(pay.month) + '</h2><div class="who"><b>' + esc((e && nmFull(e)) || r.name || '') + '</b> (' + esc(r.empId) + ') &nbsp; ' + esc((e && e.department) || '') + '</div><table>' +
         L('fBase', payM(payN(r.base))) + L('rAttAmt', payM(c.attAmt)) + add('fSenior', r.senior) + add('fWork', r.work) + add('fSkill', r.skill) + add('fProd', r.prod) + add('fResp', r.resp) + add('fOther', r.other) + (c.otPay ? L('rOtPay', payM(c.otPay)) : '') +
         add('fTransport', r.transport) + add('fMedical', r.medical) + (c.tempAmt ? L('rTempAmt', payM(c.tempAmt)) : '') + add('fContract', r.contract) + add('fMeal', r.meal) + add('fSeniorComp', r.seniorComp) + add('fAnnualCash', r.annualCash) +
         L('rGross', payM(c.gross), 1) + (c.dedLeave ? L('rLeaveDed', '-' + payM(c.dedLeave)) : '') + (c.dedAbs ? L('rAbsDed', '-' + payM(c.dedAbs)) : '') + L('rPension', '-' + payM(c.pension)) + (payN(r.otherDed) ? L('rOtherDed', '-' + payM(payN(r.otherDed))) : '') +
@@ -26368,7 +26368,7 @@ async function cfEditClose() {
 function cfRenderEdit() {
     var m = document.getElementById('cfEditModal'); if (!m || m.style.display !== 'flex') return;
     var e = cfEmp(), ph = cfPhotoDoc(), esc = escapeHtmlText, st = cf.st;
-    document.getElementById('cfEditHead').innerText = t('cfTitleEdit') + (e ? ': ' + (e.name || '') + ' (' + e.id + ')' : '');
+    document.getElementById('cfEditHead').innerText = t('cfTitleEdit') + (e ? ': ' + (nmFull(e) || '') + ' (' + e.id + ')' : '');
     var pth = st.photo ? st.photo.thumb : (ph && ph.thumb);
     document.getElementById('cfEditPhoto').innerHTML = pth ? '<img src="' + pth + '" alt="">' : '<span style="color:#94a3b8;font-size:12px;text-align:center;display:block;width:100%;padding:0 4px;">' + esc(t('cfPhoto')) + '</span>';
     document.getElementById('cfPhotoNew').style.display = st.photo ? '' : 'none';
@@ -26454,7 +26454,7 @@ function cfRenderView() {
     var e = cfEmp() || {}, ph = cfPhotoDoc(), esc = escapeHtmlText, grp = e.department || '', dept = (typeof dgParentOf === 'function' ? dgParentOf(grp) : '') || '';
     document.getElementById('cfViewTop').innerHTML =
         '<div class="cfPhotoBox' + (ph ? ' click' : '') + '"' + (ph ? ' onclick="cfOpenDoc(\'' + ph._id + '\')"' : '') + '>' + (ph && ph.thumb ? '<img src="' + ph.thumb + '" alt="">' : '<span style="text-align:center;padding:0 4px;">' + esc(t('cfNoPhoto')) + '</span>') + '<div class="cfCap">' + esc(t('cfPhoto')) + '</div></div>' +
-        '<div class="cfInfo"><div><b>' + esc(t('tblId')) + ':</b> ' + esc(e.id || '') + '</div><div><b>' + esc(t('tblName')) + ':</b> ' + esc(e.name || '') + '</div><div><b>' + esc(t('cfDepartment')) + ':</b> ' + esc(dept || '-') + '</div><div><b>' + esc(t('cfGroup')) + ':</b> ' + esc(grp || '-') + '</div></div>';
+        '<div class="cfInfo"><div><b>' + esc(t('tblId')) + ':</b> ' + esc(e.id || '') + '</div><div><b>' + esc(t('tblName')) + ':</b> ' + esc(nmFull(e) || '') + '</div><div><b>' + esc(t('cfDepartment')) + ':</b> ' + esc(dept || '-') + '</div><div><b>' + esc(t('cfGroup')) + ':</b> ' + esc(grp || '-') + '</div></div>';
     var docs = cfSorted();
     document.getElementById('cfViewDocs').innerHTML = docs.map(function (d) {
         return '<div class="cfTile" onclick="cfOpenDoc(\'' + d._id + '\')"><div class="cfThumb">' + cfIcon(d) + '</div><div class="cfName">' + esc(d.name || '') + '</div></div>';
@@ -27657,7 +27657,7 @@ body.mo-dragging{-webkit-user-select:none;user-select:none;cursor:grabbing}
     if (!inMode()) { bar.style.display = 'none'; return; }
     var id = sessionStorage.getItem('empLoggedInId'), e = null;
     try { e = employees.find(function (x) { return x.id === id; }); } catch (er) {}
-    bar.innerHTML = '<span><b>' + esc(L().acting) + '</b> ' + esc((e && e.name) || '') + ' (' + esc(id) + ')</span><button type="button" id="ownerBarExit">' + esc(L().exit) + '</button>';
+    bar.innerHTML = '<span><b>' + esc(L().acting) + '</b> ' + esc((e && nmFull(e)) || '') + ' (' + esc(id) + ')</span><button type="button" id="ownerBarExit">' + esc(L().exit) + '</button>';
     bar.style.display = 'flex';
     $('ownerBarExit').onclick = ownerExit;
   }
@@ -27672,7 +27672,7 @@ body.mo-dragging{-webkit-user-select:none;user-select:none;cursor:grabbing}
     if (ql) list = list.filter(function (e) { return (String(e.id) + ' ' + (e.name || '') + ' ' + (e.department || '')).toLowerCase().indexOf(ql) >= 0; });
     list.sort(function (a, b) { return String(a.id).localeCompare(String(b.id), undefined, { numeric: true }); });
     box.innerHTML = '<h3>' + esc(L().title) + '</h3><div class="op-sub">' + esc(L().sub) + '</div><input type="search" id="ownerPickQ" placeholder="' + esc(L().search) + '" value="' + esc(q) + '" autocomplete="off"><div class="op-list">' +
-      (list.length ? list.map(function (e) { return '<div class="op-row" data-id="' + esc(e.id) + '"><span class="op-id">' + esc(e.id) + '</span><span class="op-nm">' + esc(e.name || '') + '</span><span class="op-dp">' + esc(e.department || '') + '</span></div>'; }).join('') : '<div class="op-sub" style="padding:12px">' + esc(L().none) + '</div>') +
+      (list.length ? list.map(function (e) { return '<div class="op-row" data-id="' + esc(e.id) + '"><span class="op-id">' + esc(e.id) + '</span><span class="op-nm">' + esc(nmFull(e) || '') + '</span><span class="op-dp">' + esc(e.department || '') + '</span></div>'; }).join('') : '<div class="op-sub" style="padding:12px">' + esc(L().none) + '</div>') +
       '</div><button type="button" class="op-back" id="ownerPickBack">' + esc(L().back) + '</button>';
     var qi = $('ownerPickQ'); qi.oninput = function () { var pos = qi.selectionStart; showPicker(); var n = $('ownerPickQ'); n.focus(); try { n.setSelectionRange(pos, pos); } catch (e) {} };
     Array.prototype.forEach.call(box.querySelectorAll('.op-row'), function (r) { r.onclick = function () { ownerEnterEmp(r.getAttribute('data-id')); }; });
@@ -27899,6 +27899,11 @@ async function TD_remember(found) {
 .table-responsive.frzOn { overflow: auto; max-height: var(--frzH, 65vh); }
 .frz table.master-tbl { border-collapse: separate; border-spacing: 0; border-left: 1px solid #e2e8f0; border-top: 1px solid #e2e8f0; }
 .frz table.master-tbl th, .frz table.master-tbl td { border-width: 0 1px 1px 0; }
+/* clearer grid lines in the four employee tables, white problem rows */
+.frz table.master-tbl > thead > tr > th, .frz table.master-tbl > tbody > tr > td { border-right: 1px solid #b4c0d0; border-bottom: 1px solid #b4c0d0; }
+.frz table.master-tbl > thead > tr > th { border-bottom: 2px solid #94a3b8; }
+tr.mrRed td { background: #fff !important; }
+
 .frz table.master-tbl > thead > tr > th { position: sticky; top: 0; z-index: 3; background-color: #f1f5f9; border-bottom: 1px solid #cbd5e1; }
 th.srt { cursor: pointer; user-select: none; }
 th.srt:not([data-srt])::after { content: " \21C5"; font-size: 10px; color: #94a3b8; }
@@ -27990,7 +27995,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
     var q = (document.getElementById('mhSearch').value || '').trim().toLowerCase(), box = document.getElementById('mhHits');
     if (!q) { box.style.display = 'none'; return; }
     var hits = emps().filter(function (e) { return e.status !== 'Resigned' && sel.indexOf(e.firebaseKey) < 0 && (String(e.id).toLowerCase().indexOf(q) >= 0 || String(e.name || '').toLowerCase().indexOf(q) >= 0); }).slice(0, 12);
-    box.innerHTML = hits.map(function (e) { return '<div onclick="mhAdd(\'' + E(e.firebaseKey) + '\')"><b>' + E(e.id) + '</b> &nbsp; ' + E(e.name) + '</div>'; }).join('') || '<div style="color:#94a3b8">' + E(L('none')) + '</div>';
+    box.innerHTML = hits.map(function (e) { return '<div onclick="mhAdd(\'' + E(e.firebaseKey) + '\')"><b>' + E(e.id) + '</b> &nbsp; ' + E(nmFull(e)) + '</div>'; }).join('') || '<div style="color:#94a3b8">' + E(L('none')) + '</div>';
     box.style.display = 'block';
   };
   window.mhAdd = function (k) { if (sel.indexOf(k) < 0) sel.push(k); document.getElementById('mhSearch').value = ''; document.getElementById('mhHits').style.display = 'none'; var e = emps().filter(function (x) { return x.firebaseKey === k; })[0]; if (e) loadEn(e, mtRender); mtRender(); };
@@ -27999,7 +28004,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
     if (!v) { box.style.display = 'none'; return; }
     var l = emps().filter(function (e) { return e.status !== 'Resigned' && parentOf(e) === v; }).sort(function (a, b) { return String(a.id).localeCompare(String(b.id), undefined, { numeric: true }); });
     document.getElementById('mhDeptName').textContent = v + ' (' + l.length + ')';
-    lst.innerHTML = l.map(function (e) { return '<label><input type="checkbox" data-k="' + E(e.firebaseKey) + '"' + (sel.indexOf(e.firebaseKey) >= 0 ? ' checked' : '') + ' onchange="mhTick(this)"> <b>' + E(e.id) + '</b> ' + E(e.name) + '</label>'; }).join('') || '<span style="color:#94a3b8">' + E(L('none')) + '</span>';
+    lst.innerHTML = l.map(function (e) { return '<label><input type="checkbox" data-k="' + E(e.firebaseKey) + '"' + (sel.indexOf(e.firebaseKey) >= 0 ? ' checked' : '') + ' onchange="mhTick(this)"> <b>' + E(e.id) + '</b> ' + E(nmFull(e)) + '</label>'; }).join('') || '<span style="color:#94a3b8">' + E(L('none')) + '</span>';
     box.style.display = 'block';
   };
   window.mhTick = function (cb) { var k = cb.getAttribute('data-k'); if (cb.checked) { if (sel.indexOf(k) < 0) { sel.push(k); var e = emps().filter(function (x) { return x.firebaseKey === k; })[0]; if (e) loadEn(e, mtRender); } } else sel = sel.filter(function (x) { return x !== k; }); mtRender(); };
@@ -28010,7 +28015,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
   function mtRender() {
     var tb = document.querySelector('#mhTbl tbody'); if (!tb) return; var list = selEmps();
     document.getElementById('mhCount').textContent = list.length;
-    tb.innerHTML = list.map(function (e, i) { return '<tr><td>' + (i + 1) + '</td><td><b>' + E(e.id) + '</b></td><td>' + E(e.name) + (EN[e.firebaseKey] ? '<br><span style="color:#64748b;font-size:12px">' + E(EN[e.firebaseKey]) + '</span>' : '') + '</td><td>' + E(zhDept(e)) + '</td><td><button type="button" class="btn-delete" onclick="mhDel(\'' + E(e.firebaseKey) + '\')">&#10005;</button></td></tr>'; }).join('') || '<tr><td colspan="5" style="text-align:center;color:#94a3b8">-</td></tr>';
+    tb.innerHTML = list.map(function (e, i) { return '<tr><td>' + (i + 1) + '</td><td><b>' + E(e.id) + '</b></td><td>' + E(e.name) + ((e.nameEn || EN[e.firebaseKey]) ? '<br><span style="color:#64748b;font-size:12px">' + E(e.nameEn || EN[e.firebaseKey]) + '</span>' : '') + '</td><td>' + E(zhDept(e)) + '</td><td><button type="button" class="btn-delete" onclick="mhDel(\'' + E(e.firebaseKey) + '\')">&#10005;</button></td></tr>'; }).join('') || '<tr><td colspan="5" style="text-align:center;color:#94a3b8">-</td></tr>';
   }
   var CSSP = 'body{font-family:"Khmer OS","Noto Sans Khmer","Noto Sans SC","Microsoft YaHei",Arial,sans-serif;color:#000;margin:0}@page{size:A4;margin:12mm}h1{font-size:17px;text-align:center;margin:0 0 4px;line-height:1.5}h2{font-size:15px;text-align:center;margin:0 0 10px;font-weight:700}table{border-collapse:collapse;width:100%}th,td{border:1.2px solid #2d2a55;padding:6px 8px;text-align:center;font-size:14px;line-height:1.45}th{font-weight:700}tr{page-break-inside:avoid}thead{display:table-header-group}td.en{font-size:13px}';
   function openPrint(title, body) {
@@ -28069,13 +28074,13 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
     var G = document.getElementById('hcGroups');
     G.innerHTML = groupBy(due, function (x) { return gLabel(x.e); }).map(function (g, gi) {
       return '<div class="hcG"><div class="hd"><b>' + E(g.k) + '</b> (' + g.items.filter(function (x) { return x.due; }).length + ') <button type="button" class="quick-btn slate mhSm" onclick="hcGroupAll(' + gi + ',true)"><span>' + E(L('selAll')) + '</span></button> <button type="button" class="quick-btn slate mhSm" onclick="hcGroupAll(' + gi + ',false)"><span>' + E(L('selNone')) + '</span></button></div>' +
-        g.items.map(function (x) { return '<div class="hcRowE" data-g="' + gi + '"' + (x.due ? '' : ' style="opacity:.55"') + '><input type="checkbox" data-k="' + E(x.e.firebaseKey) + '"' + (hSel[x.e.firebaseKey] ? ' checked' : '') + ' onchange="hcTick(this)"><b>' + E(x.e.id) + '</b><span>' + E(x.e.name) + '</span><span class="x">' + E(x.e.joinDate || '') + '</span><span class="x"><input type="date" value="' + E(String(x.e.lastHealthCheck || '').replace(/\./g, '-')) + '" data-k="' + E(x.e.firebaseKey) + '" onchange="hcSetLast(this)"></span><span class="x">' + x.n + '</span></div>'; }).join('') + '</div>';
+        g.items.map(function (x) { return '<div class="hcRowE" data-g="' + gi + '"' + (x.due ? '' : ' style="opacity:.55"') + '><input type="checkbox" data-k="' + E(x.e.firebaseKey) + '"' + (hSel[x.e.firebaseKey] ? ' checked' : '') + ' onchange="hcTick(this)"><b>' + E(x.e.id) + '</b><span>' + E(nmFull(x.e)) + '</span><span class="x">' + E(x.e.joinDate || '') + '</span><span class="x"><input type="date" value="' + E(String(x.e.lastHealthCheck || '').replace(/\./g, '-')) + '" data-k="' + E(x.e.firebaseKey) + '" onchange="hcSetLast(this)"></span><span class="x">' + x.n + '</span></div>'; }).join('') + '</div>';
     }).join('') || '<div style="color:#94a3b8;padding:8px">-</div>';
     window._hcGroups = groupBy(due, function (x) { return gLabel(x.e); });
     document.getElementById('hcSelCount').textContent = Object.keys(hSel).filter(function (k) { return hSel[k]; }).length;
     var C = document.getElementById('hcCart'), cg = groupBy(cart.map(function (e) { return { e: e }; }), function (x) { return gLabel(x.e) + '||' + x.e.healthPlan; });
     window._hcCart = cg;
-    C.innerHTML = cg.map(function (g, i) { var p = g.k.split('||'); return '<div class="hcCartG"><b>' + E(p[0]) + '</b> &mdash; ' + g.items.length + ' ' + E(L('people')) + ' &mdash; ' + E(L('planned')) + ' ' + E(p[1]) + '<div class="ids">' + g.items.map(function (x) { return E(x.e.id) + ' ' + E(x.e.name); }).join(', ') + '</div><button type="button" class="quick-btn purple mhSm" onclick="hcDone(' + i + ')"><span>' + E(L('done')) + '</span></button> <button type="button" class="quick-btn green mhSm" onclick="hcPrint(' + i + ')"><span>' + E(L('print')) + '</span></button> <button type="button" class="quick-btn slate mhSm" onclick="hcRemove(' + i + ')"><span>' + E(L('rem')) + '</span></button></div>'; }).join('') || '<div style="color:#94a3b8;padding:8px">' + E(L('cartEmpty')) + '</div>';
+    C.innerHTML = cg.map(function (g, i) { var p = g.k.split('||'); return '<div class="hcCartG"><b>' + E(p[0]) + '</b> &mdash; ' + g.items.length + ' ' + E(L('people')) + ' &mdash; ' + E(L('planned')) + ' ' + E(p[1]) + '<div class="ids">' + g.items.map(function (x) { return E(x.e.id) + ' ' + E(nmFull(x.e)); }).join(', ') + '</div><button type="button" class="quick-btn purple mhSm" onclick="hcDone(' + i + ')"><span>' + E(L('done')) + '</span></button> <button type="button" class="quick-btn green mhSm" onclick="hcPrint(' + i + ')"><span>' + E(L('print')) + '</span></button> <button type="button" class="quick-btn slate mhSm" onclick="hcRemove(' + i + ')"><span>' + E(L('rem')) + '</span></button></div>'; }).join('') || '<div style="color:#94a3b8;padding:8px">' + E(L('cartEmpty')) + '</div>';
   }
   window.hcRender = hcRender;
   window.hcTick = function (cb) { hSel[cb.getAttribute('data-k')] = cb.checked; document.getElementById('hcSelCount').textContent = Object.keys(hSel).filter(function (k) { return hSel[k]; }).length; };
@@ -28235,6 +28240,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
 })();
 /* ===== Check Record: name next to the ID, e.g. គង់ ធាន Kong Thean ===== */
 window.nmFull = function (e) { return e ? ((e.name || '') + (e.nameEn ? ' ' + e.nameEn : '')) : ''; };
+window.nmById = function (id, fb) { var s = String(id == null ? '' : id).trim(), l = (typeof employees !== 'undefined') ? employees : []; for (var i = 0; i < l.length; i++) if (String(l[i].id).trim() === s) return window.nmFull(l[i]); return fb || ''; };
 window.nmCell = function (e, mode) {
   var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var n = esc(e && e.name), en = e && e.nameEn ? esc(e.nameEn) : '';
@@ -28368,7 +28374,7 @@ window.nmCopyEn = async function () {
       var sel = '#' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + ')';
       css += '.frz ' + sel.split(', ').join(', .frz ') + '{position:sticky;left:' + left + 'px;z-index:2;background-color:#fff;}';
       css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '){z-index:5;background-color:#f1f5f9;}';
-      css += '.frz #' + tb.id + ' > tbody > tr.mrRed > td:nth-child(' + (i + 1) + '){background-color:#fef2f2;}';
+      css += '.frz #' + tb.id + ' > tbody > tr.mrRed > td:nth-child(' + (i + 1) + '){background-color:#fff;}';
       if (colKind(h[i]) === 'act') css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), .frz #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + '){padding-left:3px;padding-right:3px;}';
       if (n === idx.length - 1) css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), .frz #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + '){border-right:2px solid #94a3b8;box-shadow:6px 0 6px -3px rgba(15,23,42,.28);}';
       var cell = h[i]; left += cell.offsetWidth || 70;
@@ -30869,7 +30875,7 @@ function elExport() {
           if (qd.allowedThisMonth < 0) ex.push(emp);
           if (sp.length === 3 && parseInt(sp[0], 10) === today.getFullYear() && parseInt(sp[1], 10) - 1 === today.getMonth()) rn.push(emp);
         });
-        var add = function (list, c, tag) { list.forEach(function (e) { rows.push({ c: c, t: (e.name || '') + ' (' + e.id + ')', tag: tag, a: 'emp', id: e.id }); }); };
+        var add = function (list, c, tag) { list.forEach(function (e) { rows.push({ c: c, t: nmFull(e) + ' (' + e.id + ')', tag: tag, a: 'emp', id: e.id }); }); };
         add(ex, '#f59e0b', x.exc); add(rn, '#3b5bdb', x.ren);
       }
     } catch (e) {}

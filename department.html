@@ -618,7 +618,7 @@
     .office-ribbon .ribbon-placeholder-note { font-size:11px; color:#6b7280; padding:8px 10px; font-style:italic; }
     #docGridEditorContainer .jexcel_toolbar, #docWordEditorContent .ck-toolbar { display:none !important; }
  .hrMB{display:block;margin:0 0 8px}.hrMB .hrMBbox{display:inline-flex!important}.hrMBbox{background:transparent;border:0;border-radius:0;padding:0;margin:0;font-size:12px}.hrMBbox b{font-size:12px;font-weight:700}.hrMBbox select{padding:6px 8px!important;border:1px solid #cbd5e1!important;border-radius:8px!important;background:#fff!important;font-size:12px!important;width:auto!important;min-width:180px;max-width:none!important;flex:0 0 auto}.hrMBbox b{white-space:nowrap}.hrMBbox .quick-btn{padding:4px 9px!important;font-size:11px!important;min-height:0!important;height:auto!important;line-height:1.2!important;white-space:nowrap}.hrFrozen{background:#e0f2fe;color:#075985;border-radius:99px;padding:3px 10px;font-size:12px;font-weight:700}.mrSug{font-size:11px;color:#64748b;margin-top:2px}
-.mrBox{width:90px!important;height:34px!important;box-sizing:border-box!important;text-align:center;font-size:14px;padding:4px 6px!important}.mrSug.diff{color:#b45309;font-weight:700;cursor:pointer;text-decoration:underline}tr.mrRed td{background:#fef2f2}.chkNote{font-size:11px;font-weight:700;color:#b91c1c;margin-top:2px}.chkNote.ok{color:#475569;font-weight:600}tr.chkOff td{background:#e2e8f0;color:#94a3b8}tr.chkOff input{background:#cbd5e1;cursor:not-allowed}
+.mrBox{width:90px!important;height:34px!important;box-sizing:border-box!important;text-align:center;font-size:14px;padding:4px 6px!important}.mrSug.diff{color:#b45309;font-weight:700;cursor:pointer;text-decoration:underline}tr.mrRed td{background:#fff}.chkNote{font-size:11px;font-weight:700;color:#b91c1c;margin-top:2px}.chkNote.ok{color:#475569;font-weight:600}tr.chkOff td{background:#e2e8f0;color:#94a3b8}tr.chkOff input{background:#cbd5e1;cursor:not-allowed}
 #chkDate { display: block !important; text-align: center !important; text-align-last: center !important; -webkit-appearance: none; appearance: none; }
 #chkDate::-webkit-date-and-time-value { text-align: center !important; margin: 0 auto; }
 #chkDate::-webkit-datetime-edit { display: inline-block; }
@@ -9343,7 +9343,7 @@ function checkMyShift() {
     const s = shifts.find(x => x.empId === empId && x.date === date);
     if (!s) {
         resultBox.innerHTML = '<div class="dash-card" style="background:#f8fafc; text-align:left;">' +
-            '<p style="margin:0 0 6px 0;"><b>' + emp.name + '</b> (' + emp.id + ') - ' + date + '</p>' +
+            '<p style="margin:0 0 6px 0;"><b>' + nmFull(emp) + '</b> (' + emp.id + ') - ' + date + '</p>' +
             '<p style="margin:0; color:#94a3b8;">' + t('shiftCheckNoRecord') + '</p></div>';
         return;
     }
@@ -9352,7 +9352,7 @@ function checkMyShift() {
         ? meta.time
         : (t('shiftCheckWorkHours') + ': ' + meta.time + '<br>' + t('shiftCheckRestHours') + ': ' + meta.brk);
     resultBox.innerHTML = '<div class="dash-card" style="background:#f0fdf4; text-align:left;">' +
-        '<p style="margin:0 0 6px 0;"><b>' + emp.name + '</b> (' + emp.id + ') - ' + date + '</p>' +
+        '<p style="margin:0 0 6px 0;"><b>' + nmFull(emp) + '</b> (' + emp.id + ') - ' + date + '</p>' +
         '<p style="margin:0 0 6px 0;">' + t('shiftType') + ': <b>' + s.type + '</b></p>' +
         '<p style="margin:0;">' + note + '</p></div>';
 }
@@ -9442,7 +9442,7 @@ function renderEmpShiftCalendar() {
          const idField = document.getElementById('reqEmpId');
          const nameField = document.getElementById('reqName');
          if (idField) idField.value = found.id;
-         if (nameField) nameField.value = found.name;
+         if (nameField) nameField.value = nmFull(found);
          renderEmpNotifBadge();
          renderMyRequests();
          const empShiftCalMonthInput = document.getElementById('empShiftCalMonth');
@@ -9760,7 +9760,7 @@ function computeQueryData(emp, queryDate, todayHours) {
      const hasCarried = qd.oldLeft > 0;
      const exceedsMonthlyLimit = allowedThisMonth < 0;
 
-     document.getElementById('cdTitleInfo').innerText = ': ' + (emp.name || '-') + ' (' + (emp.id || '-') + ')';
+     document.getElementById('cdTitleInfo').innerText = ': ' + nmFull(emp) + ' (' + (emp.id || '-') + ')';
      renderCheckDetailsShift(emp.id, queryDateStr || cdLocalDateStr(new Date()));
      document.getElementById('cdId').innerText = emp.id || '-';
      document.getElementById('cdName').innerText = nmFull(emp) || '-';
@@ -10370,7 +10370,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
          dashBody.innerHTML += `
              <tr>
                  <td><b>${e.id}</b></td>
-                 <td>${e.name}</td>
+                 <td>${nmFull(e)}</td>
                  <td>${e.sex || 'Male'}</td>
                  <td>${e.joinDate}</td>
                  <td>${workYears}</td>
@@ -10461,14 +10461,14 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
      if (renewingThisMonth.length > 0) {
          html += `<h4 style="font-size:13px; color:#334155; margin:6px 0;">${t('dashRenewalThisMonth')}</h4><ul style="list-style:none; padding:0; margin:0 0 10px 0;">`;
          renewingThisMonth.forEach(emp => {
-             html += `<li style="padding:6px 8px; border-radius:6px; cursor:pointer;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background=''" onclick="openCheckDetailsForEmployee('${emp.id}')"><b>${emp.name}</b> (${emp.id})</li>`;
+             html += `<li style="padding:6px 8px; border-radius:6px; cursor:pointer;" onmouseover="this.style.background='#f1f5f9'" onmouseout="this.style.background=''" onclick="openCheckDetailsForEmployee('${emp.id}')"><b>${nmFull(emp)}</b> (${emp.id})</li>`;
          });
          html += `</ul>`;
      }
      if (exceedingLimit.length > 0) {
          html += `<h4 style="font-size:13px; color:#dc2626; margin:6px 0;">${t('dashExceededLimit')}</h4><ul style="list-style:none; padding:0; margin:0;">`;
          exceedingLimit.forEach(emp => {
-             html += `<li style="padding:6px 8px; border-radius:6px; cursor:pointer;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background=''" onclick="openCheckDetailsForEmployee('${emp.id}')"><b>${emp.name}</b> (${emp.id})</li>`;
+             html += `<li style="padding:6px 8px; border-radius:6px; cursor:pointer;" onmouseover="this.style.background='#fef2f2'" onmouseout="this.style.background=''" onclick="openCheckDetailsForEmployee('${emp.id}')"><b>${nmFull(emp)}</b> (${emp.id})</li>`;
          });
          html += `</ul>`;
      }
@@ -10553,7 +10553,7 @@ async function deleteAnnouncement(firebaseKey, btnEl) {
 
      function rowFor(entry) {
          const yearsTxt = entry.isAnniv ? ' - ' + fillTemplate(t('dashAnniversaryYears'), { years: entry.years }) : '';
-         return `<li style="padding:4px 8px;"><b>${entry.emp.name}</b> (${entry.emp.id}) - ${t(entry.labelKey)}${yearsTxt}</li>`;
+         return `<li style="padding:4px 8px;"><b>${nmFull(entry.emp)}</b> (${entry.emp.id}) - ${t(entry.labelKey)}${yearsTxt}</li>`;
      }
 
      let html = '';
@@ -11082,19 +11082,19 @@ db.ref('makeupRecords').on('value', (snapshot) => {
 function onMakeupEmpIdInput() {
     const idVal = document.getElementById('makeupEmpId').value.trim();
     const found = employees.find(e => e.id === idVal);
-    document.getElementById('makeupEmpName').value = found ? found.name : '';
+    document.getElementById('makeupEmpName').value = found ? nmFull(found) : '';
 }
 
 function onMakeupEmpNameInput() {
     const nameVal = document.getElementById('makeupEmpName').value.trim().toLowerCase();
     if (!nameVal) { document.getElementById('makeupEmpId').value = ''; return; }
-    const found = employees.find(e => (e.name || '').toLowerCase() === nameVal);
+    const found = employees.find(e => (e.name || '').toLowerCase() === nameVal || nmFull(e).toLowerCase() === nameVal);
     if (found) document.getElementById('makeupEmpId').value = found.id;
 }
 
 function saveMakeupRecord(btnEl) {
     const id = document.getElementById('makeupEmpId').value.trim();
-    const name = document.getElementById('makeupEmpName').value.trim();
+    const name = (function () { var f = employees.find(function (e) { return e.id === id; }); return f ? f.name : document.getElementById('makeupEmpName').value.trim(); })();
     const date = document.getElementById('makeupDate').value;
     const timeFrom = document.getElementById('makeupTimeFrom').value;
     const timeTo = document.getElementById('makeupTimeTo').value;
@@ -11406,7 +11406,7 @@ function filterMakeupTable() {
      const s = shifts.find(x => x.empId === empId && x.date === date);
      if (!s) {
          resultBox.innerHTML = '<div class="dash-card" style="background:#f8fafc; text-align:left;">' +
-             '<p style="margin:0 0 6px 0;"><b>' + emp.name + '</b> (' + emp.id + ') - ' + date + '</p>' +
+             '<p style="margin:0 0 6px 0;"><b>' + nmFull(emp) + '</b> (' + emp.id + ') - ' + date + '</p>' +
              '<p style="margin:0; color:#94a3b8;">' + t('shiftCheckNoRecord') + '</p></div>';
          return;
      }
@@ -11416,7 +11416,7 @@ function filterMakeupTable() {
          ? meta.time
          : (t('shiftCheckWorkHours') + ': ' + meta.time + '<br>' + t('shiftCheckRestHours') + ': ' + meta.brk);
      resultBox.innerHTML = '<div class="dash-card" style="background:#f0fdf4; text-align:left;">' +
-         '<p style="margin:0 0 6px 0;"><b>' + emp.name + '</b> (' + emp.id + ') - ' + date + '</p>' +
+         '<p style="margin:0 0 6px 0;"><b>' + nmFull(emp) + '</b> (' + emp.id + ') - ' + date + '</p>' +
          '<p style="margin:0 0 6px 0;">' + t('shiftType') + ': <b>' + s.type + '</b></p>' +
          '<p style="margin:0;">' + note + '</p></div>';
  }
@@ -11768,7 +11768,7 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
          if (rows.length === 1) {
              const emp = rows[0];
              const tot = totalsByEmp[emp.id];
-             descBox.innerHTML = fillTemplate(t('attCalDescLeave'), { name: emp.name, id: emp.id, month: monthVal, annual: formatCalHours(tot.totalAnnual), personal: formatCalHours(tot.totalPersonal) });
+             descBox.innerHTML = fillTemplate(t('attCalDescLeave'), { name: nmFull(emp), id: emp.id, month: monthVal, annual: formatCalHours(tot.totalAnnual), personal: formatCalHours(tot.totalPersonal) });
              descBox.style.display = 'block';
          } else {
              descBox.style.display = 'none';
@@ -11811,7 +11811,7 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
          if (rows.length === 1) {
              const emp = rows[0];
              const tot = totalsByEmp[emp.id];
-             descBox.innerHTML = fillTemplate(t('attCalDescAtt'), { name: emp.name, id: emp.id, month: monthVal, work: formatCalHours(tot.totalWork), ot: formatCalHours(tot.totalOT) });
+             descBox.innerHTML = fillTemplate(t('attCalDescAtt'), { name: nmFull(emp), id: emp.id, month: monthVal, work: formatCalHours(tot.totalWork), ot: formatCalHours(tot.totalOT) });
              descBox.style.display = 'block';
          } else {
              descBox.style.display = 'none';
@@ -11841,7 +11841,7 @@ function hrDropPlan(empId, date, ups, acc, keepOt) {
      const modal = document.getElementById('acEditModal');
      modal.dataset.empId = empId;
      modal.dataset.date = dateStr;
-     document.getElementById('acEditTitleInfo').innerText = ': ' + (emp.name || '-') + ' (' + emp.id + ') - ' + dateStr;
+     document.getElementById('acEditTitleInfo').innerText = ': ' + nmFull(emp) + ' (' + emp.id + ') - ' + dateStr;
      renderAttCalEditList();
      modal.style.display = 'flex';
  }
@@ -13204,13 +13204,13 @@ function openEmployeeDetailModal(index) {
  function onLeaveEmpIdInput() {
      const idVal = document.getElementById('leaveEmpId').value.trim();
      const found = employees.find(e => e.id === idVal);
-     document.getElementById('leaveEmpName').value = found ? found.name : '';
+     document.getElementById('leaveEmpName').value = found ? nmFull(found) : '';
  }
 
  function onLeaveEmpNameInput() {
      const nameVal = document.getElementById('leaveEmpName').value.trim().toLowerCase();
      if (!nameVal) { document.getElementById('leaveEmpId').value = ''; return; }
-     const found = employees.find(e => (e.name || '').toLowerCase() === nameVal);
+     const found = employees.find(e => (e.name || '').toLowerCase() === nameVal || nmFull(e).toLowerCase() === nameVal);
      if (found) document.getElementById('leaveEmpId').value = found.id;
  }
 
@@ -14849,7 +14849,7 @@ function mrWorkChange(key, el) {
 }
 function mrCheckMonth() {
     var rows = [];
-    employees.forEach(function (e) { var p = mrProblems(e); if (p.length) rows.push('<div style="padding:8px 10px;border:1px solid #fecaca;background:#fef2f2;border-radius:8px;margin-bottom:6px;"><b>' + escapeHtmlText(e.id + ' ' + (e.name || '')) + '</b><div style="font-size:12px;color:#991b1b;">' + p.map(escapeHtmlText).join('<br>') + '</div></div>'); });
+    employees.forEach(function (e) { var p = mrProblems(e); if (p.length) rows.push('<div style="padding:8px 10px;border:1px solid #fecaca;background:#fef2f2;border-radius:8px;margin-bottom:6px;"><b>' + escapeHtmlText(e.id + ' ' + nmFull(e)) + '</b><div style="font-size:12px;color:#991b1b;">' + p.map(escapeHtmlText).join('<br>') + '</div></div>'); });
     var d = document.createElement('div'); d.style.cssText = 'position:fixed;inset:0;background:rgba(15,23,42,.55);z-index:100002;display:flex;align-items:center;justify-content:center;padding:16px;';
     d.innerHTML = '<div style="background:#fff;border-radius:14px;padding:16px;max-width:520px;width:100%;max-height:80vh;display:flex;flex-direction:column;"><div style="font-weight:700;margin-bottom:8px;">' + escapeHtmlText(fillTemplate(t('mrCheckTitle'), { m: hrYmName(mrYm()) })) + '</div><div style="overflow:auto;flex:1;">' + (rows.length ? rows.join('') : '<div style="padding:10px;color:#15803d;font-weight:700;">' + escapeHtmlText(t('mrCheckOk')) + '</div>') + '</div><div style="text-align:right;margin-top:10px;"><button type="button" class="quick-btn" id="mrCkClose">' + escapeHtmlText(t('mrClose')) + '</button></div></div>';
     document.body.appendChild(d); d.querySelector('#mrCkClose').onclick = function () { d.remove(); };
@@ -15053,7 +15053,7 @@ function hrAttInput(el) { var mx = parseFloat(el.getAttribute('data-max')); var 
      withBusyButton(submitBtn, () => db.ref('requests').push(payload).then(() => {
          formEl.reset();
          document.getElementById('reqEmpId').value = loggedInEmp.id;
-         document.getElementById('reqName').value = loggedInEmp.name;
+         document.getElementById('reqName').value = nmFull(loggedInEmp);
          document.getElementById('reqMethod').value = 'System';
          document.getElementById('reqDate').valueAsDate = new Date();
          document.getElementById('reqContactGroup').style.display = 'none';
@@ -15182,7 +15182,7 @@ function hrAttInput(el) { var mx = parseFloat(el.getAttribute('data-max')); var 
      html += sorted.map(r => `
          <div class="detail-item" style="flex-direction:column; align-items:flex-start; gap:6px; margin-bottom:10px;">
              <div style="display:flex; justify-content:space-between; width:100%;">
-                 <span class="lbl">${r.name || '-'} (${r.empId || '-'})</span>
+                 <span class="lbl">${nmById(r.empId, r.name) || '-'} (${r.empId || '-'})</span>
                  <span class="val" style="color:${r.status === 'processed' ? '#15803d' : '#d97706'};">${r.status === 'processed' ? t('statusProcessed') : t('statusPending')}</span>
              </div>
              ${r.timestamp ? `<div style="font-size:10px; color:#94a3b8;">${t('lblNotifReceivedAt')}: ${formatNotifReceivedAt(r.timestamp)}</div>` : ''}
@@ -15736,14 +15736,14 @@ async function notifyShiftCalendarReady() {
 function onCardReadyEmpIdInput() {
     const idVal = document.getElementById('cardReadyEmpId').value.trim();
     const found = employees.find(e => e.id === idVal);
-    document.getElementById('cardReadyEmpName').value = found ? found.name : '';
+    document.getElementById('cardReadyEmpName').value = found ? nmFull(found) : '';
     document.getElementById('cardReadyDepartment').value = found ? (found.department || '') : '';
 }
 
 function onCardReadyEmpNameInput() {
     const nameVal = document.getElementById('cardReadyEmpName').value.trim().toLowerCase();
     if (!nameVal) { document.getElementById('cardReadyEmpId').value = ''; return; }
-    const found = employees.find(e => (e.name || '').toLowerCase() === nameVal);
+    const found = employees.find(e => (e.name || '').toLowerCase() === nameVal || nmFull(e).toLowerCase() === nameVal);
     if (found) {
         document.getElementById('cardReadyEmpId').value = found.id;
         document.getElementById('cardReadyDepartment').value = found.department || '';
@@ -18785,7 +18785,7 @@ function renderNotifications() {
         items.push({ kind: BELL_TYPE[r.type] || 'other', status: r.status === 'processed' ? 'processed' : 'pending', isNew: isNew, ts: r.timestamp || 0, html: `
          <div class="detail-item" style="flex-direction:column; align-items:flex-start; gap:6px; margin-bottom:10px;${isNew ? ' border-left:4px solid #ef4444;' : ''}">
              <div style="display:flex; justify-content:space-between; width:100%;">
-                 <span class="lbl">${r.name || '-'} (${r.empId || '-'})${isNew ? newTag : ''}</span>
+                 <span class="lbl">${nmById(r.empId, r.name) || '-'} (${r.empId || '-'})${isNew ? newTag : ''}</span>
                  <span class="val" style="color:${r.status === 'processed' ? '#15803d' : '#d97706'};">${r.status === 'processed' ? t('statusProcessed') : t('statusPending')}</span>
              </div>
              ${r.timestamp ? `<div style="font-size:10px; color:#94a3b8;">${t('lblNotifReceivedAt')}: ${formatNotifReceivedAt(r.timestamp)}</div>` : ''}
@@ -19487,7 +19487,7 @@ function msRenderTable() {
         if (bf) { const m0 = msMerge(e0); if (!m0._has || !balOk(bf, m0.carried, m0.exceeded)) return; }
         n++;
         const e = msMerge(e0);
-        if (!e._has) { html += '<tr><td></td><td><b>' + dgEsc(e.id) + '</b></td><td>' + dgEsc(e.name) + '</td><td>' + dgEsc(e.department || '-') + '</td><td colspan="23" style="color:#b45309;">' + dgEsc(t('msNotStarted')) + '</td></tr>'; return; }
+        if (!e._has) { html += '<tr><td></td><td><b>' + dgEsc(e.id) + '</b></td><td>' + dgEsc(nmFull(e)) + '</td><td>' + dgEsc(e.department || '-') + '</td><td colspan="23" style="color:#b45309;">' + dgEsc(t('msNotStarted')) + '</td></tr>'; return; }
         try {
             const jp = (e.joinDate || '').split('.'), join = jp.length === 3 ? new Date(jp[0], jp[1] - 1, jp[2]) : null;
             const twm = join ? (now.getFullYear() - join.getFullYear()) * 12 + (now.getMonth() - join.getMonth()) : 0;
@@ -19495,7 +19495,7 @@ function msRenderTable() {
             const rem = (st && en) ? getRemainingCycleMonths(st, en, now) : 0;
             const used = (parseFloat(e.prevUsed) || 0) + (parseFloat(e.monthUsed) || 0) - (parseFloat(e.exceeded) || 0), remaining = (parseFloat(e.entitled) || 0) - used + (parseFloat(e.carried) || 0);
             const f = function (v) { return (parseFloat(v) || 0).toFixed(2); };
-            html += '<tr><td><button class="btn-view" onclick="msDetail(' + idx + ')" title="View">' + ICON_VIEW + '</button></td><td><b>' + dgEsc(e.id) + '</b></td><td>' + dgEsc(e.name) + '</td><td>' + dgEsc(e.department || '-') + '</td><td>' + dgEsc(e.joinDate) + '</td><td>' + Math.floor(Math.max(0, twm) / 12) + '</td>' +
+            html += '<tr><td><button class="btn-view" onclick="msDetail(' + idx + ')" title="View">' + ICON_VIEW + '</button></td><td><b>' + dgEsc(e.id) + '</b></td><td>' + dgEsc(nmFull(e)) + '</td><td>' + dgEsc(e.department || '-') + '</td><td>' + dgEsc(e.joinDate) + '</td><td>' + Math.floor(Math.max(0, twm) / 12) + '</td>' +
                 '<td>' + f(e.entitled) + '</td><td>' + dgEsc(st) + '</td><td>' + dgEsc(en) + '</td><td>' + dgEsc(yr) + '</td><td><b>' + rem + '</b></td><td>' + f(e.entitled) + '</td><td>' + alSplit(e).old.toFixed(2) + '</td><td>' + f(e.prevUsed) + '</td><td>' + f(e.monthUsed) + '</td><td><b>' + used.toFixed(2) + '</b></td>' +
                 '<td style="color:' + (e.exceeded > 0 ? '#dc2626' : '#64748b') + '; font-weight:bold;">' + f(e.exceeded) + '</td><td style="color:' + (remaining < 0 ? '#dc2626' : '#15803d') + '; font-weight:bold;">' + alSplit(e).neu.toFixed(2) + '</td>' +
                 '<td>' + f(e.workHours) + '</td><td>' + f(e.otHours) + '</td><td>' + f(e.leaveAL) + '</td><td>' + f(e.leaveSpecial) + '</td><td>' + f(e.leaveMaternity) + '</td><td>' + f(e.leaveTravel) + '</td><td>' + f(e.leavePersonal) + '</td><td>' + f(e.leaveSick) + '</td><td>' + f(e.leaveOther) + '</td><td>' + dgEsc(e.remarks || '-') + '</td></tr>';
@@ -19510,7 +19510,7 @@ function msDetail(idx) {
     const emp = msMerge(e0), now = new Date();
     const qd = computeQueryData(emp, now, 0), carried = parseFloat(emp.carried) || 0, hasC = qd.oldLeft > 0, exceeds = qd.allowedThisMonth < 0, f = function (v) { return (parseFloat(v) || 0).toFixed(2); };
     const S = function (id, v) { const el = document.getElementById(id); if (el) el.innerText = v; };
-    S('cdTitleInfo', ': ' + (emp.name || '-') + ' (' + (emp.id || '-') + ')'); S('cdQueryShift', '');
+    S('cdTitleInfo', ': ' + nmFull(emp) + ' (' + (emp.id || '-') + ')'); S('cdQueryShift', '');
     const sh = document.getElementById('cdQueryShift'); if (sh) sh.textContent = t('msViewOnlyTag') + ' - ' + dgOrgNameOf(msKey);
     S('cdId', emp.id || '-'); S('cdName', nmFull(emp) || '-'); S('cdDept', emp.department || '-'); S('cdJoin', emp.joinDate || '-'); S('cdYears', qd.workYears); S('cdEntitled', f(emp.entitled));
     S('cdStart', qd.startStr || '-'); S('cdEnd', qd.endStr || '-'); S('cdRenewal', qd.renewalMonths); S('cdYearRange', qd.yearRangeStr || '-'); S('cdMonths', qd.monthsOfService); S('cdTotalAL', f(emp.entitled));
@@ -21852,7 +21852,7 @@ document.addEventListener('DOMContentLoaded', pgScan);
                      db.ref('notifications').push({
                          targetId: 'ADMIN',
                          message: t('notifNeedsAttentionRenewalTitle'),
-                         description: fillTemplate(t('notifNeedsAttentionRenewalMsg'), { name: emp.name, id: emp.id }),
+                         description: fillTemplate(t('notifNeedsAttentionRenewalMsg'), { name: nmFull(emp), id: emp.id }),
                          relatedRequestKey: null,
                          timestamp: Date.now()
                      }).catch(function () {});
@@ -21866,7 +21866,7 @@ document.addEventListener('DOMContentLoaded', pgScan);
                      db.ref('notifications').push({
                          targetId: 'ADMIN',
                          message: t('notifNeedsAttentionExceededTitle'),
-                         description: fillTemplate(t('notifNeedsAttentionExceededMsg'), { name: emp.name, id: emp.id }),
+                         description: fillTemplate(t('notifNeedsAttentionExceededMsg'), { name: nmFull(emp), id: emp.id }),
                          relatedRequestKey: null,
                          timestamp: Date.now()
                      }).catch(function () {});
@@ -22099,14 +22099,14 @@ document.addEventListener('DOMContentLoaded', pgScan);
  function onCertEmpIdInput() {
      const idVal = document.getElementById('certEmpId').value.trim();
      const found = employees.find(e => e.id === idVal);
-     document.getElementById('certEmpName').value = found ? found.name : '';
+     document.getElementById('certEmpName').value = found ? nmFull(found) : '';
      restoreCertCompanyName();
  }
 
  function onCertEmpNameInput() {
      const nameVal = document.getElementById('certEmpName').value.trim().toLowerCase();
      if (!nameVal) { document.getElementById('certEmpId').value = ''; return; }
-     const found = employees.find(e => (e.name || '').toLowerCase() === nameVal);
+     const found = employees.find(e => (e.name || '').toLowerCase() === nameVal || nmFull(e).toLowerCase() === nameVal);
      if (found) document.getElementById('certEmpId').value = found.id;
  }
 
@@ -22139,8 +22139,8 @@ document.addEventListener('DOMContentLoaded', pgScan);
 
      const isResigned = emp.status === 'Resigned';
      const bodyText = isResigned
-         ? fillTemplate(tLang('certBodyResigned', lang), { name: emp.name, id: emp.id, company: company, department: emp.department || '-', joinDate: emp.joinDate || '-', endDate: emp.resignedDate || '-' })
-         : fillTemplate(tLang('certBodyActive', lang), { name: emp.name, id: emp.id, company: company, department: emp.department || '-', joinDate: emp.joinDate || '-' });
+         ? fillTemplate(tLang('certBodyResigned', lang), { name: nmFull(emp), id: emp.id, company: company, department: emp.department || '-', joinDate: emp.joinDate || '-', endDate: emp.resignedDate || '-' })
+         : fillTemplate(tLang('certBodyActive', lang), { name: nmFull(emp), id: emp.id, company: company, department: emp.department || '-', joinDate: emp.joinDate || '-' });
      const purposeText = purpose ? fillTemplate(tLang('certPurposeLine', lang), { purpose: purpose }) : '';
 
      const win = window.open('', '_blank');
@@ -22353,6 +22353,11 @@ function menuPage(n) {
 .table-responsive.frzOn { overflow: auto; max-height: var(--frzH, 65vh); }
 .frz table.master-tbl { border-collapse: separate; border-spacing: 0; border-left: 1px solid #e2e8f0; border-top: 1px solid #e2e8f0; }
 .frz table.master-tbl th, .frz table.master-tbl td { border-width: 0 1px 1px 0; }
+/* clearer grid lines in the four employee tables, white problem rows */
+.frz table.master-tbl > thead > tr > th, .frz table.master-tbl > tbody > tr > td { border-right: 1px solid #b4c0d0; border-bottom: 1px solid #b4c0d0; }
+.frz table.master-tbl > thead > tr > th { border-bottom: 2px solid #94a3b8; }
+tr.mrRed td { background: #fff !important; }
+
 .frz table.master-tbl > thead > tr > th { position: sticky; top: 0; z-index: 3; background-color: #f1f5f9; border-bottom: 1px solid #cbd5e1; }
 th.srt { cursor: pointer; user-select: none; }
 th.srt:not([data-srt])::after { content: " \21C5"; font-size: 10px; color: #94a3b8; }
@@ -22427,7 +22432,7 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
       var sel = '#' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + ')';
       css += '.frz ' + sel.split(', ').join(', .frz ') + '{position:sticky;left:' + left + 'px;z-index:2;background-color:#fff;}';
       css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '){z-index:5;background-color:#f1f5f9;}';
-      css += '.frz #' + tb.id + ' > tbody > tr.mrRed > td:nth-child(' + (i + 1) + '){background-color:#fef2f2;}';
+      css += '.frz #' + tb.id + ' > tbody > tr.mrRed > td:nth-child(' + (i + 1) + '){background-color:#fff;}';
       if (colKind(h[i]) === 'act') css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), .frz #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + '){padding-left:3px;padding-right:3px;}';
       if (n === idx.length - 1) css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), .frz #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + '){border-right:2px solid #94a3b8;box-shadow:6px 0 6px -3px rgba(15,23,42,.28);}';
       var cell = h[i]; left += cell.offsetWidth || 70;
@@ -23009,6 +23014,7 @@ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',
 })();
 /* ===== Check Record: name next to the ID, e.g. គង់ ធាន Kong Thean ===== */
 window.nmFull = function (e) { return e ? ((e.name || '') + (e.nameEn ? ' ' + e.nameEn : '')) : ''; };
+window.nmById = function (id, fb) { var s = String(id == null ? '' : id).trim(), l = (typeof employees !== 'undefined') ? employees : []; for (var i = 0; i < l.length; i++) if (String(l[i].id).trim() === s) return window.nmFull(l[i]); return fb || ''; };
 window.nmCell = function (e, mode) {
   var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var n = esc(e && e.name), en = e && e.nameEn ? esc(e.nameEn) : '';
@@ -23089,6 +23095,7 @@ window.nmCopyEn = async function () {
   if (!n) { showToast(false, 'No English names found in Personal Information'); return; }
   try { await db.ref().update(up); showToast(true, n + ' English names copied'); } catch (e) { showToast(false); }
 };
+
 </script>
 </body>
 </html>
