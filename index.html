@@ -27853,7 +27853,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
 #shiftCalendarTable, #attCalTable { border-collapse: separate !important; border-spacing: 0 !important; }
 #shiftCalendarTable th, #shiftCalendarTable td, #attCalTable th, #attCalTable td, #calFloat th { border-width: 0 1px 1px 0 !important; border-style: solid !important; border-color: #e2e8f0 !important; }
 #calFloat table { border-collapse: separate !important; border-spacing: 0 !important; }
-.table-responsive.calW { overflow-x: auto; overflow-y: hidden; max-height: none !important; }
+.table-responsive.calW { overflow: auto; max-height: var(--calH, 60vh) !important; }
 #shiftCalendarTable > tbody > tr > td:nth-child(1), #attCalTable > tbody > tr > td:nth-child(1), #shiftCalendarTable > thead > tr:first-child > th:nth-child(1), #attCalTable > thead > tr:first-child > th:nth-child(1) { position: sticky; left: 0; z-index: 2; background-color: #fff; }
 #shiftCalendarTable > tbody > tr > td:nth-child(2), #attCalTable > tbody > tr > td:nth-child(2), #shiftCalendarTable > thead > tr:first-child > th:nth-child(2), #attCalTable > thead > tr:first-child > th:nth-child(2) { position: sticky; left: var(--w1, 70px); z-index: 2; background-color: #fff; box-shadow: 4px 0 5px -3px rgba(15,23,42,.25); }
 #shiftCalendarTable > thead > tr:first-child > th:nth-child(-n+2), #attCalTable > thead > tr:first-child > th:nth-child(-n+2) { background-color: #f1f5f9; z-index: 3; }
@@ -27862,7 +27862,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
 #calFloat th { box-sizing: border-box; }
 #calFloat tr:first-child > th:nth-child(1), #calFloat tr:first-child > th:nth-child(2) { position: sticky; z-index: 3; background-color: #f1f5f9; }
 #calFloat tr:first-child > th:nth-child(1) { left: 0; }
-#pg_shiftCalendarTable, #pg_attCalTable { position: sticky; bottom: 8px; z-index: 40; background: #fff; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 -2px 10px rgba(15,23,42,.18); padding: 8px 76px 8px 14px; }
+#pg_shiftCalendarTable, #pg_attCalTable { position: static; margin-top: 8px; padding: 6px 4px; }
 /* attendance page: Department, Group, Date and Show Employees on one line */
 #tab-att > form { max-width: 1000px !important; }
 #tab-att > form .dg-bar { display: contents !important; }
@@ -27903,8 +27903,9 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
       });
       if (!act) { hide(); return; }
       if (!fl) mk();
-      var tb = act.tb, w = act.w, tbar = topBar(), wr = w.getBoundingClientRect(), hd = tb.tHead.getBoundingClientRect();
-      if (hd.top >= tbar || wr.bottom < tbar + hd.height + 40) { fl.style.display = 'none'; return; }
+      var tb = act.tb, w = act.w; w.style.setProperty('--calH', Math.max(240, Math.round(window.innerHeight - 210)) + 'px');
+      var wr = w.getBoundingClientRect(), hd = tb.tHead.getBoundingClientRect(), tbar = Math.max(topBar(), Math.round(wr.top));
+      if (hd.top >= tbar - 1 || wr.bottom < tbar + hd.height + 40) { fl.style.display = 'none'; return; }
       var ths = tb.tHead.querySelectorAll('th'), wd = '';
       for (var i = 0; i < ths.length; i++) wd += Math.round(ths[i].getBoundingClientRect().width) + ',';
       var key = tb.id + '|' + tb.tHead.innerHTML.length + '|' + wd + '|' + tb.offsetWidth + '|' + (tb.tHead.rows[0] ? tb.tHead.rows[0].offsetHeight : 0);
@@ -27918,7 +27919,7 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
         var n2 = th2.querySelector('tr:first-child > th:nth-child(2)'); if (n2) n2.style.left = (tb.style.getPropertyValue('--w1') || '70px');
         fl.innerHTML = ''; fl.appendChild(t);
       }
-      fl.style.left = wr.left + 'px'; fl.style.width = w.clientWidth + 'px'; fl.style.top = tbar + 'px'; fl.style.height = Math.round(hd.height) + 'px'; fl.style.display = 'block'; fl.scrollLeft = w.scrollLeft;
+      fl.style.left = wr.left + 'px'; fl.style.width = w.clientWidth + 'px'; fl.style.boxShadow = 'none'; fl.style.top = tbar + 'px'; fl.style.height = Math.round(hd.height) + 'px'; fl.style.display = 'block'; fl.scrollLeft = w.scrollLeft; if (!w._cs) { w._cs = 1; w.addEventListener('scroll', soon); }
     } catch (e) {}
   }
   var rq = 0; function soon() { if (rq) return; rq = requestAnimationFrame(function () { rq = 0; run(); }); }
