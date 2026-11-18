@@ -1404,6 +1404,8 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
  <!-- nav-monthly and nav-employee buttons were moved off the top bar in v5.00 (still reachable from Main Menu below) -->
  <button id="nav-monthly" onclick="switchTab('tab-monthly', this)" data-i18n="navMonthlyReport" style="display:none;">Monthly Report</button>
  <button id="nav-monthlyal" onclick="switchTab('tab-monthlyal', this)" data-i18n="navMonthlyAL" style="display:none;">Monthly Annual Leave</button>
+ <button id="nav-meeting" onclick="switchTab('tab-meeting', this)" style="display:none;">Call Meeting</button>
+ <button id="nav-health" onclick="switchTab('tab-health', this)" style="display:none;">Health Check</button>
  <button id="nav-employee" onclick="switchTab('tab-employee', this)" data-i18n="navEmployee" style="display:none;">Employee</button>
  <!-- New v5.00 sections, reachable only from Main Menu, same "hidden nav button" wiring pattern -->
  <button id="nav-shift" onclick="switchTab('tab-shift', this)" data-i18n="navShiftRoster" style="display:none;">Shift Roster</button>
@@ -2056,6 +2058,34 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
  </div>
  
  <!-- TAB 6: EMPLOYEE LIST -->
+<div id="tab-meeting" class="tab-panel">
+  <div class="mhTop"><h3 id="mhMtTitle">Call Meeting</h3><button type="button" class="quick-btn slate mhBack" onclick="triggerNav('tab-employee','nav-employee')">&larr; <span class="mhL" data-k="back">Employee</span></button></div>
+  <div class="dash-card">
+    <div class="mhRow">
+      <div class="form-group"><label class="mhL" data-k="mtName">Meeting title</label><input type="text" id="mhTitle" placeholder=""></div>
+      <div class="form-group"><label class="mhL" data-k="date">Date</label><input type="date" id="mhDate"></div>
+    </div>
+    <div class="mhRow">
+      <div class="form-group" style="flex:1;min-width:220px;position:relative;"><label class="mhL" data-k="addEmp">Add employee (ID or name)</label><input type="text" id="mhSearch" autocomplete="off" oninput="mhFind()"><div id="mhHits" class="mhHits"></div></div>
+      <div class="form-group"><label class="mhL" data-k="orAddDept">Or add a whole department</label><div style="display:flex;gap:6px;"><select id="mhDeptSel"></select><button type="button" class="quick-btn slate mhSm" onclick="mhAddDept()"><span class="mhL" data-k="add">Add</span></button></div></div>
+    </div>
+    <div class="mhInfo"><span id="mhCount">0</span> <span class="mhL" data-k="people">people</span> <button type="button" class="quick-btn slate mhSm" onclick="mhClear()"><span class="mhL" data-k="clear">Clear list</span></button> <button type="button" class="quick-btn green mhSm" onclick="mhPrintMeeting()">&#128424; <span class="mhL" data-k="print">Print sheet</span></button></div>
+    <div class="table-responsive"><table class="master-tbl" id="mhTbl"><thead><tr><th>No</th><th>ID</th><th class="mhL" data-k="name">Name</th><th class="mhL" data-k="dept">Department</th><th></th></tr></thead><tbody></tbody></table></div>
+    <details class="mhZh"><summary class="mhL" data-k="zhTitle">Department names in Chinese (type once, used on every printed sheet)</summary><div id="mhZhBox"></div></details>
+  </div>
+</div>
+<div id="tab-health" class="tab-panel">
+  <div class="mhTop"><h3 id="mhHcTitle">Health Check</h3><button type="button" class="quick-btn slate mhBack" onclick="triggerNav('tab-employee','nav-employee')">&larr; <span class="mhL" data-k="back">Employee</span></button></div>
+  <div class="dash-card">
+    <div class="mhRow">
+      <div class="form-group"><label class="mhL" data-k="hcDate">Health check date</label><input type="date" id="hcDate" onchange="hcRender()"></div>
+      <div class="form-group" style="flex:1;"><label class="mhL" data-k="years">Years of work (tap one or more)</label><div id="hcYears" class="mhChips"></div></div>
+    </div>
+    <div class="mhNote mhL" data-k="rule">Years of work = health check year &minus; join year. Joined 20 Nov 2024 &rarr; in 2026 that is 2 years (no need to wait for the day).</div>
+    <div class="mhInfo"><b id="hcCount">0</b> <span class="mhL" data-k="people">people</span> <button type="button" class="quick-btn green mhSm" onclick="hcPrint()">&#128424; <span class="mhL" data-k="print">Print sheet</span></button></div>
+    <div class="table-responsive"><table class="master-tbl" id="hcTbl"><thead><tr><th>No</th><th>ID</th><th class="mhL" data-k="name">Name</th><th class="mhL" data-k="dept">Department</th><th class="mhL" data-k="joined">Joined</th><th class="mhL" data-k="yrs">Years</th></tr></thead><tbody></tbody></table></div>
+  </div>
+</div>
  <div id="tab-employee" class="tab-panel">
      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
          <div>
@@ -12581,7 +12611,7 @@ function escapeHtmlText(s) {
  let departments = [];
  db.ref('departments').on('value', (snapshot) => {
      const data = snapshot.val();
-     const _dgd = data || {}; dgOrg = Object.keys(_dgd._org || {}).map(k => ({ key: k, name: (_dgd._org[k] && _dgd._org[k].name) || '' })); departments = Object.keys(_dgd).filter(k => k.charAt(0) !== '_').map(key => ({ firebaseKey: key, name: (_dgd[key] && _dgd[key].name) || '', parent: (_dgd[key] && _dgd[key].parent) || '' }));
+     const _dgd = data || {}; dgOrg = Object.keys(_dgd._org || {}).map(k => ({ key: k, name: (_dgd._org[k] && _dgd._org[k].name) || '', zh: (_dgd._org[k] && _dgd._org[k].zh) || '' })); departments = Object.keys(_dgd).filter(k => k.charAt(0) !== '_').map(key => ({ firebaseKey: key, name: (_dgd[key] && _dgd[key].name) || '', parent: (_dgd[key] && _dgd[key].parent) || '' }));
      if (departments.length === 0 && !data) {
          // Seed with generic placeholders the first time this feature is used, so the dropdowns aren't empty.
          ['Department 1', 'Department 2', 'Department 3'].forEach(name => db.ref('departments').push({ name }));
@@ -27869,6 +27899,122 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
 #tab-shift .dg-bar select { height: 28px; box-sizing: border-box; padding: 0 8px !important; }
 #tab-shift .dg-bar .dg-clear { height: 28px !important; padding: 0 12px !important; }
 </style>
+<style id="mhCss">/* Call Meeting + Health Check pages (Employee menu) */
+.mhTop{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.mhBack,.mhSm{width:auto!important;min-width:auto!important;min-height:auto!important;padding:6px 14px!important;font-size:12px!important;flex-direction:row!important;gap:6px!important}
+.mhRow{display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px}
+.mhRow .form-group{margin-bottom:0}
+.mhInfo{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 10px;font-size:13px}
+.mhHits{position:absolute;left:0;right:0;top:100%;z-index:30;background:#fff;border:1px solid #cbd5e1;border-radius:8px;box-shadow:0 6px 18px rgba(15,23,42,.15);max-height:260px;overflow:auto;display:none}
+.mhHits div{padding:7px 10px;cursor:pointer;font-size:13px;border-bottom:1px solid #f1f5f9}.mhHits div:hover{background:#f0fdfa}
+.mhChips{display:flex;gap:6px;flex-wrap:wrap}.mhChips button{min-width:38px;padding:7px 12px;border:2px solid #0d9488;background:#fff;color:#0d9488;border-radius:8px;font-weight:700;cursor:pointer}.mhChips button.on{background:#0d9488;color:#fff}
+.mhNote{background:#f0f9ff;border:1px solid #bae6fd;color:#0c4a6e;border-radius:8px;padding:8px 12px;font-size:12px;margin-bottom:8px}
+.mhZh{margin-top:14px;font-size:12px}.mhZh summary{cursor:pointer;font-weight:700;color:#334155}
+.mhZhRow{display:flex;gap:8px;align-items:center;margin:6px 0}.mhZhRow span{min-width:180px}.mhZhRow input{padding:5px 8px;border:1px solid #cbd5e1;border-radius:6px;width:160px}
+</style>
+<script id="mhJs">
+(function () {
+  var S = {
+    en: { back: 'Employee', mtName: 'Meeting title', date: 'Date', addEmp: 'Add employee (ID or name)', orAddDept: 'Or add a whole department', add: 'Add', people: 'people', clear: 'Clear list', print: 'Print sheet', name: 'Name', dept: 'Department', zhTitle: 'Department names in Chinese (type once, used on every printed sheet)', hcDate: 'Health check date', years: 'Years of work (tap one or more)', rule: 'Years of work = health check year − join year. Joined 20 Nov 2024 → in 2026 that is 2 years (no need to wait for the day).', joined: 'Joined', yrs: 'Years', mtT: 'Call Meeting', hcT: 'Health Check', btnMt: 'Call Meeting', btnHc: 'Health Check', allDept: 'Choose department', none: 'No employees', noPop: 'Allow pop-ups to print', saved: 'Saved' },
+    km: { back: 'បុគ្គលិក', mtName: 'ចំណងជើងប្រជុំ', date: 'កាលបរិច្ឆេទ', addEmp: 'បន្ថែមបុគ្គលិក (អត្តលេខ ឬឈ្មោះ)', orAddDept: 'ឬបន្ថែមទាំងនាយកដ្ឋាន', add: 'បន្ថែម', people: 'នាក់', clear: 'សម្អាតបញ្ជី', print: 'បោះពុម្ពតារាង', name: 'ឈ្មោះ', dept: 'នាយកដ្ឋាន', zhTitle: 'ឈ្មោះនាយកដ្ឋានជាភាសាចិន (វាយម្តង ប្រើគ្រប់តារាង)', hcDate: 'ថ្ងៃពិនិត្យសុខភាព', years: 'ឆ្នាំធ្វើការ (ចុចមួយ ឬច្រើន)', rule: 'ឆ្នាំធ្វើការ = ឆ្នាំពិនិត្យ − ឆ្នាំចូលធ្វើការ។', joined: 'ចូលធ្វើការ', yrs: 'ឆ្នាំ', mtT: 'កោះប្រជុំ', hcT: 'ពិនិត្យសុខភាព', btnMt: 'កោះប្រជុំ', btnHc: 'ពិនិត្យសុខភាព', allDept: 'ជ្រើសរើសនាយកដ្ឋាន', none: 'គ្មានបុគ្គលិក', noPop: 'សូមអនុញ្ញាត pop-up', saved: 'បានរក្សាទុក' },
+    zh: { back: '员工', mtName: '会议名称', date: '日期', addEmp: '添加员工（工号或姓名）', orAddDept: '或添加整个部门', add: '添加', people: '人', clear: '清空列表', print: '打印表格', name: '姓名', dept: '部门', zhTitle: '部门中文名（输入一次，每张表都使用）', hcDate: '体检日期', years: '工龄（可多选）', rule: '工龄 = 体检年份 − 入职年份。', joined: '入职', yrs: '年', mtT: '召集会议', hcT: '健康体检', btnMt: '召集会议', btnHc: '健康体检', allDept: '选择部门', none: '没有员工', noPop: '请允许弹窗以打印', saved: '已保存' }
+  };
+  function L(k) { var l = (typeof currentLang === 'string' && S[currentLang]) ? currentLang : 'en'; return (S[l] && S[l][k]) || S.en[k] || k; }
+  function E(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function today() { var d = new Date(Date.now() + 7 * 3600000); return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()); }
+  function emps() { return (typeof employees !== 'undefined' ? employees : []); }
+  function orgs() { return (typeof dgOrg !== 'undefined' ? dgOrg : []); }
+  function parentOf(e) { try { return dgParentOf(e.department || '') || ''; } catch (x) { return ''; } }
+  function zhDept(e) { var p = parentOf(e), o = orgs().filter(function (x) { return x.name === p; })[0]; return (o && o.zh) || p || (e.department || ''); }
+  function lang() { document.querySelectorAll('#tab-meeting .mhL,#tab-health .mhL').forEach(function (el) { el.textContent = L(el.getAttribute('data-k')); }); var a = document.getElementById('mhMtTitle'); if (a) a.textContent = L('mtT'); var b = document.getElementById('mhHcTitle'); if (b) b.textContent = L('hcT'); var m = document.getElementById('mhBtnMt'); if (m) m.textContent = L('btnMt'); var h = document.getElementById('mhBtnHc'); if (h) h.textContent = L('btnHc'); }
+
+  /* ---------- English names: read only for the people on the sheet (empDocs/<key>/_info/f/nameEn) ---------- */
+  var EN = {};
+  function loadEn(e, done) {
+    if (EN[e.firebaseKey] !== undefined) { done && done(); return; }
+    EN[e.firebaseKey] = '';
+    try { db.ref('empDocs/' + e.firebaseKey + '/_info/f/nameEn').once('value').then(function (s) { EN[e.firebaseKey] = String(s.val() || ''); done && done(); }).catch(function () { done && done(); }); } catch (x) { done && done(); }
+  }
+
+  /* ---------- Call Meeting ---------- */
+  var sel = [];
+  function mtInit() {
+    var d = document.getElementById('mhDate'); if (d && !d.value) d.value = today();
+    var s = document.getElementById('mhDeptSel'); if (s) { var cur = s.value; s.innerHTML = '<option value="">' + E(L('allDept')) + '</option>' + orgs().map(function (o) { return '<option value="' + E(o.name) + '">' + E(o.name) + (o.zh ? ' / ' + E(o.zh) : '') + '</option>'; }).join(''); s.value = cur; }
+    zhBox(); mtRender(); lang();
+  }
+  function zhBox() {
+    var b = document.getElementById('mhZhBox'); if (!b) return; if (b.contains(document.activeElement) && document.activeElement.tagName === 'INPUT') return;
+    b.innerHTML = orgs().map(function (o) { return '<div class="mhZhRow"><span>' + E(o.name) + '</span><input type="text" value="' + E(o.zh || '') + '" placeholder="水廠" data-k="' + E(o.key) + '" onchange="mhSaveZh(this)"></div>'; }).join('') || '-';
+  }
+  window.mhSaveZh = function (inp) { var k = inp.getAttribute('data-k'); try { db.ref('departments/_org/' + k + '/zh').set(inp.value.trim() || null).then(function () { showToast(true, L('saved')); }).catch(function () { showToast(false); }); } catch (e) { showToast(false); } };
+  window.mhFind = function () {
+    var q = (document.getElementById('mhSearch').value || '').trim().toLowerCase(), box = document.getElementById('mhHits');
+    if (!q) { box.style.display = 'none'; return; }
+    var hits = emps().filter(function (e) { return e.status !== 'Resigned' && sel.indexOf(e.firebaseKey) < 0 && (String(e.id).toLowerCase().indexOf(q) >= 0 || String(e.name || '').toLowerCase().indexOf(q) >= 0); }).slice(0, 12);
+    box.innerHTML = hits.map(function (e) { return '<div onclick="mhAdd(\'' + E(e.firebaseKey) + '\')"><b>' + E(e.id) + '</b> &nbsp; ' + E(e.name) + '</div>'; }).join('') || '<div style="color:#94a3b8">' + E(L('none')) + '</div>';
+    box.style.display = 'block';
+  };
+  window.mhAdd = function (k) { if (sel.indexOf(k) < 0) sel.push(k); document.getElementById('mhSearch').value = ''; document.getElementById('mhHits').style.display = 'none'; var e = emps().filter(function (x) { return x.firebaseKey === k; })[0]; if (e) loadEn(e, mtRender); mtRender(); };
+  window.mhAddDept = function () { var v = document.getElementById('mhDeptSel').value; if (!v) return; emps().filter(function (e) { return e.status !== 'Resigned' && parentOf(e) === v; }).forEach(function (e) { if (sel.indexOf(e.firebaseKey) < 0) { sel.push(e.firebaseKey); loadEn(e, mtRender); } }); mtRender(); };
+  window.mhDel = function (k) { sel = sel.filter(function (x) { return x !== k; }); mtRender(); };
+  window.mhClear = function () { sel = []; mtRender(); };
+  function selEmps() { return sel.map(function (k) { return emps().filter(function (e) { return e.firebaseKey === k; })[0]; }).filter(Boolean); }
+  function mtRender() {
+    var tb = document.querySelector('#mhTbl tbody'); if (!tb) return; var list = selEmps();
+    document.getElementById('mhCount').textContent = list.length;
+    tb.innerHTML = list.map(function (e, i) { return '<tr><td>' + (i + 1) + '</td><td><b>' + E(e.id) + '</b></td><td>' + E(e.name) + (EN[e.firebaseKey] ? '<br><span style="color:#64748b;font-size:12px">' + E(EN[e.firebaseKey]) + '</span>' : '') + '</td><td>' + E(zhDept(e)) + '</td><td><button type="button" class="btn-delete" onclick="mhDel(\'' + E(e.firebaseKey) + '\')">&#10005;</button></td></tr>'; }).join('') || '<tr><td colspan="5" style="text-align:center;color:#94a3b8">-</td></tr>';
+  }
+  var CSSP = 'body{font-family:"Khmer OS","Noto Sans Khmer","Noto Sans SC","Microsoft YaHei",Arial,sans-serif;color:#000;margin:0}@page{size:A4;margin:12mm}h1{font-size:17px;text-align:center;margin:0 0 4px;line-height:1.5}h2{font-size:15px;text-align:center;margin:0 0 10px;font-weight:700}table{border-collapse:collapse;width:100%}th,td{border:1.2px solid #2d2a55;padding:6px 8px;text-align:center;font-size:14px;line-height:1.45}th{font-weight:700}tr{page-break-inside:avoid}thead{display:table-header-group}td.en{font-size:13px}';
+  function openPrint(title, body) {
+    var w = window.open('', '_blank'); if (!w) { showToast(false, L('noPop')); return; }
+    w.document.write('<!doctype html><html><head><meta charset="utf-8"><title>' + E(title) + '</title><style>' + CSSP + '</style></head><body>' + body + '</body></html>');
+    w.document.close(); w.focus(); setTimeout(function () { try { w.print(); } catch (e) {} }, 500);
+  }
+  window.mhPrintMeeting = function () {
+    var list = selEmps(); if (!list.length) { showToast(false, L('none')); return; }
+    var ttl = (document.getElementById('mhTitle').value || '').trim(), dt = document.getElementById('mhDate').value || '';
+    var rows = list.map(function (e, i) { return '<tr><td style="width:9%">' + (i + 1) + '</td><td style="width:17%">' + E(e.id) + '</td><td>' + E(e.name) + (EN[e.firebaseKey] ? '<br><span class="en">' + E(EN[e.firebaseKey]) + '</span>' : '') + '</td><td style="width:24%">' + E(zhDept(e)) + '</td><td style="width:20%"></td></tr>'; }).join('');
+    openPrint(ttl || L('mtT'), (ttl ? '<h1>' + E(ttl) + '</h1>' : '') + (dt ? '<h2>' + E(dt) + '</h2>' : '') + '<table><thead><tr><th>序号 / No</th><th>ID</th><th>姓名 / Name</th><th>部门</th><th>签名</th></tr></thead><tbody>' + rows + '</tbody></table>');
+  };
+
+  /* ---------- Health Check ---------- */
+  var yrs = [1];
+  function hcInit() { var d = document.getElementById('hcDate'); if (d && !d.value) d.value = today(); var c = document.getElementById('hcYears'); if (c && !c.firstChild) { var h = ''; for (var i = 1; i <= 10; i++) h += '<button type="button" data-y="' + i + '" onclick="hcTog(' + i + ')">' + i + '</button>'; c.innerHTML = h; } hcRender(); lang(); }
+  window.hcTog = function (n) { var i = yrs.indexOf(n); if (i >= 0) yrs.splice(i, 1); else yrs.push(n); hcRender(); };
+  function hcList() {
+    var d = document.getElementById('hcDate').value || today(), y = parseInt(d.slice(0, 4), 10), out = [];
+    emps().forEach(function (e) { if (e.status === 'Resigned') return; var j = (typeof mlParse === 'function') ? mlParse(e.joinDate) : null; if (!j) return; var n = y - j.y; if (n >= 1 && yrs.indexOf(n) >= 0) out.push({ e: e, n: n, j: e.joinDate }); });
+    out.sort(function (a, b) { return String(a.e.id).localeCompare(String(b.e.id), undefined, { numeric: true }); });
+    return out;
+  }
+  function hcRender() {
+    document.querySelectorAll('#hcYears button').forEach(function (b) { b.classList.toggle('on', yrs.indexOf(+b.getAttribute('data-y')) >= 0); });
+    var l = hcList(); document.getElementById('hcCount').textContent = l.length;
+    document.querySelector('#hcTbl tbody').innerHTML = l.map(function (x, i) { return '<tr><td>' + (i + 1) + '</td><td><b>' + E(x.e.id) + '</b></td><td>' + E(x.e.name) + '</td><td>' + E(zhDept(x.e)) + '</td><td>' + E(x.j) + '</td><td>' + x.n + '</td></tr>'; }).join('') || '<tr><td colspan="6" style="text-align:center;color:#94a3b8">-</td></tr>';
+  }
+  window.hcRender = hcRender;
+  function kh(n) { return String(n).replace(/\d/g, function (d) { return '០១២៣៤៥៦៧៨៩'.charAt(+d); }); }
+  window.hcPrint = function () {
+    var l = hcList(); if (!l.length) { showToast(false, L('none')); return; }
+    var d = document.getElementById('hcDate').value, p = d.split('-'), y = p[0], m = parseInt(p[1], 10), dd = parseInt(p[2], 10);
+    var rows = l.map(function (x, i) { return '<tr style="height:12mm"><td style="width:8%">' + (i + 1) + '</td><td style="width:16%">' + E(x.e.id) + '</td><td style="width:30%">' + E(x.e.name) + '</td><td style="width:23%"></td><td></td></tr>'; }).join('');
+    openPrint('Health check', '<h1>តារាងទទួលឯកសារសម្រាប់ពិនិត្យសុខភាពថ្ងៃទី ' + kh(dd) + ' ឆ្នាំ ' + kh(y) + '</h1><h2>' + y + '年' + m + '月' + dd + '日健康体检资料接收登记表</h2><table><thead><tr><th>ល.រ<br>序号</th><th>អត្តលេខ<br>员工ID</th><th>ឈ្មោះ<br>姓名</th><th>ឯកសារត្រូវបានទទួល<br>已收资料</th><th>សម្គាល់<br>备注</th></tr></thead><tbody>' + rows + '</tbody></table>');
+  };
+
+  /* buttons on the Employee page */
+  function addButtons() {
+    var t = document.getElementById('tab-employee'); if (!t || document.getElementById('mhBtns')) return;
+    var host = t.querySelector('button.quick-btn.green'); if (!host) return;
+    var d = document.createElement('div'); d.id = 'mhBtns'; d.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;align-items:center;';
+    d.innerHTML = '<button type="button" class="quick-btn purple mhSm" onclick="triggerNav(\'tab-meeting\',\'nav-meeting\')">&#128227; <span id="mhBtnMt">Call Meeting</span></button><button type="button" class="quick-btn amber mhSm" onclick="triggerNav(\'tab-health\',\'nav-health\')">&#129658; <span id="mhBtnHc">Health Check</span></button>';
+    host.parentNode.insertBefore(d, host); d.appendChild(host); lang();
+  }
+  setInterval(function () { try { addButtons(); var m = document.getElementById('tab-meeting'), h = document.getElementById('tab-health'); if (m && m.classList.contains('active')) { if (!m._i) { m._i = 1; mtInit(); } else { var s = document.getElementById('mhDeptSel'); if (s && s.options.length - 1 !== orgs().length) mtInit(); zhBox(); } } else if (m) m._i = 0; if (h && h.classList.contains('active')) { if (!h._i) { h._i = 1; hcInit(); } else hcRender(); } else if (h) h._i = 0; lang(); } catch (e) {} }, 700);
+  document.addEventListener('click', function (e) { var b = document.getElementById('mhHits'); if (b && !e.target.closest('#mhSearch,#mhHits')) b.style.display = 'none'; });
+})();
+</script>
 <script id="frzJs">
 (function () {
   /* FRZ: frozen table headings + frozen ID/Name columns + click-to-sort headings. View only: nothing stored changes. */
