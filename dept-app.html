@@ -4066,6 +4066,7 @@ body.dpOwnMode #dpOwnBar{display:flex}
 })();
 /* ===== Check Record: name next to the ID, e.g. គង់ ធាន Kong Thean ===== */
 window.nmFull = function (e) { return e ? ((e.name || '') + (e.nameEn ? ' ' + e.nameEn : '')) : ''; };
+window.nmById = function (id, fb) { var s = String(id == null ? '' : id).trim(), l = (typeof employees !== 'undefined') ? employees : []; for (var i = 0; i < l.length; i++) if (String(l[i].id).trim() === s) return window.nmFull(l[i]); return fb || ''; };
 window.nmCell = function (e, mode) {
   var esc = function (x) { return String(x == null ? '' : x).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
   var n = esc(e && e.name), en = e && e.nameEn ? esc(e.nameEn) : '';
@@ -4147,11 +4148,68 @@ window.nmCopyEn = async function () {
   try { await db.ref().update(up); showToast(true, n + ' English names copied'); } catch (e) { showToast(false); }
 };
 
+/* ===== Chinese language: department and group names, "Chinese Name" label ===== */
+(function () {
+  var orig = new WeakMap(), lastSig = '', pend = false, busy = false;
+  function lang() { return (typeof currentLang === 'string') ? currentLang : 'en'; }
+  function zhMap() {
+    var m = {};
+    try { var x = window.nmZhMap || {}; Object.keys(x).forEach(function (k) { m[k] = x[k]; }); } catch (e) {}
+    try { (typeof dgOrg !== 'undefined' ? dgOrg : []).forEach(function (o) { if (o && o.name && o.zh) m[o.name] = o.zh; }); } catch (e) {}
+    try { (typeof departments !== 'undefined' ? departments : []).forEach(function (g) { if (g && g.name && g.zh) m[g.name] = g.zh; }); } catch (e) {}
+    return m;
+  }
+  var LBL = { zh: '中文名', km: 'ឈ្មោះជាភាសាចិន' };
+  function tr(txt, m, L) {
+    var t = txt.trim(); if (!t) return null;
+    if (t === 'Chinese Name') return LBL[L] || null;
+    if (L !== 'zh') return null;
+    if (m[t]) return txt.replace(t, m[t]);
+    var mm = /^(.*?)(\s*\(\d+\))$/.exec(t); if (mm && m[mm[1]]) return txt.replace(t, m[mm[1]] + mm[2]);
+    return null;
+  }
+  function skip(n) {
+    var p = n.parentNode; if (!p || !p.closest) return true;
+    if (/^(SCRIPT|STYLE|TEXTAREA|INPUT)$/.test(p.nodeName)) return true;
+    return !!p.closest('#dgEditModal, #tab-dept, [data-nmskip]');
+  }
+  function pass() {
+    pend = false; if (busy) return; busy = true;
+    try {
+      fixOptions();
+      var L = lang(), m = zhMap(), sig = L + '|' + JSON.stringify(m);
+      var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null), n, list = [];
+      while ((n = w.nextNode())) list.push(n);
+      list.forEach(function (n) {
+        if (skip(n)) return;
+        var o = orig.has(n) ? orig.get(n) : null;
+        if (o && n.nodeValue !== o.shown) { orig.delete(n); o = null; }   /* the page rewrote it: start over */
+        var base = o ? o.base : n.nodeValue;
+        var out = tr(base, m, L);
+        if (out != null && out !== base) {
+          if (n.nodeValue !== out) { n.nodeValue = out; }
+          orig.set(n, { base: base, shown: out });
+        } else if (o) { n.nodeValue = o.base; orig.delete(n); }
+      });
+    } catch (e) {}
+    busy = false;
+  }
+  function sched() { if (pend || busy) return; pend = true; setTimeout(pass, 120); }
+  /* options need an explicit value before the text changes */
+  function fixOptions() { document.querySelectorAll('option:not([value])').forEach(function (op) { op.setAttribute('value', op.textContent.trim()); op.__nmv = 1; }); }
+  document.addEventListener('DOMContentLoaded', function () { fixOptions(); });
+  new MutationObserver(function (ml) { if (busy) return; fixOptions(); sched(); }).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  setInterval(function () { var sig = lang() + '|' + Object.keys(zhMap()).length; if (sig !== lastSig) { lastSig = sig; fixOptions(); pass(); } }, 400);
+})();
+
 </script>
 <script id="nmDept">
 (function(){var L=['dpExportMaster','dpCmpExport','dpCmpPrint','dpReqPrint','dpGridExport'];
 function w(){L.forEach(function(n){var f=window[n];if(typeof f!=='function'||f.__nmw)return;var g=function(){return NM.run(currentLang,null,f,this,arguments);};g.__nmw=1;window[n]=g;});}
 w();setInterval(w,1500);})();
+</script>
+<script id="nmZhLoad">
+(function () { try { db.ref('departments').on('value', function (sn) { var d = sn.val() || {}, m = {}; Object.keys(d).forEach(function (k) { var o = k === '_org' ? null : d[k]; if (k === '_org') { Object.keys(d._org || {}).forEach(function (j) { var q = d._org[j]; if (q && q.name && q.zh) m[q.name] = q.zh; }); } else if (o && o.name && o.zh) m[o.name] = o.zh; }); window.nmZhMap = m; }); } catch (e) {} })();
 </script>
 </body>
 </html>
