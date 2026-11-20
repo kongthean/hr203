@@ -1408,6 +1408,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
  <button id="nav-monthlyal" onclick="switchTab('tab-monthlyal', this)" data-i18n="navMonthlyAL" style="display:none;">Monthly Annual Leave</button>
  <button id="nav-meeting" onclick="switchTab('tab-meeting', this)" style="display:none;">Call Meeting</button>
  <button id="nav-health" onclick="switchTab('tab-health', this)" style="display:none;">Health Check</button>
+<button id="nav-missing" onclick="switchTab('tab-missing', this)" style="display:none;">Missing Records</button>
  <button id="nav-employee" onclick="switchTab('tab-employee', this)" data-i18n="navEmployee" style="display:none;">Employee</button>
  <!-- New v5.00 sections, reachable only from Main Menu, same "hidden nav button" wiring pattern -->
  <button id="nav-shift" onclick="switchTab('tab-shift', this)" data-i18n="navShiftRoster" style="display:none;">Shift Roster</button>
@@ -2025,6 +2026,22 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
      </div>
  </div>
  
+<div id="tab-missing" class="tab-panel">
+  <div class="mhTop"><h3 class="msL" data-k="t">Missing Records</h3><button type="button" class="quick-btn slate mhBack" onclick="triggerNav('tab-employee','nav-employee')">&larr; <span class="msL" data-k="back">Employee</span></button></div>
+  <div class="dash-card">
+    <div class="mhRow">
+      <div class="form-group"><label class="msL" data-k="from">From</label><input type="date" id="msFrom"></div>
+      <div class="form-group"><label class="msL" data-k="to">To</label><input type="date" id="msTo"></div>
+      <div class="form-group"><label class="msL" data-k="dept">Department</label><select id="msDept" onchange="msDeptChg()"></select></div>
+      <div class="form-group"><label class="msL" data-k="grp">Group</label><select id="msGrp"></select></div>
+      <button type="button" class="quick-btn green mhSm" onclick="msRun()"><span class="msL" data-k="check">Check</span></button>
+      <button type="button" class="quick-btn slate mhSm" onclick="msExport()"><span class="msL" data-k="xl">Excel</span></button>
+      <button type="button" class="quick-btn slate mhSm" onclick="msPrint()"><span class="msL" data-k="pr">Print</span></button>
+    </div>
+    <div id="msOut"></div>
+    <p style="font-size:12px;color:#64748b;margin-top:10px;" class="msL" data-k="note"></p>
+  </div>
+</div>
  <!-- TAB 5: ATTENDANCE -->
  <div id="tab-att" class="tab-panel" style="text-align:center;">
      <h3 data-i18n="attTitle">Attendance</h3>
@@ -28324,7 +28341,7 @@ window.nmCopyEn = async function () {
 
 /* ===== Chinese language: department and group names, "Chinese Name" label ===== */
 (function () {
-  var orig = new WeakMap(), lastSig = '', pend = false, busy = false;
+  var orig = new WeakMap(), lastSig = '';
   function lang() { return (typeof currentLang === 'string') ? currentLang : 'en'; }
   function zhMap() {
     var m = {};
@@ -28333,7 +28350,7 @@ window.nmCopyEn = async function () {
     try { (typeof departments !== 'undefined' ? departments : []).forEach(function (g) { if (g && g.name && g.zh) m[g.name] = g.zh; }); } catch (e) {}
     return m;
   }
-  var LBL = { zh: '中文名', km: 'ឈ្មោះជាភាសាចិន' };
+  var LBL = { zh: '\u4e2d\u6587\u540d', km: '\u1788\u17d2\u1798\u17c4\u17c7\u1787\u17b6\u1797\u17b6\u179f\u17b6\u1785\u17b7\u1793' };
   function tr(txt, m, L) {
     var t = txt.trim(); if (!t) return null;
     if (t === 'Chinese Name') return LBL[L] || null;
@@ -28347,33 +28364,179 @@ window.nmCopyEn = async function () {
     if (/^(SCRIPT|STYLE|TEXTAREA|INPUT)$/.test(p.nodeName)) return true;
     return !!p.closest('#dgEditModal, #tab-dept, [data-nmskip]');
   }
-  function pass() {
-    pend = false; if (busy) return; busy = true;
+  function one(n, m, L) {
+    if (skip(n)) return;
+    var o = orig.has(n) ? orig.get(n) : null;
+    if (o && n.nodeValue !== o.shown) { orig.delete(n); o = null; }
+    var base = o ? o.base : n.nodeValue;
+    var out = tr(base, m, L);
+    if (out != null && out !== base) { if (n.nodeValue !== out) n.nodeValue = out; orig.set(n, { base: base, shown: out }); }
+    else if (o) { n.nodeValue = o.base; orig.delete(n); }
+  }
+  function opts(root) {
+    var list = [];
+    if (root.nodeType === 1) { if (root.nodeName === 'OPTION') list.push(root); if (root.querySelectorAll) list = list.concat([].slice.call(root.querySelectorAll('option'))); }
+    list.forEach(function (op) { if (!op.hasAttribute('value')) op.setAttribute('value', op.textContent.trim()); });
+  }
+  function walk(root, m, L) {
+    if (root.nodeType === 3) { one(root, m, L); return; }
+    if (root.nodeType !== 1 && root.nodeType !== 9 && root.nodeType !== 11) return;
+    opts(root);
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), n, list = [];
+    while ((n = w.nextNode())) list.push(n);
+    list.forEach(function (x) { one(x, m, L); });
+  }
+  function all() { try { walk(document.body, zhMap(), lang()); } catch (e) {} }
+  /* runs before the browser paints, so English never flashes */
+  new MutationObserver(function (ml) {
     try {
-      fixOptions();
-      var L = lang(), m = zhMap(), sig = L + '|' + JSON.stringify(m);
-      var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null), n, list = [];
-      while ((n = w.nextNode())) list.push(n);
-      list.forEach(function (n) {
-        if (skip(n)) return;
-        var o = orig.has(n) ? orig.get(n) : null;
-        if (o && n.nodeValue !== o.shown) { orig.delete(n); o = null; }   /* the page rewrote it: start over */
-        var base = o ? o.base : n.nodeValue;
-        var out = tr(base, m, L);
-        if (out != null && out !== base) {
-          if (n.nodeValue !== out) { n.nodeValue = out; }
-          orig.set(n, { base: base, shown: out });
-        } else if (o) { n.nodeValue = o.base; orig.delete(n); }
+      var m = zhMap(), L = lang();
+      ml.forEach(function (r) {
+        if (r.type === 'characterData') one(r.target, m, L);
+        else for (var i = 0; i < r.addedNodes.length; i++) walk(r.addedNodes[i], m, L);
       });
     } catch (e) {}
-    busy = false;
+  }).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  /* language switch or new department names: redo the whole page at once */
+  function check() { var sig = lang() + '|' + JSON.stringify(zhMap()); if (sig !== lastSig) { lastSig = sig; all(); } }
+  var tries = 0, h = setInterval(function () { if (typeof window.setLanguage === 'function' && !window.setLanguage.__nmz) { var f = window.setLanguage; window.setLanguage = function () { var r = f.apply(this, arguments); check(); return r; }; window.setLanguage.__nmz = 1; clearInterval(h); } if (++tries > 40) clearInterval(h); }, 250);
+  setInterval(check, 150);
+  document.addEventListener('DOMContentLoaded', function () { all(); });
+})();
+</script>
+<script id="msJs">
+(function () {
+  var S = {
+    en: { t: 'Missing Records', from: 'From', to: 'To', dept: 'Department', grp: 'Group', all: 'All', check: 'Check', xl: 'Excel', pr: 'Print', back: 'Employee', date: 'Date', id: 'ID', kn: 'Khmer name', en: 'English name', filled: 'Filled', prob: 'Problem', act: 'Action', none: 'No entry at all', noatt: 'No attendance', nolv: 'Hours not filled', nf: 'not filled', hrs: 'h', work: 'Work', leave: 'Leave', addAtt: 'Add attendance', addLv: 'Add leave', ok: 'No missing records in this period.', cnt: 'problem days', note: 'Only days with a work shift are checked. Rest days, holidays and resigned employees are skipped. The button opens the normal form with the ID and date filled in.', btn: 'Missing Records', attn: 'Missing records (last 7 days)', short: 'missing' },
+    km: { t: 'កំណត់ត្រាដែលខ្វះ', from: 'ចាប់ពី', to: 'ដល់', dept: 'នាយកដ្ឋាន', grp: 'ក្រុម', all: 'ទាំងអស់', check: 'ពិនិត្យ', xl: 'Excel', pr: 'បោះពុម្ព', back: 'បុគ្គលិក', date: 'កាលបរិច្ឆេទ', id: 'អត្តលេខ', kn: 'ឈ្មោះខ្មែរ', en: 'ឈ្មោះអង់គ្លេស', filled: 'បានបំពេញ', prob: 'បញ្ហា', act: 'សកម្មភាព', none: 'មិនមានកំណត់ត្រាទាល់តែសោះ', noatt: 'គ្មានវត្តមាន', nolv: 'ម៉ោងមិនទាន់បំពេញ', nf: 'មិនទាន់បំពេញ', hrs: 'ម៉ោង', work: 'ធ្វើការ', leave: 'ច្បាប់', addAtt: 'បន្ថែមវត្តមាន', addLv: 'បន្ថែមច្បាប់', ok: 'គ្មានកំណត់ត្រាខ្វះក្នុងអំឡុងពេលនេះទេ។', cnt: 'ថ្ងៃមានបញ្ហា', note: 'ពិនិត្យតែថ្ងៃដែលមានវេនធ្វើការប៉ុណ្ណោះ។ ថ្ងៃសម្រាក ថ្ងៃបុណ្យ និងបុគ្គលិកលាលែងត្រូវបានរំលង។', btn: 'កំណត់ត្រាដែលខ្វះ', attn: 'កំណត់ត្រាដែលខ្វះ (៧ថ្ងៃចុងក្រោយ)', short: 'ខ្វះ' },
+    zh: { t: '缺失记录', from: '从', to: '到', dept: '部门', grp: '小组', all: '全部', check: '检查', xl: 'Excel', pr: '打印', back: '员工', date: '日期', id: '工号', kn: '高棉文姓名', en: '英文姓名', filled: '已填写', prob: '问题', act: '操作', none: '完全没有记录', noatt: '没有考勤', nolv: '工时未填满', nf: '未填', hrs: '小时', work: '工作', leave: '请假', addAtt: '补考勤', addLv: '补请假', ok: '此期间没有缺失记录。', cnt: '个问题日', note: '只检查有上班班次的日子。休息日、假日和离职员工会被跳过。按钮会打开原来的表格，并自动填好工号和日期。', btn: '缺失记录', attn: '缺失记录（最近7天）', short: '缺' }
+  };
+  function L(k) { var l = (typeof currentLang === 'string' && S[currentLang]) ? currentLang : 'en'; return (S[l] && S[l][k]) || S.en[k] || k; }
+  function E(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function ymd(d) { return d.getUTCFullYear() + '-' + pad(d.getUTCMonth() + 1) + '-' + pad(d.getUTCDate()); }
+  function today() { return ymd(new Date(Date.now() + 7 * 3600000)); }
+  function addDays(s, n) { var p = s.split('-'), d = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + n)); return ymd(d); }
+  function norm(s) { return String(s || '').replace(/\./g, '-').replace(/\//g, '-'); }
+  function emps() { return (typeof employees !== 'undefined' ? employees : []); }
+  function activeOn(e, date) {
+    var j = norm(e.joinDate), r = norm(e.resignedDate);
+    if (j && j.length >= 8 && date < j) return false;
+    if (e.status === 'Resigned') { if (!r || r.length < 8) return false; if (date >= r) return false; }
+    return true;
   }
-  function sched() { if (pend || busy) return; pend = true; setTimeout(pass, 120); }
-  /* options need an explicit value before the text changes */
-  function fixOptions() { document.querySelectorAll('option:not([value])').forEach(function (op) { op.setAttribute('value', op.textContent.trim()); op.__nmv = 1; }); }
-  document.addEventListener('DOMContentLoaded', function () { fixOptions(); });
-  new MutationObserver(function (ml) { if (busy) return; fixOptions(); sched(); }).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
-  setInterval(function () { var sig = lang() + '|' + Object.keys(zhMap()).length; if (sig !== lastSig) { lastSig = sig; fixOptions(); pass(); } }, 400);
+  /* returns the list of problem days */
+  function find(from, to, dept, grp) {
+    var out = [], cap = (typeof HRCHK_WORK !== 'undefined') ? HRCHK_WORK : 8;
+    if (typeof hrWorkOn !== 'function' || typeof hrDay !== 'function') return out;
+    var n = 0;
+    for (var d = from; d <= to && n < 400; d = addDays(d, 1), n++) {
+      emps().forEach(function (e) {
+        if (grp && e.department !== grp) return;
+        if (dept) { var p = ''; try { p = dgParentOf(e.department || '') || ''; } catch (x) {} if (p !== dept) return; }
+        if (!activeOn(e, d) || !hrWorkOn(e.id, d)) return;
+        var x = hrDay(e.id, d), filled = x.work + x.leave;
+        if (filled >= cap - 0.01) return;
+        var kind = filled <= 0.001 ? 'none' : (x.work <= 0.001 ? 'noatt' : 'nolv');
+        out.push({ date: d, e: e, work: x.work, leave: x.leave, miss: Math.round((cap - filled) * 100) / 100, kind: kind });
+      });
+    }
+    out.sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : (String(a.e.id) < String(b.e.id) ? -1 : 1); });
+    return out;
+  }
+  window.msLabel = function () { return L('attn'); };
+  var cache = { k: '', n: 0 };
+  window.msCount = function () {
+    try {
+      var t = today(), f = addDays(t, -7), to = addDays(t, -1);
+      var k = f + '|' + (typeof attendanceHistory !== 'undefined' ? attendanceHistory.length : 0) + '|' + (typeof leaveHistory !== 'undefined' ? leaveHistory.length : 0) + '|' + (typeof shifts !== 'undefined' ? shifts.length : 0) + '|' + emps().length;
+      if (cache.k !== k) { cache.k = k; cache.n = find(f, to, '', '').length; }
+      return cache.n;
+    } catch (e) { return 0; }
+  };
+  var rows = [];
+  function kindTxt(r) { return r.kind === 'none' ? L('none') : (r.kind === 'noatt' ? L('noatt') : (r.miss + L('hrs') + ' ' + L('nf'))); }
+  function filledTxt(r) { var a = []; if (r.work > 0) a.push(L('work') + ' ' + r.work + L('hrs')); if (r.leave > 0) a.push(L('leave') + ' ' + r.leave + L('hrs')); return a.join(' + ') || '-'; }
+  function fill() {
+    var ds = document.getElementById('msDept'), gs = document.getElementById('msGrp'); if (!ds || !gs) return;
+    var org = (typeof dgOrg !== 'undefined' ? dgOrg : []), cur = ds.value;
+    var sig = org.map(function (o) { return o.name; }).join('|');
+    if (ds.getAttribute('data-sig') !== sig) { ds.setAttribute('data-sig', sig); ds.innerHTML = '<option value="">' + E(L('all')) + '</option>' + org.map(function (o) { return '<option value="' + E(o.name) + '">' + E(o.name) + '</option>'; }).join(''); ds.value = cur; }
+    var d = ds.value, gl = (typeof departments !== 'undefined' ? departments : []).filter(function (g) { return !d || g.parent === d; });
+    var gsig = d + '|' + gl.map(function (g) { return g.name; }).join('|'), gcur = gs.value;
+    if (gs.getAttribute('data-sig') !== gsig) { gs.setAttribute('data-sig', gsig); gs.innerHTML = '<option value="">' + E(L('all')) + '</option>' + gl.map(function (g) { return '<option value="' + E(g.name) + '">' + E(g.name) + '</option>'; }).join(''); gs.value = gl.some(function (g) { return g.name === gcur; }) ? gcur : ''; }
+  }
+  window.msDeptChg = function () { var gs = document.getElementById('msGrp'); if (gs) gs.setAttribute('data-sig', ''); fill(); };
+  window.msRun = function () {
+    var f = document.getElementById('msFrom').value, t = document.getElementById('msTo').value;
+    if (!f || !t || f > t) { try { showToast(false); } catch (e) {} return; }
+    rows = find(f, t, document.getElementById('msDept').value, document.getElementById('msGrp').value);
+    var el = document.getElementById('msOut');
+    if (!rows.length) { el.innerHTML = '<div style="padding:18px;color:#15803d;font-weight:600;">' + E(L('ok')) + '</div>'; return; }
+    var cls = { none: '#fee2e2;color:#b91c1c', noatt: '#ffedd5;color:#c2410c', nolv: '#fef9c3;color:#a16207' };
+    el.innerHTML = '<div style="margin:6px 0;font-weight:600;">' + rows.length + ' ' + E(L('cnt')) + '</div><div class="table-responsive"><table class="master-tbl" id="msTable" style="width:100%"><thead><tr><th>' + [L('date'), L('id'), L('kn'), L('en'), L('dept'), L('grp'), L('filled'), L('prob'), L('act')].map(E).join('</th><th>') + '</th></tr></thead><tbody>' + rows.map(function (r, i) {
+      var e = r.e, pd = ''; try { pd = dgParentOf(e.department || '') || ''; } catch (x) {}
+      var btn = r.kind === 'nolv' && r.work <= 0 ? '' : '';
+      return '<tr><td>' + E(r.date) + '</td><td><b>' + E(e.id) + '</b></td><td>' + E(e.name) + '</td><td>' + E(e.nameEn || '') + '</td><td>' + E(pd) + '</td><td>' + E(e.department || '') + '</td><td>' + E(filledTxt(r)) + '</td><td><span style="padding:2px 8px;border-radius:99px;font-size:12px;font-weight:600;background:' + cls[r.kind] + '">' + E(kindTxt(r)) + '</span></td><td style="white-space:nowrap"><button type="button" class="quick-btn slate mhSm" onclick="msGo(' + i + ',\'att\')">' + E(L('addAtt')) + '</button> <button type="button" class="quick-btn slate mhSm" onclick="msGo(' + i + ',\'lv\')">' + E(L('addLv')) + '</button></td></tr>';
+    }).join('') + '</tbody></table></div>';
+  };
+  window.msGo = function (i, w) {
+    var r = rows[i]; if (!r) return;
+    if (w === 'att') {
+      triggerNav('tab-att', 'nav-att');
+      setTimeout(function () {
+        try {
+          document.getElementById('attDate').value = r.date;
+          var pd = ''; try { pd = dgParentOf(r.e.department || '') || ''; } catch (x) {}
+          var ds = document.querySelector('#tab-att .dg-bar select.dg-dept');
+          if (ds && pd) { ds.value = pd; ds.dispatchEvent(new Event('change', { bubbles: true })); }
+          setTimeout(function () { try { var s = document.getElementById('attDeptSelect'); s.value = r.e.department; s.dispatchEvent(new Event('change', { bubbles: true })); loadAttendanceDeptTable(); } catch (e) {} }, 300);
+        } catch (e) {}
+      }, 350);
+    } else {
+      triggerNav('tab-leave', 'nav-leave');
+      setTimeout(function () { try { document.getElementById('leaveDate').value = r.date; var i2 = document.getElementById('leaveEmpId'); i2.value = r.e.id; onLeaveEmpIdInput(); } catch (e) {} }, 350);
+    }
+  };
+  function data() {
+    return [[L('date'), 'ID', 'Name', L('dept'), L('grp'), L('filled'), L('prob')]].concat(rows.map(function (r) { var pd = ''; try { pd = dgParentOf(r.e.department || '') || ''; } catch (x) {} return [r.date, r.e.id, r.e.name, pd, r.e.department || '', filledTxt(r), kindTxt(r)]; }));
+  }
+  window.msExport = function () {
+    if (!rows.length) return;
+    var go = function () { var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(data()), 'Missing'); XLSX.writeFile(wb, 'Missing_Records_' + today() + '.xlsx'); };
+    if (window.NM && NM.run) NM.run(currentLang, null, go, null, []); else go();
+  };
+  window.msPrint = function () {
+    if (!rows.length) return;
+    var go = function () {
+      var d = data(), h = '<html><head><meta charset="utf-8"><title>' + E(L('t')) + '</title><style>body{font-family:Arial,sans-serif;padding:16px}table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #444;padding:5px 7px;text-align:center}th{background:#eee}</style></head><body><h3>' + E(L('t')) + '</h3><table><thead><tr>' + d[0].map(function (x) { return '<th>' + E(x) + '</th>'; }).join('') + '</tr></thead><tbody>' + d.slice(1).map(function (r) { return '<tr>' + r.map(function (x) { return '<td>' + E(x) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></body></html>';
+      var w = window.open('', '_blank'); if (!w) return; w.document.write(h); w.document.close(); setTimeout(function () { w.print(); }, 400);
+    };
+    if (window.NM && NM.run) NM.run(currentLang, null, go, null, []); else go();
+  };
+  function lbl() {
+    document.querySelectorAll('#tab-missing .msL').forEach(function (el) { el.textContent = L(el.getAttribute('data-k')); });
+    var b = document.getElementById('msBtnMs'); if (b) b.textContent = L('btn');
+  }
+  function addButton() {
+    var h = document.getElementById('mhBtns'); if (!h || document.getElementById('msBtn')) return;
+    var b = document.createElement('button'); b.type = 'button'; b.id = 'msBtn'; b.className = 'quick-btn red mhSm'; b.onclick = function () { triggerNav('tab-missing', 'nav-missing'); }; b.innerHTML = '<span id="msBtnMs">Missing Records</span>';
+    h.appendChild(b);
+    var a = document.getElementById('tab-att');
+    if (a && !document.getElementById('msBtn2')) { var c = document.createElement('div'); c.style.cssText = 'text-align:right;margin-bottom:6px;'; c.innerHTML = '<button type="button" id="msBtn2" class="quick-btn red mhSm" onclick="triggerNav(\'tab-missing\',\'nav-missing\')"><span class="msBtnT">Missing Records</span></button>'; a.insertBefore(c, a.firstChild); }
+  }
+  var init = false;
+  setInterval(function () {
+    try {
+      addButton(); lbl();
+      document.querySelectorAll('.msBtnT').forEach(function (x) { x.textContent = L('btn'); });
+      var tab = document.getElementById('tab-missing');
+      if (tab && tab.classList.contains('active')) {
+        fill();
+        if (!init) { init = true; var t = today(); document.getElementById('msTo').value = addDays(t, -1); document.getElementById('msFrom').value = addDays(t, -7); msRun(); }
+      } else init = false;
+    } catch (e) {}
+  }, 700);
 })();
 </script>
 <script id="frzJs">
@@ -30911,16 +31074,17 @@ function elExport() {
     o.addEventListener('click', function (ev) {
       if (ev.target === o || (ev.target.closest && ev.target.closest('.px'))) { close(); return; }
       var r = ev.target.closest && ev.target.closest('.fr-row'); if (!r) return; close();
-      if (r.getAttribute('data-a') === 'pend') { if (typeof openPendingApprovalsModal === 'function') openPendingApprovalsModal(); }
+      if (r.getAttribute('data-a') === 'miss') { triggerNav('tab-missing', 'nav-missing'); } else if (r.getAttribute('data-a') === 'pend') { if (typeof openPendingApprovalsModal === 'function') openPendingApprovalsModal(); }
       else if (typeof openCheckDetailsForEmployee === 'function') openCheckDetailsForEmployee(r.getAttribute('data-id'));
     });
   }
   function attn(force) {
     var box = document.getElementById('frAttn'); if (!box) return;
-    var key = num('statPendingApprovals') + '|' + num('statExceeded') + '|' + (typeof employees !== 'undefined' ? employees.length : 0) + '|' + (typeof currentLang !== 'undefined' ? currentLang : '');
+    var key = (window.msCount ? window.msCount() : 0) + '|' + num('statPendingApprovals') + '|' + num('statExceeded') + '|' + (typeof employees !== 'undefined' ? employees.length : 0) + '|' + (typeof currentLang !== 'undefined' ? currentLang : '');
     if (!force && key === lastKey && box.innerHTML) return; lastKey = key;
     var x = L(), rows = [], p = num('statPendingApprovals'); attnRows = rows;
     if (p > 0) rows.push({ c: '#e11d48', t: x.pend + ' (' + p + ')', a: 'pend' });
+    try { var mc = window.msCount ? window.msCount() : 0; if (mc > 0) rows.push({ c: '#ea580c', t: window.msLabel() + ' (' + mc + ')', a: 'miss' }); } catch (e) {}
     try {
       if (typeof employees !== 'undefined' && typeof computeQueryData === 'function') {
         var today = new Date(), ex = [], rn = [];
@@ -30963,7 +31127,7 @@ function elExport() {
         if (t.closest && t.closest('.fr-all')) { openAll(); return; }
         var r = t.closest && t.closest('.fr-row');
         if (r) {
-          if (r.getAttribute('data-a') === 'pend') { if (typeof openPendingApprovalsModal === 'function') openPendingApprovalsModal(); }
+          if (r.getAttribute('data-a') === 'miss') { triggerNav('tab-missing', 'nav-missing'); } else if (r.getAttribute('data-a') === 'pend') { if (typeof openPendingApprovalsModal === 'function') openPendingApprovalsModal(); }
           else if (typeof openCheckDetailsForEmployee === 'function') openCheckDetailsForEmployee(r.getAttribute('data-id'));
           return;
         }

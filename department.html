@@ -23098,7 +23098,7 @@ window.nmCopyEn = async function () {
 
 /* ===== Chinese language: department and group names, "Chinese Name" label ===== */
 (function () {
-  var orig = new WeakMap(), lastSig = '', pend = false, busy = false;
+  var orig = new WeakMap(), lastSig = '';
   function lang() { return (typeof currentLang === 'string') ? currentLang : 'en'; }
   function zhMap() {
     var m = {};
@@ -23107,7 +23107,7 @@ window.nmCopyEn = async function () {
     try { (typeof departments !== 'undefined' ? departments : []).forEach(function (g) { if (g && g.name && g.zh) m[g.name] = g.zh; }); } catch (e) {}
     return m;
   }
-  var LBL = { zh: '中文名', km: 'ឈ្មោះជាភាសាចិន' };
+  var LBL = { zh: '\u4e2d\u6587\u540d', km: '\u1788\u17d2\u1798\u17c4\u17c7\u1787\u17b6\u1797\u17b6\u179f\u17b6\u1785\u17b7\u1793' };
   function tr(txt, m, L) {
     var t = txt.trim(); if (!t) return null;
     if (t === 'Chinese Name') return LBL[L] || null;
@@ -23121,33 +23121,44 @@ window.nmCopyEn = async function () {
     if (/^(SCRIPT|STYLE|TEXTAREA|INPUT)$/.test(p.nodeName)) return true;
     return !!p.closest('#dgEditModal, #tab-dept, [data-nmskip]');
   }
-  function pass() {
-    pend = false; if (busy) return; busy = true;
+  function one(n, m, L) {
+    if (skip(n)) return;
+    var o = orig.has(n) ? orig.get(n) : null;
+    if (o && n.nodeValue !== o.shown) { orig.delete(n); o = null; }
+    var base = o ? o.base : n.nodeValue;
+    var out = tr(base, m, L);
+    if (out != null && out !== base) { if (n.nodeValue !== out) n.nodeValue = out; orig.set(n, { base: base, shown: out }); }
+    else if (o) { n.nodeValue = o.base; orig.delete(n); }
+  }
+  function opts(root) {
+    var list = [];
+    if (root.nodeType === 1) { if (root.nodeName === 'OPTION') list.push(root); if (root.querySelectorAll) list = list.concat([].slice.call(root.querySelectorAll('option'))); }
+    list.forEach(function (op) { if (!op.hasAttribute('value')) op.setAttribute('value', op.textContent.trim()); });
+  }
+  function walk(root, m, L) {
+    if (root.nodeType === 3) { one(root, m, L); return; }
+    if (root.nodeType !== 1 && root.nodeType !== 9 && root.nodeType !== 11) return;
+    opts(root);
+    var w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null), n, list = [];
+    while ((n = w.nextNode())) list.push(n);
+    list.forEach(function (x) { one(x, m, L); });
+  }
+  function all() { try { walk(document.body, zhMap(), lang()); } catch (e) {} }
+  /* runs before the browser paints, so English never flashes */
+  new MutationObserver(function (ml) {
     try {
-      fixOptions();
-      var L = lang(), m = zhMap(), sig = L + '|' + JSON.stringify(m);
-      var w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null), n, list = [];
-      while ((n = w.nextNode())) list.push(n);
-      list.forEach(function (n) {
-        if (skip(n)) return;
-        var o = orig.has(n) ? orig.get(n) : null;
-        if (o && n.nodeValue !== o.shown) { orig.delete(n); o = null; }   /* the page rewrote it: start over */
-        var base = o ? o.base : n.nodeValue;
-        var out = tr(base, m, L);
-        if (out != null && out !== base) {
-          if (n.nodeValue !== out) { n.nodeValue = out; }
-          orig.set(n, { base: base, shown: out });
-        } else if (o) { n.nodeValue = o.base; orig.delete(n); }
+      var m = zhMap(), L = lang();
+      ml.forEach(function (r) {
+        if (r.type === 'characterData') one(r.target, m, L);
+        else for (var i = 0; i < r.addedNodes.length; i++) walk(r.addedNodes[i], m, L);
       });
     } catch (e) {}
-    busy = false;
-  }
-  function sched() { if (pend || busy) return; pend = true; setTimeout(pass, 120); }
-  /* options need an explicit value before the text changes */
-  function fixOptions() { document.querySelectorAll('option:not([value])').forEach(function (op) { op.setAttribute('value', op.textContent.trim()); op.__nmv = 1; }); }
-  document.addEventListener('DOMContentLoaded', function () { fixOptions(); });
-  new MutationObserver(function (ml) { if (busy) return; fixOptions(); sched(); }).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
-  setInterval(function () { var sig = lang() + '|' + Object.keys(zhMap()).length; if (sig !== lastSig) { lastSig = sig; fixOptions(); pass(); } }, 400);
+  }).observe(document.documentElement, { childList: true, subtree: true, characterData: true });
+  /* language switch or new department names: redo the whole page at once */
+  function check() { var sig = lang() + '|' + JSON.stringify(zhMap()); if (sig !== lastSig) { lastSig = sig; all(); } }
+  var tries = 0, h = setInterval(function () { if (typeof window.setLanguage === 'function' && !window.setLanguage.__nmz) { var f = window.setLanguage; window.setLanguage = function () { var r = f.apply(this, arguments); check(); return r; }; window.setLanguage.__nmz = 1; clearInterval(h); } if (++tries > 40) clearInterval(h); }, 250);
+  setInterval(check, 150);
+  document.addEventListener('DOMContentLoaded', function () { all(); });
 })();
 
 </script>
