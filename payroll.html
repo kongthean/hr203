@@ -370,6 +370,7 @@ function tick(raw,ok){
 window.MTS={bar:setBar,gear:GEAR,bell:INFO,noteShow:noteShow,eff:eff,act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
 })();
 </script>
+<style id="topTint">/* status-bar strip: same colour as the header, so no light blur on phones */html{background:#0b1d3a!important}</style>
 </head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
@@ -1503,6 +1504,41 @@ async function TD_remember(found) {
 
 
 <!-- HRFT-PUSH-BEGIN --><script>(function(){var q=0;function run(){q=0;try{var f=[].slice.call(document.querySelectorAll('.hrft'));f.forEach(function(e){e.style.paddingTop='';});var vis=f.filter(function(e){return e.getClientRects().length&&!e.closest('.login-card,#loginOverlay,#loginBox,#loginView');});if(!vis.length)return;var el=vis[vis.length-1],r=el.getBoundingClientRect(),mb=r.bottom,n=el;while(n&&n!==document.body){var sb=n.nextElementSibling;while(sb){var ps=getComputedStyle(sb).position;if(ps!=='fixed'&&ps!=='absolute'&&sb.getClientRects().length&&!/^(SCRIPT|STYLE)$/.test(sb.tagName)){var q2=sb.getBoundingClientRect();if(q2.height>0&&q2.bottom>mb)mb=q2.bottom;}sb=sb.nextElementSibling;}n=n.parentElement;}var cs=getComputedStyle(document.body),below=(mb-r.bottom)+(parseFloat(cs.paddingBottom)||0)+(parseFloat(cs.marginBottom)||0),gap=Math.floor(window.innerHeight-(r.bottom+below));if(gap>0)el.style.paddingTop=(14+gap)+'px';}catch(e){}}function sch(){if(!q)q=requestAnimationFrame(run);}window.addEventListener('load',sch);window.addEventListener('resize',sch);try{new MutationObserver(sch).observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['style','class','hidden']});}catch(e){}setInterval(sch,1500);sch();})();</script><!-- HRFT-PUSH-END -->
+<script id="pxgJs">
+/* per-account Service Access guard (Maintenance > Service Access): shows a white "no permission" window when this service is closed for this account */
+(function () {
+  var SVC = 'payroll', scope = '', ref = null, closed = false, ownerOk = false, lastK = '';
+  var MSG = { en: ["Sorry, you don't have permission to use this service.", 'Please contact the super administration for assistance, thank you!', 'OK'],
+    km: ['សូមអភ័យទោស អ្នកមិនមានសិទ្ធិប្រើសេវាកម្មនេះទេ។', 'សូមទាក់ទងអ្នកគ្រប់គ្រងកំពូលដើម្បីសុំជំនួយ សូមអរគុណ!', 'យល់ព្រម'],
+    zh: ['抱歉，您没有权限使用此服务。', '请联系超级管理员获取帮助，谢谢！', '确定'] };
+  function lang() { var l = ''; try { l = localStorage.getItem('faScanLang') || localStorage.getItem('tdLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} l = String(l).toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; if (!MSG[l]) { l = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; } return MSG[l] ? l : 'en'; }
+  function key() { try { return (typeof me !== 'undefined' && me) ? String(me) : ''; } catch (e) { return ''; } }
+  function paint() {
+    var o = document.getElementById('pxWhite');
+    if (!closed) { if (o) o.remove(); try { document.body.style.overflow = ''; } catch (e) {} return; }
+    if (o) return;
+    var m = MSG[lang()]; o = document.createElement('div'); o.id = 'pxWhite';
+    o.style.cssText = 'position:fixed;inset:0;z-index:2147483000;background:#fff;display:flex;align-items:center;justify-content:center;padding:20px';
+    o.innerHTML = '<div style="max-width:420px;width:100%;text-align:center;color:#0f172a;font-family:inherit"><h3 style="margin:0 0 8px;font-size:18px"></h3><p style="font-size:16px;line-height:1.55;color:#334155;margin:6px 0 16px"></p><button type="button" style="background:#0b1d3a;color:#fff;border:0;border-radius:10px;padding:10px 34px;font-size:15px;cursor:pointer"></button></div>';
+    o.querySelector('h3').textContent = m[0]; o.querySelector('p').textContent = m[1]; var b = o.querySelector('button'); b.textContent = m[2];
+    b.onclick = function () { try { location.href = 'index.html'; } catch (e) {} };
+    document.body.appendChild(o); try { document.body.style.overflow = 'hidden'; } catch (e) {}
+  }
+  function sync() {
+    var k = key(); if (k === lastK) return; lastK = k;
+    if (ref) { try { ref.off(); } catch (e) {} ref = null; } closed = false; scope = ''; paint();
+    if (!k || typeof db === 'undefined' || !db) { lastK = ''; return; }
+    db.ref('accounts/' + k).once('value').then(function (s) {
+      var a = s.val() || {}; if (a.owner === true) return;
+      scope = (a.role === 'hr' ? 'hr' : 'admin') + '_' + k;
+      ref = db.ref('svcAccess/' + scope);
+      ref.on('value', function (sn) { var v = sn.val(); closed = !!(v && v.services && v.services[SVC] === 'closed'); paint(); }, function () {});
+    }).catch(function () { lastK = ''; });
+  }
+  setInterval(function () { try { sync(); if (closed) paint(); } catch (e) {} }, 700);
+})();
+
+</script>
 <!-- MTG-BEGIN -->
 <script>
 /* maintenance guard: when the Administration switches Maintenance on for "payroll" (Maintenance page), this page shows a notice instead of working */

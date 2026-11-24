@@ -892,6 +892,7 @@ function tick(raw,ok){
 window.MTS={bar:setBar,gear:GEAR,bell:INFO,noteShow:noteShow,eff:eff,act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
 })();
 </script>
+<style id="topTint">/* status-bar strip: same colour as the header, so no light blur on phones */html{background:#0f766e!important}body{min-height:100vh;min-height:100dvh;box-sizing:border-box}</style>
 </head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
@@ -1367,7 +1368,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
      <button id="nav-home" class="active" onclick="switchTab('tab-home', this)" data-i18n="navDashboard">Dashboard</button>
      <button id="nav-master" onclick="switchTab('tab-master', this)" data-i18n="navMaster">Master Sheet</button>
      <button id="nav-leave" onclick="switchTab('tab-leave', this)" data-i18n="navLeaveRecords">Leave Records</button>
-     <button id="nav-att" onclick="switchTab('tab-att', this)" data-i18n="navAttendance">Attendance</button>
+     <button id="nav-att" onclick="switchTab('tab-att', this)" data-i18n="navAttendance">Daily Attendance</button>
      <button id="nav-query" onclick="switchTab('tab-query', this)" data-i18n="navEligibility">Check Record</button>
      <button id="nav-add" onclick="switchTab('tab-add', this)" data-i18n="navAddEmployee">Add Employee</button>
  </nav>
@@ -1515,7 +1516,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
              <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg></span><span class="quick-btn-label" data-i18n="navLeaveRecords">Leave Records</span>
          </button>
          <button class="quick-btn indigo" onclick="triggerNav('tab-att', 'nav-att')">
-             <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="quick-btn-label" data-i18n="navAttendance">Attendance</span>
+             <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="quick-btn-label" data-i18n="navAttendance">Daily Attendance</span>
          </button>
          <button class="quick-btn green" onclick="triggerNav('tab-query', 'nav-query')">
              <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><span class="quick-btn-label" data-i18n="navEligibility">Check Record</span>
@@ -1947,7 +1948,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
  
  <!-- TAB 5: ATTENDANCE -->
  <div id="tab-att" class="tab-panel" style="text-align:center;">
-     <h3 data-i18n="attTitle">Attendance</h3>
+     <h3 data-i18n="attTitle">Daily Attendance</h3>
      <p style="font-size:11px; color:#64748b; margin-bottom:10px;" data-i18n="attSub">Pick a department and date, then fill in working hours and overtime for everyone at once.</p>
      <form style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:flex-end; max-width:600px; margin:10px auto;" onsubmit="event.preventDefault(); loadAttendanceDeptTable();">
          <div class="form-group" style="min-width:180px; margin-bottom:0; text-align:left;">
@@ -4258,7 +4259,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          navMonthlyReport: "Monthly Report",
          navMonthlyAL: "Monthly Annual Leave",
          navLeaveRecords: "Leave Records",
-         navAttendance: "Attendance",
+         navAttendance: "Daily Attendance",
          navEmployee: "Employee",
          navEligibility: "Check Record",
          navAddEmployee: "Add Employee",
@@ -4335,7 +4336,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          leaveTypeOther: "Other Leave",
          btnSubmitLeave: "Submit Leave Record",
         btnSavingLabel: "Saving...",
-         attTitle: "Attendance",
+         attTitle: "Daily Attendance",
          attSub: "Pick a department and date, then fill in working hours and overtime for everyone at once.",
          btnLoadDept: "Show Employees",
          attDateRequiredMsg: "Please choose a date first.",
@@ -5931,7 +5932,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          lblEmpId: "អត្តលេខបុគ្គលិក",
          lblEmpName: "ឈ្មោះបុគ្គលិក",
          navLeaveRecords: "កំណត់ត្រាច្បាប់",
-         navAttendance: "វត្តមាន",
+         navAttendance: "វត្តមានប្រចាំថ្ងៃ",
          navEmployee: "បុគ្គលិក",
          navEligibility: "ពិនិត្យកំណត់ត្រា",
          navAddEmployee: "បន្ថែមបុគ្គលិក",
@@ -7614,7 +7615,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          lblEmpId: "员工编号",
          lblEmpName: "员工姓名",
          navLeaveRecords: "请假记录",
-         navAttendance: "考勤记录",
+         navAttendance: "每日考勤",
          navEmployee: "员工列表",
          navEligibility: "检查记录",
          navAddEmployee: "添加员工",
@@ -7691,7 +7692,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          leaveTypeOther: "其他假",
          btnSubmitLeave: "提交请假记录",
         btnSavingLabel: "保存中...",
-         attTitle: "考勤记录",
+         attTitle: "每日考勤",
          attSub: "选择部门和日期，一次性为所有员工填写工作时间和加班时间。",
          btnLoadDept: "显示员工",
          attDateRequiredMsg: "请先选择日期。",
@@ -18492,7 +18493,7 @@ const MT_SVC = [
 ];
 let mtData = null, mtRaw = null, mtModal = null, mtReady = false;
 /* until the maintenance state has arrived, a logged-in person cannot start any action (so nothing can be changed in the first moments) */
-function mtUnknown() { return !mtReady && (sessionStorage.getItem('isLoggedIn') === 'true' || !!sessionStorage.getItem('empLoggedInId')); }
+function mtUnknown() { if (window.pxWait && window.pxWait()) return true; return !mtReady && (sessionStorage.getItem('isLoggedIn') === 'true' || !!sessionStorage.getItem('empLoggedInId')); }
 function mtSvc(id) { for (const s of MT_SVC) if (s[0] === id) return s; return null; }
 function mtSvcOfTab(tabId) { for (const s of MT_SVC) if (s[2] === 'tab' && s[3] === tabId) return s[0]; return null; }
 /* v7.57: the maintenance can be limited to some systems (scope: admin / hr / emp / dept). No scope saved = everybody, as before. */
@@ -18517,6 +18518,7 @@ function mtBypass() {
     } catch (e) { return false; }
 }
 function mtMode(id) {
+    if (id && window.pxSvcClosed && window.pxSvcClosed(id)) return 'closed';
     if (!id || !mtIsOn() || mtBypass()) return 'open';
     const m = mtData.services && mtData.services[id];
     return m === 'closed' ? 'closed' : 'open';
@@ -18584,6 +18586,7 @@ function mtApplyUI() {
 
 (function () { var o = mtApplyUI; mtApplyUI = function () { var r = o.apply(this, arguments); try { var all = mtIsOn() && !mtBypass() && MT_SVC.every(function (s) { return mtMode(s[0]) === 'closed'; }); document.querySelectorAll('.stat-card').forEach(function (c) { c.classList.toggle('mt-closed', all); }); } catch (e) {} return r; }; })();
 function mtPopup(id, actLabel, wait) {
+    if (!wait && window.__pxWhy && window.pxPopup) { window.__pxWhy = null; window.pxPopup(); return; }
     const s = mtSvc(id);
     const old = document.getElementById('mtPop'); if (old) old.remove();
     const d = document.createElement('div'); d.id = 'mtPop';
@@ -18649,6 +18652,7 @@ function mtGate(svc, act) {
     return false;
 }
 function mtActClosed(o) {
+    if (o && window.pxActClosed && window.pxActClosed(o.svc, o.id)) return true;
     if (!o || !mtIsOn() || mtBypass()) return false;
     if (mtMode(o.svc) === 'closed') return true;
     return !!(mtData.actions && mtData.actions[o.svc] && mtData.actions[o.svc][o.id] === 'closed');
@@ -18656,7 +18660,7 @@ function mtActClosed(o) {
 function mtActScan() {
     const want = new Set();
     try {
-        if (mtIsOn() && !mtBypass()) {
+        if ((mtIsOn() && !mtBypass()) || (window.pxOn && window.pxOn())) {
             const shown = function (e) { return e.getClientRects().length > 0; };
             const roots = [];
             const p = document.querySelector('.tab-panel.active'); if (p) roots.push(p);
@@ -18673,7 +18677,7 @@ function mtActScan() {
 setInterval(mtActScan, 500);
 function mtActHit(target) {
     const unk = mtUnknown();
-    if (!unk && !mtIsOn()) return null;
+    if (!unk && !mtIsOn() && !(window.pxOn && window.pxOn())) return null;
     for (let n = target, i = 0; n && n.nodeType === 1 && i < 6; n = n.parentElement, i++) {
         const o = mtActOf(n); if (o && (unk || mtActClosed(o))) return o;
     }
@@ -23159,6 +23163,66 @@ window.nmCopyEn = async function () {
   var tries = 0, h = setInterval(function () { if (typeof window.setLanguage === 'function' && !window.setLanguage.__nmz) { var f = window.setLanguage; window.setLanguage = function () { var r = f.apply(this, arguments); check(); return r; }; window.setLanguage.__nmz = 1; clearInterval(h); } if (++tries > 40) clearInterval(h); }, 250);
   setInterval(check, 150);
   document.addEventListener('DOMContentLoaded', function () { all(); });
+})();
+
+</script>
+<script id="pxJs">
+/* ===== v8.10: Service Access - per account open/closed services and buttons (data: svcAccess/<system>_<accountKey>) ===== */
+(function () {
+  'use strict';
+  function $(id) { return document.getElementById(id); }
+  function lang() { try { return (typeof currentLang === 'string' && ['en', 'km', 'zh'].indexOf(currentLang) >= 0) ? currentLang : 'en'; } catch (e) { return 'en'; } }
+  var st = document.createElement('style');
+  st.textContent = '#pxWhite{position:fixed;inset:0;z-index:100003;background:rgba(255,255,255,.97);display:flex;align-items:center;justify-content:center;padding:20px}' +
+    '#pxWhite .px-b{max-width:420px;width:100%;text-align:center;color:#0f172a}#pxWhite p{font-size:16px;line-height:1.55;color:#334155;margin:6px 0 16px}' +
+    '#pxWhite button{background:#0b1d3a;color:#fff;border:0;border-radius:10px;padding:10px 34px;font-size:15px;cursor:pointer}';
+  document.head.appendChild(st);
+  /* ---------- 3) Service Access ---------- */
+  var MSG = { en: ["Sorry, you don't have permission to use this service.", 'Please contact the super administration for assistance, thank you!', 'OK'],
+    km: ['សូមអភ័យទោស អ្នកមិនមានសិទ្ធិប្រើសេវាកម្មនេះទេ។', 'សូមទាក់ទងអ្នកគ្រប់គ្រងកំពូលដើម្បីសុំជំនួយ សូមអរគុណ!', 'យល់ព្រម'],
+    zh: ['抱歉，您没有权限使用此服务。', '请联系超级管理员获取帮助，谢谢！', '确定'] };
+  var data = null, scope = '', ref = null, ready = false;
+  function actor() {
+    var a = window.__actorInfo; if (!a) return null;
+    try {
+      if (a.type === 'staff' && sessionStorage.getItem('isLoggedIn') === 'true') return { s: (sessionStorage.getItem('loggedInRole') === 'hr' || a.role === 'hr') ? 'hr' : 'admin', k: a.key };
+      if (a.type === 'employee' && sessionStorage.getItem('empLoggedInId')) return { s: 'emp', k: a.key };
+    } catch (e) {}
+    return null;
+  }
+  function me() {
+    var a = actor(); if (!a || !a.k) return '';
+    try { if (a.s !== 'emp' && (acctIsOwner(a.k) || viewerIsOwner())) return ''; } catch (e) {}
+    return a.s + '_' + a.k;
+  }
+  function sync() {
+    var s = me(); if (s === scope) return;
+    scope = s; if (ref) { try { ref.off(); } catch (e) {} } ref = null; data = null;
+    window.__pxReady = false;
+    if (!s) { ready = true; window.__pxReady = true; try { mtRefresh(); } catch (e) {} return; }
+    ready = false;
+    ref = db.ref('svcAccess/' + s);
+    ref.on('value', function (sn) { data = sn.val() || null; ready = true; window.__pxReady = true; try { mtRefresh(); } catch (e) {} }, function () { ready = true; window.__pxReady = true; });
+    setTimeout(function () { ready = true; window.__pxReady = true; }, 6000);
+  }
+  setInterval(sync, 700); setTimeout(sync, 300);
+  window.pxWait = function () { return !!scope && !ready; };
+  window.pxOn = function () { return !!(scope && data && (data.services || data.actions)); };
+  window.pxSvcClosed = function (id) { window.__pxWhy = null; if (id && data && data.services && data.services[id] === 'closed') { window.__pxWhy = id; return true; } return false; };
+  window.pxActClosed = function (svc, act) {
+    window.__pxWhy = null; if (!data) return false;
+    if (data.services && data.services[svc] === 'closed') { window.__pxWhy = svc; return true; }
+    if (data.actions && data.actions[svc] && data.actions[svc][act] === 'closed') { window.__pxWhy = svc + '.' + act; return true; }
+    return false;
+  };
+  window.pxPopup = function () {
+    var old = $('pxWhite'); if (old) old.remove();
+    var m = MSG[lang()], d = document.createElement('div'); d.id = 'pxWhite';
+    d.innerHTML = '<div class="px-b"><h3 style="margin:0 0 6px;font-size:18px"></h3><p></p><button type="button"></button></div>';
+    d.querySelector('h3').textContent = m[0]; d.querySelector('p').textContent = m[1]; d.querySelector('button').textContent = m[2];
+    d.querySelector('button').onclick = function () { d.remove(); }; d.addEventListener('click', function (e) { if (e.target === d) d.remove(); });
+    document.body.appendChild(d);
+  };
 })();
 
 </script>

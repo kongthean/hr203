@@ -387,6 +387,23 @@ async function run(env) {
       }
     }
   }
+  /* 4) Missing records: the website (HR/Administration page) writes the list to meta/missingTg/<date>; this sends it once, then marks it sent */
+  try {
+    const mt = (await db.ref('meta/missingTg').once('value')).val() || {};
+    for (const k of Object.keys(mt)) {
+      const v = mt[k] || {};
+      if (k < tdAdd(today, -10)) { await db.ref('meta/missingTg/' + k).remove(); continue; }
+      if (v.sent || !Array.isArray(v.lines) || !v.lines.length) continue;
+      const head = '⚠️ <b>Missing records</b>\n' + esc(v.from || k) + ' → ' + esc(v.to || k) + '\n' + (v.people || v.lines.length) + ' people, ' + (v.n || '') + ' days\n\n';
+      const chunks = []; let cur = '';
+      v.lines.forEach(l => { const line = '• ' + esc(l) + '\n'; if ((cur + line).length > 3500) { chunks.push(cur); cur = ''; } cur += line; });
+      if (v.more) cur += '… and ' + v.more + ' more people (open Missing Records on the website).\n';
+      if (cur) chunks.push(cur);
+      for (let i = 0; i < chunks.length; i++) await tg('sendMessage', { chat_id: chatId, parse_mode: 'HTML', text: (i === 0 ? head : '') + chunks[i] });
+      await db.ref('meta/missingTg/' + k + '/sent').set(nowMs);
+      out.missing = (out.missing || 0) + 1;
+    }
+  } catch (e) { console.error('missing records message failed: ' + String(e && e.message || e).replace(/bot\d+:[A-Za-z0-9_-]+/g, 'bot***')); }
   return out;
 }
 module.exports = { run, slotOf, dueToday, khNow, dateKey, tdAll };

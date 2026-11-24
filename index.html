@@ -920,6 +920,7 @@ function tick(raw,ok){
 window.MTS={bar:setBar,gear:GEAR,bell:INFO,noteShow:noteShow,eff:eff,act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
 })();
 </script>
+<style id="topTint">/* status-bar strip: same colour as the header, so no light blur on phones */html{background:#0b1d3a!important}html.fresh{background:#123a5c!important}body{min-height:100vh;min-height:100dvh;box-sizing:border-box}</style>
 </head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
@@ -1398,7 +1399,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
      <button id="nav-home" class="active" onclick="switchTab('tab-home', this)" data-i18n="navDashboard">Dashboard</button>
      <button id="nav-master" onclick="switchTab('tab-master', this)" data-i18n="navMaster">Master Sheet</button>
      <button id="nav-leave" onclick="switchTab('tab-leave', this)" data-i18n="navLeaveRecords">Leave Records</button>
-     <button id="nav-att" onclick="switchTab('tab-att', this)" data-i18n="navAttendance">Attendance</button>
+     <button id="nav-att" onclick="switchTab('tab-att', this)" data-i18n="navAttendance">Daily Attendance</button>
      <button id="nav-query" onclick="switchTab('tab-query', this)" data-i18n="navEligibility">Check Record</button>
      <button id="nav-add" onclick="switchTab('tab-add', this)" data-i18n="navAddEmployee">Add Employee</button>
  </nav>
@@ -1558,7 +1559,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
              <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg></span><span class="quick-btn-label" data-i18n="navLeaveRecords">Leave Records</span>
          </button>
 <button class="quick-btn indigo" onclick="triggerNav('tab-att', 'nav-att')">
-             <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="quick-btn-label" data-i18n="navAttendance">Attendance</span>
+             <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span><span class="quick-btn-label" data-i18n="navAttendance">Daily Attendance</span>
          </button>
 <button class="quick-btn green" onclick="triggerNav('tab-query', 'nav-query')">
              <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span><span class="quick-btn-label" data-i18n="navEligibility">Check Record</span>
@@ -1755,7 +1756,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 <div id="tab-attextract" class="tab-panel">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; gap:10px;">
         <h3 data-i18n="lxBtnLeave">Attendance Extract</h3>
-        <button type="button" class="quick-btn slate" style="width:auto; min-width:auto; min-height:auto; padding:6px 14px; font-size:12px;" onclick="closeAttExtract()">&larr; <span data-i18n="lxBack">Back</span></button>
+        <button type="button" class="quick-btn slate" style="width:auto; min-width:auto; min-height:auto; padding:6px 14px; font-size:12px;" onclick="closeAttExtract()"><span data-i18n="lxBack">Back</span></button>
     </div>
             <p style="font-size:12px; color:#475569; margin-bottom:10px;" data-i18n="lxIntro">Upload the photo of the daily attendance report.</p>
             <div id="lxKeyBox" style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px; margin-bottom:10px;">
@@ -2027,7 +2028,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
  </div>
  
 <div id="tab-missing" class="tab-panel">
-  <div class="mhTop"><h3 class="mrxL" data-k="t">Missing Records</h3><button type="button" class="quick-btn slate mhBack" onclick="triggerNav('tab-employee','nav-employee')">&larr; <span class="mrxL" data-k="back">Employee</span></button></div>
+  <div class="mhTop"><h3 class="mrxL" data-k="t">Missing Records</h3><button type="button" class="quick-btn slate mhBack" onclick="navBack()"><span class="mrxL" data-k="back">Back</span></button></div>
   <div class="dash-card">
     <div class="mhRow">
       <div class="form-group"><label class="mrxL" data-k="from">From</label><input type="date" id="mrxFrom"></div>
@@ -2044,7 +2045,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 </div>
  <!-- TAB 5: ATTENDANCE -->
  <div id="tab-att" class="tab-panel" style="text-align:center;">
-     <h3 data-i18n="attTitle">Attendance</h3>
+     <h3 data-i18n="attTitle">Daily Attendance</h3>
      <p style="font-size:11px; color:#64748b; margin-bottom:10px;" data-i18n="attSub">Pick a department and date, then fill in working hours and overtime for everyone at once.</p>
      <form style="display:flex; gap:12px; flex-wrap:wrap; justify-content:center; align-items:flex-end; max-width:600px; margin:10px auto;" onsubmit="event.preventDefault(); loadAttendanceDeptTable();">
          <div class="form-group" style="min-width:180px; margin-bottom:0; text-align:left;">
@@ -2078,7 +2079,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
  
  <!-- TAB 6: EMPLOYEE LIST -->
 <div id="tab-meeting" class="tab-panel">
-  <div class="mhTop"><h3 id="mhMtTitle">Call Meeting</h3><button type="button" class="quick-btn slate mhBack" onclick="triggerNav('tab-employee','nav-employee')">&larr; <span class="mhL" data-k="back">Employee</span></button></div>
+  <div class="mhTop"><h3 id="mhMtTitle">Call Meeting</h3><button type="button" class="quick-btn slate mhBack" onclick="navBack()"><span class="mhL" data-k="back">Back</span></button></div>
   <div class="dash-card">
     <div class="mhRow">
       <div class="form-group"><label class="mhL" data-k="mtName">Meeting title</label><input type="text" id="mhTitle" placeholder=""></div>
@@ -2099,7 +2100,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
   </div>
 </div>
 <div id="tab-health" class="tab-panel">
-  <div class="mhTop"><h3 id="mhHcTitle">Health Check</h3><button type="button" class="quick-btn slate mhBack" onclick="triggerNav('tab-employee','nav-employee')">&larr; <span class="mhL" data-k="back">Employee</span></button></div>
+  <div class="mhTop"><h3 id="mhHcTitle">Health Check</h3><button type="button" class="quick-btn slate mhBack" onclick="navBack()"><span class="mhL" data-k="back">Back</span></button></div>
   <div class="dash-card">
     <div class="mhRow">
       <div class="form-group"><label class="mhL" data-k="hcDate">Health check date</label><input type="date" id="hcDate" onchange="hcRender(1)"></div>
@@ -4189,7 +4190,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
             <h4 data-i18n="navConvertPhoto">Extract</h4>
             <button class="modal-close" onclick="closeConvertPhotoModal()">&times;</button>
         </div>
-        <button type="button" id="extractBackBtn" class="quick-btn slate" style="display:none; width:auto; min-width:auto; min-height:auto; padding:5px 12px; font-size:12px; margin-bottom:10px;" onclick="showExtractPane('menu')">&larr; <span data-i18n="lxBack">Back</span></button>
+        <button type="button" id="extractBackBtn" class="quick-btn slate" style="display:none; width:auto; min-width:auto; min-height:auto; padding:5px 12px; font-size:12px; margin-bottom:10px;" onclick="showExtractPane('menu')"><span data-i18n="lxBack">Back</span></button>
         <div id="extractMenu">
             <p style="font-size:12px; color:#64748b; margin-bottom:12px;" data-i18n="lxMenuSub">Choose what you want to do.</p>
             <div style="display:flex; gap:12px; flex-wrap:wrap;">
@@ -4783,7 +4784,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          navMonthlyReport: "Monthly Report",
          navMonthlyAL: "Monthly Annual Leave",
          navLeaveRecords: "Leave Records",
-         navAttendance: "Attendance",
+         navAttendance: "Daily Attendance",
          navEmployee: "Employee",
          navEligibility: "Check Record",
          navAddEmployee: "Add Employee",
@@ -4860,7 +4861,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          leaveTypeOther: "Other Leave",
          btnSubmitLeave: "Submit Leave Record",
         btnSavingLabel: "Saving...",
-         attTitle: "Attendance",
+         attTitle: "Daily Attendance",
          attSub: "Pick a department and date, then fill in working hours and overtime for everyone at once.",
          btnLoadDept: "Show Employees",
          attDateRequiredMsg: "Please choose a date first.",
@@ -7200,7 +7201,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          lblEmpId: "អត្តលេខបុគ្គលិក",
          lblEmpName: "ឈ្មោះបុគ្គលិក",
          navLeaveRecords: "កំណត់ត្រាច្បាប់",
-         navAttendance: "វត្តមាន",
+         navAttendance: "វត្តមានប្រចាំថ្ងៃ",
          navEmployee: "បុគ្គលិក",
          navEligibility: "ពិនិត្យកំណត់ត្រា",
          navAddEmployee: "បន្ថែមបុគ្គលិក",
@@ -9627,7 +9628,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          lblEmpId: "员工编号",
          lblEmpName: "员工姓名",
          navLeaveRecords: "请假记录",
-         navAttendance: "考勤记录",
+         navAttendance: "每日考勤",
          navEmployee: "员工列表",
          navEligibility: "检查记录",
          navAddEmployee: "添加员工",
@@ -9704,7 +9705,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          leaveTypeOther: "其他假",
          btnSubmitLeave: "提交请假记录",
         btnSavingLabel: "保存中...",
-         attTitle: "考勤记录",
+         attTitle: "每日考勤",
          attSub: "选择部门和日期，一次性为所有员工填写工作时间和加班时间。",
          btnLoadDept: "显示员工",
          attDateRequiredMsg: "请先选择日期。",
@@ -16404,7 +16405,8 @@ function leaveSubmitCore(){
             .filter(function(h) { return h.empId === id && h.leaveType === 'thMasterPersonalLeave' && (h.date || '').slice(0, 7) === (selectedDate ? selectedDate.slice(0, 7) : ''); })
             .reduce(function(sum, h) { return sum + (parseFloat(h.hours) || 0); }, 0);
         const lowerUps = window.__hrLower; window.__hrLower = null;
-        withBusyButton(submitBtn, () => hrWriteEmp(emp, selectedDate, updatePayload, histExtra).then(() => {
+        return withBusyButton(submitBtn, () => hrWriteEmp(emp, selectedDate, updatePayload, histExtra).then(() => {
+            window.__lvOk = true;
             showToast(true);
             if (lowerUps) db.ref().update(lowerUps);
             try { logActivity('Leave entry', 'Leave', id, selectedDate, emp.name + ' | AL ' + addAL + ' Sp ' + addSpecial + ' Mat ' + addMaternity + ' Tr ' + addTravel + ' Pers ' + addPersonal + ' Sick ' + addSick + ' Oth ' + addOther + (lowerUps ? ' | attendance lowered' : '')); } catch (e) {}
@@ -16460,9 +16462,11 @@ function leaveSubmitCore(){
             formEl.reset();
             document.getElementById('leaveDate').valueAsDate = getDefaultRecordDate();
         }).catch(error => {
+            window.__lvOk = false;
             showToast(false);
         }));
     } else {
+        window.__lvOk = false;
         showToast(false, t('empIdNotFound'));
     }
 }
@@ -20573,7 +20577,7 @@ const MT_SVC = [
 ];
 let mtData = null, mtRaw = null, mtModal = null, mtReady = false;
 /* until the maintenance state has arrived, a logged-in person cannot start any action (so nothing can be changed in the first moments) */
-function mtUnknown() { return !window.__rfGo && !mtReady && (sessionStorage.getItem('isLoggedIn') === 'true' || !!sessionStorage.getItem('empLoggedInId')); }
+function mtUnknown() { if (window.pxWait && window.pxWait()) return true; return !window.__rfGo && !mtReady && (sessionStorage.getItem('isLoggedIn') === 'true' || !!sessionStorage.getItem('empLoggedInId')); }
 function mtSvc(id) { for (const s of MT_SVC) if (s[0] === id) return s; return null; }
 function mtSvcOfTab(tabId) { for (const s of MT_SVC) if (s[2] === 'tab' && s[3] === tabId) return s[0]; return null; }
 /* v7.57: the maintenance can be limited to some systems (scope: admin / hr / emp / dept). No scope saved = everybody, as before. */
@@ -20598,6 +20602,7 @@ function mtBypass() {
     } catch (e) { return false; }
 }
 function mtMode(id) {
+    if (id && window.pxSvcClosed && window.pxSvcClosed(id)) return 'closed';
     if (!id || !mtIsOn() || mtBypass()) return 'open';
     const m = mtData.services && mtData.services[id];
     return m === 'closed' ? 'closed' : 'open';
@@ -20665,6 +20670,7 @@ function mtApplyUI() {
 
 (function () { var o = mtApplyUI; mtApplyUI = function () { var r = o.apply(this, arguments); try { var all = mtIsOn() && !mtBypass() && MT_SVC.every(function (s) { return mtMode(s[0]) === 'closed'; }); document.querySelectorAll('.stat-card').forEach(function (c) { c.classList.toggle('mt-closed', all); }); } catch (e) {} return r; }; })();
 function mtPopup(id, actLabel, wait) {
+    if (!wait && window.__pxWhy && window.pxPopup) { window.__pxWhy = null; window.pxPopup(); return; }
     const s = mtSvc(id);
     const old = document.getElementById('mtPop'); if (old) old.remove();
     const d = document.createElement('div'); d.id = 'mtPop';
@@ -20688,7 +20694,7 @@ function mtCurrentSvc() {
 }
 /* per-button control: inside an open service, single buttons can be closed on the maintenance page (faded; a click shows the popup).
    MT_ACT = [service, action, matcher, label key]; matcher "fn:name" (onclick/onchange calls name(...)), "fn:name|text" (and the call contains text), "i:key" (button with data-i18n=key) */
-const MT_ACT = [["ophub", "elecCheck", "fn:elFile", "elUp"], ["ophub", "elecExport", "fn:elExport", "elExport"], ["storage", "clear_ophub", "fn:stClear|'ophub'", "stSvOps"], ["storage", "clear_face", "fn:stClear|'face'", "stSvFace"], ["storage", "clear_notif", "fn:stClear|'notif'", "stSvNotif"], ["storage", "clear_audit", "fn:stClear|'audit'", "stSvAudit"], ["storage", "clear_bcast", "fn:stClear|'bcast'", "stSvBc"], ["storage", "clear_shifts", "fn:stClear|'shifts'", "stSvShift"], ["storage", "clear_attend", "fn:stClear|'attend'", "stSvAtt"], ["storage", "clear_makeup", "fn:stClear|'makeup'", "stSvMk"], ["storage", "clear_facerec", "fn:stClear|'facerec'", "stSvFr"], ["storage", "clear_payroll", "fn:stClear|'payroll'", "stSvPay"], ["storage", "clear_msheet", "fn:stClear|'msheet'", "stSvMs"], ["storage", "clear_dept", "fn:stClear|'dept'", "stSvDept"], ["ophub", "clean", "fn:ohCuOpen", "cuBtn"], ["ophub", "clear", "fn:ohCuClear", "cuClear"], ["ophub", "defaults", "fn:ohGoDefaults", "dfTitle"], ["ophub", "summary", "fn:ohGoSummary", "guSummary"], ["master", "export", "fn:openExportLangModal|'master'", "btnExport"], ["master", "leavereport", "fn:openLeaveReportModal", "btnExportLeaveReport"], ["master", "settings", "fn:mlOpen", "mlBtnText"], ["master", "alcheck", "fn:mlStOpen", "mlStBtnText"], ["master", "view", "fn:openMasterDetailModal", "mtA_master_view"], ["master", "edit", "fn:openEditModal", "mtA_master_edit"], ["master", "delete", "fn:confirmDelete", "mtA_master_delete"], ["monthly", "applyall", "fn:applyBulkWorkingHours", "btnApplyAll"], ["monthly", "export", "fn:openExportLangModal|'monthly'", "btnExport"], ["monthly", "view", "fn:openMonthlyDetailModal", "mtA_monthly_view"], ["monthly", "edit", "fn:openEditModal", "mtA_monthly_edit"], ["monthly", "delete", "fn:confirmDelete", "mtA_monthly_delete"], ["monthly", "hours", "fn:updateEmpMonthlyField", "mtA_monthly_hours"], ["monthlyal", "renewal", "fn:openRenewalExportModal", "btnExportRenewal"], ["monthlyal", "export", "fn:openExportLangModal|'monthlyal'", "btnExport"], ["employee", "export", "fn:openExportLangModal|'employee'", "btnExport"], ["employee", "view", "fn:openEmployeeDetailModal", "mtA_employee_view"], ["employee", "edit", "fn:openEditModal", "mtA_employee_edit"], ["employee", "delete", "fn:confirmDelete", "mtA_employee_delete"], ["leave", "submit", "i:btnSubmitLeave", "btnSubmitLeave"], ["att", "load", "i:btnLoadDept", "btnLoadDept"], ["att", "submit", "fn:saveAttendanceDeptBatch", "btnSubmitAtt"], ["query", "check", "i:btnCheckDetails", "btnCheckDetails"], ["add", "bulkimport", "fn:openBulkImportModal", "btnBulkImport"], ["add", "bulkupdate", "fn:openBulkUpdateModal", "btnBulkUpdate"], ["add", "save", "i:btnSaveEmp", "btnSaveEmp"], ["shift", "check", "i:btnCheckShift", "btnCheckShift"], ["shift", "export", "fn:openExportLangModal|'shift'", "btnExport"], ["shift", "editcell", "fn:updateShiftCell", "mtA_shift_editcell"], ["makeup", "submit", "i:btnSubmitMakeup", "btnSubmitMakeup"], ["attcal", "pdf", "fn:exportAttCalToPDF", "btnExportPDF"], ["attcal", "editday", "fn:openAttCalEditModal", "mtA_attcal_editday"], ["dept", "add", "i:btnAddDept", "btnAddDept"], ["dept", "edit", "fn:editDepartment", "mtA_dept_edit"], ["dept", "delete", "fn:deleteDepartment", "mtA_dept_delete"], ["audit", "export", "fn:openExportLangModal|'auditlog'", "btnExport"], ["cert", "generate", "fn:generateCertificate", "btnGenerateCertificate"], ["faceatt", "copylink", "fn:faCopyScanLink", "faCopyLink"], ["faceatt", "camera", "fn:faStartCamera", "faStartCamera"], ["faceatt", "capture", "fn:faCaptureAngle", "faCapture"], ["faceatt", "clear", "fn:faClearCaptures", "faClearCaptures"], ["faceatt", "saveenroll", "fn:faSaveEnrollment", "faSaveEnroll"], ["faceatt", "delenroll", "fn:faDeleteEnrollment", "mtA_faceatt_delenroll"], ["faceatt", "saverules", "fn:faSaveRules", "faSaveRules"], ["faceatt", "resetrules", "fn:faResetRules", "faResetRules"], ["faceatt", "manualsave", "fn:faSaveManual", "faManualSave"], ["faceatt", "preview", "fn:faPreviewReport", "faPreview"], ["faceatt", "export", "fn:faExportReport", "faExportBtn"], ["export", "preview", "fn:xcPreview", "faPreview"], ["export", "export", "fn:xcExport", "faExportBtn"], ["recdeleted", "restore", "fn:restoreEmployee", "mtA_recdeleted_restore"], ["pending", "approve", "fn:approvePendingEdit", "btnApprove"], ["pending", "reject", "fn:rejectPendingEdit", "btnReject"], ["mgmt", "addaccount", "i:btnAddAccount", "btnAddAccount"], ["mgmt", "disable", "fn:toggleAccountDisabled", "mtA_mgmt_disable"], ["mgmt", "delete", "fn:deleteAccount", "mtA_mgmt_delete"], ["mgmt", "editfield", "fn:updateAccountField", "mtA_mgmt_editfield"], ["mgmt", "pwreset", "fn:pwOpenReset", "pwResetBtn"], ["mgmt", "totp", "fn:toggleAccountTotpEnabled", "mtA_mgmt_totp"], ["mgmt", "resettotp", "fn:resetAccountTotp", "btnResetAuthenticator"], ["mgmt", "backupcodes", "fn:regenerateBackupCodes", "btnRegenerateBackupCodes"], ["devices", "block", "fn:toggleDeviceBlocked", "mtA_devices_block"], ["devices", "rename", "fn:renameDevice", "mtA_devices_rename"], ["backup", "backupnow", "fn:confirmBackupNow", "btnConfirmBackup"], ["notif", "onetime", "fn:openOneTimeNotifModal", "broadcastSectionTitle"], ["notif", "announce", "fn:openComposeNotification", "btnNewAnnouncement"], ["notif", "shiftready", "fn:openNotifyShiftReadyModal", "btnNotifyShiftReady"], ["notif", "cardready", "fn:openCardReadyNotifModal", "btnNotifyCardReady"], ["notif", "delete", "fn:deleteSentNotif", "mtA_notif_delete"], ["convert", "convertphoto", "fn:showExtractPane|'convert'", "lxBtnConvert"], ["convert", "leaveextract", "fn:openAttExtract", "lxBtnLeave"], ["convert", "lxrecord", "fn:lxRecord", "lxRecBtn"], ["convert", "choose", "fn:handleConvertPhotoFileSelected", "mtA_convert_choose"], ["convert", "lxread", "fn:lxRead", "lxRead"], ["convert", "lxkey", "fn:lxSaveKey", "lxKeySaveBtn"], ["convert", "lxexport", "fn:lxExport", "lxExport"], ["dept", "addorg", "fn:dgAddOrg", "dgNewOrg"], ["dept", "renameorg", "fn:dgRenameOrg", "mtA_dept_renameorg"], ["dept", "deleteorg", "fn:dgDeleteOrg", "mtA_dept_deleteorg"], ["dept", "assign", "fn:dgAssign", "mtA_dept_assign"], ["bell", "respond", "fn:openComposeNotification", "btnRespond"], ["bell", "processed", "fn:markRequestProcessed", "btnMarkProcessed"], ["bell", "delete", "fn:deleteRequest", "btnDeleteRequest"], ["bell", "dismiss", "fn:dismissAdminAlert", "btnDismiss"], ["emp_request", "submit", "i:btnSubmitRequest", "btnSubmitRequest"], ["emp_shift", "check", "fn:checkMyShift", "mtA_emp_shift_check"], ["emp_lf", "new", "fn:lfNewOpen", "lfNew"], ["emp_lf", "print", "fn:lfPrint", "lfPrint"], ["emp_card", "new", "fn:ccNewOpen", "ccNew"], ["cardcenter", "sign", "fn:ccHrSign", "ccHrSign"], ["cardcenter", "sign", "fn:ccAdSign", "ccAdSign"], ["cardcenter", "reject", "fn:ccStaffReject", "lfReject"], ["cardcenter", "issue", "fn:ccIssueOpen", "ccIssue"], ["cardcenter", "ready", "fn:ccReadyBtn", "ccCardReady"], ["lforms", "edit", "fn:lfEditOpen", "lfEdit"], ["lforms", "sign", "fn:lfHrSign", "lfSignDept"], ["lforms", "sign", "fn:lfAdSign", "lfSignDept"], ["lforms", "reject", "fn:lfStaffReject", "lfReject"], ["lforms", "top", "fn:lfTopSubmitBtn", "lfTopSubmit"], ["lforms", "top", "fn:lfTopRejectBtn", "lfTopReject"], ["lforms", "top", "fn:lfTopTickChange", "lfTopTick"], ["lforms", "print", "fn:lfPrint", "lfPrint"], ["lforms", "settings", "fn:lfSettingsOpen", "lfSettings"], ["master", "settings", "fn:mlSave", "mlBtnText"], ["master", "settings", "fn:mlAddRule", "mlBtnText"], ["master", "settings", "fn:mlRemoveRule", "mlBtnText"], ["master", "settings", "fn:mlMakeFormula", "mlBtnText"], ["notif", "reminders", "fn:addAnnouncement", "mtA_notif_reminders"], ["notif", "reminders", "fn:editAnnouncement", "mtA_notif_reminders"], ["notif", "reminders", "fn:deleteAnnouncement", "mtA_notif_reminders"], ["mse", "export", "fn:msExport", "btnExport"], ["mse", "detail", "fn:msDetail", "mtA_mse_detail"], ["deptreq", "approve", "fn:rqApprove", "btnApprove"], ["deptreq", "reject", "fn:rqReject", "btnReject"], ["deptreq", "print", "fn:rqPrintCur", "rqPrint"], ["deptiv", "hrfix", "fn:ivHrCorrect", "ivActHr"], ["deptiv", "deptfix", "fn:ivDeptFix", "ivActDept"], ["deptiv", "close", "fn:ivClose", "ivActClose"], ["datectl", "run", "fn:dcRun", "dcRun"], ["datectl", "restore", "fn:dcRestore", "dcRestore"], ["clr", "run", "fn:clrRun", "clrRun"], ["clr", "removereq", "fn:clrRemoveReq", "clrRemoveNow"], ["clr", "dismiss", "fn:clrDismissReq", "clrDismiss"], ["deptacc", "add", "i:daAdd", "daAdd"], ["deptacc", "toggle", "fn:daToggle", "mtA_deptacc_toggle"], ["deptacc", "resetpw", "fn:daResetPw", "daReset"], ["deptacc", "delete", "fn:daDelete", "daDelete"],
+const MT_ACT = [["ophub", "elecCheck", "fn:elFile", "elUp"], ["ophub", "elecExport", "fn:elExport", "elExport"], ["storage", "clear_ophub", "fn:stClear|'ophub'", "stSvOps"], ["storage", "clear_face", "fn:stClear|'face'", "stSvFace"], ["storage", "clear_notif", "fn:stClear|'notif'", "stSvNotif"], ["storage", "clear_audit", "fn:stClear|'audit'", "stSvAudit"], ["storage", "clear_bcast", "fn:stClear|'bcast'", "stSvBc"], ["storage", "clear_shifts", "fn:stClear|'shifts'", "stSvShift"], ["storage", "clear_attend", "fn:stClear|'attend'", "stSvAtt"], ["storage", "clear_makeup", "fn:stClear|'makeup'", "stSvMk"], ["storage", "clear_facerec", "fn:stClear|'facerec'", "stSvFr"], ["storage", "clear_payroll", "fn:stClear|'payroll'", "stSvPay"], ["storage", "clear_msheet", "fn:stClear|'msheet'", "stSvMs"], ["storage", "clear_dept", "fn:stClear|'dept'", "stSvDept"], ["ophub", "clean", "fn:ohCuOpen", "cuBtn"], ["ophub", "clear", "fn:ohCuClear", "cuClear"], ["ophub", "defaults", "fn:ohGoDefaults", "dfTitle"], ["ophub", "summary", "fn:ohGoSummary", "guSummary"], ["master", "export", "fn:openExportLangModal|'master'", "btnExport"], ["master", "leavereport", "fn:openLeaveReportModal", "btnExportLeaveReport"], ["master", "settings", "fn:mlOpen", "mlBtnText"], ["master", "alcheck", "fn:mlStOpen", "mlStBtnText"], ["master", "view", "fn:openMasterDetailModal", "mtA_master_view"], ["master", "edit", "fn:openEditModal", "mtA_master_edit"], ["master", "delete", "fn:confirmDelete", "mtA_master_delete"], ["monthly", "applyall", "fn:applyBulkWorkingHours", "btnApplyAll"], ["monthly", "export", "fn:openExportLangModal|'monthly'", "btnExport"], ["monthly", "view", "fn:openMonthlyDetailModal", "mtA_monthly_view"], ["monthly", "edit", "fn:openEditModal", "mtA_monthly_edit"], ["monthly", "delete", "fn:confirmDelete", "mtA_monthly_delete"], ["monthly", "hours", "fn:updateEmpMonthlyField", "mtA_monthly_hours"], ["monthlyal", "renewal", "fn:openRenewalExportModal", "btnExportRenewal"], ["monthlyal", "export", "fn:openExportLangModal|'monthlyal'", "btnExport"], ["employee", "export", "fn:openExportLangModal|'employee'", "btnExport"], ["employee", "view", "fn:openEmployeeDetailModal", "mtA_employee_view"], ["employee", "edit", "fn:openEditModal", "mtA_employee_edit"], ["employee", "delete", "fn:confirmDelete", "mtA_employee_delete"], ["leave", "submit", "i:btnSubmitLeave", "btnSubmitLeave"], ["att", "load", "i:btnLoadDept", "btnLoadDept"], ["att", "submit", "fn:saveAttendanceDeptBatch", "btnSubmitAtt"], ["att", "export", "fn:dlExport", "mtA_att_export"], ["query", "check", "i:btnCheckDetails", "btnCheckDetails"], ["add", "bulkimport", "fn:openBulkImportModal", "btnBulkImport"], ["add", "bulkupdate", "fn:openBulkUpdateModal", "btnBulkUpdate"], ["add", "save", "i:btnSaveEmp", "btnSaveEmp"], ["shift", "check", "i:btnCheckShift", "btnCheckShift"], ["shift", "export", "fn:openExportLangModal|'shift'", "btnExport"], ["shift", "editcell", "fn:updateShiftCell", "mtA_shift_editcell"], ["makeup", "submit", "i:btnSubmitMakeup", "btnSubmitMakeup"], ["attcal", "pdf", "fn:exportAttCalToPDF", "btnExportPDF"], ["attcal", "editday", "fn:openAttCalEditModal", "mtA_attcal_editday"], ["dept", "add", "i:btnAddDept", "btnAddDept"], ["dept", "edit", "fn:editDepartment", "mtA_dept_edit"], ["dept", "delete", "fn:deleteDepartment", "mtA_dept_delete"], ["audit", "export", "fn:openExportLangModal|'auditlog'", "btnExport"], ["cert", "generate", "fn:generateCertificate", "btnGenerateCertificate"], ["faceatt", "copylink", "fn:faCopyScanLink", "faCopyLink"], ["faceatt", "camera", "fn:faStartCamera", "faStartCamera"], ["faceatt", "capture", "fn:faCaptureAngle", "faCapture"], ["faceatt", "clear", "fn:faClearCaptures", "faClearCaptures"], ["faceatt", "saveenroll", "fn:faSaveEnrollment", "faSaveEnroll"], ["faceatt", "delenroll", "fn:faDeleteEnrollment", "mtA_faceatt_delenroll"], ["faceatt", "saverules", "fn:faSaveRules", "faSaveRules"], ["faceatt", "resetrules", "fn:faResetRules", "faResetRules"], ["faceatt", "manualsave", "fn:faSaveManual", "faManualSave"], ["faceatt", "preview", "fn:faPreviewReport", "faPreview"], ["faceatt", "export", "fn:faExportReport", "faExportBtn"], ["export", "preview", "fn:xcPreview", "faPreview"], ["export", "export", "fn:xcExport", "faExportBtn"], ["recdeleted", "restore", "fn:restoreEmployee", "mtA_recdeleted_restore"], ["pending", "approve", "fn:approvePendingEdit", "btnApprove"], ["pending", "reject", "fn:rejectPendingEdit", "btnReject"], ["mgmt", "addaccount", "i:btnAddAccount", "btnAddAccount"], ["mgmt", "disable", "fn:toggleAccountDisabled", "mtA_mgmt_disable"], ["mgmt", "delete", "fn:deleteAccount", "mtA_mgmt_delete"], ["mgmt", "editfield", "fn:updateAccountField", "mtA_mgmt_editfield"], ["mgmt", "pwreset", "fn:pwOpenReset", "pwResetBtn"], ["mgmt", "totp", "fn:toggleAccountTotpEnabled", "mtA_mgmt_totp"], ["mgmt", "resettotp", "fn:resetAccountTotp", "btnResetAuthenticator"], ["mgmt", "backupcodes", "fn:regenerateBackupCodes", "btnRegenerateBackupCodes"], ["devices", "block", "fn:toggleDeviceBlocked", "mtA_devices_block"], ["devices", "rename", "fn:renameDevice", "mtA_devices_rename"], ["backup", "backupnow", "fn:confirmBackupNow", "btnConfirmBackup"], ["notif", "onetime", "fn:openOneTimeNotifModal", "broadcastSectionTitle"], ["notif", "announce", "fn:openComposeNotification", "btnNewAnnouncement"], ["notif", "shiftready", "fn:openNotifyShiftReadyModal", "btnNotifyShiftReady"], ["notif", "cardready", "fn:openCardReadyNotifModal", "btnNotifyCardReady"], ["notif", "delete", "fn:deleteSentNotif", "mtA_notif_delete"], ["convert", "convertphoto", "fn:showExtractPane|'convert'", "lxBtnConvert"], ["convert", "leaveextract", "fn:openAttExtract", "lxBtnLeave"], ["convert", "lxrecord", "fn:lxRecord", "lxRecBtn"], ["convert", "choose", "fn:handleConvertPhotoFileSelected", "mtA_convert_choose"], ["convert", "lxread", "fn:lxRead", "lxRead"], ["convert", "lxkey", "fn:lxSaveKey", "lxKeySaveBtn"], ["convert", "lxexport", "fn:lxExport", "lxExport"], ["dept", "addorg", "fn:dgAddOrg", "dgNewOrg"], ["dept", "renameorg", "fn:dgRenameOrg", "mtA_dept_renameorg"], ["dept", "deleteorg", "fn:dgDeleteOrg", "mtA_dept_deleteorg"], ["dept", "assign", "fn:dgAssign", "mtA_dept_assign"], ["bell", "respond", "fn:openComposeNotification", "btnRespond"], ["bell", "processed", "fn:markRequestProcessed", "btnMarkProcessed"], ["bell", "delete", "fn:deleteRequest", "btnDeleteRequest"], ["bell", "dismiss", "fn:dismissAdminAlert", "btnDismiss"], ["emp_request", "submit", "i:btnSubmitRequest", "btnSubmitRequest"], ["emp_shift", "check", "fn:checkMyShift", "mtA_emp_shift_check"], ["emp_lf", "new", "fn:lfNewOpen", "lfNew"], ["emp_lf", "print", "fn:lfPrint", "lfPrint"], ["emp_card", "new", "fn:ccNewOpen", "ccNew"], ["cardcenter", "sign", "fn:ccHrSign", "ccHrSign"], ["cardcenter", "sign", "fn:ccAdSign", "ccAdSign"], ["cardcenter", "reject", "fn:ccStaffReject", "lfReject"], ["cardcenter", "issue", "fn:ccIssueOpen", "ccIssue"], ["cardcenter", "ready", "fn:ccReadyBtn", "ccCardReady"], ["lforms", "edit", "fn:lfEditOpen", "lfEdit"], ["lforms", "sign", "fn:lfHrSign", "lfSignDept"], ["lforms", "sign", "fn:lfAdSign", "lfSignDept"], ["lforms", "reject", "fn:lfStaffReject", "lfReject"], ["lforms", "top", "fn:lfTopSubmitBtn", "lfTopSubmit"], ["lforms", "top", "fn:lfTopRejectBtn", "lfTopReject"], ["lforms", "top", "fn:lfTopTickChange", "lfTopTick"], ["lforms", "print", "fn:lfPrint", "lfPrint"], ["lforms", "settings", "fn:lfSettingsOpen", "lfSettings"], ["master", "settings", "fn:mlSave", "mlBtnText"], ["master", "settings", "fn:mlAddRule", "mlBtnText"], ["master", "settings", "fn:mlRemoveRule", "mlBtnText"], ["master", "settings", "fn:mlMakeFormula", "mlBtnText"], ["notif", "reminders", "fn:addAnnouncement", "mtA_notif_reminders"], ["notif", "reminders", "fn:editAnnouncement", "mtA_notif_reminders"], ["notif", "reminders", "fn:deleteAnnouncement", "mtA_notif_reminders"], ["mse", "export", "fn:msExport", "btnExport"], ["mse", "detail", "fn:msDetail", "mtA_mse_detail"], ["deptreq", "approve", "fn:rqApprove", "btnApprove"], ["deptreq", "reject", "fn:rqReject", "btnReject"], ["deptreq", "print", "fn:rqPrintCur", "rqPrint"], ["deptiv", "hrfix", "fn:ivHrCorrect", "ivActHr"], ["deptiv", "deptfix", "fn:ivDeptFix", "ivActDept"], ["deptiv", "close", "fn:ivClose", "ivActClose"], ["datectl", "run", "fn:dcRun", "dcRun"], ["datectl", "restore", "fn:dcRestore", "dcRestore"], ["clr", "run", "fn:clrRun", "clrRun"], ["clr", "removereq", "fn:clrRemoveReq", "clrRemoveNow"], ["clr", "dismiss", "fn:clrDismissReq", "clrDismiss"], ["deptacc", "add", "i:daAdd", "daAdd"], ["deptacc", "toggle", "fn:daToggle", "mtA_deptacc_toggle"], ["deptacc", "resetpw", "fn:daResetPw", "daReset"], ["deptacc", "delete", "fn:daDelete", "daDelete"],
     ["todo", "save", "fn:tdSave", "mtA_todo_save"],
     ["todo", "edit", "fn:tdEdit", "mtA_todo_edit"],
     ["todo", "delete", "fn:tdDelete", "mtA_todo_delete"],
@@ -20813,6 +20819,7 @@ function mtGate(svc, act) {
     return false;
 }
 function mtActClosed(o) {
+    if (o && window.pxActClosed && window.pxActClosed(o.svc, o.id)) return true;
     if (!o || !mtIsOn() || mtBypass()) return false;
     if (mtMode(o.svc) === 'closed') return true;
     return !!(mtData.actions && mtData.actions[o.svc] && mtData.actions[o.svc][o.id] === 'closed');
@@ -20820,7 +20827,7 @@ function mtActClosed(o) {
 function mtActScan() {
     const want = new Set();
     try {
-        if (mtIsOn() && !mtBypass()) {
+        if ((mtIsOn() && !mtBypass()) || (window.pxOn && window.pxOn())) {
             const shown = function (e) { return e.getClientRects().length > 0; };
             const roots = [];
             const p = document.querySelector('.tab-panel.active'); if (p) roots.push(p);
@@ -20837,7 +20844,7 @@ function mtActScan() {
 setInterval(mtActScan, 500);
 function mtActHit(target) {
     const unk = mtUnknown();
-    if (!unk && !mtIsOn()) return null;
+    if (!unk && !mtIsOn() && !(window.pxOn && window.pxOn())) return null;
     for (let n = target, i = 0; n && n.nodeType === 1 && i < 6; n = n.parentElement, i++) {
         const o = mtActOf(n); if (o && (unk || mtActClosed(o))) return o;
     }
@@ -20902,6 +20909,7 @@ db.ref('maintenance').on('value', function (s) { mtRaw = s.val(); if (mtRaw) del
 setTimeout(function () { mtReady = true; }, 6000);
 try { db.ref('.info/serverTimeOffset').on('value', function (s) { MTS.setOff(s.val()); }); } catch (e) {}
 setInterval(function () { try { mtData = MTS.eff(mtRaw); MTS.tick(mtRaw, function (sc) { var o = mtData; mtData = { scope: sc }; try { return mtScopeOk(); } finally { mtData = o; } }); if (MTS.chg(mtRaw)) mtRefresh(); } catch (e) {} }, 8000);
+try { Object.assign(translations.en, { mtA_att_export: 'Export Daily Attendance' }); Object.assign(translations.km, { mtA_att_export: 'នាំចេញវត្តមានប្រចាំថ្ងៃ' }); Object.assign(translations.zh, { mtA_att_export: '导出每日考勤' }); } catch (e) {}
 try { Object.assign(translations.en, { navAssets: 'Asset Management' }); Object.assign(translations.km, { navAssets: 'គ្រប់គ្រងទ្រព្យសម្បត្តិ' }); Object.assign(translations.zh, { navAssets: '资产管理' }); } catch (e) {}
 /* "loading data" hint + timing (shown while the first lists are still arriving) */
 (function () {
@@ -27974,9 +27982,9 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
 <script id="mhJs">
 (function () {
   var S = {
-    en: { back: 'Employee', mtName: 'Meeting title', date: 'Date', addEmp: 'Add employee (ID or name)', step1: '2. Due employees (tick, then add to cart)', step2: '1. Cart (waiting for the health check)', planDay: 'Planned check day', selected: 'selected', addCart: 'Add selected to cart', done: 'Health check completed', rem: 'Remove', cartEmpty: 'Cart is empty', askDay: 'Health check day (YYYY-MM-DD)', badDay: 'Wrong date', planned: 'planned', group: 'Group', allOpt: 'All', pLang: 'Print language', pLay: 'Name layout', pickDept: 'Choose department to list its employees', selAll: 'Select all', selNone: 'Select none', every: 'Check every (years)', showAll: 'Show all employees (to enter last check dates)', last: 'Last health check', since: 'Years since', markAll: 'Mark all listed as checked on the check date', marked: 'Marked as checked', confirmMark: 'Mark every listed employee as checked on this date?', add: 'Add', people: 'people', clear: 'Clear list', print: 'Print sheet', name: 'Name', dept: 'Department', zhTitle: 'Department names in Chinese (type once, used on every printed sheet)', hcDate: 'Health check date', years: 'Years of work (tap one or more)', rule: 'Due when (check year \u2212 last health check year) is the number of years above (2). If an employee has no last check date, the join year is used. Tick people, add them to the cart, and after the check tap Health check completed in the cart.', joined: 'Joined', yrs: 'Years', mtT: 'Call Meeting', hcT: 'Health Check', btnMt: 'Call Meeting', btnHc: 'Health Check', allDept: 'Choose department', none: 'No employees', noPop: 'Allow pop-ups to print', saved: 'Saved' },
-    km: { back: 'បុគ្គលិក', mtName: 'ចំណងជើងប្រជុំ', date: 'កាលបរិច្ឆេទ', addEmp: 'បន្ថែមបុគ្គលិក (អត្តលេខ ឬឈ្មោះ)', pickDept: 'ជ្រើសរើសនាយកដ្ឋាន', selAll: 'ជ្រើសទាំងអស់', selNone: 'ដកទាំងអស់', every: 'ពិនិត្យរៀងរាល់ (ឆ្នាំ)', showAll: 'បង្ហាញបុគ្គលិកទាំងអស់', last: 'ពិនិត្យសុខភាពចុងក្រោយ', since: 'ឆ្នាំចាប់ពីពេលនោះ', markAll: 'កត់ត្រាថាបានពិនិត្យ', marked: 'បានកត់ត្រា', confirmMark: 'កត់ត្រាបុគ្គលិកទាំងអស់ក្នុងបញ្ជី?', add: 'បន្ថែម', people: 'នាក់', clear: 'សម្អាតបញ្ជី', print: 'បោះពុម្ពតារាង', name: 'ឈ្មោះ', dept: 'នាយកដ្ឋាន', zhTitle: 'ឈ្មោះនាយកដ្ឋានជាភាសាចិន (វាយម្តង ប្រើគ្រប់តារាង)', hcDate: 'ថ្ងៃពិនិត្យសុខភាព', years: 'ឆ្នាំធ្វើការ (ចុចមួយ ឬច្រើន)', rule: 'ដល់ពេលពិនិត្យ នៅពេល (ឆ្នាំពិនិត្យ \u2212 ឆ្នាំពិនិត្យចុងក្រោយ) ស្មើ ឬលើសចំនួនឆ្នាំខាងលើ។ បើមិនមានកាលបរិច្ឆេទ យកឆ្នាំចូលធ្វើការ។', joined: 'ចូលធ្វើការ', yrs: 'ឆ្នាំ', mtT: 'កោះប្រជុំ', hcT: 'ពិនិត្យសុខភាព', btnMt: 'កោះប្រជុំ', btnHc: 'ពិនិត្យសុខភាព', allDept: 'ជ្រើសរើសនាយកដ្ឋាន', none: 'គ្មានបុគ្គលិក', noPop: 'សូមអនុញ្ញាត pop-up', saved: 'បានរក្សាទុក' },
-    zh: { back: '员工', mtName: '会议名称', date: '日期', addEmp: '添加员工（工号或姓名）', orAddDept: '或添加整个部门', add: '添加', people: '人', clear: '清空列表', print: '打印表格', name: '姓名', dept: '部门', zhTitle: '部门中文名（输入一次，每张表都使用）', hcDate: '体检日期', years: '工龄（可多选）', rule: '工龄 = 体检年份 − 入职年份。', joined: '入职', yrs: '年', mtT: '召集会议', hcT: '健康体检', btnMt: '召集会议', btnHc: '健康体检', allDept: '选择部门', none: '没有员工', noPop: '请允许弹窗以打印', saved: '已保存' }
+    en: { back: 'Back', mtName: 'Meeting title', date: 'Date', addEmp: 'Add employee (ID or name)', step1: '2. Due employees (tick, then add to cart)', step2: '1. Cart (waiting for the health check)', planDay: 'Planned check day', selected: 'selected', addCart: 'Add selected to cart', done: 'Health check completed', rem: 'Remove', cartEmpty: 'Cart is empty', askDay: 'Health check day (YYYY-MM-DD)', badDay: 'Wrong date', planned: 'planned', group: 'Group', allOpt: 'All', pLang: 'Print language', pLay: 'Name layout', pickDept: 'Choose department to list its employees', selAll: 'Select all', selNone: 'Select none', every: 'Check every (years)', showAll: 'Show all employees (to enter last check dates)', last: 'Last health check', since: 'Years since', markAll: 'Mark all listed as checked on the check date', marked: 'Marked as checked', confirmMark: 'Mark every listed employee as checked on this date?', add: 'Add', people: 'people', clear: 'Clear list', print: 'Print sheet', name: 'Name', dept: 'Department', zhTitle: 'Department names in Chinese (type once, used on every printed sheet)', hcDate: 'Health check date', years: 'Years of work (tap one or more)', rule: 'Due when (check year \u2212 last health check year) is the number of years above (2). If an employee has no last check date, the join year is used. Tick people, add them to the cart, and after the check tap Health check completed in the cart.', joined: 'Joined', yrs: 'Years', mtT: 'Call Meeting', hcT: 'Health Check', btnMt: 'Call Meeting', btnHc: 'Health Check', allDept: 'Choose department', none: 'No employees', noPop: 'Allow pop-ups to print', saved: 'Saved' },
+    km: { back: 'ត្រឡប់ក្រោយ', mtName: 'ចំណងជើងប្រជុំ', date: 'កាលបរិច្ឆេទ', addEmp: 'បន្ថែមបុគ្គលិក (អត្តលេខ ឬឈ្មោះ)', pickDept: 'ជ្រើសរើសនាយកដ្ឋាន', selAll: 'ជ្រើសទាំងអស់', selNone: 'ដកទាំងអស់', every: 'ពិនិត្យរៀងរាល់ (ឆ្នាំ)', showAll: 'បង្ហាញបុគ្គលិកទាំងអស់', last: 'ពិនិត្យសុខភាពចុងក្រោយ', since: 'ឆ្នាំចាប់ពីពេលនោះ', markAll: 'កត់ត្រាថាបានពិនិត្យ', marked: 'បានកត់ត្រា', confirmMark: 'កត់ត្រាបុគ្គលិកទាំងអស់ក្នុងបញ្ជី?', add: 'បន្ថែម', people: 'នាក់', clear: 'សម្អាតបញ្ជី', print: 'បោះពុម្ពតារាង', name: 'ឈ្មោះ', dept: 'នាយកដ្ឋាន', zhTitle: 'ឈ្មោះនាយកដ្ឋានជាភាសាចិន (វាយម្តង ប្រើគ្រប់តារាង)', hcDate: 'ថ្ងៃពិនិត្យសុខភាព', years: 'ឆ្នាំធ្វើការ (ចុចមួយ ឬច្រើន)', rule: 'ដល់ពេលពិនិត្យ នៅពេល (ឆ្នាំពិនិត្យ \u2212 ឆ្នាំពិនិត្យចុងក្រោយ) ស្មើ ឬលើសចំនួនឆ្នាំខាងលើ។ បើមិនមានកាលបរិច្ឆេទ យកឆ្នាំចូលធ្វើការ។', joined: 'ចូលធ្វើការ', yrs: 'ឆ្នាំ', mtT: 'កោះប្រជុំ', hcT: 'ពិនិត្យសុខភាព', btnMt: 'កោះប្រជុំ', btnHc: 'ពិនិត្យសុខភាព', allDept: 'ជ្រើសរើសនាយកដ្ឋាន', none: 'គ្មានបុគ្គលិក', noPop: 'សូមអនុញ្ញាត pop-up', saved: 'បានរក្សាទុក' },
+    zh: { back: '返回', mtName: '会议名称', date: '日期', addEmp: '添加员工（工号或姓名）', orAddDept: '或添加整个部门', add: '添加', people: '人', clear: '清空列表', print: '打印表格', name: '姓名', dept: '部门', zhTitle: '部门中文名（输入一次，每张表都使用）', hcDate: '体检日期', years: '工龄（可多选）', rule: '工龄 = 体检年份 − 入职年份。', joined: '入职', yrs: '年', mtT: '召集会议', hcT: '健康体检', btnMt: '召集会议', btnHc: '健康体检', allDept: '选择部门', none: '没有员工', noPop: '请允许弹窗以打印', saved: '已保存' }
   };
   function L(k) { var l = (typeof currentLang === 'string' && S[currentLang]) ? currentLang : 'en'; return (S[l] && S[l][k]) || S.en[k] || k; }
   function E(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -28407,9 +28415,9 @@ window.nmCopyEn = async function () {
 <script id="msJs">
 (function () {
   var S = {
-    en: { t: 'Missing Records', from: 'From', to: 'To', dept: 'Department', grp: 'Group', all: 'All', check: 'Check', xl: 'Excel', pr: 'Print', back: 'Employee', date: 'Date', id: 'ID', kn: 'Khmer name', en: 'English name', filled: 'Filled', prob: 'Problem', act: 'Action', none: 'No entry at all', noatt: 'No attendance', nolv: 'Hours not filled', nf: 'not filled', hrs: 'h', work: 'Work', leave: 'Leave', addAtt: 'Add attendance', addLv: 'Add leave', ok: 'No missing records in this period.', cnt: 'problem days', note: 'Only days with a work shift are checked. Rest days, holidays and resigned employees are skipped. The button opens the normal form with the ID and date filled in.', btn: 'Missing Records', attn: 'Missing records (this month)', card: 'Missing records', short: 'missing' },
-    km: { t: 'កំណត់ត្រាដែលខ្វះ', from: 'ចាប់ពី', to: 'ដល់', dept: 'នាយកដ្ឋាន', grp: 'ក្រុម', all: 'ទាំងអស់', check: 'ពិនិត្យ', xl: 'Excel', pr: 'បោះពុម្ព', back: 'បុគ្គលិក', date: 'កាលបរិច្ឆេទ', id: 'អត្តលេខ', kn: 'ឈ្មោះខ្មែរ', en: 'ឈ្មោះអង់គ្លេស', filled: 'បានបំពេញ', prob: 'បញ្ហា', act: 'សកម្មភាព', none: 'មិនមានកំណត់ត្រាទាល់តែសោះ', noatt: 'គ្មានវត្តមាន', nolv: 'ម៉ោងមិនទាន់បំពេញ', nf: 'មិនទាន់បំពេញ', hrs: 'ម៉ោង', work: 'ធ្វើការ', leave: 'ច្បាប់', addAtt: 'បន្ថែមវត្តមាន', addLv: 'បន្ថែមច្បាប់', ok: 'គ្មានកំណត់ត្រាខ្វះក្នុងអំឡុងពេលនេះទេ។', cnt: 'ថ្ងៃមានបញ្ហា', note: 'ពិនិត្យតែថ្ងៃដែលមានវេនធ្វើការប៉ុណ្ណោះ។ ថ្ងៃសម្រាក ថ្ងៃបុណ្យ និងបុគ្គលិកលាលែងត្រូវបានរំលង។', btn: 'កំណត់ត្រាដែលខ្វះ', attn: 'កំណត់ត្រាដែលខ្វះ (ខែនេះ)', card: 'កំណត់ត្រាដែលខ្វះ', short: 'ខ្វះ' },
-    zh: { t: '缺失记录', from: '从', to: '到', dept: '部门', grp: '小组', all: '全部', check: '检查', xl: 'Excel', pr: '打印', back: '员工', date: '日期', id: '工号', kn: '高棉文姓名', en: '英文姓名', filled: '已填写', prob: '问题', act: '操作', none: '完全没有记录', noatt: '没有考勤', nolv: '工时未填满', nf: '未填', hrs: '小时', work: '工作', leave: '请假', addAtt: '补考勤', addLv: '补请假', ok: '此期间没有缺失记录。', cnt: '个问题日', note: '只检查有上班班次的日子。休息日、假日和离职员工会被跳过。按钮会打开原来的表格，并自动填好工号和日期。', btn: '缺失记录', attn: '缺失记录（本月）', card: '缺失记录', short: '缺' }
+    en: { t: 'Missing Records', from: 'From', to: 'To', dept: 'Department', grp: 'Group', all: 'All', check: 'Check', xl: 'Excel', pr: 'Print', back: 'Back', date: 'Date', id: 'ID', kn: 'Khmer name', en: 'English name', filled: 'Filled', prob: 'Problem', act: 'Action', none: 'No entry at all', noatt: 'No attendance', nolv: 'Hours not filled', nf: 'not filled', hrs: 'h', work: 'Work', leave: 'Leave', addAtt: 'Add attendance', addLv: 'Add leave', ok: 'No missing records in this period.', cnt: 'problem days', note: 'Only days with a work shift are checked. Rest days, holidays and resigned employees are skipped. The button opens the normal form with the ID and date filled in.', btn: 'Missing Records', attn: 'Missing records (this month)', card: 'Missing records', short: 'missing' },
+    km: { t: 'កំណត់ត្រាដែលខ្វះ', from: 'ចាប់ពី', to: 'ដល់', dept: 'នាយកដ្ឋាន', grp: 'ក្រុម', all: 'ទាំងអស់', check: 'ពិនិត្យ', xl: 'Excel', pr: 'បោះពុម្ព', back: 'ត្រឡប់ក្រោយ', date: 'កាលបរិច្ឆេទ', id: 'អត្តលេខ', kn: 'ឈ្មោះខ្មែរ', en: 'ឈ្មោះអង់គ្លេស', filled: 'បានបំពេញ', prob: 'បញ្ហា', act: 'សកម្មភាព', none: 'មិនមានកំណត់ត្រាទាល់តែសោះ', noatt: 'គ្មានវត្តមាន', nolv: 'ម៉ោងមិនទាន់បំពេញ', nf: 'មិនទាន់បំពេញ', hrs: 'ម៉ោង', work: 'ធ្វើការ', leave: 'ច្បាប់', addAtt: 'បន្ថែមវត្តមាន', addLv: 'បន្ថែមច្បាប់', ok: 'គ្មានកំណត់ត្រាខ្វះក្នុងអំឡុងពេលនេះទេ។', cnt: 'ថ្ងៃមានបញ្ហា', note: 'ពិនិត្យតែថ្ងៃដែលមានវេនធ្វើការប៉ុណ្ណោះ។ ថ្ងៃសម្រាក ថ្ងៃបុណ្យ និងបុគ្គលិកលាលែងត្រូវបានរំលង។', btn: 'កំណត់ត្រាដែលខ្វះ', attn: 'កំណត់ត្រាដែលខ្វះ (ខែនេះ)', card: 'កំណត់ត្រាដែលខ្វះ', short: 'ខ្វះ' },
+    zh: { t: '缺失记录', from: '从', to: '到', dept: '部门', grp: '小组', all: '全部', check: '检查', xl: 'Excel', pr: '打印', back: '返回', date: '日期', id: '工号', kn: '高棉文姓名', en: '英文姓名', filled: '已填写', prob: '问题', act: '操作', none: '完全没有记录', noatt: '没有考勤', nolv: '工时未填满', nf: '未填', hrs: '小时', work: '工作', leave: '请假', addAtt: '补考勤', addLv: '补请假', ok: '此期间没有缺失记录。', cnt: '个问题日', note: '只检查有上班班次的日子。休息日、假日和离职员工会被跳过。按钮会打开原来的表格，并自动填好工号和日期。', btn: '缺失记录', attn: '缺失记录（本月）', card: '缺失记录', short: '缺' }
   };
   function L(k) { var l = (typeof currentLang === 'string' && S[currentLang]) ? currentLang : 'en'; return (S[l] && S[l][k]) || S.en[k] || k; }
   function E(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -28446,6 +28454,7 @@ window.nmCopyEn = async function () {
   }
   window.mrxLabel = function () { return L('attn'); };
   window.mrxCard = function () { return L('card'); };
+  window.mrxFind = function () { try { var to = addDays(today(), -1), f = to.slice(0, 8) + '01'; return { from: f, to: to, rows: find(f, to, '', '') }; } catch (e) { return null; } };
   var cache = { k: '', n: 0 };
   window.mrxCount = function () {
     try {
@@ -28759,7 +28768,7 @@ function ohContinue() {
 }
 function ohChips(back) {
     if (back === undefined) back = (ohView !== 'choose');
-    return '<div class="oh-card oh-chips">' + (back ? '<button type="button" class="oh-chg" style="margin-right:auto" onclick="ohBack()">&lsaquo; ' + ohEsc(t(ohView === 'menu' ? 'ohMainMenu' : 'ohBack')) + '</button>' : '') + '<span style="font-size:13px;color:#64748b;font-weight:600">' + ohEsc(t('ohWorkingOn')) + '</span>' +
+    return '<div class="oh-card oh-chips">' + (back ? '<button type="button" class="oh-chg" style="margin-right:auto" onclick="ohBack()">' + ohEsc(t(ohView === 'menu' ? 'ohMainMenu' : 'ohBack')) + '</button>' : '') + '<span style="font-size:13px;color:#64748b;font-weight:600">' + ohEsc(t('ohWorkingOn')) + '</span>' +
         '<span class="oh-chip">' + ohEsc(t('ohDept')) + ': ' + ohEsc(ohLbl(ohSel.dept)) + '</span><span class="oh-chip">' + ohEsc(t('ohGroup')) + ': ' + ohEsc(ohLbl(ohSel.group)) + '</span>' +
         '<button type="button" class="oh-chg" onclick="ohChange()">' + ohEsc(t('ohChange')) + '</button></div>';
 }
@@ -29632,7 +29641,7 @@ function ohDefHtml() {
     h += ohCard('3. ' + ohName(4) + ' - ' + cut(t('rmSheetC')), ohG(2, ohDefIn('r4', 'spr', t('rmSludgeP')) + ohDefIn('r4', 'sfee', t('rmFee'))));
     h += ohCard('4. ' + ohName(1) + ' - ' + t('rmPrice'), ohG(2, R1_ITEMS.map(function (it) { return ohDefIn('r1', it[0], it[1] + ' / ' + it[2]); }).join('')));
     h += '</div><div class="oh-note">' + ohNote('dfNote') + '</div>' +
-        '<div class="wz-bar"><button type="button" class="wz-b ghost" onclick="ohBack()">&lsaquo; ' + ohEsc(t('wzBack')) + '</button><button type="button" class="wz-b go" onclick="ohDefSave(this)">' + ohEsc(t('r2Save')) + '</button></div>';
+        '<div class="wz-bar"><button type="button" class="wz-b ghost" onclick="ohBack()">' + ohEsc(t('wzBack')) + '</button><button type="button" class="wz-b go" onclick="ohDefSave(this)">' + ohEsc(t('r2Save')) + '</button></div>';
     return h;
 }
 function ohDefSave(btn) {
@@ -29816,7 +29825,7 @@ function wzHtml() {
         '<div class="wz-prog"><div class="wz-pt">' + ohEsc(t('wzStep')) + ' ' + (ohWz.i + 1) + ' / ' + N + '</div><div class="wz-pb"><i style="width:' + pct + '%"></i></div></div>' +
         '<div class="wz-tools"><button type="button" class="oh-chg" onclick="ohGoDefaults()">' + ohEsc(t('dfTitle')) + '</button><button type="button" class="oh-chg" onclick="ohCuOpen()">' + ohEsc(t('cuBtn')) + '</button><button type="button" class="oh-chg" onclick="ohView=\'stock\';ohGuideLoad();ohRender()">' + ohEsc(t('wzAll')) + '</button></div></div></div>' +
         '<div class="wz-main"><aside class="wz-list" id="wzSide">' + wzSideHtml() + '</aside><section class="wz-pane"><div class="wz-head"><h2>' + (ohWz.i + 1) + '. ' + ohEsc(wzTitle(s)) + '</h2><p>' + (s.kind === 'sum' ? ohEsc(t(s.hint)) : ohNote(s.hint)) + '</p></div><div class="wz-body">' + wzInner(s) + '</div></section></div>' +
-        '<div class="wz-bar"><button type="button" class="wz-b ghost" onclick="wzBack()">&lsaquo; ' + ohEsc(t('wzBack')) + '</button>' + (hasExp ? '<button type="button" class="wz-b ghost" onclick="wzExport()">' + ohEsc(t('r2Export')) + '</button>' : '') +
+        '<div class="wz-bar"><button type="button" class="wz-b ghost" onclick="wzBack()">' + ohEsc(t('wzBack')) + '</button>' + (hasExp ? '<button type="button" class="wz-b ghost" onclick="wzExport()">' + ohEsc(t('r2Export')) + '</button>' : '') +
         '<button type="button" class="wz-b go" onclick="wzNext(this)">' + ohEsc(t(last ? 'wzFinish' : (s.kind === 'up' || s.nosave || s.kind === 'sum') ? 'wzNext' : 'wzSaveNext')) + ' &rsaquo;</button></div></div>';
 }
 /* the site has its own bar fixed at the top (title and menu). Our bar must stay just under it. */
@@ -30610,24 +30619,24 @@ function elExport() {
   var TX = {
     en: { classic: 'Classic', fresh: 'Fresh', attn: 'Needs your attention', pend: 'Pending approvals', exc: 'Over monthly limit', ren: 'Leave renews this month', open: 'Open', none: 'Nothing needs your attention.',
       gOv: 'OVERVIEW', gPe: 'PEOPLE', gTi: 'TIME', gRe: 'REPORTS', gAd: 'ADMIN',
-      dash: 'Dashboard', emp: 'Employee', mst: 'Master Sheet', add: 'Add Employee', qry: 'Check Record', att: 'Attendance', lea: 'Leave Records', shf: 'Shift Roster', mon: 'Monthly Report', hub: 'Operations Hub', pay: 'Payroll', pen: 'Pending Approvals', mgt: 'Management',
-      gm: 'Good Morning!', ga: 'Good Afternoon!', ge: 'Good Evening!', prT: 'My Profile', prUp: 'Upload new photo', prRm: 'Remove photo', prName: 'Display name', prShown: 'Shown on the card as', crT: 'Drag to move, slide to zoom', crOk: 'Use this photo', seeAll: 'See all', sta: 'Employee Status', num: 'All numbers', back: 'Back to Dashboard', prSave: 'Save', prCancel: 'Cancel', prErr: 'Could not save. Ask the administrator to publish the new Firebase rules.',
+      dash: 'Dashboard', emp: 'Employee', mst: 'Master Sheet', add: 'Add Employee', qry: 'Check Record', att: 'Daily Attendance', lea: 'Leave Records', shf: 'Shift Roster', mon: 'Monthly Report', hub: 'Operations Hub', pay: 'Payroll', pen: 'Pending Approvals', mgt: 'Management',
+      gm: 'Good Morning!', ga: 'Good Afternoon!', ge: 'Good Evening!', prT: 'My Profile', prUp: 'Upload new photo', prRm: 'Remove photo', prName: 'Display name', prShown: 'Shown on the card as', crT: 'Drag to move, slide to zoom', crOk: 'Use this photo', seeAll: 'See all', sta: 'Employee Status', num: 'All numbers', back: 'Back', prSave: 'Save', prCancel: 'Cancel', prErr: 'Could not save. Ask the administrator to publish the new Firebase rules.',
       ov: 'Overview', exp: 'Export', addB: '+ Add Employee', tStaff: 'Total staff', soon: 'Coming soon', tOff: 'On leave today', tOffY: 'On leave yesterday', tMiss: 'Missing records', tPend: 'Pending approvals', tRes: 'Resigned this year',
       chart: 'Leave taken, by month', unit: 'hours', qa: 'Quick actions', allNum: 'All numbers', allMenu: 'All menu',
       bHome: 'Home', bPeople: 'People', bLeave: 'Leave', bRep: 'Reports', bMore: 'More',
       mo: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], loc: 'en-GB' },
     km: { classic: 'ធម្មតា', fresh: 'ថ្មី', attn: 'ត្រូវការការយកចិត្តទុកដាក់', pend: 'រង់ចាំការអនុម័ត', exc: 'លើសកម្រិតប្រចាំខែ', ren: 'ច្បាប់ឆ្នាំបន្តខែនេះ', open: 'បើក', none: 'គ្មានអ្វីត្រូវការយកចិត្តទុកដាក់ទេ។',
       gOv: 'ទិដ្ឋភាពទូទៅ', gPe: 'បុគ្គលិក', gTi: 'ពេលវេលា', gRe: 'របាយការណ៍', gAd: 'រដ្ឋបាល',
-      dash: 'ផ្ទាំងព័ត៌មាន', emp: 'បុគ្គលិក', mst: 'តារាងមេ', add: 'បន្ថែមបុគ្គលិក', qry: 'ពិនិត្យកំណត់ត្រា', att: 'វត្តមាន', lea: 'កំណត់ត្រាច្បាប់', shf: 'តារាងវេន', mon: 'របាយការណ៍ប្រចាំខែ', hub: 'មជ្ឈមណ្ឌលប្រតិបត្តិការ', pay: 'ប្រាក់ខែ', pen: 'រង់ចាំការអនុម័ត', mgt: 'ការគ្រប់គ្រង',
-      gm: 'អរុណសួស្តី!', ga: 'ទិវាសួស្តី!', ge: 'សាយណ្ហសួស្តី!', prT: 'ប្រវត្តិរូបរបស់ខ្ញុំ', prUp: 'ផ្ទុករូបថតថ្មី', prRm: 'លុបរូបថត', prName: 'ឈ្មោះបង្ហាញ', prShown: 'បង្ហាញលើកាតជា', crT: 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', crOk: 'ប្រើរូបថតនេះ', seeAll: 'មើលទាំងអស់', sta: 'ស្ថានភាពបុគ្គលិក', num: 'លេខទាំងអស់', back: 'ត្រឡប់ទៅផ្ទាំងព័ត៌មាន', prSave: 'រក្សាទុក', prCancel: 'បោះបង់', prErr: 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។',
+      dash: 'ផ្ទាំងព័ត៌មាន', emp: 'បុគ្គលិក', mst: 'តារាងមេ', add: 'បន្ថែមបុគ្គលិក', qry: 'ពិនិត្យកំណត់ត្រា', att: 'វត្តមានប្រចាំថ្ងៃ', lea: 'កំណត់ត្រាច្បាប់', shf: 'តារាងវេន', mon: 'របាយការណ៍ប្រចាំខែ', hub: 'មជ្ឈមណ្ឌលប្រតិបត្តិការ', pay: 'ប្រាក់ខែ', pen: 'រង់ចាំការអនុម័ត', mgt: 'ការគ្រប់គ្រង',
+      gm: 'អរុណសួស្តី!', ga: 'ទិវាសួស្តី!', ge: 'សាយណ្ហសួស្តី!', prT: 'ប្រវត្តិរូបរបស់ខ្ញុំ', prUp: 'ផ្ទុករូបថតថ្មី', prRm: 'លុបរូបថត', prName: 'ឈ្មោះបង្ហាញ', prShown: 'បង្ហាញលើកាតជា', crT: 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', crOk: 'ប្រើរូបថតនេះ', seeAll: 'មើលទាំងអស់', sta: 'ស្ថានភាពបុគ្គលិក', num: 'លេខទាំងអស់', back: 'ត្រឡប់ក្រោយ', prSave: 'រក្សាទុក', prCancel: 'បោះបង់', prErr: 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។',
       ov: 'ទិដ្ឋភាពទូទៅ', exp: 'នាំចេញ', addB: '+ បន្ថែមបុគ្គលិក', tStaff: 'បុគ្គលិកសរុប', soon: 'ឆាប់ៗនេះ', tOff: 'ឈប់សម្រាកថ្ងៃនេះ', tOffY: 'ឈប់សម្រាកម្សិលមិញ', tMiss: 'កំណត់ត្រាដែលខ្វះ', tPend: 'រង់ចាំការអនុម័ត', tRes: 'ឈប់ពីការងារឆ្នាំនេះ',
       chart: 'ច្បាប់ដែលបានឈប់ តាមខែ', unit: 'ម៉ោង', qa: 'ចូលរហ័ស', allNum: 'លេខទាំងអស់', allMenu: 'ម៉ឺនុយទាំងអស់',
       bHome: 'ទំព័រដើម', bPeople: 'បុគ្គលិក', bLeave: 'ច្បាប់', bRep: 'របាយការណ៍', bMore: 'ផ្សេងៗ',
       mo: ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'], loc: 'km-KH' },
     zh: { classic: '经典', fresh: '清新', attn: '需要您处理', pend: '待审批', exc: '超出本月额度', ren: '本月年假更新', open: '打开', none: '暂无需要处理的事项。',
       gOv: '概览', gPe: '人员', gTi: '考勤', gRe: '报表', gAd: '管理',
-      dash: '仪表板', emp: '员工', mst: '总表', add: '添加员工', qry: '查询记录', att: '考勤', lea: '请假记录', shf: '排班表', mon: '月报表', hub: '运营中心', pay: '工资', pen: '待审批', mgt: '管理',
-      gm: '早上好！', ga: '下午好！', ge: '晚上好！', prT: '我的资料', prUp: '上传新照片', prRm: '删除照片', prName: '显示名称', prShown: '卡片上显示为', crT: '拖动移动，滑动缩放', crOk: '使用此照片', seeAll: '查看全部', sta: '员工状态', num: '全部数字', back: '返回仪表板', prSave: '保存', prCancel: '取消', prErr: '无法保存。请让管理员发布新的 Firebase 规则。',
+      dash: '仪表板', emp: '员工', mst: '总表', add: '添加员工', qry: '查询记录', att: '每日考勤', lea: '请假记录', shf: '排班表', mon: '月报表', hub: '运营中心', pay: '工资', pen: '待审批', mgt: '管理',
+      gm: '早上好！', ga: '下午好！', ge: '晚上好！', prT: '我的资料', prUp: '上传新照片', prRm: '删除照片', prName: '显示名称', prShown: '卡片上显示为', crT: '拖动移动，滑动缩放', crOk: '使用此照片', seeAll: '查看全部', sta: '员工状态', num: '全部数字', back: '返回', prSave: '保存', prCancel: '取消', prErr: '无法保存。请让管理员发布新的 Firebase 规则。',
       ov: '概览', exp: '导出', addB: '+ 添加员工', tStaff: '员工总数', soon: '即将推出', tOff: '今日请假', tOffY: '昨日请假', tMiss: '缺失记录', tPend: '待审批', tRes: '今年离职',
       chart: '每月请假时数', unit: '小时', qa: '快捷操作', allNum: '全部数字', allMenu: '全部菜单',
       bHome: '首页', bPeople: '员工', bLeave: '请假', bRep: '报表', bMore: '更多',
@@ -31040,7 +31049,7 @@ function elExport() {
     var x = L();
     [['tab-fr-nums', 'num'], ['tab-fr-emps', 'sta']].forEach(function (d) {
       var pn = document.getElementById(d[0]); if (!pn) return;
-      pn.querySelector('.fr-bk').textContent = '← ' + x.back; pn.querySelector('b').textContent = x[d[1]];
+      pn.querySelector('.fr-bk').textContent = x.back; pn.querySelector('b').textContent = x[d[1]];
     });
   }
   function mv(node, target) { if (!node || node.parentNode === target) return; var m = document.createComment('fr'); node.parentNode.insertBefore(m, node); marks.push([node, m]); target.appendChild(node); }
@@ -31193,7 +31202,9 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
       { k: 'fr-emps', t: 'Employee Status', who: 'both', intro: 'A clean table of who is Active and who has resigned.', steps: ['Read the <b>Status</b> column on the right.', 'Press <b>Back to Dashboard</b> to return.'] }
     ]],
     ['Time', [
-      { k: 'att', t: 'Attendance', who: 'both', intro: 'Record who came to work and overtime for one day.', steps: ['Choose the <b>Department</b> and Group.', 'Choose the <b>Date</b>.', 'Press <b>Show Employees</b>, then fill each person and save.'], tip: 'Forgot to record a day? Use Makeup Attendance Record.' },
+      { k: 'att', t: 'Daily Attendance', who: 'both', intro: 'Record work hours, overtime and leave for every employee of one day, in one table.', steps: ['Choose the <b>Department</b> and Group, then the <b>Date</b>, and press <b>Show Employees</b>.','Fill <b>Working Hours</b> and <b>OT Hours</b>. To record leave, fill <b>Leave Hours</b> and choose the <b>Leave Type</b>. The type is required when leave hours are more than 0.','The <b>Remark</b> column shows what is already saved for that day. A day already full by a leave record, or a rest day, can not be filled again.','Press <b>Submit</b>. Leave is saved first and then the attendance, with the same calculation as Leave Records.','Press <b>Export Daily Attendance</b> to download Excel or print. Choose the dates, the table language (English, Khmer or Chinese) and one-column or two-column names.'], tip: 'A small red circle on this menu shows how many records are missing. Press Missing Records to fix them. Forgot to record a day? Use Makeup Attendance Record.' },
+      { k: 'svcacc', t: 'Service Access (Maintenance)', who: 'adm', intro: 'The Owner can open or close any service, menu or button for one account: Employee, Department, HR or Administration.', steps: ['Open <b>Maintenance</b> and press <b>Service Access</b>.','Choose the system (Employee, Department, HR or Administration). Search the name or choose a department.','Click an account, then close the services or buttons that account must not use. Press <b>Save</b>.','A blocked person sees a white window: you do not have permission to use this service, please contact the super administration.'], tip: 'The Owner is never blocked. To undo, open the same account and reopen the service.' },
+      { k: 'backnav', t: 'Back button and missing-record alerts', who: 'all', intro: 'Back goes to the page you came from. Missing records are shown and sent to Telegram.', steps: ['<b>Back</b> returns to the menu you opened this page from, for example Daily Attendance after Missing Records.','A <b>red circle</b> with a number on Daily Attendance, Missing Records and Employee shows how many records are missing.','Once a day, the list of names is sent to the Telegram group after an Admin or HR opens the website.'] },
       { k: 'leave', t: 'Leave Records', who: 'both', intro: 'Enter leave that an employee took.', steps: ['Choose the <b>Leave Date</b>.', 'Type the <b>Employee ID</b>. The name fills in by itself.', 'Type the hours in the right leave type, for example <b>Annual Leave</b>.', 'Press <b>Submit Leave Record</b>.'], tip: 'Hours are used, not days. 8 hours = 1 day.' },
       { k: 'shift', t: 'Shift Roster', who: 'both', intro: 'Plan who works which shift each day of the month.', steps: ['<b>Shift Check</b>: see one employee shift on one date.', 'Press <b>Check</b> to show the result.', '<b>Monthly Shift Calendar</b>: type a shift letter in a day box, or fill many people at once.', '<b>Import shifts</b> loads a filled Excel file. Download the template first.'], tip: 'Use the template so the columns are always right.' },
       { k: 'query', t: 'Check Record', who: 'all', intro: 'Check one employee on one day: hours, leave and balance.', steps: ['Choose the <b>Query Date</b>.', 'Type the <b>Employee ID</b>.', 'Press <b>Check Details</b>.'] },
@@ -31322,5 +31333,353 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
 
 </script>
 
+<script id="dlJs">
+/* ===== v8.10: Daily Attendance (renamed Attendance) =====
+   - the table also takes LEAVE (hours + type); the type is required when leave hours are typed
+   - leave goes through the SAME Leave Records code (gate + save), so every calculation stays the same
+   - a day that is already filled (leave and/or attendance up to 8 hours) is locked for that employee
+   - Export Daily Attendance: choose dates, group and language */
+(function () {
+  'use strict';
+  var D = {
+    en: { lvH: 'Leave Hours', lvT: 'Leave Type', rm: 'Remark', choose: 'Choose type of leave', need: 'Choose the type of leave for ID {id}.', over: 'Working + leave cannot be more than {n} h for this day.',
+      work: 'Work', ot: 'OT', leave: 'Leave', rest: 'On Rest Day', noShift: 'No shift', rec: 'Saved', full: 'Day already full', lvOff: 'Leave is closed', exBtn: 'Export Daily Attendance', exT: 'Export Daily Attendance',
+      from: 'From', to: 'To', grp: 'Group', all: 'All', lang: 'Language', lay: 'Name layout', one: 'One column (wrapped)', two: 'Two columns', xl: 'Excel', pr: 'Print', cancel: 'Cancel', none: 'No records for these dates.',
+      date: 'Date', dept: 'Department', grpH: 'Group', st: 'Status', miss: 'Not filled', days: 'Please choose at most 93 days.', lvStop: 'Stopped at ID {id}. Leave saved before it: {n}. Attendance was NOT saved. Press Submit again.', noPop: 'Allow pop-ups to print.', dateReq: 'Choose the dates first.' },
+    km: { lvH: 'ម៉ោងច្បាប់', lvT: 'ប្រភេទច្បាប់', rm: 'ចំណាំ', choose: 'ជ្រើសរើសប្រភេទច្បាប់', need: 'សូមជ្រើសរើសប្រភេទច្បាប់សម្រាប់ ID {id}។', over: 'ម៉ោងធ្វើការ + ច្បាប់ មិនអាចលើស {n} ម៉ោងក្នុងមួយថ្ងៃទេ។',
+      work: 'ធ្វើការ', ot: 'ថែមម៉ោង', leave: 'ច្បាប់', rest: 'ថ្ងៃឈប់សម្រាក', noShift: 'គ្មានវេន', rec: 'បានរក្សាទុក', full: 'ថ្ងៃនេះពេញហើយ', lvOff: 'ច្បាប់ត្រូវបានបិទ', exBtn: 'នាំចេញវត្តមានប្រចាំថ្ងៃ', exT: 'នាំចេញវត្តមានប្រចាំថ្ងៃ',
+      from: 'ពី', to: 'ដល់', grp: 'ក្រុម', all: 'ទាំងអស់', lang: 'ភាសា', lay: 'ទម្រង់ឈ្មោះ', one: 'មួយជួរ (បត់បន្ទាត់)', two: 'ពីរជួរ', xl: 'Excel', pr: 'បោះពុម្ព', cancel: 'បោះបង់', none: 'គ្មានកំណត់ត្រាសម្រាប់ថ្ងៃទាំងនេះទេ។',
+      date: 'កាលបរិច្ឆេទ', dept: 'នាយកដ្ឋាន', grpH: 'ក្រុម', st: 'ស្ថានភាព', miss: 'មិនទាន់បំពេញ', days: 'សូមជ្រើសរើសមិនលើស ៩៣ ថ្ងៃ។', lvStop: 'បានឈប់នៅ ID {id}។ ច្បាប់បានរក្សាទុកមុននេះ៖ {n}។ វត្តមាន មិនទាន់បានរក្សាទុកទេ។ សូមចុចបញ្ជូនម្តងទៀត។', noPop: 'សូមអនុញ្ញាត pop-up ដើម្បីបោះពុម្ព។', dateReq: 'សូមជ្រើសរើសកាលបរិច្ឆេទជាមុនសិន។' },
+    zh: { lvH: '请假小时', lvT: '请假类型', rm: '备注', choose: '选择请假类型', need: '请为 ID {id} 选择请假类型。', over: '当天上班 + 请假不能超过 {n} 小时。',
+      work: '上班', ot: '加班', leave: '请假', rest: '休息日', noShift: '无排班', rec: '已保存', full: '当天已满', lvOff: '请假功能已关闭', exBtn: '导出每日考勤', exT: '导出每日考勤',
+      from: '从', to: '到', grp: '小组', all: '全部', lang: '语言', lay: '姓名排版', one: '单列（换行）', two: '两列', xl: 'Excel', pr: '打印', cancel: '取消', none: '这些日期没有记录。',
+      date: '日期', dept: '部门', grpH: '小组', st: '状态', miss: '未填写', days: '请最多选择 93 天。', lvStop: '在 ID {id} 处停止。此前已保存的请假：{n}。考勤尚未保存，请再次点击提交。', noPop: '请允许弹出窗口以打印。', dateReq: '请先选择日期。' }
+  };
+  function L() { try { return (typeof currentLang === 'string' && D[currentLang]) ? currentLang : 'en'; } catch (e) { return 'en'; } }
+  function T(k, o, lg) { var s = (D[lg || L()] || D.en)[k]; if (s == null) s = D.en[k] || k; if (o) Object.keys(o).forEach(function (x) { s = s.split('{' + x + '}').join(o[x]); }); return s; }
+  function E(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function $(id) { return document.getElementById(id); }
+  var FIELDS = [['leaveAL', 'leaveTypeAL'], ['leaveSpecial', 'leaveTypeSpecial'], ['leaveMaternity', 'leaveTypeMaternity'], ['leaveTravel', 'leaveTypeTravel'], ['leavePersonal', 'leaveTypePersonal'], ['leaveSick', 'leaveTypeSick'], ['leaveOther', 'leaveTypeOther']];
+  var NAMEKEY = { thMasterAnnualLeave: 'leaveTypeAL', thMasterSpecialLeave: 'leaveTypeSpecial', thMasterMaternityLeave: 'leaveTypeMaternity', thMasterTravelLeave: 'leaveTypeTravel', thMasterPersonalLeave: 'leaveTypePersonal', thMasterSickLeave: 'leaveTypeSick', thMasterOtherLeave: 'leaveTypeOther' };
+  function fmt(n) { n = Math.round((parseFloat(n) || 0) * 100) / 100; return String(n); }
+  function lvOpen() { try { return !(typeof mtMode === 'function' && mtMode('leave') === 'closed'); } catch (e) { return true; } }
+  function empOf(tr) { var i = tr.querySelector('.att-batch-input'); if (!i) return null; var k = i.getAttribute('data-emp-key'); return (employees || []).filter(function (e) { return e.firebaseKey === k; })[0] || null; }
+  function typesOn(id, date) { var o = {}; (leaveHistory || []).forEach(function (h) { if (String(h.empId) === String(id) && h.date === date && (parseFloat(h.hours) || 0) > 0) o[h.leaveType] = 1; }); return Object.keys(o).map(function (k) { return t(NAMEKEY[k] || k); }); }
+  function sums(w, o, l) { return '<span style="color:#15803d">' + E(T('work')) + ': ' + fmt(w) + 'h</span> | <span style="color:#1d4ed8">' + E(T('ot')) + ': ' + fmt(o) + 'h</span> | <span style="color:#dc2626">' + E(T('leave')) + ': ' + fmt(l) + 'h</span>'; }
+
+  function heads() {
+    var th = document.querySelectorAll('#attDeptTable thead th'); if (!th.length) return;
+    var tr = th[0].parentNode;
+    if (!$('dlThLv')) { ['dlThLv', 'dlThTy', 'dlThRm'].forEach(function (id) { var h = document.createElement('th'); h.id = id; tr.appendChild(h); }); }
+    $('dlThLv').textContent = T('lvH'); $('dlThTy').textContent = T('lvT'); $('dlThRm').textContent = T('rm');
+  }
+  function enhance() {
+    heads();
+    var wrap = $('attDeptTableWrap'); if (wrap) { wrap.style.maxWidth = '1180px'; }
+    var tbl = $('attDeptTable'); if (tbl) { tbl.style.width = '100%'; }
+    var date = ($('attDate') || {}).value, open = lvOpen();
+    Array.prototype.forEach.call(document.querySelectorAll('#attDeptTable tbody tr'), function (tr) {
+      if (tr.getAttribute('data-dl')) return;
+      var emp = empOf(tr);
+      if (!emp) { var c = tr.querySelector('td[colspan]'); if (c) c.setAttribute('colspan', '7'); return; }
+      tr.setAttribute('data-dl', '1');
+      Array.prototype.forEach.call(tr.querySelectorAll('.chkNote'), function (n) { n.remove(); });
+      var oi0 = tr.querySelector('.att-batch-input[data-field="ot"]'); if (oi0 && oi0.disabled) oi0.setAttribute('data-dlnoot', '1');
+      var rm = hrRoom(emp.id, date), d = rm.d, has = hrShiftOn(emp.id, date), works = hrWorkOn(emp.id, date), ty = hrType(emp.id, date);
+      var canLv = open && has && works && rm.work > 0;
+      var td1 = document.createElement('td'), td2 = document.createElement('td'), td3 = document.createElement('td');
+      td1.innerHTML = '<input type="number" class="dl-lv" step="0.5" min="0" max="' + rm.work + '" data-max="' + rm.work + '" placeholder="' + (canLv ? '0.00' : '-') + '" ' + (canLv ? '' : 'disabled ') + 'style="width:90px;text-align:center">';
+      var opts = '<option value="">' + E(T('choose')) + '</option>' + FIELDS.map(function (f) { return '<option value="' + f[0] + '">' + E(t(f[1])) + '</option>'; }).join('');
+      td2.innerHTML = '<select class="dl-ty" disabled style="min-width:150px">' + opts + '</select>';
+      var st = '';
+      if (!has) st = '<div style="color:#dc2626">' + E(T('noShift')) + '</div>';
+      else if (ty === 'H') st = '<div style="color:#dc2626">' + E(T('rest')) + '</div>';
+      else if (!open) st = '<div style="color:#dc2626">' + E(T('lvOff')) + '</div>';
+      else if (rm.work <= 0 && (d.work + d.leave) > 0) st = '<div style="color:#dc2626">' + E(T('full')) + '</div>';
+      var rec = (d.work || d.ot || d.leave) ? '<div style="font-size:11px">' + E(T('rec')) + ': ' + sums(d.work, d.ot, d.leave) + (d.leave > 0 ? ' <span style="color:#64748b">(' + E(typesOn(emp.id, date).join(', ')) + ')</span>' : '') + '</div>' : '';
+      td3.className = 'dl-rm'; td3.style.cssText = 'text-align:left;min-width:190px;font-size:12px';
+      td3.innerHTML = st + rec + '<div class="dl-new" style="font-size:11px"></div>';
+      tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+      upd(tr);
+    });
+  }
+  function upd(tr) {
+    var emp = empOf(tr); if (!emp) return; var date = ($('attDate') || {}).value, rm = hrRoom(emp.id, date), d = rm.d;
+    var w = parseFloat((tr.querySelector('.att-batch-input[data-field="work"]') || {}).value) || 0, o = parseFloat((tr.querySelector('.att-batch-input[data-field="ot"]') || {}).value) || 0;
+    var li = tr.querySelector('.dl-lv'), l = li ? (parseFloat(li.value) || 0) : 0, sel = tr.querySelector('.dl-ty');
+    if (sel) { sel.disabled = !(l > 0); sel.style.borderColor = (l > 0 && !sel.value) ? '#dc2626' : ''; if (!(l > 0)) sel.value = ''; }
+    var oi = tr.querySelector('.att-batch-input[data-field="ot"]');
+    if (oi && !oi.getAttribute('data-dlnoot')) { var full = (d.leave + l) >= HRCHK_WORK - 1e-9 && l > 0; if (full) { oi.value = ''; oi.disabled = true; } else if (oi.disabled && rm.ot > 0 && hrShiftOn(emp.id, date)) oi.disabled = false; }
+    var nb = tr.querySelector('.dl-new'); if (nb) nb.innerHTML = (w || o || l) ? ('+ ' + sums(w, o, l)) : '';
+  }
+  document.addEventListener('input', function (ev) {
+    var el = ev.target; if (!el || !el.closest || !el.closest('#attDeptTable')) return;
+    var tr = el.closest('tr'), emp = empOf(tr); if (!emp) return;
+    var date = $('attDate').value, rm = hrRoom(emp.id, date);
+    var wi = tr.querySelector('.att-batch-input[data-field="work"]'), li = tr.querySelector('.dl-lv');
+    if (el === li || el === wi) {
+      var w = parseFloat(wi && wi.value) || 0, l = parseFloat(li && li.value) || 0;
+      if (l > rm.work + 1e-9 || w + l > rm.work + 1e-9) {
+        if (el === li) { l = Math.max(0, Math.min(l, rm.work - w)); li.value = l ? fmt(l) : ''; } else { w = Math.max(0, rm.work - l); wi.value = w ? fmt(w) : ''; }
+        showToast(false, T('over', { n: fmt(rm.work) }));
+      }
+    }
+    upd(tr);
+  }, false);
+  document.addEventListener('change', function (ev) { var el = ev.target; if (el && el.closest && el.closest('#attDeptTable')) { var tr = el.closest('tr'); upd(tr); } }, false);
+
+  /* ---- load: draw the original table, then add the leave columns ---- */
+  var origLoad = window.loadAttendanceDeptTable;
+  window.loadAttendanceDeptTable = function () { var r = origLoad.apply(this, arguments); try { enhance(); } catch (e) { console.error(e); } return r; };
+
+  /* ---- submit: leave first (same code as Leave Records), then the attendance hours ---- */
+  var origSave = window.saveAttendanceDeptBatch, busy = false;
+  function collect() {
+    var list = [], bad = null;
+    Array.prototype.forEach.call(document.querySelectorAll('#attDeptTable tbody tr'), function (tr) {
+      var li = tr.querySelector('.dl-lv'); if (!li) return; var l = parseFloat(li.value) || 0; if (l <= 0) return;
+      var emp = empOf(tr), sel = tr.querySelector('.dl-ty');
+      if (!sel.value) { if (!bad) { bad = emp; try { sel.focus(); } catch (e) {} } sel.style.borderColor = '#dc2626'; return; }
+      list.push({ emp: emp, hrs: l, field: sel.value, tr: tr });
+    });
+    return { list: list, bad: bad };
+  }
+  window.saveAttendanceDeptBatch = function (btn) {
+    if (busy) return origSave.apply(this, arguments);
+    var date = $('attDate').value; if (!date) return origSave.apply(this, arguments);
+    var c = collect();
+    if (c.bad) { showToast(false, T('need', { id: c.bad.id })); return; }
+    if (!c.list.length) return origSave.apply(this, arguments);
+    if (!lvOpen()) { try { mtPopup('leave'); } catch (e) {} return; }
+    var self = this, args = arguments, form = $('leaveForm'), done = 0, failEmp = null;
+    var hasAtt = Array.prototype.some.call(document.querySelectorAll('#attDeptTable .att-batch-input'), function (i) { return (parseFloat(i.value) || 0) > 0; });
+    busy = true;
+    var step = function (i) {
+      if (i >= c.list.length) return Promise.resolve(true);
+      var it = c.list[i];
+      $('leaveDate').value = date; $('leaveEmpId').value = it.emp.id; try { onLeaveEmpIdInput(); } catch (e) {}
+      FIELDS.forEach(function (f) { $(f[0]).value = ''; }); $(it.field).value = String(it.hrs);
+      return hrLeaveGate(form).then(function (ok) {
+        if (!ok) { failEmp = it.emp; return false; }
+        window.__lvOk = null;
+        return Promise.resolve(leaveSubmitCore.call(form)).then(function () {
+          if (window.__lvOk !== true) { failEmp = it.emp; return false; }
+          done++; var li = it.tr.querySelector('.dl-lv'); if (li) li.value = ''; var sl = it.tr.querySelector('.dl-ty'); if (sl) sl.value = ''; upd(it.tr);
+          return step(i + 1);
+        });
+      });
+    };
+    return step(0).then(function (ok) {
+      busy = false;
+      if (!ok) { showToast(false, T('lvStop', { id: failEmp ? failEmp.id : '', n: done })); return; }
+      if (hasAtt) return origSave.apply(self, args);
+      showToast(true); loadAttendanceDeptTable();
+    }).catch(function (e) { busy = false; console.error(e); showToast(false); });
+  };
+
+  /* ---- Export Daily Attendance ---- */
+  var cur = null;
+  function addDays(ds, n) { var p = ds.split('-'), x = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + n)); return x.getUTCFullYear() + '-' + String(x.getUTCMonth() + 1).padStart(2, '0') + '-' + String(x.getUTCDate()).padStart(2, '0'); }
+  function groupsList() { var o = {}; (employees || []).forEach(function (e) { if (e.status !== 'Resigned' && e.department) o[e.department] = 1; }); return Object.keys(o).sort(function (a, b) { return a.localeCompare(b); }); }
+  function parentOf(g) { try { return dgParentOf(g) || ''; } catch (e) { return ''; } }
+  function H(k, lg) { return lg === 'km' ? T(k, null, 'km') : T(k, null, 'km') + '\n' + T(k, null, lg); }
+  function build(from, to, grp, lg) {
+    var out = [[T('date', null, lg), tLang('tblId', lg), tLang('tblName', lg), T('dept', null, lg), T('grpH', null, lg), H('work', lg), H('ot', lg), T('leave', null, lg), H('lvT', lg), T('st', null, lg)]];
+    var list = (employees || []).filter(function (e) { return e.status !== 'Resigned' && (!grp || e.department === grp); }).slice().sort(function (a, b) { return (a.id || '').localeCompare(b.id || '', undefined, { numeric: true }); });
+    var n = 0;
+    for (var d = from; d <= to; d = addDays(d, 1)) {
+      list.forEach(function (e) {
+        var x = hrDay(e.id, d), has = hrShiftOn(e.id, d), ty = hrType(e.id, d), any = x.work || x.ot || x.leave;
+        if (!any && !has) return;
+        var st = any ? '' : (ty === 'H' ? T('rest', null, lg) : T('miss', null, lg));
+        var types = x.leave > 0 ? (leaveHistory || []).filter(function (h) { return String(h.empId) === String(e.id) && h.date === d && (parseFloat(h.hours) || 0) > 0; }).map(function (h) { return tLang(NAMEKEY[h.leaveType] || h.leaveType, lg); }).filter(function (v, i, a) { return a.indexOf(v) === i; }).join(', ') : '';
+        out.push([d, e.id, e.name, parentOf(e.department), e.department || '', x.work || '', x.ot || '', x.leave || '', types, st]); n++;
+      });
+    }
+    return { rows: out, n: n };
+  }
+  function readOpts() {
+    var from = $('dlExFrom').value, to = $('dlExTo').value;
+    if (!from || !to || to < from) { showToast(false, T('dateReq')); return null; }
+    if ((Date.parse(to) - Date.parse(from)) / 86400000 > 92) { showToast(false, T('days')); return null; }
+    return { from: from, to: to, grp: $('dlExGrp').value, lg: $('dlExLang').value, lay: $('dlExLay').value };
+  }
+  function close() { var m = $('dlExMod'); if (m) m.remove(); }
+  window.dlExport = function () {
+    close();
+    var m = document.createElement('div'); m.id = 'dlExMod';
+    m.style.cssText = 'position:fixed;inset:0;z-index:100000;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:16px';
+    var date = ($('attDate') || {}).value || '';
+    var sv = {}; try { sv = JSON.parse(localStorage.getItem('dlEx') || '{}'); } catch (e) {}
+    m.innerHTML = '<div style="background:#fff;border-radius:14px;max-width:460px;width:100%;padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.35);text-align:left"><h3 style="margin:0 0 12px;color:#0b1d3a">' + E(T('exT')) + '</h3>' +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap"><div class="form-group" style="flex:1;min-width:140px"><label>' + E(T('from')) + '</label><input type="date" id="dlExFrom" value="' + E(date) + '"></div><div class="form-group" style="flex:1;min-width:140px"><label>' + E(T('to')) + '</label><input type="date" id="dlExTo" value="' + E(date) + '"></div></div>' +
+      '<div class="form-group"><label>' + E(T('grp')) + '</label><select id="dlExGrp"><option value="">' + E(T('all')) + '</option>' + groupsList().map(function (g) { return '<option value="' + E(g) + '">' + E(g) + '</option>'; }).join('') + '</select></div>' +
+      '<div style="display:flex;gap:10px;flex-wrap:wrap"><div class="form-group" style="flex:1;min-width:140px"><label>' + E(T('lang')) + '</label><select id="dlExLang"><option value="km">ខ្មែរ</option><option value="en">English</option><option value="zh">中文</option></select></div>' +
+      '<div class="form-group" style="flex:1;min-width:140px"><label>' + E(T('lay')) + '</label><select id="dlExLay"><option value="one">' + E(T('one')) + '</option><option value="two">' + E(T('two')) + '</option></select></div></div>' +
+      '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap"><button type="button" class="quick-btn slate mhSm" id="dlExX">' + E(T('cancel')) + '</button><button type="button" class="quick-btn slate mhSm" id="dlExP">' + E(T('pr')) + '</button><button type="button" class="quick-btn green mhSm" id="dlExE">' + E(T('xl')) + '</button></div></div>';
+    document.body.appendChild(m);
+    $('dlExLang').value = sv.lg || L(); $('dlExLay').value = sv.lay || 'one';
+    m.addEventListener('click', function (e) { if (e.target === m) close(); });
+    $('dlExX').onclick = close;
+    function save(o) { try { localStorage.setItem('dlEx', JSON.stringify({ lg: o.lg, lay: o.lay })); } catch (e) {} }
+    $('dlExE').onclick = function () {
+      var o = readOpts(); if (!o) return; save(o); var b = build(o.from, o.to, o.grp, o.lg); if (!b.n) { showToast(false, T('none', null, o.lg)); return; }
+      var go = function () { var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(b.rows), 'Daily'); XLSX.writeFile(wb, 'Daily_Attendance_' + o.from + (o.to !== o.from ? '_' + o.to : '') + '.xlsx'); };
+      if (window.NM && NM.run) NM.run(o.lg, o.lay, go, null, []); else go(); close();
+    };
+    $('dlExP').onclick = function () {
+      var o = readOpts(); if (!o) return; save(o); var b = build(o.from, o.to, o.grp, o.lg); if (!b.n) { showToast(false, T('none', null, o.lg)); return; }
+      var go = function () {
+        var d = b.rows, ttl = T('exT', null, o.lg) + ' ' + o.from + (o.to !== o.from ? ' - ' + o.to : '');
+        var h = '<html><head><meta charset="utf-8"><title>' + E(ttl) + '</title><style>body{font-family:"Khmer OS","Noto Sans Khmer","Noto Sans SC","Microsoft YaHei",Arial,sans-serif;padding:16px}@page{size:A4 landscape;margin:10mm}table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #444;padding:5px 7px;text-align:center}th{background:#eee}</style></head><body><h3>' + E(ttl) + '</h3><table><thead><tr>' + d[0].map(function (x) { return '<th>' + E(x).split('\n').join('<br>') + '</th>'; }).join('') + '</tr></thead><tbody>' + d.slice(1).map(function (r) { return '<tr>' + r.map(function (x) { return '<td>' + E(x).split('\n').join('<br>') + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></body></html>';
+        var w = window.open('', '_blank'); if (!w) { showToast(false, T('noPop')); return; } w.document.write(h); w.document.close(); setTimeout(function () { w.print(); }, 500);
+      };
+      if (window.NM && NM.run) NM.run(o.lg, o.lay, go, null, []); else go(); close();
+    };
+  };
+  /* the Export button + the new title text */
+  function ui() {
+    var f = document.querySelector('#tab-att form'); if (f && !$('dlExBtn')) {
+      var b = document.createElement('button'); b.type = 'button'; b.id = 'dlExBtn'; b.className = 'quick-btn green mhSm'; b.style.cssText = 'width:auto;align-self:flex-end'; b.setAttribute('onclick', 'dlExport()'); f.appendChild(b);
+    }
+    var b2 = $('dlExBtn'); if (b2 && b2.textContent !== T('exBtn')) b2.textContent = T('exBtn');
+    var h = $('dlThLv'); if (h && h.textContent !== T('lvH')) { h.textContent = T('lvH'); $('dlThTy').textContent = T('lvT'); $('dlThRm').textContent = T('rm'); }
+  }
+  setInterval(ui, 600); ui();
+})();
+
+</script>
+<script id="pxJs">
+/* ===== v8.10: Service Access - per account open/closed services and buttons (data: svcAccess/<system>_<accountKey>) ===== */
+(function () {
+  'use strict';
+  function $(id) { return document.getElementById(id); }
+  function lang() { try { return (typeof currentLang === 'string' && ['en', 'km', 'zh'].indexOf(currentLang) >= 0) ? currentLang : 'en'; } catch (e) { return 'en'; } }
+  var st = document.createElement('style');
+  st.textContent = '#pxWhite{position:fixed;inset:0;z-index:100003;background:rgba(255,255,255,.97);display:flex;align-items:center;justify-content:center;padding:20px}' +
+    '#pxWhite .px-b{max-width:420px;width:100%;text-align:center;color:#0f172a}#pxWhite p{font-size:16px;line-height:1.55;color:#334155;margin:6px 0 16px}' +
+    '#pxWhite button{background:#0b1d3a;color:#fff;border:0;border-radius:10px;padding:10px 34px;font-size:15px;cursor:pointer}';
+  document.head.appendChild(st);
+  /* ---------- 3) Service Access ---------- */
+  var MSG = { en: ["Sorry, you don't have permission to use this service.", 'Please contact the super administration for assistance, thank you!', 'OK'],
+    km: ['សូមអភ័យទោស អ្នកមិនមានសិទ្ធិប្រើសេវាកម្មនេះទេ។', 'សូមទាក់ទងអ្នកគ្រប់គ្រងកំពូលដើម្បីសុំជំនួយ សូមអរគុណ!', 'យល់ព្រម'],
+    zh: ['抱歉，您没有权限使用此服务。', '请联系超级管理员获取帮助，谢谢！', '确定'] };
+  var data = null, scope = '', ref = null, ready = false;
+  function actor() {
+    if (window.__pxActor) { var h = window.__pxActor(); if (h !== undefined) return h; }
+    var a = window.__actorInfo; if (!a) return null;
+    try {
+      if (a.type === 'staff' && sessionStorage.getItem('isLoggedIn') === 'true') return { s: (sessionStorage.getItem('loggedInRole') === 'hr' || a.role === 'hr') ? 'hr' : 'admin', k: a.key };
+      if (a.type === 'employee' && sessionStorage.getItem('empLoggedInId')) return { s: 'emp', k: a.key };
+    } catch (e) {}
+    return null;
+  }
+  function me() {
+    var a = actor(); if (!a || !a.k) return '';
+    try { if (a.s !== 'emp' && (acctIsOwner(a.k) || viewerIsOwner())) return ''; } catch (e) {}
+    return a.s + '_' + a.k;
+  }
+  function sync() {
+    var s = me(); if (s === scope) return;
+    scope = s; if (ref) { try { ref.off(); } catch (e) {} } ref = null; data = null;
+    window.__pxReady = false;
+    if (!s) { ready = true; window.__pxReady = true; try { (window.mtRefresh || window.dmtRefresh || function () {})(); } catch (e) {} return; }
+    ready = false;
+    ref = db.ref('svcAccess/' + s);
+    ref.on('value', function (sn) { data = sn.val() || null; ready = true; window.__pxReady = true; try { (window.mtRefresh || window.dmtRefresh || function () {})(); } catch (e) {} }, function () { ready = true; window.__pxReady = true; });
+    setTimeout(function () { ready = true; window.__pxReady = true; }, 6000);
+  }
+  setInterval(sync, 700); setTimeout(sync, 300);
+  window.pxWait = function () { return !!scope && !ready; };
+  window.pxOn = function () { return !!(scope && data && (data.services || data.actions)); };
+  window.pxSvcClosed = function (id) { window.__pxWhy = null; if (id && data && data.services && data.services[id] === 'closed') { window.__pxWhy = id; return true; } return false; };
+  window.pxActClosed = function (svc, act) {
+    window.__pxWhy = null; if (!data) return false;
+    if (data.services && data.services[svc] === 'closed') { window.__pxWhy = svc; return true; }
+    if (data.actions && data.actions[svc] && data.actions[svc][act] === 'closed') { window.__pxWhy = svc + '.' + act; return true; }
+    return false;
+  };
+  window.pxPopup = function () {
+    var old = $('pxWhite'); if (old) old.remove();
+    var m = MSG[lang()], d = document.createElement('div'); d.id = 'pxWhite';
+    d.innerHTML = '<div class="px-b"><h3 style="margin:0 0 6px;font-size:18px"></h3><p></p><button type="button"></button></div>';
+    d.querySelector('h3').textContent = m[0]; d.querySelector('p').textContent = m[1]; d.querySelector('button').textContent = m[2];
+    d.querySelector('button').onclick = function () { d.remove(); }; d.addEventListener('click', function (e) { if (e.target === d) d.remove(); });
+    document.body.appendChild(d);
+  };
+})();
+
+/* ===== v8.10: (1) Back = go to the page you came from  (2) red circle for missing records + Telegram list
+              (3) Service Access: per-account open/closed services and buttons (data: svcAccess/<system>_<accountKey>) ===== */
+(function () {
+  'use strict';
+  function $(id) { return document.getElementById(id); }
+  function lang() { try { return (typeof currentLang === 'string' && ['en', 'km', 'zh'].indexOf(currentLang) >= 0) ? currentLang : 'en'; } catch (e) { return 'en'; } }
+
+  /* ---------- 1) Back ---------- */
+  var stack = [], going = false;
+  var sw0 = window.switchTab;
+  window.switchTab = function (tabId) {
+    var c0 = document.querySelector('.tab-panel.active'), from = c0 ? c0.id : null;
+    var r = sw0.apply(this, arguments);
+    try {
+      var c1 = document.querySelector('.tab-panel.active'), now = c1 ? c1.id : null;
+      if (!going && from && now && from !== now) { if (stack[stack.length - 1] !== from) stack.push(from); if (stack.length > 30) stack.shift(); }
+    } catch (e) {}
+    return r;
+  };
+  window.navBack = function () {
+    var cur = document.querySelector('.tab-panel.active'), cid = cur ? cur.id : '', to = stack.pop();
+    while (to && to === cid) to = stack.pop();
+    if (!to || !$(to)) to = 'tab-employee';
+    var btn = $('nav-' + to.replace('tab-', '')) || null;
+    going = true; try { window.switchTab(to, btn); } finally { going = false; }
+  };
+
+  /* ---------- 2) red circle + Telegram ---------- */
+  var st = document.createElement('style');
+  st.textContent = '.dl-bdg{position:absolute;top:-7px;right:-7px;min-width:19px;height:19px;border-radius:10px;background:#dc2626;color:#fff;font:700 11px/19px Arial,sans-serif;text-align:center;padding:0 5px;box-shadow:0 0 0 2px #fff;pointer-events:none;z-index:5}' +
+    '.dl-bdgH{position:relative!important;overflow:visible!important}' +
+    '';
+  document.head.appendChild(st);
+  var SEL = '[onclick*="\'tab-att\'"],[onclick*="\'tab-missing\'"],[onclick*="\'tab-employee\'"]';
+  function badge() {
+    var n = 0; try { if (typeof window.mrxCount === 'function' && (sessionStorage.getItem('isLoggedIn') === 'true')) n = window.mrxCount() || 0; } catch (e) { n = 0; }
+    document.querySelectorAll(SEL).forEach(function (el) {
+      if (el.id === 'nav-missing' || el.tagName === 'DIV') return;
+      var b = el.querySelector(':scope > .dl-bdg');
+      if (!n) { if (b) b.remove(); el.classList.remove('dl-bdgH'); return; }
+      var hidden = false; try { hidden = !el.getClientRects().length; } catch (e) {}
+      if (hidden) return;
+      el.classList.add('dl-bdgH');
+      if (!b) { b = document.createElement('span'); b.className = 'dl-bdg'; el.appendChild(b); }
+      var tx = n > 99 ? '99+' : String(n); if (b.textContent !== tx) b.textContent = tx;
+    });
+  }
+  setInterval(function () { try { badge(); } catch (e) {} }, 2500);
+
+  var tgBusy = false;
+  function tgSend() {
+    if (tgBusy) return; var n = 0;
+    try { if (typeof window.mrxFind !== 'function' || sessionStorage.getItem('isLoggedIn') !== 'true') return; } catch (e) { return; }
+    var r = window.mrxFind(); if (!r || !r.rows || !r.rows.length) return;
+    var key = r.to, sig = key + '|' + r.rows.length;
+    try { if (localStorage.getItem('pxTg') === sig) return; } catch (e) {}
+    tgBusy = true;
+    var per = {}; r.rows.forEach(function (x) { var k = x.e.id; (per[k] = per[k] || { id: x.e.id, name: x.e.name || '', en: x.e.nameEn || '', days: [] }).days.push(x.date.slice(8) + '/' + x.date.slice(5, 7)); });
+    var list = Object.keys(per).map(function (k) { return per[k]; }).sort(function (a, b) { return String(a.id).localeCompare(String(b.id), undefined, { numeric: true }); });
+    var lines = list.slice(0, 80).map(function (p) { return p.id + ' ' + p.name + (p.en ? ' ' + p.en : '') + ' - ' + p.days.slice(0, 12).join(', ') + (p.days.length > 12 ? ' ...' : ''); });
+    var ref = db.ref('meta/missingTg/' + key);
+    ref.once('value').then(function (s) {
+      var v = s.val(); if (v && v.sent) { try { localStorage.setItem('pxTg', sig); } catch (e) {} return; }
+      return ref.set({ n: r.rows.length, people: list.length, from: r.from, to: r.to, lines: lines, more: Math.max(0, list.length - 80), at: Date.now() }).then(function () { try { localStorage.setItem('pxTg', sig); } catch (e) {} });
+    }).catch(function () {}).then(function () { tgBusy = false; });
+  }
+  setTimeout(function () { try { tgSend(); } catch (e) {} }, 20000);
+  setInterval(function () { try { tgSend(); } catch (e) {} }, 15 * 60 * 1000);
+
+})();
+
+</script>
 </body>
 </html>

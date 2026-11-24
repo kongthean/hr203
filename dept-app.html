@@ -711,6 +711,7 @@ function tick(raw,ok){
 window.MTS={bar:setBar,gear:GEAR,bell:INFO,noteShow:noteShow,eff:eff,act:act,next:next,on:isOn,chg:chg,tick:tick,items:items,occ:occ,warnMin:warnMin,hhmm:hhmm,now:now,zone:ZONE,setOff:function(v){OFF=+v||0;}};
 })();
 </script>
+<style id="topTint">/* status-bar strip: same colour as the header, so no light blur on phones */html{background:#0e7490!important}body{min-height:100vh;min-height:100dvh;box-sizing:border-box}</style>
 </head>
 <body><!-- SPLASH-BEGIN --><style id="kbSplashCss">
 #kbSplash{position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;background:#102d4d;display:flex;align-items:center;justify-content:center;box-sizing:border-box;opacity:1;transition:opacity .5s ease;animation:kbsFail 0s linear 6s forwards}
@@ -2741,21 +2742,22 @@ DMT_ACT.forEach(function (e) {
 });
 const DMT_SEL = '[onclick],[onchange],' + Array.from(new Set(DMT_ACT.filter(function (e) { return e[2].indexOf('i:') === 0; }).map(function (e) { return '[data-i18n="' + e[2].slice(2) + '"]'; }))).join(',');
 function dmtLogged() { return typeof ctx !== 'undefined' && ctx && ctx.dept; }
-function dmtUnknown() { return !mtReady && dmtLogged(); }
+function dmtUnknown() { if (window.pxWait && window.pxWait()) return true; return !mtReady && dmtLogged(); }
 function dmtBypass() { try { const b = mtData && mtData.bypassBy && mtData.bypassBy.dept; return !!(b && typeof ctx !== 'undefined' && ctx && ctx.acc && b[ctx.acc] === true); } catch (e) { return false; } }
 function dmtOn() { return !!(mtData && mtData.on && (!mtData.scope || mtData.scope.dept === true) && !dmtBypass()); }
 function dmtSvcByTab(tab) { for (const s of DMT_SVC) if (s[1] === tab) return s[0]; return null; }
-function dmtMode(id) { if (!id || !dmtOn()) return 'open'; return (mtData.services && mtData.services[id]) === 'closed' ? 'closed' : 'open'; }
+function dmtMode(id) { if (id && window.pxSvcClosed && window.pxSvcClosed(id)) return 'closed'; if (!id || !dmtOn()) return 'open'; return (mtData.services && mtData.services[id]) === 'closed' ? 'closed' : 'open'; }
 function dmtMsg() { const m = mtData && mtData.message, v = m && m[currentLang]; return String(v || '').trim(); }
-function dmtActClosed(o) { if (!o || !dmtOn()) return false; if (dmtMode(o.svc) === 'closed') return true; return !!(mtData.actions && mtData.actions[o.svc] && mtData.actions[o.svc][o.id] === 'closed'); }
+function dmtActClosed(o) { if (o && window.pxActClosed && window.pxActClosed(o.svc, o.id)) return true; if (!o || !dmtOn()) return false; if (dmtMode(o.svc) === 'closed') return true; return !!(mtData.actions && mtData.actions[o.svc] && mtData.actions[o.svc][o.id] === 'closed'); }
 function dmtActOf(el) {
     const code = (el.getAttribute('onclick') || '') + ' ' + (el.getAttribute('onchange') || ''), key = el.getAttribute('data-i18n');
     for (const svc in DMT_BY) for (const o of DMT_BY[svc]) { if (o.re ? (o.re.test(code) && (!o.arg || code.indexOf(o.arg) > -1)) : (key === o.i18n)) return o; }
     return null;
 }
-function dmtGate(svc, act) { if (!dmtOn()) return false; if (dmtActClosed({ svc: svc, id: act })) { dmtPopup(svc, ''); return true; } return false; }
+function dmtGate(svc, act) { if (!dmtOn() && !(window.pxOn && window.pxOn())) return false; if (dmtActClosed({ svc: svc, id: act })) { dmtPopup(svc, ''); return true; } return false; }
 function dmtName(id) { for (const s of DMT_SVC) if (s[0] === id) return t(s[2]); return ''; }
 function dmtPopup(svc, label, wait) {
+    if (!wait && window.__pxWhy && window.pxPopup) { window.__pxWhy = null; window.pxPopup(); return; }
     const old = document.getElementById('mtPop'); if (old) old.remove();
     const d = document.createElement('div'); d.id = 'mtPop';
     d.innerHTML = '<div class="mt-box"><div style="font-size:30px;">🔧</div><h3></h3><p class="mt-p1"></p><button type="button"></button></div>';
@@ -2790,7 +2792,7 @@ function dmtApplyUI() {
 function dmtActScan() {
     const want = new Set();
     try {
-        if (dmtOn()) {
+        if (dmtOn() || (window.pxOn && window.pxOn())) {
             const roots = [];
             const p = document.querySelector('.tab-panel.active'); if (p) roots.push(p);
             document.querySelectorAll('.modal, #lfView, [id^=lfDlg]').forEach(function (m) { if (m.getClientRects().length) roots.push(m); });
@@ -2802,7 +2804,7 @@ function dmtActScan() {
 }
 setInterval(dmtActScan, 500);
 function dmtHit(target) {
-    const unk = dmtUnknown(); if (!unk && !dmtOn()) return null;
+    const unk = dmtUnknown(); if (!unk && !dmtOn() && !(window.pxOn && window.pxOn())) return null;
     for (let n = target, i = 0; n && n.nodeType === 1 && i < 6; n = n.parentElement, i++) { const o = dmtActOf(n); if (o && (unk || dmtActClosed(o))) return o; }
     return null;
 }
@@ -4221,6 +4223,68 @@ w();setInterval(w,1500);})();
 </script>
 <script id="nmZhLoad">
 (function () { try { db.ref('departments').on('value', function (sn) { var d = sn.val() || {}, m = {}; Object.keys(d).forEach(function (k) { var o = k === '_org' ? null : d[k]; if (k === '_org') { Object.keys(d._org || {}).forEach(function (j) { var q = d._org[j]; if (q && q.name && q.zh) m[q.name] = q.zh; }); } else if (o && o.name && o.zh) m[o.name] = o.zh; }); window.nmZhMap = m; }); } catch (e) {} })();
+</script>
+<script id="pxJs">
+window.__pxActor = function () { try { return (typeof ctx !== 'undefined' && ctx && ctx.acc) ? { s: 'dept', k: ctx.acc } : null; } catch (e) { return null; } };
+/* ===== v8.10: Service Access - per account open/closed services and buttons (data: svcAccess/<system>_<accountKey>) ===== */
+(function () {
+  'use strict';
+  function $(id) { return document.getElementById(id); }
+  function lang() { try { return (typeof currentLang === 'string' && ['en', 'km', 'zh'].indexOf(currentLang) >= 0) ? currentLang : 'en'; } catch (e) { return 'en'; } }
+  var st = document.createElement('style');
+  st.textContent = '#pxWhite{position:fixed;inset:0;z-index:100003;background:rgba(255,255,255,.97);display:flex;align-items:center;justify-content:center;padding:20px}' +
+    '#pxWhite .px-b{max-width:420px;width:100%;text-align:center;color:#0f172a}#pxWhite p{font-size:16px;line-height:1.55;color:#334155;margin:6px 0 16px}' +
+    '#pxWhite button{background:#0b1d3a;color:#fff;border:0;border-radius:10px;padding:10px 34px;font-size:15px;cursor:pointer}';
+  document.head.appendChild(st);
+  /* ---------- 3) Service Access ---------- */
+  var MSG = { en: ["Sorry, you don't have permission to use this service.", 'Please contact the super administration for assistance, thank you!', 'OK'],
+    km: ['សូមអភ័យទោស អ្នកមិនមានសិទ្ធិប្រើសេវាកម្មនេះទេ។', 'សូមទាក់ទងអ្នកគ្រប់គ្រងកំពូលដើម្បីសុំជំនួយ សូមអរគុណ!', 'យល់ព្រម'],
+    zh: ['抱歉，您没有权限使用此服务。', '请联系超级管理员获取帮助，谢谢！', '确定'] };
+  var data = null, scope = '', ref = null, ready = false;
+  function actor() {
+    if (window.__pxActor) { var h = window.__pxActor(); if (h !== undefined) return h; }
+    var a = window.__actorInfo; if (!a) return null;
+    try {
+      if (a.type === 'staff' && sessionStorage.getItem('isLoggedIn') === 'true') return { s: (sessionStorage.getItem('loggedInRole') === 'hr' || a.role === 'hr') ? 'hr' : 'admin', k: a.key };
+      if (a.type === 'employee' && sessionStorage.getItem('empLoggedInId')) return { s: 'emp', k: a.key };
+    } catch (e) {}
+    return null;
+  }
+  function me() {
+    var a = actor(); if (!a || !a.k) return '';
+    try { if (a.s !== 'emp' && (acctIsOwner(a.k) || viewerIsOwner())) return ''; } catch (e) {}
+    return a.s + '_' + a.k;
+  }
+  function sync() {
+    var s = me(); if (s === scope) return;
+    scope = s; if (ref) { try { ref.off(); } catch (e) {} } ref = null; data = null;
+    window.__pxReady = false;
+    if (!s) { ready = true; window.__pxReady = true; try { (window.mtRefresh || window.dmtRefresh || function () {})(); } catch (e) {} return; }
+    ready = false;
+    ref = db.ref('svcAccess/' + s);
+    ref.on('value', function (sn) { data = sn.val() || null; ready = true; window.__pxReady = true; try { (window.mtRefresh || window.dmtRefresh || function () {})(); } catch (e) {} }, function () { ready = true; window.__pxReady = true; });
+    setTimeout(function () { ready = true; window.__pxReady = true; }, 6000);
+  }
+  setInterval(sync, 700); setTimeout(sync, 300);
+  window.pxWait = function () { return !!scope && !ready; };
+  window.pxOn = function () { return !!(scope && data && (data.services || data.actions)); };
+  window.pxSvcClosed = function (id) { window.__pxWhy = null; if (id && data && data.services && data.services[id] === 'closed') { window.__pxWhy = id; return true; } return false; };
+  window.pxActClosed = function (svc, act) {
+    window.__pxWhy = null; if (!data) return false;
+    if (data.services && data.services[svc] === 'closed') { window.__pxWhy = svc; return true; }
+    if (data.actions && data.actions[svc] && data.actions[svc][act] === 'closed') { window.__pxWhy = svc + '.' + act; return true; }
+    return false;
+  };
+  window.pxPopup = function () {
+    var old = $('pxWhite'); if (old) old.remove();
+    var m = MSG[lang()], d = document.createElement('div'); d.id = 'pxWhite';
+    d.innerHTML = '<div class="px-b"><h3 style="margin:0 0 6px;font-size:18px"></h3><p></p><button type="button"></button></div>';
+    d.querySelector('h3').textContent = m[0]; d.querySelector('p').textContent = m[1]; d.querySelector('button').textContent = m[2];
+    d.querySelector('button').onclick = function () { d.remove(); }; d.addEventListener('click', function (e) { if (e.target === d) d.remove(); });
+    document.body.appendChild(d);
+  };
+})();
+
 </script>
 </body>
 </html>
