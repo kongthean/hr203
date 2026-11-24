@@ -31206,6 +31206,7 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     ['Time', [
       { k: 'att', t: 'Daily Attendance', who: 'both', intro: 'Record work hours, overtime and leave for every employee of one day, in one table.', steps: ['Choose the <b>Department</b> and Group, then the <b>Date</b>, and press <b>Show Employees</b>.','Fill <b>Working Hours</b> and <b>OT Hours</b>. To record leave, fill <b>Leave Hours</b> and choose the <b>Leave Type</b>. The type is required when leave hours are more than 0.','The <b>Remark</b> column shows what is already saved for that day. A day already full by a leave record, or a rest day, can not be filled again.','Press <b>Submit</b>. Leave is saved first and then the attendance, with the same calculation as Leave Records.','Press <b>Export Daily Attendance</b> to download Excel or print. Choose the dates, the table language (English, Khmer or Chinese) and one-column or two-column names.'], tip: 'A small red circle on this menu shows how many records are missing. Press Missing Records to fix them. Forgot to record a day? Use Makeup Attendance Record.' },
       { k: 'svcacc', t: 'Service Access (Maintenance)', who: 'adm', intro: 'The Owner can open or close any service, menu or button for one account: Employee, Department, HR or Administration.', steps: ['Open <b>Maintenance</b> and press <b>Service Access</b>.','Choose the system (Employee, Department, HR or Administration). Search the name or choose a department.','Click an account, then close the services or buttons that account must not use. Press <b>Save</b>.','A blocked person sees a white window: you do not have permission to use this service, please contact the super administration.'], tip: 'The Owner is never blocked. To undo, open the same account and reopen the service.' },
+      { k: 'svcpause', t: 'Service Pause (Maintenance)', who: 'adm', intro: 'Temporarily pause a service you do not use for now, for example Daily Attendance when nobody handles it. Nothing is deleted.', steps: ['Open <b>Maintenance</b> and press <b>Service Pause</b>.','Press the switch of a service so it shows <b>Paused</b>, then press <b>Save changes</b>.','A paused service can only be viewed. It shows: This service is temporarily unavailable. It sends no missing-record count, red circle, Telegram or bot messages.','To use it again, set the switch back to <b>Active</b> and save.'], tip: 'Pause is for everyone. To block one account only, use Service Access.' },
       { k: 'backnav', t: 'Back button and missing-record alerts', who: 'all', intro: 'Back goes to the page you came from. Missing records are shown and sent to Telegram.', steps: ['<b>Back</b> returns to the menu you opened this page from, for example Daily Attendance after Missing Records.','A <b>red circle</b> with a number on Daily Attendance, Missing Records and Employee shows how many records are missing.','Once a day, the list of names is sent to the Telegram group after an Admin or HR opens the website.'] },
       { k: 'leave', t: 'Leave Records', who: 'both', intro: 'Enter leave that an employee took.', steps: ['Choose the <b>Leave Date</b>.', 'Type the <b>Employee ID</b>. The name fills in by itself.', 'Type the hours in the right leave type, for example <b>Annual Leave</b>.', 'Press <b>Submit Leave Record</b>.'], tip: 'Hours are used, not days. 8 hours = 1 day.' },
       { k: 'shift', t: 'Shift Roster', who: 'both', intro: 'Plan who works which shift each day of the month.', steps: ['<b>Shift Check</b>: see one employee shift on one date.', 'Press <b>Check</b> to show the result.', '<b>Monthly Shift Calendar</b>: type a shift letter in a day box, or fill many people at once.', '<b>Import shifts</b> loads a filled Excel file. Download the template first.'], tip: 'Use the template so the columns are always right.' },
@@ -31679,6 +31680,36 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
   }
   setTimeout(function () { try { tgSend(); } catch (e) {} }, 20000);
   setInterval(function () { try { tgSend(); } catch (e) {} }, 15 * 60 * 1000);
+
+  /* ---------- 4) Service Pause (Maintenance > Service Pause): view only, no alerts ---------- */
+  var PZ = { att: ['tab-att', 'tab-missing'], leave: ['tab-leave'], shift: ['tab-shift'], makeup: ['tab-makeup'], reminders: ['remModal'], training: ['trModal'] };
+  var PMSG = { en: 'This service is temporarily unavailable.', km: 'សេវាកម្មនេះមិនអាចប្រើបានជាបណ្តោះអាសន្ន។', zh: '此服务暂时不可用。' };
+  var PSUB = { en: 'You can still view the saved data. Nothing can be added or changed.', km: 'អ្នកនៅតែអាចមើលទិន្នន័យដែលបានរក្សាទុក។ មិនអាចបន្ថែម ឬកែប្រែអ្វីបានទេ។', zh: '您仍可查看已保存的数据，但无法添加或修改。' };
+  window.svcPaused = function (id) { try { var m = (typeof mtRaw !== 'undefined') ? mtRaw : null; return !!(m && m.pause && m.pause.services && m.pause.services[id] === true); } catch (e) { return false; } };
+  var st2 = document.createElement('style');
+  st2.textContent = '.px-paused button:not(.pgBack):not(.modal-close):not([data-pxk]),.px-paused input:not([type=search]):not([data-pxk]),.px-paused textarea{pointer-events:none!important;opacity:.45}' +
+    '.px-pzBar{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:#0b1d3a;color:#fff;font-size:14px;line-height:1.45}.px-pzBar small{display:block;opacity:.8;font-size:12px;margin-top:2px}';
+  document.head.appendChild(st2);
+  function pzApply() {
+    Object.keys(PZ).forEach(function (id) {
+      var on = window.svcPaused(id);
+      PZ[id].forEach(function (eid) {
+        var el = $(eid); if (!el) return;
+        var box = el.classList.contains('modal') ? (el.querySelector('.modal-content') || el) : el;
+        var bar = box.querySelector(':scope > .px-pzBar');
+        if (on) {
+          box.classList.add('px-paused');
+          box.querySelectorAll('button:not([data-pxk])').forEach(function (x) { var o = (x.getAttribute('onclick') || '') + ' ' + (x.id || '') + ' ' + (x.className || ''); if (/load|show|search|filter|ssBtn|clear|view|export|print|close|back|next|prev|sort|tab-missing|tab-att|toggle|openMiss|mrx/i.test(o) && !/save|submit|delete|remove|add|confirm|approve|create/i.test(o)) x.setAttribute('data-pxk', '1'); else if (!x.getAttribute('onclick') && /btn-submit/.test(x.className || '')) x.setAttribute('data-pxk', '1'); });
+          if (!bar) { bar = document.createElement('div'); bar.className = 'px-pzBar'; box.insertBefore(bar, box.querySelector(':scope > .pgBack') ? box.querySelector(':scope > .pgBack').nextSibling : box.firstChild); }
+          var l = lang(); var h = '<b>' + PMSG[l] + '</b><small>' + PSUB[l] + '</small>'; if (bar.innerHTML !== h) bar.innerHTML = h;
+        } else { box.classList.remove('px-paused'); if (bar) bar.remove(); }
+      });
+    });
+  }
+  setInterval(function () { try { pzApply(); } catch (e) {} }, 1000);
+  var mc0 = window.mrxCount, mf0 = window.mrxFind;
+  if (typeof mc0 === 'function') window.mrxCount = function () { return window.svcPaused('att') ? 0 : mc0.apply(this, arguments); };
+  if (typeof mf0 === 'function') window.mrxFind = function () { return window.svcPaused('att') ? { from: '', to: '', rows: [] } : mf0.apply(this, arguments); };
 
 })();
 

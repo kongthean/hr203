@@ -282,8 +282,11 @@ async function run(env) {
   if (offset !== (tstate.offset || 0)) await tref.child('offset').set(offset);
   if (ticked) { T = await loadTodo({ db, cache: null }); if (env.cache) { env.cache.v = T; env.cache.at = Date.now(); } }
 
+  /* Service Pause (Maintenance): a paused service sends no messages */
+  let paused = {};
+  try { paused = (await db.ref('maintenance/pause/services').once('value')).val() || {}; } catch (e) { paused = {}; }
   /* 2) the 3 daily reminders (morning, afternoon, evening) */
-  if (slot > 0) {
+  if (slot > 0 && paused.reminders !== true) {
     const all = (await db.ref('meta/reminders').once('value')).val() || {};
     const sent = tstate.sent || {};
     for (const id of Object.keys(all)) {
@@ -389,12 +392,12 @@ async function run(env) {
   }
   /* 4) Missing records: the website (HR/Administration page) writes the list to meta/missingTg/<date>; this sends it once, then marks it sent */
   try {
-    const mt = (await db.ref('meta/missingTg').once('value')).val() || {};
+    const mt = paused.att === true ? {} : ((await db.ref('meta/missingTg').once('value')).val() || {});
     for (const k of Object.keys(mt)) {
       const v = mt[k] || {};
       if (k < tdAdd(today, -10)) { await db.ref('meta/missingTg/' + k).remove(); continue; }
       if (v.sent || !Array.isArray(v.lines) || !v.lines.length) continue;
-      const head = '⚠️ <b>Missing records</b>\n' + esc(v.from || k) + ' → ' + esc(v.to || k) + '\n' + (v.people || v.lines.length) + ' people, ' + (v.n || '') + ' days\n\n';
+      const head = '<b>Missing records</b>\n' + esc(v.from || k) + ' → ' + esc(v.to || k) + '\n' + (v.people || v.lines.length) + ' people, ' + (v.n || '') + ' days\n\n';
       const chunks = []; let cur = '';
       v.lines.forEach(l => { const line = '• ' + esc(l) + '\n'; if ((cur + line).length > 3500) { chunks.push(cur); cur = ''; } cur += line; });
       if (v.more) cur += '… and ' + v.more + ' more people (open Missing Records on the website).\n';
