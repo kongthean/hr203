@@ -3501,7 +3501,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         #tab-opshub .oh-chip{padding:6px 14px;border-radius:999px;background:#0b1d3a;color:#fff;font-size:13px;font-weight:700}
         #tab-opshub .oh-lbl{font-size:13px;font-weight:700;color:#475569;margin:12px 0 6px}
         #tab-opshub select{text-align:center;text-align-last:center;width:100%;box-sizing:border-box;min-height:46px;font-size:15px;border:1.5px solid #cbd5e1;border-radius:10px;padding:0 12px;background:#fff}
-        #tab-opshub .oh-go{margin-top:16px;width:100%;min-height:48px;border:0;border-radius:12px;background:linear-gradient(135deg,#064e3b,#15906b);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+        #tab-opshub .oh-go{margin-top:16px;width:100%;min-height:48px;border:0;border-radius:12px;background:linear-gradient(135deg,#0b1d3a,#24406e);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
         #tab-opshub .cu-sec{margin:14px 0}#tab-opshub .cu-m{display:inline-block;margin:6px 6px 0 0;padding:6px 12px;border-radius:999px;font-weight:700;font-size:13px}#tab-opshub .cu-m.ok{background:#dcfce7;color:#166534}
         #tab-opshub .cu-tb{border-collapse:collapse;width:100%;margin-top:8px}#tab-opshub .cu-tb th,#tab-opshub .cu-tb td{border:1px solid #e2e8f0;padding:8px 10px;text-align:left;font-size:13px}#tab-opshub .cu-tb th{background:#f1f5f9}
         #tab-opshub .cu-clear{width:100%;max-width:420px;min-height:50px;border:0;border-radius:12px;background:#dc2626;color:#fff;font-size:16px;font-weight:700;cursor:pointer}#tab-opshub .cu-clear:disabled{opacity:.5}
@@ -28650,6 +28650,7 @@ window.nmCopyEn = async function () {
 .modal.pgScr > .modal-content > .modal-header{position:static!important;margin:0 0 14px!important;padding:0!important;border:0!important;border-radius:0!important;justify-content:flex-start!important;gap:12px;flex-wrap:wrap}
 .modal.pgScr > .modal-content > .modal-header > h3,.modal.pgScr > .modal-content > .modal-header > h4{margin:0!important;flex:1 1 auto}
 .modal.pgScr .modal-header .modal-close{display:none!important}
+.modal .pgBack{display:none}.modal.pgScr > .modal-content > .pgBack{display:inline-block;margin:0 0 12px;padding:8px 18px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:#0b1d3a;font-weight:700;font-size:14px;font-family:inherit;cursor:pointer}
 .modal.pgScr > .pgFoot{flex:none;margin-top:auto;padding-top:28px}
 .modal.pgScr #tdBody{max-height:none!important}
 #tab-certificates > h3,#tab-certificates > p{text-align:center}
@@ -28670,6 +28671,7 @@ function prep(m){
  var f=document.querySelector('.hrft');
  if(f){var c=f.cloneNode(true);c.classList.add('pgFoot');m.appendChild(c);}
  m.addEventListener('click',function(e){if(e.target===m)e.stopImmediatePropagation();},true);
+ var bk=document.createElement('button');bk.type='button';bk.className='pgBack';bk.onclick=function(){closeFn(m)();};mc.insertBefore(bk,mc.firstChild);
 }
 var navSaved=null;
 function navOff(){if(navSaved)return;var a=document.querySelector('nav button.active');if(a){navSaved=a;a.classList.remove('active');}}
@@ -28678,7 +28680,7 @@ function save(id){try{if(id)sessionStorage.setItem('activeScreen',id);else sessi
 function sync(m){
  var open=isOpen(m);
  if(open&&!m.classList.contains('pgScr')){
-  prep(m);top();navOff();
+  prep(m);top();navOff();try{var pb=m.querySelector(':scope > .modal-content > .pgBack');if(pb)pb.textContent=backText();}catch(e){}
   stack.forEach(function(o){o.classList.add('pgUnder');});
   stack.push(m);m.classList.remove('pgUnder');m.classList.add('pgScr');
   try{m.scrollTop=0;}catch(e){}
@@ -28802,7 +28804,7 @@ async function ohRename(n) {
     ohRender();
     try { db.ref('opsHub/reportNames').set(Object.keys(nv).length ? nv : null).then(function () { showToast(true); }).catch(function () { showToast(false, t('ohSavedLocal')); }); } catch (e) { showToast(false, t('ohSavedLocal')); }
 }
-var OH_COL = ['#7c3a05', '#25206b', '#0b4a47', '#0c4a5e', '#064e3b', '#6b0f2a', '#1e293b', '#7c3a05'];
+var OH_COL = ['#0b1d3a', '#1e3a8a', '#1d4ed8', '#2563eb', '#1e40af', '#24406e', '#334155', '#3b82f6'];
 function ohRender() {
     var body = document.getElementById('ohBody'); if (!body) return;
     var bt = document.getElementById('ohBackTxt'), tt = document.getElementById('ohTitle');
@@ -28823,10 +28825,10 @@ function ohRender() {
     } else if (ohView === 'menu') {
         bt.textContent = t('ohMainMenu'); tt.textContent = t('navOpsHub');
         var tiles = [
-            ['ohDaily', 'linear-gradient(135deg,#0b4a47,#1b968c)', 'ohGoFolders(\'daily\')', '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 15l2.5 2.5L16 13"/>'],
-            ['ohMonthly', 'linear-gradient(135deg,#25206b,#5b57d1)', 'ohGoSoon()', '<path d="M5 3h10l4 4v14H5z"/><path d="M9 12h6M9 16h6M9 8h3"/>'],
-            ['ohStock', 'linear-gradient(135deg,#7c3a05,#d98a1a)', 'ohGoFolders(\'stock\')', '<path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/>'],
-            ['ohOther', 'linear-gradient(135deg,#1e293b,#4b5d78)', 'ohGoSoon()', '<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>']
+            ['ohDaily', 'linear-gradient(135deg,#0b1d3a,#1d4ed8)', 'ohGoFolders(\'daily\')', '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 15l2.5 2.5L16 13"/>'],
+            ['ohMonthly', 'linear-gradient(135deg,#0b1d3a,#2563eb)', 'ohGoSoon()', '<path d="M5 3h10l4 4v14H5z"/><path d="M9 12h6M9 16h6M9 8h3"/>'],
+            ['ohStock', 'linear-gradient(135deg,#0b1d3a,#3b82f6)', 'ohGoFolders(\'stock\')', '<path d="M21 8l-9-5-9 5 9 5z"/><path d="M3 8v8l9 5 9-5V8M12 13v8"/>'],
+            ['ohOther', 'linear-gradient(135deg,#1e293b,#475569)', 'ohGoSoon()', '<circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/>']
         ];
         h = ohChips() + '<div class="oh-tiles">' + tiles.map(function (x) {
             return '<button type="button" class="oh-tile" style="background:' + x[1] + '" onclick="' + x[2] + '"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + x[3] + '</svg><span>' + ohEsc(t(x[0])) + '</span></button>';
