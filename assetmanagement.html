@@ -980,17 +980,19 @@ async function TD_remember(found) {
 <script id="pxgJs">
 /* per-account Service Access guard (Maintenance > Service Access): shows a white "no permission" window when this service is closed for this account */
 (function () {
-  var SVC = 'assets', scope = '', ref = null, closed = false, ownerOk = false, lastK = '';
+  var SVC = 'assets', scope = '', ref = null, ref2 = null, ctl = '', closed = false, ownerOk = false, lastK = '';
   var MSG = { en: ["Sorry, you don't have permission to use this service.", 'Please contact the super administration for assistance, thank you!', 'OK'],
     km: ['សូមអភ័យទោស អ្នកមិនមានសិទ្ធិប្រើសេវាកម្មនេះទេ។', 'សូមទាក់ទងអ្នកគ្រប់គ្រងកំពូលដើម្បីសុំជំនួយ សូមអរគុណ!', 'យល់ព្រម'],
     zh: ['抱歉，您没有权限使用此服务。', '请联系超级管理员获取帮助，谢谢！', '确定'] };
+  var CM = { paused: { en: ['Sorry, this service is temporarily unavailable, please try again later. Thank you!', 'OK'], km: ['សូមអភ័យទោស សេវាកម្មនេះមិនអាចប្រើបានជាបណ្តោះអាសន្ន សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។ សូមអរគុណ!', 'យល់ព្រម'], zh: ['抱歉，此服务暂时不可用，请稍后再试。谢谢！', '确定'] },
+    soon: { en: ['This service is coming soon, please try again later. Thank you!', 'OK'], km: ['សេវាកម្មនេះនឹងមកដល់ឆាប់ៗនេះ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។ សូមអរគុណ!', 'យល់ព្រម'], zh: ['此服务即将推出，请稍后再试。谢谢！', '确定'] } };
   function lang() { var l = ''; try { l = localStorage.getItem('faScanLang') || localStorage.getItem('tdLang') || localStorage.getItem('lang') || localStorage.getItem('language') || ''; } catch (e) {} l = String(l).toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; if (!MSG[l]) { l = String(document.documentElement.lang || 'en').toLowerCase().slice(0, 2); if (l === 'kh') l = 'km'; } return MSG[l] ? l : 'en'; }
   function key() { try { return (typeof me !== 'undefined' && me) ? String(me) : ''; } catch (e) { return ''; } }
   function paint() {
     var o = document.getElementById('pxWhite');
-    if (!closed) { if (o) o.remove(); try { document.body.style.overflow = ''; } catch (e) {} return; }
+    if (!closed && !ctl) { if (o) o.remove(); try { document.body.style.overflow = ''; } catch (e) {} return; }
     if (o) return;
-    var m = MSG[lang()]; o = document.createElement('div'); o.id = 'pxWhite';
+    var m = ctl ? [CM[ctl][lang()][0], '', CM[ctl][lang()][1]] : MSG[lang()]; o = document.createElement('div'); o.id = 'pxWhite';
     o.style.cssText = 'position:fixed;inset:0;z-index:2147483000;background:#fff;display:flex;align-items:center;justify-content:center;padding:20px';
     o.innerHTML = '<div style="max-width:420px;width:100%;text-align:center;color:#0f172a;font-family:inherit"><h3 style="margin:0 0 8px;font-size:18px"></h3><p style="font-size:16px;line-height:1.55;color:#334155;margin:6px 0 16px"></p><button type="button" style="background:#0b1d3a;color:#fff;border:0;border-radius:10px;padding:10px 34px;font-size:15px;cursor:pointer"></button></div>';
     o.querySelector('h3').textContent = m[0]; o.querySelector('p').textContent = m[1]; var b = o.querySelector('button'); b.textContent = m[2];
@@ -999,16 +1001,18 @@ async function TD_remember(found) {
   }
   function sync() {
     var k = key(); if (k === lastK) return; lastK = k;
-    if (ref) { try { ref.off(); } catch (e) {} ref = null; } closed = false; scope = ''; paint();
+    if (ref) { try { ref.off(); } catch (e) {} ref = null; } if (ref2) { try { ref2.off(); } catch (e) {} ref2 = null; } closed = false; ctl = ''; scope = ''; paint();
     if (!k || typeof db === 'undefined' || !db) { lastK = ''; return; }
     db.ref('accounts/' + k).once('value').then(function (s) {
       var a = s.val() || {}; if (a.owner === true) return;
       scope = (a.role === 'hr' ? 'hr' : 'admin') + '_' + k;
+      ref2 = db.ref('maintenance/ctl/s/' + SVC);
+      ref2.on('value', function (sn) { var v = sn.val(); var n = (v === 'paused' || v === 'soon') ? v : ''; if (n !== ctl) { var o = document.getElementById('pxWhite'); if (o) o.remove(); ctl = n; paint(); } }, function () {});
       ref = db.ref('svcAccess/' + scope);
       ref.on('value', function (sn) { var v = sn.val(); closed = !!(v && v.services && v.services[SVC] === 'closed'); paint(); }, function () {});
     }).catch(function () { lastK = ''; });
   }
-  setInterval(function () { try { sync(); if (closed) paint(); } catch (e) {} }, 700);
+  setInterval(function () { try { sync(); if (closed || ctl) paint(); } catch (e) {} }, 700);
 })();
 
 </script>

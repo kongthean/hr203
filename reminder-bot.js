@@ -284,7 +284,11 @@ async function run(env) {
 
   /* Service Pause (Maintenance): a paused service sends no messages */
   let paused = {};
-  try { paused = (await db.ref('maintenance/pause/services').once('value')).val() || {}; } catch (e) { paused = {}; }
+  try {
+    const cs = (await db.ref('maintenance/ctl/s').once('value')).val();
+    if (cs) { Object.keys(cs).forEach(k => { if (cs[k] === 'paused' || cs[k] === 'soon') paused[k] = true; }); }
+    else { paused = (await db.ref('maintenance/pause/services').once('value')).val() || {}; }
+  } catch (e) { paused = {}; }
   /* 2) the 3 daily reminders (morning, afternoon, evening) */
   if (slot > 0 && paused.reminders !== true) {
     const all = (await db.ref('meta/reminders').once('value')).val() || {};

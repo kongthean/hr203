@@ -4266,16 +4266,48 @@ window.__pxActor = function () { try { return (typeof ctx !== 'undefined' && ctx
     setTimeout(function () { ready = true; window.__pxReady = true; }, 6000);
   }
   setInterval(sync, 700); setTimeout(sync, 300);
+  /* ---------- Service Control (Maintenance): open / coming soon / paused per service, menu or button ---------- */
+  var CMSG = {
+    paused: { en: ['Sorry, this service is temporarily unavailable, please try again later. Thank you!', 'OK'], km: ['សូមអភ័យទោស សេវាកម្មនេះមិនអាចប្រើបានជាបណ្តោះអាសន្ន សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។ សូមអរគុណ!', 'យល់ព្រម'], zh: ['抱歉，此服务暂时不可用，请稍后再试。谢谢！', '确定'] },
+    soon: { en: ['This service is coming soon, please try again later. Thank you!', 'OK'], km: ['សេវាកម្មនេះនឹងមកដល់ឆាប់ៗនេះ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។ សូមអរគុណ!', 'យល់ព្រម'], zh: ['此服务即将推出，请稍后再试。谢谢！', '确定'] } };
+  window.ctlState = function (id) {
+    var m = null; try { m = (typeof mtRaw !== 'undefined') ? mtRaw : null; } catch (e) {}
+    var dflt = (id === 'cdleave') ? 'soon' : 'open';
+    if (!m) return dflt;
+    if (m.ctl && m.ctl.s) { var v = m.ctl.s[id]; return (v === 'soon' || v === 'paused' || v === 'open') ? v : dflt; }
+    if (m.pause && m.pause.services && m.pause.services[id] === true) return 'paused';
+    if (id === 'cdleave') return (m.soon && m.soon.open && m.soon.open.cdleave === true) ? 'open' : 'soon';
+    return 'open';
+  };
+  function ctlAny() { var m = null; try { m = (typeof mtRaw !== 'undefined') ? mtRaw : null; } catch (e) {} if (!m) return false; var o = (m.ctl && m.ctl.s) || null; if (o) { for (var k in o) { if (o[k] === 'soon' || o[k] === 'paused') return true; } return false; } return !!(m.pause && m.pause.services && Object.keys(m.pause.services).length); }
+  function ownerExempt() {
+    try { var a = window.__actorInfo; if (a && a.type === 'staff' && sessionStorage.getItem('isLoggedIn') === 'true') return !!(acctIsOwner(a.key) || viewerIsOwner()); } catch (e) {}
+    return false;
+  }
+  function ctlHit(id) { if (!id || !ctlAny() || ownerExempt()) return ''; var v = window.ctlState(id); return v === 'open' ? '' : v; }
+  window.ctlExempt = ownerExempt;
+  window.ctlPopup = function (kind) {
+    var old = $('pxWhite'); if (old) old.remove();
+    var m = (CMSG[kind] || CMSG.paused)[lang()], d = document.createElement('div'); d.id = 'pxWhite';
+    d.innerHTML = '<div class="px-b"><h3 style="margin:0 0 6px;font-size:18px;line-height:1.45"></h3><button type="button" style="margin-top:12px"></button></div>';
+    d.querySelector('h3').textContent = m[0]; d.querySelector('button').textContent = m[1];
+    d.style.background = 'rgba(15,23,42,.5)'; d.querySelector('.px-b').style.cssText = 'background:#fff;border-radius:14px;padding:24px 22px;max-width:380px;width:100%;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.35)';
+    d.querySelector('button').onclick = function () { d.remove(); }; d.addEventListener('click', function (e) { if (e.target === d) d.remove(); });
+    document.body.appendChild(d);
+  };
+  (function () { var cur = null; try { Object.defineProperty(window, '__pxWhy', { configurable: true, get: function () { return cur; }, set: function (v) { cur = v; if (v) window.__pxLastWhy = v; } }); } catch (e) {} })();
   window.pxWait = function () { return !!scope && !ready; };
-  window.pxOn = function () { return !!(scope && data && (data.services || data.actions)); };
-  window.pxSvcClosed = function (id) { window.__pxWhy = null; if (id && data && data.services && data.services[id] === 'closed') { window.__pxWhy = id; return true; } return false; };
+  window.pxOn = function () { return !!((scope && data && (data.services || data.actions)) || ctlAny()); };
+  window.pxSvcClosed = function (id) { window.__pxWhy = null; var c = ctlHit(id); if (c) { window.__pxWhy = 'ctl:' + c; return true; } if (id && data && data.services && data.services[id] === 'closed') { window.__pxWhy = id; return true; } return false; };
   window.pxActClosed = function (svc, act) {
-    window.__pxWhy = null; if (!data) return false;
+    window.__pxWhy = null; var c = ctlHit(svc + '.' + act) || ctlHit(svc); if (c) { window.__pxWhy = 'ctl:' + c; return true; }
+    if (!data) return false;
     if (data.services && data.services[svc] === 'closed') { window.__pxWhy = svc; return true; }
     if (data.actions && data.actions[svc] && data.actions[svc][act] === 'closed') { window.__pxWhy = svc + '.' + act; return true; }
     return false;
   };
   window.pxPopup = function () {
+    var w = window.__pxLastWhy; if (w && String(w).indexOf('ctl:') === 0) { window.ctlPopup(String(w).slice(4)); return; }
     var old = $('pxWhite'); if (old) old.remove();
     var m = MSG[lang()], d = document.createElement('div'); d.id = 'pxWhite';
     d.innerHTML = '<div class="px-b"><h3 style="margin:0 0 6px;font-size:18px"></h3><p></p><button type="button"></button></div>';

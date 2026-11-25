@@ -2739,7 +2739,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
              <div class="detail-item" style="grid-column: 1 / -1;"><span class="lbl" data-i18n="lblRemarksHeading">Master Remarks / Notes:</span><span class="val" id="cdRemarks">-</span></div>
          </div>
-         <div style="text-align:center; margin-top:16px;"><button type="button" class="btn-submit" style="width:auto; padding:8px 30px;" onclick="closeCheckDetailsModal()" data-i18n="btnClose">Close</button></div>
+         <div style="text-align:center; margin-top:16px;"><button type="button" id="cdDoneBtn" class="btn-submit" style="width:auto; padding:8px 30px;" onclick="cdDone()">Done</button></div>
          </div>
      </div>
  </div>
@@ -31206,7 +31206,7 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     ['Time', [
       { k: 'att', t: 'Daily Attendance', who: 'both', intro: 'Record work hours, overtime and leave for every employee of one day, in one table.', steps: ['Choose the <b>Department</b> and Group, then the <b>Date</b>, and press <b>Show Employees</b>.','Fill <b>Working Hours</b> and <b>OT Hours</b>. To record leave, fill <b>Leave Hours</b> and choose the <b>Leave Type</b>. The type is required when leave hours are more than 0.','The <b>Remark</b> column shows what is already saved for that day. A day already full by a leave record, or a rest day, can not be filled again.','Press <b>Submit</b>. Leave is saved first and then the attendance, with the same calculation as Leave Records.','Press <b>Export Daily Attendance</b> to download Excel or print. Choose the dates, the table language (English, Khmer or Chinese) and one-column or two-column names.'], tip: 'A small red circle on this menu shows how many records are missing. Press Missing Records to fix them. Forgot to record a day? Use Makeup Attendance Record.' },
       { k: 'svcacc', t: 'Service Access (Maintenance)', who: 'adm', intro: 'The Owner can open or close any service, menu or button for one account: Employee, Department, HR or Administration.', steps: ['Open <b>Maintenance</b> and press <b>Service Access</b>.','Choose the system (Employee, Department, HR or Administration). Search the name or choose a department.','Click an account, then close the services or buttons that account must not use. Press <b>Save</b>.','A blocked person sees a white window: you do not have permission to use this service, please contact the super administration.'], tip: 'The Owner is never blocked. To undo, open the same account and reopen the service.' },
-      { k: 'svcpause', t: 'Service Pause (Maintenance)', who: 'adm', intro: 'Temporarily pause a service you do not use for now, for example Daily Attendance when nobody handles it. Nothing is deleted.', steps: ['Open <b>Maintenance</b> and press <b>Service Pause</b>.','Press the switch of a service so it shows <b>Paused</b>, then press <b>Save changes</b>.','A paused service can only be viewed. It shows: This service is temporarily unavailable. It sends no missing-record count, red circle, Telegram or bot messages.','To use it again, set the switch back to <b>Active</b> and save.'], tip: 'Pause is for everyone. To block one account only, use Service Access.' },
+      { k: 'svcpause', t: 'Service Control (Maintenance)', who: 'adm', intro: 'Choose for every service, menu and button: Open, Coming Soon or Paused. Use it for services you do not use for now. Nothing is deleted.', steps: ['Open <b>Maintenance</b> and press <b>Service Control</b>. Search the name or choose a group. Press <b>Buttons</b> to see the buttons inside a service.','Choose <b>Open</b>, <b>Coming Soon</b> or <b>Paused</b> for each item, then press <b>Save changes</b>. You can change it back at any time.','<b>Coming Soon</b> and <b>Paused</b> turn the menu or button grey. Clicking shows a message: Paused says this service is temporarily unavailable, please try again later; Coming Soon says the service is coming soon.','The same item is also blocked when it is opened from another menu. The Owner is never blocked.','Pausing Daily Attendance stops the missing-record count, the red circle and the Telegram list. Pausing Reminders stops the bot reminder messages.'], tip: 'To block one person only, use Service Access. Fill leave in Check Details is a special feature that starts as Coming Soon.' },
       { k: 'backnav', t: 'Back button and missing-record alerts', who: 'all', intro: 'Back goes to the page you came from. Missing records are shown and sent to Telegram.', steps: ['<b>Back</b> returns to the menu you opened this page from, for example Daily Attendance after Missing Records.','A <b>red circle</b> with a number on Daily Attendance, Missing Records and Employee shows how many records are missing.','Once a day, the list of names is sent to the Telegram group after an Admin or HR opens the website.'] },
       { k: 'leave', t: 'Leave Records', who: 'both', intro: 'Enter leave that an employee took.', steps: ['Choose the <b>Leave Date</b>.', 'Type the <b>Employee ID</b>. The name fills in by itself.', 'Type the hours in the right leave type, for example <b>Annual Leave</b>.', 'Press <b>Submit Leave Record</b>.'], tip: 'Hours are used, not days. 8 hours = 1 day.' },
       { k: 'shift', t: 'Shift Roster', who: 'both', intro: 'Plan who works which shift each day of the month.', steps: ['<b>Shift Check</b>: see one employee shift on one date.', 'Press <b>Check</b> to show the result.', '<b>Monthly Shift Calendar</b>: type a shift letter in a day box, or fill many people at once.', '<b>Import shifts</b> loads a filled Excel file. Download the template first.'], tip: 'Use the template so the columns are always right.' },
@@ -31548,6 +31548,78 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     var b2 = $('dlExBtn'); if (b2 && b2.textContent !== T('exBtn')) b2.textContent = T('exBtn');
     var h = $('dlThLv'); if (h && h.textContent !== T('lvH')) { h.textContent = T('lvH'); $('dlThTy').textContent = T('lvT'); $('dlThRm').textContent = T('rm'); }
   }
+  /* ---- Check Details: fill a leave record from the pop-up; Done saves it (same code as Leave Records) ---- */
+  D.en.fl = 'Fill leave record'; D.en.done = 'Done'; D.en.needTy = 'Please choose the leave type.'; D.en.lvBad = 'Leave Hours must be more than 0.'; D.en.dateNeed = 'Please choose the date.';
+  D.km.fl = 'បំពេញកំណត់ត្រាច្បាប់'; D.km.done = 'រួចរាល់'; D.km.needTy = 'សូមជ្រើសរើសប្រភេទច្បាប់។'; D.km.lvBad = 'ម៉ោងច្បាប់ត្រូវធំជាង ០។'; D.km.dateNeed = 'សូមជ្រើសរើសកាលបរិច្ឆេទ។';
+  D.zh.fl = '填写请假记录'; D.zh.done = '完成'; D.zh.needTy = '请选择请假类型。'; D.zh.lvBad = '请假小时必须大于 0。'; D.zh.dateNeed = '请选择日期。';
+  function yday() { var x = new Date(Date.now() + 7 * 3600e3 - 86400e3); return x.toISOString().slice(0, 10); }
+  function cdBuild() {
+    var m = $('checkDetailsModal'); if (!m) return;
+    var btn = $('cdDoneBtn'); if (!btn) return;
+    var box = $('cdFl');
+    if (!box) {
+      box = document.createElement('div'); box.id = 'cdFl';
+      var tile = 'display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 12px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;font-size:13px;font-weight:600;color:#334155';
+      var inp = 'padding:6px 8px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;background:#fff;max-width:160px';
+      box.innerHTML = '<div style="margin:16px 0 0;border-top:2px dotted #94a3b8"></div><div id="cdFlT" style="margin-top:8px;font-weight:700;color:#0b1d3a;font-size:14px"></div>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:10px 0 14px">' +
+        '<label style="' + tile + '"><span id="cdFlD"></span><input type="date" id="cdLvDate" style="' + inp + '"></label>' +
+        '<label style="' + tile + '"><span id="cdFlH"></span><input type="number" id="cdLvHrs" step="0.5" min="0" style="' + inp + ';width:100px;text-align:right"></label>' +
+        '<label style="' + tile + '"><span id="cdFlY"></span><select id="cdLvTy" style="' + inp + '"></select></label></div><div id="cdNote" style="margin:-4px 0 12px;font-size:12px;line-height:1.6"></div>';
+      btn.parentNode.parentNode.insertBefore(box, btn.parentNode);
+    }
+    $('cdFlT').textContent = T('fl'); $('cdFlD').textContent = T('date'); $('cdFlH').textContent = T('lvH'); $('cdFlY').textContent = T('lvT'); btn.textContent = T('done');
+    var sel = $('cdLvTy'), v = sel.value;
+    sel.innerHTML = '<option value="">' + E(T('choose')) + '</option>' + FIELDS.map(function (f) { return '<option value="' + f[0] + '">' + E(t(f[1])) + '</option>'; }).join(''); sel.value = v;
+  }
+  function cdEmp() { var id = String(($('cdId') || {}).textContent || '').trim(); return (employees || []).filter(function (e) { return String(e.id) === id; })[0] || null; }
+  function cdStatus() {
+    var emp = cdEmp(), date = $('cdLvDate') && $('cdLvDate').value; if (!emp || !date) return { bad: '', html: '' };
+    var rm = hrRoom(emp.id, date), d = rm.d, has = hrShiftOn(emp.id, date), ty = hrType(emp.id, date), bad = '';
+    if (!has) bad = T('noShift'); else if (ty === 'H') bad = T('rest'); else if (!lvOpen()) bad = T('lvOff'); else if (rm.work <= 0 && (d.work + d.leave) > 0) bad = T('full');
+    var l = parseFloat($('cdLvHrs') && $('cdLvHrs').value) || 0;
+    var html = (bad ? '<div style="color:#dc2626">' + E(bad) + '</div>' : '') +
+      ((d.work || d.ot || d.leave) ? '<div style="font-size:11px">' + E(T('rec')) + ': ' + sums(d.work, d.ot, d.leave) + (d.leave > 0 ? ' <span style="color:#64748b">(' + E(typesOn(emp.id, date).join(', ')) + ')</span>' : '') + '</div>' : '') +
+      (l > 0 ? '<div style="font-size:11px">+ ' + sums(0, 0, l) + '</div>' : '');
+    return { bad: bad, html: html, rm: rm };
+  }
+  function cdNote() { var n = $('cdNote'); if (!n) return; var r = cdStatus(); if (n.innerHTML !== r.html) n.innerHTML = r.html; }
+  document.addEventListener('input', function (ev) {
+    var el = ev.target; if (!el || (el.id !== 'cdLvDate' && el.id !== 'cdLvHrs')) return;
+    if (el.id === 'cdLvHrs') { var r = cdStatus(), l = parseFloat(el.value) || 0; if (r.rm && l > r.rm.work + 1e-9) { el.value = r.rm.work > 0 ? fmt(r.rm.work) : ''; showToast(false, T('over', { n: fmt(r.rm.work) })); } }
+    cdNote();
+  }, false);
+  document.addEventListener('change', function (ev) { var el = ev.target; if (el && (el.id === 'cdLvDate' || el.id === 'cdLvTy')) cdNote(); }, false);
+  var cd0 = window.runCheckDetails;
+  window.runCheckDetails = function () {
+    var r = cd0.apply(this, arguments);
+    try { var m = $('checkDetailsModal'); if (m && m.style.display !== 'none' && $('cdDoneBtn')) { cdBuild(); $('cdLvDate').value = yday(); $('cdLvHrs').value = ''; $('cdLvTy').value = ''; $('cdLvTy').style.borderColor = ''; cdNote(); } } catch (e) { console.error(e); }
+    return r;
+  };
+  var cdBusy = false;
+  window.cdDone = function () {
+    if (cdBusy) return;
+    if (window.svcSoon && window.svcSoon('cdleave')) { closeCheckDetailsModal(); return; }
+    var hrs = parseFloat($('cdLvHrs') && $('cdLvHrs').value) || 0;
+    if (!$('cdLvHrs') || !$('cdLvHrs').value.trim()) { closeCheckDetailsModal(); return; }
+    if (hrs <= 0) { showToast(false, T('lvBad')); return; }
+    var date = $('cdLvDate').value; if (!date) { showToast(false, T('dateNeed')); return; }
+    var stt = cdStatus(); if (stt.bad) { showToast(false, stt.bad); return; }
+    var sel = $('cdLvTy'); if (!sel.value) { sel.style.borderColor = '#dc2626'; try { sel.focus(); } catch (e) {} showToast(false, T('needTy')); return; }
+    if (!lvOpen()) { try { mtPopup('leave'); } catch (e) {} return; }
+    var id = ($('cdId') || {}).textContent; id = String(id || '').trim(); if (!id || id === '-') return;
+    var form = $('leaveForm'); cdBusy = true;
+    $('leaveDate').value = date; $('leaveEmpId').value = id; try { onLeaveEmpIdInput(); } catch (e) {}
+    FIELDS.forEach(function (f) { $(f[0]).value = ''; }); $(sel.value).value = String(hrs);
+    hrLeaveGate(form).then(function (ok) {
+      if (!ok) { cdBusy = false; return; }
+      window.__lvOk = null;
+      return Promise.resolve(leaveSubmitCore.call(form)).then(function () {
+        cdBusy = false;
+        if (window.__lvOk === true) closeCheckDetailsModal();
+      });
+    }).catch(function (e) { cdBusy = false; console.error(e); showToast(false); });
+  };
   setInterval(ui, 600); ui();
 })();
 
@@ -31593,16 +31665,48 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     setTimeout(function () { ready = true; window.__pxReady = true; }, 6000);
   }
   setInterval(sync, 700); setTimeout(sync, 300);
+  /* ---------- Service Control (Maintenance): open / coming soon / paused per service, menu or button ---------- */
+  var CMSG = {
+    paused: { en: ['Sorry, this service is temporarily unavailable, please try again later. Thank you!', 'OK'], km: ['សូមអភ័យទោស សេវាកម្មនេះមិនអាចប្រើបានជាបណ្តោះអាសន្ន សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។ សូមអរគុណ!', 'យល់ព្រម'], zh: ['抱歉，此服务暂时不可用，请稍后再试。谢谢！', '确定'] },
+    soon: { en: ['This service is coming soon, please try again later. Thank you!', 'OK'], km: ['សេវាកម្មនេះនឹងមកដល់ឆាប់ៗនេះ សូមព្យាយាមម្តងទៀតនៅពេលក្រោយ។ សូមអរគុណ!', 'យល់ព្រម'], zh: ['此服务即将推出，请稍后再试。谢谢！', '确定'] } };
+  window.ctlState = function (id) {
+    var m = null; try { m = (typeof mtRaw !== 'undefined') ? mtRaw : null; } catch (e) {}
+    var dflt = (id === 'cdleave') ? 'soon' : 'open';
+    if (!m) return dflt;
+    if (m.ctl && m.ctl.s) { var v = m.ctl.s[id]; return (v === 'soon' || v === 'paused' || v === 'open') ? v : dflt; }
+    if (m.pause && m.pause.services && m.pause.services[id] === true) return 'paused';
+    if (id === 'cdleave') return (m.soon && m.soon.open && m.soon.open.cdleave === true) ? 'open' : 'soon';
+    return 'open';
+  };
+  function ctlAny() { var m = null; try { m = (typeof mtRaw !== 'undefined') ? mtRaw : null; } catch (e) {} if (!m) return false; var o = (m.ctl && m.ctl.s) || null; if (o) { for (var k in o) { if (o[k] === 'soon' || o[k] === 'paused') return true; } return false; } return !!(m.pause && m.pause.services && Object.keys(m.pause.services).length); }
+  function ownerExempt() {
+    try { var a = window.__actorInfo; if (a && a.type === 'staff' && sessionStorage.getItem('isLoggedIn') === 'true') return !!(acctIsOwner(a.key) || viewerIsOwner()); } catch (e) {}
+    return false;
+  }
+  function ctlHit(id) { if (!id || !ctlAny() || ownerExempt()) return ''; var v = window.ctlState(id); return v === 'open' ? '' : v; }
+  window.ctlExempt = ownerExempt;
+  window.ctlPopup = function (kind) {
+    var old = $('pxWhite'); if (old) old.remove();
+    var m = (CMSG[kind] || CMSG.paused)[lang()], d = document.createElement('div'); d.id = 'pxWhite';
+    d.innerHTML = '<div class="px-b"><h3 style="margin:0 0 6px;font-size:18px;line-height:1.45"></h3><button type="button" style="margin-top:12px"></button></div>';
+    d.querySelector('h3').textContent = m[0]; d.querySelector('button').textContent = m[1];
+    d.style.background = 'rgba(15,23,42,.5)'; d.querySelector('.px-b').style.cssText = 'background:#fff;border-radius:14px;padding:24px 22px;max-width:380px;width:100%;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.35)';
+    d.querySelector('button').onclick = function () { d.remove(); }; d.addEventListener('click', function (e) { if (e.target === d) d.remove(); });
+    document.body.appendChild(d);
+  };
+  (function () { var cur = null; try { Object.defineProperty(window, '__pxWhy', { configurable: true, get: function () { return cur; }, set: function (v) { cur = v; if (v) window.__pxLastWhy = v; } }); } catch (e) {} })();
   window.pxWait = function () { return !!scope && !ready; };
-  window.pxOn = function () { return !!(scope && data && (data.services || data.actions)); };
-  window.pxSvcClosed = function (id) { window.__pxWhy = null; if (id && data && data.services && data.services[id] === 'closed') { window.__pxWhy = id; return true; } return false; };
+  window.pxOn = function () { return !!((scope && data && (data.services || data.actions)) || ctlAny()); };
+  window.pxSvcClosed = function (id) { window.__pxWhy = null; var c = ctlHit(id); if (c) { window.__pxWhy = 'ctl:' + c; return true; } if (id && data && data.services && data.services[id] === 'closed') { window.__pxWhy = id; return true; } return false; };
   window.pxActClosed = function (svc, act) {
-    window.__pxWhy = null; if (!data) return false;
+    window.__pxWhy = null; var c = ctlHit(svc + '.' + act) || ctlHit(svc); if (c) { window.__pxWhy = 'ctl:' + c; return true; }
+    if (!data) return false;
     if (data.services && data.services[svc] === 'closed') { window.__pxWhy = svc; return true; }
     if (data.actions && data.actions[svc] && data.actions[svc][act] === 'closed') { window.__pxWhy = svc + '.' + act; return true; }
     return false;
   };
   window.pxPopup = function () {
+    var w = window.__pxLastWhy; if (w && String(w).indexOf('ctl:') === 0) { window.ctlPopup(String(w).slice(4)); return; }
     var old = $('pxWhite'); if (old) old.remove();
     var m = MSG[lang()], d = document.createElement('div'); d.id = 'pxWhite';
     d.innerHTML = '<div class="px-b"><h3 style="margin:0 0 6px;font-size:18px"></h3><p></p><button type="button"></button></div>';
@@ -31681,35 +31785,49 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
   setTimeout(function () { try { tgSend(); } catch (e) {} }, 20000);
   setInterval(function () { try { tgSend(); } catch (e) {} }, 15 * 60 * 1000);
 
-  /* ---------- 4) Service Pause (Maintenance > Service Pause): view only, no alerts ---------- */
-  var PZ = { att: ['tab-att', 'tab-missing'], leave: ['tab-leave'], shift: ['tab-shift'], makeup: ['tab-makeup'], reminders: ['remModal'], training: ['trModal'] };
-  var PMSG = { en: 'This service is temporarily unavailable.', km: 'សេវាកម្មនេះមិនអាចប្រើបានជាបណ្តោះអាសន្ន។', zh: '此服务暂时不可用。' };
-  var PSUB = { en: 'You can still view the saved data. Nothing can be added or changed.', km: 'អ្នកនៅតែអាចមើលទិន្នន័យដែលបានរក្សាទុក។ មិនអាចបន្ថែម ឬកែប្រែអ្វីបានទេ។', zh: '您仍可查看已保存的数据，但无法添加或修改。' };
-  window.svcPaused = function (id) { try { var m = (typeof mtRaw !== 'undefined') ? mtRaw : null; return !!(m && m.pause && m.pause.services && m.pause.services[id] === true); } catch (e) { return false; } };
-  var st2 = document.createElement('style');
-  st2.textContent = '.px-paused button:not(.pgBack):not(.modal-close):not([data-pxk]),.px-paused input:not([type=search]):not([data-pxk]),.px-paused textarea{pointer-events:none!important;opacity:.45}' +
-    '.px-pzBar{margin:0 0 12px;padding:12px 14px;border-radius:12px;background:#0b1d3a;color:#fff;font-size:14px;line-height:1.45}.px-pzBar small{display:block;opacity:.8;font-size:12px;margin-top:2px}';
-  document.head.appendChild(st2);
-  function pzApply() {
-    Object.keys(PZ).forEach(function (id) {
-      var on = window.svcPaused(id);
-      PZ[id].forEach(function (eid) {
-        var el = $(eid); if (!el) return;
-        var box = el.classList.contains('modal') ? (el.querySelector('.modal-content') || el) : el;
-        var bar = box.querySelector(':scope > .px-pzBar');
-        if (on) {
-          box.classList.add('px-paused');
-          box.querySelectorAll('button:not([data-pxk])').forEach(function (x) { var o = (x.getAttribute('onclick') || '') + ' ' + (x.id || '') + ' ' + (x.className || ''); if (/load|show|search|filter|ssBtn|clear|view|export|print|close|back|next|prev|sort|tab-missing|tab-att|toggle|openMiss|mrx/i.test(o) && !/save|submit|delete|remove|add|confirm|approve|create/i.test(o)) x.setAttribute('data-pxk', '1'); else if (!x.getAttribute('onclick') && /btn-submit/.test(x.className || '')) x.setAttribute('data-pxk', '1'); });
-          if (!bar) { bar = document.createElement('div'); bar.className = 'px-pzBar'; box.insertBefore(bar, box.querySelector(':scope > .pgBack') ? box.querySelector(':scope > .pgBack').nextSibling : box.firstChild); }
-          var l = lang(); var h = '<b>' + PMSG[l] + '</b><small>' + PSUB[l] + '</small>'; if (bar.innerHTML !== h) bar.innerHTML = h;
-        } else { box.classList.remove('px-paused'); if (bar) bar.remove(); }
-      });
-    });
-  }
-  setInterval(function () { try { pzApply(); } catch (e) {} }, 1000);
+  /* ---------- 4) alerts stop while a service is not Open (Service Control) ---------- */
+  window.svcPaused = function (id) { try { return window.ctlState(id) !== 'open'; } catch (e) { return false; } };
   var mc0 = window.mrxCount, mf0 = window.mrxFind;
   if (typeof mc0 === 'function') window.mrxCount = function () { return window.svcPaused('att') ? 0 : mc0.apply(this, arguments); };
   if (typeof mf0 === 'function') window.mrxFind = function () { return window.svcPaused('att') ? { from: '', to: '', rows: [] } : mf0.apply(this, arguments); };
+
+  /* ---------- 5) Coming Soon (Maintenance > Coming Soon): a special feature stays grey and locked until opened ---------- */
+  var SOON = { cdleave: 'cdFl' };
+  var STXT = { en: ['Coming', 'Soon'], km: ['ឆាប់ៗ', 'នេះ'], zh: ['即将', '推出'] }, PTXT = { en: ['Service', 'Paused'], km: ['សេវា', 'ផ្អាក'], zh: ['服务', '已暂停'] };
+  window.svcSoon = function (id) { try { return window.ctlState(id) !== 'open' && !window.ctlExempt(); } catch (e) { return true; } };
+  var st3 = document.createElement('style');
+  st3.textContent = '.px-soon{position:relative}.px-soon > .px-soonIn{filter:blur(3px) grayscale(1);opacity:.5;pointer-events:none;user-select:none}' +
+    '.px-soonTag{position:absolute;right:14px;top:4px;transform:rotate(6deg);background:linear-gradient(135deg,#9b6fd8,#e0707f);color:#fff;border-radius:10px;padding:8px 18px;font-weight:800;text-align:center;line-height:1.1;box-shadow:0 6px 16px rgba(0,0,0,.18);z-index:3;pointer-events:none}' +
+    '.px-soonTag b{display:block;font-size:14px}.px-soonTag span{display:block;font-size:22px}';
+  document.head.appendChild(st3);
+  function soonApply() {
+    Object.keys(SOON).forEach(function (id) {
+      var box = $(SOON[id]); if (!box) return;
+      var on = window.svcSoon(id), inn = box.querySelector(':scope > .px-soonIn'), tag = box.querySelector(':scope > .px-soonTag');
+      if (on) {
+        if (!inn) { inn = document.createElement('div'); inn.className = 'px-soonIn'; while (box.firstChild) inn.appendChild(box.firstChild); box.appendChild(inn); }
+        inn.setAttribute('inert', ''); box.classList.add('px-soon');
+        var l = lang(), tx = (window.ctlState(id) === 'paused') ? PTXT[l] : STXT[l], h = '<b>' + tx[0] + '</b><span>' + tx[1] + '</span>';
+        if (!tag) { tag = document.createElement('div'); tag.className = 'px-soonTag'; box.appendChild(tag); }
+        if (tag.innerHTML !== h) tag.innerHTML = h;
+      } else {
+        if (tag) tag.remove();
+        if (inn) { inn.removeAttribute('inert'); while (inn.firstChild) box.insertBefore(inn.firstChild, inn); inn.remove(); }
+        box.classList.remove('px-soon');
+      }
+    });
+  }
+  st3.textContent += '[data-pxsoon]{position:relative!important;overflow:visible!important}[data-pxsoon]::after{content:attr(data-pxsoon);position:absolute;right:-4px;top:-9px;transform:rotate(6deg);background:linear-gradient(135deg,#9b6fd8,#e0707f);color:#fff;border-radius:7px;padding:2px 7px;font:800 10px/1.2 Arial,sans-serif;white-space:nowrap;pointer-events:none;box-shadow:0 2px 6px rgba(0,0,0,.2);z-index:5}';
+  function menuTags() {
+    if (typeof MT_SVC === 'undefined') return;
+    var tx = STXT[lang()].join(' ');
+    MT_SVC.forEach(function (s) {
+      var els = [], on = false; try { on = window.ctlState(s[0]) === 'soon' && !window.ctlExempt(); } catch (e) {}
+      if (s[2] === 'tab') els = Array.prototype.slice.call(document.querySelectorAll('[onclick*="\'' + s[3] + '\'"]')); else if (s[2] === 'fn') els = Array.prototype.slice.call(document.querySelectorAll('[onclick^="' + s[3] + '("]'));
+      els.forEach(function (el) { if (on) { if (el.getAttribute('data-pxsoon') !== tx) el.setAttribute('data-pxsoon', tx); } else if (el.hasAttribute('data-pxsoon')) el.removeAttribute('data-pxsoon'); });
+    });
+  }
+  setInterval(function () { try { soonApply(); menuTags(); } catch (e) {} }, 800);
 
 })();
 

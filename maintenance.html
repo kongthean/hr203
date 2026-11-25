@@ -231,7 +231,7 @@ body.isLogin{background:linear-gradient(180deg,#131a30 0,#1a2342 330px,#f1f5f9 3
 .tl{border:0;border-radius:16px;color:#fff;min-height:106px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;font-weight:700;font-size:14px;line-height:1.25;cursor:pointer;box-shadow:0 6px 16px rgba(15,23,42,.22);transition:transform .12s}
 .tl:active{transform:scale(.97)}
 .tl svg.i{width:30px;height:30px;stroke:#fff;stroke-width:1.9}
-.tl-theme{background:linear-gradient(135deg,#0f766e,#14b8a6)}.tl-pz{background:linear-gradient(135deg,#0b1d3a,#2563eb)}.pzRow{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid #e2e8f0;flex-wrap:wrap}.pzRow .pzN{flex:1;min-width:180px}.pzRow .pzN small{display:block;color:#64748b;font-size:12px}.pzSw{border-radius:99px;padding:6px 16px;font-weight:700;font-size:13px;cursor:pointer;border:1.5px solid #1d4ed8;background:#fff;color:#1d4ed8}.pzSw.p{background:#0b1d3a;border-color:#0b1d3a;color:#fff}.tl-acc{background:linear-gradient(135deg,#7c3aed,#a855f7)}.accTop{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}.accTop .exQ{flex:1;min-width:180px;margin:0}.accTop select{padding:9px 10px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:13px;max-width:240px}.exRow small.accN{color:#dc2626;font-weight:700;margin-left:auto}.thr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line,#e2e8f0)}.thr:first-of-type{border-top:0}.thr b{flex:1 1 140px;min-width:120px}.thr .seg{flex:none}.thr label.check{margin:0}.tl-mm{background:linear-gradient(135deg,#7f1d1d,#dc2626)}.tl-lock{background:linear-gradient(135deg,#8a4a0a,#d58a1c)}.tl-sched{background:linear-gradient(135deg,#0e5c78,#1a9bc0)}.tl-set{background:linear-gradient(135deg,#2b3550,#4a5875)}.tl-stat{background:linear-gradient(135deg,#0b5a40,#15936b)}.tl-hist{background:linear-gradient(135deg,#3b1f7a,#6d44c9)}
+.tl-theme{background:linear-gradient(135deg,#0f766e,#14b8a6)}.tl-ct{background:linear-gradient(135deg,#0b1d3a,#2563eb)}.ctSeg{display:inline-flex;border:1.5px solid #cbd5e1;border-radius:99px;overflow:hidden;flex:none}.ctSeg button{border:0;background:#fff;color:#64748b;padding:6px 13px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap}.ctSeg button.o.on{background:#15803d;color:#fff}.ctSeg button.s.on{background:#9b6fd8;color:#fff}.ctSeg button.p.on{background:#0b1d3a;color:#fff}.ctSub{margin:0 0 0 22px;padding:6px 4px;border-bottom:1px dashed #e2e8f0}.ctGrp{margin:14px 0 2px;font-weight:800;color:#0b1d3a;font-size:13px;text-transform:uppercase;letter-spacing:.04em}.ctTog{border:0;background:none;color:#1d4ed8;font-weight:700;font-size:12px;cursor:pointer;padding:2px 0}.tl-cs{background:linear-gradient(135deg,#9b6fd8,#e0707f)}.tl-pz{background:linear-gradient(135deg,#0b1d3a,#2563eb)}.pzRow{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid #e2e8f0;flex-wrap:wrap}.pzRow .pzN{flex:1;min-width:180px}.pzRow .pzN small{display:block;color:#64748b;font-size:12px}.pzSw{border-radius:99px;padding:6px 16px;font-weight:700;font-size:13px;cursor:pointer;border:1.5px solid #1d4ed8;background:#fff;color:#1d4ed8}.pzSw.p{background:#0b1d3a;border-color:#0b1d3a;color:#fff}.tl-acc{background:linear-gradient(135deg,#7c3aed,#a855f7)}.accTop{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:8px}.accTop .exQ{flex:1;min-width:180px;margin:0}.accTop select{padding:9px 10px;border:1.5px solid #cbd5e1;border-radius:10px;font-size:13px;max-width:240px}.exRow small.accN{color:#dc2626;font-weight:700;margin-left:auto}.thr{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line,#e2e8f0)}.thr:first-of-type{border-top:0}.thr b{flex:1 1 140px;min-width:120px}.thr .seg{flex:none}.thr label.check{margin:0}.tl-mm{background:linear-gradient(135deg,#7f1d1d,#dc2626)}.tl-lock{background:linear-gradient(135deg,#8a4a0a,#d58a1c)}.tl-sched{background:linear-gradient(135deg,#0e5c78,#1a9bc0)}.tl-set{background:linear-gradient(135deg,#2b3550,#4a5875)}.tl-stat{background:linear-gradient(135deg,#0b5a40,#15936b)}.tl-hist{background:linear-gradient(135deg,#3b1f7a,#6d44c9)}
 main{max-width:none;padding:14px 10px}
 /* v9.3: compact, Administration-size */
 body{font-size:13.5px}
@@ -411,6 +411,20 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
     <div id="pzBox" class="hide">
       <section class="card"><h2 data-i="pzT"></h2><p class="sub" data-i="pzSub"></p><div id="pzList"></div></section>
       <div class="savebar hide" id="pzSaveBar"><button class="btn" id="pzSave"></button><span class="note" id="pzDirty" style="margin:0"></span></div>
+    </div>
+
+    <!-- COMING SOON -->
+    <div id="csBox" class="hide">
+      <section class="card"><h2 data-i="csT"></h2><p class="sub" data-i="csSub"></p><div id="csList"></div></section>
+      <div class="savebar hide" id="csSaveBar"><button class="btn" id="csSave"></button><span class="note" id="csDirty" style="margin:0"></span></div>
+    </div>
+
+    <!-- SERVICE CONTROL -->
+    <div id="ctBox" class="hide">
+      <section class="card"><h2 data-i="ctT"></h2><p class="sub" data-i="ctSub"></p>
+        <div class="accTop"><input type="search" id="ctQ" class="exQ"><div class="chips" id="ctChips" style="margin:0"></div></div>
+        <p class="note" id="ctCnt"></p><div id="ctList"></div></section>
+      <div class="savebar hide" id="ctSaveBar"><button class="btn" id="ctSave"></button><span class="note" id="ctDirty" style="margin:0"></span></div>
     </div>
 
     <!-- LOCK -->
@@ -886,9 +900,9 @@ Object.assign(I18N.zh, {"brandSub":"维护","tabDash":"控制台","tabSet":"设�
 Object.assign(I18N.km, { schSub: 'ប្រព័ន្ធនឹងចូលម៉ូដថែទាំដោយខ្លួនឯងនៅម៉ោងចាប់ផ្តើម ហើយបើកវិញដោយខ្លួនឯងនៅម៉ោងបញ្ចប់។ សម្រាប់កាលវិភាគនីមួយៗ អ្នកជ្រើសរើសប្រព័ន្ធ គណនីដែលរក្សាសិទ្ធិពេញលេញ និងសេវាកម្មណាត្រូវបិទ។ ម៉ោងទាំងអស់ជាម៉ោងកម្ពុជា។' });
 Object.assign(I18N.zh, { schSub: '系统会在开始时间自动进入维护，并在结束时间自动恢复。每个计划可分别选择系统、保留全部权限的账户以及要关闭的服务。所有时间均为柬埔寨时间。' });
 Object.assign(I18N.en, { schSub: 'The system goes into maintenance by itself at the start time and opens again by itself at the end time. For each schedule you choose the systems, the accounts that keep full access, and which services close. All times are Cambodia time.' });
-Object.assign(I18N.en, {pzT:"Service Pause",pzSub:"Paused means: the service can only be viewed, nothing can be added or changed, and it sends no alerts, red circle or Telegram messages. Nothing is deleted. Turn it back to Active to use it again. This is for everyone, not one account.",pzAtt:"Missing records, red circle, Telegram list",pzLeave:"Leave Records: view only",pzMakeup:"Makeup Attendance: view only",pzShift:"Shift Roster: view only",pzRem:"Reminders: no bot messages",pzTrain:"Training & Agreements: view only",pzPaused:"Paused",pzActive:"Active",pzUnsaved:"Not saved yet",pzSaved:"Saved",pzErr:"Could not save. Please try again.",accOwn:'Owner - always open',accT:'Service Access',accSub:'Choose the accounts, then choose which services and buttons are open or closed for them. A person with a closed service sees a white window: no permission. The Owner account is never blocked.',accSearch:'Search name or ID',accDeptAll:'All departments',accSelAll:'Select all shown',accClear:'Clear',accN:'{n} selected',accNone:'Choose one or more accounts above.',accEditing:'Settings for {n} account(s)',accOver:'Saving replaces the current settings of every selected account.',accSaved:'Saved. It works for them within seconds.',accConfirm:'Apply these settings to {n} accounts? Their current settings will be replaced.',evAcc:'Service Access saved for {n} account(s)',accCl:'{n} closed',accLoading:'Loading...',accMore:'Showing the first 120. Search to find others.',accNoList:'No accounts found.',accSave:'Save access'});
-Object.assign(I18N.km, {pzT:"ផ្អាកសេវាកម្ម",pzSub:"ផ្អាក មានន័យថា៖ មើលបានតែប៉ុណ្ណោះ មិនអាចបន្ថែម ឬកែប្រែបានទេ ហើយមិនផ្ញើការជូនដំណឹង រង្វង់ក្រហម ឬសារ Telegram ទេ។ គ្មានអ្វីត្រូវបានលុបទេ។ ប្តូរទៅ សកម្ម ដើម្បីប្រើវិញ។ នេះសម្រាប់មនុស្សគ្រប់គ្នា មិនមែនគណនីតែមួយទេ។",pzAtt:"កំណត់ត្រាខ្វះ រង្វង់ក្រហម បញ្ជី Telegram",pzLeave:"កំណត់ត្រាច្បាប់៖ មើលបានតែប៉ុណ្ណោះ",pzMakeup:"វត្តមានបំពេញបន្ថែម៖ មើលបានតែប៉ុណ្ណោះ",pzShift:"តារាងវេន៖ មើលបានតែប៉ុណ្ណោះ",pzRem:"ការរំលឹក៖ មិនផ្ញើសារ Bot",pzTrain:"បណ្តុះបណ្តាល និងកិច្ចព្រមព្រៀង៖ មើលបានតែប៉ុណ្ណោះ",pzPaused:"ផ្អាក",pzActive:"សកម្ម",pzUnsaved:"មិនទាន់រក្សាទុក",pzSaved:"បានរក្សាទុក",pzErr:"រក្សាទុកមិនបាន សូមព្យាយាមម្តងទៀត។",accOwn:'ម្ចាស់ - បើកជានិច្ច',accT:'សិទ្ធិប្រើសេវាកម្ម',accSub:'ជ្រើសរើសគណនី បន្ទាប់មកជ្រើសថាសេវាកម្ម និងប៊ូតុងណាបើក ឬបិទសម្រាប់ពួកគេ។ អ្នកដែលត្រូវបានបិទសេវាកម្មនឹងឃើញផ្ទាំងពណ៌ស៖ គ្មានសិទ្ធិ។ គណនីម្ចាស់ (Owner) មិនត្រូវបានបិទទេ។',accSearch:'ស្វែងរកឈ្មោះ ឬ ID',accDeptAll:'គ្រប់នាយកដ្ឋាន',accSelAll:'ជ្រើសទាំងអស់ដែលបង្ហាញ',accClear:'សម្អាត',accN:'បានជ្រើស {n}',accNone:'សូមជ្រើសរើសគណនីមួយ ឬច្រើនខាងលើ។',accEditing:'ការកំណត់សម្រាប់ {n} គណនី',accOver:'ការរក្សាទុកនឹងជំនួសការកំណត់បច្ចុប្បន្នរបស់គណនីដែលបានជ្រើសទាំងអស់។',accSaved:'បានរក្សាទុក។ ដំណើរការសម្រាប់ពួកគេក្នុងរយៈពេលប៉ុន្មានវិនាទី។',accConfirm:'អនុវត្តការកំណត់នេះចំពោះ {n} គណនី? ការកំណត់បច្ចុប្បន្នរបស់ពួកគេនឹងត្រូវជំនួស។',evAcc:'បានរក្សាទុកសិទ្ធិប្រើសេវាកម្មសម្រាប់ {n} គណនី',accCl:'បិទ {n}',accLoading:'កំពុងផ្ទុក...',accMore:'បង្ហាញ ១២០ ដំបូង។ សូមស្វែងរកដើម្បីរកផ្សេងទៀត។',accNoList:'រកមិនឃើញគណនីទេ។',accSave:'រក្សាទុកសិទ្ធិ'});
-Object.assign(I18N.zh, {pzT:"暂停服务",pzSub:"暂停表示：该服务只能查看，不能添加或修改，也不会发送提醒、红点或 Telegram 消息。不会删除任何数据。改回“启用”即可重新使用。此设置对所有人生效，而不是某个账户。",pzAtt:"缺失记录、红点、Telegram 名单",pzLeave:"请假记录：仅查看",pzMakeup:"补考勤：仅查看",pzShift:"排班表：仅查看",pzRem:"提醒：不发送机器人消息",pzTrain:"培训与协议：仅查看",pzPaused:"已暂停",pzActive:"启用",pzUnsaved:"尚未保存",pzSaved:"已保存",pzErr:"保存失败，请重试。",accOwn:'所有者 - 始终开放',accT:'服务权限',accSub:'先选择账户，再选择哪些服务和按钮对他们开放或关闭。被关闭服务的人会看到白色窗口：没有权限。所有者（Owner）账户不会被限制。',accSearch:'搜索姓名或编号',accDeptAll:'所有部门',accSelAll:'选择全部显示的',accClear:'清除',accN:'已选 {n}',accNone:'请在上方选择一个或多个账户。',accEditing:'{n} 个账户的设置',accOver:'保存会替换所有已选账户的当前设置。',accSaved:'已保存，几秒内对他们生效。',accConfirm:'将这些设置应用到 {n} 个账户？他们当前的设置将被替换。',evAcc:'已为 {n} 个账户保存服务权限',accCl:'已关闭 {n}',accLoading:'加载中...',accMore:'仅显示前 120 个，请搜索查找其他。',accNoList:'没有找到账户。',accSave:'保存权限'});
+Object.assign(I18N.en, {ctT:"Service Control",ctSub:"Choose for every service, menu and button: Open, Coming Soon or Paused. Coming Soon and Paused turn the item grey and show a message when someone clicks it. The same item is also blocked when it is opened from another menu. The Owner is never blocked. Click Buttons to see the buttons inside a service.",ctAll:"All",ctGSp:"Special features",ctGAdmin:"Administration and HR",ctGEmp:"Employee portal",ctGDept:"Department portal",ctPaused:"Paused",ctBtns:"Buttons ({n})",ctCnt:"Not open now: {n}",csT:"Coming Soon",csSub:"Special features that nobody can use yet. A locked feature is grey and blurred with a Coming Soon tag. Set it to Open when you want people to use it, then save.",csCd:"Fill leave in Check Details",csCdD:"The Date, Leave Hours and Leave Type boxes at the bottom of the Check Details pop-up.",csOpen:"Open",csSoon:"Coming Soon",pzT:"Service Pause",pzSub:"Paused means: the service can only be viewed, nothing can be added or changed, and it sends no alerts, red circle or Telegram messages. Nothing is deleted. Turn it back to Active to use it again. This is for everyone, not one account.",pzAtt:"Missing records, red circle, Telegram list",pzLeave:"Leave Records: view only",pzMakeup:"Makeup Attendance: view only",pzShift:"Shift Roster: view only",pzRem:"Reminders: no bot messages",pzTrain:"Training & Agreements: view only",pzPaused:"Paused",pzActive:"Active",pzUnsaved:"Not saved yet",pzSaved:"Saved",pzErr:"Could not save. Please try again.",accOwn:'Owner - always open',accT:'Service Access',accSub:'Choose the accounts, then choose which services and buttons are open or closed for them. A person with a closed service sees a white window: no permission. The Owner account is never blocked.',accSearch:'Search name or ID',accDeptAll:'All departments',accSelAll:'Select all shown',accClear:'Clear',accN:'{n} selected',accNone:'Choose one or more accounts above.',accEditing:'Settings for {n} account(s)',accOver:'Saving replaces the current settings of every selected account.',accSaved:'Saved. It works for them within seconds.',accConfirm:'Apply these settings to {n} accounts? Their current settings will be replaced.',evAcc:'Service Access saved for {n} account(s)',accCl:'{n} closed',accLoading:'Loading...',accMore:'Showing the first 120. Search to find others.',accNoList:'No accounts found.',accSave:'Save access'});
+Object.assign(I18N.km, {ctT:"គ្រប់គ្រងសេវាកម្ម",ctSub:"ជ្រើសរើសសម្រាប់គ្រប់សេវាកម្ម ម៉ឺនុយ និងប៊ូតុង៖ បើក ឆាប់ៗនេះ ឬ ផ្អាក។ ឆាប់ៗនេះ និង ផ្អាក ធ្វើឱ្យធាតុប្រែជាប្រផេះ ហើយបង្ហាញសារពេលមាននរណាចុច។ ក៏ត្រូវបានរារាំងពេលបើកពីម៉ឺនុយផ្សេងដែរ។ ម្ចាស់មិនត្រូវបានរារាំងទេ។ ចុច ប៊ូតុង ដើម្បីមើលប៊ូតុងក្នុងសេវាកម្ម។",ctAll:"ទាំងអស់",ctGSp:"មុខងារពិសេស",ctGAdmin:"អ្នកគ្រប់គ្រង និង HR",ctGEmp:"ផ្នែកបុគ្គលិក",ctGDept:"ផ្នែកនាយកដ្ឋាន",ctPaused:"ផ្អាក",ctBtns:"ប៊ូតុង ({n})",ctCnt:"មិនបើកឥឡូវនេះ៖ {n}",csT:"ឆាប់ៗនេះ",csSub:"មុខងារពិសេសដែលមិនទាន់អាចប្រើបាន។ មុខងារដែលបានចាក់សោនឹងប្រែជាប្រផេះ ព្រិល និងមានស្លាក ឆាប់ៗនេះ។ កំណត់ទៅ បើក នៅពេលអ្នកចង់ឱ្យគេប្រើ រួចរក្សាទុក។",csCd:"បំពេញច្បាប់ក្នុងការត្រួតពិនិត្យលម្អិត",csCdD:"ប្រអប់ កាលបរិច្ឆេទ ម៉ោងច្បាប់ និងប្រភេទច្បាប់ នៅខាងក្រោមផ្ទាំង Check Details។",csOpen:"បើក",csSoon:"ឆាប់ៗនេះ",pzT:"ផ្អាកសេវាកម្ម",pzSub:"ផ្អាក មានន័យថា៖ មើលបានតែប៉ុណ្ណោះ មិនអាចបន្ថែម ឬកែប្រែបានទេ ហើយមិនផ្ញើការជូនដំណឹង រង្វង់ក្រហម ឬសារ Telegram ទេ។ គ្មានអ្វីត្រូវបានលុបទេ។ ប្តូរទៅ សកម្ម ដើម្បីប្រើវិញ។ នេះសម្រាប់មនុស្សគ្រប់គ្នា មិនមែនគណនីតែមួយទេ។",pzAtt:"កំណត់ត្រាខ្វះ រង្វង់ក្រហម បញ្ជី Telegram",pzLeave:"កំណត់ត្រាច្បាប់៖ មើលបានតែប៉ុណ្ណោះ",pzMakeup:"វត្តមានបំពេញបន្ថែម៖ មើលបានតែប៉ុណ្ណោះ",pzShift:"តារាងវេន៖ មើលបានតែប៉ុណ្ណោះ",pzRem:"ការរំលឹក៖ មិនផ្ញើសារ Bot",pzTrain:"បណ្តុះបណ្តាល និងកិច្ចព្រមព្រៀង៖ មើលបានតែប៉ុណ្ណោះ",pzPaused:"ផ្អាក",pzActive:"សកម្ម",pzUnsaved:"មិនទាន់រក្សាទុក",pzSaved:"បានរក្សាទុក",pzErr:"រក្សាទុកមិនបាន សូមព្យាយាមម្តងទៀត។",accOwn:'ម្ចាស់ - បើកជានិច្ច',accT:'សិទ្ធិប្រើសេវាកម្ម',accSub:'ជ្រើសរើសគណនី បន្ទាប់មកជ្រើសថាសេវាកម្ម និងប៊ូតុងណាបើក ឬបិទសម្រាប់ពួកគេ។ អ្នកដែលត្រូវបានបិទសេវាកម្មនឹងឃើញផ្ទាំងពណ៌ស៖ គ្មានសិទ្ធិ។ គណនីម្ចាស់ (Owner) មិនត្រូវបានបិទទេ។',accSearch:'ស្វែងរកឈ្មោះ ឬ ID',accDeptAll:'គ្រប់នាយកដ្ឋាន',accSelAll:'ជ្រើសទាំងអស់ដែលបង្ហាញ',accClear:'សម្អាត',accN:'បានជ្រើស {n}',accNone:'សូមជ្រើសរើសគណនីមួយ ឬច្រើនខាងលើ។',accEditing:'ការកំណត់សម្រាប់ {n} គណនី',accOver:'ការរក្សាទុកនឹងជំនួសការកំណត់បច្ចុប្បន្នរបស់គណនីដែលបានជ្រើសទាំងអស់។',accSaved:'បានរក្សាទុក។ ដំណើរការសម្រាប់ពួកគេក្នុងរយៈពេលប៉ុន្មានវិនាទី។',accConfirm:'អនុវត្តការកំណត់នេះចំពោះ {n} គណនី? ការកំណត់បច្ចុប្បន្នរបស់ពួកគេនឹងត្រូវជំនួស។',evAcc:'បានរក្សាទុកសិទ្ធិប្រើសេវាកម្មសម្រាប់ {n} គណនី',accCl:'បិទ {n}',accLoading:'កំពុងផ្ទុក...',accMore:'បង្ហាញ ១២០ ដំបូង។ សូមស្វែងរកដើម្បីរកផ្សេងទៀត។',accNoList:'រកមិនឃើញគណនីទេ។',accSave:'រក្សាទុកសិទ្ធិ'});
+Object.assign(I18N.zh, {ctT:"服务控制",ctSub:"为每个服务、菜单和按钮选择：开放、即将推出或暂停。“即将推出”和“暂停”会让项目变灰，点击时显示提示。从其他菜单进入同一项目也会被拦截。所有者不受限制。点击“按钮”可查看服务内的按钮。",ctAll:"全部",ctGSp:"特别功能",ctGAdmin:"管理员和 HR",ctGEmp:"员工端",ctGDept:"部门端",ctPaused:"暂停",ctBtns:"按钮（{n}）",ctCnt:"当前未开放：{n}",csT:"即将推出",csSub:"暂时无人可用的特别功能。锁定的功能会变灰、模糊并带有“即将推出”标签。需要开放时设为“开放”并保存。",csCd:"在检查详情中填写请假",csCdD:"检查详情弹窗底部的日期、请假小时和请假类型。",csOpen:"开放",csSoon:"即将推出",pzT:"暂停服务",pzSub:"暂停表示：该服务只能查看，不能添加或修改，也不会发送提醒、红点或 Telegram 消息。不会删除任何数据。改回“启用”即可重新使用。此设置对所有人生效，而不是某个账户。",pzAtt:"缺失记录、红点、Telegram 名单",pzLeave:"请假记录：仅查看",pzMakeup:"补考勤：仅查看",pzShift:"排班表：仅查看",pzRem:"提醒：不发送机器人消息",pzTrain:"培训与协议：仅查看",pzPaused:"已暂停",pzActive:"启用",pzUnsaved:"尚未保存",pzSaved:"已保存",pzErr:"保存失败，请重试。",accOwn:'所有者 - 始终开放',accT:'服务权限',accSub:'先选择账户，再选择哪些服务和按钮对他们开放或关闭。被关闭服务的人会看到白色窗口：没有权限。所有者（Owner）账户不会被限制。',accSearch:'搜索姓名或编号',accDeptAll:'所有部门',accSelAll:'选择全部显示的',accClear:'清除',accN:'已选 {n}',accNone:'请在上方选择一个或多个账户。',accEditing:'{n} 个账户的设置',accOver:'保存会替换所有已选账户的当前设置。',accSaved:'已保存，几秒内对他们生效。',accConfirm:'将这些设置应用到 {n} 个账户？他们当前的设置将被替换。',evAcc:'已为 {n} 个账户保存服务权限',accCl:'已关闭 {n}',accLoading:'加载中...',accMore:'仅显示前 120 个，请搜索查找其他。',accNoList:'没有找到账户。',accSave:'保存权限'});
 const ICONS = {"palette": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"8\" cy=\"11\" r=\"1.2\"/><circle cx=\"12\" cy=\"7.5\" r=\"1.2\"/><circle cx=\"16\" cy=\"11\" r=\"1.2\"/><path d=\"M12 21c-1.5 0-2-1-1.5-2s1-1.6.5-2.5\"/>", "dash": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.6\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.6\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.6\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.6\"/>", "tool": "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z\"/>", "lock": "<rect x=\"4\" y=\"11\" width=\"16\" height=\"10\" rx=\"2.2\"/><path d=\"M8 11V7.5a4 4 0 0 1 8 0V11\"/>", "cal": "<rect x=\"3\" y=\"4.5\" width=\"18\" height=\"16.5\" rx=\"2.4\"/><path d=\"M16 2.5v4M8 2.5v4M3 10h18\"/><circle cx=\"12\" cy=\"15.5\" r=\"2.6\"/><path d=\"M12 14.4v1.2l.8.5\"/>", "sliders": "<path d=\"M4 6h9M19 6h1M4 12h3M13 12h7M4 18h11M21 18h-1\"/><circle cx=\"16\" cy=\"6\" r=\"2.4\"/><circle cx=\"10\" cy=\"12\" r=\"2.4\"/><circle cx=\"17.5\" cy=\"18\" r=\"2.4\"/>", "activity": "<path d=\"M3 12h4l3-8 4 16 3-8h4\"/>", "history": "<path d=\"M3.5 12a8.5 8.5 0 1 0 2.6-6.1L3.5 8.5\"/><path d=\"M3.5 3.5v5h5\"/><path d=\"M12 7.5V12l3 2\"/>", "power": "<path d=\"M12 3v8.5\"/><path d=\"M6.5 6.9a8 8 0 1 0 11 0\"/>", "caret": "<path d=\"M6 9.5l6 6 6-6\"/>", "chev": "<path d=\"M9 5l7 7-7 7\"/>", "shield": "<path d=\"M12 3l8 3v6c0 4.8-3.4 8-8 9-4.6-1-8-4.2-8-9V6z\"/><path d=\"M9 12l2.2 2.2L15.5 10\"/>", "users": "<circle cx=\"9\" cy=\"8\" r=\"3.5\"/><path d=\"M2.5 20a6.5 6.5 0 0 1 13 0\"/><circle cx=\"17.2\" cy=\"9\" r=\"2.5\"/><path d=\"M17.5 14a5 5 0 0 1 4 5\"/>", "building": "<rect x=\"5\" y=\"3\" width=\"14\" height=\"18\" rx=\"1.8\"/><path d=\"M9 7.5h2M13 7.5h2M9 11.5h2M13 11.5h2M10 21v-4h4v4\"/>", "user": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21a8 8 0 0 1 16 0\"/>", "globe": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18\"/>"};
 const FLAGS = {"us": "<svg viewBox=\"0 0 24 16\"><rect width=\"24\" height=\"16\" fill=\"#fff\"/><g fill=\"#d22f3c\"><rect y=\"0\" width=\"24\" height=\"1.8\"/><rect y=\"3.6\" width=\"24\" height=\"1.8\"/><rect y=\"7.2\" width=\"24\" height=\"1.8\"/><rect y=\"10.8\" width=\"24\" height=\"1.8\"/><rect y=\"14.4\" width=\"24\" height=\"1.6\"/></g><rect width=\"11\" height=\"8.8\" fill=\"#3c3b6e\"/><g fill=\"#fff\"><circle cx=\"2.5\" cy=\"2.2\" r=\".7\"/><circle cx=\"5.5\" cy=\"2.2\" r=\".7\"/><circle cx=\"8.5\" cy=\"2.2\" r=\".7\"/><circle cx=\"4\" cy=\"4.4\" r=\".7\"/><circle cx=\"7\" cy=\"4.4\" r=\".7\"/><circle cx=\"2.5\" cy=\"6.6\" r=\".7\"/><circle cx=\"5.5\" cy=\"6.6\" r=\".7\"/><circle cx=\"8.5\" cy=\"6.6\" r=\".7\"/></g></svg>", "kh": "<svg viewBox=\"0 0 24 16\"><rect width=\"24\" height=\"16\" fill=\"#032ea1\"/><rect y=\"4\" width=\"24\" height=\"8\" fill=\"#e00025\"/><path d=\"M7.5 10.6h9V9.7h-1l-.5-1.3h-1V7h-1V5.6h-1V7h-1V8.4h-1l-.5 1.3h-1z\" fill=\"#fff\"/></svg>", "cn": "<svg viewBox=\"0 0 24 16\"><rect width=\"24\" height=\"16\" fill=\"#de2910\"/><polygon points=\"5,2.2 5.9,4.9 8.7,4.9 6.4,6.6 7.3,9.3 5,7.6 2.7,9.3 3.6,6.6 1.3,4.9 4.1,4.9\" fill=\"#ffde00\"/></svg>"};
 /* ================= v9: dashboard, per-system maintenance, scheduled maintenance, setting, status, history ================= */
@@ -1006,14 +1020,14 @@ function evText(e) {
 }
 
 /* ---------- tabs / screens ---------- */
-const SCR = { dash: 'dashBox', acc: 'accBox', pz: 'pzBox', mm: 'mmBox', lock: 'lockBox', theme: 'themeBox', sched: 'schedBox', set: 'setBox', stat: 'statBox', hist: 'histBox' };
-const TABOF = { dash: 'dash', acc: 'dash', pz: 'dash', mm: 'dash', lock: 'dash', theme: 'dash', sched: 'dash', set: 'set', stat: 'stat', hist: 'hist' };
+const SCR = { dash: 'dashBox', acc: 'accBox', ct: 'ctBox', mm: 'mmBox', lock: 'lockBox', theme: 'themeBox', sched: 'schedBox', set: 'setBox', stat: 'statBox', hist: 'histBox' };
+const TABOF = { dash: 'dash', acc: 'dash', ct: 'dash', mm: 'dash', lock: 'dash', theme: 'dash', sched: 'dash', set: 'set', stat: 'stat', hist: 'hist' };
 function showTab(w) {
   screen = w;
   Object.keys(SCR).forEach(k => $(SCR[k]).classList.toggle('hide', k !== w));
   document.querySelectorAll('#mainTabs button').forEach(b => { b.className = (b.dataset.tab === TABOF[w]) ? 'sel' : ''; });
   if (w === 'acc') { accAll = null; accLoad = false; }
-  if (w === 'pz') pzInit();
+  if (w === 'ct') ctInit();
   renderAll(); if (w === 'set') fillSet(true);
   window.scrollTo(0, 0);
 }
@@ -1139,7 +1153,7 @@ function renderDash() {
    ['tabStat', bad ? T('chCount', { n: SYS.length - bad, m: SYS.length }) : T('chAllOk'), bad ? 'a' : 'g']].forEach(([k, txt, c]) => {
     const d = el('div', 's ' + c); d.appendChild(el('b', '', T(k))); d.appendChild(el('p', '', txt)); sb.appendChild(d);
   });
-  [['mm', 'tool', 'cMm'], ['acc', 'shield', 'accT'], ['pz', 'history', 'pzT'], ['lock', 'lock', 'cLk'], ['theme', 'palette', 'thT'], ['sched', 'cal', 'cSc'], ['set', 'sliders', 'tabSet'], ['stat', 'activity', 'tabStat'], ['hist', 'history', 'tabHist']].forEach(([id, icn, tk]) => {
+  [['mm', 'tool', 'cMm'], ['acc', 'shield', 'accT'], ['ct', 'sliders', 'ctT'], ['lock', 'lock', 'cLk'], ['theme', 'palette', 'thT'], ['sched', 'cal', 'cSc'], ['set', 'sliders', 'tabSet'], ['stat', 'activity', 'tabStat'], ['hist', 'history', 'tabHist']].forEach(([id, icn, tk]) => {
     const b = el('button', 'tl tl-' + id); b.type = 'button'; b.innerHTML = ic(icn); b.appendChild(el('span', '', T(tk)));
     b.onclick = () => showTab(id); box.appendChild(b);
   });
@@ -1521,6 +1535,87 @@ function pzRender() {
 $('pzSave').onclick = async () => {
   const sv = {}; Object.keys(pzSt).forEach(k => { if (pzSt[k] === true) sv[k] = true; });
   try { await db.ref('maintenance/pause').set(Object.keys(sv).length ? { services: sv, by: who(), at: Date.now() } : null); pzDirty = false; pzRender(); toast && toast(T('pzSaved')); } catch (e) { alert(T('pzErr')); }
+};
+
+/* ---------- Coming Soon: special features stay locked (grey + tag) until opened (data: maintenance/soon/open) ---------- */
+const CS_LIST = [['cdleave', 'csCd', 'csCdD']];
+let csSt = {}, csDirty = false, csReady = false;
+function csInit() {
+  csReady = false; $('csList').innerHTML = '<p class="note">' + T('accLoading') + '</p>';
+  db.ref('maintenance/soon/open').once('value').then(s => { csSt = Object.assign({}, s.val() || {}); csDirty = false; csReady = true; csRender(); }).catch(() => { csSt = {}; csReady = true; csRender(); });
+}
+function csRender() {
+  if (!csReady) return; const box = $('csList'); box.innerHTML = '';
+  CS_LIST.forEach(([id, k, kd]) => {
+    const row = el('div', 'pzRow'); const n = el('div', 'pzN'); n.appendChild(el('b', '', T(k))); n.appendChild(el('small', '', T(kd))); row.appendChild(n);
+    const open = csSt[id] === true; const b = el('button', 'pzSw' + (open ? '' : ' p')); b.type = 'button'; b.textContent = open ? T('csOpen') : T('csSoon');
+    b.onclick = () => { if (csSt[id] === true) delete csSt[id]; else csSt[id] = true; csDirty = true; csRender(); }; row.appendChild(b); box.appendChild(row);
+  });
+  $('csSaveBar').classList.toggle('hide', !csDirty); $('csSave').textContent = T('save'); $('csDirty').textContent = csDirty ? T('pzUnsaved') : '';
+}
+$('csSave').onclick = async () => {
+  const op = {}; Object.keys(csSt).forEach(k => { if (csSt[k] === true) op[k] = true; });
+  try { await db.ref('maintenance/soon').set(Object.keys(op).length ? { open: op, by: who(), at: Date.now() } : null); csDirty = false; csRender(); toast(T('pzSaved')); } catch (e) { alert(T('pzErr')); }
+};
+
+/* ---------- Service Control: Open / Coming Soon / Paused for every service, menu and button (data: maintenance/ctl/s) ---------- */
+let ctSt = {}, ctDirty = false, ctReady = false, ctGrp = 'all', ctOpenSet = {};
+function ctInit() {
+  ctReady = false; ctOpenSet = {}; $('ctList').innerHTML = '<p class="note">' + T('accLoading') + '</p>';
+  Promise.all([db.ref('maintenance/ctl/s').once('value'), db.ref('maintenance/pause/services').once('value'), db.ref('maintenance/soon/open').once('value')]).then(r => {
+    const c = r[0].val();
+    if (c) ctSt = Object.assign({}, c);
+    else { ctSt = {}; const p = r[1].val() || {}; Object.keys(p).forEach(k => { if (p[k] === true) ctSt[k] = 'paused'; }); const so = r[2].val() || {}; ctSt.cdleave = so.cdleave === true ? 'open' : 'soon'; }
+    if (!ctSt.cdleave) ctSt.cdleave = 'soon';
+    ctDirty = false; ctReady = true; ctRender();
+  }).catch(() => { ctSt = { cdleave: 'soon' }; ctReady = true; ctRender(); });
+}
+const ctGet = id => ctSt[id] === 'soon' || ctSt[id] === 'paused' ? ctSt[id] : (ctSt[id] === 'open' ? 'open' : 'open');
+function ctSeg(id) {
+  const cur = ctGet(id), box = el('div', 'ctSeg');
+  [['o', 'open', 'csOpen'], ['s', 'soon', 'csSoon'], ['p', 'paused', 'ctPaused']].forEach(([c, v, k]) => {
+    const b = el('button', c + (cur === v ? ' on' : '')); b.type = 'button'; b.textContent = T(k);
+    b.onclick = () => { if (v === 'open') { if (id === 'cdleave') ctSt[id] = 'open'; else delete ctSt[id]; } else ctSt[id] = v; ctDirty = true; ctRender(); }; box.appendChild(b);
+  });
+  return box;
+}
+function ctRender() {
+  if (!ctReady) return; const box = $('ctList'); box.innerHTML = '';
+  const q = ($('ctQ').value || '').trim().toLowerCase();
+  const chips = $('ctChips'); chips.innerHTML = '';
+  [['all', 'ctAll'], ['sp', 'ctGSp'], ['admin', 'ctGAdmin'], ['emp', 'ctGEmp'], ['dept', 'ctGDept']].forEach(([k, tk]) => { const b = el('button', ctGrp === k ? 'sel' : ''); b.type = 'button'; b.textContent = T(tk); b.onclick = () => { ctGrp = k; ctRender(); }; chips.appendChild(b); });
+  const nm = o => String(o[lang] || o.en || '');
+  const match = (o, extra) => !q || (nm(o) + ' ' + (extra || '') + ' ' + (o.en || '')).toLowerCase().indexOf(q) >= 0;
+  let shown = 0, nonOpen = 0; Object.keys(ctSt).forEach(k => { if (k === 'cdleave' ? ctSt[k] !== 'open' : (ctSt[k] === 'soon' || ctSt[k] === 'paused')) nonOpen++; });
+  const grp = (title) => { box.appendChild(el('div', 'ctGrp', title)); };
+  if ((ctGrp === 'all' || ctGrp === 'sp')) {
+    const sp = { en: 'Fill leave in Check Details', km: T('csCd'), zh: T('csCd') }; sp[lang] = T('csCd');
+    if (match(sp, 'special check details leave')) { grp(T('ctGSp')); const row = el('div', 'pzRow'); const n = el('div', 'pzN'); n.appendChild(el('b', '', T('csCd'))); n.appendChild(el('small', '', T('csCdD'))); row.appendChild(n); row.appendChild(ctSeg('cdleave')); box.appendChild(row); shown++; }
+  }
+  [['admin', 'ctGAdmin'], ['emp', 'ctGEmp'], ['dept', 'ctGDept']].forEach(([g, tk]) => {
+    if (ctGrp !== 'all' && ctGrp !== g) return;
+    const svs = SERVICES.filter(x => x.group === g || (g === 'admin' && x.group !== 'emp' && x.group !== 'dept'));
+    let head = false;
+    svs.forEach(sv => {
+      const acts = ACTIONS.filter(a => a.s === sv.id);
+      const hit = match(sv); const actHit = acts.filter(a => match(a, nm(sv)));
+      if (!hit && !actHit.length) return;
+      if (!head) { grp(T(tk)); head = true; }
+      const row = el('div', 'pzRow'); const n = el('div', 'pzN'); n.appendChild(el('b', '', nm(sv)));
+      const open = !!ctOpenSet[sv.id] || (q && actHit.length && !hit);
+      if (acts.length) { const tg = el('button', 'ctTog', (open ? '▾ ' : '▸ ') + T('ctBtns', { n: acts.length })); tg.type = 'button'; tg.onclick = () => { ctOpenSet[sv.id] = !ctOpenSet[sv.id]; ctRender(); }; const w = el('small'); w.appendChild(tg); n.appendChild(w); }
+      row.appendChild(n); row.appendChild(ctSeg(sv.id)); box.appendChild(row); shown++;
+      if (open) (hit && !q ? acts : (hit ? acts : actHit)).forEach(a => { const r2 = el('div', 'pzRow ctSub'); const n2 = el('div', 'pzN'); n2.appendChild(el('span', '', nm(a))); r2.appendChild(n2); r2.appendChild(ctSeg(sv.id + '.' + a.id)); box.appendChild(r2); });
+    });
+  });
+  if (!shown) box.appendChild(el('p', 'note', T('accNoList')));
+  $('ctCnt').textContent = T('ctCnt', { n: nonOpen });
+  $('ctSaveBar').classList.toggle('hide', !ctDirty); $('ctSave').textContent = T('save'); $('ctDirty').textContent = ctDirty ? T('pzUnsaved') : '';
+}
+$('ctQ').oninput = () => ctRender();
+$('ctSave').onclick = async () => {
+  const out = {}; Object.keys(ctSt).forEach(k => { if (k === 'cdleave' || ctSt[k] === 'soon' || ctSt[k] === 'paused') out[k] = ctSt[k]; });
+  try { await db.ref('maintenance').update({ ctl: { s: out, by: who(), at: Date.now() }, pause: null, soon: null }); ctDirty = false; ctRender(); toast(T('pzSaved')); } catch (e) { alert(T('pzErr')); }
 };
 let accS = 'emp', accSel = {}, accQ = '', accDeptV = '', accForm = null, accDirty = false, accAll = null, accLoad = false, accKey = '', accBuilt = false;
 function accFormFrom(d) {
