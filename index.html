@@ -28057,15 +28057,15 @@ table.master-tbl.tbl-one th, table.master-tbl.tbl-one td { padding-left: 22px; p
   function pOpts(tab) { var l = document.querySelector('#' + tab + ' .mhPL'), y = document.querySelector('#' + tab + ' .mhPY'); return { lang: l ? l.value : 'km', lay: y ? y.value : 'one' }; }
   function syncP() { ['tab-meeting', 'tab-health'].forEach(function (tab) { var o; try { o = JSON.parse(localStorage.getItem('mhP_' + tab) || 'null'); } catch (e) {} o = o || { lang: tab === 'tab-meeting' ? 'zh' : 'km', lay: 'one' }; var l = document.querySelector('#' + tab + ' .mhPL'), y = document.querySelector('#' + tab + ' .mhPY'); if (l && !l._i) { l._i = 1; l.value = o.lang; l.onchange = function () { try { localStorage.setItem('mhP_' + tab, JSON.stringify(pOpts(tab))); } catch (e) {} }; } if (y && !y._i) { y._i = 1; y.value = o.lay; y.onchange = l.onchange; } }); }
   function tt(key, lang, fallbackKm, fallbackOther) { var km = '', ot = ''; try { km = tLang(key, 'km'); ot = tLang(key, lang); } catch (e) {} if (!km || km === key) km = fallbackKm; if (!ot || ot === key) ot = fallbackOther; return lang === 'km' ? E(km) : E(km) + '<br>' + E(ot); }
-  function deptTxt(e, lang) { var p = parentOf(e), o = orgs().filter(function (x) { return x.name === p; })[0], g = (typeof departments !== 'undefined' ? departments : []).filter(function (x) { return x.name === (e.department || ''); })[0]; if (lang === 'zh') return (o && o.zh) || (g && g.zh) || p || e.department || ''; return p || e.department || ''; }
+  function deptTxt(e, lang) { var gn = e.department || '', p = parentOf(e), g = (typeof departments !== 'undefined' ? departments : []).filter(function (x) { return x.name === gn; })[0], o = orgs().filter(function (x) { return x.name === gn || x.name === p; })[0]; if (lang === 'zh') return (g && g.zh) || (!p && o && o.zh) || gn || p || ''; return gn || p || ''; }
   function nameHdr(lang) { return tt('tblName', lang, '\u1788\u17d2\u1798\u17c4\u17c7', lang === 'zh' ? '\u59d3\u540d' : 'Name'); }
   function otherHdr(lang) { return lang === 'zh' ? '\u1788\u17d2\u1798\u17c4\u17c7\u1785\u17b7\u1793<br>\u4e2d\u6587\u59d3\u540d' : '\u1788\u17d2\u1798\u17c4\u17c7\u17a2\u1784\u17cb\u1782\u17d2\u179b\u17c1\u179f<br>English name'; }
   window.mhPrintMeeting = function () {
     var list = selEmps(); if (!list.length) { showToast(false, L('none')); return; }
     var o = pOpts('tab-meeting'), two = o.lang !== 'km' && o.lay === 'two', ttl = (document.getElementById('mhTitle').value || '').trim(), dt = document.getElementById('mhDate').value || '';
     NM.lang = o.lang;
-    var head = '<th>' + tt('tblNo', o.lang, '\u179b.\u179a', o.lang === 'zh' ? '\u5e8f\u53f7' : 'No') + '</th><th>' + tt('tblId', o.lang, '\u17a2\u178f\u17d2\u178f\u179b\u17c1\u1781', o.lang === 'zh' ? '\u5de5\u53f7' : 'ID') + '</th><th>' + nameHdr(o.lang) + '</th>' + (two ? '<th>' + otherHdr(o.lang) + '</th>' : '') + '<th>' + tt('tblDepartment', o.lang, '\u1793\u17b6\u1799\u1780\u178a\u17d2\u178b\u17b6\u1793', o.lang === 'zh' ? '\u90e8\u95e8' : 'Department') + '</th><th>' + (o.lang === 'km' ? '\u17a0\u178f\u17d2\u1790\u179b\u17c1\u1781\u17b6' : '\u17a0\u178f\u17d2\u1790\u179b\u17c1\u1781\u17b6<br>' + (o.lang === 'zh' ? '\u7b7e\u540d' : 'Signature')) + '</th>';
-    var rows = list.map(function (e, i) { return '<tr><td style="width:7%">' + (i + 1) + '</td><td style="width:13%">' + E(e.id) + '</td><td>' + NM.nameHtml(e, o.lay, o.lang) + '</td>' + (two ? '<td>' + E(NM.other(e, o.lang)) + '</td>' : '') + '<td style="width:20%">' + E(deptTxt(e, o.lang)) + '</td><td style="width:18%"></td></tr>'; }).join('');
+    var head = '<th>' + tt('tblNo', o.lang, '\u179b.\u179a', o.lang === 'zh' ? '\u5e8f\u53f7' : 'No') + '</th><th>' + tt('tblId', o.lang, '\u17a2\u178f\u17d2\u178f\u179b\u17c1\u1781', o.lang === 'zh' ? '\u5de5\u53f7' : 'ID') + '</th><th>' + nameHdr(o.lang) + '</th>' + (two ? '<th>' + otherHdr(o.lang) + '</th>' : '') + '<th>' + (o.lang === 'km' ? '\u1795\u17d2\u1793\u17c2\u1780' : '\u1795\u17d2\u1793\u17c2\u1780<br>' + (o.lang === 'zh' ? '\u7ec4\u522b\u540d\u79f0' : 'Group Name')) + '</th><th>' + (o.lang === 'km' ? '\u17a0\u178f\u17d2\u1790\u179b\u17c1\u1781\u17b6' : '\u17a0\u178f\u17d2\u1790\u179b\u17c1\u1781\u17b6<br>' + (o.lang === 'zh' ? '\u7b7e\u540d' : 'Signature')) + '</th><th>' + (o.lang === 'km' ? '\u1795\u17d2\u179f\u17c1\u1784' : '\u1795\u17d2\u179f\u17c1\u1784<br>' + (o.lang === 'zh' ? '\u5907\u6ce8' : 'Remark')) + '</th>';
+    var rows = list.map(function (e, i) { return '<tr><td style="width:7%">' + (i + 1) + '</td><td style="width:13%">' + E(e.id) + '</td><td>' + NM.nameHtml(e, o.lay, o.lang) + '</td>' + (two ? '<td>' + E(NM.other(e, o.lang)) + '</td>' : '') + '<td style="width:18%">' + E(deptTxt(e, o.lang)) + '</td><td style="width:16%"></td><td style="width:14%"></td></tr>'; }).join('');
     openPrint(ttl || L('mtT'), (ttl ? '<h1>' + E(ttl) + '</h1>' : '') + (dt ? '<h2>' + E(dt) + '</h2>' : '') + '<table><thead><tr>' + head + '</tr></thead><tbody>' + rows + '</tbody></table>');
   };
 
@@ -31489,12 +31489,13 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
   /* ---- Export Daily Attendance ---- */
   var cur = null;
   function addDays(ds, n) { var p = ds.split('-'), x = new Date(Date.UTC(+p[0], +p[1] - 1, +p[2] + n)); return x.getUTCFullYear() + '-' + String(x.getUTCMonth() + 1).padStart(2, '0') + '-' + String(x.getUTCDate()).padStart(2, '0'); }
-  function groupsList() { var o = {}; (employees || []).forEach(function (e) { if (e.status !== 'Resigned' && e.department) o[e.department] = 1; }); return Object.keys(o).sort(function (a, b) { return a.localeCompare(b); }); }
+  function deptsList() { var o = {}; (employees || []).forEach(function (e) { if (e.status !== 'Resigned' && e.department) { var p = parentOf(e.department); if (p) o[p] = 1; } }); return Object.keys(o).sort(function (a, b) { return a.localeCompare(b); }); }
+  function groupsList(dept) { var o = {}; (employees || []).forEach(function (e) { if (e.status !== 'Resigned' && e.department && (!dept || parentOf(e.department) === dept)) o[e.department] = 1; }); return Object.keys(o).sort(function (a, b) { return a.localeCompare(b); }); }
   function parentOf(g) { try { return dgParentOf(g) || ''; } catch (e) { return ''; } }
   function H(k, lg) { return lg === 'km' ? T(k, null, 'km') : T(k, null, 'km') + '\n' + T(k, null, lg); }
-  function build(from, to, grp, lg) {
+  function build(from, to, grp, lg, dept) {
     var out = [[T('date', null, lg), tLang('tblId', lg), tLang('tblName', lg), T('dept', null, lg), T('grpH', null, lg), H('work', lg), H('ot', lg), T('leave', null, lg), H('lvT', lg), T('st', null, lg)]];
-    var list = (employees || []).filter(function (e) { return e.status !== 'Resigned' && (!grp || e.department === grp); }).slice().sort(function (a, b) { return (a.id || '').localeCompare(b.id || '', undefined, { numeric: true }); });
+    var list = (employees || []).filter(function (e) { return e.status !== 'Resigned' && (!grp || e.department === grp) && (!dept || parentOf(e.department) === dept); }).slice().sort(function (a, b) { return (a.id || '').localeCompare(b.id || '', undefined, { numeric: true }); });
     var n = 0;
     for (var d = from; d <= to; d = addDays(d, 1)) {
       list.forEach(function (e) {
@@ -31511,7 +31512,7 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     var from = $('dlExFrom').value, to = $('dlExTo').value;
     if (!from || !to || to < from) { showToast(false, T('dateReq')); return null; }
     if ((Date.parse(to) - Date.parse(from)) / 86400000 > 92) { showToast(false, T('days')); return null; }
-    return { from: from, to: to, grp: $('dlExGrp').value, lg: $('dlExLang').value, lay: $('dlExLay').value };
+    return { from: from, to: to, dept: $('dlExDept').value, grp: $('dlExGrp').value, lg: $('dlExLang').value, lay: $('dlExLay').value };
   }
   function close() { var m = $('dlExMod'); if (m) m.remove(); }
   window.dlExport = function () {
@@ -31522,22 +31523,24 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     var sv = {}; try { sv = JSON.parse(localStorage.getItem('dlEx') || '{}'); } catch (e) {}
     m.innerHTML = '<div style="background:#fff;border-radius:14px;max-width:460px;width:100%;padding:20px;box-shadow:0 12px 40px rgba(0,0,0,.35);text-align:left"><h3 style="margin:0 0 12px;color:#0b1d3a">' + E(T('exT')) + '</h3>' +
       '<div style="display:flex;gap:10px;flex-wrap:wrap"><div class="form-group" style="flex:1;min-width:140px"><label>' + E(T('from')) + '</label><input type="date" id="dlExFrom" value="' + E(date) + '"></div><div class="form-group" style="flex:1;min-width:140px"><label>' + E(T('to')) + '</label><input type="date" id="dlExTo" value="' + E(date) + '"></div></div>' +
+      '<div class="form-group"><label>' + E(T('dept')) + '</label><select id="dlExDept"><option value="">' + E(T('all')) + '</option>' + deptsList().map(function (g) { return '<option value="' + E(g) + '">' + E(g) + '</option>'; }).join('') + '</select></div>' +
       '<div class="form-group"><label>' + E(T('grp')) + '</label><select id="dlExGrp"><option value="">' + E(T('all')) + '</option>' + groupsList().map(function (g) { return '<option value="' + E(g) + '">' + E(g) + '</option>'; }).join('') + '</select></div>' +
       '<div style="display:flex;gap:10px;flex-wrap:wrap"><div class="form-group" style="flex:1;min-width:140px"><label>' + E(T('lang')) + '</label><select id="dlExLang"><option value="km">ខ្មែរ</option><option value="en">English</option><option value="zh">中文</option></select></div>' +
       '<div class="form-group" style="flex:1;min-width:140px"><label>' + E(T('lay')) + '</label><select id="dlExLay"><option value="one">' + E(T('one')) + '</option><option value="two">' + E(T('two')) + '</option></select></div></div>' +
       '<div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;flex-wrap:wrap"><button type="button" class="quick-btn slate mhSm" id="dlExX">' + E(T('cancel')) + '</button><button type="button" class="quick-btn slate mhSm" id="dlExP">' + E(T('pr')) + '</button><button type="button" class="quick-btn green mhSm" id="dlExE">' + E(T('xl')) + '</button></div></div>';
     document.body.appendChild(m);
+    $('dlExDept').onchange = function () { var v = this.value; $('dlExGrp').innerHTML = '<option value="">' + E(T('all')) + '</option>' + groupsList(v).map(function (g) { return '<option value="' + E(g) + '">' + E(g) + '</option>'; }).join(''); };
     $('dlExLang').value = sv.lg || L(); $('dlExLay').value = sv.lay || 'one';
     m.addEventListener('click', function (e) { if (e.target === m) close(); });
     $('dlExX').onclick = close;
     function save(o) { try { localStorage.setItem('dlEx', JSON.stringify({ lg: o.lg, lay: o.lay })); } catch (e) {} }
     $('dlExE').onclick = function () {
-      var o = readOpts(); if (!o) return; save(o); var b = build(o.from, o.to, o.grp, o.lg); if (!b.n) { showToast(false, T('none', null, o.lg)); return; }
+      var o = readOpts(); if (!o) return; save(o); var b = build(o.from, o.to, o.grp, o.lg, o.dept); if (!b.n) { showToast(false, T('none', null, o.lg)); return; }
       var go = function () { var wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(b.rows), 'Daily'); XLSX.writeFile(wb, 'Daily_Attendance_' + o.from + (o.to !== o.from ? '_' + o.to : '') + '.xlsx'); };
       if (window.NM && NM.run) NM.run(o.lg, o.lay, go, null, []); else go(); close();
     };
     $('dlExP').onclick = function () {
-      var o = readOpts(); if (!o) return; save(o); var b = build(o.from, o.to, o.grp, o.lg); if (!b.n) { showToast(false, T('none', null, o.lg)); return; }
+      var o = readOpts(); if (!o) return; save(o); var b = build(o.from, o.to, o.grp, o.lg, o.dept); if (!b.n) { showToast(false, T('none', null, o.lg)); return; }
       var go = function () {
         var d = b.rows, ttl = T('exT', null, o.lg) + ' ' + o.from + (o.to !== o.from ? ' - ' + o.to : '');
         var h = '<html><head><meta charset="utf-8"><title>' + E(ttl) + '</title><style>body{font-family:"Khmer OS","Noto Sans Khmer","Noto Sans SC","Microsoft YaHei",Arial,sans-serif;padding:16px}@page{size:A4 landscape;margin:10mm}table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #444;padding:5px 7px;text-align:center}th{background:#eee}</style></head><body><h3>' + E(ttl) + '</h3><table><thead><tr>' + d[0].map(function (x) { return '<th>' + E(x).split('\n').join('<br>') + '</th>'; }).join('') + '</tr></thead><tbody>' + d.slice(1).map(function (r) { return '<tr>' + r.map(function (x) { return '<td>' + E(x).split('\n').join('<br>') + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></body></html>';
