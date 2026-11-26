@@ -26565,8 +26565,8 @@ function hrPreClose(w) { try { if (w) w.close(); } catch (e) {} }
 function hrStamp() { var d = new Date(Date.now() + 7 * 3600000), h = d.getUTCHours(), p = function (n) { return (n < 10 ? '0' : '') + n; }; return p(d.getUTCDate()) + '/' + p(d.getUTCMonth() + 1) + '/' + d.getUTCFullYear() + ' ' + (h % 12 || 12) + ':' + p(d.getUTCMinutes()) + ' ' + (h >= 12 ? 'PM' : 'AM'); }
 function hrMB() { var u = navigator.userAgent || ''; return /(Chrome|Edg)\//.test(u) && !/iPhone|iPad|iPod|CriOS|FxiOS/.test(u); }
 function hrPrintCss() {
-    if (hrMB()) return '@page{margin-bottom:16mm;@top-left{content:""}@top-center{content:""}@top-right{content:""}@bottom-left{content:""}@bottom-center{content:""}@bottom-right{content:"' + hrStamp() + '\\A Page " counter(page) "/" counter(pages);white-space:pre;text-align:right;font:9px Arial,sans-serif;color:#555}}';
-    return '@page{margin:0!important}html,body{margin:0!important}body{padding:10mm 10mm 18mm!important;box-sizing:border-box}.hrFoot{position:fixed;right:10mm;bottom:5mm;font:9px Arial,sans-serif;color:#555;text-align:right;white-space:pre;}';
+    if (hrMB()) return '@page{margin-bottom:16mm;@top-left{content:""}@top-center{content:""}@top-right{content:""}@bottom-left{content:"hr203.com";font:9px Arial,sans-serif;color:#555}@bottom-center{content:""}@bottom-right{content:"' + hrStamp() + '\\A Page " counter(page) "/" counter(pages);white-space:pre;text-align:right;font:9px Arial,sans-serif;color:#555}}';
+    return '@page{margin:0!important}html,body{margin:0!important}body{padding:10mm 10mm 18mm!important;box-sizing:border-box}body::before{content:"hr203.com";position:fixed;left:10mm;bottom:5mm;font:9px Arial,sans-serif;color:#555}.hrFoot{position:fixed;right:10mm;bottom:5mm;font:9px Arial,sans-serif;color:#555;text-align:right;white-space:pre;}';
 }
 function hrFootHtml(one) { return hrMB() ? '' : '<div class="hrFoot">' + hrStamp() + (one ? '\nPage 1/1' : '') + '</div>'; }
 /* put at the end of a print window: style + footer (+ print when auto is not false) */
@@ -31849,6 +31849,47 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
 
 })();
 
+</script>
+<script id="prtJs">
+/* print footer: no page title at the top, "hr203.com" bottom-left, page number bottom-right (all print windows + in-page prints) */
+(function () {
+  'use strict';
+  var U = navigator.userAgent || '', CH = /(Chrome|Edg)\//.test(U) && !/iPhone|iPad|iPod|CriOS|FxiOS/.test(U);
+  var BOX = '@top-left{content:""}@top-center{content:""}@top-right{content:""}@bottom-center{content:""}';
+  var FONT = 'font:9px Arial,sans-serif;color:#555';
+  var CSS_CH = '@page{' + BOX + '@bottom-left{content:"hr203.com";' + FONT + '}@bottom-right{content:counter(page) "/" counter(pages);' + FONT + '}}';
+  var CSS_FB = '@page{margin:0!important}html,body{margin:0!important}body{padding:10mm 10mm 18mm!important;box-sizing:border-box}.prtFoot{position:fixed;left:10mm;bottom:5mm;' + FONT + '}';
+  var FOOT = '<div class="prtFoot">hr203.com</div>';
+  function fix(h) {
+    if (typeof h !== 'string' || h.indexOf('prtMark') >= 0 || !/<\/head>/i.test(h) || /mso-|urn:schemas|hrFoot/.test(h)) return h;
+    h = /<title[^>]*>[\s\S]*?<\/title>/i.test(h) ? h.replace(/<title[^>]*>[\s\S]*?<\/title>/i, '<title> </title>') : h.replace(/<\/head>/i, '<title> </title></head>');
+    h = h.replace(/<\/head>/i, '<style id="prtMark">' + (CH ? CSS_CH : CSS_FB) + '</style></head>');
+    if (!CH) h = /<\/body>/i.test(h) ? h.replace(/<\/body>/i, FOOT + '</body>') : h + FOOT;
+    return h;
+  }
+  var ow = window.open;
+  window.open = function () {
+    var w = ow.apply(this, arguments);
+    try {
+      if (w && w.document && !w.__prt) {
+        w.__prt = 1; var d = w.document, dw = d.write.bind(d);
+        d.write = function () { return dw.apply(null, Array.prototype.slice.call(arguments).map(fix)); };
+      }
+    } catch (e) {}
+    return w;
+  };
+  /* prints of the page itself */
+  var st = null, tt = null;
+  window.addEventListener('beforeprint', function () {
+    try {
+      tt = document.title; document.title = ' ';
+      st = document.createElement('style'); st.textContent = CH ? CSS_CH : '.prtFoot{display:none}'; document.head.appendChild(st);
+    } catch (e) {}
+  });
+  window.addEventListener('afterprint', function () {
+    try { if (st) st.remove(); st = null; if (tt !== null) document.title = tt; } catch (e) {}
+  });
+})();
 </script>
 </body>
 </html>
