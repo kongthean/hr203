@@ -560,7 +560,13 @@
      .detail-view-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px 16px; font-size: 13px; }
     .detail-view-grid-3col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px 16px; font-size: 13px; }
     @media (max-width: 700px) { .detail-view-grid-3col { grid-template-columns: 1fr; } }
-     .detail-item { background: #f8fafc; padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
+     #checkDetailsModal .modal-header { padding: 14px 24px 6px 24px !important; }
+    #checkDetailsModal .modal-content > div:nth-child(2) { padding: 10px 24px 14px 24px !important; }
+    #checkDetailsModal .detail-view-grid-3col { gap: 5px 14px; font-size: 12.5px; }
+    #checkDetailsModal .detail-item { padding: 4px 10px; }
+    #cdFl > div:nth-child(1) { margin-top: 8px !important; }
+    @media (max-height: 820px) { #checkDetailsModal .detail-item { padding: 2px 10px; font-size: 12px; } #checkDetailsModal .detail-view-grid-3col { gap: 3px 12px; } #checkDetailsModal .modal-header { padding: 8px 20px 4px 20px !important; } }
+    .detail-item { background: #f8fafc; padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 6px; display: flex; justify-content: space-between; align-items: center; }
      .dvHead{grid-column:1/-1;margin-top:8px;font-weight:800;color:#123a5c;font-size:12px;text-transform:uppercase;border-bottom:2px solid #e2e8f0;padding-bottom:3px;}
      .dvCol{display:flex;flex-direction:column;gap:8px;min-width:0;}
      .detail-item span.lbl { font-weight: 600; color: #475569; }
@@ -2739,7 +2745,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
 
              <div class="detail-item" style="grid-column: 1 / -1;"><span class="lbl" data-i18n="lblRemarksHeading">Master Remarks / Notes:</span><span class="val" id="cdRemarks">-</span></div>
          </div>
-         <div style="text-align:center; margin-top:16px;"><button type="button" id="cdDoneBtn" class="btn-submit" style="width:auto; padding:8px 30px;" onclick="cdDone()">Done</button></div>
+         <div id="cdFoot" style="text-align:center; margin-top:8px; position:sticky; bottom:-14px; background:#fff; padding:8px 0 4px; z-index:4;"><button type="button" id="cdDoneBtn" class="btn-submit" style="width:auto; padding:8px 30px;" onclick="cdDone()">Done</button></div>
          </div>
      </div>
  </div>
@@ -31559,10 +31565,10 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     var box = $('cdFl');
     if (!box) {
       box = document.createElement('div'); box.id = 'cdFl';
-      var tile = 'display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 12px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;font-size:13px;font-weight:600;color:#334155';
+      var tile = 'display:flex;align-items:center;justify-content:space-between;gap:8px;padding:3px 12px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;font-size:13px;font-weight:600;color:#334155';
       var inp = 'padding:6px 8px;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;background:#fff;max-width:160px';
-      box.innerHTML = '<div style="margin:16px 0 0;border-top:2px dotted #94a3b8"></div><div id="cdFlT" style="margin-top:8px;font-weight:700;color:#0b1d3a;font-size:14px"></div>' +
-        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:10px 0 14px">' +
+      box.innerHTML = '<div style="margin:8px 0 0;border-top:2px dotted #94a3b8"></div><div id="cdFlT" style="margin-top:4px;font-weight:700;color:#0b1d3a;font-size:14px"></div>' +
+        '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:6px;margin:6px 0 4px">' +
         '<label style="' + tile + '"><span id="cdFlD"></span><input type="date" id="cdLvDate" style="' + inp + '"></label>' +
         '<label style="' + tile + '"><span id="cdFlH"></span><input type="number" id="cdLvHrs" step="0.5" min="0" style="' + inp + ';width:100px;text-align:right"></label>' +
         '<label style="' + tile + '"><span id="cdFlY"></span><select id="cdLvTy" style="' + inp + '"></select></label></div><div id="cdNote" style="margin:-4px 0 12px;font-size:12px;line-height:1.6"></div>';
@@ -31578,7 +31584,14 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     var rm = hrRoom(emp.id, date), d = rm.d, has = hrShiftOn(emp.id, date), ty = hrType(emp.id, date), bad = '';
     if (!has) bad = T('noShift'); else if (ty === 'H') bad = T('rest'); else if (!lvOpen()) bad = T('lvOff'); else if (rm.work <= 0 && (d.work + d.leave) > 0) bad = T('full');
     var l = parseFloat($('cdLvHrs') && $('cdLvHrs').value) || 0;
-    var html = (bad ? '<div style="color:#dc2626">' + E(bad) + '</div>' : '') +
+    var shl = '';
+    try {
+      var sx = String(ty || '').toUpperCase(), lab = E(t('cdShiftLbl')) + ': ';
+      if (!sx) shl = '<span style="color:#b45309">' + lab + E(t('cdShiftNone')) + '</span>';
+      else if (sx === 'H') shl = '<span style="color:#b91c1c">' + lab + 'H - ' + E(t('shiftHLabel')) + '</span>';
+      else { var tb = shiftTimeBreakText(sx); shl = '<span style="color:#0e7490;font-weight:700">' + lab + E(sx) + ' (' + E(tb.time) + ')</span>' + (tb.brk && tb.brk !== '-' ? ' <span style="color:#475569">&middot; ' + E(t('cdBreakLbl')) + ' ' + E(tb.brk) + '</span>' : ''); }
+    } catch (e) {}
+    var html = (shl ? '<div>' + shl + '</div>' : '') + (bad && has && ty !== 'H' ? '<div style="color:#dc2626">' + E(bad) + '</div>' : '') +
       ((d.work || d.ot || d.leave) ? '<div style="font-size:11px">' + E(T('rec')) + ': ' + sums(d.work, d.ot, d.leave) + (d.leave > 0 ? ' <span style="color:#64748b">(' + E(typesOn(emp.id, date).join(', ')) + ')</span>' : '') + '</div>' : '') +
       (l > 0 ? '<div style="font-size:11px">+ ' + sums(0, 0, l) + '</div>' : '');
     return { bad: bad, html: html, rm: rm };
