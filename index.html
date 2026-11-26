@@ -31551,6 +31551,8 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     var f = document.querySelector('#tab-att form'); if (f && !$('dlExBtn')) {
       var b = document.createElement('button'); b.type = 'button'; b.id = 'dlExBtn'; b.className = 'quick-btn green mhSm'; b.style.cssText = 'width:auto;align-self:flex-end'; b.setAttribute('onclick', 'dlExport()'); f.appendChild(b);
     }
+    var bx = $('dlExBtn'), mb = $('mrxBtn2');
+    if (bx && mb && mb.parentNode && bx.parentNode !== mb.parentNode) { bx.style.cssText = 'width:auto;margin-right:8px'; mb.parentNode.insertBefore(bx, mb); }
     var b2 = $('dlExBtn'); if (b2 && b2.textContent !== T('exBtn')) b2.textContent = T('exBtn');
     var h = $('dlThLv'); if (h && h.textContent !== T('lvH')) { h.textContent = T('lvH'); $('dlThTy').textContent = T('lvT'); $('dlThRm').textContent = T('rm'); }
   }
