@@ -9649,7 +9649,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          statCurrentMonth: "本月已用年假总时数",
          statPrevMonthUsed: "上月已用总时数",
          statExceeded: "超出总时数",
-         statTotalPersonalLeave: "总个人假",
+         statTotalPersonalLeave: "总事假",
          statTotalWorkHours: "总工作时间",
          statTotalOTHours: "总加班时间",
          statPendingApprovals: "待审批",
@@ -9693,7 +9693,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          thMasterSpecialLeave: "特殊假",
          thMasterMaternityLeave: "产假",
          thMasterTravelLeave: "差旅假",
-         thMasterPersonalLeave: "个人假",
+         thMasterPersonalLeave: "事假",
          thMasterSickLeave: "病假",
          thMasterOtherLeave: "其他假",
          thMonthlyAttendance: "标准出勤",
@@ -9708,7 +9708,7 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          leaveTypeSpecial: "特殊假",
          leaveTypeMaternity: "产假",
          leaveTypeTravel: "差旅假",
-         leaveTypePersonal: "个人假",
+         leaveTypePersonal: "事假",
          leaveTypeSick: "病假",
          leaveTypeOther: "其他假",
          btnSubmitLeave: "提交请假记录",
@@ -9910,13 +9910,13 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
         attCalSub: "选择请假日历或考勤日历，选择月份，并按员工编号或姓名搜索。",
         attCalModeLeave: "请假日历",
         attCalModeAtt: "考勤日历",
-        attCalLegendLeave: "绿色 = 其他请假类型。红色 = 个人假。",
+        attCalLegendLeave: "绿色 = 其他请假类型。红色 = 事假。",
         attCalLegendAtt: "绿色 = 工作时数。红色 = 加班时数。",
         attColTotalAnnual: "年假总数",
-        attColTotalPersonal: "个人假总数",
+        attColTotalPersonal: "事假总数",
         attColTotalWork: "工作时数总计",
         attColTotalOT: "加班时数总计",
-        attCalDescLeave: "{name}（{id}）— {month}：年假总数 {annual} 小时，个人假总数 {personal} 小时。",
+        attCalDescLeave: "{name}（{id}）— {month}：年假总数 {annual} 小时，事假总数 {personal} 小时。",
         attCalDescAtt: "{name}（{id}）— {month}：工作时数总计 {work} 小时，加班时数总计 {ot} 小时。",
         acEditClickHint: "点击以编辑或删除",
         acEditModalTitle: "编辑当日记录",
@@ -28424,9 +28424,9 @@ window.nmCopyEn = async function () {
 <script id="msJs">
 (function () {
   var S = {
-    en: { t: 'Missing Records', from: 'From', to: 'To', dept: 'Department', grp: 'Group', all: 'All', check: 'Check', xl: 'Excel', pr: 'Print', back: 'Back', date: 'Date', id: 'ID', kn: 'Khmer name', en: 'English name', filled: 'Filled', prob: 'Problem', act: 'Action', none: 'No entry at all', noatt: 'No attendance', nolv: 'Hours not filled', nf: 'not filled', hrs: 'h', work: 'Work', leave: 'Leave', addAtt: 'Add attendance', addLv: 'Add leave', ok: 'No missing records in this period.', cnt: 'problem days', note: 'Only days with a work shift are checked. Rest days, holidays and resigned employees are skipped. The button opens the normal form with the ID and date filled in.', btn: 'Missing Records', attn: 'Missing records (this month)', card: 'Missing records', short: 'missing' },
-    km: { t: 'កំណត់ត្រាដែលខ្វះ', from: 'ចាប់ពី', to: 'ដល់', dept: 'នាយកដ្ឋាន', grp: 'ក្រុម', all: 'ទាំងអស់', check: 'ពិនិត្យ', xl: 'Excel', pr: 'បោះពុម្ព', back: 'ត្រឡប់ក្រោយ', date: 'កាលបរិច្ឆេទ', id: 'អត្តលេខ', kn: 'ឈ្មោះខ្មែរ', en: 'ឈ្មោះអង់គ្លេស', filled: 'បានបំពេញ', prob: 'បញ្ហា', act: 'សកម្មភាព', none: 'មិនមានកំណត់ត្រាទាល់តែសោះ', noatt: 'គ្មានវត្តមាន', nolv: 'ម៉ោងមិនទាន់បំពេញ', nf: 'មិនទាន់បំពេញ', hrs: 'ម៉ោង', work: 'ធ្វើការ', leave: 'ច្បាប់', addAtt: 'បន្ថែមវត្តមាន', addLv: 'បន្ថែមច្បាប់', ok: 'គ្មានកំណត់ត្រាខ្វះក្នុងអំឡុងពេលនេះទេ។', cnt: 'ថ្ងៃមានបញ្ហា', note: 'ពិនិត្យតែថ្ងៃដែលមានវេនធ្វើការប៉ុណ្ណោះ។ ថ្ងៃសម្រាក ថ្ងៃបុណ្យ និងបុគ្គលិកលាលែងត្រូវបានរំលង។', btn: 'កំណត់ត្រាដែលខ្វះ', attn: 'កំណត់ត្រាដែលខ្វះ (ខែនេះ)', card: 'កំណត់ត្រាដែលខ្វះ', short: 'ខ្វះ' },
-    zh: { t: '缺失记录', from: '从', to: '到', dept: '部门', grp: '小组', all: '全部', check: '检查', xl: 'Excel', pr: '打印', back: '返回', date: '日期', id: '工号', kn: '高棉文姓名', en: '英文姓名', filled: '已填写', prob: '问题', act: '操作', none: '完全没有记录', noatt: '没有考勤', nolv: '工时未填满', nf: '未填', hrs: '小时', work: '工作', leave: '请假', addAtt: '补考勤', addLv: '补请假', ok: '此期间没有缺失记录。', cnt: '个问题日', note: '只检查有上班班次的日子。休息日、假日和离职员工会被跳过。按钮会打开原来的表格，并自动填好工号和日期。', btn: '缺失记录', attn: '缺失记录（本月）', card: '缺失记录', short: '缺' }
+    en: { fAll: 'All', fAtt: 'Missing attendance', fLv: 'Missing leave', t: 'Missing Records', from: 'From', to: 'To', dept: 'Department', grp: 'Group', all: 'All', check: 'Check', xl: 'Excel', pr: 'Print', back: 'Back', date: 'Date', id: 'ID', kn: 'Khmer name', en: 'English name', filled: 'Filled', prob: 'Problem', act: 'Action', none: 'No entry at all', noatt: 'No attendance', nolv: 'Hours not filled', nf: 'not filled', hrs: 'h', work: 'Work', leave: 'Leave', addAtt: 'Add attendance', addLv: 'Add leave', ok: 'No missing records in this period.', cnt: 'problem days', note: 'Only days with a work shift are checked. Rest days, holidays and resigned employees are skipped. The button opens the normal form with the ID and date filled in.', btn: 'Missing Records', attn: 'Missing records (this month)', card: 'Missing records', short: 'missing' },
+    km: { fAll: 'ទាំងអស់', fAtt: 'ខ្វះវត្តមាន', fLv: 'ខ្វះច្បាប់', t: 'កំណត់ត្រាដែលខ្វះ', from: 'ចាប់ពី', to: 'ដល់', dept: 'នាយកដ្ឋាន', grp: 'ក្រុម', all: 'ទាំងអស់', check: 'ពិនិត្យ', xl: 'Excel', pr: 'បោះពុម្ព', back: 'ត្រឡប់ក្រោយ', date: 'កាលបរិច្ឆេទ', id: 'អត្តលេខ', kn: 'ឈ្មោះខ្មែរ', en: 'ឈ្មោះអង់គ្លេស', filled: 'បានបំពេញ', prob: 'បញ្ហា', act: 'សកម្មភាព', none: 'មិនមានកំណត់ត្រាទាល់តែសោះ', noatt: 'គ្មានវត្តមាន', nolv: 'ម៉ោងមិនទាន់បំពេញ', nf: 'មិនទាន់បំពេញ', hrs: 'ម៉ោង', work: 'ធ្វើការ', leave: 'ច្បាប់', addAtt: 'បន្ថែមវត្តមាន', addLv: 'បន្ថែមច្បាប់', ok: 'គ្មានកំណត់ត្រាខ្វះក្នុងអំឡុងពេលនេះទេ។', cnt: 'ថ្ងៃមានបញ្ហា', note: 'ពិនិត្យតែថ្ងៃដែលមានវេនធ្វើការប៉ុណ្ណោះ។ ថ្ងៃសម្រាក ថ្ងៃបុណ្យ និងបុគ្គលិកលាលែងត្រូវបានរំលង។', btn: 'កំណត់ត្រាដែលខ្វះ', attn: 'កំណត់ត្រាដែលខ្វះ (ខែនេះ)', card: 'កំណត់ត្រាដែលខ្វះ', short: 'ខ្វះ' },
+    zh: { fAll: '全部', fAtt: '缺考勤', fLv: '缺请假', t: '缺失记录', from: '从', to: '到', dept: '部门', grp: '小组', all: '全部', check: '检查', xl: 'Excel', pr: '打印', back: '返回', date: '日期', id: '工号', kn: '高棉文姓名', en: '英文姓名', filled: '已填写', prob: '问题', act: '操作', none: '完全没有记录', noatt: '没有考勤', nolv: '工时未填满', nf: '未填', hrs: '小时', work: '工作', leave: '请假', addAtt: '补考勤', addLv: '补请假', ok: '此期间没有缺失记录。', cnt: '个问题日', note: '只检查有上班班次的日子。休息日、假日和离职员工会被跳过。按钮会打开原来的表格，并自动填好工号和日期。', btn: '缺失记录', attn: '缺失记录（本月）', card: '缺失记录', short: '缺' }
   };
   function L(k) { var l = (typeof currentLang === 'string' && S[currentLang]) ? currentLang : 'en'; return (S[l] && S[l][k]) || S.en[k] || k; }
   function E(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -28489,11 +28489,22 @@ window.nmCopyEn = async function () {
   window.mrxRun = function () {
     var f = document.getElementById('mrxFrom').value, t = document.getElementById('mrxTo').value;
     if (!f || !t || f > t) { try { showToast(false); } catch (e) {} return; }
-    rows = find(f, t, document.getElementById('mrxDept').value, document.getElementById('mrxGrp').value);
+    allRows = find(f, t, document.getElementById('mrxDept').value, document.getElementById('mrxGrp').value);
+    mrxDraw();
+  };
+  var allRows = [], flt = 'all';
+  function fOk(r, k) { return k === 'att' ? (r.kind === 'none' || r.kind === 'noatt') : (k === 'lv' ? (r.kind === 'none' || r.kind === 'nolv') : true); }
+  window.mrxFilt = function (k) { flt = k; mrxDraw(); };
+  function mrxDraw() {
+    rows = allRows.filter(function (r) { return fOk(r, flt); });
     var el = document.getElementById('mrxOut');
-    if (!rows.length) { el.innerHTML = '<div style="padding:18px;color:#15803d;font-weight:600;">' + E(L('ok')) + '</div>'; return; }
+    var chips = '<div style="display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 4px">' + [['all', L('fAll')], ['att', L('fAtt')], ['lv', L('fLv')]].map(function (c) {
+      var n = allRows.filter(function (r) { return fOk(r, c[0]); }).length, on = flt === c[0];
+      return '<button type="button" onclick="mrxFilt(\'' + c[0] + '\')" style="border-radius:16px;padding:6px 14px;cursor:pointer;font:inherit;border:1px solid ' + (on ? '#0b1d3a' : '#cbd5e1') + ';background:' + (on ? '#0b1d3a' : '#f1f5f9') + ';color:' + (on ? '#fff' : '#0f172a') + '">' + E(c[1]) + ' (' + n + ')</button>';
+    }).join('') + '</div>';
+    if (!rows.length) { el.innerHTML = chips + '<div style="padding:18px;color:#15803d;font-weight:600;">' + E(L('ok')) + '</div>'; return; }
     var cls = { none: '#fee2e2;color:#b91c1c', noatt: '#ffedd5;color:#c2410c', nolv: '#fef9c3;color:#a16207' };
-    el.innerHTML = '<div style="margin:6px 0;font-weight:600;">' + rows.length + ' ' + E(L('cnt')) + '</div><div class="table-responsive"><table class="master-tbl" id="mrxTable" style="width:100%"><thead><tr><th>' + [L('date'), L('id'), L('kn'), L('en'), L('dept'), L('grp'), L('filled'), L('prob'), L('act')].map(E).join('</th><th>') + '</th></tr></thead><tbody>' + rows.map(function (r, i) {
+    el.innerHTML = chips + '<div style="margin:6px 0;font-weight:600;">' + rows.length + ' ' + E(L('cnt')) + '</div><div class="table-responsive"><table class="master-tbl" id="mrxTable" style="width:100%"><thead><tr><th>' + [L('date'), L('id'), L('kn'), L('en'), L('dept'), L('grp'), L('filled'), L('prob'), L('act')].map(E).join('</th><th>') + '</th></tr></thead><tbody>' + rows.map(function (r, i) {
       var e = r.e, pd = ''; try { pd = dgParentOf(e.department || '') || ''; } catch (x) {}
       var btn = r.kind === 'nolv' && r.work <= 0 ? '' : '';
       return '<tr><td>' + E(r.date) + '</td><td><b>' + E(e.id) + '</b></td><td>' + E(e.name) + '</td><td>' + E(e.nameEn || '') + '</td><td>' + E(pd) + '</td><td>' + E(e.department || '') + '</td><td>' + E(filledTxt(r)) + '</td><td><span style="padding:2px 8px;border-radius:99px;font-size:12px;font-weight:600;background:' + cls[r.kind] + '">' + E(kindTxt(r)) + '</span></td><td style="white-space:nowrap"><button type="button" class="quick-btn slate mhSm" onclick="mrxGo(' + i + ',\'att\')">' + E(L('addAtt')) + '</button> <button type="button" class="quick-btn slate mhSm" onclick="mrxGo(' + i + ',\'lv\')">' + E(L('addLv')) + '</button></td></tr>';
@@ -31371,7 +31382,7 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
   function T(k, o, lg) { var s = (D[lg || L()] || D.en)[k]; if (s == null) s = D.en[k] || k; if (o) Object.keys(o).forEach(function (x) { s = s.split('{' + x + '}').join(o[x]); }); return s; }
   function E(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
   function $(id) { return document.getElementById(id); }
-  var FIELDS = [['leaveAL', 'leaveTypeAL'], ['leaveSpecial', 'leaveTypeSpecial'], ['leaveMaternity', 'leaveTypeMaternity'], ['leaveTravel', 'leaveTypeTravel'], ['leavePersonal', 'leaveTypePersonal'], ['leaveSick', 'leaveTypeSick'], ['leaveOther', 'leaveTypeOther']];
+  var FIELDS = [['leaveAL', 'leaveTypeAL'], ['leavePersonal', 'leaveTypePersonal'], ['leaveMaternity', 'leaveTypeMaternity'], ['leaveTravel', 'leaveTypeTravel'], ['leaveSpecial', 'leaveTypeSpecial'], ['leaveSick', 'leaveTypeSick'], ['leaveOther', 'leaveTypeOther']];
   var NAMEKEY = { thMasterAnnualLeave: 'leaveTypeAL', thMasterSpecialLeave: 'leaveTypeSpecial', thMasterMaternityLeave: 'leaveTypeMaternity', thMasterTravelLeave: 'leaveTypeTravel', thMasterPersonalLeave: 'leaveTypePersonal', thMasterSickLeave: 'leaveTypeSick', thMasterOtherLeave: 'leaveTypeOther' };
   function fmt(n) { n = Math.round((parseFloat(n) || 0) * 100) / 100; return String(n); }
   function lvOpen() { try { return !(typeof mtMode === 'function' && mtMode('leave') === 'closed'); } catch (e) { return true; } }
@@ -31610,11 +31621,19 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     if (el.id === 'cdLvHrs') { var r = cdStatus(), l = parseFloat(el.value) || 0; if (r.rm && l > r.rm.work + 1e-9) { el.value = r.rm.work > 0 ? fmt(r.rm.work) : ''; showToast(false, T('over', { n: fmt(r.rm.work) })); } }
     cdNote();
   }, false);
-  document.addEventListener('change', function (ev) { var el = ev.target; if (el && (el.id === 'cdLvDate' || el.id === 'cdLvTy')) cdNote(); }, false);
+  document.addEventListener('change', function (ev) { var el = ev.target; if (el && el.id === 'cdLvTy') el.setAttribute('data-touched', '1'); if (el && (el.id === 'cdLvDate' || el.id === 'cdLvTy')) cdNote(); }, false);
+  /* Leave Type fills itself: Annual Leave when Available This Month is not negative, Personal Leave when it is negative; a hand-picked type is never overwritten */
+  function cdAuto() {
+    try {
+      var sel = $('cdLvTy'), a = $('cdAllowedThisMonth'); if (!sel || !a || sel.getAttribute('data-touched') === '1') return;
+      var n = parseFloat(String(a.textContent || '').replace(/,/g, '')); if (isNaN(n)) return;
+      var v = n < 0 ? 'leavePersonal' : 'leaveAL'; if (sel.value !== v) { sel.value = v; sel.style.borderColor = ''; }
+    } catch (e) {}
+  }
   var cd0 = window.runCheckDetails;
   window.runCheckDetails = function () {
     var r = cd0.apply(this, arguments);
-    try { var m = $('checkDetailsModal'); if (m && m.style.display !== 'none' && $('cdDoneBtn')) { cdBuild(); $('cdLvDate').value = yday(); $('cdLvHrs').value = ''; $('cdLvTy').value = ''; $('cdLvTy').style.borderColor = ''; cdNote(); } } catch (e) { console.error(e); }
+    try { var m = $('checkDetailsModal'); if (m && m.style.display !== 'none' && $('cdDoneBtn')) { cdBuild(); $('cdLvDate').value = yday(); $('cdLvHrs').value = ''; $('cdLvTy').value = ''; $('cdLvTy').removeAttribute('data-touched'); $('cdLvTy').style.borderColor = ''; cdAuto(); cdNote(); } } catch (e) { console.error(e); }
     return r;
   };
   var cdBusy = false;
@@ -31641,6 +31660,7 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
       });
     }).catch(function (e) { cdBusy = false; console.error(e); showToast(false); });
   };
+  setInterval(function () { var m = $('checkDetailsModal'); if (m && m.style.display !== 'none') cdAuto(); }, 400);
   setInterval(ui, 600); ui();
 })();
 
