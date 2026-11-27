@@ -22436,10 +22436,11 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
       var sel = '#' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + ')';
       css += '.frz ' + sel.split(', ').join(', .frz ') + '{position:sticky;left:' + left + 'px;z-index:2;background-color:#fff;}';
       css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '){z-index:5;background-color:#f1f5f9;}';
+      if (n !== idx.length - 1) css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), .frz #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + '){box-shadow:inset -1px 0 0 #b4c0d0;}';
       css += '.frz #' + tb.id + ' > tbody > tr.mrRed > td:nth-child(' + (i + 1) + '){background-color:#fff;}';
       if (colKind(h[i]) === 'act') css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), .frz #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + '){padding-left:3px;padding-right:3px;}';
-      if (n === idx.length - 1) css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), .frz #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + '){border-right:2px solid #94a3b8;box-shadow:6px 0 6px -3px rgba(15,23,42,.28);}';
-      var cell = h[i]; left += cell.offsetWidth || 70;
+      if (n === idx.length - 1) css += '.frz #' + tb.id + ' > thead > tr > th:nth-child(' + (i + 1) + '), .frz #' + tb.id + ' > tbody > tr > td:nth-child(' + (i + 1) + '){border-right:2px solid #94a3b8;box-shadow:inset -1px 0 0 #94a3b8;}';
+      var cell = h[i]; left += (cell.getBoundingClientRect().width) || 70;
     });
     dynCss[tb.id] = css; styleEl.textContent = Object.keys(dynCss).map(function (k) { return dynCss[k]; }).join('\n');
   }
@@ -22465,7 +22466,7 @@ th.srt[data-srt="desc"]::after { content: " \25BC"; font-size: 9px; color: #2563
         if (!tb._frz) setup(tb);
         var st = tb._frz; if (!st) return;
         var h = ths(tb); if (!h) return;
-        var sig = h.map(function (x) { return x.offsetWidth; }).join(',');
+        var sig = h.map(function (x) { return Math.round(x.getBoundingClientRect().width * 10); }).join(',');
         if (sig !== st.sig && tb.offsetParent !== null) { st.sig = sig; frozenCss(tb); }
         var w = tb.closest('.table-responsive.frz');
         if (w && tb.offsetParent !== null) {
