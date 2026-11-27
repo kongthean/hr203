@@ -1607,6 +1607,9 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
              <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></span><span class="quick-btn-label" data-i18n="navManagement">Management</span>
          <span id="acctPendBadge" class="notif-badge" style="display:none; top:2px; right:2px;">0</span>
          </button>
+<button class="quick-btn" style="background:linear-gradient(135deg,#0f766e,#115e59);" onclick="openSettingsModal()">
+    <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span><span class="quick-btn-label">Settings</span>
+</button>
 <button class="quick-btn admin-only" style="background:linear-gradient(135deg,#0f766e,#115e59);" onclick="openDeptAccModal()">
             <span class="quick-btn-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/></svg></span><span class="quick-btn-label" data-i18n="navDeptAcc">Department Accounts</span>
         </button>
@@ -3710,6 +3713,17 @@ setTimeout(hide,rm?900:2600);s.addEventListener('click',hide);s.addEventListener
          </div>
          <p style="font-size:11px; color:#64748b; margin-bottom:10px;" data-i18n="pendingApprovalsSub">Edits made by HR System wait here until Administration approves or rejects them.</p>
          <div id="pendingApprovalsBody"></div>
+     </div>
+ </div>
+
+ <!-- SETTINGS (under Management) -->
+ <div class="modal" id="settingsModal">
+     <div class="modal-content" style="max-width: 760px;">
+         <div class="modal-header">
+             <h4>Settings</h4>
+             <button class="modal-close" onclick="closeSettingsModal()">&times;</button>
+         </div>
+         <div id="sgBody"></div>
      </div>
  </div>
 
@@ -28681,7 +28695,7 @@ window.nmCopyEn = async function () {
 </style>
 <script id="pgScrJs">(function(){
 if(window.__pgScr)return;window.__pgScr=1;
-var MAP={tdModal:'tdOpen',deptReqModal:'openDeptReqModal',deptIvModal:'openDeptIvModal',dateCtlModal:'openDateCtl',clrModal:'openClr',ccModal:'openCardCenter',recentlyDeletedModal:'openRecentlyDeletedModal',pendingApprovalsModal:'openPendingApprovalsModal',managementModal:'openManagementModal',deptAccModal:'openDeptAccModal',manageNotifModal:'openManageNotifModal',remModal:'remOpen',trModal:'trOpen',deviceLogModal:'openDeviceLogModal',convertPhotoModal:'openConvertPhotoModal',lkModal:'lkOpen',amModal:'amOpen'};
+var MAP={tdModal:'tdOpen',deptReqModal:'openDeptReqModal',deptIvModal:'openDeptIvModal',dateCtlModal:'openDateCtl',clrModal:'openClr',ccModal:'openCardCenter',recentlyDeletedModal:'openRecentlyDeletedModal',pendingApprovalsModal:'openPendingApprovalsModal',managementModal:'openManagementModal',settingsModal:'openSettingsModal',deptAccModal:'openDeptAccModal',manageNotifModal:'openManageNotifModal',remModal:'remOpen',trModal:'trOpen',deviceLogModal:'openDeviceLogModal',convertPhotoModal:'openConvertPhotoModal',lkModal:'lkOpen',amModal:'amOpen'};
 var stack=[];
 function isOpen(m){var d=m.style.display;return !!d&&d!=='none';}
 function top(){var s=document.getElementById('stickyTop'),b=0;if(s){var r=s.getBoundingClientRect();if(r.height>0&&r.top<=2)b=Math.max(0,r.bottom);}document.documentElement.style.setProperty('--pgTop',b+'px');}
@@ -30420,7 +30434,7 @@ function elExport() {
     ['gPe', [['emp', 'emp', 'tab-employee', 'nav-employee'], ['mst', 'grid', 'tab-master', 'nav-master'], ['add', 'add', 'tab-add', 'nav-add'], ['sta', 'stat', 'tab-fr-emps', 'nav-fr-emps']]],
     ['gTi', [['att', 'clock', 'tab-att', 'nav-att'], ['lea', 'cal', 'tab-leave', 'nav-leave'], ['shf', 'shift', 'tab-shift', 'nav-shift'], ['qry', 'search', 'tab-query', 'nav-query']]],
     ['gRe', [['mon', 'rep', 'tab-monthly', 'nav-monthly'], ['hub', 'hub', 'tab-opshub', 'nav-opshub', null, 1], ['pay', 'pay', null, null, 'payOpen', 1], ['num', 'nums', 'tab-fr-nums', 'nav-fr-nums']]],
-    ['gAd', [['pen', 'ok', null, null, 'openPendingApprovalsModal', 1], ['mgt', 'cog', null, null, 'openManagementModal', 1]]]
+    ['gAd', [['pen', 'ok', null, null, 'openPendingApprovalsModal', 1], ['mgt', 'cog', null, null, 'openManagementModal', 1], ['set', 'cog', null, null, 'openSettingsModal']]]
   ];
   var CSS = [
     'html.fresh body{background:#f5f7fb;color:#0f172a}',
@@ -30643,7 +30657,7 @@ function elExport() {
   var TX = {
     en: { classic: 'Classic', fresh: 'Fresh', attn: 'Needs your attention', pend: 'Pending approvals', exc: 'Over monthly limit', ren: 'Leave renews this month', open: 'Open', none: 'Nothing needs your attention.',
       gOv: 'OVERVIEW', gPe: 'PEOPLE', gTi: 'TIME', gRe: 'REPORTS', gAd: 'ADMIN',
-      dash: 'Dashboard', emp: 'Employee', mst: 'Master Sheet', add: 'Add Employee', qry: 'Check Record', att: 'Daily Attendance', lea: 'Leave Records', shf: 'Shift Roster', mon: 'Monthly Report', hub: 'Operations Hub', pay: 'Payroll', pen: 'Pending Approvals', mgt: 'Management',
+      dash: 'Dashboard', emp: 'Employee', mst: 'Master Sheet', add: 'Add Employee', qry: 'Check Record', att: 'Daily Attendance', lea: 'Leave Records', shf: 'Shift Roster', mon: 'Monthly Report', hub: 'Operations Hub', pay: 'Payroll', pen: 'Pending Approvals', mgt: 'Management', set: 'Settings',
       gm: 'Good Morning!', ga: 'Good Afternoon!', ge: 'Good Evening!', prT: 'My Profile', prUp: 'Upload new photo', prRm: 'Remove photo', prName: 'Display name', prShown: 'Shown on the card as', crT: 'Drag to move, slide to zoom', crOk: 'Use this photo', seeAll: 'See all', sta: 'Employee Status', num: 'All numbers', back: 'Back', prSave: 'Save', prCancel: 'Cancel', prErr: 'Could not save. Ask the administrator to publish the new Firebase rules.',
       ov: 'Overview', exp: 'Export', addB: '+ Add Employee', tStaff: 'Total staff', soon: 'Coming soon', tOff: 'On leave today', tOffY: 'On leave yesterday', tMiss: 'Missing records', tPend: 'Pending approvals', tRes: 'Resigned this year',
       chart: 'Leave taken, by month', unit: 'hours', qa: 'Quick actions', allNum: 'All numbers', allMenu: 'All menu',
@@ -30651,7 +30665,7 @@ function elExport() {
       mo: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], loc: 'en-GB' },
     km: { classic: 'ធម្មតា', fresh: 'ថ្មី', attn: 'ត្រូវការការយកចិត្តទុកដាក់', pend: 'រង់ចាំការអនុម័ត', exc: 'លើសកម្រិតប្រចាំខែ', ren: 'ច្បាប់ឆ្នាំបន្តខែនេះ', open: 'បើក', none: 'គ្មានអ្វីត្រូវការយកចិត្តទុកដាក់ទេ។',
       gOv: 'ទិដ្ឋភាពទូទៅ', gPe: 'បុគ្គលិក', gTi: 'ពេលវេលា', gRe: 'របាយការណ៍', gAd: 'រដ្ឋបាល',
-      dash: 'ផ្ទាំងព័ត៌មាន', emp: 'បុគ្គលិក', mst: 'តារាងមេ', add: 'បន្ថែមបុគ្គលិក', qry: 'ពិនិត្យកំណត់ត្រា', att: 'វត្តមានប្រចាំថ្ងៃ', lea: 'កំណត់ត្រាច្បាប់', shf: 'តារាងវេន', mon: 'របាយការណ៍ប្រចាំខែ', hub: 'មជ្ឈមណ្ឌលប្រតិបត្តិការ', pay: 'ប្រាក់ខែ', pen: 'រង់ចាំការអនុម័ត', mgt: 'ការគ្រប់គ្រង',
+      dash: 'ផ្ទាំងព័ត៌មាន', emp: 'បុគ្គលិក', mst: 'តារាងមេ', add: 'បន្ថែមបុគ្គលិក', qry: 'ពិនិត្យកំណត់ត្រា', att: 'វត្តមានប្រចាំថ្ងៃ', lea: 'កំណត់ត្រាច្បាប់', shf: 'តារាងវេន', mon: 'របាយការណ៍ប្រចាំខែ', hub: 'មជ្ឈមណ្ឌលប្រតិបត្តិការ', pay: 'ប្រាក់ខែ', pen: 'រង់ចាំការអនុម័ត', mgt: 'ការគ្រប់គ្រង', set: 'ការកំណត់',
       gm: 'អរុណសួស្តី!', ga: 'ទិវាសួស្តី!', ge: 'សាយណ្ហសួស្តី!', prT: 'ប្រវត្តិរូបរបស់ខ្ញុំ', prUp: 'ផ្ទុករូបថតថ្មី', prRm: 'លុបរូបថត', prName: 'ឈ្មោះបង្ហាញ', prShown: 'បង្ហាញលើកាតជា', crT: 'អូសដើម្បីផ្លាស់ទី រុញដើម្បីពង្រីក', crOk: 'ប្រើរូបថតនេះ', seeAll: 'មើលទាំងអស់', sta: 'ស្ថានភាពបុគ្គលិក', num: 'លេខទាំងអស់', back: 'ត្រឡប់ក្រោយ', prSave: 'រក្សាទុក', prCancel: 'បោះបង់', prErr: 'រក្សាទុកមិនបាន។ សូមឱ្យអ្នកគ្រប់គ្រងផ្សព្វផ្សាយច្បាប់ Firebase ថ្មី។',
       ov: 'ទិដ្ឋភាពទូទៅ', exp: 'នាំចេញ', addB: '+ បន្ថែមបុគ្គលិក', tStaff: 'បុគ្គលិកសរុប', soon: 'ឆាប់ៗនេះ', tOff: 'ឈប់សម្រាកថ្ងៃនេះ', tOffY: 'ឈប់សម្រាកម្សិលមិញ', tMiss: 'កំណត់ត្រាដែលខ្វះ', tPend: 'រង់ចាំការអនុម័ត', tRes: 'ឈប់ពីការងារឆ្នាំនេះ',
       chart: 'ច្បាប់ដែលបានឈប់ តាមខែ', unit: 'ម៉ោង', qa: 'ចូលរហ័ស', allNum: 'លេខទាំងអស់', allMenu: 'ម៉ឺនុយទាំងអស់',
@@ -30659,7 +30673,7 @@ function elExport() {
       mo: ['មករា', 'កុម្ភៈ', 'មីនា', 'មេសា', 'ឧសភា', 'មិថុនា', 'កក្កដា', 'សីហា', 'កញ្ញា', 'តុលា', 'វិច្ឆិកា', 'ធ្នូ'], loc: 'km-KH' },
     zh: { classic: '经典', fresh: '清新', attn: '需要您处理', pend: '待审批', exc: '超出本月额度', ren: '本月年假更新', open: '打开', none: '暂无需要处理的事项。',
       gOv: '概览', gPe: '人员', gTi: '考勤', gRe: '报表', gAd: '管理',
-      dash: '仪表板', emp: '员工', mst: '总表', add: '添加员工', qry: '查询记录', att: '每日考勤', lea: '请假记录', shf: '排班表', mon: '月报表', hub: '运营中心', pay: '工资', pen: '待审批', mgt: '管理',
+      dash: '仪表板', emp: '员工', mst: '总表', add: '添加员工', qry: '查询记录', att: '每日考勤', lea: '请假记录', shf: '排班表', mon: '月报表', hub: '运营中心', pay: '工资', pen: '待审批', mgt: '管理', set: '设置',
       gm: '早上好！', ga: '下午好！', ge: '晚上好！', prT: '我的资料', prUp: '上传新照片', prRm: '删除照片', prName: '显示名称', prShown: '卡片上显示为', crT: '拖动移动，滑动缩放', crOk: '使用此照片', seeAll: '查看全部', sta: '员工状态', num: '全部数字', back: '返回', prSave: '保存', prCancel: '取消', prErr: '无法保存。请让管理员发布新的 Firebase 规则。',
       ov: '概览', exp: '导出', addB: '+ 添加员工', tStaff: '员工总数', soon: '即将推出', tOff: '今日请假', tOffY: '昨日请假', tMiss: '缺失记录', tPend: '待审批', tRes: '今年离职',
       chart: '每月请假时数', unit: '小时', qa: '快捷操作', allNum: '全部数字', allMenu: '全部菜单',
@@ -30669,6 +30683,7 @@ function elExport() {
   function L() { var l = 'en'; try { if (typeof currentLang !== 'undefined' && TX[currentLang]) l = currentLang; } catch (e) {} return TX[l]; }
   function esc(x) { return String(x == null ? '' : x).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function isAdm() { try { return (sessionStorage.getItem('loggedInRole') || 'admin') === 'admin'; } catch (e) { return true; } }
+  window.frTheme = { get: function () { return get(); }, apply: function (t) { apply(t); }, forced: function () { return forced(); }, gOk: function () { return gOk(); } };
   function apply(th) { if (th === 'fresh' && !gOk()) { try { window.__uiGate.toast(); } catch (e) {} return; } try { localStorage.setItem('uiTheme.' + sysId(), th); } catch (e) {} sync2(); paint(); refresh(true); repage(); icons(); menuRow(); stick(); mmPaging(); }
   function paint() {
     var m = document.getElementById('frMenu'); if (!m) return; var th = get(), x = L();
@@ -31927,5 +31942,96 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
 function fit(){try{['shiftCalendarTable','attCalTable'].forEach(function(id){var t=document.getElementById(id);if(!t||t.offsetParent===null)return;var h=t.querySelector('thead > tr:first-child > th');if(!h)return;var w=h.getBoundingClientRect().width;if(w>0)t.style.setProperty('--calW1',w+'px');});}catch(e){}}
 setInterval(fit,600);window.addEventListener('resize',fit);
 })();</script>
+<style id="tabFadeCss">@keyframes tabIn{from{opacity:0}to{opacity:1}}.tab-panel.active{animation:tabIn .15s ease-out}@media (prefers-reduced-motion:reduce){.tab-panel.active{animation:none}}</style>
+<style id="sgCss">#frDd{display:none!important}</style>
+<script id="sgJs">
+/* Settings (under Management): Appearance, My account, Notifications */
+(function () {
+  'use strict';
+  var D = {
+    en: { t: 'Settings', app: 'Appearance', theme: 'Theme', classic: 'Classic', fresh: 'Fresh', locked: 'The theme is set by the Owner for this system.', soon: 'Coming soon', dark: 'Dark mode', lang: 'Language', acc: 'My account', who: 'Signed in as', role: 'Role', pw: 'Change my password', pwCur: 'Current password', pwNew: 'New password (at least 8 characters)', pwCf: 'Confirm new password', pwBtn: 'Change password', pwOwner: 'The Owner password needs extra verification. This is coming in the next step.', pwFill: 'Please fill in all three boxes.', pwShort: 'The new password must be at least 8 characters.', pwSame: 'The new password must be different from the current one.', pwNo: 'The two new passwords do not match.', pwBad: 'The current password is not correct.', pwUser: 'The password cannot be the same as your username.', pwOk: 'Password changed. Use the new password next time you sign in.', pwErr: 'Could not change the password now. Please try again.', pwNoAcc: 'Your account could not be found.', idle: 'Sign out automatically when idle', off: 'Off', min: 'min', idleNote: 'Saved in this browser only.', not: 'Notifications', notTxt: 'Choose who gets notifications and which alerts are sent.', open: 'Open', show: 'Show', hide: 'Hide' },
+    km: { t: 'ការកំណត់', app: 'រូបរាង', theme: 'ស្បែក', classic: 'Classic', fresh: 'Fresh', locked: 'ម្ចាស់ប្រព័ន្ធបានកំណត់ស្បែកសម្រាប់ប្រព័ន្ធនេះ។', soon: 'នឹងមកដល់ឆាប់ៗ', dark: 'របៀបងងឹត', lang: 'ភាសា', acc: 'គណនីរបស់ខ្ញុំ', who: 'ចូលក្នុងនាម', role: 'តួនាទី', pw: 'ប្តូរពាក្យសម្ងាត់របស់ខ្ញុំ', pwCur: 'ពាក្យសម្ងាត់បច្ចុប្បន្ន', pwNew: 'ពាក្យសម្ងាត់ថ្មី (យ៉ាងតិច ៨ តួ)', pwCf: 'បញ្ជាក់ពាក្យសម្ងាត់ថ្មី', pwBtn: 'ប្តូរពាក្យសម្ងាត់', pwOwner: 'ពាក្យសម្ងាត់ម្ចាស់ត្រូវការផ្ទៀងផ្ទាត់បន្ថែម។ នឹងមកក្នុងជំហានបន្ទាប់។', pwFill: 'សូមបំពេញប្រអប់ទាំងបី។', pwShort: 'ពាក្យសម្ងាត់ថ្មីត្រូវមានយ៉ាងតិច ៨ តួ។', pwSame: 'ពាក្យសម្ងាត់ថ្មីត្រូវខុសពីពាក្យសម្ងាត់បច្ចុប្បន្ន។', pwNo: 'ពាក្យសម្ងាត់ថ្មីទាំងពីរមិនដូចគ្នា។', pwBad: 'ពាក្យសម្ងាត់បច្ចុប្បន្នមិនត្រឹមត្រូវ។', pwUser: 'ពាក្យសម្ងាត់មិនអាចដូចឈ្មោះអ្នកប្រើបានទេ។', pwOk: 'បានប្តូរពាក្យសម្ងាត់។ សូមប្រើពាក្យសម្ងាត់ថ្មីពេលចូលលើកក្រោយ។', pwErr: 'មិនអាចប្តូរពាក្យសម្ងាត់ឥឡូវនេះបានទេ។ សូមព្យាយាមម្តងទៀត។', pwNoAcc: 'រកមិនឃើញគណនីរបស់អ្នកទេ។', idle: 'ចាកចេញដោយស្វ័យប្រវត្តិពេលមិនប្រើ', off: 'បិទ', min: 'នាទី', idleNote: 'រក្សាទុកតែក្នុងកម្មវិធីរុករកនេះប៉ុណ្ណោះ។', not: 'ការជូនដំណឹង', notTxt: 'ជ្រើសរើសអ្នកទទួលការជូនដំណឹង និងការជូនដំណឹងដែលត្រូវផ្ញើ។', open: 'បើក', show: 'បង្ហាញ', hide: 'លាក់' },
+    zh: { t: '设置', app: '外观', theme: '主题', classic: 'Classic', fresh: 'Fresh', locked: '此系统的主题由所有者设定。', soon: '即将推出', dark: '深色模式', lang: '语言', acc: '我的账户', who: '当前登录', role: '角色', pw: '修改我的密码', pwCur: '当前密码', pwNew: '新密码（至少8个字符）', pwCf: '确认新密码', pwBtn: '修改密码', pwOwner: '所有者密码需要额外验证，将在下一步提供。', pwFill: '请填写全部三个框。', pwShort: '新密码至少需要8个字符。', pwSame: '新密码不能与当前密码相同。', pwNo: '两次输入的新密码不一致。', pwBad: '当前密码不正确。', pwUser: '密码不能与用户名相同。', pwOk: '密码已修改，下次登录请使用新密码。', pwErr: '现在无法修改密码，请重试。', pwNoAcc: '找不到您的账户。', idle: '闲置时自动退出', off: '关闭', min: '分钟', idleNote: '仅保存在此浏览器。', not: '通知', notTxt: '选择谁接收通知以及发送哪些提醒。', open: '打开', show: '显示', hide: '隐藏' }
+  };
+  function $(id) { return document.getElementById(id); }
+  function L() { try { return (typeof currentLang === 'string' && D[currentLang]) ? currentLang : 'en'; } catch (e) { return 'en'; } }
+  function T(k) { return (D[L()] || D.en)[k] || D.en[k] || k; }
+  function E(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function ss(k) { try { return sessionStorage.getItem(k) || ''; } catch (e) { return ''; } }
+  function isOwner() { try { return typeof viewerIsOwner === 'function' && viewerIsOwner(); } catch (e) { return false; } }
+  function myKey() { var a = window.__actorInfo; return a && a.type === 'staff' ? a.key : ''; }
+  var CARD = 'background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;margin-bottom:12px';
+  var ROW = 'display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:9px 0;border-bottom:1px solid #eef2f7';
+  var INP = 'width:100%;padding:9px 10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;box-sizing:border-box';
+  function pill(on, txt, js, dis) { return '<button type="button" ' + (dis ? 'disabled ' : '') + 'onclick="' + js + '" style="border-radius:16px;padding:6px 14px;font:inherit;cursor:' + (dis ? 'not-allowed' : 'pointer') + ';border:1px solid ' + (on ? '#0b1d3a' : '#cbd5e1') + ';background:' + (on ? '#0b1d3a' : '#f1f5f9') + ';color:' + (on ? '#fff' : '#0f172a') + ';opacity:' + (dis ? '.55' : '1') + '">' + E(txt) + '</button>'; }
+  function idleMin() { try { return parseInt(localStorage.getItem('sgIdleMin') || '0', 10) || 0; } catch (e) { return 0; } }
+  function render() {
+    var b = $('sgBody'); if (!b) return;
+    var th = 'classic', lock = false, lk = {};
+    try { if (window.frTheme) { th = window.frTheme.get(); lock = !!window.frTheme.forced(); lk.fresh = !window.frTheme.gOk(); } } catch (e) {}
+    var cl = L(), h = '';
+    h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:4px">' + E(T('app')) + '</div>';
+    h += '<div style="' + ROW + '"><span>' + E(T('theme')) + '</span><span style="display:flex;gap:6px">' + pill(th === 'classic', T('classic'), 'sgTheme(\'classic\')', lock) + pill(th === 'fresh', T('fresh'), 'sgTheme(\'fresh\')', lock || lk.fresh) + '</span></div>';
+    if (lock) h += '<div style="font-size:12px;color:#64748b;padding:6px 0">' + E(T('locked')) + '</div>';
+    h += '<div style="' + ROW + '"><span>' + E(T('dark')) + '</span><span style="color:#64748b;font-size:12px">' + E(T('soon')) + '</span></div>';
+    h += '<div style="' + ROW + ';border-bottom:0"><span>' + E(T('lang')) + '</span><span style="display:flex;gap:6px">' + pill(cl === 'en', 'English', 'sgLang(\'en\')') + pill(cl === 'km', 'ខ្មែរ', 'sgLang(\'km\')') + pill(cl === 'zh', '中文', 'sgLang(\'zh\')') + '</span></div></div>';
+    var un = ss('loggedInAccountUsername'), nm = ss('loggedInAccountName') || un, ro = ss('loggedInRole');
+    h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:4px">' + E(T('acc')) + '</div>';
+    h += '<div style="font-size:13px;color:#475569;padding:4px 0 8px">' + E(T('who')) + ': <b>' + E(nm) + '</b>' + (ro ? ' &middot; ' + E(T('role')) + ': ' + E(ro.toUpperCase()) : '') + '</div>';
+    h += '<div style="font-weight:600;margin:6px 0">' + E(T('pw')) + '</div>';
+    if (isOwner() || !myKey()) h += '<div style="font-size:13px;color:#64748b;padding:4px 0 8px">' + E(isOwner() ? T('pwOwner') : T('pwNoAcc')) + '</div>';
+    else h += '<form autocomplete="off" onsubmit="event.preventDefault();sgChangePw();" style="display:grid;gap:8px;max-width:420px">' +
+      '<input type="password" id="sgPwCur" autocomplete="current-password" placeholder="' + E(T('pwCur')) + '" style="' + INP + '">' +
+      '<input type="password" id="sgPwNew" autocomplete="new-password" placeholder="' + E(T('pwNew')) + '" style="' + INP + '">' +
+      '<input type="password" id="sgPwCf" autocomplete="new-password" placeholder="' + E(T('pwCf')) + '" style="' + INP + '">' +
+      '<div id="sgPwMsg" style="font-size:13px;min-height:18px"></div>' +
+      '<div><button type="submit" id="sgPwBtn" class="btn-submit" style="width:auto;padding:9px 20px;margin:0">' + E(T('pwBtn')) + '</button></div></form>';
+    var im = idleMin();
+    h += '<div style="' + ROW + ';margin-top:10px;border-top:1px solid #eef2f7;border-bottom:0"><span>' + E(T('idle')) + '<div style="font-size:11px;color:#64748b">' + E(T('idleNote')) + '</div></span><span style="display:flex;gap:6px;flex-wrap:wrap">' + [0, 15, 30, 60].map(function (m) { return pill(im === m, m ? m + ' ' + T('min') : T('off'), 'sgIdle(' + m + ')'); }).join('') + '</span></div></div>';
+    h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:4px">' + E(T('not')) + '</div><div style="' + ROW + ';border-bottom:0"><span style="font-size:13px;color:#475569">' + E(T('notTxt')) + '</span><button type="button" class="btn-edit" style="padding:7px 16px" onclick="sgOpenNotif()">' + E(T('open')) + '</button></div></div>';
+    b.innerHTML = h;
+    var hd = document.querySelector('#settingsModal .modal-header h4'); if (hd) hd.textContent = T('t');
+  }
+  window.openSettingsModal = function () { var m = $('settingsModal'); if (!m) return; render(); m.style.display = 'flex'; };
+  window.closeSettingsModal = function () { var m = $('settingsModal'); if (m) m.style.display = 'none'; };
+  window.sgTheme = function (k) { try { window.frTheme.apply(k); } catch (e) {} setTimeout(render, 60); };
+  window.sgLang = function (l) { try { setLanguage(l); } catch (e) {} setTimeout(render, 60); };
+  window.sgIdle = function (m) { try { localStorage.setItem('sgIdleMin', String(m)); } catch (e) {} idleReset(); render(); };
+  window.sgOpenNotif = function () { try { window.closeSettingsModal(); if (typeof openManageNotifModal === 'function') openManageNotifModal(); } catch (e) {} };
+  function msg(t, ok) { var m = $('sgPwMsg'); if (m) { m.textContent = t; m.style.color = ok ? '#15803d' : '#b91c1c'; } }
+  var busy = false;
+  window.sgChangePw = async function () {
+    if (busy) return; var cur = $('sgPwCur').value, nw = $('sgPwNew').value, cf = $('sgPwCf').value;
+    if (!cur || !nw || !cf) return msg(T('pwFill'));
+    if (nw.length < 8) return msg(T('pwShort'));
+    if (nw === cur) return msg(T('pwSame'));
+    if (nw !== cf) return msg(T('pwNo'));
+    var un = ss('loggedInAccountUsername'); if (un && nw.toLowerCase() === un.toLowerCase()) return msg(T('pwUser'));
+    var key = myKey(); if (!key || isOwner()) return msg(T('pwNoAcc'));
+    busy = true; var btn = $('sgPwBtn'); if (btn) btn.disabled = true;
+    try {
+      var sn = await db.ref('accounts/' + key).once('value'), a = sn.val();
+      if (!a) { msg(T('pwNoAcc')); return; }
+      a.firebaseKey = key;
+      if (!(await pwVerify(a, cur))) { msg(T('pwBad')); return; }
+      var f = await pwFields(nw); f.pwChangedAt = Date.now();
+      await db.ref('accounts/' + key).update(f);
+      try { if (typeof logActivity === 'function') logActivity('password_change', 'account', '', '', 'self'); } catch (e) {}
+      $('sgPwCur').value = ''; $('sgPwNew').value = ''; $('sgPwCf').value = ''; msg(T('pwOk'), true);
+    } catch (e) { console.error(e); msg(T('pwErr')); }
+    finally { busy = false; if (btn) btn.disabled = false; }
+  };
+  /* sign out after a quiet time (per browser) */
+  var last = Date.now();
+  function idleReset() { last = Date.now(); }
+  ['mousemove', 'mousedown', 'keydown', 'touchstart', 'scroll', 'click'].forEach(function (ev) { document.addEventListener(ev, idleReset, { passive: true, capture: true }); });
+  setInterval(function () {
+    var m = idleMin(); if (!m) return;
+    if (ss('isLoggedIn') !== 'true') return;
+    if (Date.now() - last >= m * 60000) { last = Date.now(); try { if (typeof empLogout === 'function') empLogout(); } catch (e) {} }
+  }, 20000);
+  document.addEventListener('click', function (e) { if (e.target && e.target.closest && e.target.closest('[data-lang],.lang-option')) setTimeout(function () { var m = $('settingsModal'); if (m && m.style.display === 'flex') render(); }, 120); }, true);
+})();
+</script>
 </body>
 </html>
