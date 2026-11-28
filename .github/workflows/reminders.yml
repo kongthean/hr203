@@ -25,6 +25,9 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          TELEGRAM_OTP_BOT_TOKEN: ${{ secrets.TELEGRAM_OTP_BOT_TOKEN }}
+          TELEGRAM_OTP_CHAT_ID: ${{ secrets.TELEGRAM_OTP_CHAT_ID }}
+          TELEGRAM_OTP_CHAT_MAP: ${{ secrets.TELEGRAM_OTP_CHAT_MAP }}
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
         run: node reminder-bot.js
       - name: Keep schedule alive (GitHub pauses idle projects after 60 days)
