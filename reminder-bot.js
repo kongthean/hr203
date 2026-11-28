@@ -438,8 +438,8 @@ async function ownerCodes(c) {
       let send = c.tg, to = c.chatId;
       if (c.otp && c.otp.tg) {
         let uname = ''; try { uname = String((await db.ref('accounts/' + key + '/username').once('value')).val() || '').toLowerCase(); } catch (e) {}
-        to = (c.otp.map && c.otp.map[uname]) || c.otp.chat || '';
-        if (!to) { console.error('OTP: no chat id for account "' + uname + '" (set TELEGRAM_OTP_CHAT_ID, or add the username to TELEGRAM_OTP_CHAT_MAP)'); await status('nobot'); continue; }
+        to = (c.otp.map && (c.otp.map[String(who).toLowerCase().trim()] || c.otp.map[uname])) || c.otp.chat || '';
+        if (!to) { console.error('OTP: no chat id for account "' + who + '" / "' + uname + '" (set TELEGRAM_OTP_CHAT_ID, or add the username to TELEGRAM_OTP_CHAT_MAP)'); await status('nobot'); continue; }
         send = c.otp.tg;
       }
       await db.ref(base + '/sec').set({ h: H(key, code), exp: now + 10 * 60000, tries: 0, lockUntil: 0 });
