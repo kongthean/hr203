@@ -31266,6 +31266,7 @@ window.__MAN_IMG={"add": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wB
     ['Time', [
       { k: 'att', t: 'Daily Attendance', who: 'both', intro: 'Record work hours, overtime and leave for every employee of one day, in one table.', steps: ['Choose the <b>Department</b> and Group, then the <b>Date</b>, and press <b>Show Employees</b>.','Fill <b>Working Hours</b> and <b>OT Hours</b>. To record leave, fill <b>Leave Hours</b> and choose the <b>Leave Type</b>. The type is required when leave hours are more than 0.','The <b>Remark</b> column shows what is already saved for that day. A day already full by a leave record, or a rest day, can not be filled again.','Press <b>Submit</b>. Leave is saved first and then the attendance, with the same calculation as Leave Records.','Press <b>Export Daily Attendance</b> to download Excel or print. Choose the dates, the table language (English, Khmer or Chinese) and one-column or two-column names.'], tip: 'A small red circle on this menu shows how many records are missing. Press Missing Records to fix them. Forgot to record a day? Use Makeup Attendance Record.' },
       { k: 'svcacc', t: 'Service Access (Maintenance)', who: 'adm', intro: 'The Owner can open or close any service, menu or button for one account: Employee, Department, HR or Administration.', steps: ['Open <b>Maintenance</b> and press <b>Service Access</b>.','Choose the system (Employee, Department, HR or Administration). Search the name or choose a department.','Click an account, then close the services or buttons that account must not use. Press <b>Save</b>.','A blocked person sees a white window: you do not have permission to use this service, please contact the super administration.'], tip: 'The Owner is never blocked. To undo, open the same account and reopen the service.' },
+      { k: 'settings', t: 'Settings (look, language, password)', who: 'all', intro: 'Open Management, then Settings. Everyone can change their own look and password. Nobody needs the Owner to help.', steps: ['<b>Theme</b>: choose Classic or Fresh. The Owner can lock it for everyone.', '<b>Dark mode</b>: choose Light, Dark or Auto (follows your phone or computer).', '<b>Language</b>: English, Khmer or Chinese.', '<b>Change my password</b>: press the button. A window opens and shows the steps one by one: current password, then new password twice, then Save.', '<b>Sign out when idle</b>: choose how many quiet minutes before the system signs you out. It is saved on this browser only.', '<b>Owner only</b>: the Owner also has a <b>2nd password</b>. To change the Owner password the steps are: current password, 2nd password, new password, then the 6-digit code that the HR203 bot sends to Telegram.'], tip: 'The Telegram code is valid for 10 minutes. After 5 wrong codes you must wait 15 minutes. If a staff member forgets the password, the Owner resets it in Management.' },
       { k: 'svcpause', t: 'Service Control (Maintenance)', who: 'adm', intro: 'Choose for every service, menu and button: Open, Coming Soon or Paused. Use it for services you do not use for now. Nothing is deleted.', steps: ['Open <b>Maintenance</b> and press <b>Service Control</b>. Search the name or choose a group. Press <b>Buttons</b> to see the buttons inside a service.','Choose <b>Open</b>, <b>Coming Soon</b> or <b>Paused</b> for each item, then press <b>Save changes</b>. You can change it back at any time.','<b>Coming Soon</b> and <b>Paused</b> turn the menu or button grey. Clicking shows a message: Paused says this service is temporarily unavailable, please try again later; Coming Soon says the service is coming soon.','The same item is also blocked when it is opened from another menu. The Owner is never blocked.','Pausing Daily Attendance stops the missing-record count, the red circle and the Telegram list. Pausing Reminders stops the bot reminder messages.'], tip: 'To block one person only, use Service Access. Fill leave in Check Details is a special feature that starts as Coming Soon.' },
       { k: 'backnav', t: 'Back button and missing-record alerts', who: 'all', intro: 'Back goes to the page you came from. Missing records are shown and sent to Telegram.', steps: ['<b>Back</b> returns to the menu you opened this page from, for example Daily Attendance after Missing Records.','A <b>red circle</b> with a number on Daily Attendance, Missing Records and Employee shows how many records are missing.','Once a day, the list of names is sent to the Telegram group after an Admin or HR opens the website.'] },
       { k: 'leave', t: 'Leave Records', who: 'both', intro: 'Enter leave that an employee took.', steps: ['Choose the <b>Leave Date</b>.', 'Type the <b>Employee ID</b>. The name fills in by itself.', 'Type the hours in the right leave type, for example <b>Annual Leave</b>.', 'Press <b>Submit Leave Record</b>.'], tip: 'Hours are used, not days. 8 hours = 1 day.' },
@@ -32002,15 +32003,7 @@ setInterval(fit,600);window.addEventListener('resize',fit);
     var un = ss('loggedInAccountUsername'), nm = ss('loggedInAccountName') || un, ro = ss('loggedInRole');
     h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:4px">' + E(T('acc')) + '</div>';
     h += '<div style="font-size:13px;color:#475569;padding:4px 0 8px">' + E(T('who')) + ': <b>' + E(nm) + '</b>' + (ro ? ' &middot; ' + E(T('role')) + ': ' + E(ro.toUpperCase()) : '') + '</div>';
-    h += '<div style="font-weight:600;margin:6px 0">' + E(T('pw')) + '</div>';
-    if (isOwner() && myKey()) h += ownerHtml();
-    else if (!myKey()) h += '<div style="font-size:13px;color:#64748b;padding:4px 0 8px">' + E(T('pwNoAcc')) + '</div>';
-    else h += '<form autocomplete="off" onsubmit="event.preventDefault();sgChangePw();" style="display:grid;gap:8px;max-width:420px">' +
-      '<input type="password" id="sgPwCur" autocomplete="current-password" placeholder="' + E(T('pwCur')) + '" style="' + INP + '">' +
-      '<input type="password" id="sgPwNew" autocomplete="new-password" placeholder="' + E(T('pwNew')) + '" style="' + INP + '">' +
-      '<input type="password" id="sgPwCf" autocomplete="new-password" placeholder="' + E(T('pwCf')) + '" style="' + INP + '">' +
-      '<div id="sgPwMsg" style="font-size:13px;min-height:18px"></div>' +
-      '<div><button type="submit" id="sgPwBtn" class="btn-submit" style="width:auto;padding:9px 20px;margin:0">' + E(T('pwBtn')) + '</button></div></form>';
+    h += pwRow();
     var im = idleMin();
     h += '<div style="' + ROW + ';margin-top:10px;border-top:1px solid #eef2f7;border-bottom:0"><span>' + E(T('idle')) + '<div style="font-size:11px;color:#64748b">' + E(T('idleNote')) + '</div></span><span style="display:flex;gap:6px;flex-wrap:wrap">' + [0, 15, 30, 60].map(function (m) { return pill(im === m, m ? m + ' ' + T('min') : T('off'), 'sgIdle(' + m + ')'); }).join('') + '</span></div></div>';
     h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:4px">' + E(T('not')) + '</div><div style="' + ROW + ';border-bottom:0"><span style="font-size:13px;color:#475569">' + E(T('notTxt')) + '</span><button type="button" class="btn-edit" style="padding:7px 16px" onclick="sgOpenNotif()">' + E(T('open')) + '</button></div></div>';
@@ -32024,76 +32017,77 @@ setInterval(fit,600);window.addEventListener('resize',fit);
   window.sgLang = function (l) { try { setLanguage(l); } catch (e) {} setTimeout(render, 60); };
   window.sgIdle = function (m) { try { localStorage.setItem('sgIdleMin', String(m)); } catch (e) {} idleReset(); render(); };
   window.sgOpenNotif = function () { try { window.closeSettingsModal(); if (typeof openManageNotifModal === 'function') openManageNotifModal(); } catch (e) {} };
-  function msg(t, ok) { var m = $('sgPwMsg'); if (m) { m.textContent = t; m.style.color = ok ? '#15803d' : '#b91c1c'; } }
-  var busy = false;
-  window.sgChangePw = async function () {
-    if (busy) return; var cur = $('sgPwCur').value, nw = $('sgPwNew').value, cf = $('sgPwCf').value;
-    if (!cur || !nw || !cf) return msg(T('pwFill'));
-    if (nw.length < 8) return msg(T('pwShort'));
-    if (nw === cur) return msg(T('pwSame'));
-    if (nw !== cf) return msg(T('pwNo'));
-    var un = ss('loggedInAccountUsername'); if (un && nw.toLowerCase() === un.toLowerCase()) return msg(T('pwUser'));
-    var key = myKey(); if (!key || isOwner()) return msg(T('pwNoAcc'));
-    busy = true; var btn = $('sgPwBtn'); if (btn) btn.disabled = true;
-    try {
-      var sn = await db.ref('accounts/' + key).once('value'), a = sn.val();
-      if (!a) { msg(T('pwNoAcc')); return; }
-      a.firebaseKey = key;
-      if (!(await pwVerify(a, cur))) { msg(T('pwBad')); return; }
-      var f = await pwFields(nw); f.pwChangedAt = Date.now();
-      await db.ref('accounts/' + key).update(f);
-      try { if (typeof logActivity === 'function') logActivity('password_change', 'account', '', '', 'self'); } catch (e) {}
-      $('sgPwCur').value = ''; $('sgPwNew').value = ''; $('sgPwCf').value = ''; msg(T('pwOk'), true);
-    } catch (e) { console.error(e); msg(T('pwErr')); }
-    finally { busy = false; if (btn) btn.disabled = false; }
+  /* Password pop-up wizard (step by step). Owner: current password, 2nd password, new password, Telegram code (bot step 5). */
+  var X = {
+    en: { stepOf: 'Step {a} of {b}', next: 'Next', back: 'Back', cancel: 'Cancel', close: 'Close', save: 'Save', conf: 'Confirm', send: 'Send code to Telegram', resend: 'Send a new code', chgPw: 'Change my password', open: 'Open',
+      w1: 'Enter your current password', w2: 'Enter your 2nd password', w3: 'Choose a new password', w3b: 'Choose a new 2nd password', w4: 'Enter the code from Telegram',
+      new2: 'New 2nd password (at least 8 characters)', new2c: 'Confirm new 2nd password', set2: 'Set 2nd password', chg2: 'Change 2nd password', row2: '2nd password', row2s: 'Required with a Telegram code to change the Owner password.',
+      done2: '2nd password changed.', need2: 'Set a 2nd password first. It is needed to change the Owner password.', w1n: 'This confirms it is really you.', w2n: 'The 2nd password you chose before.', w4n: 'Open Telegram. A 6-digit code was sent by the HR203 bot.' },
+    km: { stepOf: 'ជំហាន {a} នៃ {b}', next: 'បន្ទាប់', back: 'ថយក្រោយ', cancel: 'បោះបង់', close: 'បិទ', save: 'រក្សាទុក', conf: 'បញ្ជាក់', send: 'ផ្ញើលេខកូដទៅ Telegram', resend: 'ផ្ញើលេខកូដថ្មី', chgPw: 'ប្តូរពាក្យសម្ងាត់របស់ខ្ញុំ', open: 'បើក',
+      w1: 'បញ្ចូលពាក្យសម្ងាត់បច្ចុប្បន្ន', w2: 'បញ្ចូលពាក្យសម្ងាត់ទី២', w3: 'ជ្រើសរើសពាក្យសម្ងាត់ថ្មី', w3b: 'ជ្រើសរើសពាក្យសម្ងាត់ទី២ថ្មី', w4: 'បញ្ចូលលេខកូដពី Telegram',
+      new2: 'ពាក្យសម្ងាត់ទី២ថ្មី (យ៉ាងតិច ៨ តួ)', new2c: 'បញ្ជាក់ពាក្យសម្ងាត់ទី២ថ្មី', set2: 'កំណត់ពាក្យសម្ងាត់ទី២', chg2: 'ប្តូរពាក្យសម្ងាត់ទី២', row2: 'ពាក្យសម្ងាត់ទី២', row2s: 'ត្រូវការជាមួយលេខកូដ Telegram ដើម្បីប្តូរពាក្យសម្ងាត់ម្ចាស់។',
+      done2: 'បានប្តូរពាក្យសម្ងាត់ទី២។', need2: 'សូមកំណត់ពាក្យសម្ងាត់ទី២ជាមុន។ វាចាំបាច់សម្រាប់ប្តូរពាក្យសម្ងាត់ម្ចាស់។', w1n: 'ដើម្បីបញ្ជាក់ថាជាអ្នកពិតប្រាកដ។', w2n: 'ពាក្យសម្ងាត់ទី២ដែលអ្នកបានជ្រើសមុននេះ។', w4n: 'បើក Telegram។ bot HR203 បានផ្ញើលេខកូដ ៦ ខ្ទង់។' },
+    zh: { stepOf: '第 {a} 步，共 {b} 步', next: '下一步', back: '上一步', cancel: '取消', close: '关闭', save: '保存', conf: '确认', send: '发送验证码到 Telegram', resend: '重新发送验证码', chgPw: '修改我的密码', open: '打开',
+      w1: '输入当前密码', w2: '输入第二密码', w3: '设置新密码', w3b: '设置新的第二密码', w4: '输入 Telegram 验证码',
+      new2: '新的第二密码（至少8个字符）', new2c: '确认新的第二密码', set2: '设置第二密码', chg2: '修改第二密码', row2: '第二密码', row2s: '修改所有者密码时需要它和 Telegram 验证码。',
+      done2: '第二密码已修改。', need2: '请先设置第二密码，修改所有者密码时需要它。', w1n: '用于确认是您本人。', w2n: '您之前设置的第二密码。', w4n: '请打开 Telegram，HR203 机器人已发送6位验证码。' }
   };
-  /* Owner password change: 2nd password + Telegram code (the bot checks the code, see reminder-bot.js step 5) */
-  var ow = { has: null, st: 0, msg: '', ok: false, oldAt: 0 };
+  var ow = { has: null, oldAt: 0 }, wz = null;
+  function TX(k) { var l = L(); return (X[l] || X.en)[k] || (D[l] || {})[k] || X.en[k] || D.en[k] || k; }
   function owBase() { return 'ownerSec/' + myKey(); }
-  function owLoad() {
-    if (ow.has !== null || ow.loading) return; ow.loading = true;
-    db.ref(owBase() + '/second').once('value').then(function (sn) { ow.has = !!sn.val(); ow.loading = false; render(); }).catch(function () { ow.has = false; ow.loading = false; render(); });
+  function owLoad(cb) {
+    if (ow.has !== null) { if (cb) cb(); return; }
+    db.ref(owBase() + '/second').once('value').then(function (sn) { ow.has = !!sn.val(); if (cb) cb(); render(); }).catch(function () { ow.has = false; if (cb) cb(); });
   }
-  function owMsg(t, ok) { ow.msg = t; ow.ok = !!ok; var m = $('sgOwMsg'); if (m) { m.textContent = t; m.style.color = ok ? '#15803d' : '#b91c1c'; } }
-  function ownerHtml() {
+  function ownerRow() {
+    if (!(isOwner() && myKey())) return '';
     owLoad();
-    var h = '<div style="font-size:13px;color:#475569;padding:2px 0 8px">' + E(T('owNote')) + '</div>';
-    if (ow.has === null) return h;
-    var msgH = '<div id="sgOwMsg" style="font-size:13px;min-height:18px;color:' + (ow.ok ? '#15803d' : '#b91c1c') + '">' + E(ow.msg) + '</div>';
-    if (!ow.has) {
-      return h + '<div style="font-weight:600;margin:6px 0">' + E(T('owSet')) + '</div><div style="font-size:12px;color:#64748b;margin-bottom:6px">' + E(T('owSetN')) + '</div>' +
-        '<form autocomplete="off" onsubmit="event.preventDefault();sgOwSet();" style="display:grid;gap:8px;max-width:420px">' +
-        '<input type="password" id="sgOwCur" autocomplete="current-password" placeholder="' + E(T('pwCur')) + '" style="' + INP + '">' +
-        '<input type="password" id="sgOw2" autocomplete="new-password" placeholder="' + E(T('ow2')) + '" style="' + INP + '">' +
-        '<input type="password" id="sgOw2c" autocomplete="new-password" placeholder="' + E(T('ow2c')) + '" style="' + INP + '">' + msgH +
-        '<div><button type="submit" class="btn-submit" style="width:auto;padding:9px 20px;margin:0">' + E(T('owSetBtn')) + '</button></div></form>';
-    }
-    var dis = ow.st === 1 ? ' disabled' : '';
-    var f = '<div style="font-weight:600;margin:6px 0">' + E(T('pw')) + '</div><form autocomplete="off" onsubmit="event.preventDefault();' + (ow.st === 1 ? 'sgOwGo()' : 'sgOwSend()') + ';" style="display:grid;gap:8px;max-width:420px">';
-    f += '<input type="password" id="sgOwCur" autocomplete="current-password" placeholder="' + E(T('pwCur')) + '"' + dis + ' style="' + INP + '">' +
-      '<input type="password" id="sgOw2" autocomplete="off" placeholder="' + E(T('ow2')) + '"' + dis + ' style="' + INP + '">' +
-      '<input type="password" id="sgPwNew" autocomplete="new-password" placeholder="' + E(T('pwNew')) + '"' + dis + ' style="' + INP + '">' +
-      '<input type="password" id="sgPwCf" autocomplete="new-password" placeholder="' + E(T('pwCf')) + '"' + dis + ' style="' + INP + '">';
-    if (ow.st === 1) f += '<input type="text" id="sgOwCode" inputmode="numeric" maxlength="7" autocomplete="one-time-code" placeholder="' + E(T('owCode')) + '" style="' + INP + '">';
-    f += msgH + '<div><button type="submit" id="sgOwBtn" class="btn-submit" style="width:auto;padding:9px 20px;margin:0">' + E(ow.st === 1 ? T('owOk') : T('owSend')) + '</button></div></form>';
-    return h + f;
+    if (ow.has === null) return '';
+    return '<div style="' + ROW + '"><span>' + E(TX('row2')) + '<div style="font-size:11px;color:#64748b">' + E(TX('row2s')) + '</div></span><button type="button" class="btn-edit" onclick="sgWz(\'' + (ow.has ? 'pw2' : 'set2') + '\')">' + E(TX(ow.has ? 'chg2' : 'set2')) + '</button></div>';
   }
-  window.sgOwSet = async function () {
-    if (busy) return; var cur = $('sgOwCur').value, a = $('sgOw2').value, c = $('sgOw2c').value;
-    if (!cur || !a || !c) return owMsg(T('pwFill'));
-    if (a.length < 8) return owMsg(T('pwShort'));
-    if (a !== c) return owMsg(T('pwNo'));
-    if (a === cur) return owMsg(T('owSame'));
-    busy = true;
-    try {
-      var key = myKey(), acc = (await db.ref('accounts/' + key).once('value')).val(); if (!acc) return owMsg(T('pwNoAcc')); acc.firebaseKey = key;
-      if (!(await pwVerify(acc, cur))) return owMsg(T('pwBad'));
-      var f = await pwFields(a); await db.ref(owBase() + '/second').set(f.passwordHash);
-      try { if (typeof logActivity === 'function') logActivity('owner_2nd_password_set', 'account', '', '', 'self'); } catch (e) {}
-      ow.has = true; ow.msg = T('owSetOk'); ow.ok = true; render();
-    } catch (e) { console.error(e); owMsg(T('pwErr')); }
-    finally { busy = false; }
+  function pwRow() {
+    if (!myKey()) return '<div style="font-size:13px;color:#64748b;padding:4px 0 8px">' + E(T('pwNoAcc')) + '</div>';
+    return '<div style="' + ROW + '"><span>' + E(T('pw')) + '</span><button type="button" class="btn-edit" onclick="sgWz(\'pw\')">' + E(TX('chgPw')) + '</button></div>' + ownerRow();
+  }
+  var FLD = { cur: [['wCur', 'pwCur', 'current-password']], sec: [['wSec', 'ow2', 'off']], 'new': [['wNew', 'pwNew', 'new-password'], ['wCf', 'pwCf', 'new-password']], new2: [['wNew', 'new2', 'new-password'], ['wCf', 'new2c', 'new-password']], code: [['wCode', 'owCode', 'one-time-code']] };
+  var TTL = { cur: ['w1', 'w1n'], sec: ['w2', 'w2n'], 'new': ['w3', ''], new2: ['w3b', ''], code: ['w4', 'w4n'] };
+  function stepsFor(kind) { var o = isOwner(); if (kind === 'pw') return o ? ['cur', 'sec', 'new', 'code'] : ['cur', 'new']; if (kind === 'pw2') return ['cur', 'sec', 'new2', 'code']; return ['cur', 'new2']; }
+  window.sgWz = function (kind) {
+    if (!myKey()) return;
+    var go = function () {
+      if (kind === 'pw' && isOwner() && !ow.has) { kind = 'set2'; wz = { kind: kind, i: 0, v: {}, steps: stepsFor(kind), busy: false, msg: TX('need2'), ok: true }; }
+      else wz = { kind: kind, i: 0, v: {}, steps: stepsFor(kind), busy: false, msg: '', ok: false };
+      wzDraw();
+    };
+    if (isOwner()) owLoad(go); else go();
   };
+  function wzClose() { wz = null; var o = $('sgWz'); if (o) o.remove(); }
+  window.sgWzClose = wzClose;
+  function wzDraw() {
+    if (!wz) return; var o = $('sgWz');
+    if (!o) { o = document.createElement('div'); o.id = 'sgWz'; o.style.cssText = 'position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;z-index:2147483000;padding:16px;box-sizing:border-box'; document.body.appendChild(o); }
+    var n = wz.steps.length, h = '<div style="background:#fff;border-radius:14px;width:100%;max-width:420px;padding:20px;box-shadow:0 10px 40px rgba(0,0,0,.3);max-height:92vh;overflow:auto" role="dialog" aria-modal="true">';
+    if (wz.done) {
+      h += '<div style="font-size:42px;color:#15803d;text-align:center;line-height:1">&#10003;</div><div style="text-align:center;font-weight:700;margin:10px 0 6px">' + E(wz.doneMsg) + '</div><div style="text-align:center;margin-top:14px"><button type="button" class="btn-submit" style="width:auto;padding:9px 24px;margin:0" onclick="sgWzClose()">' + E(TX('close')) + '</button></div></div>';
+      o.innerHTML = h; return;
+    }
+    var st = wz.steps[wz.i], tt = TTL[st], dots = '';
+    for (var i = 0; i < n; i++) dots += '<span style="flex:1;height:5px;border-radius:3px;background:' + (i <= wz.i ? '#0b1d3a' : '#e2e8f0') + '"></span>';
+    h += '<div style="display:flex;gap:5px;margin-bottom:8px">' + dots + '</div><div style="font-size:12px;color:#64748b">' + E(TX('stepOf').replace('{a}', wz.i + 1).replace('{b}', n)) + '</div>';
+    h += '<div style="font-weight:700;font-size:17px;margin:4px 0 4px">' + E(TX(tt[0])) + '</div>' + (tt[1] ? '<div style="font-size:12px;color:#64748b;margin-bottom:8px">' + E(TX(tt[1])) + '</div>' : '<div style="height:6px"></div>');
+    h += '<form autocomplete="off" onsubmit="event.preventDefault();sgWzNext();" style="display:grid;gap:8px">';
+    FLD[st].forEach(function (f, idx) { h += '<input ' + (f[0] === 'wCode' ? 'type="text" inputmode="numeric" maxlength="7"' : 'type="password"') + ' id="' + f[0] + '" autocomplete="' + f[2] + '" placeholder="' + E(TX(f[1])) + '" value="' + E((wz.v[f[0]]) || '') + '" style="' + INP + '">'; });
+    h += '<div id="sgWzMsg" style="font-size:13px;min-height:18px;color:' + (wz.ok ? '#15803d' : '#b91c1c') + '">' + E(wz.msg) + '</div>';
+    var nx = wz.steps[wz.i + 1], lab = st === 'code' ? 'conf' : (nx === 'code' ? 'send' : (wz.i === n - 1 ? 'save' : 'next'));
+    h += '<div style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap">' + (st === 'code' ? '<button type="button" class="btn-edit" onclick="sgWzResend()">' + E(TX('resend')) + '</button>' : '') +
+      (wz.i > 0 && st !== 'code' ? '<button type="button" class="btn-edit" onclick="sgWzBack()">' + E(TX('back')) + '</button>' : '<button type="button" class="btn-edit" onclick="sgWzClose()">' + E(TX('cancel')) + '</button>') +
+      '<button type="submit" id="sgWzBtn" class="btn-submit" style="width:auto;padding:9px 20px;margin:0">' + E(TX(lab)) + '</button></div></form></div>';
+    o.innerHTML = h; var f0 = o.querySelector('input'); if (f0) setTimeout(function () { try { f0.focus(); } catch (e) {} }, 30);
+  }
+  function wzMsg(t, ok) { wz.msg = t; wz.ok = !!ok; var m = $('sgWzMsg'); if (m) { m.textContent = t; m.style.color = ok ? '#15803d' : '#b91c1c'; } }
+  function wzRead() { FLD[wz.steps[wz.i]].forEach(function (f) { var el = $(f[0]); if (el) wz.v[f[0]] = el.value; }); }
+  window.sgWzBack = function () { if (!wz || wz.busy || wz.i < 1) return; wzRead(); wz.i--; wz.msg = ''; wzDraw(); };
+  async function getAcc() { var key = myKey(), a = (await db.ref('accounts/' + key).once('value')).val(); if (a) a.firebaseKey = key; return a; }
   function owWatch(ms) {
     return new Promise(function (res) {
       var r = db.ref(owBase() + '/status'), done = false, tm, h;
@@ -32103,56 +32097,69 @@ setInterval(fit,600);window.addEventListener('resize',fit);
     });
   }
   async function owCurAt() { try { var v = (await db.ref(owBase() + '/status').once('value')).val(); return v ? v.at : 0; } catch (e) { return 0; } }
-  window.sgOwSend = async function () {
-    if (busy) return; var cur = $('sgOwCur').value, sec = $('sgOw2').value, nw = $('sgPwNew').value, cf = $('sgPwCf').value;
-    if (!cur || !sec || !nw || !cf) return owMsg(T('pwFill'));
-    if (nw.length < 8) return owMsg(T('pwShort'));
-    if (nw === cur) return owMsg(T('pwSame'));
-    if (nw !== cf) return owMsg(T('pwNo'));
-    var un = ss('loggedInAccountUsername'); if (un && nw.toLowerCase() === un.toLowerCase()) return owMsg(T('pwUser'));
-    busy = true; var btn = $('sgOwBtn'); if (btn) btn.disabled = true;
-    try {
-      var key = myKey(), acc = (await db.ref('accounts/' + key).once('value')).val(); if (!acc) return owMsg(T('pwNoAcc')); acc.firebaseKey = key;
-      if (!(await pwVerify(acc, cur))) return owMsg(T('pwBad'));
-      var sh = (await db.ref(owBase() + '/second').once('value')).val();
-      if (!sh || !(await pwVerify({ passwordHash: sh }, sec))) return owMsg(T('owBad2'));
-      owMsg(T('owWait'), true);
-      ow.oldAt = await owCurAt();
-      var w = owWatch(); await db.ref(owBase() + '/req').set({ at: Date.now(), id: String(Math.random()).slice(2) });
-      var v = await w;
-      if (!v) return owMsg(T('owTo'));
-      if (v.s === 'locked') return owMsg(T('owLock'));
-      if (v.s !== 'sent') return owMsg(T('pwErr'));
-      ow.st = 1; ow.msg = T('owSent'); ow.ok = true;
-      render();
-      var vals = { sgOwCur: cur, sgOw2: sec, sgPwNew: nw, sgPwCf: cf };
-      Object.keys(vals).forEach(function (id) { var el = $(id); if (el) el.value = vals[id]; });
-      var cd = $('sgOwCode'); if (cd) cd.focus();
-    } catch (e) { console.error(e); owMsg(T('pwErr')); }
-    finally { busy = false; var b2 = $('sgOwBtn'); if (b2) b2.disabled = false; }
+  async function sendCode() {
+    wzMsg(T('owWait'), true); ow.oldAt = await owCurAt();
+    var w = owWatch(); await db.ref(owBase() + '/req').set({ at: Date.now(), id: String(Math.random()).slice(2) });
+    var v = await w;
+    if (!v) { wzMsg(T('owTo')); return false; }
+    if (v.s === 'locked') { wzMsg(T('owLock')); return false; }
+    if (v.s !== 'sent') { wzMsg(T('pwErr')); return false; }
+    return true;
+  }
+  window.sgWzResend = async function () {
+    if (!wz || wz.busy) return; wz.busy = true;
+    try { if (await sendCode()) wzMsg(T('owSent'), true); } catch (e) { console.error(e); wzMsg(T('pwErr')); } finally { wz.busy = false; }
   };
-  window.sgOwGo = async function () {
-    if (busy) return; var code = ($('sgOwCode').value || '').replace(/\D/g, ''), nw = $('sgPwNew').value;
-    if (code.length !== 6) return owMsg(T('owCode'));
-    busy = true; var btn = $('sgOwBtn'); if (btn) btn.disabled = true;
+  function finish(msg) { wz.done = true; wz.doneMsg = msg; wz.v = {}; wzDraw(); render(); }
+  window.sgWzNext = async function () {
+    if (!wz || wz.busy) return; wzRead(); var v = wz.v, st = wz.steps[wz.i], key = myKey(), kind = wz.kind;
+    wz.busy = true; var btn = $('sgWzBtn'); if (btn) btn.disabled = true;
     try {
-      var key = myKey(); ow.oldAt = await owCurAt();
-      var w = owWatch(); await db.ref(owBase() + '/try').set({ code: code, at: Date.now(), id: String(Math.random()).slice(2) });
-      var v = await w;
-      if (!v) return owMsg(T('owTo'));
-      if (v.s === 'bad') return owMsg(T('owBadC') + (v.left || 0));
-      if (v.s === 'locked') { ow.st = 0; render(); return owMsg(T('owLock')); }
-      if (v.s === 'expired') { ow.st = 0; render(); return owMsg(T('owExp')); }
-      if (v.s !== 'ok') return owMsg(T('pwErr'));
-      var tk = (await db.ref(owBase() + '/ticket').once('value')).val();
-      if (!tk || !(tk.exp > Date.now() - 60000)) { ow.st = 0; render(); return owMsg(T('owTk')); }
-      var f = await pwFields(nw); f.pwChangedAt = Date.now();
-      await db.ref('accounts/' + key).update(f);
-      try { await db.ref(owBase() + '/ticket').remove(); } catch (e) {}
-      try { if (typeof logActivity === 'function') logActivity('owner_password_change', 'account', '', '', 'self'); } catch (e) {}
-      ow.st = 0; ow.msg = T('owDone'); ow.ok = true; render();
-    } catch (e) { console.error(e); owMsg(T('pwErr')); }
-    finally { busy = false; var b2 = $('sgOwBtn'); if (b2) b2.disabled = false; }
+      var acc = await getAcc(); if (!acc) return wzMsg(T('pwNoAcc'));
+      if (st === 'cur') { if (!v.wCur) return wzMsg(T('pwFill')); if (!(await pwVerify(acc, v.wCur))) return wzMsg(T('pwBad')); }
+      else if (st === 'sec') {
+        if (!v.wSec) return wzMsg(T('pwFill'));
+        var sh = (await db.ref(owBase() + '/second').once('value')).val();
+        if (!sh || !(await pwVerify({ passwordHash: sh }, v.wSec))) return wzMsg(T('owBad2'));
+      } else if (st === 'new') {
+        if (!v.wNew || !v.wCf) return wzMsg(T('pwFill'));
+        if (v.wNew.length < 8) return wzMsg(T('pwShort'));
+        if (v.wNew === v.wCur) return wzMsg(T('pwSame'));
+        if (v.wNew !== v.wCf) return wzMsg(T('pwNo'));
+        var un = ss('loggedInAccountUsername'); if (un && v.wNew.toLowerCase() === un.toLowerCase()) return wzMsg(T('pwUser'));
+      } else if (st === 'new2') {
+        if (!v.wNew || !v.wCf) return wzMsg(T('pwFill'));
+        if (v.wNew.length < 8) return wzMsg(T('pwShort'));
+        if (v.wNew !== v.wCf) return wzMsg(T('pwNo'));
+        if (await pwVerify(acc, v.wNew)) return wzMsg(T('owSame'));
+      }
+      var nx = wz.steps[wz.i + 1];
+      if (st === 'code') {
+        var code = (v.wCode || '').replace(/\D/g, ''); if (code.length !== 6) return wzMsg(T('owCode'));
+        ow.oldAt = await owCurAt();
+        var w = owWatch(); await db.ref(owBase() + '/try').set({ code: code, at: Date.now(), id: String(Math.random()).slice(2) });
+        var r = await w;
+        if (!r) return wzMsg(T('owTo'));
+        if (r.s === 'bad') return wzMsg(T('owBadC') + (r.left || 0));
+        if (r.s === 'locked') return wzMsg(T('owLock'));
+        if (r.s === 'expired') return wzMsg(T('owExp'));
+        if (r.s !== 'ok') return wzMsg(T('pwErr'));
+        var tk = (await db.ref(owBase() + '/ticket').once('value')).val();
+        if (!tk || !(tk.exp > Date.now() - 60000)) return wzMsg(T('owTk'));
+        if (kind === 'pw2') { var f2 = await pwFields(v.wNew); await db.ref(owBase() + '/second').set(f2.passwordHash); try { logActivity('owner_2nd_password_change', 'account', '', '', 'self'); } catch (e) {} }
+        else { var f = await pwFields(v.wNew2 || v.wNew); f.pwChangedAt = Date.now(); await db.ref('accounts/' + key).update(f); try { logActivity('owner_password_change', 'account', '', '', 'self'); } catch (e) {} }
+        try { await db.ref(owBase() + '/ticket').remove(); } catch (e) {}
+        return finish(kind === 'pw2' ? TX('done2') : T('owDone'));
+      }
+      if (nx === 'code') { if (!(await sendCode())) return; wz.i++; wz.msg = T('owSent'); wz.ok = true; wz.v.wNew2 = kind === 'pw2' ? '' : ''; wzDraw(); return; }
+      if (nx) { wz.i++; wz.msg = ''; wz.ok = false; wzDraw(); return; }
+      /* last step without a code: non-owner password, or first 2nd password */
+      if (kind === 'set2') { var f3 = await pwFields(v.wNew); await db.ref(owBase() + '/second').set(f3.passwordHash); ow.has = true; try { logActivity('owner_2nd_password_set', 'account', '', '', 'self'); } catch (e) {} return finish(T('owSetOk')); }
+      var f4 = await pwFields(v.wNew); f4.pwChangedAt = Date.now(); await db.ref('accounts/' + key).update(f4);
+      try { logActivity('password_change', 'account', '', '', 'self'); } catch (e) {}
+      finish(T('pwOk'));
+    } catch (e) { console.error(e); if (wz) wzMsg(T('pwErr')); }
+    finally { if (wz) { wz.busy = false; var b2 = $('sgWzBtn'); if (b2) b2.disabled = false; } }
   };
   /* sign out after a quiet time (per browser) */
   var last = Date.now();
