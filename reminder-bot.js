@@ -414,7 +414,7 @@ async function run(env) {
   /* 5) Owner password change: the website writes ownerSec/<account>/req, this sends a 6-digit code to Telegram, checks the code the owner types
         (ownerSec/<account>/try) and, when it is right, issues a 5-minute ticket (ownerSec/<account>/ticket). The Firebase rules only let an Owner save a new
         password while that ticket is valid. The code is never stored in the clear and never leaves this bot except in the Telegram message. */
-  try { await ownerCodes({ db, tg, chatId: env.ownerChatId || chatId, otp: env.otp || null, nowMs, out }); }
+  if (!env.liveOwner) try { await ownerCodes({ db, tg, chatId: env.ownerChatId || chatId, otp: env.otp || null, nowMs, out }); }
   catch (e) { console.error('owner code step failed: ' + String(e && e.message || e).replace(/bot\d+:[A-Za-z0-9_-]+/g, 'bot***')); }
   return out;
 }
@@ -432,6 +432,9 @@ async function ownerCodes(c) {
       if (sec && sec.lockUntil && sec.lockUntil > now) { await status('locked', { until: sec.lockUntil }); continue; }
       const code = String(crypto.randomInt(100000, 1000000));
       /* dedicated OTP bot: the code goes only to the private chat of that Owner, never to the shared chat */
+      let who = key, roleLbl = 'Administration';
+      try { const a = (await db.ref('accounts/' + key).once('value')).val() || {}; who = (a.profile && a.profile.name) || a.name || a.username || ''; roleLbl = a.role === 'hr' ? 'HR' : 'Administration'; } catch (e) {}
+      const esc2 = x => String(x).replace(/[<>&]/g, '');
       let send = c.tg, to = c.chatId;
       if (c.otp && c.otp.tg) {
         let uname = ''; try { uname = String((await db.ref('accounts/' + key + '/username').once('value')).val() || '').toLowerCase(); } catch (e) {}
@@ -440,7 +443,7 @@ async function ownerCodes(c) {
         send = c.otp.tg;
       }
       await db.ref(base + '/sec').set({ h: H(key, code), exp: now + 10 * 60000, tries: 0, lockUntil: 0 });
-      try { await send('sendMessage', { chat_id: to, parse_mode: 'HTML', text: '<b>HR203 owner password change</b>\nAccount: <b>' + String(key).replace(/[<>&]/g, '') + '</b>\nCode: <b>' + code.slice(0, 3) + ' ' + code.slice(3) + '</b>\nValid for 10 minutes. If this was not you, ignore this message and change your password.' }); }
+      try { await send('sendMessage', { chat_id: to, parse_mode: 'HTML', text: '<b>HR203 Verification</b>\n\nAccount: ' + esc2(roleLbl) + ' - ' + esc2(who) + '\n\nDear ' + esc2(who) + '! Your verification code is <code>' + code + '</code>.\n\nValid for 10 minutes. If this was not you, please ignore and delete this message, and change your password.' }); }
       catch (e) { await db.ref(base + '/sec').remove(); await status('nobot'); continue; }
       await status('sent');
       c.out.ownerCodes = (c.out.ownerCodes || 0) + 1;
@@ -488,6 +491,17 @@ if (require.main === module) {
         const r = await fetch('https://api.telegram.org/bot' + otok + '/' + method, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body || {}) });
         const j = await r.json(); if (!j.ok) throw new Error('Telegram(OTP) ' + method + ': ' + (j.description || r.status)); return j; } };
     }
+    /* Owner codes: answer at once when the website writes a request (live listener, no polling) */
+    {
+      const odb = admin.database(); let busy = false, again = false;
+      const go = async () => {
+        if (busy) { again = true; return; } busy = true;
+        try { do { again = false; await ownerCodes({ db: odb, tg, chatId: process.env.TELEGRAM_OWNER_CHAT_ID || chatId, otp, out: {} }); } while (again); }
+        catch (e) { console.error('owner code step failed: ' + String(e && e.message || e).replace(/bot\d+:[A-Za-z0-9_-]+/g, 'bot***')); }
+        finally { busy = false; }
+      };
+      odb.ref('ownerSec').on('value', () => { go(); }, () => {});
+    }
     /* stay awake ~55 minutes and watch Telegram every few seconds: a tap on Task Completed reacts at once and no gaps between runs */
     const stopAt = Date.now() + 55 * 60 * 1000, cache = {};
     let done = 0, sent = 0, fails = 0;
@@ -496,7 +510,7 @@ if (require.main === module) {
     do {
       /* one bad moment (network blip, Telegram "conflict", Firebase hiccup) must never stop the bot: log it, wait a little, try again */
       try {
-        const res = await run({ db: admin.database(), tg, chatId, ownerChatId: process.env.TELEGRAM_OWNER_CHAT_ID || '', otp, pollSeconds: 20, cache });
+        const res = await run({ db: admin.database(), tg, chatId, ownerChatId: process.env.TELEGRAM_OWNER_CHAT_ID || '', otp, liveOwner: true, pollSeconds: 20, cache });
         done += res.completed; sent += res.sent; fails = 0;
       } catch (e) {
         fails++; console.error('Round failed (' + fails + ' in a row): ' + redact(e));
