@@ -20971,13 +20971,26 @@ var BELL_KINDS = [['all', 'bellFilterAll'], ['sys', 'bellFilterSystem'], ['annua
 var BELL_STATUS = [['any', 'bellStatusAny'], ['pending', 'statusPending'], ['processed', 'statusProcessed']];
 var BELL_TYPE = { 'Check Annual Leave': 'annual', 'Update Personal Information': 'info', 'Leave Request': 'leave', 'Makeup Attendance Request': 'makeup', 'Other Request': 'other' };
 var bellKind = 'all', bellStatus = 'any', bellNewSet = {};
+/* what this person wants to receive in the bell (saved in this browser only) */
+function ntPrefs() { try { return JSON.parse(localStorage.getItem('ntPref') || '{}') || {}; } catch (e) { return {}; } }
+function ntOn(k) { var p = ntPrefs(); return p[k] !== 0; }
+var ntLast = -1;
+function ntFire(n) {
+    if (ntLast >= 0 && n > ntLast) {
+        var p = ntPrefs();
+        try { if (p.sound === 1) { var ac = new (window.AudioContext || window.webkitAudioContext)(), o = ac.createOscillator(), g = ac.createGain(); o.connect(g); g.connect(ac.destination); o.type = 'sine'; o.frequency.value = 880; g.gain.setValueAtTime(0.0001, ac.currentTime); g.gain.exponentialRampToValueAtTime(0.25, ac.currentTime + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + 0.5); o.start(); o.stop(ac.currentTime + 0.55); } } catch (e) {}
+        try { if (p.popup === 1 && window.Notification && Notification.permission === 'granted' && document.hidden !== false) new Notification('HR203', { body: String(n) + ' new alert' + (n > 1 ? 's' : '') }); } catch (e) {}
+    }
+    ntLast = n;
+}
 function bellSetKind(k) { bellKind = k; renderNotifications(); }
 function bellSetStatus(s) { bellStatus = s; renderNotifications(); }
 function renderNotifications() {
     const badge = document.getElementById('notifBadge');
     const adminAlerts = getAdminAlerts();
-    const pendingCount = requests.filter(r => r.status !== 'processed' && !r.seenByAdmin).length + adminAlerts.filter(n => !n.seenByAdmin).length;
+    const pendingCount = requests.filter(r => r.status !== 'processed' && !r.seenByAdmin && ntOn(BELL_TYPE[r.type] || 'other')).length + adminAlerts.filter(n => !n.seenByAdmin && ntOn('sys')).length;
     if (pendingCount > 0) { badge.style.display = 'inline-block'; badge.innerText = pendingCount; } else { badge.style.display = 'none'; }
+    try { ntFire(pendingCount); } catch (e) {}
     const body = document.getElementById('notifListBody');
     if (!body) return;
     const modal = document.getElementById('notifModal');
@@ -21022,6 +21035,7 @@ function renderNotifications() {
              </div>
          </div>` });
     });
+    for (let q = items.length - 1; q >= 0; q--) { if (!ntOn(items[q].kind)) items.splice(q, 1); }
     let html = `<p style="font-size:11px; color:#64748b; margin-bottom:10px;">${t('notifSeeManageHint')}</p>`;
     if (!items.length) { body.innerHTML = html + `<p style="font-size:13px; color:#64748b; text-align:center; padding:20px;">${t('notifEmpty')}</p>`; return; }
     const chip = (on, label, n, fn, arg) => `<button type="button" onclick="${fn}('${arg}')" style="border:1px solid ${on ? '#0f172a' : '#cbd5e1'}; background:${on ? '#0f172a' : '#fff'}; color:${on ? '#fff' : '#334155'}; border-radius:16px; padding:4px 11px; font-size:12px; cursor:pointer; white-space:nowrap;">${label}${n === null ? '' : ' (' + n + ')'}</button>`;
@@ -28715,6 +28729,7 @@ window.nmCopyEn = async function () {
 #tab-certificates > .dash-card{margin-left:auto!important;margin-right:auto!important}
 @media (max-width:600px){.modal.pgScr{padding:8px 8px 24px!important}.modal.pgScr > .modal-content{padding:14px!important}}
 </style>
+<style id="frzBgCss">:where(html.fresh .frz table tbody td){background-color:#fff}</style>
 <style id="pgLockCss">html{scrollbar-gutter:stable}html:has(.modal.pgScr:not(.pgUnder)),html:has(.modal.pgScr:not(.pgUnder)) body{overflow:hidden!important}.modal.pgScr{contain:layout paint;-webkit-overflow-scrolling:touch}</style>
 <script id="pgScrJs">(function(){
 if(window.__pgScr)return;window.__pgScr=1;
@@ -32027,7 +32042,7 @@ setInterval(fit,600);window.addEventListener('resize',fit);
         (pf.photo ? '<img alt="" src="' + E(pf.photo) + '" style="width:100%;height:100%;object-fit:cover">' : '<span style="font-size:22px;font-weight:700;color:#fff">' + E(String(pn || '?').trim().charAt(0).toUpperCase()) + '</span>') +
         '</div><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:16px">' + E(pn) + '</div><div style="font-size:12px;color:#64748b">' + E((pr || '').toUpperCase()) + '</div></div>' + (window.frProf ? '<span style="color:#94a3b8;font-size:18px">&rsaquo;</span>' : '') + '</div>';
     }
-    h += cap(TX('m_acc')) + boxK([lr('sec', TX('m_sec'), TX('m_secS'), '', "sgPage('security')", act === 'security'), lr('not', T('not'), TX('m_notS'), '', 'sgOpenNotif()', false)]);
+    h += cap(TX('m_acc')) + boxK([lr('sec', TX('m_sec'), TX('m_secS'), '', "sgPage('security')", act === 'security'), lr('not', T('not'), TX('m_notS'), '', "sgPage('notif')", act === 'notif')]);
     var rows = [lr('app', T('app'), TX('m_appS'), th === 'fresh' ? T('fresh') : T('classic'), "sgPage('appearance')", act === 'appearance'), lr('lang', T('lang'), '', L() === 'km' ? 'ខ្មែរ' : (L() === 'zh' ? '中文' : 'English'), "sgPage('language')", act === 'language')];
     h += cap(TX('m_pref')) + boxK(rows);
     if (document.getElementById('tab-fr-manual')) h += cap(TX('m_help')) + boxK([lr('man', TX('m_man'), '', '', 'sgManual()', false)]);
@@ -32058,13 +32073,38 @@ setInterval(fit,600);window.addEventListener('resize',fit);
       return '<div role="button" tabindex="0" onclick="sgLang(\'' + x[0] + '\')" style="display:flex;align-items:center;gap:12px;padding:14px;border-top:1px solid #eef2f7;cursor:pointer;font-weight:600;font-size:14px"><span style="flex:1">' + x[1] + '</span>' + (cl === x[0] ? '<span style="color:#15803d;font-size:18px">&#10003;</span>' : '') + '</div>';
     }));
   }
+  function sw(on, js) { return '<span role="switch" aria-checked="' + (on ? 'true' : 'false') + '" tabindex="0" onclick="' + js + '" style="flex:none;width:44px;height:26px;border-radius:13px;background:' + (on ? '#16a34a' : '#cbd5e1') + ';position:relative;cursor:pointer;transition:background-color .15s"><span style="position:absolute;top:3px;left:' + (on ? '21px' : '3px') + ';width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:left .15s"></span></span>'; }
+  function srow(title, sub, on, js) { return '<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-top:1px solid #eef2f7"><div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px">' + E(title) + '</div>' + (sub ? '<div style="font-size:11px;color:#64748b">' + E(sub) + '</div>' : '') + '</div>' + sw(on, js) + '</div>'; }
+  function notifPage() {
+    var p = ntPrefs(), kinds = []; try { kinds = BELL_KINDS.filter(function (k) { return k[0] !== 'all'; }); } catch (e) {}
+    var h = cap(TX('n_bell')) + '<div style="font-size:12px;color:#64748b;padding:2px 4px 0">' + E(TX('n_bellS')) + '</div>' +
+      boxK(kinds.map(function (k) { return srow(T0(k[1]), '', p[k[0]] !== 0, "sgNt('" + k[0] + "')"); }));
+    h += cap(TX('n_style')) + boxK([srow(TX('n_sound'), '', p.sound === 1, "sgNt('sound')"), srow(TX('n_pop'), TX('n_popS'), p.popup === 1, "sgNt('popup')")]);
+    h += '<div style="font-size:12px;color:#64748b;padding:0 4px 10px">' + E(TX('n_dev')) + '</div>';
+    h += boxK([lr('not', TX('n_tg'), TX('n_tgS'), '', 'void 0', false).replace('cursor:pointer;', 'cursor:default;').replace('<span style="color:#94a3b8;font-size:18px">&rsaquo;</span>', '')]);
+    if (ss('loggedInRole') === 'admin') h += boxK([lr('not', TX('n_send'), TX('n_sendS'), '', 'sgOpenNotif()', false)]);
+    return h;
+  }
+  function T0(k) { try { return (typeof t === 'function') ? t(k) : k; } catch (e) { return k; } }
+  window.sgNt = function (k) {
+    var p = ntPrefs();
+    if (k === 'popup') {
+      if (p.popup === 1) p.popup = 0;
+      else { p.popup = 1; try { if (window.Notification && Notification.permission !== 'granted') Notification.requestPermission().then(function (r) { if (r !== 'granted') { var q = ntPrefs(); q.popup = 0; try { localStorage.setItem('ntPref', JSON.stringify(q)); } catch (e) {} render(); } }); else if (!window.Notification) p.popup = 0; } catch (e) {} }
+    } else if (k === 'sound') { p.sound = p.sound === 1 ? 0 : 1; if (p.sound === 1) { try { var ac = new (window.AudioContext || window.webkitAudioContext)(); ac.close(); } catch (e) {} } }
+    else p[k] = p[k] === 0 ? 1 : 0;
+    try { localStorage.setItem('ntPref', JSON.stringify(p)); } catch (e) {}
+    try { if (typeof renderNotifications === 'function') renderNotifications(); } catch (e) {}
+    render();
+  };
   function pageHtml(p) {
+    if (p === 'notif') return notifPage();
     if (p === 'security') return secPage();
     if (p === 'appearance') return appPage();
     if (p === 'language') return langPage();
     return '';
   }
-  var TT = { security: 'm_sec', appearance: 'app', language: 'lang' };
+  var TT = { security: 'm_sec', appearance: 'app', language: 'lang', notif: 'not' };
   function render() {
     var b = $('sgBody'); if (!b) return;
     var p = curPage(), h;
@@ -32088,15 +32128,15 @@ setInterval(fit,600);window.addEventListener('resize',fit);
   window.sgOpenNotif = function () { try { window.closeSettingsModal(); if (typeof openManageNotifModal === 'function') openManageNotifModal(); } catch (e) {} };
   /* Password pop-up wizard (step by step). Owner: current password, 2nd password, new password, Telegram code (bot step 5). */
   var X = {
-    en: { m_sec: 'Security', m_secS: 'Password, 2nd password, auto sign out', m_notS: 'Who gets alerts', m_acc: 'ACCOUNT', m_pref: 'PREFERENCES', m_help: 'HELP', m_appS: 'Theme and dark mode', m_look: 'LOOK', m_sign: 'SIGN-IN', m_prot: 'PROTECTION', m_pwS: '6 numbers', m_owS: 'Owner only, needs a Telegram code', m_man: 'User Manual', stepOf: 'Step {a} of {b}', next: 'Next', back: 'Back', cancel: 'Cancel', close: 'Close', save: 'Save', conf: 'Confirm', send: 'Send code to Telegram', resend: 'Send a new code', chgPw: 'Change my password', open: 'Open',
+    en: { m_sec: 'Security', m_secS: 'Password, 2nd password, auto sign out', m_notS: 'Which alerts you receive', n_bell: 'ALERTS IN THE BELL', n_bellS: 'Switch off the kinds you do not want. They will not show or be counted on the bell.', n_style: 'HOW YOU ARE TOLD', n_sound: 'Sound for a new alert', n_pop: 'Pop-up on the screen', n_popS: 'Shows when the page is in the background. Your browser asks permission once.', n_tg: 'Telegram', n_tgS: 'The bot sends reminders to the shared Telegram chat. It cannot be switched per person yet.', n_send: 'Send notifications', n_sendS: 'Write to employees and review what was sent', n_dev: 'Saved in this browser only.', n_blk: 'The browser blocked pop-ups. Allow them in the browser settings.', m_acc: 'ACCOUNT', m_pref: 'PREFERENCES', m_help: 'HELP', m_appS: 'Theme and dark mode', m_look: 'LOOK', m_sign: 'SIGN-IN', m_prot: 'PROTECTION', m_pwS: '6 numbers', m_owS: 'Owner only, needs a Telegram code', m_man: 'User Manual', stepOf: 'Step {a} of {b}', next: 'Next', back: 'Back', cancel: 'Cancel', close: 'Close', save: 'Save', conf: 'Confirm', send: 'Send code to Telegram', resend: 'Send a new code', chgPw: 'Change my password', open: 'Open',
       w1: 'Enter your current password', w2: 'Enter your 2nd password', w3: 'Choose a new password', w3b: 'Choose a new 2nd password', w4: 'Enter the code from Telegram',
       new2: 'New 2nd password (8+ characters, letters and numbers)', pwNum: 'The password must be exactly 6 numbers.', sec2Rule: 'The 2nd password needs at least 8 characters with both letters and numbers.', new2c: 'Confirm new 2nd password', set2: 'Set 2nd password', chg2: 'Change 2nd password', row2: '2nd password', row2s: 'Required with a Telegram code to change the Owner password.',
       done2: '2nd password changed.', need2: 'Set a 2nd password first. It is needed to change the Owner password.', w1n: 'This confirms it is really you.', w2n: 'The 2nd password you chose before.', w4n: 'Open Telegram. A 6-digit code was sent by the HR203 bot.' },
-    km: { m_sec: 'សុវត្ថិភាព', m_secS: 'ពាក្យសម្ងាត់ ពាក្យសម្ងាត់ទី២ ចាកចេញស្វ័យប្រវត្តិ', m_notS: 'អ្នកណាទទួលការជូនដំណឹង', m_acc: 'គណនី', m_pref: 'ចំណូលចិត្ត', m_help: 'ជំនួយ', m_appS: 'ស្បែក និងរបៀបងងឹត', m_look: 'រូបរាង', m_sign: 'ចូលប្រព័ន្ធ', m_prot: 'ការការពារ', m_pwS: 'លេខ ៦ ខ្ទង់', m_owS: 'សម្រាប់ម្ចាស់ ត្រូវការលេខកូដ Telegram', m_man: 'សៀវភៅណែនាំ', stepOf: 'ជំហាន {a} នៃ {b}', next: 'បន្ទាប់', back: 'ថយក្រោយ', cancel: 'បោះបង់', close: 'បិទ', save: 'រក្សាទុក', conf: 'បញ្ជាក់', send: 'ផ្ញើលេខកូដទៅ Telegram', resend: 'ផ្ញើលេខកូដថ្មី', chgPw: 'ប្តូរពាក្យសម្ងាត់របស់ខ្ញុំ', open: 'បើក',
+    km: { m_sec: 'សុវត្ថិភាព', m_secS: 'ពាក្យសម្ងាត់ ពាក្យសម្ងាត់ទី២ ចាកចេញស្វ័យប្រវត្តិ', m_notS: 'ការជូនដំណឹងដែលអ្នកទទួល', n_bell: 'ការជូនដំណឹងក្នុងកណ្ដឹង', n_bellS: 'បិទប្រភេទដែលមិនចង់បាន។ វានឹងមិនបង្ហាញ ឬរាប់លើកណ្ដឹងទេ។', n_style: 'របៀបដែលអ្នកត្រូវបានជូនដំណឹង', n_sound: 'សំឡេងពេលមានការជូនដំណឹងថ្មី', n_pop: 'បង្ហាញលើអេក្រង់', n_popS: 'បង្ហាញពេលទំព័រនៅផ្ទៃខាងក្រោយ។ កម្មវិធីរុករកនឹងសុំការអនុញ្ញាតម្តង។', n_tg: 'Telegram', n_tgS: 'Bot ផ្ញើការរំលឹកទៅក្រុម Telegram រួម។ មិនទាន់អាចបិទបើកតាមបុគ្គលបានទេ។', n_send: 'ផ្ញើការជូនដំណឹង', n_sendS: 'សរសេរទៅបុគ្គលិក និងមើលអ្វីដែលបានផ្ញើ', n_dev: 'រក្សាទុកតែក្នុងកម្មវិធីរុករកនេះ។', n_blk: 'កម្មវិធីរុករកបានរារាំងការបង្ហាញ។ សូមអនុញ្ញាតក្នុងការកំណត់កម្មវិធីរុករក។', m_acc: 'គណនី', m_pref: 'ចំណូលចិត្ត', m_help: 'ជំនួយ', m_appS: 'ស្បែក និងរបៀបងងឹត', m_look: 'រូបរាង', m_sign: 'ចូលប្រព័ន្ធ', m_prot: 'ការការពារ', m_pwS: 'លេខ ៦ ខ្ទង់', m_owS: 'សម្រាប់ម្ចាស់ ត្រូវការលេខកូដ Telegram', m_man: 'សៀវភៅណែនាំ', stepOf: 'ជំហាន {a} នៃ {b}', next: 'បន្ទាប់', back: 'ថយក្រោយ', cancel: 'បោះបង់', close: 'បិទ', save: 'រក្សាទុក', conf: 'បញ្ជាក់', send: 'ផ្ញើលេខកូដទៅ Telegram', resend: 'ផ្ញើលេខកូដថ្មី', chgPw: 'ប្តូរពាក្យសម្ងាត់របស់ខ្ញុំ', open: 'បើក',
       w1: 'បញ្ចូលពាក្យសម្ងាត់បច្ចុប្បន្ន', w2: 'បញ្ចូលពាក្យសម្ងាត់ទី២', w3: 'ជ្រើសរើសពាក្យសម្ងាត់ថ្មី', w3b: 'ជ្រើសរើសពាក្យសម្ងាត់ទី២ថ្មី', w4: 'បញ្ចូលលេខកូដពី Telegram',
       new2: 'ពាក្យសម្ងាត់ទី២ថ្មី (យ៉ាងតិច ៨ តួ មានអក្សរ និងលេខ)', pwNum: 'ពាក្យសម្ងាត់ត្រូវជាលេខ ៦ ខ្ទង់ពិតប្រាកដ។', sec2Rule: 'ពាក្យសម្ងាត់ទី២ត្រូវមានយ៉ាងតិច ៨ តួ ដោយមានទាំងអក្សរ និងលេខ។', new2c: 'បញ្ជាក់ពាក្យសម្ងាត់ទី២ថ្មី', set2: 'កំណត់ពាក្យសម្ងាត់ទី២', chg2: 'ប្តូរពាក្យសម្ងាត់ទី២', row2: 'ពាក្យសម្ងាត់ទី២', row2s: 'ត្រូវការជាមួយលេខកូដ Telegram ដើម្បីប្តូរពាក្យសម្ងាត់ម្ចាស់។',
       done2: 'បានប្តូរពាក្យសម្ងាត់ទី២។', need2: 'សូមកំណត់ពាក្យសម្ងាត់ទី២ជាមុន។ វាចាំបាច់សម្រាប់ប្តូរពាក្យសម្ងាត់ម្ចាស់។', w1n: 'ដើម្បីបញ្ជាក់ថាជាអ្នកពិតប្រាកដ។', w2n: 'ពាក្យសម្ងាត់ទី២ដែលអ្នកបានជ្រើសមុននេះ។', w4n: 'បើក Telegram។ bot HR203 បានផ្ញើលេខកូដ ៦ ខ្ទង់។' },
-    zh: { m_sec: '安全', m_secS: '密码、第二密码、自动退出', m_notS: '谁接收提醒', m_acc: '账户', m_pref: '偏好设置', m_help: '帮助', m_appS: '主题和深色模式', m_look: '外观', m_sign: '登录', m_prot: '保护', m_pwS: '6位数字', m_owS: '仅所有者，需要 Telegram 验证码', m_man: '用户手册', stepOf: '第 {a} 步，共 {b} 步', next: '下一步', back: '上一步', cancel: '取消', close: '关闭', save: '保存', conf: '确认', send: '发送验证码到 Telegram', resend: '重新发送验证码', chgPw: '修改我的密码', open: '打开',
+    zh: { m_sec: '安全', m_secS: '密码、第二密码、自动退出', m_notS: '您接收的提醒', n_bell: '铃铛中的提醒', n_bellS: '关闭不需要的类型，它们不会显示，也不会计入铃铛。', n_style: '通知方式', n_sound: '新提醒时发出声音', n_pop: '屏幕弹出通知', n_popS: '页面在后台时显示。浏览器会请求一次权限。', n_tg: 'Telegram', n_tgS: '机器人把提醒发送到共用的 Telegram 群。暂时不能按个人开关。', n_send: '发送通知', n_sendS: '给员工写通知并查看已发送内容', n_dev: '仅保存在此浏览器。', n_blk: '浏览器已阻止弹出通知，请在浏览器设置中允许。', m_acc: '账户', m_pref: '偏好设置', m_help: '帮助', m_appS: '主题和深色模式', m_look: '外观', m_sign: '登录', m_prot: '保护', m_pwS: '6位数字', m_owS: '仅所有者，需要 Telegram 验证码', m_man: '用户手册', stepOf: '第 {a} 步，共 {b} 步', next: '下一步', back: '上一步', cancel: '取消', close: '关闭', save: '保存', conf: '确认', send: '发送验证码到 Telegram', resend: '重新发送验证码', chgPw: '修改我的密码', open: '打开',
       w1: '输入当前密码', w2: '输入第二密码', w3: '设置新密码', w3b: '设置新的第二密码', w4: '输入 Telegram 验证码',
       new2: '新的第二密码（至少8个字符，含字母和数字）', pwNum: '密码必须是6位数字。', sec2Rule: '第二密码至少8个字符，且必须同时包含字母和数字。', new2c: '确认新的第二密码', set2: '设置第二密码', chg2: '修改第二密码', row2: '第二密码', row2s: '修改所有者密码时需要它和 Telegram 验证码。',
       done2: '第二密码已修改。', need2: '请先设置第二密码，修改所有者密码时需要它。', w1n: '用于确认是您本人。', w2n: '您之前设置的第二密码。', w4n: '请打开 Telegram，HR203 机器人已发送6位验证码。' }
