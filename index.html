@@ -28715,7 +28715,7 @@ window.nmCopyEn = async function () {
 #tab-certificates > .dash-card{margin-left:auto!important;margin-right:auto!important}
 @media (max-width:600px){.modal.pgScr{padding:8px 8px 24px!important}.modal.pgScr > .modal-content{padding:14px!important}}
 </style>
-<style id="pgLockCss">html:has(.modal.pgScr:not(.pgUnder)),html:has(.modal.pgScr:not(.pgUnder)) body{overflow:hidden!important}.modal.pgScr{contain:layout paint;-webkit-overflow-scrolling:touch}</style>
+<style id="pgLockCss">html{scrollbar-gutter:stable}html:has(.modal.pgScr:not(.pgUnder)),html:has(.modal.pgScr:not(.pgUnder)) body{overflow:hidden!important}.modal.pgScr{contain:layout paint;-webkit-overflow-scrolling:touch}</style>
 <script id="pgScrJs">(function(){
 if(window.__pgScr)return;window.__pgScr=1;
 var MAP={tdModal:'tdOpen',deptReqModal:'openDeptReqModal',deptIvModal:'openDeptIvModal',dateCtlModal:'openDateCtl',clrModal:'openClr',ccModal:'openCardCenter',recentlyDeletedModal:'openRecentlyDeletedModal',pendingApprovalsModal:'openPendingApprovalsModal',managementModal:'openManagementModal',settingsModal:'openSettingsModal',deptAccModal:'openDeptAccModal',manageNotifModal:'openManageNotifModal',remModal:'remOpen',trModal:'trOpen',deviceLogModal:'openDeviceLogModal',convertPhotoModal:'openConvertPhotoModal',lkModal:'lkOpen',amModal:'amOpen'};
@@ -30727,7 +30727,7 @@ function elExport() {
   function go(tab, nav, fn) {
     if (fn) {
       /* close any open full screen first, so the next one always opens (no stacking under the old one) */
-      if (typeof window[fn] === 'function') { if (window.pgHasOpen && window.pgHasOpen()) { window.pgCloseAll(); setTimeout(function () { window[fn](); }, 30); } else window[fn](); }
+      if (typeof window[fn] === 'function') { if (window.pgHasOpen && window.pgHasOpen()) { window.pgCloseAll(); Promise.resolve().then(function () { window[fn](); }); } else window[fn](); }
       return;
     }
     if (typeof triggerNav === 'function') triggerNav(tab, nav);
@@ -32009,34 +32009,75 @@ setInterval(fit,600);window.addEventListener('resize',fit);
   var INP = 'width:100%;padding:9px 10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit;box-sizing:border-box';
   function pill(on, txt, js, dis) { return '<button type="button" ' + (dis ? 'disabled ' : '') + 'onclick="' + js + '" style="border-radius:16px;padding:6px 14px;font:inherit;cursor:' + (dis ? 'not-allowed' : 'pointer') + ';border:1px solid ' + (on ? '#0b1d3a' : '#cbd5e1') + ';background:' + (on ? '#0b1d3a' : '#f1f5f9') + ';color:' + (on ? '#fff' : '#0f172a') + ';opacity:' + (dis ? '.55' : '1') + '">' + E(txt) + '</button>'; }
   function idleMin() { try { return parseInt(localStorage.getItem('sgIdleMin') || '0', 10) || 0; } catch (e) { return 0; } }
-  function render() {
-    var b = $('sgBody'); if (!b) return;
+  /* Settings as a menu list (like a bank-app profile): tap a row, its page opens. Wide screen: list left, page right. */
+  var pgS = 'main';
+  var IC = { sec: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4', not: 'M6 8a6 6 0 0 1 12 0c0 7 3 8 3 8H3s3-1 3-8M10 21h4', app: 'M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2', lang: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18', man: 'M4 5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2zM8 7h6', lock: 'M5 11h14v9H5zM8 11V8a4 4 0 0 1 8 0v3', key: 'M8 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM12 12h9M18 12v3M15 12v2', clock: 'M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM12 7v5l3 2' };
+  function ico(k) { return '<span style="width:34px;height:34px;border-radius:10px;background:#e8eef5;color:#123a5c;display:flex;align-items:center;justify-content:center;flex:none"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="' + IC[k] + '"/></svg></span>'; }
+  function lr(k, title, sub, val, js, on) { return '<div role="button" tabindex="0" onclick="' + js + '" style="display:flex;align-items:center;gap:12px;padding:12px 14px;border-top:1px solid #eef2f7;cursor:pointer;' + (on ? 'background:#eef3f9;' : '') + '">' + ico(k) + '<div style="flex:1;min-width:0"><div style="font-weight:600;font-size:14px">' + E(title) + '</div>' + (sub ? '<div style="font-size:11px;color:#64748b">' + E(sub) + '</div>' : '') + '</div>' + (val ? '<span style="color:#64748b;font-size:13px">' + E(val) + '</span>' : '') + '<span style="color:#94a3b8;font-size:18px">&rsaquo;</span></div>'; }
+  function boxK(rows) { rows = rows.map(function (r, i) { return i ? r : r.replace('border-top:1px solid #eef2f7;', ''); }); return '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin:6px 0 14px">' + rows.join('') + '</div>'; }
+  function cap(t) { return '<div style="font-size:12px;font-weight:700;letter-spacing:.4px;color:#64748b;padding:4px 4px 0">' + E(t) + '</div>'; }
+  function prow(label, inner) { return '<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 14px;border-top:1px solid #eef2f7"><span style="font-weight:600;font-size:14px">' + E(label) + '</span><span style="display:flex;gap:6px;flex-wrap:wrap">' + inner + '</span></div>'; }
+  function wide() { return window.innerWidth >= 900; }
+  function curPage() { return pgS === 'main' ? (wide() ? 'security' : 'main') : pgS; }
+  function menuHtml(act) {
+    var h = '', th = 'classic'; try { if (window.frTheme) th = window.frTheme.get(); } catch (e) {}
+    if (myKey()) {
+      var pf = (window.frProf && window.frProf.data()) || {}, pn = pf.name || ss('loggedInAccountName') || ss('loggedInAccountUsername'), pr = ss('loggedInRole');
+      h += '<div ' + (window.frProf ? 'role="button" tabindex="0" onclick="sgProf()" ' : '') + 'style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:14px;margin:6px 0 14px;display:flex;align-items:center;gap:14px;' + (window.frProf ? 'cursor:pointer' : '') + '"><div style="width:58px;height:58px;border-radius:50%;overflow:hidden;background:#94a3b8;display:flex;align-items:center;justify-content:center;flex:none">' +
+        (pf.photo ? '<img alt="" src="' + E(pf.photo) + '" style="width:100%;height:100%;object-fit:cover">' : '<span style="font-size:22px;font-weight:700;color:#fff">' + E(String(pn || '?').trim().charAt(0).toUpperCase()) + '</span>') +
+        '</div><div style="flex:1;min-width:0"><div style="font-weight:700;font-size:16px">' + E(pn) + '</div><div style="font-size:12px;color:#64748b">' + E((pr || '').toUpperCase()) + '</div></div>' + (window.frProf ? '<span style="color:#94a3b8;font-size:18px">&rsaquo;</span>' : '') + '</div>';
+    }
+    h += cap(TX('m_acc')) + boxK([lr('sec', TX('m_sec'), TX('m_secS'), '', "sgPage('security')", act === 'security'), lr('not', T('not'), TX('m_notS'), '', 'sgOpenNotif()', false)]);
+    var rows = [lr('app', T('app'), TX('m_appS'), th === 'fresh' ? T('fresh') : T('classic'), "sgPage('appearance')", act === 'appearance'), lr('lang', T('lang'), '', L() === 'km' ? 'ខ្មែរ' : (L() === 'zh' ? '中文' : 'English'), "sgPage('language')", act === 'language')];
+    h += cap(TX('m_pref')) + boxK(rows);
+    if (document.getElementById('tab-fr-manual')) h += cap(TX('m_help')) + boxK([lr('man', TX('m_man'), '', '', 'sgManual()', false)]);
+    return h;
+  }
+  function secPage() {
+    var h = cap(TX('m_sign')), rows = [lr('lock', TX('chgPw'), TX('m_pwS'), '', "sgWz('pw')", false)];
+    if (isOwner() && myKey()) { owLoad(); if (ow.has !== null) rows.push(lr('key', TX(ow.has ? 'chg2' : 'set2'), TX('m_owS'), '', "sgWz('" + (ow.has ? 'pw2' : 'set2') + "')", false)); }
+    h += boxK(rows);
+    var im = idleMin();
+    h += cap(TX('m_prot')) + '<div style="background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;margin:6px 0 14px"><div style="display:flex;align-items:center;gap:12px;padding:12px 14px">' + ico('clock') + '<div><div style="font-weight:600;font-size:14px">' + E(T('idle')) + '</div><div style="font-size:11px;color:#64748b">' + E(T('idleNote')) + '</div></div></div><div style="display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 14px">' +
+      [0, 15, 30, 60].map(function (m) { return pill(im === m, m ? m + ' ' + T('min') : T('off'), 'sgIdle(' + m + ')'); }).join('') + '</div></div>';
+    return h;
+  }
+  function appPage() {
     var th = 'classic', lock = false, lk = {};
     try { if (window.frTheme) { th = window.frTheme.get(); lock = !!window.frTheme.forced(); lk.fresh = !window.frTheme.gOk(); } } catch (e) {}
-    var cl = L(), h = '';
-    if (window.frProf && myKey()) {
-      var pf = window.frProf.data() || {}, pn = pf.name || ss('loggedInAccountName') || ss('loggedInAccountUsername'), pr = ss('loggedInRole');
-      h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:8px">' + E(T('prCard')) + '</div><div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap"><div style="width:60px;height:60px;border-radius:50%;overflow:hidden;background:#cbd5e1;display:flex;align-items:center;justify-content:center;flex:none">' +
-        (pf.photo ? '<img alt="" src="' + E(pf.photo) + '" style="width:100%;height:100%;object-fit:cover">' : '<span style="font-size:24px;font-weight:700;color:#fff">' + E(String(pn || '?').trim().charAt(0).toUpperCase()) + '</span>') +
-        '</div><div style="flex:1;min-width:140px"><div style="font-weight:700">' + E(pn) + '</div><div style="font-size:12px;color:#64748b">' + E((pr || '').toUpperCase()) + '</div></div><button type="button" class="btn-edit" onclick="sgProf()">' + E(T('prEdit')) + '</button></div></div>';
-    }
-    h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:4px">' + E(T('app')) + '</div>';
-    h += '<div style="' + ROW + '"><span>' + E(T('theme')) + '</span><span style="display:flex;gap:6px">' + pill(th === 'classic', T('classic'), 'sgTheme(\'classic\')', lock) + pill(th === 'fresh', T('fresh'), 'sgTheme(\'fresh\')', lock || lk.fresh) + '</span></div>';
-    if (lock) h += '<div style="font-size:12px;color:#64748b;padding:6px 0">' + E(T('locked')) + '</div>';
     var dm = (window.dkMode && window.dkMode.get()) || 'light';
-    h += '<div style="' + ROW + '"><span>' + E(T('dark')) + '</span><span style="display:flex;gap:6px">' + pill(dm === 'light', T('dkLight'), 'sgDark(\'light\')') + pill(dm === 'dark', T('dkDark'), 'sgDark(\'dark\')') + pill(dm === 'auto', T('dkAuto'), 'sgDark(\'auto\')') + '</span></div>';
-    h += '<div style="' + ROW + ';border-bottom:0"><span>' + E(T('lang')) + '</span><span style="display:flex;gap:6px">' + pill(cl === 'en', 'English', 'sgLang(\'en\')') + pill(cl === 'km', 'ខ្មែរ', 'sgLang(\'km\')') + pill(cl === 'zh', '中文', 'sgLang(\'zh\')') + '</span></div></div>';
-    var un = ss('loggedInAccountUsername'), nm = ss('loggedInAccountName') || un, ro = ss('loggedInRole');
-    h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:4px">' + E(T('acc')) + '</div>';
-    h += '<div style="font-size:13px;color:#475569;padding:4px 0 8px">' + E(T('who')) + ': <b>' + E(nm) + '</b>' + (ro ? ' &middot; ' + E(T('role')) + ': ' + E(ro.toUpperCase()) : '') + '</div>';
-    h += pwRow();
-    var im = idleMin();
-    h += '<div style="' + ROW + ';margin-top:10px;border-top:1px solid #eef2f7;border-bottom:0"><span>' + E(T('idle')) + '<div style="font-size:11px;color:#64748b">' + E(T('idleNote')) + '</div></span><span style="display:flex;gap:6px;flex-wrap:wrap">' + [0, 15, 30, 60].map(function (m) { return pill(im === m, m ? m + ' ' + T('min') : T('off'), 'sgIdle(' + m + ')'); }).join('') + '</span></div></div>';
-    h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:4px">' + E(T('not')) + '</div><div style="' + ROW + ';border-bottom:0"><span style="font-size:13px;color:#475569">' + E(T('notTxt')) + '</span><button type="button" class="btn-edit" style="padding:7px 16px" onclick="sgOpenNotif()">' + E(T('open')) + '</button></div></div>';
+    var h = cap(TX('m_look')) + boxK([
+      prow(T('theme'), pill(th === 'classic', T('classic'), "sgTheme('classic')", lock) + pill(th === 'fresh', T('fresh'), "sgTheme('fresh')", lock || lk.fresh)),
+      prow(T('dark'), pill(dm === 'light', T('dkLight'), "sgDark('light')") + pill(dm === 'dark', T('dkDark'), "sgDark('dark')") + pill(dm === 'auto', T('dkAuto'), "sgDark('auto')"))]);
+    if (lock) h += '<div style="font-size:12px;color:#64748b;padding:0 4px">' + E(T('locked')) + '</div>';
+    return h;
+  }
+  function langPage() {
+    var cl = L();
+    return boxK([['en', 'English'], ['km', 'ខ្មែរ'], ['zh', '中文']].map(function (x) {
+      return '<div role="button" tabindex="0" onclick="sgLang(\'' + x[0] + '\')" style="display:flex;align-items:center;gap:12px;padding:14px;border-top:1px solid #eef2f7;cursor:pointer;font-weight:600;font-size:14px"><span style="flex:1">' + x[1] + '</span>' + (cl === x[0] ? '<span style="color:#15803d;font-size:18px">&#10003;</span>' : '') + '</div>';
+    }));
+  }
+  function pageHtml(p) {
+    if (p === 'security') return secPage();
+    if (p === 'appearance') return appPage();
+    if (p === 'language') return langPage();
+    return '';
+  }
+  var TT = { security: 'm_sec', appearance: 'app', language: 'lang' };
+  function render() {
+    var b = $('sgBody'); if (!b) return;
+    var p = curPage(), h;
+    if (wide()) h = '<div style="display:flex;gap:22px;align-items:flex-start"><div style="width:340px;flex:none">' + menuHtml(p) + '</div><div style="flex:1;min-width:0;max-width:520px"><div style="font-weight:700;font-size:17px;padding:6px 4px 4px">' + E(p === 'security' ? TX('m_sec') : T(TT[p])) + '</div>' + pageHtml(p) + '</div></div>';
+    else if (p === 'main') h = menuHtml('');
+    else h = '<div role="button" tabindex="0" onclick="sgPage(\'main\')" style="display:inline-flex;align-items:center;gap:6px;padding:6px 4px 10px;cursor:pointer;font-weight:700;font-size:16px"><span style="font-size:22px;line-height:1">&lsaquo;</span>' + E(p === 'security' ? TX('m_sec') : T(TT[p])) + '</div>' + pageHtml(p);
     b.innerHTML = h;
     var hd = document.querySelector('#settingsModal .modal-header h4'); if (hd) hd.textContent = T('t');
   }
-  window.openSettingsModal = function () { var m = $('settingsModal'); if (!m) return; render(); m.style.display = 'flex'; };
+  window.sgPage = function (p) { pgS = p; render(); try { var m = $('settingsModal'); if (m) m.scrollTop = 0; } catch (e) {} };
+  window.sgManual = function () { try { if (window.pgCloseAll) window.pgCloseAll(); setTimeout(function () { triggerNav('tab-fr-manual', 'nav-fr-manual'); }, 0); } catch (e) {} };
+  window.addEventListener('resize', function () { var m = $('settingsModal'); if (m && m.style.display === 'flex') render(); });
+  window.openSettingsModal = function () { var m = $('settingsModal'); if (!m) return; pgS = 'main'; render(); m.style.display = 'flex'; };
   window.closeSettingsModal = function () { var m = $('settingsModal'); if (m) m.style.display = 'none'; };
   window.sgProf = function () { try { window.frProf.open(); } catch (e) {} };
   window.addEventListener('frProfChanged', function () { var m = $('settingsModal'); if (m && m.style.display === 'flex') render(); });
@@ -32047,15 +32088,15 @@ setInterval(fit,600);window.addEventListener('resize',fit);
   window.sgOpenNotif = function () { try { window.closeSettingsModal(); if (typeof openManageNotifModal === 'function') openManageNotifModal(); } catch (e) {} };
   /* Password pop-up wizard (step by step). Owner: current password, 2nd password, new password, Telegram code (bot step 5). */
   var X = {
-    en: { stepOf: 'Step {a} of {b}', next: 'Next', back: 'Back', cancel: 'Cancel', close: 'Close', save: 'Save', conf: 'Confirm', send: 'Send code to Telegram', resend: 'Send a new code', chgPw: 'Change my password', open: 'Open',
+    en: { m_sec: 'Security', m_secS: 'Password, 2nd password, auto sign out', m_notS: 'Who gets alerts', m_acc: 'ACCOUNT', m_pref: 'PREFERENCES', m_help: 'HELP', m_appS: 'Theme and dark mode', m_look: 'LOOK', m_sign: 'SIGN-IN', m_prot: 'PROTECTION', m_pwS: '6 numbers', m_owS: 'Owner only, needs a Telegram code', m_man: 'User Manual', stepOf: 'Step {a} of {b}', next: 'Next', back: 'Back', cancel: 'Cancel', close: 'Close', save: 'Save', conf: 'Confirm', send: 'Send code to Telegram', resend: 'Send a new code', chgPw: 'Change my password', open: 'Open',
       w1: 'Enter your current password', w2: 'Enter your 2nd password', w3: 'Choose a new password', w3b: 'Choose a new 2nd password', w4: 'Enter the code from Telegram',
       new2: 'New 2nd password (8+ characters, letters and numbers)', pwNum: 'The password must be exactly 6 numbers.', sec2Rule: 'The 2nd password needs at least 8 characters with both letters and numbers.', new2c: 'Confirm new 2nd password', set2: 'Set 2nd password', chg2: 'Change 2nd password', row2: '2nd password', row2s: 'Required with a Telegram code to change the Owner password.',
       done2: '2nd password changed.', need2: 'Set a 2nd password first. It is needed to change the Owner password.', w1n: 'This confirms it is really you.', w2n: 'The 2nd password you chose before.', w4n: 'Open Telegram. A 6-digit code was sent by the HR203 bot.' },
-    km: { stepOf: 'ជំហាន {a} នៃ {b}', next: 'បន្ទាប់', back: 'ថយក្រោយ', cancel: 'បោះបង់', close: 'បិទ', save: 'រក្សាទុក', conf: 'បញ្ជាក់', send: 'ផ្ញើលេខកូដទៅ Telegram', resend: 'ផ្ញើលេខកូដថ្មី', chgPw: 'ប្តូរពាក្យសម្ងាត់របស់ខ្ញុំ', open: 'បើក',
+    km: { m_sec: 'សុវត្ថិភាព', m_secS: 'ពាក្យសម្ងាត់ ពាក្យសម្ងាត់ទី២ ចាកចេញស្វ័យប្រវត្តិ', m_notS: 'អ្នកណាទទួលការជូនដំណឹង', m_acc: 'គណនី', m_pref: 'ចំណូលចិត្ត', m_help: 'ជំនួយ', m_appS: 'ស្បែក និងរបៀបងងឹត', m_look: 'រូបរាង', m_sign: 'ចូលប្រព័ន្ធ', m_prot: 'ការការពារ', m_pwS: 'លេខ ៦ ខ្ទង់', m_owS: 'សម្រាប់ម្ចាស់ ត្រូវការលេខកូដ Telegram', m_man: 'សៀវភៅណែនាំ', stepOf: 'ជំហាន {a} នៃ {b}', next: 'បន្ទាប់', back: 'ថយក្រោយ', cancel: 'បោះបង់', close: 'បិទ', save: 'រក្សាទុក', conf: 'បញ្ជាក់', send: 'ផ្ញើលេខកូដទៅ Telegram', resend: 'ផ្ញើលេខកូដថ្មី', chgPw: 'ប្តូរពាក្យសម្ងាត់របស់ខ្ញុំ', open: 'បើក',
       w1: 'បញ្ចូលពាក្យសម្ងាត់បច្ចុប្បន្ន', w2: 'បញ្ចូលពាក្យសម្ងាត់ទី២', w3: 'ជ្រើសរើសពាក្យសម្ងាត់ថ្មី', w3b: 'ជ្រើសរើសពាក្យសម្ងាត់ទី២ថ្មី', w4: 'បញ្ចូលលេខកូដពី Telegram',
       new2: 'ពាក្យសម្ងាត់ទី២ថ្មី (យ៉ាងតិច ៨ តួ មានអក្សរ និងលេខ)', pwNum: 'ពាក្យសម្ងាត់ត្រូវជាលេខ ៦ ខ្ទង់ពិតប្រាកដ។', sec2Rule: 'ពាក្យសម្ងាត់ទី២ត្រូវមានយ៉ាងតិច ៨ តួ ដោយមានទាំងអក្សរ និងលេខ។', new2c: 'បញ្ជាក់ពាក្យសម្ងាត់ទី២ថ្មី', set2: 'កំណត់ពាក្យសម្ងាត់ទី២', chg2: 'ប្តូរពាក្យសម្ងាត់ទី២', row2: 'ពាក្យសម្ងាត់ទី២', row2s: 'ត្រូវការជាមួយលេខកូដ Telegram ដើម្បីប្តូរពាក្យសម្ងាត់ម្ចាស់។',
       done2: 'បានប្តូរពាក្យសម្ងាត់ទី២។', need2: 'សូមកំណត់ពាក្យសម្ងាត់ទី២ជាមុន។ វាចាំបាច់សម្រាប់ប្តូរពាក្យសម្ងាត់ម្ចាស់។', w1n: 'ដើម្បីបញ្ជាក់ថាជាអ្នកពិតប្រាកដ។', w2n: 'ពាក្យសម្ងាត់ទី២ដែលអ្នកបានជ្រើសមុននេះ។', w4n: 'បើក Telegram។ bot HR203 បានផ្ញើលេខកូដ ៦ ខ្ទង់។' },
-    zh: { stepOf: '第 {a} 步，共 {b} 步', next: '下一步', back: '上一步', cancel: '取消', close: '关闭', save: '保存', conf: '确认', send: '发送验证码到 Telegram', resend: '重新发送验证码', chgPw: '修改我的密码', open: '打开',
+    zh: { m_sec: '安全', m_secS: '密码、第二密码、自动退出', m_notS: '谁接收提醒', m_acc: '账户', m_pref: '偏好设置', m_help: '帮助', m_appS: '主题和深色模式', m_look: '外观', m_sign: '登录', m_prot: '保护', m_pwS: '6位数字', m_owS: '仅所有者，需要 Telegram 验证码', m_man: '用户手册', stepOf: '第 {a} 步，共 {b} 步', next: '下一步', back: '上一步', cancel: '取消', close: '关闭', save: '保存', conf: '确认', send: '发送验证码到 Telegram', resend: '重新发送验证码', chgPw: '修改我的密码', open: '打开',
       w1: '输入当前密码', w2: '输入第二密码', w3: '设置新密码', w3b: '设置新的第二密码', w4: '输入 Telegram 验证码',
       new2: '新的第二密码（至少8个字符，含字母和数字）', pwNum: '密码必须是6位数字。', sec2Rule: '第二密码至少8个字符，且必须同时包含字母和数字。', new2c: '确认新的第二密码', set2: '设置第二密码', chg2: '修改第二密码', row2: '第二密码', row2s: '修改所有者密码时需要它和 Telegram 验证码。',
       done2: '第二密码已修改。', need2: '请先设置第二密码，修改所有者密码时需要它。', w1n: '用于确认是您本人。', w2n: '您之前设置的第二密码。', w4n: '请打开 Telegram，HR203 机器人已发送6位验证码。' }
