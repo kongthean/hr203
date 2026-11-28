@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style id="dkCss">
+html.dk{background:#fff;filter:invert(.92) hue-rotate(180deg)}
+html.dk img,html.dk video,html.dk canvas,html.dk svg image,html.dk .avatar,html.dk .header,html.dk #stickyTop nav,html.dk .quick-btn,html.dk .btn-submit,html.dk .btn-edit,html.dk .notif-badge,html.dk .oh-tile,html.dk [style*="gradient"],html.dk [style*="background-image"]{filter:invert(1) hue-rotate(180deg)}
+html.dk .header .lang-menu,html.dk .header [class*="menu"],html.dk .header [class*="dropdown-"]{filter:invert(1) hue-rotate(180deg)}
+@media print{html.dk,html.dk *{filter:none!important}}
+</style>
+<script id="dkJs">
+/* Dark mode: Light / Dark / Auto (saved per browser, shared by every page of hr203.com) */
+(function () {
+  'use strict';
+  var K = 'hrDark', mq = null;
+  try { mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null; } catch (e) {}
+  function get() { try { var v = localStorage.getItem(K); return v === 'dark' || v === 'auto' ? v : 'light'; } catch (e) { return 'light'; } }
+  function eff() { var m = get(); return m === 'dark' || (m === 'auto' && !!(mq && mq.matches)); }
+  function apply() { try { document.documentElement.classList.toggle('dk', eff()); } catch (e) {} }
+  window.dkMode = { get: get, apply: apply, set: function (m) { try { localStorage.setItem(K, m); } catch (e) {} apply(); try { window.dispatchEvent(new Event('dkchange')); } catch (e) {} } };
+  apply();
+  try { if (mq) { if (mq.addEventListener) mq.addEventListener('change', apply); else if (mq.addListener) mq.addListener(apply); } } catch (e) {}
+  window.addEventListener('storage', function (e) { if (e.key === K) apply(); });
+})();
+</script>
 <script>try{var q=sessionStorage;if(q.getItem('activeView')!=='chooser'&&(q.getItem('isLoggedIn')==='true'||q.getItem('empLoggedInId')))document.documentElement.className+=' rf-skip'+((q.getItem('activeView')==='admin'||(!q.getItem('activeView')&&q.getItem('isLoggedIn')==='true'))?' rf-adm':'');setTimeout(function(){document.documentElement.classList.remove('rf-skip');document.documentElement.classList.remove('rf-adm')},6000)}catch(e){}</script><style>.rf-skip #chooserApp{display:none!important}.rf-adm #employeeApp{display:none!important}</style>
 <!-- PWA-BEGIN -->
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -31951,9 +31972,9 @@ setInterval(fit,600);window.addEventListener('resize',fit);
 (function () {
   'use strict';
   var D = {
-    en: { t: 'Settings', app: 'Appearance', theme: 'Theme', classic: 'Classic', fresh: 'Fresh', locked: 'The theme is set by the Owner for this system.', soon: 'Coming soon', dark: 'Dark mode', lang: 'Language', acc: 'My account', who: 'Signed in as', role: 'Role', pw: 'Change my password', pwCur: 'Current password', pwNew: 'New password (at least 8 characters)', pwCf: 'Confirm new password', pwBtn: 'Change password', pwOwner: 'The Owner password needs extra verification. This is coming in the next step.', pwFill: 'Please fill in all three boxes.', pwShort: 'The new password must be at least 8 characters.', pwSame: 'The new password must be different from the current one.', pwNo: 'The two new passwords do not match.', pwBad: 'The current password is not correct.', pwUser: 'The password cannot be the same as your username.', pwOk: 'Password changed. Use the new password next time you sign in.', pwErr: 'Could not change the password now. Please try again.', pwNoAcc: 'Your account could not be found.', idle: 'Sign out automatically when idle', off: 'Off', min: 'min', idleNote: 'Saved in this browser only.', not: 'Notifications', notTxt: 'Choose who gets notifications and which alerts are sent.', open: 'Open', show: 'Show', hide: 'Hide' },
-    km: { t: 'ការកំណត់', app: 'រូបរាង', theme: 'ស្បែក', classic: 'Classic', fresh: 'Fresh', locked: 'ម្ចាស់ប្រព័ន្ធបានកំណត់ស្បែកសម្រាប់ប្រព័ន្ធនេះ។', soon: 'នឹងមកដល់ឆាប់ៗ', dark: 'របៀបងងឹត', lang: 'ភាសា', acc: 'គណនីរបស់ខ្ញុំ', who: 'ចូលក្នុងនាម', role: 'តួនាទី', pw: 'ប្តូរពាក្យសម្ងាត់របស់ខ្ញុំ', pwCur: 'ពាក្យសម្ងាត់បច្ចុប្បន្ន', pwNew: 'ពាក្យសម្ងាត់ថ្មី (យ៉ាងតិច ៨ តួ)', pwCf: 'បញ្ជាក់ពាក្យសម្ងាត់ថ្មី', pwBtn: 'ប្តូរពាក្យសម្ងាត់', pwOwner: 'ពាក្យសម្ងាត់ម្ចាស់ត្រូវការផ្ទៀងផ្ទាត់បន្ថែម។ នឹងមកក្នុងជំហានបន្ទាប់។', pwFill: 'សូមបំពេញប្រអប់ទាំងបី។', pwShort: 'ពាក្យសម្ងាត់ថ្មីត្រូវមានយ៉ាងតិច ៨ តួ។', pwSame: 'ពាក្យសម្ងាត់ថ្មីត្រូវខុសពីពាក្យសម្ងាត់បច្ចុប្បន្ន។', pwNo: 'ពាក្យសម្ងាត់ថ្មីទាំងពីរមិនដូចគ្នា។', pwBad: 'ពាក្យសម្ងាត់បច្ចុប្បន្នមិនត្រឹមត្រូវ។', pwUser: 'ពាក្យសម្ងាត់មិនអាចដូចឈ្មោះអ្នកប្រើបានទេ។', pwOk: 'បានប្តូរពាក្យសម្ងាត់។ សូមប្រើពាក្យសម្ងាត់ថ្មីពេលចូលលើកក្រោយ។', pwErr: 'មិនអាចប្តូរពាក្យសម្ងាត់ឥឡូវនេះបានទេ។ សូមព្យាយាមម្តងទៀត។', pwNoAcc: 'រកមិនឃើញគណនីរបស់អ្នកទេ។', idle: 'ចាកចេញដោយស្វ័យប្រវត្តិពេលមិនប្រើ', off: 'បិទ', min: 'នាទី', idleNote: 'រក្សាទុកតែក្នុងកម្មវិធីរុករកនេះប៉ុណ្ណោះ។', not: 'ការជូនដំណឹង', notTxt: 'ជ្រើសរើសអ្នកទទួលការជូនដំណឹង និងការជូនដំណឹងដែលត្រូវផ្ញើ។', open: 'បើក', show: 'បង្ហាញ', hide: 'លាក់' },
-    zh: { t: '设置', app: '外观', theme: '主题', classic: 'Classic', fresh: 'Fresh', locked: '此系统的主题由所有者设定。', soon: '即将推出', dark: '深色模式', lang: '语言', acc: '我的账户', who: '当前登录', role: '角色', pw: '修改我的密码', pwCur: '当前密码', pwNew: '新密码（至少8个字符）', pwCf: '确认新密码', pwBtn: '修改密码', pwOwner: '所有者密码需要额外验证，将在下一步提供。', pwFill: '请填写全部三个框。', pwShort: '新密码至少需要8个字符。', pwSame: '新密码不能与当前密码相同。', pwNo: '两次输入的新密码不一致。', pwBad: '当前密码不正确。', pwUser: '密码不能与用户名相同。', pwOk: '密码已修改，下次登录请使用新密码。', pwErr: '现在无法修改密码，请重试。', pwNoAcc: '找不到您的账户。', idle: '闲置时自动退出', off: '关闭', min: '分钟', idleNote: '仅保存在此浏览器。', not: '通知', notTxt: '选择谁接收通知以及发送哪些提醒。', open: '打开', show: '显示', hide: '隐藏' }
+    en: { t: 'Settings', app: 'Appearance', theme: 'Theme', classic: 'Classic', fresh: 'Fresh', locked: 'The theme is set by the Owner for this system.', soon: 'Coming soon', dkLight: 'Light', dkDark: 'Dark', dkAuto: 'Auto', dark: 'Dark mode', lang: 'Language', acc: 'My account', who: 'Signed in as', role: 'Role', pw: 'Change my password', pwCur: 'Current password', pwNew: 'New password (at least 8 characters)', pwCf: 'Confirm new password', pwBtn: 'Change password', pwOwner: 'The Owner password needs extra verification. This is coming in the next step.', pwFill: 'Please fill in all three boxes.', pwShort: 'The new password must be at least 8 characters.', pwSame: 'The new password must be different from the current one.', pwNo: 'The two new passwords do not match.', pwBad: 'The current password is not correct.', pwUser: 'The password cannot be the same as your username.', pwOk: 'Password changed. Use the new password next time you sign in.', pwErr: 'Could not change the password now. Please try again.', pwNoAcc: 'Your account could not be found.', idle: 'Sign out automatically when idle', off: 'Off', min: 'min', idleNote: 'Saved in this browser only.', not: 'Notifications', notTxt: 'Choose who gets notifications and which alerts are sent.', open: 'Open', show: 'Show', hide: 'Hide' },
+    km: { t: 'ការកំណត់', app: 'រូបរាង', theme: 'ស្បែក', classic: 'Classic', fresh: 'Fresh', locked: 'ម្ចាស់ប្រព័ន្ធបានកំណត់ស្បែកសម្រាប់ប្រព័ន្ធនេះ។', soon: 'នឹងមកដល់ឆាប់ៗ', dkLight: 'ភ្លឺ', dkDark: 'ងងឹត', dkAuto: 'ស្វ័យប្រវត្តិ', dark: 'របៀបងងឹត', lang: 'ភាសា', acc: 'គណនីរបស់ខ្ញុំ', who: 'ចូលក្នុងនាម', role: 'តួនាទី', pw: 'ប្តូរពាក្យសម្ងាត់របស់ខ្ញុំ', pwCur: 'ពាក្យសម្ងាត់បច្ចុប្បន្ន', pwNew: 'ពាក្យសម្ងាត់ថ្មី (យ៉ាងតិច ៨ តួ)', pwCf: 'បញ្ជាក់ពាក្យសម្ងាត់ថ្មី', pwBtn: 'ប្តូរពាក្យសម្ងាត់', pwOwner: 'ពាក្យសម្ងាត់ម្ចាស់ត្រូវការផ្ទៀងផ្ទាត់បន្ថែម។ នឹងមកក្នុងជំហានបន្ទាប់។', pwFill: 'សូមបំពេញប្រអប់ទាំងបី។', pwShort: 'ពាក្យសម្ងាត់ថ្មីត្រូវមានយ៉ាងតិច ៨ តួ។', pwSame: 'ពាក្យសម្ងាត់ថ្មីត្រូវខុសពីពាក្យសម្ងាត់បច្ចុប្បន្ន។', pwNo: 'ពាក្យសម្ងាត់ថ្មីទាំងពីរមិនដូចគ្នា។', pwBad: 'ពាក្យសម្ងាត់បច្ចុប្បន្នមិនត្រឹមត្រូវ។', pwUser: 'ពាក្យសម្ងាត់មិនអាចដូចឈ្មោះអ្នកប្រើបានទេ។', pwOk: 'បានប្តូរពាក្យសម្ងាត់។ សូមប្រើពាក្យសម្ងាត់ថ្មីពេលចូលលើកក្រោយ។', pwErr: 'មិនអាចប្តូរពាក្យសម្ងាត់ឥឡូវនេះបានទេ។ សូមព្យាយាមម្តងទៀត។', pwNoAcc: 'រកមិនឃើញគណនីរបស់អ្នកទេ។', idle: 'ចាកចេញដោយស្វ័យប្រវត្តិពេលមិនប្រើ', off: 'បិទ', min: 'នាទី', idleNote: 'រក្សាទុកតែក្នុងកម្មវិធីរុករកនេះប៉ុណ្ណោះ។', not: 'ការជូនដំណឹង', notTxt: 'ជ្រើសរើសអ្នកទទួលការជូនដំណឹង និងការជូនដំណឹងដែលត្រូវផ្ញើ។', open: 'បើក', show: 'បង្ហាញ', hide: 'លាក់' },
+    zh: { t: '设置', app: '外观', theme: '主题', classic: 'Classic', fresh: 'Fresh', locked: '此系统的主题由所有者设定。', soon: '即将推出', dkLight: '浅色', dkDark: '深色', dkAuto: '自动', dark: '深色模式', lang: '语言', acc: '我的账户', who: '当前登录', role: '角色', pw: '修改我的密码', pwCur: '当前密码', pwNew: '新密码（至少8个字符）', pwCf: '确认新密码', pwBtn: '修改密码', pwOwner: '所有者密码需要额外验证，将在下一步提供。', pwFill: '请填写全部三个框。', pwShort: '新密码至少需要8个字符。', pwSame: '新密码不能与当前密码相同。', pwNo: '两次输入的新密码不一致。', pwBad: '当前密码不正确。', pwUser: '密码不能与用户名相同。', pwOk: '密码已修改，下次登录请使用新密码。', pwErr: '现在无法修改密码，请重试。', pwNoAcc: '找不到您的账户。', idle: '闲置时自动退出', off: '关闭', min: '分钟', idleNote: '仅保存在此浏览器。', not: '通知', notTxt: '选择谁接收通知以及发送哪些提醒。', open: '打开', show: '显示', hide: '隐藏' }
   };
   function $(id) { return document.getElementById(id); }
   function L() { try { return (typeof currentLang === 'string' && D[currentLang]) ? currentLang : 'en'; } catch (e) { return 'en'; } }
@@ -31975,7 +31996,8 @@ setInterval(fit,600);window.addEventListener('resize',fit);
     h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:4px">' + E(T('app')) + '</div>';
     h += '<div style="' + ROW + '"><span>' + E(T('theme')) + '</span><span style="display:flex;gap:6px">' + pill(th === 'classic', T('classic'), 'sgTheme(\'classic\')', lock) + pill(th === 'fresh', T('fresh'), 'sgTheme(\'fresh\')', lock || lk.fresh) + '</span></div>';
     if (lock) h += '<div style="font-size:12px;color:#64748b;padding:6px 0">' + E(T('locked')) + '</div>';
-    h += '<div style="' + ROW + '"><span>' + E(T('dark')) + '</span><span style="color:#64748b;font-size:12px">' + E(T('soon')) + '</span></div>';
+    var dm = (window.dkMode && window.dkMode.get()) || 'light';
+    h += '<div style="' + ROW + '"><span>' + E(T('dark')) + '</span><span style="display:flex;gap:6px">' + pill(dm === 'light', T('dkLight'), 'sgDark(\'light\')') + pill(dm === 'dark', T('dkDark'), 'sgDark(\'dark\')') + pill(dm === 'auto', T('dkAuto'), 'sgDark(\'auto\')') + '</span></div>';
     h += '<div style="' + ROW + ';border-bottom:0"><span>' + E(T('lang')) + '</span><span style="display:flex;gap:6px">' + pill(cl === 'en', 'English', 'sgLang(\'en\')') + pill(cl === 'km', 'ខ្មែរ', 'sgLang(\'km\')') + pill(cl === 'zh', '中文', 'sgLang(\'zh\')') + '</span></div></div>';
     var un = ss('loggedInAccountUsername'), nm = ss('loggedInAccountName') || un, ro = ss('loggedInRole');
     h += '<div style="' + CARD + '"><div style="font-weight:700;margin-bottom:4px">' + E(T('acc')) + '</div>';
@@ -31996,6 +32018,7 @@ setInterval(fit,600);window.addEventListener('resize',fit);
   }
   window.openSettingsModal = function () { var m = $('settingsModal'); if (!m) return; render(); m.style.display = 'flex'; };
   window.closeSettingsModal = function () { var m = $('settingsModal'); if (m) m.style.display = 'none'; };
+  window.sgDark = function (m) { try { window.dkMode.set(m); } catch (e) {} render(); };
   window.sgTheme = function (k) { try { window.frTheme.apply(k); } catch (e) {} setTimeout(render, 60); };
   window.sgLang = function (l) { try { setLanguage(l); } catch (e) {} setTimeout(render, 60); };
   window.sgIdle = function (m) { try { localStorage.setItem('sgIdleMin', String(m)); } catch (e) {} idleReset(); render(); };

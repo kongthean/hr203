@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<style id="dkCss">
+html.dk{background:#fff;filter:invert(.92) hue-rotate(180deg)}
+html.dk img,html.dk video,html.dk canvas,html.dk svg image,html.dk .avatar,html.dk .header,html.dk #stickyTop nav,html.dk .quick-btn,html.dk .btn-submit,html.dk .btn-edit,html.dk .notif-badge,html.dk .oh-tile,html.dk [style*="gradient"],html.dk [style*="background-image"]{filter:invert(1) hue-rotate(180deg)}
+html.dk .header .lang-menu,html.dk .header [class*="menu"],html.dk .header [class*="dropdown-"]{filter:invert(1) hue-rotate(180deg)}
+@media print{html.dk,html.dk *{filter:none!important}}
+</style>
+<script id="dkJs">
+/* Dark mode: Light / Dark / Auto (saved per browser, shared by every page of hr203.com) */
+(function () {
+  'use strict';
+  var K = 'hrDark', mq = null;
+  try { mq = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null; } catch (e) {}
+  function get() { try { var v = localStorage.getItem(K); return v === 'dark' || v === 'auto' ? v : 'light'; } catch (e) { return 'light'; } }
+  function eff() { var m = get(); return m === 'dark' || (m === 'auto' && !!(mq && mq.matches)); }
+  function apply() { try { document.documentElement.classList.toggle('dk', eff()); } catch (e) {} }
+  window.dkMode = { get: get, apply: apply, set: function (m) { try { localStorage.setItem(K, m); } catch (e) {} apply(); try { window.dispatchEvent(new Event('dkchange')); } catch (e) {} } };
+  apply();
+  try { if (mq) { if (mq.addEventListener) mq.addEventListener('change', apply); else if (mq.addListener) mq.addListener(apply); } } catch (e) {}
+  window.addEventListener('storage', function (e) { if (e.key === K) apply(); });
+})();
+</script>
 <!-- PWA-BEGIN -->
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
