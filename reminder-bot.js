@@ -411,7 +411,59 @@ async function run(env) {
       out.missing = (out.missing || 0) + 1;
     }
   } catch (e) { console.error('missing records message failed: ' + String(e && e.message || e).replace(/bot\d+:[A-Za-z0-9_-]+/g, 'bot***')); }
+  /* 5) Owner password change: the website writes ownerSec/<account>/req, this sends a 6-digit code to Telegram, checks the code the owner types
+        (ownerSec/<account>/try) and, when it is right, issues a 5-minute ticket (ownerSec/<account>/ticket). The Firebase rules only let an Owner save a new
+        password while that ticket is valid. The code is never stored in the clear and never leaves this bot except in the Telegram message. */
+  try { await ownerCodes({ db, tg, chatId: env.ownerChatId || chatId, otp: env.otp || null, nowMs, out }); }
+  catch (e) { console.error('owner code step failed: ' + String(e && e.message || e).replace(/bot\d+:[A-Za-z0-9_-]+/g, 'bot***')); }
   return out;
+}
+async function ownerCodes(c) {
+  const crypto = require('crypto'), db = c.db, now = Date.now(), all = (await db.ref('ownerSec').once('value')).val() || {};
+  const H = (key, code) => crypto.createHash('sha256').update('hr203|' + key + '|' + code).digest('hex');
+  for (const key of Object.keys(all)) {
+    const o = all[key] || {}, base = 'ownerSec/' + key, sec = o.sec || null;
+    const status = (st, extra) => db.ref(base + '/status').set(Object.assign({ s: st, at: Date.now() }, extra || {}));
+    if (o.ticket && o.ticket.exp && o.ticket.exp < now) await db.ref(base + '/ticket').remove();
+    /* request a code */
+    if (o.req && o.req.at && !o.req.done) {
+      await db.ref(base + '/req/done').set(true);
+      if (now - o.req.at > 120000) continue;
+      if (sec && sec.lockUntil && sec.lockUntil > now) { await status('locked', { until: sec.lockUntil }); continue; }
+      const code = String(crypto.randomInt(100000, 1000000));
+      /* dedicated OTP bot: the code goes only to the private chat of that Owner, never to the shared chat */
+      let send = c.tg, to = c.chatId;
+      if (c.otp && c.otp.tg) {
+        let uname = ''; try { uname = String((await db.ref('accounts/' + key + '/username').once('value')).val() || '').toLowerCase(); } catch (e) {}
+        to = (c.otp.map && c.otp.map[uname]) || c.otp.chat || '';
+        if (!to) { await status('nobot'); continue; }
+        send = c.otp.tg;
+      }
+      await db.ref(base + '/sec').set({ h: H(key, code), exp: now + 10 * 60000, tries: 0, lockUntil: 0 });
+      try { await send('sendMessage', { chat_id: to, parse_mode: 'HTML', text: '<b>HR203 owner password change</b>\nAccount: <b>' + String(key).replace(/[<>&]/g, '') + '</b>\nCode: <b>' + code.slice(0, 3) + ' ' + code.slice(3) + '</b>\nValid for 10 minutes. If this was not you, ignore this message and change your password.' }); }
+      catch (e) { await db.ref(base + '/sec').remove(); await status('nobot'); continue; }
+      await status('sent');
+      c.out.ownerCodes = (c.out.ownerCodes || 0) + 1;
+    }
+    /* check a typed code */
+    if (o.try && o.try.at && !o.try.done) {
+      await db.ref(base + '/try/done').set(true);
+      const cur = (await db.ref(base + '/sec').once('value')).val();
+      if (!cur || !cur.h) { await status('expired'); continue; }
+      if (cur.lockUntil && cur.lockUntil > now) { await status('locked', { until: cur.lockUntil }); continue; }
+      if (cur.exp < now) { await db.ref(base + '/sec').remove(); await status('expired'); continue; }
+      const code = String(o.try.code || '').replace(/\D/g, '');
+      if (code.length === 6 && H(key, code) === cur.h) {
+        await db.ref(base + '/sec').remove();
+        await db.ref(base + '/ticket').set({ at: now, exp: now + 5 * 60000 });
+        await status('ok');
+      } else {
+        const tries = (cur.tries || 0) + 1;
+        if (tries >= 5) { await db.ref(base + '/sec').set({ h: cur.h, exp: 0, tries: tries, lockUntil: now + 15 * 60000 }); await status('locked', { until: now + 15 * 60000 }); }
+        else { await db.ref(base + '/sec/tries').set(tries); await status('bad', { left: 5 - tries }); }
+      }
+    }
+  }
 }
 module.exports = { run, slotOf, dueToday, khNow, dateKey, tdAll };
 
@@ -427,6 +479,15 @@ if (require.main === module) {
       if (!j.ok) throw new Error('Telegram ' + method + ': ' + (j.description || r.status));
       return j;
     };
+    /* optional second bot used only for the Owner OTP codes (TELEGRAM_OTP_BOT_TOKEN + TELEGRAM_OTP_CHAT_ID, or TELEGRAM_OTP_CHAT_MAP = {"username":"chatId"}) */
+    let otp = null;
+    if (process.env.TELEGRAM_OTP_BOT_TOKEN) {
+      const otok = process.env.TELEGRAM_OTP_BOT_TOKEN; let map = null; try { map = process.env.TELEGRAM_OTP_CHAT_MAP ? JSON.parse(process.env.TELEGRAM_OTP_CHAT_MAP) : null; } catch (e) { console.error('TELEGRAM_OTP_CHAT_MAP is not valid JSON'); }
+      if (map) Object.keys(map).forEach(k => { map[String(k).toLowerCase()] = String(map[k]); });
+      otp = { chat: process.env.TELEGRAM_OTP_CHAT_ID || '', map, tg: async (method, body) => {
+        const r = await fetch('https://api.telegram.org/bot' + otok + '/' + method, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body || {}) });
+        const j = await r.json(); if (!j.ok) throw new Error('Telegram(OTP) ' + method + ': ' + (j.description || r.status)); return j; } };
+    }
     /* stay awake ~55 minutes and watch Telegram every few seconds: a tap on Task Completed reacts at once and no gaps between runs */
     const stopAt = Date.now() + 55 * 60 * 1000, cache = {};
     let done = 0, sent = 0, fails = 0;
@@ -435,7 +496,7 @@ if (require.main === module) {
     do {
       /* one bad moment (network blip, Telegram "conflict", Firebase hiccup) must never stop the bot: log it, wait a little, try again */
       try {
-        const res = await run({ db: admin.database(), tg, chatId, pollSeconds: 20, cache });
+        const res = await run({ db: admin.database(), tg, chatId, ownerChatId: process.env.TELEGRAM_OWNER_CHAT_ID || '', otp, pollSeconds: 20, cache });
         done += res.completed; sent += res.sent; fails = 0;
       } catch (e) {
         fails++; console.error('Round failed (' + fails + ' in a row): ' + redact(e));
