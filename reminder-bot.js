@@ -439,12 +439,12 @@ async function ownerCodes(c) {
       if (c.otp && c.otp.tg) {
         let uname = ''; try { uname = String((await db.ref('accounts/' + key + '/username').once('value')).val() || '').toLowerCase(); } catch (e) {}
         to = (c.otp.map && c.otp.map[uname]) || c.otp.chat || '';
-        if (!to) { await status('nobot'); continue; }
+        if (!to) { console.error('OTP: no chat id for account "' + uname + '" (set TELEGRAM_OTP_CHAT_ID, or add the username to TELEGRAM_OTP_CHAT_MAP)'); await status('nobot'); continue; }
         send = c.otp.tg;
       }
       await db.ref(base + '/sec').set({ h: H(key, code), exp: now + 10 * 60000, tries: 0, lockUntil: 0 });
       try { await send('sendMessage', { chat_id: to, parse_mode: 'HTML', text: '<b>HR203 Verification</b>\n\nAccount: ' + esc2(roleLbl) + ' - ' + esc2(who) + '\n\nDear ' + esc2(who) + '! Your verification code is <code>' + code + '</code>.\n\nValid for 10 minutes. If this was not you, please ignore and delete this message, and change your password.' }); }
-      catch (e) { await db.ref(base + '/sec').remove(); await status('nobot'); continue; }
+      catch (e) { console.error('OTP: sending failed for chat ' + String(to) + ': ' + String(e && e.message || e).replace(/bot\d+:[A-Za-z0-9_-]+/g, 'bot***')); await db.ref(base + '/sec').remove(); await status('nobot'); continue; }
       await status('sent');
       c.out.ownerCodes = (c.out.ownerCodes || 0) + 1;
     }
